@@ -1,0 +1,6 @@
+framework module FUAPIDemoBar {
+  umbrella header "FUAPIDemoBar.h"
+
+  export *
+  module * { export * }
+}
