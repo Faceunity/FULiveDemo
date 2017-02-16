@@ -102,9 +102,9 @@
     _demoBar.filtersDataSource = @[@"nature", @"delta", @"electric", @"slowlived", @"tokyo", @"warm"];
     _demoBar.selectedFilter = _demoBar.filtersDataSource[0];
 
-    _demoBar.selectedBlur = 5;
+    _demoBar.selectedBlur = 6;
 
-    _demoBar.beautyLevel = 1.0;
+    _demoBar.beautyLevel = 0.5;
     
     _demoBar.thinningLevel = 1.0;
     
