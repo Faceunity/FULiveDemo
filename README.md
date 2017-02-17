@@ -210,16 +210,16 @@ fuItemSetParamd(items[1], "color_level", 1.0);
 
 #### 磨皮
 
-新版美颜中磨皮的参数改为了一个复合参数 blur_level ，其取值范围为0-5，对应6个不同的磨皮程度。
+新版美颜中磨皮的参数改为了一个复合参数 blur_level ，其取值范围为0-6，对应7个不同的磨皮程度。
 
 设置参数的例子代码如下：
 
 ```C
 //  Set item parameters - blur
-fuItemSetParamd(items[1], "blur_level", 5.0);
+fuItemSetParamd(items[1], "blur_level", 6.0);
 ```
 
-如果对默认的6个磨皮等级不满意，想进一步自定义磨皮效果，可以联系我司获取内部参数调节的方式。
+如果对默认的7个磨皮等级不满意，想进一步自定义磨皮效果，可以联系我司获取内部参数调节的方式。
 
 #### 美型
 
