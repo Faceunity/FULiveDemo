@@ -31,11 +31,9 @@
 		CD2E17151E52AE3D00A2C2A4 /* v3.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD2E17051E52AE3D00A2C2A4 /* v3.bundle */; };
 		CD2E17161E52AE3D00A2C2A4 /* YellowEar.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD2E17061E52AE3D00A2C2A4 /* YellowEar.bundle */; };
 		CD2E17211E52AE4500A2C2A4 /* CircleProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2E17191E52AE4500A2C2A4 /* CircleProgressView.m */; };
-		CD2E17221E52AE4500A2C2A4 /* FUAPIDemoBar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD2E171A1E52AE4500A2C2A4 /* FUAPIDemoBar.framework */; };
 		CD2E17231E52AE4500A2C2A4 /* FUCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2E171C1E52AE4500A2C2A4 /* FUCamera.m */; };
 		CD2E17241E52AE4500A2C2A4 /* FURecordEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2E171E1E52AE4500A2C2A4 /* FURecordEncoder.m */; };
 		CD2E17251E52AE4500A2C2A4 /* PhotoButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2E17201E52AE4500A2C2A4 /* PhotoButton.m */; };
-		CD2E17271E52AEEE00A2C2A4 /* FUAPIDemoBar.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CD2E171A1E52AE4500A2C2A4 /* FUAPIDemoBar.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CD6157171E5696220083EF33 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6157151E56957A0083EF33 /* Accelerate.framework */; };
 		CD6157191E56A2EA0083EF33 /* heart.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD6157181E56A2EA0083EF33 /* heart.bundle */; };
 /* End PBXBuildFile section */
@@ -47,7 +45,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				CD2E17271E52AEEE00A2C2A4 /* FUAPIDemoBar.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -88,7 +85,6 @@
 		CD2E17061E52AE3D00A2C2A4 /* YellowEar.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = YellowEar.bundle; sourceTree = "<group>"; };
 		CD2E17181E52AE4500A2C2A4 /* CircleProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleProgressView.h; sourceTree = "<group>"; };
 		CD2E17191E52AE4500A2C2A4 /* CircleProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleProgressView.m; sourceTree = "<group>"; };
-		CD2E171A1E52AE4500A2C2A4 /* FUAPIDemoBar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FUAPIDemoBar.framework; sourceTree = "<group>"; };
 		CD2E171B1E52AE4500A2C2A4 /* FUCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUCamera.h; sourceTree = "<group>"; };
 		CD2E171C1E52AE4500A2C2A4 /* FUCamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUCamera.m; sourceTree = "<group>"; };
 		CD2E171D1E52AE4500A2C2A4 /* FURecordEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FURecordEncoder.h; sourceTree = "<group>"; };
@@ -107,7 +103,6 @@
 			files = (
 				CD6157171E5696220083EF33 /* Accelerate.framework in Frameworks */,
 				CD2E17111E52AE3D00A2C2A4 /* libnama.a in Frameworks */,
-				CD2E17221E52AE4500A2C2A4 /* FUAPIDemoBar.framework in Frameworks */,
 				76561607FD8AD9BA6104E71F /* libPods-FULiveDemo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -209,7 +204,6 @@
 			children = (
 				CD2E17181E52AE4500A2C2A4 /* CircleProgressView.h */,
 				CD2E17191E52AE4500A2C2A4 /* CircleProgressView.m */,
-				CD2E171A1E52AE4500A2C2A4 /* FUAPIDemoBar.framework */,
 				CD2E171B1E52AE4500A2C2A4 /* FUCamera.h */,
 				CD2E171C1E52AE4500A2C2A4 /* FUCamera.m */,
 				CD2E171D1E52AE4500A2C2A4 /* FURecordEncoder.h */,
@@ -432,7 +426,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -474,7 +468,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

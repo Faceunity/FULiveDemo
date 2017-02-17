@@ -29,8 +29,7 @@
     
     FUCamera *curCamera;
 }
-
-@property (nonatomic, strong) IBOutlet FUAPIDemoBar *demoBar;//工具条
+@property (weak, nonatomic) IBOutlet FUAPIDemoBar *demoBar;//工具条
 
 @property (nonatomic, strong) FUCamera *bgraCamera;//BGRA摄像头
 
@@ -40,7 +39,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *noTrackView;
 
-@property (strong, nonatomic) IBOutlet PhotoButton *photoBtn;
+@property (weak, nonatomic) IBOutlet PhotoButton *photoBtn;
 
 @property (weak, nonatomic) IBOutlet UIButton *barBtn;
 

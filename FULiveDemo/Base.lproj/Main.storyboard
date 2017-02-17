@@ -93,7 +93,7 @@
                     <connections>
                         <outlet property="barBtn" destination="usO-GM-0FD" id="V0F-4M-jUJ"/>
                         <outlet property="changeCameraBtn" destination="SBT-Gd-3MN" id="HQx-q8-QKq"/>
-                        <outlet property="demoBar" destination="fEb-dE-FKO" id="ObI-No-aGx"/>
+                        <outlet property="demoBar" destination="fEb-dE-FKO" id="4ms-hp-XhM"/>
                         <outlet property="noTrackView" destination="YWw-73-tqa" id="rCd-rf-VLM"/>
                         <outlet property="photoBtn" destination="jSw-MV-hvv" id="GRH-Pn-3EG"/>
                         <outlet property="segment" destination="4JB-yh-kQZ" id="Wco-U4-1rz"/>
