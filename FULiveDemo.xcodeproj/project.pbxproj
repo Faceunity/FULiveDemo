@@ -36,6 +36,8 @@
 		CD2E17241E52AE4500A2C2A4 /* FURecordEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2E171E1E52AE4500A2C2A4 /* FURecordEncoder.m */; };
 		CD2E17251E52AE4500A2C2A4 /* PhotoButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2E17201E52AE4500A2C2A4 /* PhotoButton.m */; };
 		CD2E17271E52AEEE00A2C2A4 /* FUAPIDemoBar.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CD2E171A1E52AE4500A2C2A4 /* FUAPIDemoBar.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CD6157171E5696220083EF33 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6157151E56957A0083EF33 /* Accelerate.framework */; };
+		CD6157191E56A2EA0083EF33 /* heart.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD6157181E56A2EA0083EF33 /* heart.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -93,6 +95,8 @@
 		CD2E171E1E52AE4500A2C2A4 /* FURecordEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FURecordEncoder.m; sourceTree = "<group>"; };
 		CD2E171F1E52AE4500A2C2A4 /* PhotoButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoButton.h; sourceTree = "<group>"; };
 		CD2E17201E52AE4500A2C2A4 /* PhotoButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoButton.m; sourceTree = "<group>"; };
+		CD6157151E56957A0083EF33 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		CD6157181E56A2EA0083EF33 /* heart.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = heart.bundle; sourceTree = "<group>"; };
 		D8F03B76C701D6E9FC815193 /* libPods-FULiveDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FULiveDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -101,6 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD6157171E5696220083EF33 /* Accelerate.framework in Frameworks */,
 				CD2E17111E52AE3D00A2C2A4 /* libnama.a in Frameworks */,
 				CD2E17221E52AE4500A2C2A4 /* FUAPIDemoBar.framework in Frameworks */,
 				76561607FD8AD9BA6104E71F /* libPods-FULiveDemo.a in Frameworks */,
@@ -113,6 +118,7 @@
 		0B06E4A53FA6D18BBA1E95B3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CD6157151E56957A0083EF33 /* Accelerate.framework */,
 				D8F03B76C701D6E9FC815193 /* libPods-FULiveDemo.a */,
 			);
 			name = Frameworks;
@@ -175,6 +181,7 @@
 			isa = PBXGroup;
 			children = (
 				CD2E16F41E52AE3D00A2C2A4 /* authpack.h */,
+				CD6157181E56A2EA0083EF33 /* heart.bundle */,
 				CD2E16F51E52AE3D00A2C2A4 /* BeagleDog.bundle */,
 				CD2E16F61E52AE3D00A2C2A4 /* ColorCrown.bundle */,
 				CD2E16F71E52AE3D00A2C2A4 /* Deer.bundle */,
@@ -280,6 +287,7 @@
 				CD2E170E1E52AE3D00A2C2A4 /* item0208.bundle in Resources */,
 				CD2E170C1E52AE3D00A2C2A4 /* hartshorn.bundle in Resources */,
 				CD2E16EC1E52AE0100A2C2A4 /* LaunchScreen.storyboard in Resources */,
+				CD6157191E56A2EA0083EF33 /* heart.bundle in Resources */,
 				CD2E17151E52AE3D00A2C2A4 /* v3.bundle in Resources */,
 				CD2E17091E52AE3D00A2C2A4 /* Deer.bundle in Resources */,
 				CD2E17161E52AE3D00A2C2A4 /* YellowEar.bundle in Resources */,
