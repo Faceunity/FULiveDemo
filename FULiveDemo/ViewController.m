@@ -21,7 +21,7 @@
 {
     //MARK: Faceunity
     EAGLContext *mcontext;
-    int items[2];
+    int items[3];
     BOOL fuInit;
     int frameID;
     BOOL needReloadItem;
@@ -29,8 +29,7 @@
     
     FUCamera *curCamera;
 }
-
-@property (nonatomic, strong) IBOutlet FUAPIDemoBar *demoBar;//工具条
+@property (weak, nonatomic) IBOutlet FUAPIDemoBar *demoBar;//工具条
 
 @property (nonatomic, strong) FUCamera *bgraCamera;//BGRA摄像头
 
@@ -40,7 +39,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *noTrackView;
 
-@property (strong, nonatomic) IBOutlet PhotoButton *photoBtn;
+@property (weak, nonatomic) IBOutlet PhotoButton *photoBtn;
 
 @property (weak, nonatomic) IBOutlet UIButton *barBtn;
 
@@ -102,9 +101,9 @@
     _demoBar.filtersDataSource = @[@"nature", @"delta", @"electric", @"slowlived", @"tokyo", @"warm"];
     _demoBar.selectedFilter = _demoBar.filtersDataSource[0];
 
-    _demoBar.selectedBlur = 5;
+    _demoBar.selectedBlur = 6;
 
-    _demoBar.beautyLevel = 1.0;
+    _demoBar.beautyLevel = 0.5;
     
     _demoBar.thinningLevel = 1.0;
     
@@ -316,6 +315,11 @@
         [self loadFilter];
     }
     
+    //加载爱心道具
+    if (items[2] == 0) {
+        [self loadHeart];
+    }
+    
     //设置美颜效果（滤镜、磨皮、美白、瘦脸、大眼....）
     fuItemSetParamd(items[1], "cheek_thinning", self.demoBar.thinningLevel); //瘦脸
     fuItemSetParamd(items[1], "eye_enlarging", self.demoBar.enlargingLevel); //大眼
@@ -326,7 +330,7 @@
     //Faceunity核心接口，将道具及美颜效果作用到图像中，执行完此函数pixelBuffer即包含美颜及贴纸效果
     #warning 此步骤不可放在异步线程中执行
     CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-    [[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:2];
+    [[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:3];
     frameID += 1;
     
     #warning 执行完上一步骤，即可将pixelBuffer绘制到屏幕上或推流到服务器进行直播
@@ -383,6 +387,15 @@
     void *data = [self mmap_bundle:@"face_beautification.bundle" psize:&size];
     
     items[1] = fuCreateItemFromPackage(data, size);
+}
+
+- (void)loadHeart
+{
+    int size = 0;
+    
+    void *data = [self mmap_bundle:@"heart.bundle" psize:&size];
+    
+    items[2] = fuCreateItemFromPackage(data, size);
 }
 
 - (void *)mmap_bundle:(NSString *)bundle psize:(int *)psize {
