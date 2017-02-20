@@ -36,6 +36,8 @@
 		CD2E17251E52AE4500A2C2A4 /* PhotoButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2E17201E52AE4500A2C2A4 /* PhotoButton.m */; };
 		CD6157171E5696220083EF33 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6157151E56957A0083EF33 /* Accelerate.framework */; };
 		CD6157191E56A2EA0083EF33 /* heart.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD6157181E56A2EA0083EF33 /* heart.bundle */; };
+		CDA1BA3F1E5A840500CC2CF5 /* FUAPIDemoBar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA1BA3D1E5A83F100CC2CF5 /* FUAPIDemoBar.framework */; };
+		CDA1BA401E5A840500CC2CF5 /* FUAPIDemoBar.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CDA1BA3D1E5A83F100CC2CF5 /* FUAPIDemoBar.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -45,6 +47,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				CDA1BA401E5A840500CC2CF5 /* FUAPIDemoBar.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -93,6 +96,7 @@
 		CD2E17201E52AE4500A2C2A4 /* PhotoButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoButton.m; sourceTree = "<group>"; };
 		CD6157151E56957A0083EF33 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		CD6157181E56A2EA0083EF33 /* heart.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = heart.bundle; sourceTree = "<group>"; };
+		CDA1BA3D1E5A83F100CC2CF5 /* FUAPIDemoBar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FUAPIDemoBar.framework; sourceTree = "<group>"; };
 		D8F03B76C701D6E9FC815193 /* libPods-FULiveDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FULiveDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -101,6 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDA1BA3F1E5A840500CC2CF5 /* FUAPIDemoBar.framework in Frameworks */,
 				CD6157171E5696220083EF33 /* Accelerate.framework in Frameworks */,
 				CD2E17111E52AE3D00A2C2A4 /* libnama.a in Frameworks */,
 				76561607FD8AD9BA6104E71F /* libPods-FULiveDemo.a in Frameworks */,
@@ -202,6 +207,7 @@
 		CD2E17171E52AE4500A2C2A4 /* DemoCode */ = {
 			isa = PBXGroup;
 			children = (
+				CDA1BA3D1E5A83F100CC2CF5 /* FUAPIDemoBar.framework */,
 				CD2E17181E52AE4500A2C2A4 /* CircleProgressView.h */,
 				CD2E17191E52AE4500A2C2A4 /* CircleProgressView.m */,
 				CD2E171B1E52AE4500A2C2A4 /* FUCamera.h */,
