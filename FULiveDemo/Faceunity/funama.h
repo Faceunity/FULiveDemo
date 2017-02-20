@@ -253,7 +253,22 @@ FUNAMA_API int fuSetMaxFaces(int n);
 */
 FUNAMA_API void fuSetQualityTradeoff(float quality);
 
-FUNAMA_API void fuGetEyeRotation(int face_id, float* pret);
+/**
+\brief Get face info. Certificate aware interface.
+\param face_id is the id of face, index is smaller than which is set in fuSetMaxFaces
+\param name is among "landmarks", "eye_rotation", "translation", "rotation"
+\param pret allocated memory space as container
+\param num is number of double allocated in pret
+	required: "landmarks" - 150 doubles
+			  "eye_rotation" - 4
+			  "translation" - 3
+			  "rotation" - 4
+\return 1 means successful fetch, container filled with info
+	0 means failure, general failure is due to invalid face info
+	other specific failure will print on the console
+*/
+FUNAMA_API int fuGetFaceInfo(int face_id, char* name, double* pret, int num);
+
 #ifdef __cplusplus
 }
 #endif
