@@ -170,6 +170,28 @@ FUNAMA_API int fuRenderItemsEx(
 	int out_format,void* out_ptr,
 	int in_format,void* in_ptr,
 	int w,int h,int frame_id, int* p_items,int n_items);
+	
+/**
+\brief Generalized interface for beautifying image.
+	Disable face tracker and item rendering.
+	This function needs a GLES 2.0+ context.
+\param out_format is the output format
+\param out_ptr receives the rendering result, which is either a GLuint texture handle or a memory buffer
+	Note that in the texture cases, we will overwrite *out_ptr with a texture we generate.
+\param in_format is the input format
+\param in_ptr points to the input image, which is either a GLuint texture handle or a memory buffer
+\param w specifies the image width
+\param h specifies the image height
+\param frameid specifies the current frame id. 
+	To get animated effects, please increase frame_id by 1 whenever you call this.
+\param p_items points to the list of items
+\param n_items is the number of items
+\return a GLuint texture handle containing the rendering result if out_format isn't FU_FORMAT_GL_CURRENT_FRAMEBUFFER
+*/
+FUNAMA_API int fuBeautifyImage(
+	int out_format,void* out_ptr,
+	int in_format,void* in_ptr,
+	int w,int h,int frame_id, int* p_items,int n_items);
 
 /**************************************************************
 The set / get functions do not make sense on their own. Refer to

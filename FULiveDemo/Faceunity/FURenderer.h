@@ -46,6 +46,18 @@ typedef struct{
  \brief Generalized interface for rendering a list of items.
 	This function needs a GLES 2.0+ context.
  \param pixelBuffer is the input buffer
+ \param frameid specifies the current frame id.
+	To get animated effects, please increase frame_id by 1 whenever you call this.
+ \param items points to the list of items
+ \param itemCount is the number of items
+ \return a buffer
+ */
+- (CVPixelBufferRef)beautifyPixelBuffer:(CVPixelBufferRef)pixelBuffer withFrameId:(int)frameid items:(int*)items itemCount:(int)itemCount;
+
+/**
+ \brief Generalized interface for rendering a list of items.
+	This function needs a GLES 2.0+ context.
+ \param pixelBuffer is the input buffer
  \param textureHandle is the input texture,only support BGRA format
  \param frameid specifies the current frame id.
 	To get animated effects, please increase frame_id by 1 whenever you call this.
@@ -54,5 +66,9 @@ typedef struct{
  \return a paramsData include pixelBuffer and textureHandle
  */
 - (FUOutput)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer bgraTexture:(GLuint)textureHandle withFrameId:(int)frameid items:(int *)items itemCount:(int)itemCount;
+
+- (void)renderFrame:(uint8_t*)y u:(uint8_t*)u v:(uint8_t*)v ystride:(int)ystride ustride:(int)ustride vstride:(int)vstride width:(int)width height:(int)height frameId:(int)frameid items:(int *)items itemCount:(int)itemCount;
+
+bool isForeground();
 
 @end
