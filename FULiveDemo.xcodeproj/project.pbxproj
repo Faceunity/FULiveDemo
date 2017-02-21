@@ -181,12 +181,13 @@
 			isa = PBXGroup;
 			children = (
 				CD2E16F41E52AE3D00A2C2A4 /* authpack.h */,
+				CD2E16F91E52AE3D00A2C2A4 /* funama.h */,
+				CD2E17011E52AE3D00A2C2A4 /* libnama.a */,
+				CD2E16F81E52AE3D00A2C2A4 /* face_beautification.bundle */,
 				CD6157181E56A2EA0083EF33 /* heart.bundle */,
 				CD2E16F51E52AE3D00A2C2A4 /* BeagleDog.bundle */,
 				CD2E16F61E52AE3D00A2C2A4 /* ColorCrown.bundle */,
 				CD2E16F71E52AE3D00A2C2A4 /* Deer.bundle */,
-				CD2E16F81E52AE3D00A2C2A4 /* face_beautification.bundle */,
-				CD2E16F91E52AE3D00A2C2A4 /* funama.h */,
 				CD2E16FA1E52AE3D00A2C2A4 /* FURenderer.h */,
 				CD2E16FB1E52AE3D00A2C2A4 /* HappyRabbi.bundle */,
 				CD2E16FC1E52AE3D00A2C2A4 /* hartshorn.bundle */,
@@ -194,7 +195,6 @@
 				CD2E16FE1E52AE3D00A2C2A4 /* item0208.bundle */,
 				CD2E16FF1E52AE3D00A2C2A4 /* item0210.bundle */,
 				CD2E17001E52AE3D00A2C2A4 /* item0501.bundle */,
-				CD2E17011E52AE3D00A2C2A4 /* libnama.a */,
 				CD2E17021E52AE3D00A2C2A4 /* Mood.bundle */,
 				CD2E17031E52AE3D00A2C2A4 /* PrincessCrown.bundle */,
 				CD2E17041E52AE3D00A2C2A4 /* tiara.bundle */,
@@ -250,6 +250,7 @@
 		CD2E16D11E52AE0100A2C2A4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = FU;
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "刘洋";
 				TargetAttributes = {
