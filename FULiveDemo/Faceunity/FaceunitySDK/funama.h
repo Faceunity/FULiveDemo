@@ -33,6 +33,8 @@ typedef struct{
 #define FU_ADM_FLAG_EXTERNAL_OES_TEXTURE 1
 /*\brief Indicate that the result should also be read back to p_NV21 */
 #define FU_ADM_FLAG_ENABLE_READBACK 2
+/*\brief Indicate that the input texture is a packed nv21 texture */
+#define FU_ADM_FLAG_NV21_TEXTURE 4
 typedef struct{
 	void* p_NV21;//<the NV21 buffer
 	int tex;//<the texture
@@ -172,6 +174,27 @@ FUNAMA_API int fuRenderItemsEx(
 	int w,int h,int frame_id, int* p_items,int n_items);
 	
 /**
+\brief Generalized interface for rendering a list of items.
+	This function needs a GLES 2.0+ context.
+\param out_format is the output format
+\param out_ptr receives the rendering result, which is either a GLuint texture handle or a memory buffer
+	Note that in the texture cases, we will overwrite *out_ptr with a texture we generate.
+\param in_format is the input format
+\param in_ptr points to the input image, which is either a GLuint texture handle or a memory buffer
+\param w specifies the image width
+\param h specifies the image height
+\param frameid specifies the current frame id. 
+	To get animated effects, please increase frame_id by 1 whenever you call this.
+\param p_items points to the list of items
+\param n_items is the number of items
+\return a GLuint texture handle containing the rendering result if out_format isn't FU_FORMAT_GL_CURRENT_FRAMEBUFFER
+*/
+FUNAMA_API int fuRenderItemsMasked(
+	int out_format,void* out_ptr,
+	int in_format,void* in_ptr,
+	int w,int h,int frame_id, int* p_items,int n_items, int* p_masks);
+	
+/**
 \brief Generalized interface for beautifying image.
 	Disable face tracker and item rendering.
 	This function needs a GLES 2.0+ context.
@@ -189,6 +212,28 @@ FUNAMA_API int fuRenderItemsEx(
 \return a GLuint texture handle containing the rendering result if out_format isn't FU_FORMAT_GL_CURRENT_FRAMEBUFFER
 */
 FUNAMA_API int fuBeautifyImage(
+	int out_format,void* out_ptr,
+	int in_format,void* in_ptr,
+	int w,int h,int frame_id, int* p_items,int n_items);
+
+/**
+\brief Generalized interface for tracking face.
+	Disable item rendering and image beautifying.
+	This function needs a GLES 2.0+ context.
+\param out_format is the output format
+\param out_ptr receives the rendering result, which is either a GLuint texture handle or a memory buffer
+	Note that in the texture cases, we will overwrite *out_ptr with a texture we generate.
+\param in_format is the input format
+\param in_ptr points to the input image, which is either a GLuint texture handle or a memory buffer
+\param w specifies the image width
+\param h specifies the image height
+\param frameid specifies the current frame id. 
+	To get animated effects, please increase frame_id by 1 whenever you call this.
+\param p_items points to the list of items
+\param n_items is the number of items
+\return a GLuint texture handle containing the rendering result if out_format isn't FU_FORMAT_GL_CURRENT_FRAMEBUFFER
+*/
+FUNAMA_API int fuTrackFace(
 	int out_format,void* out_ptr,
 	int in_format,void* in_ptr,
 	int w,int h,int frame_id, int* p_items,int n_items);
