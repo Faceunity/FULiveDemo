@@ -68,7 +68,6 @@
     
     self.bufferDisplayer.frame = self.view.bounds;
     
-    
 }
 
 - (void)dealloc
@@ -295,6 +294,9 @@
         void *v3 = [self mmap_bundle:@"v3.bundle" psize:&size];
         
         [[FURenderer shareRenderer] setupWithData:v3 ardata:NULL authPackage:&g_auth_package authSize:sizeof(g_auth_package)];
+        
+        //开启多脸识别（最高可设为8，不过考虑到性能问题建议设为4以内）
+        fuSetMaxFaces(4);
     }
     
     //人脸跟踪
@@ -315,10 +317,11 @@
         [self loadFilter];
     }
     
+    #warning 如果需开启手势检测，请打开下方的注释
     //加载爱心道具
-    if (items[2] == 0) {
-        [self loadHeart];
-    }
+//    if (items[2] == 0) {
+//        [self loadHeart];
+//    }
     
     //设置美颜效果（滤镜、磨皮、美白、瘦脸、大眼....）
     fuItemSetParamd(items[1], "cheek_thinning", self.demoBar.thinningLevel); //瘦脸
