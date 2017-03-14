@@ -296,7 +296,7 @@
         [[FURenderer shareRenderer] setupWithData:v3 ardata:NULL authPackage:&g_auth_package authSize:sizeof(g_auth_package)];
         
         //开启多脸识别（最高可设为8，不过考虑到性能问题建议设为4以内）
-        fuSetMaxFaces(4);
+//        fuSetMaxFaces(4);
     }
     
     //人脸跟踪

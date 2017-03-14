@@ -8,9 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		76561607FD8AD9BA6104E71F /* libPods-FULiveDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D8F03B76C701D6E9FC815193 /* libPods-FULiveDemo.a */; };
-		CD0A09B91E5D7034000FC2C3 /* face_beautification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD0A09A51E5D7034000FC2C3 /* face_beautification.bundle */; };
-		CD0A09BA1E5D7034000FC2C3 /* libnama.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CD0A09A81E5D7034000FC2C3 /* libnama.a */; };
-		CD0A09BB1E5D7034000FC2C3 /* v3.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD0A09A91E5D7034000FC2C3 /* v3.bundle */; };
 		CD0A09BC1E5D7034000FC2C3 /* BeagleDog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD0A09AB1E5D7034000FC2C3 /* BeagleDog.bundle */; };
 		CD0A09BD1E5D7034000FC2C3 /* ColorCrown.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD0A09AC1E5D7034000FC2C3 /* ColorCrown.bundle */; };
 		CD0A09BE1E5D7034000FC2C3 /* Deer.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD0A09AD1E5D7034000FC2C3 /* Deer.bundle */; };
@@ -35,6 +32,9 @@
 		CD2E17231E52AE4500A2C2A4 /* FUCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2E171C1E52AE4500A2C2A4 /* FUCamera.m */; };
 		CD2E17241E52AE4500A2C2A4 /* FURecordEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2E171E1E52AE4500A2C2A4 /* FURecordEncoder.m */; };
 		CD2E17251E52AE4500A2C2A4 /* PhotoButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2E17201E52AE4500A2C2A4 /* PhotoButton.m */; };
+		CD3C58AA1E779D6B004FA2E0 /* libnama.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CD3C58A61E779D6B004FA2E0 /* libnama.a */; };
+		CD3C58AB1E779D6B004FA2E0 /* face_beautification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD3C58A81E779D6B004FA2E0 /* face_beautification.bundle */; };
+		CD3C58AC1E779D6B004FA2E0 /* v3.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD3C58A91E779D6B004FA2E0 /* v3.bundle */; };
 		CD6157171E5696220083EF33 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6157151E56957A0083EF33 /* Accelerate.framework */; };
 		CDA1BA3F1E5A840500CC2CF5 /* FUAPIDemoBar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA1BA3D1E5A83F100CC2CF5 /* FUAPIDemoBar.framework */; };
 		CDA1BA401E5A840500CC2CF5 /* FUAPIDemoBar.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CDA1BA3D1E5A83F100CC2CF5 /* FUAPIDemoBar.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -57,12 +57,6 @@
 /* Begin PBXFileReference section */
 		0B4696541E210F2DB31B12C4 /* Pods-FULiveDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FULiveDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FULiveDemo/Pods-FULiveDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		77BAA341D57F7D054FAB8B41 /* Pods-FULiveDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FULiveDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-FULiveDemo/Pods-FULiveDemo.release.xcconfig"; sourceTree = "<group>"; };
-		CD0A09A41E5D7034000FC2C3 /* authpack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = authpack.h; sourceTree = "<group>"; };
-		CD0A09A51E5D7034000FC2C3 /* face_beautification.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = face_beautification.bundle; sourceTree = "<group>"; };
-		CD0A09A61E5D7034000FC2C3 /* funama.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = funama.h; sourceTree = "<group>"; };
-		CD0A09A71E5D7034000FC2C3 /* FURenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FURenderer.h; sourceTree = "<group>"; };
-		CD0A09A81E5D7034000FC2C3 /* libnama.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libnama.a; sourceTree = "<group>"; };
-		CD0A09A91E5D7034000FC2C3 /* v3.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = v3.bundle; sourceTree = "<group>"; };
 		CD0A09AB1E5D7034000FC2C3 /* BeagleDog.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = BeagleDog.bundle; sourceTree = "<group>"; };
 		CD0A09AC1E5D7034000FC2C3 /* ColorCrown.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = ColorCrown.bundle; sourceTree = "<group>"; };
 		CD0A09AD1E5D7034000FC2C3 /* Deer.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = Deer.bundle; sourceTree = "<group>"; };
@@ -95,6 +89,12 @@
 		CD2E171E1E52AE4500A2C2A4 /* FURecordEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FURecordEncoder.m; sourceTree = "<group>"; };
 		CD2E171F1E52AE4500A2C2A4 /* PhotoButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoButton.h; sourceTree = "<group>"; };
 		CD2E17201E52AE4500A2C2A4 /* PhotoButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoButton.m; sourceTree = "<group>"; };
+		CD3C58A11E779D56004FA2E0 /* authpack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = authpack.h; sourceTree = "<group>"; };
+		CD3C58A41E779D6B004FA2E0 /* funama.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = funama.h; sourceTree = "<group>"; };
+		CD3C58A51E779D6B004FA2E0 /* FURenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FURenderer.h; sourceTree = "<group>"; };
+		CD3C58A61E779D6B004FA2E0 /* libnama.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libnama.a; sourceTree = "<group>"; };
+		CD3C58A81E779D6B004FA2E0 /* face_beautification.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = face_beautification.bundle; sourceTree = "<group>"; };
+		CD3C58A91E779D6B004FA2E0 /* v3.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = v3.bundle; sourceTree = "<group>"; };
 		CD6157151E56957A0083EF33 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		CDA1BA3D1E5A83F100CC2CF5 /* FUAPIDemoBar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FUAPIDemoBar.framework; sourceTree = "<group>"; };
 		D8F03B76C701D6E9FC815193 /* libPods-FULiveDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FULiveDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -105,7 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD0A09BA1E5D7034000FC2C3 /* libnama.a in Frameworks */,
+				CD3C58AA1E779D6B004FA2E0 /* libnama.a in Frameworks */,
 				CDA1BA3F1E5A840500CC2CF5 /* FUAPIDemoBar.framework in Frameworks */,
 				CD6157171E5696220083EF33 /* Accelerate.framework in Frameworks */,
 				76561607FD8AD9BA6104E71F /* libPods-FULiveDemo.a in Frameworks */,
@@ -136,23 +136,11 @@
 		CD0A09A21E5D7034000FC2C3 /* Faceunity */ = {
 			isa = PBXGroup;
 			children = (
-				CD0A09A31E5D7034000FC2C3 /* FaceunitySDK */,
+				CD3C58A11E779D56004FA2E0 /* authpack.h */,
+				CD3C58A21E779D6B004FA2E0 /* FaceUnity-SDK-iOS */,
 				CD0A09AA1E5D7034000FC2C3 /* items */,
 			);
 			path = Faceunity;
-			sourceTree = "<group>";
-		};
-		CD0A09A31E5D7034000FC2C3 /* FaceunitySDK */ = {
-			isa = PBXGroup;
-			children = (
-				CD0A09A41E5D7034000FC2C3 /* authpack.h */,
-				CD0A09A51E5D7034000FC2C3 /* face_beautification.bundle */,
-				CD0A09A61E5D7034000FC2C3 /* funama.h */,
-				CD0A09A71E5D7034000FC2C3 /* FURenderer.h */,
-				CD0A09A81E5D7034000FC2C3 /* libnama.a */,
-				CD0A09A91E5D7034000FC2C3 /* v3.bundle */,
-			);
-			path = FaceunitySDK;
 			sourceTree = "<group>";
 		};
 		CD0A09AA1E5D7034000FC2C3 /* items */ = {
@@ -236,6 +224,34 @@
 			path = DemoCode;
 			sourceTree = "<group>";
 		};
+		CD3C58A21E779D6B004FA2E0 /* FaceUnity-SDK-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				CD3C58A31E779D6B004FA2E0 /* Headers */,
+				CD3C58A61E779D6B004FA2E0 /* libnama.a */,
+				CD3C58A71E779D6B004FA2E0 /* Resources */,
+			);
+			path = "FaceUnity-SDK-iOS";
+			sourceTree = "<group>";
+		};
+		CD3C58A31E779D6B004FA2E0 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				CD3C58A41E779D6B004FA2E0 /* funama.h */,
+				CD3C58A51E779D6B004FA2E0 /* FURenderer.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		CD3C58A71E779D6B004FA2E0 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CD3C58A81E779D6B004FA2E0 /* face_beautification.bundle */,
+				CD3C58A91E779D6B004FA2E0 /* v3.bundle */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -303,9 +319,9 @@
 				CD0A09C51E5D7034000FC2C3 /* item0501.bundle in Resources */,
 				CD0A09C31E5D7034000FC2C3 /* item0208.bundle in Resources */,
 				CD0A09C91E5D7034000FC2C3 /* YellowEar.bundle in Resources */,
+				CD3C58AB1E779D6B004FA2E0 /* face_beautification.bundle in Resources */,
 				CD0A09C61E5D7034000FC2C3 /* Mood.bundle in Resources */,
 				CD2E16EC1E52AE0100A2C2A4 /* LaunchScreen.storyboard in Resources */,
-				CD0A09BB1E5D7034000FC2C3 /* v3.bundle in Resources */,
 				CD0A09C11E5D7034000FC2C3 /* heart.bundle in Resources */,
 				CD0A09BC1E5D7034000FC2C3 /* BeagleDog.bundle in Resources */,
 				CD0A09C21E5D7034000FC2C3 /* item0204.bundle in Resources */,
@@ -314,8 +330,8 @@
 				CD2E16E91E52AE0100A2C2A4 /* Assets.xcassets in Resources */,
 				CD0A09C81E5D7034000FC2C3 /* tiara.bundle in Resources */,
 				CD0A09C01E5D7034000FC2C3 /* hartshorn.bundle in Resources */,
+				CD3C58AC1E779D6B004FA2E0 /* v3.bundle in Resources */,
 				CD2E16E71E52AE0100A2C2A4 /* Main.storyboard in Resources */,
-				CD0A09B91E5D7034000FC2C3 /* face_beautification.bundle in Resources */,
 				CD0A09C41E5D7034000FC2C3 /* item0210.bundle in Resources */,
 				CD0A09BD1E5D7034000FC2C3 /* ColorCrown.bundle in Resources */,
 				CD0A09BF1E5D7034000FC2C3 /* HappyRabbi.bundle in Resources */,
@@ -515,8 +531,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/FULiveDemo/Faceunity",
 					"$(PROJECT_DIR)/FULiveDemo/Faceunity/FaceunitySDK",
+					"$(PROJECT_DIR)/FULiveDemo/Faceunity/FaceUnity-SDK-iOS",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.faceunity.FULiveDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.faceunity.FULiveDemo1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -537,8 +554,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/FULiveDemo/Faceunity",
 					"$(PROJECT_DIR)/FULiveDemo/Faceunity/FaceunitySDK",
+					"$(PROJECT_DIR)/FULiveDemo/Faceunity/FaceUnity-SDK-iOS",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.faceunity.FULiveDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.faceunity.FULiveDemo1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
