@@ -107,6 +107,12 @@
     _demoBar.thinningLevel = 1.0;
     
     _demoBar.enlargingLevel = 1.0;
+    
+    _demoBar.faceShapeLevel = 0.5;
+    
+    _demoBar.faceShape = 0;
+    
+    _demoBar.redLevel = 0.5;
 
     _demoBar.delegate = self;
 }
@@ -329,6 +335,9 @@
     fuItemSetParamd(items[1], "color_level", self.demoBar.beautyLevel); //美白
     fuItemSetParams(items[1], "filter_name", (char *)[_demoBar.selectedFilter UTF8String]); //滤镜
     fuItemSetParamd(items[1], "blur_level", self.demoBar.selectedBlur); //磨皮
+    fuItemSetParamd(items[1], "face_shape", self.demoBar.faceShape); //瘦脸类型
+    fuItemSetParamd(items[1], "face_shape_level", self.demoBar.faceShapeLevel); //瘦脸等级
+    fuItemSetParamd(items[1], "red_level", self.demoBar.redLevel); //红润
     
     //Faceunity核心接口，将道具及美颜效果作用到图像中，执行完此函数pixelBuffer即包含美颜及贴纸效果
     #warning 此步骤不可放在异步线程中执行
@@ -396,7 +405,7 @@
 {
     int size = 0;
     
-    void *data = [self mmap_bundle:@"heart.bundle" psize:&size];
+    void *data = [self mmap_bundle:@"heart_v2.bundle" psize:&size];
     
     items[2] = fuCreateItemFromPackage(data, size);
 }

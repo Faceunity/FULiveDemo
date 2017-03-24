@@ -334,7 +334,7 @@ FUNAMA_API void fuSetQualityTradeoff(float quality);
 	0 means failure, general failure is due to invalid face info
 	other specific failure will print on the console
 */
-FUNAMA_API int fuGetFaceInfo(int face_id, char* name, double* pret, int num);
+FUNAMA_API int fuGetFaceInfo(int face_id, char* name, float* pret, int num);
 
 /**
 \brief Get SDK version string

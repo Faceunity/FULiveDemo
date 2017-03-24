@@ -23,10 +23,9 @@ FOUNDATION_EXPORT const unsigned char FUDemoBarVersionString[];
 - (void)demoBarDidSelectedItem:(NSString *)item;
 
 - (void)demoBarDidSelectedFilter:(NSString *)filter;
-//
-//- (void)demoBarLevelDidChanged:(double)level;
-//
-//- (void)demoBarDidSelectedBlur:(NSInteger)blur;
+
+- (void)demoBarBeautyParamChanged;
+
 @end
 
 
@@ -35,6 +34,12 @@ FOUNDATION_EXPORT const unsigned char FUDemoBarVersionString[];
 @property (nonatomic, assign) id<FUAPIDemoBarDelegate> delegate;
 
 @property (nonatomic, assign) NSInteger selectedBlur;
+
+@property (nonatomic, assign) double redLevel;
+
+@property (nonatomic, assign) double faceShapeLevel;
+
+@property (nonatomic, assign) NSInteger faceShape;
 
 @property (nonatomic, assign) double beautyLevel;
 

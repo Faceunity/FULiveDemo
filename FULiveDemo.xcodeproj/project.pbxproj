@@ -13,7 +13,6 @@
 		CD0A09BE1E5D7034000FC2C3 /* Deer.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD0A09AD1E5D7034000FC2C3 /* Deer.bundle */; };
 		CD0A09BF1E5D7034000FC2C3 /* HappyRabbi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD0A09AE1E5D7034000FC2C3 /* HappyRabbi.bundle */; };
 		CD0A09C01E5D7034000FC2C3 /* hartshorn.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD0A09AF1E5D7034000FC2C3 /* hartshorn.bundle */; };
-		CD0A09C11E5D7034000FC2C3 /* heart.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD0A09B01E5D7034000FC2C3 /* heart.bundle */; };
 		CD0A09C21E5D7034000FC2C3 /* item0204.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD0A09B11E5D7034000FC2C3 /* item0204.bundle */; };
 		CD0A09C31E5D7034000FC2C3 /* item0208.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD0A09B21E5D7034000FC2C3 /* item0208.bundle */; };
 		CD0A09C41E5D7034000FC2C3 /* item0210.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD0A09B31E5D7034000FC2C3 /* item0210.bundle */; };
@@ -36,8 +35,9 @@
 		CD3C58AB1E779D6B004FA2E0 /* face_beautification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD3C58A81E779D6B004FA2E0 /* face_beautification.bundle */; };
 		CD3C58AC1E779D6B004FA2E0 /* v3.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD3C58A91E779D6B004FA2E0 /* v3.bundle */; };
 		CD6157171E5696220083EF33 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6157151E56957A0083EF33 /* Accelerate.framework */; };
-		CDA1BA3F1E5A840500CC2CF5 /* FUAPIDemoBar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA1BA3D1E5A83F100CC2CF5 /* FUAPIDemoBar.framework */; };
-		CDA1BA401E5A840500CC2CF5 /* FUAPIDemoBar.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CDA1BA3D1E5A83F100CC2CF5 /* FUAPIDemoBar.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CDA743A51E854A490088F471 /* FUAPIDemoBar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA743A31E8549EF0088F471 /* FUAPIDemoBar.framework */; };
+		CDA743A61E854A490088F471 /* FUAPIDemoBar.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CDA743A31E8549EF0088F471 /* FUAPIDemoBar.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CDA743BB1E854CE10088F471 /* heart_v2.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CDA743BA1E854CE10088F471 /* heart_v2.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -47,7 +47,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				CDA1BA401E5A840500CC2CF5 /* FUAPIDemoBar.framework in Embed Frameworks */,
+				CDA743A61E854A490088F471 /* FUAPIDemoBar.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -62,7 +62,6 @@
 		CD0A09AD1E5D7034000FC2C3 /* Deer.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = Deer.bundle; sourceTree = "<group>"; };
 		CD0A09AE1E5D7034000FC2C3 /* HappyRabbi.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = HappyRabbi.bundle; sourceTree = "<group>"; };
 		CD0A09AF1E5D7034000FC2C3 /* hartshorn.bundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = hartshorn.bundle; sourceTree = "<group>"; };
-		CD0A09B01E5D7034000FC2C3 /* heart.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = heart.bundle; sourceTree = "<group>"; };
 		CD0A09B11E5D7034000FC2C3 /* item0204.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = item0204.bundle; sourceTree = "<group>"; };
 		CD0A09B21E5D7034000FC2C3 /* item0208.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = item0208.bundle; sourceTree = "<group>"; };
 		CD0A09B31E5D7034000FC2C3 /* item0210.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = item0210.bundle; sourceTree = "<group>"; };
@@ -76,7 +75,7 @@
 		CD2E16DF1E52AE0100A2C2A4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CD2E16E01E52AE0100A2C2A4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		CD2E16E21E52AE0100A2C2A4 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		CD2E16E31E52AE0100A2C2A4 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		CD2E16E31E52AE0100A2C2A4 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		CD2E16E61E52AE0100A2C2A4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CD2E16E81E52AE0100A2C2A4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CD2E16EB1E52AE0100A2C2A4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -96,7 +95,8 @@
 		CD3C58A81E779D6B004FA2E0 /* face_beautification.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = face_beautification.bundle; sourceTree = "<group>"; };
 		CD3C58A91E779D6B004FA2E0 /* v3.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = v3.bundle; sourceTree = "<group>"; };
 		CD6157151E56957A0083EF33 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
-		CDA1BA3D1E5A83F100CC2CF5 /* FUAPIDemoBar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FUAPIDemoBar.framework; sourceTree = "<group>"; };
+		CDA743A31E8549EF0088F471 /* FUAPIDemoBar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FUAPIDemoBar.framework; sourceTree = "<group>"; };
+		CDA743BA1E854CE10088F471 /* heart_v2.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = heart_v2.bundle; sourceTree = "<group>"; };
 		D8F03B76C701D6E9FC815193 /* libPods-FULiveDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FULiveDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -106,7 +106,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD3C58AA1E779D6B004FA2E0 /* libnama.a in Frameworks */,
-				CDA1BA3F1E5A840500CC2CF5 /* FUAPIDemoBar.framework in Frameworks */,
+				CDA743A51E854A490088F471 /* FUAPIDemoBar.framework in Frameworks */,
 				CD6157171E5696220083EF33 /* Accelerate.framework in Frameworks */,
 				76561607FD8AD9BA6104E71F /* libPods-FULiveDemo.a in Frameworks */,
 			);
@@ -146,12 +146,12 @@
 		CD0A09AA1E5D7034000FC2C3 /* items */ = {
 			isa = PBXGroup;
 			children = (
+				CDA743BA1E854CE10088F471 /* heart_v2.bundle */,
 				CD0A09AB1E5D7034000FC2C3 /* BeagleDog.bundle */,
 				CD0A09AC1E5D7034000FC2C3 /* ColorCrown.bundle */,
 				CD0A09AD1E5D7034000FC2C3 /* Deer.bundle */,
 				CD0A09AE1E5D7034000FC2C3 /* HappyRabbi.bundle */,
 				CD0A09AF1E5D7034000FC2C3 /* hartshorn.bundle */,
-				CD0A09B01E5D7034000FC2C3 /* heart.bundle */,
 				CD0A09B11E5D7034000FC2C3 /* item0204.bundle */,
 				CD0A09B21E5D7034000FC2C3 /* item0208.bundle */,
 				CD0A09B31E5D7034000FC2C3 /* item0210.bundle */,
@@ -211,7 +211,7 @@
 		CD2E17171E52AE4500A2C2A4 /* DemoCode */ = {
 			isa = PBXGroup;
 			children = (
-				CDA1BA3D1E5A83F100CC2CF5 /* FUAPIDemoBar.framework */,
+				CDA743A31E8549EF0088F471 /* FUAPIDemoBar.framework */,
 				CD2E17181E52AE4500A2C2A4 /* CircleProgressView.h */,
 				CD2E17191E52AE4500A2C2A4 /* CircleProgressView.m */,
 				CD2E171B1E52AE4500A2C2A4 /* FUCamera.h */,
@@ -322,13 +322,13 @@
 				CD3C58AB1E779D6B004FA2E0 /* face_beautification.bundle in Resources */,
 				CD0A09C61E5D7034000FC2C3 /* Mood.bundle in Resources */,
 				CD2E16EC1E52AE0100A2C2A4 /* LaunchScreen.storyboard in Resources */,
-				CD0A09C11E5D7034000FC2C3 /* heart.bundle in Resources */,
 				CD0A09BC1E5D7034000FC2C3 /* BeagleDog.bundle in Resources */,
 				CD0A09C21E5D7034000FC2C3 /* item0204.bundle in Resources */,
 				CD0A09BE1E5D7034000FC2C3 /* Deer.bundle in Resources */,
 				CD0A09C71E5D7034000FC2C3 /* PrincessCrown.bundle in Resources */,
 				CD2E16E91E52AE0100A2C2A4 /* Assets.xcassets in Resources */,
 				CD0A09C81E5D7034000FC2C3 /* tiara.bundle in Resources */,
+				CDA743BB1E854CE10088F471 /* heart_v2.bundle in Resources */,
 				CD0A09C01E5D7034000FC2C3 /* hartshorn.bundle in Resources */,
 				CD3C58AC1E779D6B004FA2E0 /* v3.bundle in Resources */,
 				CD2E16E71E52AE0100A2C2A4 /* Main.storyboard in Resources */,
