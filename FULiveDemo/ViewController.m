@@ -110,7 +110,7 @@
     
     _demoBar.faceShapeLevel = 0.5;
     
-    _demoBar.faceShape = 0;
+    _demoBar.faceShape = 3;
     
     _demoBar.redLevel = 0.5;
 

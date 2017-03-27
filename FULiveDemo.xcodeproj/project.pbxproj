@@ -35,19 +35,19 @@
 		CD3C58AB1E779D6B004FA2E0 /* face_beautification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD3C58A81E779D6B004FA2E0 /* face_beautification.bundle */; };
 		CD3C58AC1E779D6B004FA2E0 /* v3.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD3C58A91E779D6B004FA2E0 /* v3.bundle */; };
 		CD6157171E5696220083EF33 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6157151E56957A0083EF33 /* Accelerate.framework */; };
-		CDA743A51E854A490088F471 /* FUAPIDemoBar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA743A31E8549EF0088F471 /* FUAPIDemoBar.framework */; };
-		CDA743A61E854A490088F471 /* FUAPIDemoBar.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CDA743A31E8549EF0088F471 /* FUAPIDemoBar.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CDA743BB1E854CE10088F471 /* heart_v2.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CDA743BA1E854CE10088F471 /* heart_v2.bundle */; };
+		CDA743D61E88AD660088F471 /* FUAPIDemoBar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA743D21E88AD420088F471 /* FUAPIDemoBar.framework */; };
+		CDA743D71E88AD660088F471 /* FUAPIDemoBar.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CDA743D21E88AD420088F471 /* FUAPIDemoBar.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		CD2E17281E52AEEE00A2C2A4 /* Embed Frameworks */ = {
+		CDA743D81E88AD660088F471 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				CDA743A61E854A490088F471 /* FUAPIDemoBar.framework in Embed Frameworks */,
+				CDA743D71E88AD660088F471 /* FUAPIDemoBar.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -95,8 +95,8 @@
 		CD3C58A81E779D6B004FA2E0 /* face_beautification.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = face_beautification.bundle; sourceTree = "<group>"; };
 		CD3C58A91E779D6B004FA2E0 /* v3.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = v3.bundle; sourceTree = "<group>"; };
 		CD6157151E56957A0083EF33 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
-		CDA743A31E8549EF0088F471 /* FUAPIDemoBar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FUAPIDemoBar.framework; sourceTree = "<group>"; };
 		CDA743BA1E854CE10088F471 /* heart_v2.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = heart_v2.bundle; sourceTree = "<group>"; };
+		CDA743D21E88AD420088F471 /* FUAPIDemoBar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FUAPIDemoBar.framework; sourceTree = "<group>"; };
 		D8F03B76C701D6E9FC815193 /* libPods-FULiveDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FULiveDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -106,7 +106,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD3C58AA1E779D6B004FA2E0 /* libnama.a in Frameworks */,
-				CDA743A51E854A490088F471 /* FUAPIDemoBar.framework in Frameworks */,
+				CDA743D61E88AD660088F471 /* FUAPIDemoBar.framework in Frameworks */,
 				CD6157171E5696220083EF33 /* Accelerate.framework in Frameworks */,
 				76561607FD8AD9BA6104E71F /* libPods-FULiveDemo.a in Frameworks */,
 			);
@@ -211,7 +211,7 @@
 		CD2E17171E52AE4500A2C2A4 /* DemoCode */ = {
 			isa = PBXGroup;
 			children = (
-				CDA743A31E8549EF0088F471 /* FUAPIDemoBar.framework */,
+				CDA743D21E88AD420088F471 /* FUAPIDemoBar.framework */,
 				CD2E17181E52AE4500A2C2A4 /* CircleProgressView.h */,
 				CD2E17191E52AE4500A2C2A4 /* CircleProgressView.m */,
 				CD2E171B1E52AE4500A2C2A4 /* FUCamera.h */,
@@ -265,7 +265,7 @@
 				CD2E16D71E52AE0100A2C2A4 /* Resources */,
 				4B4A233CDBDCF11103E5C75D /* [CP] Embed Pods Frameworks */,
 				F0060A5A8D9B5C8EBF367005 /* [CP] Copy Pods Resources */,
-				CD2E17281E52AEEE00A2C2A4 /* Embed Frameworks */,
+				CDA743D81E88AD660088F471 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -533,7 +533,7 @@
 					"$(PROJECT_DIR)/FULiveDemo/Faceunity/FaceunitySDK",
 					"$(PROJECT_DIR)/FULiveDemo/Faceunity/FaceUnity-SDK-iOS",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.faceunity.FULiveDemo1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.faceunity.FULiveDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -556,7 +556,7 @@
 					"$(PROJECT_DIR)/FULiveDemo/Faceunity/FaceunitySDK",
 					"$(PROJECT_DIR)/FULiveDemo/Faceunity/FaceUnity-SDK-iOS",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.faceunity.FULiveDemo1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.faceunity.FULiveDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
