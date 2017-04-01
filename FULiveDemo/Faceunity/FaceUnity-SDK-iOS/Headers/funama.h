@@ -90,6 +90,14 @@ typedef struct{
 	void* param;//<the user-defined param for the callback
 }TGLRenderingDesc;
 
+#define FU_FORMAT_AVATAR_INFO 12
+typedef struct{	
+	void* p_translation;	
+	void* p_rotation;
+	void* p_expression;
+	int rotation_mode;		
+}TAvatarInfo;
+
 #ifdef __cplusplus
 extern "C"{
 #endif
@@ -187,6 +195,7 @@ FUNAMA_API int fuRenderItemsEx(
 	To get animated effects, please increase frame_id by 1 whenever you call this.
 \param p_items points to the list of items
 \param n_items is the number of items
+\param p_masks indicates a list of masks for each item, bitwisely work on certain face
 \return a GLuint texture handle containing the rendering result if out_format isn't FU_FORMAT_GL_CURRENT_FRAMEBUFFER
 */
 FUNAMA_API int fuRenderItemsMasked(
@@ -237,6 +246,46 @@ FUNAMA_API int fuTrackFace(
 	int out_format,void* out_ptr,
 	int in_format,void* in_ptr,
 	int w,int h,int frame_id, int* p_items,int n_items);
+	
+/**
+\brief Generalized interface for rendering a list of items with extension.	
+	This function needs a GLES 2.0+ context.
+\param out_format is the output format
+\param out_ptr receives the rendering result, which is either a GLuint texture handle or a memory buffer
+	Note that in the texture cases, we will overwrite *out_ptr with a texture we generate.
+\param in_format is the input format
+\param in_ptr points to the input image, which is either a GLuint texture handle or a memory buffer
+\param w specifies the image width
+\param h specifies the image height
+\param frameid specifies the current frame id. 
+	To get animated effects, please increase frame_id by 1 whenever you call this.
+\param p_items points to the list of items
+\param n_items is the number of items
+\param func_flag flags indicate all changable functionalities of render interface
+\param p_masks indicates a list of masks for each item, bitwisely work on certain face
+\return a GLuint texture handle containing the rendering result if out_format isn't FU_FORMAT_GL_CURRENT_FRAMEBUFFER
+*/
+FUNAMA_API int fuRenderItemsEx2(
+	int out_format,void* out_ptr,
+	int in_format,void* in_ptr,
+	int w,int h,int frame_id, int* p_items,int n_items,
+	int func_flag, void* p_item_masks);
+	
+#define NAMA_RENDER_MODE_ITEM 0x0
+#define NAMA_RENDER_MODE_AVATAR 0x1
+#define NAMA_RENDER_MODE_MASK 0xf
+///
+#define NAMA_RENDER_FEATURE_TRACK_FACE 0x10
+#define NAMA_RENDER_FEATURE_BEAUTIFY_IMAGE 0x20
+#define NAMA_RENDER_FEATURE_RENDER 0x40
+#define NAMA_RENDER_FEATURE_ADDITIONAL_DETECTOR 0x80 
+#define NAMA_RENDER_FEATURE_FULL (NAMA_RENDER_FEATURE_TRACK_FACE | NAMA_RENDER_FEATURE_BEAUTIFY_IMAGE | NAMA_RENDER_FEATURE_RENDER | NAMA_RENDER_FEATURE_ADDITIONAL_DETECTOR)
+#define NAMA_RENDER_FEATURE_MASK 0xff0
+///
+#define NAMA_RENDER_OPTION_FLIP_X 0x1000
+#define NAMA_RENDER_OPTION_FLIP_Y 0x2000
+#define NAMA_RENDER_OPTION_MASK 0xff000
+
 
 /**************************************************************
 The set / get functions do not make sense on their own. Refer to
@@ -325,8 +374,8 @@ FUNAMA_API void fuSetQualityTradeoff(float quality);
 \param face_id is the id of face, index is smaller than which is set in fuSetMaxFaces
 \param name is among "landmarks", "eye_rotation", "translation", "rotation"
 \param pret allocated memory space as container
-\param num is number of double allocated in pret
-	required: "landmarks" - 150 doubles
+\param num is number of float allocated in pret
+	eg: 	  "landmarks" - 150 float
 			  "eye_rotation" - 4
 			  "translation" - 3
 			  "rotation" - 4

@@ -21,6 +21,8 @@
 		CD0A09C71E5D7034000FC2C3 /* PrincessCrown.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD0A09B61E5D7034000FC2C3 /* PrincessCrown.bundle */; };
 		CD0A09C81E5D7034000FC2C3 /* tiara.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD0A09B71E5D7034000FC2C3 /* tiara.bundle */; };
 		CD0A09C91E5D7034000FC2C3 /* YellowEar.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD0A09B81E5D7034000FC2C3 /* YellowEar.bundle */; };
+		CD0B30071E8C994700B05279 /* FUAPIDemoBar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD0B30051E8C993F00B05279 /* FUAPIDemoBar.framework */; };
+		CD0B30081E8C994700B05279 /* FUAPIDemoBar.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CD0B30051E8C993F00B05279 /* FUAPIDemoBar.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CD2E16DE1E52AE0100A2C2A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2E16DD1E52AE0100A2C2A4 /* main.m */; };
 		CD2E16E11E52AE0100A2C2A4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2E16E01E52AE0100A2C2A4 /* AppDelegate.m */; };
 		CD2E16E41E52AE0100A2C2A4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2E16E31E52AE0100A2C2A4 /* ViewController.m */; };
@@ -36,8 +38,6 @@
 		CD3C58AC1E779D6B004FA2E0 /* v3.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD3C58A91E779D6B004FA2E0 /* v3.bundle */; };
 		CD6157171E5696220083EF33 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6157151E56957A0083EF33 /* Accelerate.framework */; };
 		CDA743BB1E854CE10088F471 /* heart_v2.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CDA743BA1E854CE10088F471 /* heart_v2.bundle */; };
-		CDA743D61E88AD660088F471 /* FUAPIDemoBar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA743D21E88AD420088F471 /* FUAPIDemoBar.framework */; };
-		CDA743D71E88AD660088F471 /* FUAPIDemoBar.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CDA743D21E88AD420088F471 /* FUAPIDemoBar.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -47,7 +47,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				CDA743D71E88AD660088F471 /* FUAPIDemoBar.framework in Embed Frameworks */,
+				CD0B30081E8C994700B05279 /* FUAPIDemoBar.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -70,6 +70,7 @@
 		CD0A09B61E5D7034000FC2C3 /* PrincessCrown.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = PrincessCrown.bundle; sourceTree = "<group>"; };
 		CD0A09B71E5D7034000FC2C3 /* tiara.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = tiara.bundle; sourceTree = "<group>"; };
 		CD0A09B81E5D7034000FC2C3 /* YellowEar.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = YellowEar.bundle; sourceTree = "<group>"; };
+		CD0B30051E8C993F00B05279 /* FUAPIDemoBar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FUAPIDemoBar.framework; sourceTree = "<group>"; };
 		CD2E16D91E52AE0100A2C2A4 /* FULiveDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FULiveDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD2E16DD1E52AE0100A2C2A4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CD2E16DF1E52AE0100A2C2A4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -96,7 +97,6 @@
 		CD3C58A91E779D6B004FA2E0 /* v3.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = v3.bundle; sourceTree = "<group>"; };
 		CD6157151E56957A0083EF33 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		CDA743BA1E854CE10088F471 /* heart_v2.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = heart_v2.bundle; sourceTree = "<group>"; };
-		CDA743D21E88AD420088F471 /* FUAPIDemoBar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FUAPIDemoBar.framework; sourceTree = "<group>"; };
 		D8F03B76C701D6E9FC815193 /* libPods-FULiveDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FULiveDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -105,8 +105,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD0B30071E8C994700B05279 /* FUAPIDemoBar.framework in Frameworks */,
 				CD3C58AA1E779D6B004FA2E0 /* libnama.a in Frameworks */,
-				CDA743D61E88AD660088F471 /* FUAPIDemoBar.framework in Frameworks */,
 				CD6157171E5696220083EF33 /* Accelerate.framework in Frameworks */,
 				76561607FD8AD9BA6104E71F /* libPods-FULiveDemo.a in Frameworks */,
 			);
@@ -211,7 +211,7 @@
 		CD2E17171E52AE4500A2C2A4 /* DemoCode */ = {
 			isa = PBXGroup;
 			children = (
-				CDA743D21E88AD420088F471 /* FUAPIDemoBar.framework */,
+				CD0B30051E8C993F00B05279 /* FUAPIDemoBar.framework */,
 				CD2E17181E52AE4500A2C2A4 /* CircleProgressView.h */,
 				CD2E17191E52AE4500A2C2A4 /* CircleProgressView.m */,
 				CD2E171B1E52AE4500A2C2A4 /* FUCamera.h */,
@@ -520,6 +520,7 @@
 			baseConfigurationReference = 0B4696541E210F2DB31B12C4 /* Pods-FULiveDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -533,8 +534,9 @@
 					"$(PROJECT_DIR)/FULiveDemo/Faceunity/FaceunitySDK",
 					"$(PROJECT_DIR)/FULiveDemo/Faceunity/FaceUnity-SDK-iOS",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.faceunity.FULiveDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.faceunity.fulive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -543,6 +545,7 @@
 			baseConfigurationReference = 77BAA341D57F7D054FAB8B41 /* Pods-FULiveDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -556,8 +559,11 @@
 					"$(PROJECT_DIR)/FULiveDemo/Faceunity/FaceunitySDK",
 					"$(PROJECT_DIR)/FULiveDemo/Faceunity/FaceUnity-SDK-iOS",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.faceunity.FULiveDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.faceunity.fulive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

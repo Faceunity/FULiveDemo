@@ -102,11 +102,11 @@
 
     _demoBar.selectedBlur = 6;
 
-    _demoBar.beautyLevel = 0.5;
+    _demoBar.beautyLevel = 0.2;
     
     _demoBar.thinningLevel = 1.0;
     
-    _demoBar.enlargingLevel = 1.0;
+    _demoBar.enlargingLevel = 0.5;
     
     _demoBar.faceShapeLevel = 0.5;
     
