@@ -92,11 +92,15 @@ typedef struct{
 
 #define FU_FORMAT_AVATAR_INFO 12
 typedef struct{	
-	void* p_translation;	
-	void* p_rotation;
-	void* p_expression;
-	int rotation_mode;		
+	float* p_translation;	
+	float* p_rotation;
+	float* p_expression;
+	float* rotation_mode;
+	float* pupil_pos;
+	int is_valid;
 }TAvatarInfo;
+
+#define FU_FORMAT_VOID 13
 
 #ifdef __cplusplus
 extern "C"{
@@ -242,10 +246,7 @@ FUNAMA_API int fuBeautifyImage(
 \param n_items is the number of items
 \return a GLuint texture handle containing the rendering result if out_format isn't FU_FORMAT_GL_CURRENT_FRAMEBUFFER
 */
-FUNAMA_API int fuTrackFace(
-	int out_format,void* out_ptr,
-	int in_format,void* in_ptr,
-	int w,int h,int frame_id, int* p_items,int n_items);
+FUNAMA_API int fuTrackFace(int in_format,void* in_ptr,int w,int h);
 	
 /**
 \brief Generalized interface for rendering a list of items with extension.	
@@ -375,15 +376,20 @@ FUNAMA_API void fuSetQualityTradeoff(float quality);
 \param name is among "landmarks", "eye_rotation", "translation", "rotation"
 \param pret allocated memory space as container
 \param num is number of float allocated in pret
-	eg: 	  "landmarks" - 150 float
+	eg: 	  "landmarks" - 75*2 float
+			  "landmarks_ar" - 75*3 float
 			  "eye_rotation" - 4
 			  "translation" - 3
 			  "rotation" - 4
+			  "projection_matrix" - 16
 \return 1 means successful fetch, container filled with info
 	0 means failure, general failure is due to invalid face info
 	other specific failure will print on the console
 */
 FUNAMA_API int fuGetFaceInfo(int face_id, char* name, float* pret, int num);
+
+//todo: documentation
+FUNAMA_API int fuAvatarBindItems(int avatar_item, int* p_items,int n_items, int* p_contracts,int n_contracts);
 
 /**
 \brief Get SDK version string
