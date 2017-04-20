@@ -33,8 +33,10 @@ typedef struct{
 #define FU_ADM_FLAG_EXTERNAL_OES_TEXTURE 1
 /*\brief Indicate that the result should also be read back to p_NV21 */
 #define FU_ADM_FLAG_ENABLE_READBACK 2
-/*\brief Indicate that the input texture is a packed nv21 texture */
+/*\brief Indicate that the input texture is a packed NV21 texture */
 #define FU_ADM_FLAG_NV21_TEXTURE 4
+/*\brief Indicate that the input texture is a packed IYUV420 texture */
+#define FU_ADM_FLAG_I420_TEXTURE 8
 typedef struct{
 	void* p_NV21;//<the NV21 buffer
 	int tex;//<the texture
