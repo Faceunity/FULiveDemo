@@ -98,6 +98,13 @@ typedef enum : NSUInteger {
         if (self.videoConnection.supportsVideoMirroring) {
             self.videoConnection.videoMirrored = YES;
         }
+        
+        [_captureSession beginConfiguration]; // the session to which the receiver's AVCaptureDeviceInput is added.
+        if ( [deviceInput.device lockForConfiguration:NULL] ) {
+            [deviceInput.device setActiveVideoMinFrameDuration:CMTimeMake(1, 30)];
+            [deviceInput.device unlockForConfiguration];
+        }
+        [_captureSession commitConfiguration]; //
     }
     return _captureSession;
 }
@@ -156,6 +163,15 @@ typedef enum : NSUInteger {
         }
         self.cameraPosition = AVCaptureDevicePositionBack;
     }
+    
+    AVCaptureDeviceInput *deviceInput = isFront ? self.frontCameraInput:self.backCameraInput;
+    
+    [self.captureSession beginConfiguration]; // the session to which the receiver's AVCaptureDeviceInput is added.
+    if ( [deviceInput.device lockForConfiguration:NULL] ) {
+        [deviceInput.device setActiveVideoMinFrameDuration:CMTimeMake(1, 30)];
+        [deviceInput.device unlockForConfiguration];
+    }
+    [self.captureSession commitConfiguration];
     
     self.videoConnection.videoOrientation = AVCaptureVideoOrientationPortrait;
     if (self.videoConnection.supportsVideoMirroring) {

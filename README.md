@@ -24,7 +24,13 @@ FULiveDemo 是集成了 Faceunity 面部跟踪和虚拟道具功能的Demo。
 其中 v3.bundle 是所有道具共用的数据文件，缺少该文件会导致初始化失败。其他每一个文件对应一个道具。自定义道具制作的文档和工具请联系我司获取。
   
 ## 集成方法
-首先把库文件拷贝到工程目录中，并添加到 xcode 工程，之后在代码中包含 FURenderer.h 即可调用相关函数。
+首先将Demo中的 SDK 文件夹（Faceunity）拖入到项目中，并勾选上 Destination。
+
+然后向Build Phases → Link Binary With Libraries 中添加依赖库，这里只需要添加Accelerate.framework一个库即可
+
+![](./screenshots/screenshots.png)
+
+之后在代码中包含 FURenderer.h 即可调用相关函数。
 
 ```C
 #import "FURenderer.h"
