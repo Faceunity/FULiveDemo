@@ -68,7 +68,6 @@
     
     self.bufferDisplayer.frame = self.view.bounds;
     
-    
 }
 
 - (void)dealloc
@@ -95,7 +94,7 @@
 - (void)setDemoBar:(FUAPIDemoBar *)demoBar
 {
     _demoBar = demoBar;
-    _demoBar.itemsDataSource = @[@"noitem", @"tiara", @"item0208", @"YellowEar", @"PrincessCrown", @"Mood" , @"Deer" , @"BeagleDog", @"item0501", @"item0210",  @"HappyRabbi", @"item0204", @"hartshorn"];
+    _demoBar.itemsDataSource = @[@"noitem", @"tiara", @"item0208", @"YellowEar", @"PrincessCrown", @"Mood" , @"Deer" , @"BeagleDog", @"item0501", @"item0210",  @"HappyRabbi", @"item0204", @"hartshorn", @"ColorCrown"];
     _demoBar.selectedItem = _demoBar.itemsDataSource[1];
 
     _demoBar.filtersDataSource = @[@"nature", @"delta", @"electric", @"slowlived", @"tokyo", @"warm"];
@@ -103,11 +102,17 @@
 
     _demoBar.selectedBlur = 6;
 
-    _demoBar.beautyLevel = 0.5;
+    _demoBar.beautyLevel = 0.2;
     
     _demoBar.thinningLevel = 1.0;
     
-    _demoBar.enlargingLevel = 1.0;
+    _demoBar.enlargingLevel = 0.5;
+    
+    _demoBar.faceShapeLevel = 0.5;
+    
+    _demoBar.faceShape = 3;
+    
+    _demoBar.redLevel = 0.5;
 
     _demoBar.delegate = self;
 }
@@ -295,6 +300,9 @@
         void *v3 = [self mmap_bundle:@"v3.bundle" psize:&size];
         
         [[FURenderer shareRenderer] setupWithData:v3 ardata:NULL authPackage:&g_auth_package authSize:sizeof(g_auth_package)];
+        
+        //开启多脸识别（最高可设为8，不过考虑到性能问题建议设为4以内）
+//        fuSetMaxFaces(4);
     }
     
     //人脸跟踪
@@ -315,10 +323,11 @@
         [self loadFilter];
     }
     
+    #warning 如果需开启手势检测，请打开下方的注释
     //加载爱心道具
-    if (items[2] == 0) {
-        [self loadHeart];
-    }
+//    if (items[2] == 0) {
+//        [self loadHeart];
+//    }
     
     //设置美颜效果（滤镜、磨皮、美白、瘦脸、大眼....）
     fuItemSetParamd(items[1], "cheek_thinning", self.demoBar.thinningLevel); //瘦脸
@@ -326,6 +335,9 @@
     fuItemSetParamd(items[1], "color_level", self.demoBar.beautyLevel); //美白
     fuItemSetParams(items[1], "filter_name", (char *)[_demoBar.selectedFilter UTF8String]); //滤镜
     fuItemSetParamd(items[1], "blur_level", self.demoBar.selectedBlur); //磨皮
+    fuItemSetParamd(items[1], "face_shape", self.demoBar.faceShape); //瘦脸类型
+    fuItemSetParamd(items[1], "face_shape_level", self.demoBar.faceShapeLevel); //瘦脸等级
+    fuItemSetParamd(items[1], "red_level", self.demoBar.redLevel); //红润
     
     //Faceunity核心接口，将道具及美颜效果作用到图像中，执行完此函数pixelBuffer即包含美颜及贴纸效果
     #warning 此步骤不可放在异步线程中执行
@@ -393,7 +405,7 @@
 {
     int size = 0;
     
-    void *data = [self mmap_bundle:@"heart.bundle" psize:&size];
+    void *data = [self mmap_bundle:@"heart_v2.bundle" psize:&size];
     
     items[2] = fuCreateItemFromPackage(data, size);
 }
