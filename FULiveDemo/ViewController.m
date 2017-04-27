@@ -17,14 +17,14 @@
 #include <sys/stat.h>
 #import "authpack.h"
 
+static EAGLContext *mcontext;
+
 @interface ViewController ()<FUAPIDemoBarDelegate,FUCameraDelegate,PhotoButtonDelegate>
 {
     //MARK: Faceunity
-    EAGLContext *mcontext;
     int items[3];
-    BOOL fuInit;
     int frameID;
-    BOOL needReloadItem;
+    
     // --------------- Faceunity ----------------
     
     FUCamera *curCamera;
@@ -61,7 +61,7 @@
     // Do any additional setup after loading the view, typically from a nib.
     [self addObserver];
     
-    needReloadItem = YES;
+    [self initFaceunity];
     
     curCamera = self.bgraCamera;
     [curCamera startUp];
@@ -70,9 +70,40 @@
     
 }
 
+- (void)initFaceunity
+{
+    #warning faceunity全局只需要初始化一次
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        int size = 0;
+        void *v3 = [self mmap_bundle:@"v3.bundle" psize:&size];
+        
+        [[FURenderer shareRenderer] setupWithData:v3 ardata:NULL authPackage:&g_auth_package authSize:sizeof(g_auth_package)];
+    });
+    
+    //开启多脸识别（最高可设为8，不过考虑到性能问题建议设为4以内）
+//    fuSetMaxFaces(4);
+    
+    [self loadItem];
+    [self loadFilter];
+}
+
+- (void)destoryFaceunityItems
+{
+    [self setUpContext];
+    
+    fuDestroyAllItems();
+    
+    for (int i = 0; i < sizeof(items) / sizeof(int); i++) {
+        items[i] = 0;
+    }
+}
+
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    [self destoryFaceunityItems];
 }
 
 - (void)addObserver{
@@ -88,7 +119,6 @@
     
     _photoBtn.delegate = self;
 }
-
 
 //底部工具条
 - (void)setDemoBar:(FUAPIDemoBar *)demoBar
@@ -273,12 +303,9 @@
 #pragma -FUAPIDemoBarDelegate
 - (void)demoBarDidSelectedItem:(NSString *)item
 {
-    dispatch_async(curCamera.captureQueue, ^{
-        needReloadItem = YES;
-    });
+    //异步加载道具
+    [self loadItem];
 }
-
-
 
 #pragma -FUCameraDelegate
 - (void)didOutputVideoSampleBuffer:(CMSampleBufferRef)sampleBuffer
@@ -291,37 +318,11 @@
     #warning 此步骤不可放在异步线程中执行
     [self setUpContext];
     
-    //Faceunity初始化
-    #warning 此步骤不可放在异步线程中执行
-    if (!fuInit)
-    {
-        fuInit = YES;
-        int size = 0;
-        void *v3 = [self mmap_bundle:@"v3.bundle" psize:&size];
-        
-        [[FURenderer shareRenderer] setupWithData:v3 ardata:NULL authPackage:&g_auth_package authSize:sizeof(g_auth_package)];
-        
-        //开启多脸识别（最高可设为8，不过考虑到性能问题建议设为4以内）
-//        fuSetMaxFaces(4);
-    }
-    
     //人脸跟踪
     int curTrack = fuIsTracking();
     dispatch_async(dispatch_get_main_queue(), ^{
         self.noTrackView.hidden = curTrack;
     });
-    
-    //切换贴纸、3D道具
-    #warning 如果需要异步加载道具，需停止调用Faceunity的其他接口，否则将会产生崩溃
-    if (needReloadItem) {
-        needReloadItem = NO;
-        [self reloadItem];
-    }
-    
-    //加载美颜道具
-    if (items[1] == 0) {
-        [self loadFilter];
-    }
     
     #warning 如果需开启手势检测，请打开下方的注释
     //加载爱心道具
@@ -370,30 +371,43 @@
 }
 
 #pragma -Faceunity Load Data
-- (void)reloadItem
+- (void)loadItem
 {
+    
+    if ([_demoBar.selectedItem isEqual: @"noitem"] || _demoBar.selectedItem == nil)
+    {
+        if (items[0] != 0) {
+            NSLog(@"faceunity: destroy item");
+            fuDestroyItem(items[0]);
+        }
+        items[0] = 0;
+        return;
+    }
+    
+    
+    [self setUpContext];
+    
+    int size = 0;
+    
+    // 先创建再释放可以有效缓解切换道具卡顿问题
+    void *data = [self mmap_bundle:[_demoBar.selectedItem stringByAppendingString:@".bundle"] psize:&size];
+    
+    int itemHandle = fuCreateItemFromPackage(data, size);
+    
     if (items[0] != 0) {
         NSLog(@"faceunity: destroy item");
         fuDestroyItem(items[0]);
     }
     
-    if ([_demoBar.selectedItem isEqual: @"noitem"] || _demoBar.selectedItem == nil)
-    {
-        items[0] = 0;
-        return;
-    }
-    
-    int size = 0;
-    
-    // load selected
-    void *data = [self mmap_bundle:[_demoBar.selectedItem stringByAppendingString:@".bundle"] psize:&size];
-    items[0] = fuCreateItemFromPackage(data, size);
+    items[0] = itemHandle;
     
     NSLog(@"faceunity: load item");
 }
 
 - (void)loadFilter
 {
+    [self setUpContext];
+    
     int size = 0;
     
     void *data = [self mmap_bundle:@"face_beautification.bundle" psize:&size];
@@ -403,6 +417,8 @@
 
 - (void)loadHeart
 {
+    [self setUpContext];
+    
     int size = 0;
     
     void *data = [self mmap_bundle:@"heart_v2.bundle" psize:&size];

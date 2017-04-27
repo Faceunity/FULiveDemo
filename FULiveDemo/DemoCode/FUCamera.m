@@ -62,20 +62,16 @@ typedef enum : NSUInteger {
 }
 
 - (void)startCapture{
-    dispatch_async(self.captureQueue, ^{
-        if (![self.captureSession isRunning]) {
-            [self.captureSession startRunning];
-        }
-    });
+    if (![self.captureSession isRunning]) {
+        [self.captureSession startRunning];
+    }
+
 }
 
 - (void)stopCapture{
-    dispatch_async(self.captureQueue, ^{
-        if ([self.captureSession isRunning]) {
-            [self.captureSession stopRunning];
-        }
-    });
-    
+    if ([self.captureSession isRunning]) {
+        [self.captureSession stopRunning];
+    }
 }
 
 - (AVCaptureSession *)captureSession

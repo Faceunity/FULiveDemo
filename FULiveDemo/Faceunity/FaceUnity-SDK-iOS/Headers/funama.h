@@ -12,6 +12,8 @@
 #define FU_FORMAT_RGBA_TEXTURE 1
 /*\brief An I/O format where `ptr` points to an NV21 buffer. It matches the camera preview format on Android. */
 #define FU_FORMAT_NV21_BUFFER 2
+#define FU_FORMAT_I420_BUFFER 13
+
 /*\brief An output-only format where `out_ptr` is NULL or points to a TGLRenderingDesc structure. 
 	The result is rendered onto the current GL framebuffer no matter what `out_ptr` is.
 	If a TGLRenderingDesc is specified, we can optionally return an image to the caller in the specified format.
@@ -37,6 +39,8 @@ typedef struct{
 #define FU_ADM_FLAG_NV21_TEXTURE 4
 /*\brief Indicate that the input texture is a packed IYUV420 texture */
 #define FU_ADM_FLAG_I420_TEXTURE 8
+/*\brief Indicate that the input buffer is a packed IYUV420 buffer */
+#define FU_ADM_FLAG_I420_BUFFER 16
 typedef struct{
 	void* p_NV21;//<the NV21 buffer
 	int tex;//<the texture
