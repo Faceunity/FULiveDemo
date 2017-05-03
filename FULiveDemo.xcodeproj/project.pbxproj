@@ -534,7 +534,7 @@
 					"$(PROJECT_DIR)/FULiveDemo/Faceunity/FaceunitySDK",
 					"$(PROJECT_DIR)/FULiveDemo/Faceunity/FaceUnity-SDK-iOS",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.faceunity.fulive;
+				PRODUCT_BUNDLE_IDENTIFIER = com.faceunity.fulivedemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -559,7 +559,7 @@
 					"$(PROJECT_DIR)/FULiveDemo/Faceunity/FaceunitySDK",
 					"$(PROJECT_DIR)/FULiveDemo/Faceunity/FaceUnity-SDK-iOS",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.faceunity.fulive;
+				PRODUCT_BUNDLE_IDENTIFIER = com.faceunity.fulivedemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

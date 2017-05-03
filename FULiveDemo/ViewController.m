@@ -17,8 +17,6 @@
 #include <sys/stat.h>
 #import "authpack.h"
 
-static EAGLContext *mcontext;
-
 @interface ViewController ()<FUAPIDemoBarDelegate,FUCameraDelegate,PhotoButtonDelegate>
 {
     //MARK: Faceunity
@@ -343,7 +341,8 @@ static EAGLContext *mcontext;
     //Faceunity核心接口，将道具及美颜效果作用到图像中，执行完此函数pixelBuffer即包含美颜及贴纸效果
     #warning 此步骤不可放在异步线程中执行
     CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-    [[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:3];
+    
+    [[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:3 flipx:YES];//flipx 参数设为YES可以使道具做水平方向的镜像翻转
     frameID += 1;
     
     #warning 执行完上一步骤，即可将pixelBuffer绘制到屏幕上或推流到服务器进行直播
@@ -359,6 +358,8 @@ static EAGLContext *mcontext;
 }
 
 #pragma -Faceunity Set EAGLContext
+static EAGLContext *mcontext;
+
 - (void)setUpContext
 {
     if(!mcontext){

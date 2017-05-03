@@ -42,21 +42,50 @@ Faceunity 的接口一般都需要在视频流回调的线程中进行，这里�
 
 ```C
 //如果当前环境中已存在EAGLContext，此步骤可省略，但必须要调用[EAGLContext setCurrentContext:curContext]函数。
-if(!mcontext){
-    mcontext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-}
-if(!mcontext || ![EAGLContext setCurrentContext:mcontext]){
-    NSLog(@"faceunity: failed to create / set a GLES2 context");
+#pragma -Faceunity Set EAGLContext
+
+static EAGLContext *mcontext;
+
+- (void)setUpContext
+{
+    if(!mcontext){
+        mcontext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+    }
+    if(!mcontext || ![EAGLContext setCurrentContext:mcontext]){
+        NSLog(@"faceunity: failed to create / set a GLES2 context");
+    }
+    
 }
 
 ```
 **Faceunity初始化：** 其中 `g_auth_package` 为密钥数组，必须配置好密钥，SDK才能正常工作。注：app启动后只需要初始化一次Faceunity即可，切勿多次初始化。
 
 ```C
-int size = 0;
-void *v3 = [self mmap_bundle:@"v3.bundle" psize:&size];
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    // Do any additional setup after loading the view, typically from a nib.
+    
+    [self initFaceunity];
+}
+
+- (void)initFaceunity
+{
+    #warning faceunity全局只需要初始化一次
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        int size = 0;
+        void *v3 = [self mmap_bundle:@"v3.bundle" psize:&size];
         
-[[FURenderer shareRenderer] setupWithData:v3 ardata:NULL authPackage:&g_auth_package authSize:sizeof(g_auth_package)];
+        [[FURenderer shareRenderer] setupWithData:v3 ardata:NULL authPackage:&g_auth_package authSize:sizeof(g_auth_package)];
+    });
+    
+    //开启多脸识别（最高可设为8，不过考虑到性能问题建议设为4以内）
+//    fuSetMaxFaces(4);
+    
+    [self loadItem];
+    [self loadFilter];
+}
 ```
 
 **加载道具：** 声明一个int数组，将fuCreateItemFromPackage返回的道具handle保存下来
@@ -64,18 +93,35 @@ void *v3 = [self mmap_bundle:@"v3.bundle" psize:&size];
 ```C
 int items[2];
 
-- (void)reloadItem
+- (void)loadItem
 {
+    
+    if ([_demoBar.selectedItem isEqual: @"noitem"] || _demoBar.selectedItem == nil)
+    {
+        if (items[0] != 0) {
+            NSLog(@"faceunity: destroy item");
+            fuDestroyItem(items[0]);
+        }
+        items[0] = 0;
+        return;
+    }
+    
+    
+    [self setUpContext];
+    
+    int size = 0;
+    
+    // 先创建再释放可以有效缓解切换道具卡顿问题
+    void *data = [self mmap_bundle:[_demoBar.selectedItem stringByAppendingString:@".bundle"] psize:&size];
+    
+    int itemHandle = fuCreateItemFromPackage(data, size);
+    
     if (items[0] != 0) {
         NSLog(@"faceunity: destroy item");
         fuDestroyItem(items[0]);
     }
     
-    int size = 0;
-    
-    // load selected
-    void *data = [self mmap_bundle:[_demoBar.selectedItem stringByAppendingString:@".bundle"] psize:&size];
-    items[0] = fuCreateItemFromPackage(data, size);
+    items[0] = itemHandle;
     
     NSLog(@"faceunity: load item");
 }
@@ -112,12 +158,12 @@ int items[2];
 }
 
 ```
-**道具绘制：** 调用renderPixelBuffer函数进行道具绘制，其中frameID用来记录当前处理了多少帧图像，该参数与道具中的动画播放有关。itemCount为传入接口的道具数量。
+**道具绘制：** 调用renderPixelBuffer函数进行道具绘制，其中frameID用来记录当前处理了多少帧图像，该参数与道具中的动画播放有关。itemCount为传入接口的道具数量，flipx设为YES可以使道具做水平镜像操作。
 
 ```C
 CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
 
-[[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:1];
+[[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:1 flipx:YES];
 ```
 **具体代码如下：**
 
@@ -126,53 +172,87 @@ CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
 {
   
-  	//如果当前环境中已存在EAGLContext，此步骤可省略，但必须要调用[EAGLContext setCurrentContext:curContext]函数。
-   	#warning 此步骤不可放在异步线程中执行
-   	if(!mcontext){
-   		 mcontext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-	}
-	if(!mcontext || ![EAGLContext setCurrentContext:mcontext]){
-   		NSLog(@"faceunity: failed to create / set a GLES2 context");
-	}
+  	if ([UIApplication sharedApplication].applicationState != UIApplicationStateActive) {
+        return;
+    }
     
-    //Faceunity初始化
+    //如果当前环境中已存在EAGLContext，此步骤可省略，但必须要调用[EAGLContext setCurrentContext:curContext]函数。
     #warning 此步骤不可放在异步线程中执行
-    if (!fuInit)
-    {
-        fuInit = YES;
-        int size = 0;
-        void *v3 = [self mmap_bundle:@"v3.bundle" psize:&size];
-        
-        [[FURenderer shareRenderer] setupWithData:v3 ardata:NULL authPackage:&g_auth_package authSize:sizeof(g_auth_package)];
-    }
+    [self setUpContext];
     
-    //切换贴纸、3D道具
-    #warning 如果需要异步加载道具，需停止调用Faceunity的其他接口，否则将会产生崩溃
-    if (needReloadItem) {
-        needReloadItem = NO;
-        [self reloadItem];
-    }
-        
-    //Faceunity核心接口，将道具效果作用到图像中，执行完此函数pixelBuffer即包含贴纸效果
+    //人脸跟踪
+    int curTrack = fuIsTracking();
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.noTrackView.hidden = curTrack;
+    });
+    
+    //设置美颜效果（滤镜、磨皮、美白、瘦脸、大眼....）
+    fuItemSetParamd(items[1], "cheek_thinning", self.demoBar.thinningLevel); //瘦脸
+    fuItemSetParamd(items[1], "eye_enlarging", self.demoBar.enlargingLevel); //大眼
+    fuItemSetParamd(items[1], "color_level", self.demoBar.beautyLevel); //美白
+    fuItemSetParams(items[1], "filter_name", (char *)[_demoBar.selectedFilter UTF8String]); //滤镜
+    fuItemSetParamd(items[1], "blur_level", self.demoBar.selectedBlur); //磨皮
+    fuItemSetParamd(items[1], "face_shape", self.demoBar.faceShape); //瘦脸类型
+    fuItemSetParamd(items[1], "face_shape_level", self.demoBar.faceShapeLevel); //瘦脸等级
+    fuItemSetParamd(items[1], "red_level", self.demoBar.redLevel); //红润
+    
+    //Faceunity核心接口，将道具及美颜效果作用到图像中，执行完此函数pixelBuffer即包含美颜及贴纸效果
     #warning 此步骤不可放在异步线程中执行
     CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-    [[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:1];
+    
+    [[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:2 flipx:YES];//flipx 参数设为YES可以使道具做水平方向的镜像翻转
     frameID += 1;
     
 }
 ```
 
+**道具销毁：**
+
+销毁单个道具：
+
+```C
+//该接口可以销毁传入的道具所占的内存。
+void fuDestroyItem(int item)
+```
+
+销毁全部道具：
+
+```C
+//该接口可以销毁全部道具所占的内存。
+- (void)destoryFaceunityItems
+{
+    [self setUpContext];
+    
+    fuDestroyAllItems();
+    
+    for (int i = 0; i < sizeof(items) / sizeof(int); i++) {
+        items[i] = 0;
+    }
+}
+
+```
+这里需要注意的是，以上两个接口都需要和fuCreateItemFromPackage在同一个context线程上调用
+
 ## 视频美颜
 美颜功能实现步骤与道具类似，首先加载美颜道具，并将fuCreateItemFromPackage返回的美颜道具handle保存下来:
   
 ```C
-g_items[1] = fuCreateItemFromPackage(g_res_zip, (int)g_res_size);
+- (void)loadFilter
+{
+    [self setUpContext];
+    
+    int size = 0;
+    
+    void *data = [self mmap_bundle:@"face_beautification.bundle" psize:&size];
+    
+    items[1] = fuCreateItemFromPackage(data, size);
+}
 ```
 
 之后，将该handle和其他需要绘制的道具一起传入绘制接口即可。注意 fuRenderItems() 最后一个参数为所绘制的道具数量，这里以一个普通道具和一个美颜道具一起绘制为例。加载美颜道具后不需设置任何参数，即可启用默认设置的美颜的效果。
 
 ```C
-fuRenderItems(0, img, w, h, g_frame_id, g_items, 2);
+[[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:2 flipx:YES];
 ```
 
 美颜道具主要包含五个模块的内容，滤镜，美白和红润，磨皮，美型。每个模块可以调节的参数如下。
