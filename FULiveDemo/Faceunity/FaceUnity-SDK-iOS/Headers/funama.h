@@ -397,6 +397,10 @@ FUNAMA_API int fuGetFaceInfo(int face_id, char* name, float* pret, int num);
 //todo: documentation
 FUNAMA_API int fuAvatarBindItems(int avatar_item, int* p_items,int n_items, int* p_contracts,int n_contracts);
 
+//
+FUNAMA_API int fuBindItems(int item_src, int* p_items,int n_items);
+FUNAMA_API int fuUnbindAllItems(int item_src);
+
 /**
 \brief Get SDK version string
 \return SDK version string in const char*
