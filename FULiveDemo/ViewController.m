@@ -348,13 +348,19 @@
     #warning 执行完上一步骤，即可将pixelBuffer绘制到屏幕上或推流到服务器进行直播
     //本地显示视频图像
     
-    if (self.bufferDisplayer.status == AVQueuedSampleBufferRenderingStatusFailed) {
-        [self.bufferDisplayer flush];
-    }
-    
-    if ([self.bufferDisplayer isReadyForMoreMediaData]) {
-        [self.bufferDisplayer enqueueSampleBuffer:sampleBuffer];
-    }
+    CFRetain(sampleBuffer);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        if (self.bufferDisplayer.status == AVQueuedSampleBufferRenderingStatusFailed) {
+            [self.bufferDisplayer flush];
+        }
+        
+        if ([self.bufferDisplayer isReadyForMoreMediaData]) {
+            [self.bufferDisplayer enqueueSampleBuffer:sampleBuffer];
+        }
+        
+        CFRelease(sampleBuffer);
+    });
 }
 
 #pragma -Faceunity Set EAGLContext
