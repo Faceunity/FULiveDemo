@@ -26,10 +26,7 @@
 		CD2E16E71E52AE0100A2C2A4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD2E16E51E52AE0100A2C2A4 /* Main.storyboard */; };
 		CD2E16E91E52AE0100A2C2A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD2E16E81E52AE0100A2C2A4 /* Assets.xcassets */; };
 		CD2E16EC1E52AE0100A2C2A4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD2E16EA1E52AE0100A2C2A4 /* LaunchScreen.storyboard */; };
-		CD2E17211E52AE4500A2C2A4 /* CircleProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2E17191E52AE4500A2C2A4 /* CircleProgressView.m */; };
 		CD2E17231E52AE4500A2C2A4 /* FUCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2E171C1E52AE4500A2C2A4 /* FUCamera.m */; };
-		CD2E17241E52AE4500A2C2A4 /* FURecordEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2E171E1E52AE4500A2C2A4 /* FURecordEncoder.m */; };
-		CD2E17251E52AE4500A2C2A4 /* PhotoButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2E17201E52AE4500A2C2A4 /* PhotoButton.m */; };
 		CD3383921EB1EAA40022D1A8 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD3383911EB1EAA40022D1A8 /* ViewController.m */; };
 		CD3383951EB1F0770022D1A8 /* FUAPIDemoBar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD3383931EB1F06F0022D1A8 /* FUAPIDemoBar.framework */; };
 		CD3383961EB1F0770022D1A8 /* FUAPIDemoBar.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CD3383931EB1F06F0022D1A8 /* FUAPIDemoBar.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -79,14 +76,8 @@
 		CD2E16E81E52AE0100A2C2A4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CD2E16EB1E52AE0100A2C2A4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CD2E16ED1E52AE0100A2C2A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CD2E17181E52AE4500A2C2A4 /* CircleProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleProgressView.h; sourceTree = "<group>"; };
-		CD2E17191E52AE4500A2C2A4 /* CircleProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleProgressView.m; sourceTree = "<group>"; };
 		CD2E171B1E52AE4500A2C2A4 /* FUCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUCamera.h; sourceTree = "<group>"; };
 		CD2E171C1E52AE4500A2C2A4 /* FUCamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUCamera.m; sourceTree = "<group>"; };
-		CD2E171D1E52AE4500A2C2A4 /* FURecordEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FURecordEncoder.h; sourceTree = "<group>"; };
-		CD2E171E1E52AE4500A2C2A4 /* FURecordEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FURecordEncoder.m; sourceTree = "<group>"; };
-		CD2E171F1E52AE4500A2C2A4 /* PhotoButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoButton.h; sourceTree = "<group>"; };
-		CD2E17201E52AE4500A2C2A4 /* PhotoButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoButton.m; sourceTree = "<group>"; };
 		CD3383911EB1EAA40022D1A8 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		CD3383931EB1F06F0022D1A8 /* FUAPIDemoBar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FUAPIDemoBar.framework; sourceTree = "<group>"; };
 		CD3C58A11E779D56004FA2E0 /* authpack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = authpack.h; sourceTree = "<group>"; };
@@ -212,14 +203,8 @@
 			isa = PBXGroup;
 			children = (
 				CD3383931EB1F06F0022D1A8 /* FUAPIDemoBar.framework */,
-				CD2E17181E52AE4500A2C2A4 /* CircleProgressView.h */,
-				CD2E17191E52AE4500A2C2A4 /* CircleProgressView.m */,
 				CD2E171B1E52AE4500A2C2A4 /* FUCamera.h */,
 				CD2E171C1E52AE4500A2C2A4 /* FUCamera.m */,
-				CD2E171D1E52AE4500A2C2A4 /* FURecordEncoder.h */,
-				CD2E171E1E52AE4500A2C2A4 /* FURecordEncoder.m */,
-				CD2E171F1E52AE4500A2C2A4 /* PhotoButton.h */,
-				CD2E17201E52AE4500A2C2A4 /* PhotoButton.m */,
 			);
 			path = DemoCode;
 			sourceTree = "<group>";
@@ -395,10 +380,7 @@
 			files = (
 				CD3383921EB1EAA40022D1A8 /* ViewController.m in Sources */,
 				CD2E17231E52AE4500A2C2A4 /* FUCamera.m in Sources */,
-				CD2E17251E52AE4500A2C2A4 /* PhotoButton.m in Sources */,
-				CD2E17211E52AE4500A2C2A4 /* CircleProgressView.m in Sources */,
 				CD2E16E11E52AE0100A2C2A4 /* AppDelegate.m in Sources */,
-				CD2E17241E52AE4500A2C2A4 /* FURecordEncoder.m in Sources */,
 				CD2E16DE1E52AE0100A2C2A4 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
