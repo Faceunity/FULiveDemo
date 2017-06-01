@@ -10,14 +10,13 @@
 #import <GLKit/GLKit.h>
 #import "FUCamera.h"
 #import <FUAPIDemoBar/FUAPIDemoBar.h>
-#import "PhotoButton.h"
 
 #import "FURenderer.h"
 #include <sys/mman.h>
 #include <sys/stat.h>
 #import "authpack.h"
 
-@interface ViewController ()<FUAPIDemoBarDelegate,FUCameraDelegate,PhotoButtonDelegate>
+@interface ViewController ()<FUAPIDemoBarDelegate,FUCameraDelegate>
 {
     //MARK: Faceunity
     EAGLContext *mcontext;
@@ -39,7 +38,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *noTrackView;
 
-@property (weak, nonatomic) IBOutlet PhotoButton *photoBtn;
+@property (weak, nonatomic) IBOutlet UIButton *photoBtn;
 
 @property (weak, nonatomic) IBOutlet UIButton *barBtn;
 
@@ -80,15 +79,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
-
-//拍照按钮
-- (void)setPhotoBtn:(PhotoButton *)photoBtn
-{
-    _photoBtn = photoBtn;
-    
-    _photoBtn.delegate = self;
-}
-
 
 //底部工具条
 - (void)setDemoBar:(FUAPIDemoBar *)demoBar
@@ -181,7 +171,7 @@
 
 #pragma -PhotoButtonDelegate
 //拍照
-- (void)takePhoto
+- (IBAction)takePhoto
 {
     //拍照效果
     self.photoBtn.enabled = NO;
@@ -201,24 +191,6 @@
     }];
     
     [curCamera takePhotoAndSave];
-}
-
-//开始录像
-- (void)startRecord
-{
-    self.barBtn.enabled = NO;
-    self.segment.enabled = NO;
-    self.changeCameraBtn.enabled = NO;
-    [curCamera startRecord];
-}
-
-//停止录像
-- (void)stopRecord
-{
-    self.barBtn.enabled = YES;
-    self.segment.enabled = YES;
-    self.changeCameraBtn.enabled = YES;
-    [curCamera stopRecord];
 }
 
 #pragma -显示工具栏
