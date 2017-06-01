@@ -32,9 +32,4 @@
 
 - (void)takePhotoAndSave;
 
-//开始录像
-- (void)startRecord;
-
-//停止录像
-- (void)stopRecord;
 @end
