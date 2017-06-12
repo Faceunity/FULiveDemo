@@ -85,7 +85,7 @@ typedef enum : NSUInteger {
         }
         
         [self.videoConnection setVideoOrientation:AVCaptureVideoOrientationPortrait];
-        if (self.videoConnection.supportsVideoMirroring) {
+        if (self.videoConnection.supportsVideoMirroring && self.isFrontCamera) {
             self.videoConnection.videoMirrored = YES;
         }
         
