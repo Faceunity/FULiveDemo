@@ -15,8 +15,6 @@ typedef enum : NSUInteger {
     PhotoTakeMode
 } RunMode;
 
-//#define captureFormat kCVPixelFormatType_32BGRA 
-//#define captureFormat kCVPixelFormatType_420YpCbCr8BiPlanarFullRange
 @interface FUCamera()<AVCaptureVideoDataOutputSampleBufferDelegate,AVCaptureAudioDataOutputSampleBufferDelegate>
 {
     RunMode runMode;
@@ -58,20 +56,16 @@ typedef enum : NSUInteger {
 }
 
 - (void)startCapture{
-    dispatch_async(self.captureQueue, ^{
-        if (![self.captureSession isRunning]) {
-            [self.captureSession startRunning];
-        }
-    });
+    if (![self.captureSession isRunning]) {
+        [self.captureSession startRunning];
+    }
+
 }
 
 - (void)stopCapture{
-    dispatch_async(self.captureQueue, ^{
-        if ([self.captureSession isRunning]) {
-            [self.captureSession stopRunning];
-        }
-    });
-    
+    if ([self.captureSession isRunning]) {
+        [self.captureSession stopRunning];
+    }
 }
 
 - (AVCaptureSession *)captureSession
@@ -258,7 +252,6 @@ typedef enum : NSUInteger {
             }
         }
             break;
-            
         default:
             break;
     }
@@ -319,13 +312,4 @@ typedef enum : NSUInteger {
     }
 }
 
-- (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
-{
-    if(error != NULL){
-        [SVProgressHUD showErrorWithStatus:@"保存视频失败"];
-        
-    }else{
-        [SVProgressHUD showSuccessWithStatus:@"视频已保存到相册"];
-    }
-}
 @end

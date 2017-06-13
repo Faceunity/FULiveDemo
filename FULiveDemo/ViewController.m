@@ -19,11 +19,9 @@
 @interface ViewController ()<FUAPIDemoBarDelegate,FUCameraDelegate>
 {
     //MARK: Faceunity
-    EAGLContext *mcontext;
     int items[3];
-    BOOL fuInit;
     int frameID;
-    BOOL needReloadItem;
+    
     // --------------- Faceunity ----------------
     
     FUCamera *curCamera;
@@ -60,7 +58,7 @@
     // Do any additional setup after loading the view, typically from a nib.
     [self addObserver];
     
-    needReloadItem = YES;
+    [self initFaceunity];
     
     curCamera = self.bgraCamera;
     [curCamera startUp];
@@ -69,9 +67,40 @@
     
 }
 
+- (void)initFaceunity
+{
+    #warning faceunity全局只需要初始化一次
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        int size = 0;
+        void *v3 = [self mmap_bundle:@"v3.bundle" psize:&size];
+        
+        [[FURenderer shareRenderer] setupWithData:v3 ardata:NULL authPackage:&g_auth_package authSize:sizeof(g_auth_package)];
+    });
+    
+    //开启多脸识别（最高可设为8，不过考虑到性能问题建议设为4以内）
+//    fuSetMaxFaces(4);
+    
+    [self loadItem];
+    [self loadFilter];
+}
+
+- (void)destoryFaceunityItems
+{
+    [self setUpContext];
+    
+    fuDestroyAllItems();
+    
+    for (int i = 0; i < sizeof(items) / sizeof(int); i++) {
+        items[i] = 0;
+    }
+}
+
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    [self destoryFaceunityItems];
 }
 
 - (void)addObserver{
@@ -92,11 +121,17 @@
 
     _demoBar.selectedBlur = 6;
 
-    _demoBar.beautyLevel = 0.5;
+    _demoBar.beautyLevel = 0.2;
     
     _demoBar.thinningLevel = 1.0;
     
-    _demoBar.enlargingLevel = 1.0;
+    _demoBar.enlargingLevel = 0.5;
+    
+    _demoBar.faceShapeLevel = 0.5;
+    
+    _demoBar.faceShape = 3;
+    
+    _demoBar.redLevel = 0.5;
 
     _demoBar.delegate = self;
 }
@@ -163,7 +198,6 @@
     [curCamera startCapture];
 }
 
-#pragma -PhotoButtonDelegate
 //拍照
 - (IBAction)takePhoto
 {
@@ -239,12 +273,9 @@
 #pragma -FUAPIDemoBarDelegate
 - (void)demoBarDidSelectedItem:(NSString *)item
 {
-    dispatch_async(curCamera.captureQueue, ^{
-        needReloadItem = YES;
-    });
+    //异步加载道具
+    [self loadItem];
 }
-
-
 
 #pragma -FUCameraDelegate
 - (void)didOutputVideoSampleBuffer:(CMSampleBufferRef)sampleBuffer
@@ -257,37 +288,11 @@
     #warning 此步骤不可放在异步线程中执行
     [self setUpContext];
     
-    //Faceunity初始化
-    #warning 此步骤不可放在异步线程中执行
-    if (!fuInit)
-    {
-        fuInit = YES;
-        int size = 0;
-        void *v3 = [self mmap_bundle:@"v3.bundle" psize:&size];
-        
-        [[FURenderer shareRenderer] setupWithData:v3 ardata:NULL authPackage:&g_auth_package authSize:sizeof(g_auth_package)];
-        
-        //开启多脸识别（最高可设为8，不过考虑到性能问题建议设为4以内）
-//        fuSetMaxFaces(4);
-    }
-    
     //人脸跟踪
     int curTrack = fuIsTracking();
     dispatch_async(dispatch_get_main_queue(), ^{
         self.noTrackView.hidden = curTrack;
     });
-    
-    //切换贴纸、3D道具
-    #warning 如果需要异步加载道具，需停止调用Faceunity的其他接口，否则将会产生崩溃
-    if (needReloadItem) {
-        needReloadItem = NO;
-        [self reloadItem];
-    }
-    
-    //加载美颜道具
-    if (items[1] == 0) {
-        [self loadFilter];
-    }
     
     #warning 如果需开启手势检测，请打开下方的注释
     //加载爱心道具
@@ -301,26 +306,38 @@
     fuItemSetParamd(items[1], "color_level", self.demoBar.beautyLevel); //美白
     fuItemSetParams(items[1], "filter_name", (char *)[_demoBar.selectedFilter UTF8String]); //滤镜
     fuItemSetParamd(items[1], "blur_level", self.demoBar.selectedBlur); //磨皮
+    fuItemSetParamd(items[1], "face_shape", self.demoBar.faceShape); //瘦脸类型
+    fuItemSetParamd(items[1], "face_shape_level", self.demoBar.faceShapeLevel); //瘦脸等级
+    fuItemSetParamd(items[1], "red_level", self.demoBar.redLevel); //红润
     
     //Faceunity核心接口，将道具及美颜效果作用到图像中，执行完此函数pixelBuffer即包含美颜及贴纸效果
     #warning 此步骤不可放在异步线程中执行
     CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-    [[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:3];
+    
+    [[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:3 flipx:YES];//flipx 参数设为YES可以使道具做水平方向的镜像翻转
     frameID += 1;
     
     #warning 执行完上一步骤，即可将pixelBuffer绘制到屏幕上或推流到服务器进行直播
     //本地显示视频图像
     
-    if (self.bufferDisplayer.status == AVQueuedSampleBufferRenderingStatusFailed) {
-        [self.bufferDisplayer flush];
-    }
-    
-    if ([self.bufferDisplayer isReadyForMoreMediaData]) {
-        [self.bufferDisplayer enqueueSampleBuffer:sampleBuffer];
-    }
+    CFRetain(sampleBuffer);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        if (self.bufferDisplayer.status == AVQueuedSampleBufferRenderingStatusFailed) {
+            [self.bufferDisplayer flush];
+        }
+        
+        if ([self.bufferDisplayer isReadyForMoreMediaData]) {
+            [self.bufferDisplayer enqueueSampleBuffer:sampleBuffer];
+        }
+        
+        CFRelease(sampleBuffer);
+    });
 }
 
 #pragma -Faceunity Set EAGLContext
+static EAGLContext *mcontext;
+
 - (void)setUpContext
 {
     if(!mcontext){
@@ -333,30 +350,41 @@
 }
 
 #pragma -Faceunity Load Data
-- (void)reloadItem
+- (void)loadItem
 {
-    if (items[0] != 0) {
-        NSLog(@"faceunity: destroy item");
-        fuDestroyItem(items[0]);
-    }
+    [self setUpContext];
     
     if ([_demoBar.selectedItem isEqual: @"noitem"] || _demoBar.selectedItem == nil)
     {
+        if (items[0] != 0) {
+            NSLog(@"faceunity: destroy item");
+            fuDestroyItem(items[0]);
+        }
         items[0] = 0;
         return;
     }
     
     int size = 0;
     
-    // load selected
+    // 先创建再释放可以有效缓解切换道具卡顿问题
     void *data = [self mmap_bundle:[_demoBar.selectedItem stringByAppendingString:@".bundle"] psize:&size];
-    items[0] = fuCreateItemFromPackage(data, size);
+    
+    int itemHandle = fuCreateItemFromPackage(data, size);
+    
+    if (items[0] != 0) {
+        NSLog(@"faceunity: destroy item");
+        fuDestroyItem(items[0]);
+    }
+    
+    items[0] = itemHandle;
     
     NSLog(@"faceunity: load item");
 }
 
 - (void)loadFilter
 {
+    [self setUpContext];
+    
     int size = 0;
     
     void *data = [self mmap_bundle:@"face_beautification.bundle" psize:&size];
@@ -366,9 +394,11 @@
 
 - (void)loadHeart
 {
+    [self setUpContext];
+    
     int size = 0;
     
-    void *data = [self mmap_bundle:@"heart.bundle" psize:&size];
+    void *data = [self mmap_bundle:@"heart_v2.bundle" psize:&size];
     
     items[2] = fuCreateItemFromPackage(data, size);
 }
