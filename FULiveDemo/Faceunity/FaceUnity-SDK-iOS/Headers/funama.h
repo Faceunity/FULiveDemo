@@ -12,6 +12,8 @@
 #define FU_FORMAT_RGBA_TEXTURE 1
 /*\brief An I/O format where `ptr` points to an NV21 buffer. It matches the camera preview format on Android. */
 #define FU_FORMAT_NV21_BUFFER 2
+#define FU_FORMAT_I420_BUFFER 13
+
 /*\brief An output-only format where `out_ptr` is NULL or points to a TGLRenderingDesc structure. 
 	The result is rendered onto the current GL framebuffer no matter what `out_ptr` is.
 	If a TGLRenderingDesc is specified, we can optionally return an image to the caller in the specified format.
@@ -33,8 +35,15 @@ typedef struct{
 #define FU_ADM_FLAG_EXTERNAL_OES_TEXTURE 1
 /*\brief Indicate that the result should also be read back to p_NV21 */
 #define FU_ADM_FLAG_ENABLE_READBACK 2
-/*\brief Indicate that the input texture is a packed nv21 texture */
+/*\brief Indicate that the input texture is a packed NV21 texture */
 #define FU_ADM_FLAG_NV21_TEXTURE 4
+/*\brief Indicate that the input texture is a packed IYUV420 texture */
+#define FU_ADM_FLAG_I420_TEXTURE 8
+/*\brief Indicate that the input buffer is a packed IYUV420 buffer */
+#define FU_ADM_FLAG_I420_BUFFER 16
+
+#define FU_ADM_FALG_RGBA_BUFFER 128
+
 typedef struct{
 	void* p_NV21;//<the NV21 buffer
 	int tex;//<the texture
@@ -272,21 +281,16 @@ FUNAMA_API int fuRenderItemsEx2(
 	int w,int h,int frame_id, int* p_items,int n_items,
 	int func_flag, void* p_item_masks);
 	
-#define NAMA_RENDER_MODE_ITEM 0x0
-#define NAMA_RENDER_MODE_AVATAR 0x1
-#define NAMA_RENDER_MODE_MASK 0xf
-///
 #define NAMA_RENDER_FEATURE_TRACK_FACE 0x10
 #define NAMA_RENDER_FEATURE_BEAUTIFY_IMAGE 0x20
 #define NAMA_RENDER_FEATURE_RENDER 0x40
-#define NAMA_RENDER_FEATURE_ADDITIONAL_DETECTOR 0x80 
-#define NAMA_RENDER_FEATURE_FULL (NAMA_RENDER_FEATURE_TRACK_FACE | NAMA_RENDER_FEATURE_BEAUTIFY_IMAGE | NAMA_RENDER_FEATURE_RENDER | NAMA_RENDER_FEATURE_ADDITIONAL_DETECTOR)
+#define NAMA_RENDER_FEATURE_ADDITIONAL_DETECTOR 0x80
+#define NAMA_RENDER_FEATURE_RENDER_ITEM 0x100
+#define NAMA_RENDER_FEATURE_FULL (NAMA_RENDER_FEATURE_RENDER_ITEM | NAMA_RENDER_FEATURE_TRACK_FACE | NAMA_RENDER_FEATURE_BEAUTIFY_IMAGE | NAMA_RENDER_FEATURE_RENDER | NAMA_RENDER_FEATURE_ADDITIONAL_DETECTOR)
 #define NAMA_RENDER_FEATURE_MASK 0xff0
-///
 #define NAMA_RENDER_OPTION_FLIP_X 0x1000
 #define NAMA_RENDER_OPTION_FLIP_Y 0x2000
 #define NAMA_RENDER_OPTION_MASK 0xff000
-
 
 /**************************************************************
 The set / get functions do not make sense on their own. Refer to
@@ -388,8 +392,28 @@ FUNAMA_API void fuSetQualityTradeoff(float quality);
 */
 FUNAMA_API int fuGetFaceInfo(int face_id, char* name, float* pret, int num);
 
-//todo: documentation
+/**
+\brief Bind items to an avatar, already bound items won't be unbound
+\param avatar_item is the avatar item handle
+\param p_items points to a list of item handles to be bound to the avatar
+\param n_items is the number of item handles in p_items
+\param p_contracts points to a list of contract handles for authorizing items
+\param n_contracts is the number of contract handles in p_contracts
+\return the number of items newly bound to the avatar
+*/
 FUNAMA_API int fuAvatarBindItems(int avatar_item, int* p_items,int n_items, int* p_contracts,int n_contracts);
+/**
+\brief Unbind items from an avatar
+\param avatar_item is the avatar item handle
+\param p_items points to a list of item handles to be unbound from the avatar
+\param n_items is the number of item handles in p_items
+\return the number of items unbound from the avatar
+*/
+FUNAMA_API int fuAvatarUnbindItems(int avatar_item, int* p_items,int n_items);
+
+//
+FUNAMA_API int fuBindItems(int item_src, int* p_items,int n_items);
+FUNAMA_API int fuUnbindAllItems(int item_src);
 
 /**
 \brief Get SDK version string
