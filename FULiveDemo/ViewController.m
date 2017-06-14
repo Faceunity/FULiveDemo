@@ -85,7 +85,7 @@
     });
     
     //开启多脸识别（最高可设为8，不过考虑到性能问题建议设为4以内）
-    [FURenderer setMaxFaces:4];
+//    [FURenderer setMaxFaces:4];
     
     [self loadItem];
     [self loadFilter];
@@ -285,9 +285,11 @@
 #pragma -FUCameraDelegate
 - (void)didOutputVideoSampleBuffer:(CMSampleBufferRef)sampleBuffer
 {
-    if ([UIApplication sharedApplication].applicationState != UIApplicationStateActive) {
-        return;
-    }
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        if ([UIApplication sharedApplication].applicationState != UIApplicationStateActive) {
+            return;
+        }
+    });
     
     //人脸跟踪
     int curTrack = [FURenderer isTracking];
