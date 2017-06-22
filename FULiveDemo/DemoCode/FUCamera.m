@@ -27,7 +27,6 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) AVCaptureDevice *camera;
 
 @property (assign, nonatomic) AVCaptureDevicePosition cameraPosition;
-@property (assign, nonatomic) int captureFormat;
 
 @end
 
@@ -49,10 +48,6 @@ typedef enum : NSUInteger {
         self.captureFormat = kCVPixelFormatType_32BGRA;
     }
     return self;
-}
-
-- (void)startUp{
-    [self startCapture];
 }
 
 - (void)startCapture{
@@ -167,7 +162,7 @@ typedef enum : NSUInteger {
     if (self.videoConnection.supportsVideoMirroring) {
         self.videoConnection.videoMirrored = isFront;
     }
-    //[self.captureSession startRunning];
+    [self.captureSession startRunning];
 }
 
 //用来返回是前置摄像头还是后置摄像头
@@ -223,6 +218,21 @@ typedef enum : NSUInteger {
     _videoConnection.automaticallyAdjustsVideoMirroring =  NO;
     
     return _videoConnection;
+}
+
+//设置采集格式
+- (void)setCaptureFormat:(int)captureFormat
+{
+    if (_captureFormat == captureFormat) {
+        return;
+    }
+    
+    _captureFormat = captureFormat;
+    
+    if (((NSNumber *)[[_videoOutput videoSettings] objectForKey:(id)kCVPixelBufferPixelFormatTypeKey]).intValue != captureFormat) {
+        
+        [_videoOutput setVideoSettings:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:_captureFormat] forKey:(id)kCVPixelBufferPixelFormatTypeKey]];
+    }
 }
 
 - (BOOL)isFrontCamera

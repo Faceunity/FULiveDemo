@@ -23,14 +23,10 @@
     int frameID;
     
     // --------------- Faceunity ----------------
-    
-    FUCamera *curCamera;
 }
 @property (weak, nonatomic) IBOutlet FUAPIDemoBar *demoBar;//工具条
 
-@property (nonatomic, strong) FUCamera *bgraCamera;//BGRA摄像头
-
-@property (nonatomic, strong) FUCamera *yuvCamera;//YUV摄像头
+@property (nonatomic, strong) FUCamera *mCamera;//摄像头
 
 @property (nonatomic, strong) AVSampleBufferDisplayLayer *bufferDisplayer;
 
@@ -60,8 +56,7 @@
     
     [self initFaceunity];
     
-    curCamera = self.bgraCamera;
-    [curCamera startUp];
+    [self.mCamera startCapture];
     
     self.bufferDisplayer.frame = self.view.bounds;
 }
@@ -82,9 +77,11 @@
         [[FURenderer shareRenderer] setupWithData:v3 ardata:NULL authPackage:&g_auth_package authSize:sizeof(g_auth_package) shouldCreateContext:YES];
         
     });
-    
-    //开启多脸识别（最高可设为8，不过考虑到性能问题建议设为4以内）
-//    [FURenderer setMaxFaces:4];
+
+    #warning 开启多脸识别（最高可设为8，不过考虑到性能问题建议设为4以内）
+    /*
+    [FURenderer setMaxFaces:4];
+    */
     
     [self loadItem];
     [self loadFilter];
@@ -141,29 +138,17 @@
     _demoBar.delegate = self;
 }
 
-//bgra摄像头
-- (FUCamera *)bgraCamera
+//摄像头
+- (FUCamera *)mCamera
 {
-    if (!_bgraCamera) {
-        _bgraCamera = [[FUCamera alloc] init];
+    if (!_mCamera) {
+        _mCamera = [[FUCamera alloc] init];
         
-        _bgraCamera.delegate = self;
+        _mCamera.delegate = self;
         
     }
     
-    return _bgraCamera;
-}
-
-//yuv摄像头
-- (FUCamera *)yuvCamera
-{
-    if (!_yuvCamera) {
-        _yuvCamera = [[FUCamera alloc] initWithCameraPosition:AVCaptureDevicePositionFront captureFormat:kCVPixelFormatType_420YpCbCr8BiPlanarFullRange];
-        
-        _yuvCamera.delegate = self;
-    }
-    
-    return _yuvCamera;
+    return _mCamera;
 }
 
 //显示摄像头画面
@@ -183,14 +168,14 @@
 - (void)willResignActive
 {
     
-    [curCamera stopCapture];
+    [_mCamera stopCapture];
     
 }
 
 - (void)willEnterForeground
 {
     
-    [curCamera startCapture];
+    [_mCamera startCapture];
 }
 
 - (void)didBecomeActive
@@ -200,7 +185,7 @@
         firstActive = NO;
         return;
     }
-    [curCamera startCapture];
+    [_mCamera startCapture];
 }
 
 //拍照
@@ -223,7 +208,7 @@
         }];
     }];
     
-    [curCamera takePhotoAndSave];
+    [_mCamera takePhotoAndSave];
 }
 
 #pragma -显示工具栏
@@ -253,9 +238,7 @@
 #pragma -摄像头切换
 - (IBAction)changeCamera:(UIButton *)sender {
     
-    [self.bgraCamera changeCameraInputDeviceisFront:!self.bgraCamera.isFrontCamera];
-    [self.yuvCamera changeCameraInputDeviceisFront:!self.yuvCamera.isFrontCamera];
-    [curCamera startCapture];
+    [_mCamera changeCameraInputDeviceisFront:!_mCamera.isFrontCamera];
     
 #warning 切换摄像头要调用此函数
     [FURenderer onCameraChange];
@@ -263,16 +246,9 @@
 
 #pragma -BGRA/YUV切换
 - (IBAction)changeCaptureFormat:(UISegmentedControl *)sender {
-    if (sender.selectedSegmentIndex == 0 && curCamera == self.yuvCamera)
-    {
-        [curCamera stopCapture];
-        curCamera = self.bgraCamera;
-    }else if (sender.selectedSegmentIndex == 1 && curCamera == self.bgraCamera){
-        [curCamera stopCapture];
-        curCamera = self.yuvCamera;
-    }
-    [curCamera startCapture];
     
+    _mCamera.captureFormat = _mCamera.captureFormat == kCVPixelFormatType_32BGRA ? kCVPixelFormatType_420YpCbCr8BiPlanarFullRange:kCVPixelFormatType_32BGRA;
+
 }
 
 #pragma -FUAPIDemoBarDelegate
