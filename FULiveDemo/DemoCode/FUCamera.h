@@ -18,11 +18,10 @@
 @interface FUCamera : NSObject
 @property (nonatomic, assign) id<FUCameraDelegate> delegate;
 @property (nonatomic, assign, readonly) BOOL isFrontCamera;
+@property (assign, nonatomic) int captureFormat; //采集格式
 @property (copy  , nonatomic) dispatch_queue_t  captureQueue;//录制的队列
 
 - (instancetype)initWithCameraPosition:(AVCaptureDevicePosition)cameraPosition captureFormat:(int)captureFormat;
-
-- (void)startUp;
 
 - (void)startCapture;
 
