@@ -262,7 +262,6 @@ typedef enum : NSUInteger {
             }
         }
             break;
-
         default:
             break;
     }

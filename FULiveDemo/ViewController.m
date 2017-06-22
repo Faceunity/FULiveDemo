@@ -59,6 +59,7 @@
     [self.mCamera startCapture];
     
     self.bufferDisplayer.frame = self.view.bounds;
+    
 }
 
 - (void)initFaceunity
@@ -77,7 +78,7 @@
         [[FURenderer shareRenderer] setupWithData:v3 ardata:NULL authPackage:&g_auth_package authSize:sizeof(g_auth_package) shouldCreateContext:YES];
         
     });
-
+    
     #warning 开启多脸识别（最高可设为8，不过考虑到性能问题建议设为4以内）
     /*
     [FURenderer setMaxFaces:4];
@@ -95,7 +96,6 @@
     for (int i = 0; i < sizeof(items) / sizeof(int); i++) {
         items[i] = 0;
     }
-    
 }
 
 - (void)dealloc
@@ -266,6 +266,7 @@
             return;
         }
     });
+    
     //人脸跟踪
     int curTrack = [FURenderer isTracking];
     dispatch_async(dispatch_get_main_queue(), ^{

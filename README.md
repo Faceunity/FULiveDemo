@@ -185,11 +185,6 @@ CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
     //Faceunity核心接口，将道具及美颜效果作用到图像中，执行完此函数pixelBuffer即包含美颜及贴纸效果
     CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
     
-<<<<<<< HEAD
-}
-```
-
-=======
     [[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:3 flipx:YES];//flipx 参数设为YES可以使道具做水平方向的镜像翻转
     frameID += 1;
     
@@ -241,14 +236,10 @@ CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
 ```
 这里需要注意的是，以上两个接口都需要和fuCreateItemFromPackage在同一个context线程上调用
 
->>>>>>> dev
 ## 视频美颜
 美颜功能实现步骤与道具类似，首先加载美颜道具，并将fuCreateItemFromPackage返回的美颜道具handle保存下来:
   
 ```C
-<<<<<<< HEAD
-g_items[1] = fuCreateItemFromPackage(g_res_zip, (int)g_res_size);
-=======
 - (void)loadFilter
 {
     
@@ -258,17 +249,12 @@ g_items[1] = fuCreateItemFromPackage(g_res_zip, (int)g_res_size);
     
     items[1] = [FURenderer createItemFromPackage:data size:size];
 }
->>>>>>> dev
 ```
 
 之后，将该handle和其他需要绘制的道具一起传入绘制接口即可。注意 fuRenderItems() 最后一个参数为所绘制的道具数量，这里以一个普通道具和一个美颜道具一起绘制为例。加载美颜道具后不需设置任何参数，即可启用默认设置的美颜的效果。
 
 ```C
-<<<<<<< HEAD
-fuRenderItems(0, img, w, h, g_frame_id, g_items, 2);
-=======
 [[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:2 flipx:YES];
->>>>>>> dev
 ```
 
 美颜道具主要包含五个模块的内容，滤镜，美白和红润，磨皮，美型。每个模块可以调节的参数如下。
@@ -282,13 +268,8 @@ fuRenderItems(0, img, w, h, g_frame_id, g_items, 2);
 
 其中 "nature" 作为默认的美白滤镜，其他滤镜属于风格化滤镜。滤镜由参数 filter_name 指定。切换滤镜时，通过 fuItemSetParams 设置美颜道具的参数，如：
 ```C
-<<<<<<< HEAD
-//  Set item parameters - filter
-fuItemSetParams(g_items[1], "filter_name", "nature");
-=======
 //  Set item parameters - filter
 [FURenderer itemSetParam:items[1] withName:@"filter_name" value:@"nature"];
->>>>>>> dev
 ```
 
 #### 美白和红润
@@ -298,13 +279,8 @@ fuItemSetParams(g_items[1], "filter_name", "nature");
 设置参数的例子代码如下：
 
 ```C
-<<<<<<< HEAD
-//  Set item parameters - whiten
-fuItemSetParamd(g_items[1], "color_level", 0.5);
-=======
 //  Set item parameters - whiten
 [FURenderer itemSetParam:items[1] withName:@"color_level" value:@(0.5)];
->>>>>>> dev
 ```
 
 新版美颜新增红润调整功能。参数名为 red_level 来控制红润程度。使用方法基本与美白效果一样。该参数的推荐取值范围为[0, 1]，0为无效果，0.5为默认效果，大于1为继续增强效果。
@@ -320,19 +296,11 @@ fuItemSetParamd(g_items[1], "color_level", 0.5);
 设置参数的例子代码如下：
 
 ```C
-<<<<<<< HEAD
-//  Set item parameters - blur
-fuItemSetParamd(g_items[1], "blur_level", 6.0);
-
-//  Set item parameters - use old blur
-fuItemSetParamd(g_items[1], "use_old_blur", 1.0);
-=======
 //  Set item parameters - blur
 [FURenderer itemSetParam:items[1] withName:@"blur_level" value:@(6.0)];
 
 //  Set item parameters - use old blur
 [FURenderer itemSetParam:items[1] withName:@"use_old_blur" value:@(1.0)];
->>>>>>> dev
 ```
 
 #### 美型
@@ -340,13 +308,8 @@ fuItemSetParamd(g_items[1], "use_old_blur", 1.0);
 目前我们支持四种基本脸型：女神、网红、自然、默认。由参数 face_shape 指定：默认（3）、女神（0）、网红（1）、自然（2）。
 
 ```C
-<<<<<<< HEAD
-//  Set item parameters - shaping
-fuItemSetParamd(g_items[1], "face_shape", 3);
-=======
 //  Set item parameters - shaping
 [FURenderer itemSetParam:items[1] withName:@"face_shape" value:@(3.0)];
->>>>>>> dev
 ```
 
 在上述四种基本脸型的基础上，我们提供了以下三个参数：face_shape_level、eye_enlarging、cheek_thinning。
@@ -356,37 +319,22 @@ fuItemSetParamd(g_items[1], "face_shape", 3);
 若要关闭美型，可将 face_shape_level 设置为0。
 
 ```C
-<<<<<<< HEAD
-//  Set item parameters - shaping level
-fuItemSetParamd(g_items[1], "face_shape_level", 1.0);
-=======
 //  Set item parameters - shaping level
 [FURenderer itemSetParam:items[1] withName:@"face_shape_level" value:@(1.0)];
->>>>>>> dev
 ```
 
 参数 eye_enlarging 用以控制眼睛大小。此参数受参数 face_shape_level 影响。该参数的推荐取值范围为[0, 1]。大于1为继续增强效果。
 
 ```C
-<<<<<<< HEAD
-//  Set item parameters - eye enlarging level
-fuItemSetParamd(g_items[1], "eye_enlarging", 1.0);
-=======
 //  Set item parameters - eye enlarging level
 [FURenderer itemSetParam:items[1] withName:@"eye_enlarging" value:@(1.0)];
->>>>>>> dev
 ```
 
 参数 cheek_thinning 用以控制脸大小。此参数受参数 face_shape_level 影响。该参数的推荐取值范围为[0, 1]。大于1为继续增强效果。
 
 ```C
-<<<<<<< HEAD
-//  Set item parameters - cheek thinning level
-fuItemSetParamd(g_items[1], "cheek_thinning", 1.0);
-=======
 //  Set item parameters - cheek thinning level
 [FURenderer itemSetParam:items[1] withName:@"cheek_thinning" value:@(1.0)];
->>>>>>> dev
 ```
 
 #### 平台相关

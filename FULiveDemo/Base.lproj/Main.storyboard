@@ -55,9 +55,7 @@
                                 <state key="selected" image="camera_btn_camera_heighted"/>
                                 <state key="highlighted" image="camera_btn_camera_heighted"/>
                                 <connections>
-                                    
                                     <action selector="takePhoto" destination="BYZ-38-t0r" eventType="touchUpInside" id="m7O-nT-UUJ"/>
-
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="usO-GM-0FD">
