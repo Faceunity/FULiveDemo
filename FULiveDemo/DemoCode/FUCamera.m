@@ -18,6 +18,8 @@ typedef enum : NSUInteger {
 @interface FUCamera()<AVCaptureVideoDataOutputSampleBufferDelegate,AVCaptureAudioDataOutputSampleBufferDelegate>
 {
     RunMode runMode;
+    
+    BOOL hasStarted;
 }
 @property (nonatomic, strong) AVCaptureSession *captureSession;
 @property (strong, nonatomic) AVCaptureDeviceInput       *backCameraInput;//后置摄像头输入
@@ -51,13 +53,14 @@ typedef enum : NSUInteger {
 }
 
 - (void)startCapture{
-    if (![self.captureSession isRunning]) {
+    if (![self.captureSession isRunning] && !hasStarted) {
+        hasStarted = YES;
         [self.captureSession startRunning];
     }
-
 }
 
 - (void)stopCapture{
+    hasStarted = NO;
     if ([self.captureSession isRunning]) {
         [self.captureSession stopRunning];
     }
