@@ -8,12 +8,15 @@
 
 #import "FUCamera.h"
 #import <UIKit/UIKit.h>
+#import "FURecordEncoder.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 
 typedef enum : NSUInteger {
     CommonMode,
-    PhotoTakeMode
+    PhotoTakeMode,
+    VideoRecordMode,
 } RunMode;
+
 
 @interface FUCamera()<AVCaptureVideoDataOutputSampleBufferDelegate,AVCaptureAudioDataOutputSampleBufferDelegate>
 {
@@ -30,6 +33,7 @@ typedef enum : NSUInteger {
 
 @property (assign, nonatomic) AVCaptureDevicePosition cameraPosition;
 
+@property (strong, nonatomic) FURecordEncoder           *recordEncoder;//录制编码
 @end
 
 @implementation FUCamera
@@ -265,6 +269,30 @@ typedef enum : NSUInteger {
             }
         }
             break;
+            
+        case VideoRecordMode:
+            if (self.recordEncoder == nil) {
+                
+                NSDate *currentDate = [NSDate date];//获取当前时间，日期
+                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                [dateFormatter setDateFormat:@"YYYYMMddhhmmssSS"];
+                NSString *dateString = [dateFormatter stringFromDate:currentDate];
+                NSString *videoPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.mp4",dateString]];
+                
+                CVPixelBufferRef buffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+                float frameWidth = CVPixelBufferGetWidth(buffer);
+                float frameHeight = CVPixelBufferGetHeight(buffer);
+                
+                if (frameWidth != 0 && frameHeight != 0) {
+                    
+                    self.recordEncoder = [FURecordEncoder encoderForPath:videoPath Height:frameHeight width:frameWidth];
+                }
+            }
+            CFRetain(sampleBuffer);
+            // 进行数据编码
+            [self.recordEncoder encodeFrame:sampleBuffer];
+            CFRelease(sampleBuffer);
+            break;
         default:
             break;
     }
@@ -273,6 +301,37 @@ typedef enum : NSUInteger {
 - (void)takePhotoAndSave
 {
     runMode = PhotoTakeMode;
+}
+
+//开始录像
+- (void)startRecord
+{
+    runMode = VideoRecordMode;
+}
+
+//停止录像
+- (void)stopRecord
+{
+    runMode = CommonMode;
+    dispatch_async(self.captureQueue, ^{
+        runMode = CommonMode;
+        if (self.recordEncoder.writer.status == AVAssetWriterStatusUnknown) {
+            self.recordEncoder = nil;
+        }else{
+            
+            [self.recordEncoder finishWithCompletionHandler:^{
+                
+                NSString *path = self.recordEncoder.path;
+                self.recordEncoder = nil;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    UISaveVideoAtPathToSavedPhotosAlbum(path, self, @selector(video:didFinishSavingWithError:contextInfo:), NULL);
+                });
+                
+            }];
+            
+        }
+        
+    });
 }
 
 - (UIImage *)imageFromPixelBuffer:(CVPixelBufferRef)pixelBufferRef {
@@ -322,6 +381,16 @@ typedef enum : NSUInteger {
         [SVProgressHUD showErrorWithStatus:@"保存图片失败"];
     }else{
         [SVProgressHUD showSuccessWithStatus:@"图片已保存到相册"];
+    }
+}
+
+- (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
+{
+    if(error != NULL){
+        [SVProgressHUD showErrorWithStatus:@"保存视频失败"];
+        
+    }else{
+        [SVProgressHUD showSuccessWithStatus:@"视频已保存到相册"];
     }
 }
 

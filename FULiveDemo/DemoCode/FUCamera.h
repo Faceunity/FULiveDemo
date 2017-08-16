@@ -31,4 +31,8 @@
 
 - (void)takePhotoAndSave;
 
+- (void)startRecord;
+
+- (void)stopRecord;
+
 @end
