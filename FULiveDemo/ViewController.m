@@ -44,7 +44,7 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *changeCameraBtn;
 
-@property (weak, nonatomic) IBOutlet FUOpenGLView *glView;
+@property (weak, nonatomic) IBOutlet FUOpenGLView *landmarksGlView;
 
 @end
 
@@ -72,7 +72,7 @@
     
     self.bufferDisplayer.frame = self.view.bounds;
     
-    self.glView.hidden = NO;
+    self.landmarksGlView.hidden = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -319,6 +319,12 @@
             /**为避免道具句柄被销毁会后仍被使用导致程序出错，这里需要将存放道具句柄的items[0]设为0*/
             items[0] = 0;
         }
+        
+        isAvatar = NO;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.landmarksGlView.hidden = !isAvatar;
+        });
+        
         return;
     }
     
@@ -331,26 +337,24 @@
 {
     CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
     
-    if (isAvatar)/**avatar绘制模式*/
+    if (isAvatar)
     {
-        [self renderAvatarToPixelBuffer:pixelBuffer];
+        [self displayLandmarksWithPixelBuffer:pixelBuffer];
     }
-    else/**普通模式*/
-    {
-        /*设置美颜效果（滤镜、磨皮、美白、红润、瘦脸、大眼....）*/
-        [FURenderer itemSetParam:items[1] withName:@"filter_name" value:_demoBar.selectedFilter]; //滤镜名称
-        [FURenderer itemSetParam:items[1] withName:@"blur_level" value:@(self.demoBar.selectedBlur)]; //磨皮 (0、1、2、3、4、5、6)
-        [FURenderer itemSetParam:items[1] withName:@"color_level" value:@(self.demoBar.beautyLevel)]; //美白 (0~1)
-        [FURenderer itemSetParam:items[1] withName:@"red_level" value:@(self.demoBar.redLevel)]; //红润 (0~1)
-        [FURenderer itemSetParam:items[1] withName:@"face_shape" value:@(self.demoBar.faceShape)]; //美型类型 (0、1、2、3) 默认：3，女神：0，网红：1，自然：2
-        [FURenderer itemSetParam:items[1] withName:@"face_shape_level" value:@(self.demoBar.faceShapeLevel)]; //美型等级 (0~1)
-        [FURenderer itemSetParam:items[1] withName:@"eye_enlarging" value:@(self.demoBar.enlargingLevel)]; //大眼 (0~1)
-        [FURenderer itemSetParam:items[1] withName:@"cheek_thinning" value:@(self.demoBar.thinningLevel)]; //瘦脸 (0~1)
-        
-        /*Faceunity核心接口，将道具及美颜效果绘制到pixelBuffer中，执行完此函数后pixelBuffer即包含美颜及贴纸效果*/
-        [[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:3 flipx:YES];//flipx 参数设为YES可以使道具做水平方向的镜像翻转
-        frameID += 1;
-    }
+    
+    /*设置美颜效果（滤镜、磨皮、美白、红润、瘦脸、大眼....）*/
+    [FURenderer itemSetParam:items[1] withName:@"filter_name" value:_demoBar.selectedFilter]; //滤镜名称
+    [FURenderer itemSetParam:items[1] withName:@"blur_level" value:@(self.demoBar.selectedBlur)]; //磨皮 (0、1、2、3、4、5、6)
+    [FURenderer itemSetParam:items[1] withName:@"color_level" value:@(self.demoBar.beautyLevel)]; //美白 (0~1)
+    [FURenderer itemSetParam:items[1] withName:@"red_level" value:@(self.demoBar.redLevel)]; //红润 (0~1)
+    [FURenderer itemSetParam:items[1] withName:@"face_shape" value:@(self.demoBar.faceShape)]; //美型类型 (0、1、2、3) 默认：3，女神：0，网红：1，自然：2
+    [FURenderer itemSetParam:items[1] withName:@"face_shape_level" value:@(self.demoBar.faceShapeLevel)]; //美型等级 (0~1)
+    [FURenderer itemSetParam:items[1] withName:@"eye_enlarging" value:@(self.demoBar.enlargingLevel)]; //大眼 (0~1)
+    [FURenderer itemSetParam:items[1] withName:@"cheek_thinning" value:@(self.demoBar.thinningLevel)]; //瘦脸 (0~1)
+    
+    /*Faceunity核心接口，将道具及美颜效果绘制到pixelBuffer中，执行完此函数后pixelBuffer即包含美颜及贴纸效果*/
+    [[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:3 flipx:YES];//flipx 参数设为YES可以使道具做水平方向的镜像翻转
+    frameID += 1;
     
     /**执行完上一步骤，即可将pixelBuffer绘制到屏幕上或推流到服务器进行直播
      由于我们直接修改了pixelBuffer，相当于sampleBuffer也被修改了，下面我们直接通过sampleBuffer进行本地预览*/
@@ -363,9 +367,7 @@
     });
 }
 
-/**
- 画面预览
- */
+/**画面预览*/
 - (void)disPlaySampleBuffer:(CMSampleBufferRef)sampleBuffer
 {
     CFRetain(sampleBuffer);
@@ -384,13 +386,13 @@
 }
 
 /**
- avatar模式绘制方法
+ 显示lanmarks预览
  */
-- (void)renderAvatarToPixelBuffer:(CVPixelBufferRef)pixelBuffer
+- (void)displayLandmarksWithPixelBuffer:(CVPixelBufferRef)pixelBuffer
 {
     OSType type = CVPixelBufferGetPixelFormatType(pixelBuffer);
-    CVPixelBufferLockBaseAddress(pixelBuffer, 0);
     
+    CVPixelBufferLockBaseAddress(pixelBuffer, 0);
     if (type == kCVPixelFormatType_32BGRA)
     {
         int h = (int)CVPixelBufferGetHeight(pixelBuffer);
@@ -398,14 +400,6 @@
         int* bytes = (int*)CVPixelBufferGetBaseAddress(pixelBuffer);
         
         [FURenderer trackFace:FU_FORMAT_BGRA_BUFFER inputData:bytes width:stride / 4 height:h];
-    
-        [self displayLandmarksWithPixelBuffer:pixelBuffer];
-        
-        [self getAvatarInfo:^(TAvatarInfo info) {
-            [[FURenderer shareRenderer] setUpCurrentContext];
-            fuRenderItemsEx(FU_FORMAT_BGRA_BUFFER, bytes, FU_FORMAT_AVATAR_INFO, &info, stride / 4, h, frameID, items, 1);
-            [[FURenderer shareRenderer] setBackCurrentContext];
-        }];
         
     }else{
         
@@ -424,24 +418,9 @@
         
         [FURenderer trackFace:FU_FORMAT_NV12_BUFFER inputData:&nv12 width:w height:h];
         
-        [self displayLandmarksWithPixelBuffer:pixelBuffer];
-        
-        [self getAvatarInfo:^(TAvatarInfo info) {
-            [[FURenderer shareRenderer] setUpCurrentContext];
-            fuRenderItemsEx(FU_FORMAT_NV12_BUFFER, &nv12, FU_FORMAT_AVATAR_INFO, &info, w, h, frameID, items, 1);
-            [[FURenderer shareRenderer] setBackCurrentContext];
-        }];
-        
     }
-    frameID += 1;
     CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
-}
-
-/**
- 显示lanmarks预览
- */
-- (void)displayLandmarksWithPixelBuffer:(CVPixelBufferRef)pixelBuffer
-{
+    
     float landmarks[150];
     int ret = fuGetFaceInfo(0, "landmarks", landmarks, 150);
     
@@ -449,49 +428,7 @@
         memset(landmarks, 0, sizeof(float)*150);
     }
     
-    [self.glView displayPixelBuffer:pixelBuffer withLandmarks:landmarks count:150];
-}
-
-/**
- 获取人脸信息
- */
-- (void)getAvatarInfo:(void (^)(TAvatarInfo info))result
-{
-    float expression[46];
-    if (fuGetFaceInfo(0, "expression", expression, 46) == 0)
-    {
-        memset(expression, 0, sizeof(float)*46);
-    }
-    
-    float translation[3];
-    if (fuGetFaceInfo(0, "translation", translation, 3) == 0 ){
-        memset(translation, 0, sizeof(float)*3);
-    }
-    
-    float rotation[4];
-    if (fuGetFaceInfo(0, "rotation", rotation, 4) == 0 ){
-        memset(rotation, 0, sizeof(float)*4);
-    }
-    
-    float rotation_mode[1];
-    if (fuGetFaceInfo(0, "rotation_mode", rotation_mode, 1) == 0 ){
-        memset(rotation_mode, 0, sizeof(float)*1);
-    }
-    
-    float pupil_pos[2];
-    if (fuGetFaceInfo(0, "pupil_pos", pupil_pos, 2) == 0 ){
-        memset(pupil_pos, 0, sizeof(float)*2);
-    }
-    
-    TAvatarInfo info;
-    info.p_rotation = rotation;
-    info.p_expression = expression;
-    info.rotation_mode = rotation_mode;
-    info.p_translation = translation;
-    info.pupil_pos = pupil_pos;
-    info.is_valid = fuIsTracking();
-
-    result(info);
+    [self.landmarksGlView displayPixelBuffer:pixelBuffer withLandmarks:landmarks count:150];
 }
 
 #pragma -Faceunity Load Data
@@ -519,10 +456,10 @@
     NSLog(@"faceunity: load item");
     
     isAvatar = [itemName isEqualToString:@"lixiaolong"];
-    
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.glView.hidden = !isAvatar;
+        self.landmarksGlView.hidden = !isAvatar;
     });
+    
 }
 
 /**加载美颜道具*/

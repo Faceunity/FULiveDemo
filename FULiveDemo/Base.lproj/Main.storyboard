@@ -40,7 +40,7 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="4JB-yh-kQZ">
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="4JB-yh-kQZ">
                                 <rect key="frame" x="16" y="33.5" width="101" height="29"/>
                                 <segments>
                                     <segment title="BGRA"/>
@@ -104,7 +104,7 @@
                         <outlet property="barBtn" destination="usO-GM-0FD" id="V0F-4M-jUJ"/>
                         <outlet property="changeCameraBtn" destination="SBT-Gd-3MN" id="HQx-q8-QKq"/>
                         <outlet property="demoBar" destination="fEb-dE-FKO" id="dKl-5p-I3f"/>
-                        <outlet property="glView" destination="ZgK-CZ-Gr6" id="99O-dX-9Vr"/>
+                        <outlet property="landmarksGlView" destination="ZgK-CZ-Gr6" id="Yp9-D6-BHU"/>
                         <outlet property="noTrackView" destination="YWw-73-tqa" id="rCd-rf-VLM"/>
                         <outlet property="photoBtn" destination="jSw-MV-hvv" id="rNI-E8-Uzk"/>
                         <outlet property="segment" destination="4JB-yh-kQZ" id="Wco-U4-1rz"/>
