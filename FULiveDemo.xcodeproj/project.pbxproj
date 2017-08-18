@@ -20,6 +20,7 @@
 		CD3C58AB1E779D6B004FA2E0 /* face_beautification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD3C58A81E779D6B004FA2E0 /* face_beautification.bundle */; };
 		CD3C58AC1E779D6B004FA2E0 /* v3.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD3C58A91E779D6B004FA2E0 /* v3.bundle */; };
 		CD6157171E5696220083EF33 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6157151E56957A0083EF33 /* Accelerate.framework */; };
+		CD6BB0691F46B815006E4B4C /* FUManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6BB0681F46B815006E4B4C /* FUManager.m */; };
 		CDDF6C891F42A4EC003E100A /* FUOpenGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDDF6C881F42A4EC003E100A /* FUOpenGLView.m */; };
 		E90D04E91F3185670095E054 /* CircleProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = E90D04E21F3185670095E054 /* CircleProgressView.m */; };
 		E90D04EA1F3185670095E054 /* FUCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = E90D04E41F3185670095E054 /* FUCamera.m */; };
@@ -69,6 +70,8 @@
 		CD3C58A81E779D6B004FA2E0 /* face_beautification.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = face_beautification.bundle; sourceTree = "<group>"; };
 		CD3C58A91E779D6B004FA2E0 /* v3.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = v3.bundle; sourceTree = "<group>"; };
 		CD6157151E56957A0083EF33 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		CD6BB0671F46B815006E4B4C /* FUManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUManager.h; sourceTree = "<group>"; };
+		CD6BB0681F46B815006E4B4C /* FUManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUManager.m; sourceTree = "<group>"; };
 		CDDF6C871F42A4EC003E100A /* FUOpenGLView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUOpenGLView.h; sourceTree = "<group>"; };
 		CDDF6C881F42A4EC003E100A /* FUOpenGLView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUOpenGLView.m; sourceTree = "<group>"; };
 		D8F03B76C701D6E9FC815193 /* libPods-FULiveDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FULiveDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -203,6 +206,8 @@
 				E90D04E81F3185670095E054 /* PhotoButton.m */,
 				CDDF6C871F42A4EC003E100A /* FUOpenGLView.h */,
 				CDDF6C881F42A4EC003E100A /* FUOpenGLView.m */,
+				CD6BB0671F46B815006E4B4C /* FUManager.h */,
+				CD6BB0681F46B815006E4B4C /* FUManager.m */,
 			);
 			path = DemoCode;
 			sourceTree = "<group>";
@@ -372,6 +377,7 @@
 			files = (
 				E90D04E91F3185670095E054 /* CircleProgressView.m in Sources */,
 				CD3383921EB1EAA40022D1A8 /* ViewController.m in Sources */,
+				CD6BB0691F46B815006E4B4C /* FUManager.m in Sources */,
 				CD2E16E11E52AE0100A2C2A4 /* AppDelegate.m in Sources */,
 				CD2E16DE1E52AE0100A2C2A4 /* main.m in Sources */,
 				E90D04EB1F3185670095E054 /* FURecordEncoder.m in Sources */,
