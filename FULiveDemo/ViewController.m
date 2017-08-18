@@ -127,6 +127,7 @@
 - (void)setDemoBar:(FUAPIDemoBar *)demoBar
 {
     _demoBar = demoBar;
+    _demoBar.delegate = self;
     
     _demoBar.itemsDataSource = @[@"noitem", @"yuguan", @"yazui", @"mask_matianyu", @"lixiaolong", @"EatRabbi", @"Mood"];
     _demoBar.selectedItem = _demoBar.itemsDataSource[1]; //贴纸道具
@@ -148,7 +149,7 @@
     
     _demoBar.faceShape = 3; //美型类型
     
-    _demoBar.delegate = self;
+    [self syncBeautyParams];
 }
 
 -(void)takePhoto {
@@ -245,6 +246,11 @@
 /**设置美颜参数*/
 - (void)demoBarBeautyParamChanged
 {
+    [self syncBeautyParams];
+}
+
+- (void)syncBeautyParams
+{
     [FUManager shareManager].selectedFilter = _demoBar.selectedFilter;
     [FUManager shareManager].selectedBlur = _demoBar.selectedBlur;
     [FUManager shareManager].beautyLevel = _demoBar.beautyLevel;
@@ -253,7 +259,6 @@
     [FUManager shareManager].faceShapeLevel = _demoBar.faceShapeLevel;
     [FUManager shareManager].thinningLevel = _demoBar.thinningLevel;
     [FUManager shareManager].enlargingLevel = _demoBar.enlargingLevel;
-    
 }
 
 #pragma -FUCameraDelegate
