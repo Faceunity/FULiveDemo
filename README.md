@@ -2,7 +2,7 @@
 
 FULiveDemo 是集成了 Faceunity 面部跟踪和虚拟道具及手势识别功能的Demo。
 
-##下载SDK
+## 下载SDK
 
 您可以在github下载iOS端Demo: [FULiveDemo](https://github.com/Faceunity/FULiveDemo/)，解压后得到一个FULiveDemo文件夹。根据路径"FULiveDemo/FULiveDemo/Faceunity/"找到Faceunity文件夹，该文件夹所包含的文件即是集成我们SDK所需的文件。目录结构截图如下：
 
@@ -36,17 +36,17 @@ FULiveDemo 是集成了 Faceunity 面部跟踪和虚拟道具及手势识别功�
 
 注：这些数据文件都是二进制数据，与扩展名无关。实际在app中使用时，打包在程序内或者从网络接口下载这些数据都是可行的，只要在相应的函数接口传入正确的文件路径即可。
 
-##Xcode工程设置
+## Xcode工程设置
 
-###一、支持平台
+### 一、支持平台
 
     iOS 8.0以上系统
   
-###二、开发环境
+### 二、开发环境
 
     Xcode 8或更高版本
     
-###三、Xcode工程设置
+### 三、Xcode工程设置
 
 首先，将下载的Faceunity文件夹拖入到项目中，并勾选上 Copy items if needed，如图：
 
@@ -59,13 +59,13 @@ FULiveDemo 是集成了 Faceunity 面部跟踪和虚拟道具及手势识别功�
 ![](./screenshots/picture3.png)
 
 
-##初始化
+## 初始化
 
-###一、获取证书
+### 一、获取证书
 
 您需要拥有我司颁发的证书才能使用我们的SDK的功能，获取证书方法：1、拨打电话 **0571-88069272** 2、发送邮件至 **marketing@faceunity.com** 进行咨询。
 
-###二、初始化FURenderer
+### 二、初始化FURenderer
 
 初始化接口：
 
@@ -171,7 +171,7 @@ frameID += 1;
 
 ### 三、道具销毁与切换：
 
-####销毁单个道具：
+#### 销毁单个道具：
 
 ```C
 /**
@@ -193,7 +193,7 @@ if (items[0] != 0) {
 items[0] = 0;
 ```
 
-####销毁全部道具：
+#### 销毁全部道具：
 
 ```C
 /**
@@ -213,7 +213,7 @@ for (int i = 0; i < sizeof(items) / sizeof(int); i++) {
 }
 ```
 
-####道具切换：
+#### 道具切换：
 如果需要切换句柄数组中某一位的句柄时，需要先创建一个新的道具句柄，并将该句柄替换到句柄数组中需要被替换的位置上，最后再把被替换的句柄销毁掉。下面以替换句柄数组的第0位为例进行说明：
 
 ```C
@@ -256,7 +256,7 @@ frameID += 1;
 ### 参数设置
 美颜道具主要包含五个模块的内容，滤镜，美白和红润，磨皮，美型。每个模块都有默认效果，它们可以调节的参数如下。
 
-###一、滤镜
+### 一、滤镜
 
 在目前版本中提供以下滤镜：
 ```C
@@ -270,7 +270,7 @@ frameID += 1;
 [FURenderer itemSetParam:items[1] withName:@"filter_name" value:@"nature"];
 ```
 
-###二、美白和红润
+### 二、美白和红润
 
 通过参数 color_level 来控制美白程度。该参数的推荐取值范围为[0, 1]，0为无效果，0.5为默认效果，大于1为继续增强效果。
 
@@ -283,7 +283,7 @@ frameID += 1;
 
 新版美颜新增红润调整功能。参数名为 red_level 来控制红润程度。使用方法基本与美白效果一样。该参数的推荐取值范围为[0, 1]，0为无效果，0.5为默认效果，大于1为继续增强效果。
 
-###三、磨皮
+### 三、磨皮
 
 新版美颜中，控制磨皮的参数有两个：blur_level、use_old_blur。
 
@@ -301,7 +301,7 @@ frameID += 1;
 [FURenderer itemSetParam:items[1] withName:@"use_old_blur" value:@(1.0)];
 ```
 
-###四、美型
+### 四、美型
 
 目前我们支持四种基本脸型：女神、网红、自然、默认。由参数 face_shape 指定：默认（3）、女神（0）、网红（1）、自然（2）。
 
@@ -335,7 +335,7 @@ frameID += 1;
 [FURenderer itemSetParam:items[1] withName:@"cheek_thinning" value:@(1.0)];
 ```
 
-###五、平台相关
+### 五、平台相关
 
 PC端的美颜，使用前必须将参数 is_opengl_es 设置为 0，移动端无需此操作：
 
@@ -351,7 +351,7 @@ fuItemSetParamd(g_items[1], "is_opengl_es", 0);
 
 自定义手势道具的流程和2D道具制作一致，具体打包的细节可以联系我司技术支持。
 
-##接口说明
+## 接口说明
 
 **获取 FURenderer 单例接口：**
 

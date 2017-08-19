@@ -32,7 +32,36 @@ static FUManager *shareManager = NULL;
     return shareManager;
 }
 
-- (void)setUpFaceunityWithItem:(NSString *)item
+- (instancetype)init
+{
+    if (self = [super init]) {
+        
+        /*设置默认参数*/
+        self.itemsDataSource = @[@"noitem", @"yuguan", @"yazui", @"mask_matianyu", @"lixiaolong", @"EatRabbi", @"Mood"];
+        self.selectedItem = self.itemsDataSource[1]; //贴纸道具
+        
+        self.filtersDataSource = @[@"nature", @"delta", @"electric", @"slowlived", @"tokyo", @"warm"];
+        self.selectedFilter = self.filtersDataSource[0]; //滤镜效果
+        
+        self.selectedBlur = 6; //磨皮程度
+        
+        self.beautyLevel = 0.2; //美白程度
+        
+        self.redLevel = 0.5; //红润程度
+        
+        self.thinningLevel = 1.0; //瘦脸程度
+        
+        self.enlargingLevel = 0.5; //大眼程度
+        
+        self.faceShapeLevel = 0.5; //美型程度
+        
+        self.faceShape = 3; //美型类型
+    }
+    
+    return self;
+}
+
+- (void)setUpFaceunity
 {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"v3.bundle" ofType:nil];
     
@@ -41,7 +70,7 @@ static FUManager *shareManager = NULL;
     [[FURenderer shareRenderer] setupWithDataPath:path authPackage:&g_auth_package authSize:sizeof(g_auth_package) shouldCreateContext:YES];
     
     /**加载普通道具*/
-    [self loadItem:item];
+    [self loadItem:self.selectedItem];
     
     /**加载美颜道具*/
     [self loadFilter];

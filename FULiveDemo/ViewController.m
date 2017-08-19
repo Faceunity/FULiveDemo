@@ -54,7 +54,7 @@
     
     self.photoBtn.delegate = self ;
     
-    [[FUManager shareManager] setUpFaceunityWithItem:_demoBar.selectedItem];
+    [[FUManager shareManager] setUpFaceunity];
     
     [self.mCamera startCapture];
 }
@@ -129,27 +129,19 @@
     _demoBar = demoBar;
     _demoBar.delegate = self;
     
-    _demoBar.itemsDataSource = @[@"noitem", @"yuguan", @"yazui", @"mask_matianyu", @"lixiaolong", @"EatRabbi", @"Mood"];
-    _demoBar.selectedItem = _demoBar.itemsDataSource[1]; //贴纸道具
+    _demoBar.itemsDataSource =  [FUManager shareManager].itemsDataSource;
+    _demoBar.filtersDataSource = [FUManager shareManager].filtersDataSource;
     
-    _demoBar.filtersDataSource = @[@"nature", @"delta", @"electric", @"slowlived", @"tokyo", @"warm"];
-    _demoBar.selectedFilter = _demoBar.filtersDataSource[0]; //滤镜效果
-    
-    _demoBar.selectedBlur = 6; //磨皮程度
-    
-    _demoBar.beautyLevel = 0.2; //美白程度
-    
-    _demoBar.redLevel = 0.5; //红润程度
-    
-    _demoBar.thinningLevel = 1.0; //瘦脸程度
-    
-    _demoBar.enlargingLevel = 0.5; //大眼程度
-    
-    _demoBar.faceShapeLevel = 0.5; //美型程度
-    
-    _demoBar.faceShape = 3; //美型类型
-    
-    [self syncBeautyParams];
+    _demoBar.selectedItem = [FUManager shareManager].selectedItem;      /**选中的道具名称*/
+    _demoBar.selectedFilter = [FUManager shareManager].selectedFilter;  /**选中的滤镜名称*/
+    _demoBar.beautyLevel = [FUManager shareManager].beautyLevel;        /**美白 (0~1)*/
+    _demoBar.redLevel = [FUManager shareManager].redLevel;              /**红润 (0~1)*/
+    _demoBar.selectedBlur = [FUManager shareManager].selectedBlur;      /**磨皮(0、1、2、3、4、5、6)*/
+    _demoBar.faceShape = [FUManager shareManager].faceShape;            /**美型类型 (0、1、2、3) 默认：3，女神：0，网红：1，自然：2*/
+    _demoBar.faceShapeLevel = [FUManager shareManager].faceShapeLevel;  /**美型等级 (0~1)*/
+    _demoBar.enlargingLevel = [FUManager shareManager].enlargingLevel;  /**大眼 (0~1)*/
+    _demoBar.thinningLevel = [FUManager shareManager].thinningLevel;    /**瘦脸 (0~1)*/
+
 }
 
 -(void)takePhoto {
