@@ -2,6 +2,15 @@
 
 FULiveDemo 是集成了 Faceunity 面部跟踪和虚拟道具及手势识别功能的Demo。
 
+## SDK v4.0 更新
+在v4.0版本中，我们全面升级了移动端实时深度学习框架，更好地支持视频应用中日益增长的AI需求。随之推出的第一个功能是背景分割，开启该功能的道具可以在相机画面中自动分割出人像，并替换背景为其他内容。
+
+由于深度学习框架的升级，SDK的库文件从之前的 ~3M 增加到了 ~5M，如果不需要AI相关功能，可以下载[SDK lite版](https://github.com/Faceunity/FULiveDemo/releases)，库文件大小和老版本保持一致。
+
+与新版SDK一起，我们也推出更方便和好用的2D/3D贴纸道具制作工具——FUEditor，助力视频应用快速应对市场，推出具有个性化和吸引力的道具和玩法。相关文档和下载在[这里](https://github.com/Faceunity/FUEditor)，制作过程中遇到问题可以联系我司技术支持。
+
+此外，我们优化了SDK的系统稳定性，在网络条件波动的情况下保持SDK正常运行，并提供了获取SDK系统错误信息的接口，方便应用灵活处理。
+
 ## 下载SDK
 
 您可以在github下载iOS端Demo: [FULiveDemo](https://github.com/Faceunity/FULiveDemo/)，解压后得到一个FULiveDemo文件夹。根据路径"FULiveDemo/FULiveDemo/Faceunity/"找到Faceunity文件夹，该文件夹所包含的文件即是集成我们SDK所需的文件。目录结构截图如下：
