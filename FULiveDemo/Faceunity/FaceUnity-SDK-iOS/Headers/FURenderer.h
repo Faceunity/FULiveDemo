@@ -129,6 +129,22 @@ typedef struct{
 
 /**
  视频处理接口6：
+ - 将items中的道具绘制到 textureHandle 及 pixelBuffer 中
+ - 与 视频处理接口5 相比新增 customSize 参数，可以自定义输出分辨率。
+ 
+ @param pixelBuffer 图像数据，支持的格式为：BGRA、YUV420SP，用于人脸识别
+ @param textureHandle  用户当前 EAGLContext 下的 textureID，用于图像处理
+ @param frameid 当前处理的视频帧序数，每次处理完对其进行加 1 操作，不加 1 将无法驱动道具中的特效动画
+ @param items 包含多个道具句柄的int数组，包括普通道具、美颜道具、手势道具等
+ @param itemCount 句柄数组中包含的句柄个数
+ @param flip 道具镜像使能，如果设置为 YES 可以将道具做镜像操作
+ @param customSize 自定义输出的分辨率，目前仅支持BGRA格式
+ @return 被处理过的的图像数据
+ */
+- (FUOutput)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer bgraTexture:(GLuint)textureHandle withFrameId:(int)frameid items:(int *)items itemCount:(int)itemCount flipx:(BOOL)flip customSize:(CGSize)customSize;
+
+/**
+ 视频处理接口7：
      - 该接口不包含人脸检测功能，只能对图像做美白、红润、滤镜、磨皮操作，不包含瘦脸及大眼等美型功能。
  
  @param pixelBuffer 图像数据，支持的格式为：BGRA、YUV420SP
@@ -138,7 +154,7 @@ typedef struct{
 - (CVPixelBufferRef)beautifyPixelBuffer:(CVPixelBufferRef)pixelBuffer withBeautyItem:(int)item;
 
 /**
- 视频处理接口7：
+ 视频处理接口8：
      - 将 items 中的道具绘制到 YUV420P 图像中
  
  @param y Y帧图像地址
@@ -156,9 +172,9 @@ typedef struct{
 - (void)renderFrame:(uint8_t*)y u:(uint8_t*)u v:(uint8_t*)v ystride:(int)ystride ustride:(int)ustride vstride:(int)vstride width:(int)width height:(int)height frameId:(int)frameid items:(int *)items itemCount:(int)itemCount;
 
 /**
- 视频处理接口8：
+ 视频处理接口9：
      - 将 items 中的道具绘制到 YUV420P 图像中
-     - 与 视频处理接口7 相比新增 flip 参数，将该参数设置为 YES 可使道具做水平镜像翻转
+     - 与 视频处理接口8 相比新增 flip 参数，将该参数设置为 YES 可使道具做水平镜像翻转
  
  @param y Y帧图像地址
  @param u U帧图像地址
@@ -181,6 +197,11 @@ typedef struct{
  */
 + (void)onCameraChange;
 
+/**
+ 销毁所有道具时需调用的接口：
+ - 销毁所有道具时需要调用该接口，我们会在内部销毁每个指令中的OpenGL资源
+ */
++ (void)OnDeviceLost;
 
 /**
  通过道具二进制文件创建道具：
@@ -228,6 +249,17 @@ typedef struct{
 + (int)itemSetParam:(int)item withName:(NSString *)name value:(id)value;
 
 /**
+ 为道具设置参数：
+ 
+ @param item 道具句柄
+ @param name 参数名
+ @param value 参数值：double 数组
+ @param length 参数值：double 数组长度
+ @return 执行结果：返回 0 代表设置失败，大于 0 表示设置成功
+ */
++ (int)itemSetParamdv:(int)item withName:(NSString *)name value:(double *)value length:(int)length;
+
+/**
  从道具中获取 double 型参数值：
  
  @param item 道具句柄
@@ -263,7 +295,7 @@ typedef struct{
 
 /**
  人脸信息跟踪：
-     - 该接口只对人脸进行检测，如果程序中没有运行过视频处理接口( 视频处理接口6 除外)，则需要先执行完该接口才能使用 获取人脸信息接口 来获取人脸信息
+     - 该接口只对人脸进行检测，如果程序中没有运行过视频处理接口( 视频处理接口7 除外)，则需要先执行完该接口才能使用 获取人脸信息接口 来获取人脸信息
  
  @param inputFormat 输入图像格式：FU_FORMAT_BGRA_BUFFER 或 FU_FORMAT_NV12_BUFFER
  @param inputData 输入的图像 bytes 地址
@@ -275,7 +307,7 @@ typedef struct{
 
 /**
  获取人脸信息：
-     - 在程序中需要先运行过视频处理接口( 视频处理接口6 除外)或 人脸信息跟踪接口 后才能使用该接口来获取人脸信息；
+     - 在程序中需要先运行过视频处理接口( 视频处理接口7 除外)或 人脸信息跟踪接口 后才能使用该接口来获取人脸信息；
      - 该接口能获取到的人脸信息与我司颁发的证书有关，普通证书无法通过该接口获取到人脸信息；
      - 具体参数及证书要求如下：
  

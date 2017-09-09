@@ -24,6 +24,10 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *noTrackView;
 
+@property (weak, nonatomic) IBOutlet UILabel *errorLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *tipLabel;
+
 @property (weak, nonatomic) IBOutlet PhotoButton *photoBtn;
 
 @property (weak, nonatomic) IBOutlet UIButton *barBtn;
@@ -54,7 +58,16 @@
     
     self.photoBtn.delegate = self ;
     
-    [[FUManager shareManager] setUpFaceunity];
+    [[FUManager shareManager] loadItems];
+    //显示道具的提示语
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSString *hint = [[FUManager shareManager] hintForItem:[FUManager shareManager].selectedItem];
+        self.tipLabel.hidden = hint == nil;
+        self.tipLabel.text = hint;
+        
+        [ViewController cancelPreviousPerformRequestsWithTarget:self selector:@selector(dismissTipLabel) object:nil];
+        [self performSelector:@selector(dismissTipLabel) withObject:nil afterDelay:5 ];
+    });
     
     [self.mCamera startCapture];
 }
@@ -77,7 +90,7 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    [[FUManager shareManager] destoryFaceunityItems];
+    [[FUManager shareManager] destoryItems];
 }
 
 - (void)addObserver{
@@ -99,6 +112,11 @@
 - (void)didBecomeActive
 {
     [_mCamera startCapture];
+}
+
+- (void)dismissTipLabel
+{
+    self.tipLabel.hidden = YES;
 }
 
 /**
@@ -225,9 +243,18 @@
 #pragma -FUAPIDemoBarDelegate
 - (void)demoBarDidSelectedItem:(NSString *)item
 {
-    
     //加载道具
     [[FUManager shareManager] loadItem:item];
+    
+    //显示道具的提示语
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSString *hint = [[FUManager shareManager] hintForItem:item];
+        self.tipLabel.hidden = hint == nil;
+        self.tipLabel.text = hint;
+        
+        [ViewController cancelPreviousPerformRequestsWithTarget:self selector:@selector(dismissTipLabel) object:nil];
+        [self performSelector:@selector(dismissTipLabel) withObject:nil afterDelay:5 ];
+    });
     
     _isAvatar = [item isEqualToString:@"lixiaolong"];
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -270,9 +297,9 @@
     
     
     
-    /*---------------------------------处理pixelBuffer，并显示在屏幕上---------------------------------*/
-    /**处理pixelBuffer*/
-    [[FUManager shareManager] processPixelBuffer:pixelBuffer];
+    /*---------------------------------将道具绘制到pixelBuffer，并显示在屏幕上---------------------------------*/
+    /**将道具绘制到pixelBuffer*/
+    [[FUManager shareManager] renderItemsToPixelBuffer:pixelBuffer];
     
     /**执行完上一步骤，即可将pixelBuffer绘制到屏幕上或推流到服务器进行直播*/
     [self.displayGLView displayPixelBuffer:pixelBuffer];
@@ -291,9 +318,16 @@
     /*--------------------------------------以上展示人脸特征点逻辑--------------------------------------*/
     
     
-    /**判断是否检测到人脸*/
     dispatch_async(dispatch_get_main_queue(), ^{
+        /**判断是否检测到人脸*/
         self.noTrackView.hidden = [[FUManager shareManager] isTracking];
+        
+        // 检测并显示错误信息
+        self.errorLabel.text = [[FUManager shareManager] getError];
+        
+        // 根据人脸中心点实时调节摄像头曝光参数及聚焦参数
+        CGPoint center = [[FUManager shareManager] getFaceCenterInView:self.displayGLView];;
+        self.mCamera.exposurePoint = CGPointMake(center.y/self.view.bounds.size.height,self.mCamera.isFrontCamera ? center.x/self.view.bounds.size.width:1-center.x/self.view.bounds.size.width);
     });
 }
 

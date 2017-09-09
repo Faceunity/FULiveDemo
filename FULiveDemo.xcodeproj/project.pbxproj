@@ -22,6 +22,10 @@
 		CD6157171E5696220083EF33 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6157151E56957A0083EF33 /* Accelerate.framework */; };
 		CD6BB0691F46B815006E4B4C /* FUManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6BB0681F46B815006E4B4C /* FUManager.m */; };
 		CDDF6C891F42A4EC003E100A /* FUOpenGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDDF6C881F42A4EC003E100A /* FUOpenGLView.m */; };
+		CDEDCB1A1F63DB3E00AE4CF6 /* bg_seg.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CDEDCB191F63DB3C00AE4CF6 /* bg_seg.bundle */; };
+		CDEDCB1C1F63DBCA00AE4CF6 /* fu_zh_duzui.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CDEDCB1B1F63DBC800AE4CF6 /* fu_zh_duzui.bundle */; };
+		CDEF279F1F4D9DC500E5EE7E /* gradient.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CDEF279E1F4D9DC500E5EE7E /* gradient.bundle */; };
+		CDF580C31F5FF5C50077E10A /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CDF580C21F5FF5C50077E10A /* libstdc++.tbd */; };
 		E90D04E91F3185670095E054 /* CircleProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = E90D04E21F3185670095E054 /* CircleProgressView.m */; };
 		E90D04EA1F3185670095E054 /* FUCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = E90D04E41F3185670095E054 /* FUCamera.m */; };
 		E90D04EB1F3185670095E054 /* FURecordEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = E90D04E61F3185670095E054 /* FURecordEncoder.m */; };
@@ -65,15 +69,19 @@
 		CD3383931EB1F06F0022D1A8 /* FUAPIDemoBar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FUAPIDemoBar.framework; sourceTree = "<group>"; };
 		CD3C58A11E779D56004FA2E0 /* authpack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = authpack.h; sourceTree = "<group>"; };
 		CD3C58A41E779D6B004FA2E0 /* funama.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = funama.h; sourceTree = "<group>"; };
-		CD3C58A51E779D6B004FA2E0 /* FURenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FURenderer.h; sourceTree = "<group>"; };
 		CD3C58A61E779D6B004FA2E0 /* libnama.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libnama.a; sourceTree = "<group>"; };
 		CD3C58A81E779D6B004FA2E0 /* face_beautification.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = face_beautification.bundle; sourceTree = "<group>"; };
 		CD3C58A91E779D6B004FA2E0 /* v3.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = v3.bundle; sourceTree = "<group>"; };
+		CD4D5C6D1F6158A4002C21EC /* FURenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FURenderer.h; sourceTree = "<group>"; };
 		CD6157151E56957A0083EF33 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		CD6BB0671F46B815006E4B4C /* FUManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUManager.h; sourceTree = "<group>"; };
 		CD6BB0681F46B815006E4B4C /* FUManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUManager.m; sourceTree = "<group>"; };
 		CDDF6C871F42A4EC003E100A /* FUOpenGLView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUOpenGLView.h; sourceTree = "<group>"; };
 		CDDF6C881F42A4EC003E100A /* FUOpenGLView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUOpenGLView.m; sourceTree = "<group>"; };
+		CDEDCB191F63DB3C00AE4CF6 /* bg_seg.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = bg_seg.bundle; sourceTree = "<group>"; };
+		CDEDCB1B1F63DBC800AE4CF6 /* fu_zh_duzui.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = fu_zh_duzui.bundle; sourceTree = "<group>"; };
+		CDEF279E1F4D9DC500E5EE7E /* gradient.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = gradient.bundle; sourceTree = "<group>"; };
+		CDF580C21F5FF5C50077E10A /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		D8F03B76C701D6E9FC815193 /* libPods-FULiveDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FULiveDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E90D04E11F3185670095E054 /* CircleProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleProgressView.h; sourceTree = "<group>"; };
 		E90D04E21F3185670095E054 /* CircleProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleProgressView.m; sourceTree = "<group>"; };
@@ -97,6 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDF580C31F5FF5C50077E10A /* libstdc++.tbd in Frameworks */,
 				CD3C58AA1E779D6B004FA2E0 /* libnama.a in Frameworks */,
 				CD3383951EB1F0770022D1A8 /* FUAPIDemoBar.framework in Frameworks */,
 				CD6157171E5696220083EF33 /* Accelerate.framework in Frameworks */,
@@ -110,6 +119,7 @@
 		0B06E4A53FA6D18BBA1E95B3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CDF580C21F5FF5C50077E10A /* libstdc++.tbd */,
 				CD6157151E56957A0083EF33 /* Accelerate.framework */,
 				D8F03B76C701D6E9FC815193 /* libPods-FULiveDemo.a */,
 			);
@@ -138,6 +148,9 @@
 		CD0A09AA1E5D7034000FC2C3 /* items */ = {
 			isa = PBXGroup;
 			children = (
+				CDEDCB1B1F63DBC800AE4CF6 /* fu_zh_duzui.bundle */,
+				CDEDCB191F63DB3C00AE4CF6 /* bg_seg.bundle */,
+				CDEF279E1F4D9DC500E5EE7E /* gradient.bundle */,
 				E9A3440E1F2F4092002ED115 /* EatRabbi.bundle */,
 				E9A3440F1F2F4092002ED115 /* lixiaolong.bundle */,
 				E9A344101F2F4092002ED115 /* mask_matianyu.bundle */,
@@ -227,7 +240,7 @@
 			isa = PBXGroup;
 			children = (
 				CD3C58A41E779D6B004FA2E0 /* funama.h */,
-				CD3C58A51E779D6B004FA2E0 /* FURenderer.h */,
+				CD4D5C6D1F6158A4002C21EC /* FURenderer.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -309,6 +322,8 @@
 				CD2E16EC1E52AE0100A2C2A4 /* LaunchScreen.storyboard in Resources */,
 				E9A344181F2F4092002ED115 /* yazui.bundle in Resources */,
 				E9A344231F2F45AB002ED115 /* release_note.txt in Resources */,
+				CDEDCB1A1F63DB3E00AE4CF6 /* bg_seg.bundle in Resources */,
+				CDEDCB1C1F63DBCA00AE4CF6 /* fu_zh_duzui.bundle in Resources */,
 				E9A344191F2F4092002ED115 /* yuguan.bundle in Resources */,
 				CD2E16E91E52AE0100A2C2A4 /* Assets.xcassets in Resources */,
 				E9A344171F2F4092002ED115 /* Mood.bundle in Resources */,
@@ -316,6 +331,7 @@
 				CD3C58AC1E779D6B004FA2E0 /* v3.bundle in Resources */,
 				CD2E16E71E52AE0100A2C2A4 /* Main.storyboard in Resources */,
 				E9A344141F2F4092002ED115 /* EatRabbi.bundle in Resources */,
+				CDEF279F1F4D9DC500E5EE7E /* gradient.bundle in Resources */,
 				E9A344161F2F4092002ED115 /* mask_matianyu.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

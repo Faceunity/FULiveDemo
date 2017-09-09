@@ -15,6 +15,10 @@
     //MARK: Faceunity
     int items[3];
     int frameID;
+    
+    CGSize frameSize;
+    
+    NSDictionary *hintDic;
 }
 @end
 
@@ -36,58 +40,89 @@ static FUManager *shareManager = NULL;
 {
     if (self = [super init]) {
         
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"v3.bundle" ofType:nil];
+        
+        /**这里新增了一个参数shouldCreateContext，设为YES的话，不用在外部设置context操作，我们会在内部创建并持有一个context。
+         还有设置为YES,则需要调用FURenderer.h中的接口，不能再调用funama.h中的接口。*/
+        [[FURenderer shareRenderer] setupWithDataPath:path authPackage:&g_auth_package authSize:sizeof(g_auth_package) shouldCreateContext:YES];
+        
         /*设置默认参数*/
-        self.itemsDataSource = @[@"noitem", @"yuguan", @"yazui", @"mask_matianyu", @"lixiaolong", @"EatRabbi", @"Mood"];
-        self.selectedItem = self.itemsDataSource[1]; //贴纸道具
+        self.itemsDataSource = @[@"noitem", @"EatRabbi", @"bg_seg", @"fu_zh_duzui", @"yazui", @"mask_matianyu", @"lixiaolong", @"Mood", @"gradient", @"yuguan"];
         
         self.filtersDataSource = @[@"nature", @"delta", @"electric", @"slowlived", @"tokyo", @"warm"];
-        self.selectedFilter = self.filtersDataSource[0]; //滤镜效果
+    
+        [self setDefaultParameters];
         
-        self.selectedBlur = 6; //磨皮程度
+        NSLog(@"faceunitySDK version:%@",[FURenderer getVersion]);
         
-        self.beautyLevel = 0.2; //美白程度
-        
-        self.redLevel = 0.5; //红润程度
-        
-        self.thinningLevel = 1.0; //瘦脸程度
-        
-        self.enlargingLevel = 0.5; //大眼程度
-        
-        self.faceShapeLevel = 0.5; //美型程度
-        
-        self.faceShape = 3; //美型类型
+        hintDic = @{@"fu_zh_duzui":@"做嘟嘴动作",@"Mood":@"嘴角向上或嘴角向下"};
     }
     
     return self;
 }
 
-- (void)setUpFaceunity
+/*设置默认参数*/
+- (void)setDefaultParameters {
+    
+    self.selectedItem = self.itemsDataSource[1]; //贴纸道具
+    
+    self.selectedFilter = self.filtersDataSource[0]; //滤镜效果
+    
+    self.selectedBlur = 6; //磨皮程度
+    
+    self.beautyLevel = 0.2; //美白程度
+    
+    self.redLevel = 0.5; //红润程度
+    
+    self.thinningLevel = 1.0; //瘦脸程度
+    
+    self.enlargingLevel = 0.5; //大眼程度
+    
+    self.faceShapeLevel = 0.5; //美型程度
+    
+    self.faceShape = 3; //美型类型
+    
+    self.enableGesture = NO;
+    self.enableMaxFaces = NO;
+}
+
+- (void)loadItems
 {
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"v3.bundle" ofType:nil];
-    
-    /**这里新增了一个参数shouldCreateContext，设为YES的话，不用在外部设置context操作，我们会在内部创建并持有一个context。
-     还有设置为YES,则需要调用FURenderer.h中的接口，不能再调用funama.h中的接口。*/
-    [[FURenderer shareRenderer] setupWithDataPath:path authPackage:&g_auth_package authSize:sizeof(g_auth_package) shouldCreateContext:YES];
-    
     /**加载普通道具*/
     [self loadItem:self.selectedItem];
     
     /**加载美颜道具*/
     [self loadFilter];
-    
+}
+
+- (void)setEnableGesture:(BOOL)enableGesture
+{
+    _enableGesture = enableGesture;
     /**开启手势识别*/
-    if (self.enableGesture) {
+    if (_enableGesture) {
         [self loadGesture];
+    }else{
+        if (items[2] != 0) {
+            
+            NSLog(@"faceunity: destroy gesture");
+            
+            [FURenderer destroyItem:items[2]];
+            
+            items[2] = 0;
+        }
     }
-    
-    /**开启多脸识别（最高可设为8，不过考虑到性能问题建议设为4以内*/
+}
+
+/**开启多脸识别（最高可设为8，不过考虑到性能问题建议设为4以内*/
+- (void)setEnableMaxFaces:(BOOL)enableMaxFaces
+{
     if (self.enableMaxFaces) {
         [FURenderer setMaxFaces:4];
     }
 }
 
 /**销毁全部道具*/
-- (void)destoryFaceunityItems
+- (void)destoryItems
 {
     [FURenderer destroyAllItems];
     
@@ -97,12 +132,25 @@ static FUManager *shareManager = NULL;
     }
     
     /**销毁道具后，清除context缓存*/
-    fuOnDeviceLost();
+    [FURenderer OnDeviceLost];
     
     /**销毁道具后，重置人脸检测*/
     [FURenderer onCameraChange];
+    
+    /**销毁道具后，重置默认参数*/
+    [self setDefaultParameters];
 }
 
+/**
+ 获取item的提示语
+
+ @param item 道具名
+ @return 提示语
+ */
+- (NSString *)hintForItem:(NSString *)item
+{
+    return hintDic[item];
+}
 
 #pragma -Faceunity Load Data
 /**
@@ -153,6 +201,15 @@ static FUManager *shareManager = NULL;
 /**加载手势识别道具，默认未不加载*/
 - (void)loadGesture
 {
+    if (items[2] != 0) {
+        
+        NSLog(@"faceunity: destroy gesture");
+        
+        [FURenderer destroyItem:items[2]];
+        
+        items[2] = 0;
+    }
+    
     NSString *path = [[NSBundle mainBundle] pathForResource:@"heart_v2.bundle" ofType:nil];
     
     items[2] = [FURenderer itemWithContentsOfFile:path];
@@ -173,15 +230,60 @@ static FUManager *shareManager = NULL;
     
 }
 
-/**处理pixelBuffer*/
-- (void)processPixelBuffer:(CVPixelBufferRef)pixelBuffer
+/**将道具绘制到pixelBuffer*/
+- (CVPixelBufferRef)renderItemsToPixelBuffer:(CVPixelBufferRef)pixelBuffer
 {
     /**设置美颜参数*/
     [self setBeautyParams];
     
     /*Faceunity核心接口，将道具及美颜效果绘制到pixelBuffer中，执行完此函数后pixelBuffer即包含美颜及贴纸效果*/
-    [[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:3 flipx:YES];//flipx 参数设为YES可以使道具做水平方向的镜像翻转
+    CVPixelBufferRef buffer = [[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:3 flipx:YES];//flipx 参数设为YES可以使道具做水平方向的镜像翻转
     frameID += 1;
+    
+    int width = (int)CVPixelBufferGetWidth(pixelBuffer);
+    int height = (int)CVPixelBufferGetHeight(pixelBuffer);
+    frameSize = CGSizeMake(width, height);
+    
+    return buffer;
+}
+
+/**获取view中人脸中心点*/
+- (CGPoint)getFaceCenterInView:(UIView *)view{
+    
+    CGSize viewSize = view.frame.size;
+    
+    // 获取人脸矩形框，坐标系原点为图像右下角，float数组为矩形框右下角及左上角两个点的x,y坐标（前两位为右下角的x,y信息，后两位为左上角的x,y信息）
+    float faceRect[4];
+    int ret = [FURenderer getFaceInfo:0 name:@"face_rect" pret:faceRect number:4];
+    
+    if (ret == 0) {
+        return CGPointMake(viewSize.width * 0.5, viewSize.height * 0.5);
+    }
+    
+    // 计算出中心点的坐标值
+    CGFloat centerX = (faceRect[0] + faceRect[2]) * 0.5;
+    CGFloat centerY = (faceRect[1] + faceRect[3]) * 0.5;
+    
+    // 将坐标系转换成以左上角为原点的坐标系
+    centerX = frameSize.width - centerX;
+    centerY = frameSize.height - centerY;
+    
+    // 将中心点从buffer转换到view
+    CGFloat dw = frameSize.width / viewSize.width;
+    CGFloat dh = frameSize.height / viewSize.height;
+    CGFloat d = MIN(dw, dh);
+    
+    CGSize dFrameSize = CGSizeMake(frameSize.width / d, frameSize.height / d);
+    centerX *= 1 / d;
+    centerY *= 1 / d;
+    
+    CGFloat x = (dFrameSize.width - viewSize.width) * 0.5;
+    CGFloat y = (dFrameSize.height - viewSize.height) * 0.5;
+    
+    centerX -= x;
+    centerY -= y;
+    
+    return CGPointMake(centerX, centerY);
 }
 
 /**获取75个人脸特征点*/
@@ -204,6 +306,23 @@ static FUManager *shareManager = NULL;
 - (void)onCameraChange
 {
     [FURenderer onCameraChange];
+}
+
+/**获取错误信息*/
+- (NSString *)getError
+{
+    // 获取错误码
+    int errorCode = fuGetSystemError();
+    
+    if (errorCode != 0) {
+        
+        // 通过错误码获取错误描述
+        NSString *errorStr = [NSString stringWithUTF8String:fuGetSystemErrorString(errorCode)];
+        
+        return errorStr;
+    }
+    
+    return nil;
 }
 
 @end

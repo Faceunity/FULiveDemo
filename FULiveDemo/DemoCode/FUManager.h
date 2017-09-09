@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 
 @interface FUManager : NSObject
@@ -29,24 +30,33 @@
 + (FUManager *)shareManager;
 
 /**初始化Faceunity,加载道具*/
-- (void)setUpFaceunity;
+- (void)loadItems;
 
 /**销毁全部道具*/
-- (void)destoryFaceunityItems;
+- (void)destoryItems;
 
 /**加载普通道具*/
 - (void)loadItem:(NSString *)itemName;
 
-/**处理pixelBuffer*/
-- (void)processPixelBuffer:(CVPixelBufferRef)pixelBuffer;
+/**获取item的提示语*/
+- (NSString *)hintForItem:(NSString *)item;
+
+/**将道具绘制到pixelBuffer*/
+- (CVPixelBufferRef)renderItemsToPixelBuffer:(CVPixelBufferRef)pixelBuffer;
 
 /**获取75个人脸特征点*/
 - (void)getLandmarks:(float *)landmarks;
+
+/**获取view中人脸中心点*/
+- (CGPoint)getFaceCenterInView:(UIView *)view;
 
 /**判断是否检测到人脸*/
 - (BOOL)isTracking;
 
 /**切换摄像头要调用此函数*/
 - (void)onCameraChange;
+
+/**获取错误信息*/
+- (NSString *)getError;
 
 @end

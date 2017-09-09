@@ -242,6 +242,53 @@ typedef enum : NSUInteger {
     }
 }
 
+
+- (void)setFocusPoint:(CGPoint)focusPoint
+{
+    if (!self.focusPointSupported) {
+        return;
+    }
+    
+    NSError *error = nil;
+    if (![self.camera lockForConfiguration:&error]) {
+        NSLog(@"XBFilteredCameraView: Failed to set focus point: %@", [error localizedDescription]);
+        return;
+    }
+    
+    self.camera.focusPointOfInterest = focusPoint;
+    self.camera.focusMode = AVCaptureFocusModeAutoFocus;
+    [self.camera unlockForConfiguration];
+}
+
+- (BOOL)focusPointSupported
+{
+    return self.camera.focusPointOfInterestSupported;
+}
+
+- (void)setExposurePoint:(CGPoint)exposurePoint
+{
+    if (!self.exposurePointSupported) {
+        return;
+    }
+    
+    NSError *error = nil;
+    if (![self.camera lockForConfiguration:&error]) {
+        NSLog(@"XBFilteredCameraView: Failed to set exposure point: %@", [error localizedDescription]);
+        return;
+    }
+    self.camera.exposureMode = AVCaptureExposureModeLocked;
+    self.camera.exposurePointOfInterest = exposurePoint;
+    self.camera.exposureMode = AVCaptureExposureModeContinuousAutoExposure;
+    
+    [self.camera unlockForConfiguration];
+}
+
+- (BOOL)exposurePointSupported
+{
+    return self.camera.exposurePointOfInterestSupported;
+}
+
+
 - (BOOL)isFrontCamera
 {
     return self.cameraPosition == AVCaptureDevicePositionFront;

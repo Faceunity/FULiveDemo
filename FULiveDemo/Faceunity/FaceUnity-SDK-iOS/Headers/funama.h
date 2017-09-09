@@ -377,6 +377,8 @@ FUNAMA_API void fuSetQualityTradeoff(float quality);
 /**
 \brief Get face info. Certificate aware interface.
 \param face_id is the id of face, index is smaller than which is set in fuSetMaxFaces
+	If this face_id is x, it means x-th face currently tracking
+	To get a unique id for each face, use fuGetFaceIdentifier interface
 \param name is among "landmarks", "eye_rotation", "translation", "rotation"
 \param pret allocated memory space as container
 \param num is number of float allocated in pret
@@ -391,6 +393,15 @@ FUNAMA_API void fuSetQualityTradeoff(float quality);
 	other specific failure will print on the console
 */
 FUNAMA_API int fuGetFaceInfo(int face_id, char* name, float* pret, int num);
+
+/**
+\brief Get the unique identifier for each face during current tracking
+	Lost face tracking will change the identifier, even for a quick retrack
+\param face_id is the id of face, index is smaller than which is set in fuSetMaxFaces
+	If this face_id is x, it means x-th face currently tracking
+\return the unique identifier for each face
+*/	
+FUNAMA_API int fuGetFaceIdentifier(int face_id);
 
 /**
 \brief Bind items to an avatar, already bound items won't be unbound
@@ -420,6 +431,101 @@ FUNAMA_API int fuUnbindAllItems(int item_src);
 \return SDK version string in const char*
 */
 FUNAMA_API const char* fuGetVersion();
+
+/**
+\brief Get system error, which causes system shutting down
+\return System error code represents one or more errors	
+	Error code can be checked against following bitmasks, non-zero result means certain error
+	This interface is not a callback, needs to be called on every frame and check result, no cost
+	Inside authentication error (NAMA_ERROR_BITMASK_AUTHENTICATION), meanings for each error code are listed below:
+	1 failed to seed the RNG
+	2 failed to parse the CA cert
+	3 failed to connect to the server
+	4 failed to configure TLS
+	5 failed to parse the client cert
+	6 failed to parse the client key
+	7 failed to setup TLS
+	8 failed to setup the server hostname
+	9 TLS handshake failed
+	10 TLS verification failed
+	11 failed to send the request
+	12 failed to read the response
+	13 bad authentication response
+	14 incomplete authentication palette info
+	15 not inited yet
+	16 failed to create a thread
+	17 authentication package rejected
+	18 void authentication data
+	19 bad authentication package
+	20 certificate expired
+	21 invalid certificate
+*/
+#define NAMA_ERROR_BITMASK_AUTHENTICATION 	0xff
+#define NAMA_ERROR_BITMASK_DEBUG_ITEM 		0x100
+#define NAMA_ERROR_SEED_RNG_FAILURE 		1
+#define NAMA_ERROR_PARSE_CA_CERT_FAILURE 	2
+#define NAMA_ERROR_CONNECT_SERVER_FAILURE 	3
+#define NAMA_ERROR_CONFIG_TLS_FAILURE 		4
+#define NAMA_ERROR_PARSE_CLIENT_CERT_FAILURE 5
+#define NAMA_ERROR_PARSE_CLIENT_KEY_FAILURE 6
+#define NAMA_ERROR_SETUP_TLS_FAILURE 		7
+#define NAMA_ERROR_SETUP_SERVER_FAILURE 	8
+#define NAMA_ERROR_TLS_HANDSHAKE_FAILURE 	9
+#define NAMA_ERROR_TLS_VERIFICATION_FAILURE 10
+#define NAMA_ERROR_SEND_REQUEST_FAILURE 	11
+#define NAMA_ERROR_READ_RESPONSE_FAILURE 	12
+#define NAMA_ERROR_BAD_RESPONSE 			13
+#define NAMA_ERROR_INCOMPLETE_PALETTE_INFO 	14
+#define NAMA_ERROR_AUTH_NOT_INITED 			15
+#define NAMA_ERROR_CREATE_THREAD_FAILURE 	16
+#define NAMA_ERROR_AUTH_PACKAGE_REJECTED 	17
+#define NAMA_ERROR_VOID_AUTH_DATA 			18
+#define NAMA_ERROR_BAD_AUTH_PACKAGE			19
+#define NAMA_ERROR_CERTIFICATE_EXPIRED 		20
+#define NAMA_ERROR_INVALID_CERTIFICATE 		21
+#define NAMA_ERROR_PARSE_SYSTEM_DATA_FAILURE 22
+FUNAMA_API const int fuGetSystemError();
+
+/**
+\brief Interpret system error code
+\param code - System error code returned by fuGetSystemError()
+\return One error message from the code
+*/
+FUNAMA_API const char* fuGetSystemErrorString(int code);
+
+/**
+\brief Check whether an item is debug version
+\param data - the pointer to the item data
+\param sz - the data size, we use plain int to avoid cross-language compilation issues
+\return 0 - normal item
+		1 - debug item
+		-1 - corrupted item data
+*/
+FUNAMA_API const int fuCheckDebugItem(void* data,int sz);
+
+/**
+\brief Get the expire time of an avatar item
+\param data - the pointer to the item data, the item must be type of "p2a_avatar"
+\param sz - the data size, we use plain int to avoid cross-language compilation issues
+\return x - this avatar will expire in 'x' days
+		-1 - invalid expire time, detail will be print on console
+*/
+FUNAMA_API const int fuGetAvatarExpireTime(void* data,int sz);
+
+/**
+\brief Control auto expression calibration
+\param i - zero to disable calibration, non-zero to enable calibration
+*/
+FUNAMA_API void fuSetExpressionCalibration(int i);
+
+/**
+\brief Scale the rendering perspectivity (focal length, or FOV)
+	Larger scale means less projection distortion
+	This scale should better be tuned offline, and set it only once in runtime
+\param scale - default is 1.f, keep perspectivity invariant
+	<= 0.f would be treated as illegal input and discard	
+*/
+FUNAMA_API void fuSetFocalLengthScale(float scale);
 
 #ifdef __cplusplus
 }
