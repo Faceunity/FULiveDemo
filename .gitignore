@@ -4,5 +4,11 @@ FULiveDemo/.DS_Store
 FULiveDemo.xcworkspace/xcuserdata/liuyang.xcuserdatad/UserInterfaceState.xcuserstate
 
 *.xcuserstate
+*.DS_Store
+FULiveDemo/DemoCode/.DS_Store
 
 FULiveDemo/DemoCode/.DS_Store
+
+FULiveDemo/Faceunity/.DS_Store
+
+FULiveDemo/Faceunity/FaceUnity-SDK-iOS/.DS_Store

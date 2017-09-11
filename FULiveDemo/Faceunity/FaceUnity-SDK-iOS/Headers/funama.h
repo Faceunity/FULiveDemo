@@ -41,6 +41,9 @@ typedef struct{
 #define FU_ADM_FLAG_I420_TEXTURE 8
 /*\brief Indicate that the input buffer is a packed IYUV420 buffer */
 #define FU_ADM_FLAG_I420_BUFFER 16
+
+#define FU_ADM_FALG_RGBA_BUFFER 128
+
 typedef struct{
 	void* p_NV21;//<the NV21 buffer
 	int tex;//<the texture

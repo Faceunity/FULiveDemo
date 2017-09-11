@@ -23,14 +23,10 @@
     int frameID;
     
     // --------------- Faceunity ----------------
-    
-    FUCamera *curCamera;
 }
 @property (weak, nonatomic) IBOutlet FUAPIDemoBar *demoBar;//工具条
 
-@property (nonatomic, strong) FUCamera *bgraCamera;//BGRA摄像头
-
-@property (nonatomic, strong) FUCamera *yuvCamera;//YUV摄像头
+@property (nonatomic, strong) FUCamera *mCamera;//摄像头
 
 @property (nonatomic, strong) AVSampleBufferDisplayLayer *bufferDisplayer;
 
@@ -60,8 +56,7 @@
     
     [self initFaceunity];
     
-    curCamera = self.bgraCamera;
-    [curCamera startUp];
+    [self.mCamera startCapture];
     
     self.bufferDisplayer.frame = self.view.bounds;
     
@@ -70,16 +65,24 @@
 - (void)initFaceunity
 {
     #warning faceunity全局只需要初始化一次
+    
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
+        
         int size = 0;
+        
         void *v3 = [self mmap_bundle:@"v3.bundle" psize:&size];
         
-        [[FURenderer shareRenderer] setupWithData:v3 ardata:NULL authPackage:&g_auth_package authSize:sizeof(g_auth_package)];
+        #warning 这里新增了一个参数shouldCreateContext，设为YES的话，不用在外部设置context操作，我们会在内部创建并持有一个context。如果设置为YES,则需要调用FURenderer.h中的接口，不能再调用funama.h中的接口。
+        
+        [[FURenderer shareRenderer] setupWithData:v3 ardata:NULL authPackage:&g_auth_package authSize:sizeof(g_auth_package) shouldCreateContext:YES];
+        
     });
     
-    //开启多脸识别（最高可设为8，不过考虑到性能问题建议设为4以内）
-//    fuSetMaxFaces(4);
+    #warning 开启多脸识别（最高可设为8，不过考虑到性能问题建议设为4以内）
+    /*
+    [FURenderer setMaxFaces:4];
+    */
     
     [self loadItem];
     [self loadFilter];
@@ -87,9 +90,8 @@
 
 - (void)destoryFaceunityItems
 {
-    [self setUpContext];
     
-    fuDestroyAllItems();
+    [FURenderer destroyAllItems];
     
     for (int i = 0; i < sizeof(items) / sizeof(int); i++) {
         items[i] = 0;
@@ -136,29 +138,17 @@
     _demoBar.delegate = self;
 }
 
-//bgra摄像头
-- (FUCamera *)bgraCamera
+//摄像头
+- (FUCamera *)mCamera
 {
-    if (!_bgraCamera) {
-        _bgraCamera = [[FUCamera alloc] init];
+    if (!_mCamera) {
+        _mCamera = [[FUCamera alloc] init];
         
-        _bgraCamera.delegate = self;
+        _mCamera.delegate = self;
         
     }
     
-    return _bgraCamera;
-}
-
-//yuv摄像头
-- (FUCamera *)yuvCamera
-{
-    if (!_yuvCamera) {
-        _yuvCamera = [[FUCamera alloc] initWithCameraPosition:AVCaptureDevicePositionFront captureFormat:kCVPixelFormatType_420YpCbCr8BiPlanarFullRange];
-        
-        _yuvCamera.delegate = self;
-    }
-    
-    return _yuvCamera;
+    return _mCamera;
 }
 
 //显示摄像头画面
@@ -178,14 +168,14 @@
 - (void)willResignActive
 {
     
-    [curCamera stopCapture];
+    [_mCamera stopCapture];
     
 }
 
 - (void)willEnterForeground
 {
     
-    [curCamera startCapture];
+    [_mCamera startCapture];
 }
 
 - (void)didBecomeActive
@@ -195,7 +185,7 @@
         firstActive = NO;
         return;
     }
-    [curCamera startCapture];
+    [_mCamera startCapture];
 }
 
 //拍照
@@ -218,7 +208,7 @@
         }];
     }];
     
-    [curCamera takePhotoAndSave];
+    [_mCamera takePhotoAndSave];
 }
 
 #pragma -显示工具栏
@@ -248,26 +238,17 @@
 #pragma -摄像头切换
 - (IBAction)changeCamera:(UIButton *)sender {
     
-    [self.bgraCamera changeCameraInputDeviceisFront:!self.bgraCamera.isFrontCamera];
-    [self.yuvCamera changeCameraInputDeviceisFront:!self.yuvCamera.isFrontCamera];
-    [curCamera startCapture];
+    [_mCamera changeCameraInputDeviceisFront:!_mCamera.isFrontCamera];
     
 #warning 切换摄像头要调用此函数
-    fuOnCameraChange();
+    [FURenderer onCameraChange];
 }
 
 #pragma -BGRA/YUV切换
 - (IBAction)changeCaptureFormat:(UISegmentedControl *)sender {
-    if (sender.selectedSegmentIndex == 0 && curCamera == self.yuvCamera)
-    {
-        [curCamera stopCapture];
-        curCamera = self.bgraCamera;
-    }else if (sender.selectedSegmentIndex == 1 && curCamera == self.bgraCamera){
-        [curCamera stopCapture];
-        curCamera = self.yuvCamera;
-    }
-    [curCamera startCapture];
     
+    _mCamera.captureFormat = _mCamera.captureFormat == kCVPixelFormatType_32BGRA ? kCVPixelFormatType_420YpCbCr8BiPlanarFullRange:kCVPixelFormatType_32BGRA;
+
 }
 
 #pragma -FUAPIDemoBarDelegate
@@ -280,38 +261,36 @@
 #pragma -FUCameraDelegate
 - (void)didOutputVideoSampleBuffer:(CMSampleBufferRef)sampleBuffer
 {
-    if ([UIApplication sharedApplication].applicationState != UIApplicationStateActive) {
-        return;
-    }
-    
-    //如果当前环境中已存在EAGLContext，此步骤可省略，但必须要调用[EAGLContext setCurrentContext:curContext]函数。
-    #warning 此步骤不可放在异步线程中执行
-    [self setUpContext];
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        if ([UIApplication sharedApplication].applicationState != UIApplicationStateActive) {
+            return;
+        }
+    });
     
     //人脸跟踪
-    int curTrack = fuIsTracking();
+    int curTrack = [FURenderer isTracking];
     dispatch_async(dispatch_get_main_queue(), ^{
         self.noTrackView.hidden = curTrack;
     });
     
     #warning 如果需开启手势检测，请打开下方的注释
-    //加载爱心道具
-//    if (items[2] == 0) {
-//        [self loadHeart];
-//    }
+    /*
+     if (items[2] == 0) {
+     [self loadHeart];
+     }
+     */
     
-    //设置美颜效果（滤镜、磨皮、美白、瘦脸、大眼....）
-    fuItemSetParamd(items[1], "cheek_thinning", self.demoBar.thinningLevel); //瘦脸
-    fuItemSetParamd(items[1], "eye_enlarging", self.demoBar.enlargingLevel); //大眼
-    fuItemSetParamd(items[1], "color_level", self.demoBar.beautyLevel); //美白
-    fuItemSetParams(items[1], "filter_name", (char *)[_demoBar.selectedFilter UTF8String]); //滤镜
-    fuItemSetParamd(items[1], "blur_level", self.demoBar.selectedBlur); //磨皮
-    fuItemSetParamd(items[1], "face_shape", self.demoBar.faceShape); //瘦脸类型
-    fuItemSetParamd(items[1], "face_shape_level", self.demoBar.faceShapeLevel); //瘦脸等级
-    fuItemSetParamd(items[1], "red_level", self.demoBar.redLevel); //红润
+    /*设置美颜效果（滤镜、磨皮、美白、瘦脸、大眼....）*/
+    [FURenderer itemSetParam:items[1] withName:@"cheek_thinning" value:@(self.demoBar.thinningLevel)]; //瘦脸
+    [FURenderer itemSetParam:items[1] withName:@"eye_enlarging" value:@(self.demoBar.enlargingLevel)]; //大眼
+    [FURenderer itemSetParam:items[1] withName:@"color_level" value:@(self.demoBar.beautyLevel)]; //美白
+    [FURenderer itemSetParam:items[1] withName:@"filter_name" value:_demoBar.selectedFilter]; //滤镜
+    [FURenderer itemSetParam:items[1] withName:@"blur_level" value:@(self.demoBar.selectedBlur)]; //磨皮
+    [FURenderer itemSetParam:items[1] withName:@"face_shape" value:@(self.demoBar.faceShape)]; //瘦脸类型
+    [FURenderer itemSetParam:items[1] withName:@"face_shape_level" value:@(self.demoBar.faceShapeLevel)]; //瘦脸等级
+    [FURenderer itemSetParam:items[1] withName:@"red_level" value:@(self.demoBar.redLevel)]; //红润
     
     //Faceunity核心接口，将道具及美颜效果作用到图像中，执行完此函数pixelBuffer即包含美颜及贴纸效果
-    #warning 此步骤不可放在异步线程中执行
     CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
     
     [[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:3 flipx:YES];//flipx 参数设为YES可以使道具做水平方向的镜像翻转
@@ -335,30 +314,14 @@
     });
 }
 
-#pragma -Faceunity Set EAGLContext
-static EAGLContext *mcontext;
-
-- (void)setUpContext
-{
-    if(!mcontext){
-        mcontext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-    }
-    if(!mcontext || ![EAGLContext setCurrentContext:mcontext]){
-        NSLog(@"faceunity: failed to create / set a GLES2 context");
-    }
-    
-}
-
 #pragma -Faceunity Load Data
 - (void)loadItem
 {
-    [self setUpContext];
-    
     if ([_demoBar.selectedItem isEqual: @"noitem"] || _demoBar.selectedItem == nil)
     {
         if (items[0] != 0) {
             NSLog(@"faceunity: destroy item");
-            fuDestroyItem(items[0]);
+            [FURenderer destroyItem:items[0]];
         }
         items[0] = 0;
         return;
@@ -369,11 +332,11 @@ static EAGLContext *mcontext;
     // 先创建再释放可以有效缓解切换道具卡顿问题
     void *data = [self mmap_bundle:[_demoBar.selectedItem stringByAppendingString:@".bundle"] psize:&size];
     
-    int itemHandle = fuCreateItemFromPackage(data, size);
+    int itemHandle = [FURenderer createItemFromPackage:data size:size];
     
     if (items[0] != 0) {
         NSLog(@"faceunity: destroy item");
-        fuDestroyItem(items[0]);
+        [FURenderer destroyItem:items[0]];
     }
     
     items[0] = itemHandle;
@@ -383,24 +346,21 @@ static EAGLContext *mcontext;
 
 - (void)loadFilter
 {
-    [self setUpContext];
     
     int size = 0;
     
     void *data = [self mmap_bundle:@"face_beautification.bundle" psize:&size];
     
-    items[1] = fuCreateItemFromPackage(data, size);
+    items[1] = [FURenderer createItemFromPackage:data size:size];
 }
 
 - (void)loadHeart
 {
-    [self setUpContext];
-    
     int size = 0;
     
     void *data = [self mmap_bundle:@"heart_v2.bundle" psize:&size];
     
-    items[2] = fuCreateItemFromPackage(data, size);
+    items[2] = [FURenderer createItemFromPackage:data size:size];
 }
 
 - (void *)mmap_bundle:(NSString *)bundle psize:(int *)psize {
@@ -420,6 +380,7 @@ static EAGLContext *mcontext;
     {
         size = [self getFileSize:fd];
         zip = mmap(nil, size, PROT_READ, MAP_SHARED, fd, 0);
+        close(fd);
     }
     
     *psize = size;
