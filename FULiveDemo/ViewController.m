@@ -10,35 +10,35 @@
 #import <GLKit/GLKit.h>
 #import "FUCamera.h"
 #import <FUAPIDemoBar/FUAPIDemoBar.h>
+#import "PhotoButton.h"
+#import "FUOpenglView.h"
+#import "FUManager.h"
 
-#import "FURenderer.h"
-#include <sys/mman.h>
-#include <sys/stat.h>
-#import "authpack.h"
+@interface ViewController ()<FUAPIDemoBarDelegate,FUCameraDelegate, PhotoButtonDelegate>
 
-@interface ViewController ()<FUAPIDemoBarDelegate,FUCameraDelegate>
-{
-    //MARK: Faceunity
-    int items[3];
-    int frameID;
-    
-    // --------------- Faceunity ----------------
-}
+@property (nonatomic, assign)     BOOL isAvatar;              /**判断当前加载的道具是否为avatar道具*/
+
 @property (weak, nonatomic) IBOutlet FUAPIDemoBar *demoBar;//工具条
 
 @property (nonatomic, strong) FUCamera *mCamera;//摄像头
 
-@property (nonatomic, strong) AVSampleBufferDisplayLayer *bufferDisplayer;
-
 @property (weak, nonatomic) IBOutlet UILabel *noTrackView;
 
-@property (weak, nonatomic) IBOutlet UIButton *photoBtn;
+@property (weak, nonatomic) IBOutlet UILabel *errorLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *tipLabel;
+
+@property (weak, nonatomic) IBOutlet PhotoButton *photoBtn;
 
 @property (weak, nonatomic) IBOutlet UIButton *barBtn;
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segment;
 
 @property (weak, nonatomic) IBOutlet UIButton *changeCameraBtn;
+
+@property (strong, nonatomic) IBOutlet FUOpenGLView *displayGLView;
+
+@property (weak, nonatomic) IBOutlet FUOpenGLView *landmarksGlView;
 
 @end
 
@@ -49,60 +49,48 @@
     return YES;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
     [self addObserver];
-    
-    [self initFaceunity];
-    
-    [self.mCamera startCapture];
-    
-    self.bufferDisplayer.frame = self.view.bounds;
-    
-}
 
-- (void)initFaceunity
-{
-    #warning faceunity全局只需要初始化一次
+    self.photoBtn.delegate = self ;
     
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    [[FUManager shareManager] loadItems];
+    //显示道具的提示语
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSString *hint = [[FUManager shareManager] hintForItem:[FUManager shareManager].selectedItem];
+        self.tipLabel.hidden = hint == nil;
+        self.tipLabel.text = hint;
         
-        int size = 0;
-        
-        void *v3 = [self mmap_bundle:@"v3.bundle" psize:&size];
-        
-        #warning 这里新增了一个参数shouldCreateContext，设为YES的话，不用在外部设置context操作，我们会在内部创建并持有一个context。如果设置为YES,则需要调用FURenderer.h中的接口，不能再调用funama.h中的接口。
-        
-        [[FURenderer shareRenderer] setupWithData:v3 ardata:NULL authPackage:&g_auth_package authSize:sizeof(g_auth_package) shouldCreateContext:YES];
-        
+        [ViewController cancelPreviousPerformRequestsWithTarget:self selector:@selector(dismissTipLabel) object:nil];
+        [self performSelector:@selector(dismissTipLabel) withObject:nil afterDelay:5 ];
     });
     
-    #warning 开启多脸识别（最高可设为8，不过考虑到性能问题建议设为4以内）
-    /*
-    [FURenderer setMaxFaces:4];
-    */
-    
-    [self loadItem];
-    [self loadFilter];
+    [self.mCamera startCapture];
 }
 
-- (void)destoryFaceunityItems
+- (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     
-    [FURenderer destroyAllItems];
+    [self.mCamera startCapture];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self.mCamera stopCapture];
     
-    for (int i = 0; i < sizeof(items) / sizeof(int); i++) {
-        items[i] = 0;
-    }
+    [super viewWillDisappear:animated];
 }
 
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    [self destoryFaceunityItems];
+    [[FUManager shareManager] destoryItems];
 }
 
 - (void)addObserver{
@@ -111,34 +99,31 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
-//底部工具条
-- (void)setDemoBar:(FUAPIDemoBar *)demoBar
+- (void)willResignActive
 {
-    _demoBar = demoBar;
-    _demoBar.itemsDataSource = @[@"noitem", @"tiara", @"item0208", @"YellowEar", @"PrincessCrown", @"Mood" , @"Deer" , @"BeagleDog", @"item0501", @"item0210",  @"HappyRabbi", @"item0204", @"hartshorn", @"ColorCrown"];
-    _demoBar.selectedItem = _demoBar.itemsDataSource[1];
-
-    _demoBar.filtersDataSource = @[@"nature", @"delta", @"electric", @"slowlived", @"tokyo", @"warm"];
-    _demoBar.selectedFilter = _demoBar.filtersDataSource[0];
-
-    _demoBar.selectedBlur = 6;
-
-    _demoBar.beautyLevel = 0.2;
-    
-    _demoBar.thinningLevel = 1.0;
-    
-    _demoBar.enlargingLevel = 0.5;
-    
-    _demoBar.faceShapeLevel = 0.5;
-    
-    _demoBar.faceShape = 3;
-    
-    _demoBar.redLevel = 0.5;
-
-    _demoBar.delegate = self;
+    [_mCamera stopCapture];
 }
 
-//摄像头
+- (void)willEnterForeground
+{
+    [_mCamera startCapture];
+}
+
+- (void)didBecomeActive
+{
+    [_mCamera startCapture];
+}
+
+- (void)dismissTipLabel
+{
+    self.tipLabel.hidden = YES;
+}
+
+/**
+ 摄像头，默认前置摄像头，采集BGRA格式视频
+ 
+ @return FUCamera
+ */
 - (FUCamera *)mCamera
 {
     if (!_mCamera) {
@@ -151,46 +136,33 @@
     return _mCamera;
 }
 
-//显示摄像头画面
-- (AVSampleBufferDisplayLayer *)bufferDisplayer
+/**
+ Faceunity道具美颜工具条
+ 初始化 FUAPIDemoBar，设置初始美颜参数
+ 
+ @param demoBar FUAPIDemoBar不是我们的交付内容，它的作用仅局限于我们的Demo演示，客户可以选择使用，但我们不会提供与之相关的技术支持或定制需求开发
+ */
+- (void)setDemoBar:(FUAPIDemoBar *)demoBar
 {
-    if (!_bufferDisplayer) {
-        _bufferDisplayer = [[AVSampleBufferDisplayLayer alloc] init];
-        _bufferDisplayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-        _bufferDisplayer.frame = self.view.bounds;
-        
-        [self.view.layer insertSublayer:_bufferDisplayer atIndex:0];
-    }
+    _demoBar = demoBar;
+    _demoBar.delegate = self;
     
-    return _bufferDisplayer;
+    _demoBar.itemsDataSource =  [FUManager shareManager].itemsDataSource;
+    _demoBar.filtersDataSource = [FUManager shareManager].filtersDataSource;
+    
+    _demoBar.selectedItem = [FUManager shareManager].selectedItem;      /**选中的道具名称*/
+    _demoBar.selectedFilter = [FUManager shareManager].selectedFilter;  /**选中的滤镜名称*/
+    _demoBar.beautyLevel = [FUManager shareManager].beautyLevel;        /**美白 (0~1)*/
+    _demoBar.redLevel = [FUManager shareManager].redLevel;              /**红润 (0~1)*/
+    _demoBar.selectedBlur = [FUManager shareManager].selectedBlur;      /**磨皮(0、1、2、3、4、5、6)*/
+    _demoBar.faceShape = [FUManager shareManager].faceShape;            /**美型类型 (0、1、2、3) 默认：3，女神：0，网红：1，自然：2*/
+    _demoBar.faceShapeLevel = [FUManager shareManager].faceShapeLevel;  /**美型等级 (0~1)*/
+    _demoBar.enlargingLevel = [FUManager shareManager].enlargingLevel;  /**大眼 (0~1)*/
+    _demoBar.thinningLevel = [FUManager shareManager].thinningLevel;    /**瘦脸 (0~1)*/
 }
 
-- (void)willResignActive
-{
+-(void)takePhoto {
     
-    [_mCamera stopCapture];
-    
-}
-
-- (void)willEnterForeground
-{
-    
-    [_mCamera startCapture];
-}
-
-- (void)didBecomeActive
-{
-    static BOOL firstActive = YES;
-    if (firstActive) {
-        firstActive = NO;
-        return;
-    }
-    [_mCamera startCapture];
-}
-
-//拍照
-- (IBAction)takePhoto
-{
     //拍照效果
     self.photoBtn.enabled = NO;
     UIView *whiteView = [[UIView alloc] initWithFrame:self.view.bounds];
@@ -208,7 +180,22 @@
         }];
     }];
     
-    [_mCamera takePhotoAndSave];
+    [self.mCamera takePhotoAndSave];
+}
+
+-(void)startRecord {
+    self.barBtn.enabled = NO;
+    self.segment.enabled = NO;
+    self.changeCameraBtn.enabled = NO;
+    [self.mCamera startRecord];
+}
+
+-(void)stopRecord {
+    
+    self.barBtn.enabled = YES;
+    self.segment.enabled = YES;
+    self.changeCameraBtn.enabled = YES;
+    [self.mCamera stopRecord];
 }
 
 #pragma -显示工具栏
@@ -221,6 +208,7 @@
     }];
 }
 
+#pragma -隐藏工具栏
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [touches allObjects].firstObject;
@@ -235,165 +223,154 @@
     }];
 }
 
+#pragma -BGRA/YUV切换
+- (IBAction)changeCaptureFormat:(UISegmentedControl *)sender {
+    _mCamera.captureFormat = _mCamera.captureFormat == kCVPixelFormatType_32BGRA ? kCVPixelFormatType_420YpCbCr8BiPlanarFullRange:kCVPixelFormatType_32BGRA;
+}
+
 #pragma -摄像头切换
 - (IBAction)changeCamera:(UIButton *)sender {
     
     [_mCamera changeCameraInputDeviceisFront:!_mCamera.isFrontCamera];
     
-#warning 切换摄像头要调用此函数
-    [FURenderer onCameraChange];
-}
-
-#pragma -BGRA/YUV切换
-- (IBAction)changeCaptureFormat:(UISegmentedControl *)sender {
-    
-    _mCamera.captureFormat = _mCamera.captureFormat == kCVPixelFormatType_32BGRA ? kCVPixelFormatType_420YpCbCr8BiPlanarFullRange:kCVPixelFormatType_32BGRA;
-
+    /**切换摄像头要调用此函数*/
+    [[FUManager shareManager] onCameraChange];
 }
 
 #pragma -FUAPIDemoBarDelegate
 - (void)demoBarDidSelectedItem:(NSString *)item
 {
-    //异步加载道具
-    [self loadItem];
+    //加载道具
+    [[FUManager shareManager] loadItem:item];
+    
+    //显示道具的提示语
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSString *hint = [[FUManager shareManager] hintForItem:item];
+        self.tipLabel.hidden = hint == nil;
+        self.tipLabel.text = hint;
+        
+        [ViewController cancelPreviousPerformRequestsWithTarget:self selector:@selector(dismissTipLabel) object:nil];
+        [self performSelector:@selector(dismissTipLabel) withObject:nil afterDelay:5 ];
+    });
+    
+    _isAvatar = [item isEqualToString:@"lixiaolong"];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.landmarksGlView.hidden = !_isAvatar;
+    });
+}
+
+/**设置美颜参数*/
+- (void)demoBarBeautyParamChanged
+{
+    [self syncBeautyParams];
+}
+
+- (void)syncBeautyParams
+{
+    [FUManager shareManager].selectedFilter = _demoBar.selectedFilter;
+    [FUManager shareManager].selectedBlur = _demoBar.selectedBlur;
+    [FUManager shareManager].beautyLevel = _demoBar.beautyLevel;
+    [FUManager shareManager].redLevel = _demoBar.redLevel;
+    [FUManager shareManager].faceShape = _demoBar.faceShape;
+    [FUManager shareManager].faceShapeLevel = _demoBar.faceShapeLevel;
+    [FUManager shareManager].thinningLevel = _demoBar.thinningLevel;
+    [FUManager shareManager].enlargingLevel = _demoBar.enlargingLevel;
 }
 
 #pragma -FUCameraDelegate
 - (void)didOutputVideoSampleBuffer:(CMSampleBufferRef)sampleBuffer
 {
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        if ([UIApplication sharedApplication].applicationState != UIApplicationStateActive) {
-            return;
-        }
-    });
-    
-    //人脸跟踪
-    int curTrack = [FURenderer isTracking];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.noTrackView.hidden = curTrack;
-    });
-    
-    #warning 如果需开启手势检测，请打开下方的注释
-    /*
-     if (items[2] == 0) {
-     [self loadHeart];
-     }
-     */
-    
-    /*设置美颜效果（滤镜、磨皮、美白、瘦脸、大眼....）*/
-    [FURenderer itemSetParam:items[1] withName:@"cheek_thinning" value:@(self.demoBar.thinningLevel)]; //瘦脸
-    [FURenderer itemSetParam:items[1] withName:@"eye_enlarging" value:@(self.demoBar.enlargingLevel)]; //大眼
-    [FURenderer itemSetParam:items[1] withName:@"color_level" value:@(self.demoBar.beautyLevel)]; //美白
-    [FURenderer itemSetParam:items[1] withName:@"filter_name" value:_demoBar.selectedFilter]; //滤镜
-    [FURenderer itemSetParam:items[1] withName:@"blur_level" value:@(self.demoBar.selectedBlur)]; //磨皮
-    [FURenderer itemSetParam:items[1] withName:@"face_shape" value:@(self.demoBar.faceShape)]; //瘦脸类型
-    [FURenderer itemSetParam:items[1] withName:@"face_shape_level" value:@(self.demoBar.faceShapeLevel)]; //瘦脸等级
-    [FURenderer itemSetParam:items[1] withName:@"red_level" value:@(self.demoBar.redLevel)]; //红润
-    
-    //Faceunity核心接口，将道具及美颜效果作用到图像中，执行完此函数pixelBuffer即包含美颜及贴纸效果
     CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
     
-    [[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:3 flipx:YES];//flipx 参数设为YES可以使道具做水平方向的镜像翻转
-    frameID += 1;
+    /*--------------------------------------以下展示人脸特征点逻辑--------------------------------------*/
+    /**如果当前的道具是avatar道具，先将原始图像拷贝出来一份，
+     等处理完原始图像并将其显示在屏幕上后，我们再将图像拷贝回去，用于界面左上角的人脸特征点显示*/
+    void *copyData = NULL;
+    if (self.isAvatar)
+    {
+        copyData = [self getCopyDataFromPixelBuffer:pixelBuffer];
+    }
+    /*--------------------------------------以上展示人脸特征点逻辑--------------------------------------*/
     
-    #warning 执行完上一步骤，即可将pixelBuffer绘制到屏幕上或推流到服务器进行直播
-    //本地显示视频图像
     
-    CFRetain(sampleBuffer);
+    
+    /*---------------------------------将道具绘制到pixelBuffer，并显示在屏幕上---------------------------------*/
+    /**将道具绘制到pixelBuffer*/
+    [[FUManager shareManager] renderItemsToPixelBuffer:pixelBuffer];
+    
+    /**执行完上一步骤，即可将pixelBuffer绘制到屏幕上或推流到服务器进行直播*/
+    [self.displayGLView displayPixelBuffer:pixelBuffer];
+    /*---------------------------------处理pixelBuffer，并显示在屏幕上---------------------------------*/
+    
+    
+    
+    /*--------------------------------------以下展示人脸特征点逻辑--------------------------------------*/
+    /**将图像拷贝回去，用于界面左上角的人脸特征点显示*/
+    if (self.isAvatar && copyData)
+    {
+        [self copyDataBackToPixelBuffer:pixelBuffer copyData:copyData];
+        [self displayLandmarksWithPixelBuffer:pixelBuffer];
+    }
+    free(copyData);
+    /*--------------------------------------以上展示人脸特征点逻辑--------------------------------------*/
+    
+    
     dispatch_async(dispatch_get_main_queue(), ^{
+        /**判断是否检测到人脸*/
+        self.noTrackView.hidden = [[FUManager shareManager] isTracking];
         
-        if (self.bufferDisplayer.status == AVQueuedSampleBufferRenderingStatusFailed) {
-            [self.bufferDisplayer flush];
-        }
+        // 检测并显示错误信息
+        self.errorLabel.text = [[FUManager shareManager] getError];
         
-        if ([self.bufferDisplayer isReadyForMoreMediaData]) {
-            [self.bufferDisplayer enqueueSampleBuffer:sampleBuffer];
-        }
-        
-        CFRelease(sampleBuffer);
+        // 根据人脸中心点实时调节摄像头曝光参数及聚焦参数
+        CGPoint center = [[FUManager shareManager] getFaceCenterInView:self.displayGLView];;
+        self.mCamera.exposurePoint = CGPointMake(center.y/self.view.bounds.size.height,self.mCamera.isFrontCamera ? center.x/self.view.bounds.size.width:1-center.x/self.view.bounds.size.width);
     });
 }
 
-#pragma -Faceunity Load Data
-- (void)loadItem
+/**
+ 显示lanmarks预览
+ */
+- (void)displayLandmarksWithPixelBuffer:(CVPixelBufferRef)pixelBuffer
 {
-    if ([_demoBar.selectedItem isEqual: @"noitem"] || _demoBar.selectedItem == nil)
-    {
-        if (items[0] != 0) {
-            NSLog(@"faceunity: destroy item");
-            [FURenderer destroyItem:items[0]];
-        }
-        items[0] = 0;
-        return;
-    }
+    float landmarks[150];
     
-    int size = 0;
+    [[FUManager shareManager] getLandmarks:landmarks];
     
-    // 先创建再释放可以有效缓解切换道具卡顿问题
-    void *data = [self mmap_bundle:[_demoBar.selectedItem stringByAppendingString:@".bundle"] psize:&size];
-    
-    int itemHandle = [FURenderer createItemFromPackage:data size:size];
-    
-    if (items[0] != 0) {
-        NSLog(@"faceunity: destroy item");
-        [FURenderer destroyItem:items[0]];
-    }
-    
-    items[0] = itemHandle;
-    
-    NSLog(@"faceunity: load item");
+    [self.landmarksGlView displayPixelBuffer:pixelBuffer withLandmarks:landmarks count:150];
 }
 
-- (void)loadFilter
+
+/*--------------------------------------以下展示人脸特征点逻辑--------------------------------------*/
+- (void *)getCopyDataFromPixelBuffer:(CVPixelBufferRef)pixelBuffer
 {
+    CVPixelBufferLockBaseAddress(pixelBuffer, 0);
     
-    int size = 0;
+    size_t size = CVPixelBufferGetDataSize(pixelBuffer);
+    void *bytes = (void *)CVPixelBufferGetBaseAddress(pixelBuffer);
     
-    void *data = [self mmap_bundle:@"face_beautification.bundle" psize:&size];
+    void *copyData = malloc(size);
     
-    items[1] = [FURenderer createItemFromPackage:data size:size];
+    memcpy(copyData, bytes, size);
+    
+    CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
+    
+    return copyData;
 }
 
-- (void)loadHeart
+- (void)copyDataBackToPixelBuffer:(CVPixelBufferRef)pixelBuffer copyData:(void *)copyData
 {
-    int size = 0;
+    CVPixelBufferLockBaseAddress(pixelBuffer, 0);
     
-    void *data = [self mmap_bundle:@"heart_v2.bundle" psize:&size];
+    size_t size = CVPixelBufferGetDataSize(pixelBuffer);
+    void *bytes = (void *)CVPixelBufferGetBaseAddress(pixelBuffer);
     
-    items[2] = [FURenderer createItemFromPackage:data size:size];
+    memcpy(bytes, copyData, size);
+    
+    CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
 }
-
-- (void *)mmap_bundle:(NSString *)bundle psize:(int *)psize {
-    
-    // Load item from predefined item bundle
-    NSString *str = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:bundle];
-    const char *fn = [str UTF8String];
-    int fd = open(fn,O_RDONLY);
-    
-    int size = 0;
-    void* zip = NULL;
-    
-    if (fd == -1) {
-        NSLog(@"faceunity: failed to open bundle");
-        size = 0;
-    }else
-    {
-        size = [self getFileSize:fd];
-        zip = mmap(nil, size, PROT_READ, MAP_SHARED, fd, 0);
-        close(fd);
-    }
-    
-    *psize = size;
-    return zip;
-}
-
-- (int)getFileSize:(int)fd
-{
-    struct stat sb;
-    sb.st_size = 0;
-    fstat(fd, &sb);
-    return (int)sb.st_size;
-}
+/*--------------------------------------以上展示人脸特征点逻辑--------------------------------------*/
 
 @end
+
 

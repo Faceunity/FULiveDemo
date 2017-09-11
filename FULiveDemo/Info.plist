@@ -22,6 +22,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>获取摄像头权限</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>使用相册权限</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>使用相册权限</string>
 	<key>UILaunchStoryboardName</key>
