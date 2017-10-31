@@ -247,17 +247,21 @@ static FUManager *shareManager = NULL;
     return buffer;
 }
 
-/**获取view中人脸中心点*/
-- (CGPoint)getFaceCenterInView:(UIView *)view{
+/**获取图像中人脸中心点*/
+- (CGPoint)getFaceCenterInFrameSize:(CGSize)frameSize{
     
-    CGSize viewSize = view.frame.size;
+    static CGPoint preCenter;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        preCenter = CGPointMake(0.5, 0.5);
+    });
     
     // 获取人脸矩形框，坐标系原点为图像右下角，float数组为矩形框右下角及左上角两个点的x,y坐标（前两位为右下角的x,y信息，后两位为左上角的x,y信息）
     float faceRect[4];
     int ret = [FURenderer getFaceInfo:0 name:@"face_rect" pret:faceRect number:4];
     
     if (ret == 0) {
-        return CGPointMake(viewSize.width * 0.5, viewSize.height * 0.5);
+        return preCenter;
     }
     
     // 计算出中心点的坐标值
@@ -266,24 +270,16 @@ static FUManager *shareManager = NULL;
     
     // 将坐标系转换成以左上角为原点的坐标系
     centerX = frameSize.width - centerX;
+    centerX = centerX / frameSize.width;
+    
     centerY = frameSize.height - centerY;
+    centerY = centerY / frameSize.height;
     
-    // 将中心点从buffer转换到view
-    CGFloat dw = frameSize.width / viewSize.width;
-    CGFloat dh = frameSize.height / viewSize.height;
-    CGFloat d = MIN(dw, dh);
+    CGPoint center = CGPointMake(centerX, centerY);
     
-    CGSize dFrameSize = CGSizeMake(frameSize.width / d, frameSize.height / d);
-    centerX *= 1 / d;
-    centerY *= 1 / d;
+    preCenter = center;
     
-    CGFloat x = (dFrameSize.width - viewSize.width) * 0.5;
-    CGFloat y = (dFrameSize.height - viewSize.height) * 0.5;
-    
-    centerX -= x;
-    centerY -= y;
-    
-    return CGPointMake(centerX, centerY);
+    return center;
 }
 
 /**获取75个人脸特征点*/

@@ -47,8 +47,13 @@
 /**获取75个人脸特征点*/
 - (void)getLandmarks:(float *)landmarks;
 
-/**获取view中人脸中心点*/
-- (CGPoint)getFaceCenterInView:(UIView *)view;
+/**
+ 获取图像中人脸中心点位置
+
+ @param frameSize 图像的尺寸，该尺寸要与视频处理接口或人脸信息跟踪接口中传入的图像宽高相一致
+ @return 返回一个以图像左上角为原点的中心点
+ */
+- (CGPoint)getFaceCenterInFrameSize:(CGSize)frameSize;
 
 /**判断是否检测到人脸*/
 - (BOOL)isTracking;

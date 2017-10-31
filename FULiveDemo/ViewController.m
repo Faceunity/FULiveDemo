@@ -317,7 +317,13 @@
     free(copyData);
     /*--------------------------------------以上展示人脸特征点逻辑--------------------------------------*/
     
-    
+    CGSize frameSize;
+    if (CVPixelBufferGetPixelFormatType(pixelBuffer) == kCVPixelFormatType_32BGRA) {
+        frameSize = CGSizeMake(CVPixelBufferGetBytesPerRow(pixelBuffer) / 4, CVPixelBufferGetHeight(pixelBuffer));
+    }else{
+        frameSize = CGSizeMake(CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer));
+    }
+
     dispatch_async(dispatch_get_main_queue(), ^{
         /**判断是否检测到人脸*/
         self.noTrackView.hidden = [[FUManager shareManager] isTracking];
@@ -326,8 +332,9 @@
         self.errorLabel.text = [[FUManager shareManager] getError];
         
         // 根据人脸中心点实时调节摄像头曝光参数及聚焦参数
-        CGPoint center = [[FUManager shareManager] getFaceCenterInView:self.displayGLView];;
-        self.mCamera.exposurePoint = CGPointMake(center.y/self.view.bounds.size.height,self.mCamera.isFrontCamera ? center.x/self.view.bounds.size.width:1-center.x/self.view.bounds.size.width);
+        CGPoint center = [[FUManager shareManager] getFaceCenterInFrameSize:frameSize];;
+        self.mCamera.exposurePoint = CGPointMake(center.y,self.mCamera.isFrontCamera ? center.x:1-center.x);
+
     });
 }
 
