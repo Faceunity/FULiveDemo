@@ -88,6 +88,21 @@ typedef struct{
 
 /**
  视频处理接口3：
+ - 将 items 中的道具绘制到 pixelBuffer 中
+ - 与 视频处理接口2 相比新增 customSize 参数，可以自定义输出分辨率
+ 
+ @param pixelBuffer 图像数据，支持的格式为：BGRA、YUV420SP
+ @param frameid 当前处理的视频帧序数，每次处理完对其进行加 1 操作，不加 1 将无法驱动道具中的特效动画
+ @param items 包含多个道具句柄的 int 数组
+ @param itemCount 句柄数组中包含的句柄个数
+ @param flip 道具镜像使能，如果设置为 YES 可以将道具做镜像操作
+ @param customSize 自定义输出的分辨率，目前仅支持BGRA格式
+ @return 被处理过的的图像数据，与传入的 pixelBuffer 为同一个 pixelBuffer
+ */
+- (CVPixelBufferRef)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer withFrameId:(int)frameid items:(int*)items itemCount:(int)itemCount flipx:(BOOL)flip customSize:(CGSize)customSize;
+
+/**
+ 视频处理接口4：
      - 将 items 中的道具绘制到一个新的 pixelBuffer 中，输出与输入不是同一个 pixelBuffer
  
  @param pixelBuffer 图像数据，支持的格式为：BGRA、YUV420SP
@@ -99,7 +114,7 @@ typedef struct{
 - (CVPixelBufferRef)renderToInternalPixelBuffer:(CVPixelBufferRef)pixelBuffer withFrameId:(int)frameid items:(int*)items itemCount:(int)itemCount;
 
 /**
- 视频处理接口4：
+ 视频处理接口5：
      - 将 items 中的道具绘制到 textureHandle 及 pixelBuffer 中
      - 该接口适用于可同时输入 GLES texture 及 pixelBuffer 的用户，这里的 pixelBuffer 主要用于 CPU 上的人脸检测，如果只有 GLES texture 此接口将无法工作。
  
@@ -113,9 +128,9 @@ typedef struct{
 - (FUOutput)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer bgraTexture:(GLuint)textureHandle withFrameId:(int)frameid items:(int *)items itemCount:(int)itemCount;
 
 /**
- 视频处理接口5：
+ 视频处理接口6：
      - 将items中的道具绘制到 textureHandle 及 pixelBuffer 中
-     - 与 视频处理接口4 相比新增 flip 参数，将该参数设置为 YES 可使道具做水平镜像翻转。
+     - 与 视频处理接口5 相比新增 flip 参数，将该参数设置为 YES 可使道具做水平镜像翻转。
  
  @param pixelBuffer 图像数据，支持的格式为：BGRA、YUV420SP，用于人脸识别
  @param textureHandle  用户当前 EAGLContext 下的 textureID，用于图像处理
@@ -128,9 +143,9 @@ typedef struct{
 - (FUOutput)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer bgraTexture:(GLuint)textureHandle withFrameId:(int)frameid items:(int *)items itemCount:(int)itemCount flipx:(BOOL)flip;
 
 /**
- 视频处理接口6：
+ 视频处理接口7：
  - 将items中的道具绘制到 textureHandle 及 pixelBuffer 中
- - 与 视频处理接口5 相比新增 customSize 参数，可以自定义输出分辨率。
+ - 与 视频处理接口6 相比新增 customSize 参数，可以自定义输出分辨率。
  
  @param pixelBuffer 图像数据，支持的格式为：BGRA、YUV420SP，用于人脸识别
  @param textureHandle  用户当前 EAGLContext 下的 textureID，用于图像处理
@@ -144,7 +159,7 @@ typedef struct{
 - (FUOutput)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer bgraTexture:(GLuint)textureHandle withFrameId:(int)frameid items:(int *)items itemCount:(int)itemCount flipx:(BOOL)flip customSize:(CGSize)customSize;
 
 /**
- 视频处理接口7：
+ 视频处理接口8：
      - 该接口不包含人脸检测功能，只能对图像做美白、红润、滤镜、磨皮操作，不包含瘦脸及大眼等美型功能。
  
  @param pixelBuffer 图像数据，支持的格式为：BGRA、YUV420SP
@@ -154,7 +169,7 @@ typedef struct{
 - (CVPixelBufferRef)beautifyPixelBuffer:(CVPixelBufferRef)pixelBuffer withBeautyItem:(int)item;
 
 /**
- 视频处理接口8：
+ 视频处理接口9：
      - 将 items 中的道具绘制到 YUV420P 图像中
  
  @param y Y帧图像地址
@@ -172,9 +187,9 @@ typedef struct{
 - (void)renderFrame:(uint8_t*)y u:(uint8_t*)u v:(uint8_t*)v ystride:(int)ystride ustride:(int)ustride vstride:(int)vstride width:(int)width height:(int)height frameId:(int)frameid items:(int *)items itemCount:(int)itemCount;
 
 /**
- 视频处理接口9：
+ 视频处理接口10：
      - 将 items 中的道具绘制到 YUV420P 图像中
-     - 与 视频处理接口8 相比新增 flip 参数，将该参数设置为 YES 可使道具做水平镜像翻转
+     - 与 视频处理接口9 相比新增 flip 参数，将该参数设置为 YES 可使道具做水平镜像翻转
  
  @param y Y帧图像地址
  @param u U帧图像地址
@@ -190,6 +205,16 @@ typedef struct{
  @param flip 道具镜像使能，如果设置为 YES 可以将道具做镜像操作
  */
 - (void)renderFrame:(uint8_t*)y u:(uint8_t*)u v:(uint8_t*)v ystride:(int)ystride ustride:(int)ustride vstride:(int)vstride width:(int)width height:(int)height frameId:(int)frameid items:(int *)items itemCount:(int)itemCount flipx:(BOOL)flip;
+
+
+/**
+ resize视频图像，目前仅支持BGRA格式的pixelBuffer
+
+ @param pixelBuffer BGRA格式的pixelBuffer
+ @param resizeSize resizeSize
+ @return resizeSize之后的pixelBuffer
+ */
+- (CVPixelBufferRef)resizePixelBuffer:(CVPixelBufferRef)pixelBuffer resizeSize:(CGSize)resizeSize;
 
 /**
  切换摄像头时需调用的接口：
@@ -295,7 +320,7 @@ typedef struct{
 
 /**
  人脸信息跟踪：
-     - 该接口只对人脸进行检测，如果程序中没有运行过视频处理接口( 视频处理接口7 除外)，则需要先执行完该接口才能使用 获取人脸信息接口 来获取人脸信息
+     - 该接口只对人脸进行检测，如果程序中没有运行过视频处理接口( 视频处理接口8 除外)，则需要先执行完该接口才能使用 获取人脸信息接口 来获取人脸信息
  
  @param inputFormat 输入图像格式：FU_FORMAT_BGRA_BUFFER 或 FU_FORMAT_NV12_BUFFER
  @param inputData 输入的图像 bytes 地址
@@ -307,7 +332,7 @@ typedef struct{
 
 /**
  获取人脸信息：
-     - 在程序中需要先运行过视频处理接口( 视频处理接口7 除外)或 人脸信息跟踪接口 后才能使用该接口来获取人脸信息；
+     - 在程序中需要先运行过视频处理接口( 视频处理接口8 除外)或 人脸信息跟踪接口 后才能使用该接口来获取人脸信息；
      - 该接口能获取到的人脸信息与我司颁发的证书有关，普通证书无法通过该接口获取到人脸信息；
      - 具体参数及证书要求如下：
  

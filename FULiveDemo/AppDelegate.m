@@ -18,7 +18,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    
+    [UIApplication sharedApplication].idleTimerDisabled = YES;
     [SVProgressHUD setMinimumDismissTimeInterval:1.5];
     return YES;
 }

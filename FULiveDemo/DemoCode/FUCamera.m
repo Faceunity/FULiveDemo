@@ -214,7 +214,7 @@ typedef enum : NSUInteger {
 //录制的队列
 - (dispatch_queue_t)captureQueue {
     if (_captureQueue == nil) {
-        _captureQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+        _captureQueue = dispatch_queue_create("com.faceunity.captureQueue", DISPATCH_QUEUE_SERIAL);
     }
     return _captureQueue;
 }
