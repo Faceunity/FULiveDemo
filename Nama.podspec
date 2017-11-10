@@ -1,8 +1,8 @@
 Pod::Spec.new do |s|
-  s.name     = 'Nama-dev'
+  s.name     = 'Nama'
   s.version  = '4.2'
   s.license  = 'MIT'
-  s.summary  = 'faceunity nama v4.2_dev'
+  s.summary  = 'faceunity nama v4.2-dev'
   s.homepage = 'https://www.faceunity.com'
   s.author   = { 'faceunity' => 'dev@faceunity.com' }
   s.platform     = :ios, "8.0"
