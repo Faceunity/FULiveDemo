@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
   s.version  = '4.2'
   s.license  = 'MIT'
   s.summary  = 'faceunity nama v4.2-dev'
-  s.homepage = 'https://www.faceunity.com'
+  s.homepage = 'https://github.com/Faceunity/FULiveDemo/tree/dev'
   s.author   = { 'faceunity' => 'dev@faceunity.com' }
   s.platform     = :ios, "8.0"
   s.source   = { :git => 'https://github.com/Faceunity/FULiveDemo.git', :tag => 'v4.2-dev' }
