@@ -11,27 +11,56 @@ FULiveDemo 是集成了 Faceunity 面部跟踪和虚拟道具及手势识别功�
 
 此外，我们优化了SDK的系统稳定性，在网络条件波动的情况下保持SDK正常运行，并提供了获取SDK系统错误信息的接口，方便应用灵活处理。
 
-## 下载SDK
+## 软件需求
 
-您可以在github下载iOS端Demo: [FULiveDemo](https://github.com/Faceunity/FULiveDemo/)，解压后得到一个FULiveDemo文件夹。根据路径"FULiveDemo/FULiveDemo/Faceunity/"找到Faceunity文件夹，该文件夹所包含的文件即是集成我们SDK所需的文件。目录结构截图如下：
+### 一、支持平台
 
-**Faceunity文件夹**
+    iOS 8.0以上系统
+  
+### 二、开发环境
 
- ![](./screenshots/picture0_0.png)
+    Xcode 8或更高版本
 
-**Faceunity-SDK-iOS文件夹**
+## SDK集成
 
- ![](./screenshots/picture0_1.png)
- 
-**items文件夹**
+### 一、通过cocoapods集成
 
- ![](./screenshots/picture0_2.png)
+含有深度学习的版本：
 
-### 文件说明
+	pod 'Nama', '4.1' 
+	
+不含深度学习的版本（lite版）：
+	
+	pod 'Nama-lite', '4.1' 
+
+接下来执行：
+
+	pod install
+	
+如果提示无法找到该版本，请尝试执行以下指令后再试：
+
+	pod repo update 或 pod setup
+	
+### 二、通过 github 下载集成
+
+含有深度学习的版本：[FaceUnity-SDK-iOS-v4.1-release.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v4.1-release/FaceUnity-SDK-iOS-v4.1-release.zip)
+	
+不含深度学习的版本（lite版）：[FaceUnity-SDK-iOS-v4.1-release-lite.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v4.1-release/FaceUnity-SDK-iOS-v4.1-release-lite.zip)
+
+下载完成并解压后将库文件夹拖入到工程中，并勾选上 Copy items if needed，如图：
 
 ---
+![](./screenshots/picture1.png)
+
+然后在Build Phases → Link Binary With Libraries 中添加依赖库，这里需要添加 OpenGLES.framework、Accelerate.framework、CoreMedia.framework、AVFoundation.framework、stdc++.tbd 这几个依赖库，如果你使用的是lite版可以不添加 stdc++.tbd 依赖，如图：
+
+---
+![](./screenshots/picture2.png)
+
+## 文件说明
+
 ### 一、头文件
-  - authpack.h 证书文件
+  - authpack.h 证书文件，一般由我司通过邮箱发送给使用者
   - funama.h C接口头文件
   - FURenderer.h OC接口头文件
   
@@ -41,32 +70,9 @@ FULiveDemo 是集成了 Faceunity 面部跟踪和虚拟道具及手势识别功�
 ### 三、数据文件
   - v3.bundle 初始化必须的二进制文件 
   - face_beautification.bundle 我司美颜相关的二进制文件
-  - items/*.bundle 我司制作的特效贴纸文件，自定义特效贴纸制作的文档和工具请联系我司获取。
+  - items/*.bundle 该文件夹位于 FULiveDemo 的字文件夹中，这些 .bundle 文件是我司制作的特效贴纸文件，自定义特效贴纸制作的文档和工具请联系我司获取。
 
 注：这些数据文件都是二进制数据，与扩展名无关。实际在app中使用时，打包在程序内或者从网络接口下载这些数据都是可行的，只要在相应的函数接口传入正确的文件路径即可。
-
-## Xcode工程设置
-
-### 一、支持平台
-
-    iOS 8.0以上系统
-  
-### 二、开发环境
-
-    Xcode 8或更高版本
-    
-### 三、Xcode工程设置
-
-首先，将下载的Faceunity文件夹拖入到项目中，并勾选上 Copy items if needed，如图：
-
----
-![](./screenshots/picture2.png)
-
-然后在Build Phases → Link Binary With Libraries 中添加依赖库，这里只需要添加Accelerate.framework一个库即可，如图：
-
----
-![](./screenshots/picture3.png)
-
 
 ## 初始化
 
@@ -107,7 +113,7 @@ NSString *v3Path = [[NSBundle mainBundle] pathForResource:@"v3" ofType:@"bundle"
     
 [[FURenderer shareRenderer] setupWithDataPath:v3Path authPackage:g_auth_package authSize:sizeof(g_auth_package) shouldCreateContext:YES];
 ```
-注：app启动后只需要setup一次FURenderer即可。
+注：app启动后只需要setup一次FURenderer即可，其中 g_auth_package 密钥数组声明在 authpack.h 中。
 
 至此，工程的配置及 SDK 的初始化工作已全部完成，下面就可以通过我们的 SDK 进行视频处理了！
 
