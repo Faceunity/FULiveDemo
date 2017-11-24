@@ -27,11 +27,11 @@ FULiveDemo 是集成了 Faceunity 面部跟踪和虚拟道具及手势识别功�
 
 含有深度学习的版本：
 
-	pod 'Nama', '4.2' #注意此版本目前为dev版
+	pod 'Nama', '4.3' #注意此版本目前为dev版
 	
 不含深度学习的版本（lite版）：
 	
-	pod 'Nama-lite', '4.2' #注意此版本目前为dev版
+	pod 'Nama-lite', '4.3' #注意此版本目前为dev版
 
 接下来执行：
 
@@ -43,9 +43,9 @@ FULiveDemo 是集成了 Faceunity 面部跟踪和虚拟道具及手势识别功�
 	
 ### 二、通过 github 下载集成
 
-含有深度学习的版本：[FaceUnity-SDK-iOS-v4.2-dev.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v4.2-dev/FaceUnity-SDK-iOS-v4.2-dev.zip)
+含有深度学习的版本：[FaceUnity-SDK-iOS-v4.3-dev.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v4.3-dev/FaceUnity-SDK-iOS-v4.3-dev.zip)
 	
-不含深度学习的版本（lite版）：[FaceUnity-SDK-iOS-v4.2-dev-lite.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v4.2-dev/FaceUnity-SDK-iOS-v4.2-dev-lite.zip)
+不含深度学习的版本（lite版）：[FaceUnity-SDK-iOS-v4.3-dev-lite.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v4.3-dev/FaceUnity-SDK-iOS-v4.3-dev-lite.zip)
 
 下载完成并解压后将库文件夹拖入到工程中，并勾选上 Copy items if needed，如图：
 

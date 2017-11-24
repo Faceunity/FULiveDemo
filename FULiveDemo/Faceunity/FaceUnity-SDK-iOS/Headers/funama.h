@@ -382,12 +382,15 @@ FUNAMA_API void fuSetQualityTradeoff(float quality);
 \param name is among "landmarks", "eye_rotation", "translation", "rotation"
 \param pret allocated memory space as container
 \param num is number of float allocated in pret
-	eg: 	  "landmarks" - 75*2 float
-			  "landmarks_ar" - 75*3 float
-			  "eye_rotation" - 4
-			  "translation" - 3
-			  "rotation" - 4
-			  "projection_matrix" - 16
+	eg: 	  "landmarks" - 2D landmarks coordinates in image space - 75*2 float
+			  "landmarks_ar" - 3D landmarks coordinates in camera space - 75*3 float
+			  "eye_rotation" - eye rotation quaternion - 4 float - (Conversion between quaternions and Eular angles: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles)
+			  "translation" - 3D translation of face in camera space - 3 float
+			  "rotation" - rotation quaternion - 4 float - (Conversion between quaternions and Eular angles: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles)
+			  "projection_matrix" - the transform matrix from camera space to image space - 16 float
+			  "face_rect" - the rectangle of tracked face in image space, (xmin,ymin,xmax,ymax) - 4 float
+			  "rotation_mode" - the relative orientaion of face agains phone, 0-3 - 1 float
+			  "failure_rate" - the failure rate of face tracking, the less the more confident about tracking result - 1 float
 \return 1 means successful fetch, container filled with info
 	0 means failure, general failure is due to invalid face info
 	other specific failure will print on the console
@@ -526,6 +529,14 @@ FUNAMA_API void fuSetExpressionCalibration(int i);
 	<= 0.f would be treated as illegal input and discard	
 */
 FUNAMA_API void fuSetFocalLengthScale(float scale);
+
+/**
+\brief Load extended AR data, which is required for high quality AR items
+\param data - the pointer to the extended AR data
+\param sz - the data size, we use plain int to avoid cross-language compilation issues
+\return zero for failure, non-zero for success
+*/
+FUNAMA_API int fuLoadExtendedARData(void* data,int sz);
 
 #ifdef __cplusplus
 }

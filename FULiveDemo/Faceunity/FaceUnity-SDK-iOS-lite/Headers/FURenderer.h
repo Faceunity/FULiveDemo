@@ -217,6 +217,17 @@ typedef struct{
 - (CVPixelBufferRef)resizePixelBuffer:(CVPixelBufferRef)pixelBuffer resizeSize:(CGSize)resizeSize;
 
 /**
+ 通过texture获取指定大小与格式的pixelBuffer
+
+ @param texture rgba texture
+ @param textureSize texture 尺寸
+ @param outPutSize 输出的pixelBuffer的尺寸
+ @param outputFormat 输出的pixelBuffer的格式，接受的参数有两个，分别为：FU_FORMAT_NV12_BUFFER、FU_FORMAT_BGRA_BUFFER
+ @return 从texture获取到的指定大小与格式的pixelBuffer
+ */
+- (CVPixelBufferRef)getPixelBufferFromTexture:(int)texture textureSize:(CGSize)textureSize outputSize:(CGSize)outPutSize outputFormat:(int)outputFormat;
+
+/**
  切换摄像头时需调用的接口：
      - 切换摄像头时需要调用该接口，我们会在内部重置人脸检测的一些状态
  */
