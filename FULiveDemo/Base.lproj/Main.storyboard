@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13189.4" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13165.3"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -19,7 +19,7 @@
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" customClass="FUOpenGLView">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -93,12 +93,17 @@
                                 <color key="textColor" red="1" green="0.74509803919999995" blue="0.1137254902" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ykL-yY-yyf" customClass="FUOpenGLView">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="fuC-jD-wOs" secondAttribute="bottom" constant="220" id="2hw-si-lkm"/>
                             <constraint firstItem="jSw-MV-hvv" firstAttribute="centerY" secondItem="usO-GM-0FD" secondAttribute="centerY" constant="-10" id="7P2-ID-dhf"/>
+                            <constraint firstItem="fEb-dE-FKO" firstAttribute="top" secondItem="ykL-yY-yyf" secondAttribute="bottom" id="80D-D7-yot"/>
                             <constraint firstAttribute="trailing" secondItem="fEb-dE-FKO" secondAttribute="trailing" id="Fww-zy-IwP"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="fEb-dE-FKO" secondAttribute="bottom" constant="-208" id="JX4-Sd-CVa"/>
                             <constraint firstItem="ZgK-CZ-Gr6" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="1:3" id="KEF-dl-hcY"/>
@@ -115,12 +120,15 @@
                             <constraint firstItem="YWw-73-tqa" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="ft0-ge-meG"/>
                             <constraint firstItem="7Zd-dL-fbe" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="jn9-3g-5pX"/>
                             <constraint firstItem="ZgK-CZ-Gr6" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="pJl-4U-SH6"/>
+                            <constraint firstAttribute="trailing" secondItem="ykL-yY-yyf" secondAttribute="trailing" id="pqD-7q-7Vs"/>
+                            <constraint firstItem="ykL-yY-yyf" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="q9q-pX-hV6"/>
                             <constraint firstAttribute="trailingMargin" secondItem="7Zd-dL-fbe" secondAttribute="trailing" id="qfg-gM-KNw"/>
                             <constraint firstItem="usO-GM-0FD" firstAttribute="centerX" secondItem="SBT-Gd-3MN" secondAttribute="centerX" id="rXy-Yc-0BF"/>
                             <constraint firstItem="SBT-Gd-3MN" firstAttribute="centerY" secondItem="4JB-yh-kQZ" secondAttribute="centerY" id="tpO-C3-2ct"/>
                             <constraint firstItem="4JB-yh-kQZ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="v0U-mG-yLh"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="4JB-yh-kQZ" secondAttribute="trailingMargin" id="vc7-rr-CwK"/>
                             <constraint firstAttribute="trailing" secondItem="SBT-Gd-3MN" secondAttribute="trailing" constant="10" id="vhB-wr-GVN"/>
+                            <constraint firstItem="ykL-yY-yyf" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="vyT-G5-Dzy"/>
                         </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
@@ -129,7 +137,7 @@
                         <outlet property="barBtn" destination="usO-GM-0FD" id="V0F-4M-jUJ"/>
                         <outlet property="changeCameraBtn" destination="SBT-Gd-3MN" id="HQx-q8-QKq"/>
                         <outlet property="demoBar" destination="fEb-dE-FKO" id="dKl-5p-I3f"/>
-                        <outlet property="displayGLView" destination="8bC-Xf-vdC" id="fUK-cI-GXq"/>
+                        <outlet property="displayGLView" destination="ykL-yY-yyf" id="VRg-Pi-EFx"/>
                         <outlet property="errorLabel" destination="7Zd-dL-fbe" id="Y1A-gF-9LW"/>
                         <outlet property="landmarksGlView" destination="ZgK-CZ-Gr6" id="Yp9-D6-BHU"/>
                         <outlet property="noTrackView" destination="YWw-73-tqa" id="rCd-rf-VLM"/>

@@ -36,7 +36,7 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *changeCameraBtn;
 
-@property (strong, nonatomic) IBOutlet FUOpenGLView *displayGLView;
+@property (weak, nonatomic) IBOutlet FUOpenGLView *displayGLView;
 
 @property (weak, nonatomic) IBOutlet FUOpenGLView *landmarksGlView;
 
