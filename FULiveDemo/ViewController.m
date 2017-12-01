@@ -213,7 +213,7 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [touches allObjects].firstObject;
-    if (touch.view != self.view) {
+    if (touch.view != self.displayGLView) {
         return;
     }
     [UIView animateWithDuration:0.5 animations:^{
