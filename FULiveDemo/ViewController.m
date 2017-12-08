@@ -311,10 +311,13 @@
     /**将图像拷贝回去，用于界面左上角的人脸特征点显示*/
     if (self.isAvatar && copyData)
     {
+        void *copyData1 = [self getCopyDataFromPixelBuffer:pixelBuffer];
         [self copyDataBackToPixelBuffer:pixelBuffer copyData:copyData];
         [self displayLandmarksWithPixelBuffer:pixelBuffer];
+        [self copyDataBackToPixelBuffer:pixelBuffer copyData:copyData1];
+        free(copyData);
+        free(copyData1);
     }
-    free(copyData);
     /*--------------------------------------以上展示人脸特征点逻辑--------------------------------------*/
     
     CGSize frameSize;

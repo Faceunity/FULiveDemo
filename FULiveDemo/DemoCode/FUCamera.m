@@ -15,6 +15,7 @@ typedef enum : NSUInteger {
     CommonMode,
     PhotoTakeMode,
     VideoRecordMode,
+    VideoRecordEndMode,
 } RunMode;
 
 
@@ -340,6 +341,26 @@ typedef enum : NSUInteger {
             [self.recordEncoder encodeFrame:sampleBuffer];
             CFRelease(sampleBuffer);
             break;
+        case VideoRecordEndMode:
+        {
+            runMode = CommonMode;
+            
+            if (self.recordEncoder.writer.status == AVAssetWriterStatusUnknown) {
+                self.recordEncoder = nil;
+            }else{
+                
+                [self.recordEncoder finishWithCompletionHandler:^{
+                    
+                    NSString *path = self.recordEncoder.path;
+                    self.recordEncoder = nil;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        UISaveVideoAtPathToSavedPhotosAlbum(path, self, @selector(video:didFinishSavingWithError:contextInfo:), NULL);
+                    });
+                    
+                }];
+            }
+        }
+        break;
         default:
             break;
     }
@@ -359,26 +380,7 @@ typedef enum : NSUInteger {
 //停止录像
 - (void)stopRecord
 {
-    runMode = CommonMode;
-    dispatch_async(self.captureQueue, ^{
-        runMode = CommonMode;
-        if (self.recordEncoder.writer.status == AVAssetWriterStatusUnknown) {
-            self.recordEncoder = nil;
-        }else{
-            
-            [self.recordEncoder finishWithCompletionHandler:^{
-                
-                NSString *path = self.recordEncoder.path;
-                self.recordEncoder = nil;
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    UISaveVideoAtPathToSavedPhotosAlbum(path, self, @selector(video:didFinishSavingWithError:contextInfo:), NULL);
-                });
-                
-            }];
-            
-        }
-        
-    });
+    runMode = VideoRecordEndMode;
 }
 
 - (UIImage *)imageFromPixelBuffer:(CVPixelBufferRef)pixelBufferRef {
