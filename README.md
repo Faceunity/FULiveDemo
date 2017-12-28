@@ -12,7 +12,7 @@ FULiveDemo 是集成了 Faceunity 面部跟踪和虚拟道具及手势识别功�
 - 修复偶现网络鉴权失败问题
 - 其他累积问题修复、接口调整
 
-具体更新内容可以到[这里](https://github.com/Faceunity/FULiveDemo/blob/dev/FULiveDemo/docs/FUNama_SDK_v4.4_更新文档.md)查看详细文档。
+具体更新内容可以到[这里](https://github.com/Faceunity/FULiveDemo/blob/dev/docs/FUNama_SDK_v4.4_%E6%9B%B4%E6%96%B0%E6%96%87%E6%A1%A3.md)查看详细文档。
 
 
 ## 软件需求
