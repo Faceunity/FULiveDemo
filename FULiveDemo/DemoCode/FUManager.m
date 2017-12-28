@@ -44,8 +44,14 @@ static FUManager *shareManager = NULL;
          还有设置为YES,则需要调用FURenderer.h中的接口，不能再调用funama.h中的接口。*/
         [[FURenderer shareRenderer] setupWithDataPath:path authPackage:&g_auth_package authSize:sizeof(g_auth_package) shouldCreateContext:YES];
         
+        NSData *animModelData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"anim_model.bundle" ofType:nil]];
+        
+        int res = fuLoadAnimModel((void *)animModelData.bytes, (int)animModelData.length);
+        
+        NSLog(@"fuLoadAnimModel %@",res == 0 ? @"failure":@"success" );
+        
         /*设置默认参数*/
-        self.itemsDataSource = @[@"noitem", @"EatRabbi", @"bg_seg", @"fu_zh_duzui", @"yazui", @"mask_matianyu", @"lixiaolong", @"Mood", @"gradient", @"yuguan"];
+        self.itemsDataSource = @[@"noitem", @"EatRabbi", @"bg_seg", @"fu_zh_duzui", @"yazui", @"mask_matianyu", @"houzi4", @"Mood", @"gradient", @"yuguan"];
         
         self.filtersDataSource = @[@"nature", @"delta", @"electric", @"slowlived", @"tokyo", @"warm"];
     

@@ -379,7 +379,7 @@ FUNAMA_API void fuSetQualityTradeoff(float quality);
 \param face_id is the id of face, index is smaller than which is set in fuSetMaxFaces
 	If this face_id is x, it means x-th face currently tracking
 	To get a unique id for each face, use fuGetFaceIdentifier interface
-\param name is among "landmarks", "eye_rotation", "translation", "rotation"
+\param name the name of certain face info
 \param pret allocated memory space as container
 \param num is number of float allocated in pret
 	eg: 	  "landmarks" - 2D landmarks coordinates in image space - 75*2 float
@@ -537,6 +537,18 @@ FUNAMA_API void fuSetFocalLengthScale(float scale);
 \return zero for failure, non-zero for success
 */
 FUNAMA_API int fuLoadExtendedARData(void* data,int sz);
+
+/**
+\brief Load facial animation model data, to enable expression optimization
+\param data - the pointer to facial animation model data 'anim_model.bundle', 
+	which is along beside lib files in SDK package
+\param sz - the data size, we use plain int to avoid cross-language compilation issues
+\return zero for failure, one for success
+*/
+FUNAMA_API int fuLoadAnimModel(void* dat, int dat_sz);
+FUNAMA_API int fuLoadAnimModelSrc(void* dat, int dat_sz);
+
+FUNAMA_API void fuSetStrictTracking(int i);
 
 #ifdef __cplusplus
 }

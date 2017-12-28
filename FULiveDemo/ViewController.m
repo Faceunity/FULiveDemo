@@ -256,7 +256,7 @@
         [self performSelector:@selector(dismissTipLabel) withObject:nil afterDelay:5 ];
     });
     
-    _isAvatar = [item isEqualToString:@"lixiaolong"];
+    _isAvatar = [item isEqualToString:@"houzi4"];
     dispatch_async(dispatch_get_main_queue(), ^{
         self.landmarksGlView.hidden = !_isAvatar;
     });

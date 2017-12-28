@@ -2,14 +2,18 @@
 
 FULiveDemo 是集成了 Faceunity 面部跟踪和虚拟道具及手势识别功能的Demo。
 
-## SDK v4.0 更新
-在v4.0版本中，我们全面升级了移动端实时深度学习框架，更好地支持视频应用中日益增长的AI需求。随之推出的第一个功能是背景分割，开启该功能的道具可以在相机画面中自动分割出人像，并替换背景为其他内容。
+## SDK v4.4 更新
 
-由于深度学习框架的升级，SDK的库文件从之前的 ~3M 增加到了 ~5M，如果不需要AI相关功能，可以下载[SDK lite版](https://github.com/Faceunity/FULiveDemo/releases)，库文件大小和老版本保持一致。
+在v4.4版本中，我们做了一些优化，主要包括以下几点：
 
-与新版SDK一起，我们也推出更方便和好用的2D/3D贴纸道具制作工具——FUEditor，助力视频应用快速应对市场，推出具有个性化和吸引力的道具和玩法。相关文档和下载在[这里](https://github.com/Faceunity/FUEditor)，制作过程中遇到问题可以联系我司技术支持。
+- 新增表情优化功能
+- 优化表情校准功能
+- 修复高精度人脸重建相关问题
+- 修复偶现网络鉴权失败问题
+- 其他累积问题修复、接口调整
 
-此外，我们优化了SDK的系统稳定性，在网络条件波动的情况下保持SDK正常运行，并提供了获取SDK系统错误信息的接口，方便应用灵活处理。
+具体更新内容可以到[这里](https://github.com/Faceunity/FULiveDemo/blob/dev/FULiveDemo/docs/FUNama SDK v4.4 更新文档.md)查看详细文档。
+
 
 ## 软件需求
 
@@ -27,11 +31,11 @@ FULiveDemo 是集成了 Faceunity 面部跟踪和虚拟道具及手势识别功�
 
 含有深度学习的版本：
 
-	pod 'Nama', '4.3' #注意此版本目前为dev版
+	pod 'Nama', '4.4' #注意此版本目前为dev版
 	
 不含深度学习的版本（lite版）：
 	
-	pod 'Nama-lite', '4.3' #注意此版本目前为dev版
+	pod 'Nama-lite', '4.4' #注意此版本目前为dev版
 
 接下来执行：
 
@@ -43,9 +47,9 @@ FULiveDemo 是集成了 Faceunity 面部跟踪和虚拟道具及手势识别功�
 	
 ### 二、通过 github 下载集成
 
-含有深度学习的版本：[FaceUnity-SDK-iOS-v4.3-dev.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v4.3-dev/FaceUnity-SDK-iOS-v4.3-dev.zip)
+含有深度学习的版本：[FaceUnity-SDK-iOS-v4.4-dev.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v4.4-dev/FaceUnity-SDK-iOS-v4.4-dev.zip)
 	
-不含深度学习的版本（lite版）：[FaceUnity-SDK-iOS-v4.3-dev-lite.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v4.3-dev/FaceUnity-SDK-iOS-v4.3-dev-lite.zip)
+不含深度学习的版本（lite版）：[FaceUnity-SDK-iOS-v4.4-dev-lite.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v4.4-dev/FaceUnity-SDK-iOS-v4.4-dev-lite.zip)
 
 下载完成并解压后将库文件夹拖入到工程中，并勾选上 Copy items if needed，如图：
 
