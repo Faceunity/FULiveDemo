@@ -11,7 +11,7 @@ FULiveDemo 是集成了 Faceunity 面部跟踪和虚拟道具及手势识别功�
 - 修复iOS平台上和FUEditor v4.1.6之后的骨骼动画支持问题
 - 轻微优化avatar绘制效率
 
-具体更新内容可以到[这里](https://github.com/Faceunity/FULiveDemo/blob/dev/docs/FUNama SDK v4.5 %E6%9B%B4%E6%96%B0%E6%96%87%E6%A1%A3_edited by Soma.md)查看详细文档。
+具体更新内容可以到[这里](https://github.com/Faceunity/FULiveDemo/blob/dev/docs/FUNama%20SDK%20v4.5%20%E6%9B%B4%E6%96%B0%E6%96%87%E6%A1%A3_edited%20by%20Soma.md)查看详细文档。
 
 ## 软件需求
 
