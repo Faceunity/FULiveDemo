@@ -28,6 +28,8 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *tipLabel;
 
+@property (weak, nonatomic) IBOutlet UILabel *calibrateLabel;
+    
 @property (weak, nonatomic) IBOutlet PhotoButton *photoBtn;
 
 @property (weak, nonatomic) IBOutlet UIButton *barBtn;
@@ -149,12 +151,15 @@
     
     _demoBar.itemsDataSource =  [FUManager shareManager].itemsDataSource;
     _demoBar.filtersDataSource = [FUManager shareManager].filtersDataSource;
+    _demoBar.filtersCHName = [FUManager shareManager].filtersCHName;
+    _demoBar.beautyFiltersDataSource = [FUManager shareManager].beautyFiltersDataSource;
     
     _demoBar.selectedItem = [FUManager shareManager].selectedItem;      /**选中的道具名称*/
     _demoBar.selectedFilter = [FUManager shareManager].selectedFilter;  /**选中的滤镜名称*/
-    _demoBar.beautyLevel = [FUManager shareManager].beautyLevel;        /**美白 (0~1)*/
+    _demoBar.whiteLevel = [FUManager shareManager].beautyLevel;        /**美白 (0~1)*/
     _demoBar.redLevel = [FUManager shareManager].redLevel;              /**红润 (0~1)*/
     _demoBar.selectedBlur = [FUManager shareManager].selectedBlur;      /**磨皮(0、1、2、3、4、5、6)*/
+    _demoBar.skinDetectEnable = [FUManager shareManager].skinDetectEnable;/**是否开启皮肤检测(YES/NO)*/
     _demoBar.faceShape = [FUManager shareManager].faceShape;            /**美型类型 (0、1、2、3) 默认：3，女神：0，网红：1，自然：2*/
     _demoBar.faceShapeLevel = [FUManager shareManager].faceShapeLevel;  /**美型等级 (0~1)*/
     _demoBar.enlargingLevel = [FUManager shareManager].enlargingLevel;  /**大眼 (0~1)*/
@@ -204,8 +209,10 @@
     self.barBtn.hidden = YES;
     self.photoBtn.hidden = YES;
     
+    self.demoBar.alpha = 0.0 ;
     [UIView animateWithDuration:0.5 animations:^{
         self.demoBar.transform = CGAffineTransformMakeTranslation(0, -self.demoBar.frame.size.height);
+        self.demoBar.alpha = 1.0 ;
     }];
 }
 
@@ -216,8 +223,10 @@
     if (touch.view != self.displayGLView) {
         return;
     }
+    self.demoBar.alpha = 1.0 ;
     [UIView animateWithDuration:0.5 animations:^{
         self.demoBar.transform = CGAffineTransformIdentity;
+        self.demoBar.alpha = 0.0 ;
     } completion:^(BOOL finished) {
         self.barBtn.hidden = NO;
         self.photoBtn.hidden = NO;
@@ -256,7 +265,7 @@
         [self performSelector:@selector(dismissTipLabel) withObject:nil afterDelay:5 ];
     });
     
-    _isAvatar = [item isEqualToString:@"houzi4"];
+    _isAvatar = [item isEqualToString:@"houzi"];
     dispatch_async(dispatch_get_main_queue(), ^{
         self.landmarksGlView.hidden = !_isAvatar;
     });
@@ -271,8 +280,10 @@
 - (void)syncBeautyParams
 {
     [FUManager shareManager].selectedFilter = _demoBar.selectedFilter;
+    [FUManager shareManager].selectedFilterLevel = _demoBar.selectedFilterLevel;
     [FUManager shareManager].selectedBlur = _demoBar.selectedBlur;
-    [FUManager shareManager].beautyLevel = _demoBar.beautyLevel;
+    [FUManager shareManager].skinDetectEnable = _demoBar.skinDetectEnable;
+    [FUManager shareManager].beautyLevel = _demoBar.whiteLevel;
     [FUManager shareManager].redLevel = _demoBar.redLevel;
     [FUManager shareManager].faceShape = _demoBar.faceShape;
     [FUManager shareManager].faceShapeLevel = _demoBar.faceShapeLevel;
@@ -338,6 +349,9 @@
         CGPoint center = [[FUManager shareManager] getFaceCenterInFrameSize:frameSize];;
         self.mCamera.exposurePoint = CGPointMake(center.y,self.mCamera.isFrontCamera ? center.x:1-center.x);
 
+        BOOL isCalibrating = [[FUManager shareManager] isCalibrating];
+    
+        self.calibrateLabel.hidden = !isCalibrating;
     });
 }
 

@@ -35,13 +35,15 @@ FOUNDATION_EXPORT const unsigned char FUDemoBarVersionString[];
 
 @property (nonatomic, assign) NSInteger selectedBlur;
 
+@property (nonatomic, assign) BOOL skinDetectEnable;
+
 @property (nonatomic, assign) double redLevel;
 
 @property (nonatomic, assign) double faceShapeLevel;
 
 @property (nonatomic, assign) NSInteger faceShape;
 
-@property (nonatomic, assign) double beautyLevel;
+@property (nonatomic, assign) double whiteLevel;
 
 @property (nonatomic, assign) double thinningLevel;
 
@@ -54,5 +56,11 @@ FOUNDATION_EXPORT const unsigned char FUDemoBarVersionString[];
 @property (nonatomic, strong) NSArray<NSString *> *itemsDataSource;
 
 @property (nonatomic, strong) NSArray<NSString *> *filtersDataSource;
+
+@property (nonatomic, strong) NSArray<NSString *> *beautyFiltersDataSource;
+
+@property (nonatomic, assign, readonly) double selectedFilterLevel;
+
+@property (nonatomic, strong) NSDictionary<NSString *,NSString *> *filtersCHName;
 
 @end

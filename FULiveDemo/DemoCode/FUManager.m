@@ -44,17 +44,21 @@ static FUManager *shareManager = NULL;
          还有设置为YES,则需要调用FURenderer.h中的接口，不能再调用funama.h中的接口。*/
         [[FURenderer shareRenderer] setupWithDataPath:path authPackage:&g_auth_package authSize:sizeof(g_auth_package) shouldCreateContext:YES];
         
+        // 开启表情跟踪优化功能
         NSData *animModelData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"anim_model.bundle" ofType:nil]];
-        
         int res = fuLoadAnimModel((void *)animModelData.bytes, (int)animModelData.length);
-        
         NSLog(@"fuLoadAnimModel %@",res == 0 ? @"failure":@"success" );
         
+        // 开启优化表情校准功能
+        fuSetExpressionCalibration(1);
+
         /*设置默认参数*/
-        self.itemsDataSource = @[@"noitem", @"EatRabbi", @"bg_seg", @"fu_zh_duzui", @"yazui", @"mask_matianyu", @"houzi4", @"Mood", @"gradient", @"yuguan"];
+        self.itemsDataSource = @[@"noitem", @"EatRabbi", @"bg_seg", @"fu_zh_duzui", @"yazui", @"mask_matianyu", @"houzi", @"Mood", @"gradient", @"yuguan"];
         
-        self.filtersDataSource = @[@"nature", @"delta", @"electric", @"slowlived", @"tokyo", @"warm"];
+        self.filtersDataSource = @[@"origin", @"delta", @"electric", @"slowlived", @"tokyo", @"warm"];
     
+        self.beautyFiltersDataSource = @[@"ziran", @"danya", @"fennen", @"qingxin", @"hongrun"];
+        self.filtersCHName = @{@"ziran":@"自然", @"danya":@"淡雅", @"fennen":@"粉嫩", @"qingxin":@"清新", @"hongrun":@"红润"};
         [self setDefaultParameters];
         
         NSLog(@"faceunitySDK version:%@",[FURenderer getVersion]);
@@ -70,9 +74,11 @@ static FUManager *shareManager = NULL;
     
     self.selectedItem = self.itemsDataSource[1]; //贴纸道具
     
-    self.selectedFilter = self.filtersDataSource[0]; //滤镜效果
+    self.selectedFilter = self.beautyFiltersDataSource[0]; //美颜滤镜效果
     
     self.selectedBlur = 6; //磨皮程度
+    
+    self.skinDetectEnable = YES; //是否开启皮肤检测
     
     self.beautyLevel = 0.2; //美白程度
     
@@ -224,7 +230,9 @@ static FUManager *shareManager = NULL;
 {
     /*设置美颜效果（滤镜、磨皮、美白、红润、瘦脸、大眼....）*/
     [FURenderer itemSetParam:items[1] withName:@"filter_name" value:self.selectedFilter]; //滤镜名称
+    [FURenderer itemSetParam:items[1] withName:@"filter_level" value:@(self.selectedFilterLevel)]; //滤镜程度
     [FURenderer itemSetParam:items[1] withName:@"blur_level" value:@(self.selectedBlur)]; //磨皮 (0、1、2、3、4、5、6)
+    [FURenderer itemSetParam:items[1] withName:@"skin_detect" value:@(self.skinDetectEnable)]; //是否开启皮肤检测
     [FURenderer itemSetParam:items[1] withName:@"color_level" value:@(self.beautyLevel)]; //美白 (0~1)
     [FURenderer itemSetParam:items[1] withName:@"red_level" value:@(self.redLevel)]; //红润 (0~1)
     [FURenderer itemSetParam:items[1] withName:@"face_shape" value:@(self.faceShape)]; //美型类型 (0、1、2、3) 默认：3，女神：0，网红：1，自然：2
@@ -319,6 +327,14 @@ static FUManager *shareManager = NULL;
     }
     
     return nil;
+}
+    
+- (BOOL)isCalibrating{
+    float is_calibrating[1] = {0.0};
+    
+    fuGetFaceInfo(0, "is_calibrating", is_calibrating, 1);
+    
+    return is_calibrating[0] == 1.0;
 }
 
 @end

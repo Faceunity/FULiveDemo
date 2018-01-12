@@ -214,6 +214,8 @@ enum
     if (!CGSizeEqualToSize(self.bounds.size, boundsSizeAtFrameBufferEpoch) &&
         !CGSizeEqualToSize(self.bounds.size, CGSizeZero)) {
         
+        boundsSizeAtFrameBufferEpoch = self.bounds.size;
+        
         dispatch_sync(_contextQueue, ^{
             [self destroyDisplayFramebuffer];
             [self createDisplayFramebuffer];
@@ -263,8 +265,6 @@ enum
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
         NSLog(@"Failed to make complete framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
     }
-    
-    boundsSizeAtFrameBufferEpoch = self.bounds.size;
 }
 
 - (void)destroyDisplayFramebuffer;

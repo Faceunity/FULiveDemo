@@ -2,18 +2,16 @@
 
 FULiveDemo 是集成了 Faceunity 面部跟踪和虚拟道具及手势识别功能的Demo。
 
-## SDK v4.4 更新
+## SDK v4.5 更新
 
-在v4.4版本中，我们做了一些优化，主要包括以下几点：
+- 新增美颜滤镜，精准美肤功能
+- 改进美颜效果，包括美白、红润
+- 新增“严格跟踪”接口，在跟踪算法不确定时停止跟踪
+- 修复表情优化功能的一个bug，会导致崩溃
+- 修复iOS平台上和FUEditor v4.1.6之后的骨骼动画支持问题
+- 轻微优化avatar绘制效率
 
-- 新增表情优化功能
-- 优化表情校准功能
-- 修复高精度人脸重建相关问题
-- 修复偶现网络鉴权失败问题
-- 其他累积问题修复、接口调整
-
-具体更新内容可以到[这里](https://github.com/Faceunity/FULiveDemo/blob/dev/docs/FUNama_SDK_v4.4_%E6%9B%B4%E6%96%B0%E6%96%87%E6%A1%A3.md)查看详细文档。
-
+具体更新内容可以到[这里](https://github.com/Faceunity/FULiveDemo/blob/dev/docs/FUNama SDK v4.5 %E6%9B%B4%E6%96%B0%E6%96%87%E6%A1%A3_edited by Soma.md)查看详细文档。
 
 ## 软件需求
 
@@ -31,11 +29,11 @@ FULiveDemo 是集成了 Faceunity 面部跟踪和虚拟道具及手势识别功�
 
 含有深度学习的版本：
 
-	pod 'Nama', '4.4' #注意此版本目前为dev版
+	pod 'Nama', '4.5' #注意此版本目前为dev版
 	
 不含深度学习的版本（lite版）：
 	
-	pod 'Nama-lite', '4.4' #注意此版本目前为dev版
+	pod 'Nama-lite', '4.5' #注意此版本目前为dev版
 
 接下来执行：
 
@@ -47,9 +45,9 @@ FULiveDemo 是集成了 Faceunity 面部跟踪和虚拟道具及手势识别功�
 	
 ### 二、通过 github 下载集成
 
-含有深度学习的版本：[FaceUnity-SDK-iOS-v4.4-dev.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v4.4-dev/FaceUnity-SDK-iOS-v4.4-dev.zip)
+含有深度学习的版本：[FaceUnity-SDK-iOS-v4.5-dev.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v4.5-dev/FaceUnity-SDK-iOS-v4.5-dev.zip)
 	
-不含深度学习的版本（lite版）：[FaceUnity-SDK-iOS-v4.4-dev-lite.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v4.4-dev/FaceUnity-SDK-iOS-v4.4-dev-lite.zip)
+不含深度学习的版本（lite版）：[FaceUnity-SDK-iOS-v4.5-dev-lite.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v4.5-dev/FaceUnity-SDK-iOS-v4.5-dev-lite.zip)
 
 下载完成并解压后将库文件夹拖入到工程中，并勾选上 Copy items if needed，如图：
 

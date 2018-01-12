@@ -206,23 +206,6 @@ typedef struct{
  */
 - (void)renderFrame:(uint8_t*)y u:(uint8_t*)u v:(uint8_t*)v ystride:(int)ystride ustride:(int)ustride vstride:(int)vstride width:(int)width height:(int)height frameId:(int)frameid items:(int *)items itemCount:(int)itemCount flipx:(BOOL)flip;
 
-/**
- 视频处理接口11：
- - 将 items 中的道具绘制到 pixelBuffer 中
- - 与 视频处理接口2 相比新增 masks 参数，用来指定 items 中的道具画在多人中的哪一张脸上
- 
- @param pixelBuffer 图像数据，支持的格式为：BGRA、YUV420SP
- @param frameid 当前处理的视频帧序数，每次处理完对其进行加 1 操作，不加 1 将无法驱动道具中的特效动画
- @param items 包含多个道具句柄的 int 数组
- @param itemCount 句柄数组中包含的句柄个数
- @param flip 道具镜像使能，如果设置为 YES 可以将道具做镜像操作
- @param masks 指定items中的道具画在多张人脸中的哪一张脸上的 int 数组，其长度要与 items 长度一致，
-        masks中的每一位与items中的每一位道具一一对应。使用方法为：要使某一个道具画在检测到的第一张人脸上，
-        对应的int值为 "2的0次方"，画在第二张人脸上对应的int值为 “2的1次方”，第三张人脸对应的int值为 “2的2次方”，
-        以此类推。例：masks = {pow(2,0),pow(2,1),pow(2,2)....},值得注意的是美颜道具对应的int值为 0。
- @return 被处理过的的图像数据，与传入的 pixelBuffer 为同一个 pixelBuffer
- */
-- (CVPixelBufferRef)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer withFrameId:(int)frameid items:(int*)items itemCount:(int)itemCount flipx:(BOOL)flip masks:(void*)masks;
 
 /**
  resize视频图像，目前仅支持BGRA格式的pixelBuffer
