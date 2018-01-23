@@ -349,9 +349,23 @@
         CGPoint center = [[FUManager shareManager] getFaceCenterInFrameSize:frameSize];;
         self.mCamera.exposurePoint = CGPointMake(center.y,self.mCamera.isFrontCamera ? center.x:1-center.x);
 
+        // 表情校准提示
         BOOL isCalibrating = [[FUManager shareManager] isCalibrating];
-    
-        self.calibrateLabel.hidden = !isCalibrating;
+        if (isCalibrating) {
+            
+            if (self.calibrateLabel.hidden) {
+                pointCount = -1;
+                self.calibrateLabel.alpha = 0.5;
+                [UIView animateWithDuration:0.5 animations:^{
+                    self.calibrateLabel.hidden = NO;
+                    self.calibrateLabel.alpha = 1.0;
+                }];
+                [self calibratingLabelAnimation];
+            }
+        }else{
+            pointCount = -1;
+            self.calibrateLabel.hidden = YES;
+        }
     });
 }
 
@@ -397,6 +411,25 @@
     CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
 }
 /*--------------------------------------以上展示人脸特征点逻辑--------------------------------------*/
+
+static int pointCount = 0;
+- (void)calibratingLabelAnimation{
+    if (self.calibrateLabel.hidden == NO) {
+        pointCount += 1;
+        pointCount = pointCount % 6;
+        
+        NSString *text = @"表情校准中";
+        for (int i = 0; i<= pointCount; i++) {
+            text = [text stringByAppendingString:@"."];
+        }
+        self.calibrateLabel.text = text;
+        
+        [self performSelector:@selector(calibratingLabelAnimation) withObject:nil afterDelay:0.5];
+    }else{
+        pointCount = 0;
+    }
+    
+}
 
 @end
 

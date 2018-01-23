@@ -2,16 +2,13 @@
 
 FULiveDemo 是集成了 Faceunity 面部跟踪和虚拟道具及手势识别功能的Demo。
 
-## SDK v4.5 更新
+## SDK v4.6 更新
 
-- 新增美颜滤镜，精准美肤功能
-- 改进美颜效果，包括美白、红润
-- 新增“严格跟踪”接口，在跟踪算法不确定时停止跟踪
-- 修复表情优化功能的一个bug，会导致崩溃
-- 修复iOS平台上和FUEditor v4.1.6之后的骨骼动画支持问题
-- 轻微优化avatar绘制效率
+本次更新主要包含以下改动：
 
-具体更新内容可以到[这里](https://github.com/Faceunity/FULiveDemo/blob/dev/docs/FUNama%20SDK%20v4.5%20%E6%9B%B4%E6%96%B0%E6%96%87%E6%A1%A3_edited%20by%20Soma.md)查看详细文档。
+- 增强表情优化功能，在人脸快速转动时提高表情稳定性
+
+具体更新内容可以到[这里](https://github.com/Faceunity/FULiveDemo/blob/dev/docs/FUNama%20SDK%20v4.6%20%E6%9B%B4%E6%96%B0%E6%96%87%E6%A1%A3.md)查看详细文档。
 
 ## 软件需求
 
@@ -29,11 +26,11 @@ FULiveDemo 是集成了 Faceunity 面部跟踪和虚拟道具及手势识别功�
 
 含有深度学习的版本：
 
-	pod 'Nama', '4.5' #注意此版本目前为dev版
+	pod 'Nama', '4.6' #注意此版本目前为dev版
 	
 不含深度学习的版本（lite版）：
 	
-	pod 'Nama-lite', '4.5' #注意此版本目前为dev版
+	pod 'Nama-lite', '4.6' #注意此版本目前为dev版
 
 接下来执行：
 
@@ -45,9 +42,9 @@ FULiveDemo 是集成了 Faceunity 面部跟踪和虚拟道具及手势识别功�
 	
 ### 二、通过 github 下载集成
 
-含有深度学习的版本：[FaceUnity-SDK-iOS-v4.5-dev.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v4.5-dev/FaceUnity-SDK-iOS-v4.5-dev.zip)
+含有深度学习的版本：[FaceUnity-SDK-iOS-v4.6-dev.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v4.6-dev/FaceUnity-SDK-iOS-v4.6-dev.zip)
 	
-不含深度学习的版本（lite版）：[FaceUnity-SDK-iOS-v4.5-dev-lite.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v4.5-dev/FaceUnity-SDK-iOS-v4.5-dev-lite.zip)
+不含深度学习的版本（lite版）：[FaceUnity-SDK-iOS-v4.6-dev-lite.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v4.6-dev/FaceUnity-SDK-iOS-v4.6-dev-lite.zip)
 
 下载完成并解压后将库文件夹拖入到工程中，并勾选上 Copy items if needed，如图：
 
@@ -276,16 +273,27 @@ frameID += 1;
 ### 一、滤镜
 
 在目前版本中提供以下滤镜：
-```C
-"nature", "delta", "electric", "slowlived", "tokyo", "warm"
+
+普通滤镜：
+
+```objc
+"origin", "delta", "electric", "slowlived", "tokyo", "warm"
 ```
 
-其中 "nature" 作为默认的美白滤镜，其他滤镜属于风格化滤镜。滤镜由参数 filter_name 指定。切换滤镜时，通过 fuItemSetParams 设置美颜道具的参数，如下：
+美颜滤镜：
+
+```objc
+"ziran", "danya", "fennen", "qingxin", "hongrun"
+```
+
+其中 "origin" 为原图滤镜，其他滤镜属于风格化滤镜及美颜滤镜。滤镜由参数 filter_name 指定。切换滤镜时，通过 fuItemSetParams 设置美颜道具的参数，如下：
 
 ```C
 //  Set item parameters - filter
-[FURenderer itemSetParam:items[1] withName:@"filter_name" value:@"nature"];
+[FURenderer itemSetParam:items[1] withName:@"filter_name" value:@"origin"];
 ```
+
+另外滤镜开放了滤镜强度接口，具体可到[这里](https://github.com/Faceunity/FULiveDemo/blob/dev/docs/%E8%A7%86%E9%A2%91%E7%BE%8E%E9%A2%9C%E6%9B%B4%E6%96%B0.md)查看详细信息。
 
 ### 二、美白和红润
 

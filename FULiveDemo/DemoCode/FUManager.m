@@ -48,9 +48,6 @@ static FUManager *shareManager = NULL;
         NSData *animModelData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"anim_model.bundle" ofType:nil]];
         int res = fuLoadAnimModel((void *)animModelData.bytes, (int)animModelData.length);
         NSLog(@"fuLoadAnimModel %@",res == 0 ? @"failure":@"success" );
-        
-        // 开启优化表情校准功能
-        fuSetExpressionCalibration(1);
 
         /*设置默认参数*/
         self.itemsDataSource = @[@"noitem", @"EatRabbi", @"bg_seg", @"fu_zh_duzui", @"yazui", @"mask_matianyu", @"houzi", @"Mood", @"gradient", @"yuguan"];
@@ -169,6 +166,10 @@ static FUManager *shareManager = NULL;
  */
 - (void)loadItem:(NSString *)itemName
 {
+    BOOL isAnimoji = [itemName isEqualToString:@"houzi"];
+    // 开启优化表情校准功能
+    fuSetExpressionCalibration(isAnimoji ? 1:0);
+    
     /**如果取消了道具的选择，直接销毁道具*/
     if ([itemName isEqual: @"noitem"] || itemName == nil)
     {
