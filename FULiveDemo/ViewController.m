@@ -28,6 +28,8 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *tipLabel;
 
+@property (weak, nonatomic) IBOutlet UILabel *calibrateLabel;
+    
 @property (weak, nonatomic) IBOutlet PhotoButton *photoBtn;
 
 @property (weak, nonatomic) IBOutlet UIButton *barBtn;
@@ -36,7 +38,7 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *changeCameraBtn;
 
-@property (strong, nonatomic) IBOutlet FUOpenGLView *displayGLView;
+@property (weak, nonatomic) IBOutlet FUOpenGLView *displayGLView;
 
 @property (weak, nonatomic) IBOutlet FUOpenGLView *landmarksGlView;
 
@@ -55,7 +57,7 @@
     // Do any additional setup after loading the view, typically from a nib.
     
     [self addObserver];
-
+    
     self.photoBtn.delegate = self ;
     
     [[FUManager shareManager] loadItems];
@@ -149,16 +151,20 @@
     
     _demoBar.itemsDataSource =  [FUManager shareManager].itemsDataSource;
     _demoBar.filtersDataSource = [FUManager shareManager].filtersDataSource;
+    _demoBar.filtersCHName = [FUManager shareManager].filtersCHName;
+    _demoBar.beautyFiltersDataSource = [FUManager shareManager].beautyFiltersDataSource;
     
     _demoBar.selectedItem = [FUManager shareManager].selectedItem;      /**选中的道具名称*/
     _demoBar.selectedFilter = [FUManager shareManager].selectedFilter;  /**选中的滤镜名称*/
-    _demoBar.beautyLevel = [FUManager shareManager].beautyLevel;        /**美白 (0~1)*/
+    _demoBar.whiteLevel = [FUManager shareManager].beautyLevel;        /**美白 (0~1)*/
     _demoBar.redLevel = [FUManager shareManager].redLevel;              /**红润 (0~1)*/
     _demoBar.selectedBlur = [FUManager shareManager].selectedBlur;      /**磨皮(0、1、2、3、4、5、6)*/
+    _demoBar.skinDetectEnable = [FUManager shareManager].skinDetectEnable;/**是否开启皮肤检测(YES/NO)*/
     _demoBar.faceShape = [FUManager shareManager].faceShape;            /**美型类型 (0、1、2、3) 默认：3，女神：0，网红：1，自然：2*/
     _demoBar.faceShapeLevel = [FUManager shareManager].faceShapeLevel;  /**美型等级 (0~1)*/
     _demoBar.enlargingLevel = [FUManager shareManager].enlargingLevel;  /**大眼 (0~1)*/
     _demoBar.thinningLevel = [FUManager shareManager].thinningLevel;    /**瘦脸 (0~1)*/
+
 }
 
 -(void)takePhoto {
@@ -203,8 +209,10 @@
     self.barBtn.hidden = YES;
     self.photoBtn.hidden = YES;
     
+    self.demoBar.alpha = 0.0 ;
     [UIView animateWithDuration:0.5 animations:^{
         self.demoBar.transform = CGAffineTransformMakeTranslation(0, -self.demoBar.frame.size.height);
+        self.demoBar.alpha = 1.0 ;
     }];
 }
 
@@ -212,11 +220,13 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [touches allObjects].firstObject;
-    if (touch.view != self.view) {
+    if (touch.view != self.displayGLView) {
         return;
     }
+    self.demoBar.alpha = 1.0 ;
     [UIView animateWithDuration:0.5 animations:^{
         self.demoBar.transform = CGAffineTransformIdentity;
+        self.demoBar.alpha = 0.0 ;
     } completion:^(BOOL finished) {
         self.barBtn.hidden = NO;
         self.photoBtn.hidden = NO;
@@ -225,7 +235,9 @@
 
 #pragma -BGRA/YUV切换
 - (IBAction)changeCaptureFormat:(UISegmentedControl *)sender {
+    
     _mCamera.captureFormat = _mCamera.captureFormat == kCVPixelFormatType_32BGRA ? kCVPixelFormatType_420YpCbCr8BiPlanarFullRange:kCVPixelFormatType_32BGRA;
+    
 }
 
 #pragma -摄像头切换
@@ -253,7 +265,7 @@
         [self performSelector:@selector(dismissTipLabel) withObject:nil afterDelay:5 ];
     });
     
-    _isAvatar = [item isEqualToString:@"lixiaolong"];
+    _isAvatar = [item isEqualToString:@"houzi"];
     dispatch_async(dispatch_get_main_queue(), ^{
         self.landmarksGlView.hidden = !_isAvatar;
     });
@@ -268,8 +280,10 @@
 - (void)syncBeautyParams
 {
     [FUManager shareManager].selectedFilter = _demoBar.selectedFilter;
+    [FUManager shareManager].selectedFilterLevel = _demoBar.selectedFilterLevel;
     [FUManager shareManager].selectedBlur = _demoBar.selectedBlur;
-    [FUManager shareManager].beautyLevel = _demoBar.beautyLevel;
+    [FUManager shareManager].skinDetectEnable = _demoBar.skinDetectEnable;
+    [FUManager shareManager].beautyLevel = _demoBar.whiteLevel;
     [FUManager shareManager].redLevel = _demoBar.redLevel;
     [FUManager shareManager].faceShape = _demoBar.faceShape;
     [FUManager shareManager].faceShapeLevel = _demoBar.faceShapeLevel;
@@ -308,13 +322,22 @@
     /**将图像拷贝回去，用于界面左上角的人脸特征点显示*/
     if (self.isAvatar && copyData)
     {
+        void *copyData1 = [self getCopyDataFromPixelBuffer:pixelBuffer];
         [self copyDataBackToPixelBuffer:pixelBuffer copyData:copyData];
         [self displayLandmarksWithPixelBuffer:pixelBuffer];
+        [self copyDataBackToPixelBuffer:pixelBuffer copyData:copyData1];
+        free(copyData);
+        free(copyData1);
     }
-    free(copyData);
     /*--------------------------------------以上展示人脸特征点逻辑--------------------------------------*/
     
-    
+    CGSize frameSize;
+    if (CVPixelBufferGetPixelFormatType(pixelBuffer) == kCVPixelFormatType_32BGRA) {
+        frameSize = CGSizeMake(CVPixelBufferGetBytesPerRow(pixelBuffer) / 4, CVPixelBufferGetHeight(pixelBuffer));
+    }else{
+        frameSize = CGSizeMake(CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer));
+    }
+
     dispatch_async(dispatch_get_main_queue(), ^{
         /**判断是否检测到人脸*/
         self.noTrackView.hidden = [[FUManager shareManager] isTracking];
@@ -323,8 +346,26 @@
         self.errorLabel.text = [[FUManager shareManager] getError];
         
         // 根据人脸中心点实时调节摄像头曝光参数及聚焦参数
-        CGPoint center = [[FUManager shareManager] getFaceCenterInView:self.displayGLView];;
-        self.mCamera.exposurePoint = CGPointMake(center.y/self.view.bounds.size.height,self.mCamera.isFrontCamera ? center.x/self.view.bounds.size.width:1-center.x/self.view.bounds.size.width);
+        CGPoint center = [[FUManager shareManager] getFaceCenterInFrameSize:frameSize];;
+        self.mCamera.exposurePoint = CGPointMake(center.y,self.mCamera.isFrontCamera ? center.x:1-center.x);
+
+        // 表情校准提示
+        BOOL isCalibrating = [[FUManager shareManager] isCalibrating];
+        if (isCalibrating) {
+            
+            if (self.calibrateLabel.hidden) {
+                pointCount = -1;
+                self.calibrateLabel.alpha = 0.5;
+                [UIView animateWithDuration:0.5 animations:^{
+                    self.calibrateLabel.hidden = NO;
+                    self.calibrateLabel.alpha = 1.0;
+                }];
+                [self calibratingLabelAnimation];
+            }
+        }else{
+            pointCount = -1;
+            self.calibrateLabel.hidden = YES;
+        }
     });
 }
 
@@ -370,6 +411,25 @@
     CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
 }
 /*--------------------------------------以上展示人脸特征点逻辑--------------------------------------*/
+
+static int pointCount = 0;
+- (void)calibratingLabelAnimation{
+    if (self.calibrateLabel.hidden == NO) {
+        pointCount += 1;
+        pointCount = pointCount % 6;
+        
+        NSString *text = @"表情校准中";
+        for (int i = 0; i<= pointCount; i++) {
+            text = [text stringByAppendingString:@"."];
+        }
+        self.calibrateLabel.text = text;
+        
+        [self performSelector:@selector(calibratingLabelAnimation) withObject:nil afterDelay:0.5];
+    }else{
+        pointCount = 0;
+    }
+    
+}
 
 @end
 

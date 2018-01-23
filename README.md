@@ -2,14 +2,13 @@
 
 FULiveDemo 是集成了 Faceunity 面部跟踪和虚拟道具及手势识别功能的Demo。
 
-## SDK v4.0 更新
-在v4.0版本中，我们全面升级了移动端实时深度学习框架，更好地支持视频应用中日益增长的AI需求。随之推出的第一个功能是背景分割，开启该功能的道具可以在相机画面中自动分割出人像，并替换背景为其他内容。
+## SDK v4.6 更新
 
-由于深度学习框架的升级，SDK的库文件从之前的 ~3M 增加到了 ~5M，如果不需要AI相关功能，可以下载[SDK lite版](https://github.com/Faceunity/FULiveDemo/releases)，库文件大小和老版本保持一致。
+本次更新主要包含以下改动：
 
-与新版SDK一起，我们也推出更方便和好用的2D/3D贴纸道具制作工具——FUEditor，助力视频应用快速应对市场，推出具有个性化和吸引力的道具和玩法。相关文档和下载在[这里](https://github.com/Faceunity/FUEditor)，制作过程中遇到问题可以联系我司技术支持。
+- 增强表情优化功能，在人脸快速转动时提高表情稳定性
 
-此外，我们优化了SDK的系统稳定性，在网络条件波动的情况下保持SDK正常运行，并提供了获取SDK系统错误信息的接口，方便应用灵活处理。
+具体更新内容可以到[这里](https://github.com/Faceunity/FULiveDemo/blob/master/docs/FUNama%20SDK%20v4.6%20%E6%9B%B4%E6%96%B0%E6%96%87%E6%A1%A3.md)查看详细文档。
 
 ## 软件需求
 
@@ -27,11 +26,11 @@ FULiveDemo 是集成了 Faceunity 面部跟踪和虚拟道具及手势识别功�
 
 含有深度学习的版本：
 
-	pod 'Nama', '4.1' 
+	pod 'Nama', '4.6'
 	
 不含深度学习的版本（lite版）：
 	
-	pod 'Nama-lite', '4.1' 
+	pod 'Nama-lite', '4.6'
 
 接下来执行：
 
@@ -43,9 +42,9 @@ FULiveDemo 是集成了 Faceunity 面部跟踪和虚拟道具及手势识别功�
 	
 ### 二、通过 github 下载集成
 
-含有深度学习的版本：[FaceUnity-SDK-iOS-v4.1-release.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v4.1-release/FaceUnity-SDK-iOS-v4.1-release.zip)
+含有深度学习的版本：[FaceUnity-SDK-iOS-v4.6-release.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v4.6-release/FaceUnity-SDK-iOS-v4.6-release.zip)
 	
-不含深度学习的版本（lite版）：[FaceUnity-SDK-iOS-v4.1-release-lite.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v4.1-release/FaceUnity-SDK-iOS-v4.1-release-lite.zip)
+不含深度学习的版本（lite版）：[FaceUnity-SDK-iOS-v4.6-release-lite.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v4.6-release/FaceUnity-SDK-iOS-v4.6-release-lite.zip)
 
 下载完成并解压后将库文件夹拖入到工程中，并勾选上 Copy items if needed，如图：
 
@@ -274,16 +273,27 @@ frameID += 1;
 ### 一、滤镜
 
 在目前版本中提供以下滤镜：
-```C
-"nature", "delta", "electric", "slowlived", "tokyo", "warm"
+
+普通滤镜：
+
+```objc
+"origin", "delta", "electric", "slowlived", "tokyo", "warm"
 ```
 
-其中 "nature" 作为默认的美白滤镜，其他滤镜属于风格化滤镜。滤镜由参数 filter_name 指定。切换滤镜时，通过 fuItemSetParams 设置美颜道具的参数，如下：
+美颜滤镜：
+
+```objc
+"ziran", "danya", "fennen", "qingxin", "hongrun"
+```
+
+其中 "origin" 为原图滤镜，其他滤镜属于风格化滤镜及美颜滤镜。滤镜由参数 filter_name 指定。切换滤镜时，通过 fuItemSetParams 设置美颜道具的参数，如下：
 
 ```C
 //  Set item parameters - filter
-[FURenderer itemSetParam:items[1] withName:@"filter_name" value:@"nature"];
+[FURenderer itemSetParam:items[1] withName:@"filter_name" value:@"origin"];
 ```
+
+另外滤镜开放了滤镜强度接口，具体可到[这里](https://github.com/Faceunity/FULiveDemo/blob/master/docs/%E8%A7%86%E9%A2%91%E7%BE%8E%E9%A2%9C%E6%9B%B4%E6%96%B0.md)查看详细信息。
 
 ### 二、美白和红润
 

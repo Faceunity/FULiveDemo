@@ -16,8 +16,6 @@
     int items[3];
     int frameID;
     
-    CGSize frameSize;
-    
     NSDictionary *hintDic;
 }
 @end
@@ -46,11 +44,18 @@ static FUManager *shareManager = NULL;
          还有设置为YES,则需要调用FURenderer.h中的接口，不能再调用funama.h中的接口。*/
         [[FURenderer shareRenderer] setupWithDataPath:path authPackage:&g_auth_package authSize:sizeof(g_auth_package) shouldCreateContext:YES];
         
+        // 开启表情跟踪优化功能
+        NSData *animModelData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"anim_model.bundle" ofType:nil]];
+        int res = fuLoadAnimModel((void *)animModelData.bytes, (int)animModelData.length);
+        NSLog(@"fuLoadAnimModel %@",res == 0 ? @"failure":@"success" );
+
         /*设置默认参数*/
-        self.itemsDataSource = @[@"noitem", @"EatRabbi", @"bg_seg", @"fu_zh_duzui", @"yazui", @"mask_matianyu", @"lixiaolong", @"Mood", @"gradient", @"yuguan"];
+        self.itemsDataSource = @[@"noitem", @"EatRabbi", @"bg_seg", @"fu_zh_duzui", @"yazui", @"mask_matianyu", @"houzi", @"Mood", @"gradient", @"yuguan"];
         
-        self.filtersDataSource = @[@"nature", @"delta", @"electric", @"slowlived", @"tokyo", @"warm"];
+        self.filtersDataSource = @[@"origin", @"delta", @"electric", @"slowlived", @"tokyo", @"warm"];
     
+        self.beautyFiltersDataSource = @[@"ziran", @"danya", @"fennen", @"qingxin", @"hongrun"];
+        self.filtersCHName = @{@"ziran":@"自然", @"danya":@"淡雅", @"fennen":@"粉嫩", @"qingxin":@"清新", @"hongrun":@"红润"};
         [self setDefaultParameters];
         
         NSLog(@"faceunitySDK version:%@",[FURenderer getVersion]);
@@ -66,9 +71,11 @@ static FUManager *shareManager = NULL;
     
     self.selectedItem = self.itemsDataSource[1]; //贴纸道具
     
-    self.selectedFilter = self.filtersDataSource[0]; //滤镜效果
+    self.selectedFilter = self.beautyFiltersDataSource[0]; //美颜滤镜效果
     
     self.selectedBlur = 6; //磨皮程度
+    
+    self.skinDetectEnable = YES; //是否开启皮肤检测
     
     self.beautyLevel = 0.2; //美白程度
     
@@ -159,6 +166,10 @@ static FUManager *shareManager = NULL;
  */
 - (void)loadItem:(NSString *)itemName
 {
+    BOOL isAnimoji = [itemName isEqualToString:@"houzi"];
+    // 开启优化表情校准功能
+    fuSetExpressionCalibration(isAnimoji ? 1:0);
+    
     /**如果取消了道具的选择，直接销毁道具*/
     if ([itemName isEqual: @"noitem"] || itemName == nil)
     {
@@ -220,7 +231,9 @@ static FUManager *shareManager = NULL;
 {
     /*设置美颜效果（滤镜、磨皮、美白、红润、瘦脸、大眼....）*/
     [FURenderer itemSetParam:items[1] withName:@"filter_name" value:self.selectedFilter]; //滤镜名称
+    [FURenderer itemSetParam:items[1] withName:@"filter_level" value:@(self.selectedFilterLevel)]; //滤镜程度
     [FURenderer itemSetParam:items[1] withName:@"blur_level" value:@(self.selectedBlur)]; //磨皮 (0、1、2、3、4、5、6)
+    [FURenderer itemSetParam:items[1] withName:@"skin_detect" value:@(self.skinDetectEnable)]; //是否开启皮肤检测
     [FURenderer itemSetParam:items[1] withName:@"color_level" value:@(self.beautyLevel)]; //美白 (0~1)
     [FURenderer itemSetParam:items[1] withName:@"red_level" value:@(self.redLevel)]; //红润 (0~1)
     [FURenderer itemSetParam:items[1] withName:@"face_shape" value:@(self.faceShape)]; //美型类型 (0、1、2、3) 默认：3，女神：0，网红：1，自然：2
@@ -240,24 +253,24 @@ static FUManager *shareManager = NULL;
     CVPixelBufferRef buffer = [[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:3 flipx:YES];//flipx 参数设为YES可以使道具做水平方向的镜像翻转
     frameID += 1;
     
-    int width = (int)CVPixelBufferGetWidth(pixelBuffer);
-    int height = (int)CVPixelBufferGetHeight(pixelBuffer);
-    frameSize = CGSizeMake(width, height);
-    
     return buffer;
 }
 
-/**获取view中人脸中心点*/
-- (CGPoint)getFaceCenterInView:(UIView *)view{
+/**获取图像中人脸中心点*/
+- (CGPoint)getFaceCenterInFrameSize:(CGSize)frameSize{
     
-    CGSize viewSize = view.frame.size;
+    static CGPoint preCenter;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        preCenter = CGPointMake(0.5, 0.5);
+    });
     
     // 获取人脸矩形框，坐标系原点为图像右下角，float数组为矩形框右下角及左上角两个点的x,y坐标（前两位为右下角的x,y信息，后两位为左上角的x,y信息）
     float faceRect[4];
     int ret = [FURenderer getFaceInfo:0 name:@"face_rect" pret:faceRect number:4];
     
     if (ret == 0) {
-        return CGPointMake(viewSize.width * 0.5, viewSize.height * 0.5);
+        return preCenter;
     }
     
     // 计算出中心点的坐标值
@@ -266,24 +279,16 @@ static FUManager *shareManager = NULL;
     
     // 将坐标系转换成以左上角为原点的坐标系
     centerX = frameSize.width - centerX;
+    centerX = centerX / frameSize.width;
+    
     centerY = frameSize.height - centerY;
+    centerY = centerY / frameSize.height;
     
-    // 将中心点从buffer转换到view
-    CGFloat dw = frameSize.width / viewSize.width;
-    CGFloat dh = frameSize.height / viewSize.height;
-    CGFloat d = MIN(dw, dh);
+    CGPoint center = CGPointMake(centerX, centerY);
     
-    CGSize dFrameSize = CGSizeMake(frameSize.width / d, frameSize.height / d);
-    centerX *= 1 / d;
-    centerY *= 1 / d;
+    preCenter = center;
     
-    CGFloat x = (dFrameSize.width - viewSize.width) * 0.5;
-    CGFloat y = (dFrameSize.height - viewSize.height) * 0.5;
-    
-    centerX -= x;
-    centerY -= y;
-    
-    return CGPointMake(centerX, centerY);
+    return center;
 }
 
 /**获取75个人脸特征点*/
@@ -323,6 +328,14 @@ static FUManager *shareManager = NULL;
     }
     
     return nil;
+}
+    
+- (BOOL)isCalibrating{
+    float is_calibrating[1] = {0.0};
+    
+    fuGetFaceInfo(0, "is_calibrating", is_calibrating, 1);
+    
+    return is_calibrating[0] == 1.0;
 }
 
 @end

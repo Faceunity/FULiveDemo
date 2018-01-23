@@ -15,6 +15,7 @@ typedef enum : NSUInteger {
     CommonMode,
     PhotoTakeMode,
     VideoRecordMode,
+    VideoRecordEndMode,
 } RunMode;
 
 
@@ -214,7 +215,7 @@ typedef enum : NSUInteger {
 //录制的队列
 - (dispatch_queue_t)captureQueue {
     if (_captureQueue == nil) {
-        _captureQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+        _captureQueue = dispatch_queue_create("com.faceunity.captureQueue", DISPATCH_QUEUE_SERIAL);
     }
     return _captureQueue;
 }
@@ -241,6 +242,7 @@ typedef enum : NSUInteger {
         [_videoOutput setVideoSettings:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:_captureFormat] forKey:(id)kCVPixelBufferPixelFormatTypeKey]];
     }
 }
+
 
 - (void)setFocusPoint:(CGPoint)focusPoint
 {
@@ -286,6 +288,7 @@ typedef enum : NSUInteger {
 {
     return self.camera.exposurePointOfInterestSupported;
 }
+
 
 - (BOOL)isFrontCamera
 {
@@ -338,6 +341,26 @@ typedef enum : NSUInteger {
             [self.recordEncoder encodeFrame:sampleBuffer];
             CFRelease(sampleBuffer);
             break;
+        case VideoRecordEndMode:
+        {
+            runMode = CommonMode;
+            
+            if (self.recordEncoder.writer.status == AVAssetWriterStatusUnknown) {
+                self.recordEncoder = nil;
+            }else{
+                
+                [self.recordEncoder finishWithCompletionHandler:^{
+                    
+                    NSString *path = self.recordEncoder.path;
+                    self.recordEncoder = nil;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        UISaveVideoAtPathToSavedPhotosAlbum(path, self, @selector(video:didFinishSavingWithError:contextInfo:), NULL);
+                    });
+                    
+                }];
+            }
+        }
+        break;
         default:
             break;
     }
@@ -357,26 +380,7 @@ typedef enum : NSUInteger {
 //停止录像
 - (void)stopRecord
 {
-    runMode = CommonMode;
-    dispatch_async(self.captureQueue, ^{
-        runMode = CommonMode;
-        if (self.recordEncoder.writer.status == AVAssetWriterStatusUnknown) {
-            self.recordEncoder = nil;
-        }else{
-            
-            [self.recordEncoder finishWithCompletionHandler:^{
-                
-                NSString *path = self.recordEncoder.path;
-                self.recordEncoder = nil;
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    UISaveVideoAtPathToSavedPhotosAlbum(path, self, @selector(video:didFinishSavingWithError:contextInfo:), NULL);
-                });
-                
-            }];
-            
-        }
-        
-    });
+    runMode = VideoRecordEndMode;
 }
 
 - (UIImage *)imageFromPixelBuffer:(CVPixelBufferRef)pixelBufferRef {
