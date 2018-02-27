@@ -123,9 +123,9 @@ static FUManager *shareManager = NULL;
 /**开启多脸识别（最高可设为8，不过考虑到性能问题建议设为4以内*/
 - (void)setEnableMaxFaces:(BOOL)enableMaxFaces
 {
-    if (self.enableMaxFaces) {
-        [FURenderer setMaxFaces:4];
-    }
+    _enableMaxFaces = enableMaxFaces;
+    
+    [FURenderer setMaxFaces: enableMaxFaces ? 4:1];
 }
 
 /**销毁全部道具*/
