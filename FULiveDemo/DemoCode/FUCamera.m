@@ -98,6 +98,8 @@ typedef enum : NSUInteger {
             [deviceInput.device unlockForConfiguration];
         }
         [_captureSession commitConfiguration]; //
+        
+        self.exposurePoint = CGPointMake(0.49, 0.5);
     }
     return _captureSession;
 }
@@ -170,6 +172,7 @@ typedef enum : NSUInteger {
     if (self.videoConnection.supportsVideoMirroring) {
         self.videoConnection.videoMirrored = isFront;
     }
+    self.exposurePoint = CGPointMake(0.49, 0.5);
     [self.captureSession startRunning];
 }
 
