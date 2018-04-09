@@ -262,7 +262,7 @@ static FUManager *shareManager = NULL;
     static CGPoint preCenter;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        preCenter = CGPointMake(0.5, 0.5);
+        preCenter = CGPointMake(0.49, 0.5);
     });
     
     // 获取人脸矩形框，坐标系原点为图像右下角，float数组为矩形框右下角及左上角两个点的x,y坐标（前两位为右下角的x,y信息，后两位为左上角的x,y信息）
