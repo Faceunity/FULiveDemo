@@ -1,47 +1,22 @@
 //
 //  ViewController.m
-//  FUAPIDemo
+//  FULive
 //
-//  Created by 刘洋 on 2017/1/9.
-//  Copyright © 2017年 刘洋. All rights reserved.
+//  Created by L on 2018/1/15.
+//  Copyright © 2018年 L. All rights reserved.
 //
 
 #import "ViewController.h"
-#import <GLKit/GLKit.h>
-#import "FUCamera.h"
-#import <FUAPIDemoBar/FUAPIDemoBar.h>
-#import "PhotoButton.h"
-#import "FUOpenglView.h"
 #import "FUManager.h"
+#import "FULiveModel.h"
+#import "FULiveCell.h"
+#import "FURenderViewController.h"
+#import <SVProgressHUD.h>
 
-@interface ViewController ()<FUAPIDemoBarDelegate,FUCameraDelegate, PhotoButtonDelegate>
+@interface ViewController ()
 
-@property (nonatomic, assign)     BOOL isAvatar;              /**判断当前加载的道具是否为avatar道具*/
-
-@property (weak, nonatomic) IBOutlet FUAPIDemoBar *demoBar;//工具条
-
-@property (nonatomic, strong) FUCamera *mCamera;//摄像头
-
-@property (weak, nonatomic) IBOutlet UILabel *noTrackView;
-
-@property (weak, nonatomic) IBOutlet UILabel *errorLabel;
-
-@property (weak, nonatomic) IBOutlet UILabel *tipLabel;
-
-@property (weak, nonatomic) IBOutlet UILabel *calibrateLabel;
-    
-@property (weak, nonatomic) IBOutlet PhotoButton *photoBtn;
-
-@property (weak, nonatomic) IBOutlet UIButton *barBtn;
-
-@property (weak, nonatomic) IBOutlet UISegmentedControl *segment;
-
-@property (weak, nonatomic) IBOutlet UIButton *changeCameraBtn;
-
-@property (weak, nonatomic) IBOutlet FUOpenGLView *displayGLView;
-
-@property (weak, nonatomic) IBOutlet FUOpenGLView *landmarksGlView;
-
+@property (nonatomic, strong) NSArray *dataArray ;
+@property (weak, nonatomic) IBOutlet UICollectionView *collection;
 @end
 
 @implementation ViewController
@@ -51,386 +26,69 @@
     return YES;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
     
-    [self addObserver];
+//    [[FUManager shareManager] loadItems];
     
-    self.photoBtn.delegate = self ;
-    
-    [[FUManager shareManager] loadItems];
-    //显示道具的提示语
-    dispatch_async(dispatch_get_main_queue(), ^{
-        NSString *hint = [[FUManager shareManager] hintForItem:[FUManager shareManager].selectedItem];
-        self.tipLabel.hidden = hint == nil;
-        self.tipLabel.text = hint;
-        
-        [ViewController cancelPreviousPerformRequestsWithTarget:self selector:@selector(dismissTipLabel) object:nil];
-        [self performSelector:@selector(dismissTipLabel) withObject:nil afterDelay:5 ];
-    });
-    
-    [self.mCamera startCapture];
+    self.dataArray = [FUManager shareManager].dataSource;
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
+-(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.collection.userInteractionEnabled = YES ;
+}
+
+#pragma mark --- UICollectionViewDataSource
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return self.dataArray.count ;
+}
+
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    [self.mCamera startCapture];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [self.mCamera stopCapture];
+    FULiveCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FULive_Cell" forIndexPath:indexPath];
     
-    [super viewWillDisappear:animated];
-}
-
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    cell.model = (FULiveModel *)self.dataArray[indexPath.row] ;
     
-    [[FUManager shareManager] destoryItems];
+    return cell;
 }
 
-- (void)addObserver{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willResignActive) name:UIApplicationWillResignActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
+#pragma mark --- UICollectionViewDelegateFlowLayout
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return CGSizeMake((self.collection.frame.size.width - 20 * 4)/3.0 - 1, (self.collection.frame.size.width - 20 * 4)/3.0 + 12 ) ;
 }
 
-- (void)willResignActive
-{
-    [_mCamera stopCapture];
-}
-
-- (void)willEnterForeground
-{
-    [_mCamera startCapture];
-}
-
-- (void)didBecomeActive
-{
-    [_mCamera startCapture];
-}
-
-- (void)dismissTipLabel
-{
-    self.tipLabel.hidden = YES;
-}
-
-/**
- 摄像头，默认前置摄像头，采集BGRA格式视频
- 
- @return FUCamera
- */
-- (FUCamera *)mCamera
-{
-    if (!_mCamera) {
-        _mCamera = [[FUCamera alloc] init];
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    collectionView.userInteractionEnabled = NO ;
+    
+    FULiveModel *model = (FULiveModel *)self.dataArray[indexPath.row] ;
+    
+    if (!model.enble) {
         
-        _mCamera.delegate = self;
-        
+        collectionView.userInteractionEnabled = YES ;
+        return ;
     }
     
-    return _mCamera;
+    self.collection.userInteractionEnabled = NO ;
+    [self performSegueWithIdentifier:@"showFULiveView" sender:model];
+    
+    collectionView.userInteractionEnabled = YES ;
 }
 
-/**
- Faceunity道具美颜工具条
- 初始化 FUAPIDemoBar，设置初始美颜参数
- 
- @param demoBar FUAPIDemoBar不是我们的交付内容，它的作用仅局限于我们的Demo演示，客户可以选择使用，但我们不会提供与之相关的技术支持或定制需求开发
- */
-- (void)setDemoBar:(FUAPIDemoBar *)demoBar
-{
-    _demoBar = demoBar;
-    _demoBar.delegate = self;
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
-    _demoBar.itemsDataSource =  [FUManager shareManager].itemsDataSource;
-    _demoBar.filtersDataSource = [FUManager shareManager].filtersDataSource;
-    _demoBar.filtersCHName = [FUManager shareManager].filtersCHName;
-    _demoBar.beautyFiltersDataSource = [FUManager shareManager].beautyFiltersDataSource;
-    
-    _demoBar.selectedItem = [FUManager shareManager].selectedItem;      /**选中的道具名称*/
-    _demoBar.selectedFilter = [FUManager shareManager].selectedFilter;  /**选中的滤镜名称*/
-    _demoBar.whiteLevel = [FUManager shareManager].beautyLevel;        /**美白 (0~1)*/
-    _demoBar.redLevel = [FUManager shareManager].redLevel;              /**红润 (0~1)*/
-    _demoBar.selectedBlur = [FUManager shareManager].selectedBlur;      /**磨皮(0、1、2、3、4、5、6)*/
-    _demoBar.skinDetectEnable = [FUManager shareManager].skinDetectEnable;/**是否开启皮肤检测(YES/NO)*/
-    _demoBar.faceShape = [FUManager shareManager].faceShape;            /**美型类型 (0、1、2、3) 默认：3，女神：0，网红：1，自然：2*/
-    _demoBar.faceShapeLevel = [FUManager shareManager].faceShapeLevel;  /**美型等级 (0~1)*/
-    _demoBar.enlargingLevel = [FUManager shareManager].enlargingLevel;  /**大眼 (0~1)*/
-    _demoBar.thinningLevel = [FUManager shareManager].thinningLevel;    /**瘦脸 (0~1)*/
-
-}
-
--(void)takePhoto {
-    
-    //拍照效果
-    self.photoBtn.enabled = NO;
-    UIView *whiteView = [[UIView alloc] initWithFrame:self.view.bounds];
-    whiteView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:whiteView];
-    whiteView.alpha = 0.3;
-    [UIView animateWithDuration:0.1 animations:^{
-        whiteView.alpha = 0.8;
-    } completion:^(BOOL finished) {
-        [UIView animateWithDuration:0.1 animations:^{
-            whiteView.alpha = 0;
-        } completion:^(BOOL finished) {
-            self.photoBtn.enabled = YES;
-            [whiteView removeFromSuperview];
-        }];
-    }];
-    
-    [self.mCamera takePhotoAndSave];
-}
-
--(void)startRecord {
-    self.barBtn.enabled = NO;
-    self.segment.enabled = NO;
-    self.changeCameraBtn.enabled = NO;
-    [self.mCamera startRecord];
-}
-
--(void)stopRecord {
-    
-    self.barBtn.enabled = YES;
-    self.segment.enabled = YES;
-    self.changeCameraBtn.enabled = YES;
-    [self.mCamera stopRecord];
-}
-
-#pragma -显示工具栏
-- (IBAction)filterBtnClick:(UIButton *)sender {
-    self.barBtn.hidden = YES;
-    self.photoBtn.hidden = YES;
-    
-    self.demoBar.alpha = 0.0 ;
-    [UIView animateWithDuration:0.5 animations:^{
-        self.demoBar.transform = CGAffineTransformMakeTranslation(0, -self.demoBar.frame.size.height);
-        self.demoBar.alpha = 1.0 ;
-    }];
-}
-
-#pragma -隐藏工具栏
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{
-    UITouch *touch = [touches allObjects].firstObject;
-    if (touch.view != self.displayGLView) {
-        return;
-    }
-    self.demoBar.alpha = 1.0 ;
-    [UIView animateWithDuration:0.5 animations:^{
-        self.demoBar.transform = CGAffineTransformIdentity;
-        self.demoBar.alpha = 0.0 ;
-    } completion:^(BOOL finished) {
-        self.barBtn.hidden = NO;
-        self.photoBtn.hidden = NO;
-    }];
-}
-
-#pragma -BGRA/YUV切换
-- (IBAction)changeCaptureFormat:(UISegmentedControl *)sender {
-    
-    _mCamera.captureFormat = _mCamera.captureFormat == kCVPixelFormatType_32BGRA ? kCVPixelFormatType_420YpCbCr8BiPlanarFullRange:kCVPixelFormatType_32BGRA;
-    
-}
-
-#pragma -摄像头切换
-- (IBAction)changeCamera:(UIButton *)sender {
-    
-    [_mCamera changeCameraInputDeviceisFront:!_mCamera.isFrontCamera];
-    
-    /**切换摄像头要调用此函数*/
-    [[FUManager shareManager] onCameraChange];
-}
-
-#pragma -FUAPIDemoBarDelegate
-- (void)demoBarDidSelectedItem:(NSString *)item
-{
-    //加载道具
-    [[FUManager shareManager] loadItem:item];
-    
-    //显示道具的提示语
-    dispatch_async(dispatch_get_main_queue(), ^{
-        NSString *hint = [[FUManager shareManager] hintForItem:item];
-        self.tipLabel.hidden = hint == nil;
-        self.tipLabel.text = hint;
+    if ([segue.identifier isEqualToString:@"showFULiveView"]) {
         
-        [ViewController cancelPreviousPerformRequestsWithTarget:self selector:@selector(dismissTipLabel) object:nil];
-        [self performSelector:@selector(dismissTipLabel) withObject:nil afterDelay:5 ];
-    });
-    
-    _isAvatar = [item isEqualToString:@"houzi"];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.landmarksGlView.hidden = !_isAvatar;
-    });
-}
-
-/**设置美颜参数*/
-- (void)demoBarBeautyParamChanged
-{
-    [self syncBeautyParams];
-}
-
-- (void)syncBeautyParams
-{
-    [FUManager shareManager].selectedFilter = _demoBar.selectedFilter;
-    [FUManager shareManager].selectedFilterLevel = _demoBar.selectedFilterLevel;
-    [FUManager shareManager].selectedBlur = _demoBar.selectedBlur;
-    [FUManager shareManager].skinDetectEnable = _demoBar.skinDetectEnable;
-    [FUManager shareManager].beautyLevel = _demoBar.whiteLevel;
-    [FUManager shareManager].redLevel = _demoBar.redLevel;
-    [FUManager shareManager].faceShape = _demoBar.faceShape;
-    [FUManager shareManager].faceShapeLevel = _demoBar.faceShapeLevel;
-    [FUManager shareManager].thinningLevel = _demoBar.thinningLevel;
-    [FUManager shareManager].enlargingLevel = _demoBar.enlargingLevel;
-}
-
-#pragma -FUCameraDelegate
-- (void)didOutputVideoSampleBuffer:(CMSampleBufferRef)sampleBuffer
-{
-    CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-    
-    /*--------------------------------------以下展示人脸特征点逻辑--------------------------------------*/
-    /**如果当前的道具是avatar道具，先将原始图像拷贝出来一份，
-     等处理完原始图像并将其显示在屏幕上后，我们再将图像拷贝回去，用于界面左上角的人脸特征点显示*/
-    void *copyData = NULL;
-    if (self.isAvatar)
-    {
-        copyData = [self getCopyDataFromPixelBuffer:pixelBuffer];
+        FURenderViewController *renderController = (FURenderViewController *)segue.destinationViewController ;
+        renderController.model = (FULiveModel *)sender ;
     }
-    /*--------------------------------------以上展示人脸特征点逻辑--------------------------------------*/
-    
-    
-    
-    /*---------------------------------将道具绘制到pixelBuffer，并显示在屏幕上---------------------------------*/
-    /**将道具绘制到pixelBuffer*/
-    [[FUManager shareManager] renderItemsToPixelBuffer:pixelBuffer];
-    
-    /**执行完上一步骤，即可将pixelBuffer绘制到屏幕上或推流到服务器进行直播*/
-    [self.displayGLView displayPixelBuffer:pixelBuffer];
-    /*---------------------------------处理pixelBuffer，并显示在屏幕上---------------------------------*/
-    
-    
-    
-    /*--------------------------------------以下展示人脸特征点逻辑--------------------------------------*/
-    /**将图像拷贝回去，用于界面左上角的人脸特征点显示*/
-    if (self.isAvatar && copyData)
-    {
-        void *copyData1 = [self getCopyDataFromPixelBuffer:pixelBuffer];
-        [self copyDataBackToPixelBuffer:pixelBuffer copyData:copyData];
-        [self displayLandmarksWithPixelBuffer:pixelBuffer];
-        [self copyDataBackToPixelBuffer:pixelBuffer copyData:copyData1];
-        free(copyData);
-        free(copyData1);
-    }
-    /*--------------------------------------以上展示人脸特征点逻辑--------------------------------------*/
-    
-    CGSize frameSize;
-    if (CVPixelBufferGetPixelFormatType(pixelBuffer) == kCVPixelFormatType_32BGRA) {
-        frameSize = CGSizeMake(CVPixelBufferGetBytesPerRow(pixelBuffer) / 4, CVPixelBufferGetHeight(pixelBuffer));
-    }else{
-        frameSize = CGSizeMake(CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer));
-    }
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-        /**判断是否检测到人脸*/
-        self.noTrackView.hidden = [[FUManager shareManager] isTracking];
-        
-        // 检测并显示错误信息
-        self.errorLabel.text = [[FUManager shareManager] getError];
-        
-        // 根据人脸中心点实时调节摄像头曝光参数及聚焦参数
-        CGPoint center = [[FUManager shareManager] getFaceCenterInFrameSize:frameSize];;
-        self.mCamera.exposurePoint = CGPointMake(center.y,self.mCamera.isFrontCamera ? center.x:1-center.x);
-
-        // 表情校准提示
-        BOOL isCalibrating = [[FUManager shareManager] isCalibrating];
-        if (isCalibrating) {
-            
-            if (self.calibrateLabel.hidden) {
-                pointCount = -1;
-                self.calibrateLabel.alpha = 0.5;
-                [UIView animateWithDuration:0.5 animations:^{
-                    self.calibrateLabel.hidden = NO;
-                    self.calibrateLabel.alpha = 1.0;
-                }];
-                [self calibratingLabelAnimation];
-            }
-        }else{
-            pointCount = -1;
-            self.calibrateLabel.hidden = YES;
-        }
-    });
 }
 
-/**
- 显示lanmarks预览
- */
-- (void)displayLandmarksWithPixelBuffer:(CVPixelBufferRef)pixelBuffer
-{
-    float landmarks[150];
-    
-    [[FUManager shareManager] getLandmarks:landmarks];
-    
-    [self.landmarksGlView displayPixelBuffer:pixelBuffer withLandmarks:landmarks count:150];
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
 }
 
-
-/*--------------------------------------以下展示人脸特征点逻辑--------------------------------------*/
-- (void *)getCopyDataFromPixelBuffer:(CVPixelBufferRef)pixelBuffer
-{
-    CVPixelBufferLockBaseAddress(pixelBuffer, 0);
-    
-    size_t size = CVPixelBufferGetDataSize(pixelBuffer);
-    void *bytes = (void *)CVPixelBufferGetBaseAddress(pixelBuffer);
-    
-    void *copyData = malloc(size);
-    
-    memcpy(copyData, bytes, size);
-    
-    CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
-    
-    return copyData;
-}
-
-- (void)copyDataBackToPixelBuffer:(CVPixelBufferRef)pixelBuffer copyData:(void *)copyData
-{
-    CVPixelBufferLockBaseAddress(pixelBuffer, 0);
-    
-    size_t size = CVPixelBufferGetDataSize(pixelBuffer);
-    void *bytes = (void *)CVPixelBufferGetBaseAddress(pixelBuffer);
-    
-    memcpy(bytes, copyData, size);
-    
-    CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
-}
-/*--------------------------------------以上展示人脸特征点逻辑--------------------------------------*/
-
-static int pointCount = 0;
-- (void)calibratingLabelAnimation{
-    if (self.calibrateLabel.hidden == NO) {
-        pointCount += 1;
-        pointCount = pointCount % 6;
-        
-        NSString *text = @"表情校准中";
-        for (int i = 0; i<= pointCount; i++) {
-            text = [text stringByAppendingString:@"."];
-        }
-        self.calibrateLabel.text = text;
-        
-        [self performSelector:@selector(calibratingLabelAnimation) withObject:nil afterDelay:0.5];
-    }else{
-        pointCount = 0;
-    }
-    
-}
 
 @end
-
-

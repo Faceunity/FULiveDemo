@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "camera_btn_shotcut_normal.png",
+      "filename" : "镜头48.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "camera_btn_shotcut_normal@2x.png",
+      "filename" : "镜头96.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "camera_btn_shotcut_normal@3x.png",
+      "filename" : "镜头144.png",
       "scale" : "3x"
     }
   ],

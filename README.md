@@ -2,9 +2,11 @@
 
 FULiveDemo 是集成了 Faceunity 面部跟踪、美颜、Animoji、道具贴纸、AR面具、换脸、表情识别、音乐滤镜、背景分割、手势识别、哈哈镜、人像光照以及人像驱动功能的Demo。Demo新增了一个展示Faceunity产品列表的主界面，新版Demo将根据客户证书权限来控制用户可以使用哪些产品。
 
+注：第一运行Demo会报缺少证书的 error ,如果您已拥有我司颁发的证书，将证书替换到工程中重新运行即可。如您还没有我司颁发的证书，可以查看[这里](https://github.com/Faceunity/FULiveDemo/tree/dev#%E5%AF%BC%E5%85%A5%E8%AF%81%E4%B9%A6)获取证书
+
 ## SDK v5.0 更新
 
-本次更新：
+更新内容
 
 - 新增高级美颜功能
 - 新增精细脸型调整功能
@@ -15,6 +17,7 @@ FULiveDemo 是集成了 Faceunity 面部跟踪、美颜、Animoji、道具贴纸
 - 新增被动表情校准模式
 - 优化手势识别
 - 人脸跟踪底层性能进一步优化
+- 性能优化
 - 其他累积问题修复、接口调整
 
 具体更新内容可以到[这里](https://github.com/Faceunity/FULiveDemo/blob/dev/docs/FUNama%20SDK%20v5.0%20%E6%9B%B4%E6%96%B0%E6%96%87%E6%A1%A3.md)查看详细文档。
@@ -29,7 +32,7 @@ FULiveDemo 是集成了 Faceunity 面部跟踪、美颜、Animoji、道具贴纸
 
     Xcode 8或更高版本
 
-## SDK集成
+## 导入SDK
 
 ### 一、通过cocoapods集成
 
@@ -65,29 +68,32 @@ FULiveDemo 是集成了 Faceunity 面部跟踪、美颜、Animoji、道具贴纸
 ---
 ![](./screenshots/picture2.png)
 
+
+
 ## 文件说明
 
 ### 一、头文件
-  - authpack.h 证书文件，一般由我司通过邮箱发送给使用者
-  - funama.h C接口头文件
-  - FURenderer.h OC接口头文件
+
+- authpack.h 证书文件，一般由我司通过邮箱发送给使用者
+- funama.h C接口头文件
+- FURenderer.h OC接口头文件
 
 ### 二、库文件
-  - libnama.a 人脸跟踪及道具绘制核心静态库 
+
+- libnama.a 人脸跟踪及道具绘制核心静态库 
 
 ### 三、数据文件
-  - v3.bundle 初始化必须的二进制文件 
-  - face_beautification.bundle 我司美颜相关的二进制文件
-  - anim_model.bundle 表情优化相关二进制文件
-  - ardata_ex.bundle 高精度模型相关二进制文件
-  - fxaa.bundle 3D道具去锯齿二进制文件
-  - items/*.bundle 该文件夹位于 FULiveDemo 的字文件夹中，这些 .bundle 文件是我司制作的特效贴纸文件，自定义特效贴纸制作的文档和工具请联系我司获取。
+
+- v3.bundle 初始化必须的二进制文件 
+- face_beautification.bundle 我司美颜相关的二进制文件
+- anim_model.bundle 表情优化相关二进制文件
+- ardata_ex.bundle 高精度模型相关二进制文件
+- fxaa.bundle 3D道具去锯齿二进制文件
+- items/*.bundle 该文件夹位于 FULiveDemo 的字文件夹中，这些 .bundle 文件是我司制作的特效贴纸文件，自定义特效贴纸制作的文档和工具请联系我司获取。
 
 注：这些数据文件都是二进制数据，与扩展名无关。实际在app中使用时，打包在程序内或者从网络接口下载这些数据都是可行的，只要在相应的函数接口传入正确的文件路径即可。
 
-## 初始化
-
-### 一、获取证书
+## 导入证书
 
 您需要拥有我司颁发的证书才能使用我们的SDK的功能，获取证书方法：
 
@@ -95,9 +101,29 @@ FULiveDemo 是集成了 Faceunity 面部跟踪、美颜、Animoji、道具贴纸
 
 2、发送邮件至 **marketing@faceunity.com** 进行咨询。
 
-### 二、初始化FURenderer
+iOS端发放的证书为包含在authpack.h中的g_auth_package数组，如果您已经获取到鉴权证书，将authpack.h导入工程中即可。根据应用需求，鉴权数据也可以在运行时提供(如网络下载)，不过要注意证书泄露风险，防止证书被滥用。
 
-初始化接口：
+## 初始化
+
+首先在代码中引入 FURenderer.h 头文件
+
+```c
+#import "FURenderer.h"
+```
+
+然后执行初始化
+
+```c
+NSString *v3Path = [[NSBundle mainBundle] pathForResource:@"v3" ofType:@"bundle"];
+    
+[[FURenderer shareRenderer] setupWithDataPath:v3Path authPackage:g_auth_package authSize:sizeof(g_auth_package) shouldCreateContext:YES];
+```
+
+注：app启动后只需要setup一次FURenderer即可，其中 `g_auth_package` 密钥数组声明在 authpack.h 中。
+
+至此，工程的配置及 SDK 的初始化工作已全部完成，下面就可以通过我们的 SDK 进行视频处理了！
+
+接口说明：
 
     - (void)setupWithDataPath:(NSString *)v3path 
                   authPackage:(void *)package 
@@ -106,39 +132,23 @@ FULiveDemo 是集成了 Faceunity 面部跟踪、美颜、Animoji、道具贴纸
 
 参数说明：
 
-`v3path` v3.bundle 文件路径
+`v3path`  v3.bundle 文件路径
 
-`package` 密钥数组，必须配置好密钥，SDK才能正常工作
+`package` 内存指针，指向鉴权数据的内容。如果是用包含 authpack.h 的方法在编译时提供鉴权数据，则这
+里可以写为 g_auth_package 
 
-`size` 密钥数组大小
+`size` 鉴权数据的长度，以字节为单位。如果鉴权数据提供的是 authpack.h 中的 g_auth_package ，
+这里可写作 sizeof(g_auth_package)
 
-`create` 如果设置为YES，我们会在内部创建并持有一个context，此时必须使用OC层接口
-
-调用示例：
-
-首先在代码中引入 FURenderer.h 头文件
-
-```C
-#import "FURenderer.h"
-```
-然后执行初始化
-
-```C
-NSString *v3Path = [[NSBundle mainBundle] pathForResource:@"v3" ofType:@"bundle"];
-    
-[[FURenderer shareRenderer] setupWithDataPath:v3Path authPackage:g_auth_package authSize:sizeof(g_auth_package) shouldCreateContext:YES];
-```
-注：app启动后只需要setup一次FURenderer即可，其中 `g_auth_package` 密钥数组声明在 authpack.h 中。
-
-至此，工程的配置及 SDK 的初始化工作已全部完成，下面就可以通过我们的 SDK 进行视频处理了！
+`create` 如果设置为YES，我们会在内部创建并持有一个context，这种情况下工程中必须要使用OC层接口
 
 
 ## 视频处理
 处理视频之前，首先需要创建道具句柄，然后将视频图像数据及道具句柄一同传入我们的绘制接口，处理完成之后道具中的特效就被绘制到图像中了。
 
-### 一、创建道具句柄：
+### 一、创建道具：
 ---
-创建道具句柄接口：
+创建道具接口：
 
 ```objective-c
 + (int)itemWithContentsOfFile:(NSString *)path
@@ -150,6 +160,14 @@ NSString *v3Path = [[NSBundle mainBundle] pathForResource:@"v3" ofType:@"bundle"
 返回值：
 
 `int` 道具句柄
+
+示例：
+
+```objective-c
+NSString *path = [[NSBundle mainBundle] pathForResource:@"tiara" ofType:@"bundle"];
+
+int itemHandle = [FURenderer itemWithContentsOfFile:path];
+```
 
 在实际应用中有时需要同时使用多个道具，我们的图像处理接口接受的的参数是一个包含多个道具句柄的int数组，所以我们需要将创建一个int数组来保存这些道具句柄。下面我们将创建一个花环道具的句柄并保存在int数组的第0位，示例如下：
 
@@ -163,9 +181,21 @@ int itemHandle = [FURenderer itemWithContentsOfFile:path];
 items[0] = itemHandle;
 ```
 
+
+
 ### 二、视频图像处理：
 
-图像处理接口：
+将上一步创建的包含一个贴纸道具句柄的items数组传入视频图像处理接口，同时传入需要被处理的图像，即可为图像添加特效贴纸，示例如下：
+
+```objective-c
+CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+    
+[[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:sizeof(items)/sizeof(int) flipx:YES];
+
+frameID += 1;
+```
+
+图像处理接口说明：
 
 ```objective-c
 - (CVPixelBufferRef)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer
@@ -190,16 +220,6 @@ items[0] = itemHandle;
 返回值：
 
 `CVPixelBufferRef ` 被处理过的的图像数据
-
-具体示例如下：
-
-```objective-c
-CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-    
-[[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:sizeof(items)/sizeof(int) flipx:YES];
-
-frameID += 1;
-```
 
 ### 三、道具销毁与切换：
 
@@ -265,7 +285,7 @@ for (int i = 0; i < sizeof(items) / sizeof(int); i++) {
 ## 视频美颜
 
 ### 美颜处理
-视频美颜配置方法与视频加特效道具类似，首先创建美颜道具句柄，并保存在句柄数组中:
+视频美颜配置方法与视频加特效道具类似，首先创建美颜道具句柄，并保存在上面提到的items数组的items[1]中,示例如下:
 
 ```C
 - (void)loadFilter
@@ -275,7 +295,7 @@ for (int i = 0; i < sizeof(items) / sizeof(int); i++) {
 }
 ```
 
-在处理视频时，美颜道具句柄会通过句柄数组传入图像处理接口，处理完成后美颜效果将会被作用到图像中。示例如下：
+在处理视频时，将包含美颜道具句柄的items数组传入视频图像处理接口，同时传入需要被处理的图像，即可为图像添加美颜效果，示例如下：
 
 ```C
 CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
@@ -285,7 +305,7 @@ CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
 frameID += 1;
 ```
 
-### 参数设置
+### 美颜参数设置
 美颜道具主要包含七个模块的内容：滤镜、美白、红润、磨皮、亮眼、美牙、美型。每个模块都有默认效果，它们可以调节的参数如下。
 
 ### 一、滤镜
@@ -513,7 +533,7 @@ PC及MAC端的美颜，使用前必须将参数 is_opengl_es 设置为 0，移�
 
 自定义手势道具的流程和2D道具制作一致，具体打包的细节可以联系我司技术支持。
 
-
+注：新版手势道具中部分道具需要使用非lite版SDK才能正常使用
 
 ## 3D绘制抗锯齿功能
 
