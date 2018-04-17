@@ -59,7 +59,7 @@ static FUManager *shareManager = NULL;
         
         int res1 = fuLoadExtendedARData((void *)arModelData.bytes, (int)arModelData.length);
         
-        NSLog(@"fuLoadAnimModel %@",res1 == 0 ? @"failure":@"success" );
+        NSLog(@"fuLoadExtendedARData %@",res1 == 0 ? @"failure":@"success" );
         
        [self setDefaultParameters];
         
@@ -380,9 +380,13 @@ static FUManager *shareManager = NULL;
     /**先创建道具句柄*/
     NSString *path = [[NSBundle mainBundle] pathForResource:[itemName stringByAppendingString:@".bundle"] ofType:nil];
     int itemHandle = [FURenderer itemWithContentsOfFile:path];
-
-    [FURenderer itemSetParam:itemHandle withName:@"is3DFlipH" value:@(1)];
-    [FURenderer itemSetParam:itemHandle withName:@"isFlipExpr" value:@(1)];
+    
+    // 人像驱动 设置 3DFlipH
+    BOOL isPortraitDrive = [itemName hasPrefix:@"picasso_e"];
+    if (isPortraitDrive) {
+        [FURenderer itemSetParam:itemHandle withName:@"is3DFlipH" value:@(1)];
+        [FURenderer itemSetParam:itemHandle withName:@"isFlipExpr" value:@(1)];
+    }
     
     /**销毁老的道具句柄*/
     if (items[1] != 0) {
