@@ -67,14 +67,14 @@ __使用方法__：
 
 ### 精细脸型调整功能
 
-优化瘦脸、大眼的效果，增加额头调整、下巴调整、瘦鼻、嘴型调整4项美颜变形，FULiveDemo中可以在脸型中选择自定义来开启精细脸型调整功能
+新增优化瘦脸、大眼的效果，增加额头调整、下巴调整、瘦鼻、嘴型调整4项美颜变形，将 face_shape 设为4即可开启精细脸型调整功能，FULiveDemo中可以在脸型中选择自定义来开启精细脸型调整功能
 
 **使用方法：**
 
 - 加载face_beautification.bundle
 - 调整如下参数
   新增参数：
-  facewarp_version: 0,   // 1为开启新脸型模式，0为旧变形  
+  face_shape: 4,   // 4为开启高级美型模式，0～3为基本美型  
 
 ### 瘦脸
 
@@ -87,7 +87,7 @@ __使用方法__：
 - 加载face_beautification.bundle
 - 调整如下参数
   新增参数：
-  facewarp_version: 0,   // 1为开启新脸型模式，0为旧变形  
+  face_shape: 4,   // 4为开启高级美型模式，0～3为基本美型    
   原有参数：
   cheek_thinning: 0.0,   // 使用了原有参数cheek_thinning控制瘦脸 ，范围0 - 1
   face_shape: 3,   // 控制当前变形模式 0：女神 1：网红 2：自然 3：默认  
@@ -104,7 +104,7 @@ __使用方法__：
 - 加载face_beautification.bundle
 - 调整如下参数
   新增参数：
-  facewarp_version: 0,   // 1为开启新脸型模式，0为旧变形 
+  face_shape: 4,   // 4为开启高级美型模式，0～3为基本美型  
   原有参数：
   eye_enlarging: 0.0,   // 使用了原有参数eye_enlarging控制大眼，范围0 - 1
   face_shape: 3,   // 控制当前变形模式 0：女神 1：网红 2：自然 3：默认  
@@ -121,7 +121,7 @@ __使用方法__：
 - 加载face_beautification.bundle
 - 调整如下参数
   新增参数：
-  facewarp_version: 0,   // 1为开启新脸型模式，0为旧变形 
+  face_shape: 4,   // 4为开启高级美型模式，0～3为基本美型  
   intensity_forehead: 0.5,   // 大于0.5 变大，小于0.5变小
   原有参数：
   face_shape: 3,   // 控制当前变形模式 0：女神 1：网红 2：自然 3：默认  
@@ -138,7 +138,7 @@ __使用方法__：
 - 加载face_beautification.bundle
 - 调整如下参数
   新增参数：
-  facewarp_version: 0,   // 1为开启新脸型模式，0为旧变形  
+  face_shape: 4,   // 4为开启高级美型模式，0～3为基本美型  
   intensity_chin: 0.5,   // 大于0.5 变大，小于0.5变小
   原有参数：
   face_shape: 3,   // 控制当前变形模式 0：女神 1：网红 2：自然 3：默认  
@@ -155,7 +155,7 @@ __使用方法__：
 - 加载face_beautification.bundle
 - 调整如下参数
   新增参数：
-  facewarp_version: 0,   // 1为开启新脸型模式，0为旧变形  
+  face_shape: 4,   // 4为开启高级美型模式，0～3为基本美型  
   intensity_nose: 0.0,   // 0为正常大小，大于0开始瘦鼻，范围0 - 1
   原有参数：
   face_shape: 3,   // 控制当前变形模式 0：女神 1：网红 2：自然 3：默认  
@@ -172,7 +172,7 @@ __使用方法__：
 - 加载face_beautification.bundle
 - 调整如下参数
   新增参数：
-  facewarp_version: 0,   // 1为开启新脸型模式，0为旧变形  
+  face_shape: 4,   // 4为开启高级美型模式，0～3为基本美型  
   intensity_mouth: 0.5,   // 大于0.5变大，小于0.5变小
   原有参数：
   face_shape: 3,   //控制当前变形模式 0：女神 1：网红 2：自然 3：默认  

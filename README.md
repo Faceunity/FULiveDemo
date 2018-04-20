@@ -54,9 +54,9 @@ FULiveDemo 是集成了 Faceunity 面部跟踪、美颜、Animoji、道具贴纸
 
 ### 二、通过 github 下载集成
 
-含有深度学习的版本：[FaceUnity-SDK-iOS-v5.0-dev.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v5.0-dev/FaceUnity-SDK-iOS-v5.0-dev.zip)
+含有深度学习的版本：[FaceUnity-SDK-iOS-v5.0-dev.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v5.0-dev-fix/FaceUnity-SDK-iOS-v5.0-dev.zip)
 	
-不含深度学习的版本（lite版）：[FaceUnity-SDK-iOS-v5.0-dev-lite.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v5.0-dev/FaceUnity-SDK-iOS-v5.0-dev-lite.zip)
+不含深度学习的版本（lite版）：[FaceUnity-SDK-iOS-v5.0-dev-lite.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v5.0-dev-fix/FaceUnity-SDK-iOS-v5.0-dev-lite.zip)
 
 下载完成并解压后将库文件夹拖入到工程中，并勾选上 Copy items if needed，如图：
 
