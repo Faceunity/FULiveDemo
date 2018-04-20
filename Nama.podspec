@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.homepage = 'https://github.com/Faceunity/FULiveDemo/tree/dev'
   s.author   = { 'faceunity' => 'dev@faceunity.com' }
   s.platform     = :ios, "8.0"
-  s.source   = { :git => 'https://github.com/Faceunity/FULiveDemo.git', :tag => 'v5.0-dev' }
+  s.source   = { :git => 'https://github.com/Faceunity/FULiveDemo.git', :tag => 'v5.0-dev-fix' }
   s.source_files = 'FULiveDemo/Faceunity/FaceUnity-SDK-iOS/**/*.{h,m}'
   s.resources = 'FULiveDemo/Faceunity/FaceUnity-SDK-iOS/**/*.{bundle}'
   s.ios.vendored_library = 'FULiveDemo/Faceunity/FaceUnity-SDK-iOS/libnama.a'

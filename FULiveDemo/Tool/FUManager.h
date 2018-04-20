@@ -24,7 +24,7 @@
 @property (nonatomic, assign) double eyelightingLevel;  // 亮眼
 @property (nonatomic, assign) double beautyToothLevel;  // 美牙
 
-@property (nonatomic, assign) NSInteger faceShape;        // 脸型 (0、1、2) 女神：0，网红：1，自然：2， 自定义：4
+@property (nonatomic, assign) NSInteger faceShape;        //脸型 (0、1、2、3、4)女神：0，网红：1，自然：2，默认：3，自定义：4
 @property (nonatomic, assign) double enlargingLevel;      /**大眼 (0~1)*/
 @property (nonatomic, assign) double thinningLevel;       /**瘦脸 (0~1)*/
 @property (nonatomic, assign) double enlargingLevel_new;  /**大眼 (0~1) --  新版美颜*/
@@ -34,7 +34,6 @@
 @property (nonatomic, assign) double foreheadLevel;       /**额头 (0~1)*/
 @property (nonatomic, assign) double noseLevel;           /**鼻子 (0~1)*/
 @property (nonatomic, assign) double mouthLevel;          /**嘴型 (0~1)*/
-
 
 @property (nonatomic, strong) NSArray<NSString *> *filtersDataSource;     /**滤镜名称数组*/
 @property (nonatomic, strong) NSArray<NSString *> *beautyFiltersDataSource;     /**美颜滤镜名称数组*/
