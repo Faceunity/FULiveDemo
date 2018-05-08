@@ -20,7 +20,6 @@
     int frameID;
     
     NSDictionary *hintDic;
-    
     NSDictionary *alertDic ;
 }
 @end
@@ -261,10 +260,7 @@ static FUManager *shareManager = NULL;
     
     /**销毁道具后，清除context缓存*/
     [FURenderer OnDeviceLost];
-    
-    /**销毁道具后，重置人脸检测*/
-    [FURenderer onCameraChange];
-    
+
 //    /**销毁道具后，重置默认参数*/
 //    [self setDefaultParameters];
     
@@ -295,8 +291,6 @@ static FUManager *shareManager = NULL;
     
     fuSetExpressionCalibration(0) ;
 }
-
-
 
 - (BOOL)isCalibrating{
     float is_calibrating[1] = {0.0};
@@ -339,42 +333,35 @@ static FUManager *shareManager = NULL;
 - (void)loadItem:(NSString *)itemName
 {
     self.selectedItem = itemName ;
-    /**如果取消了道具的选择，直接销毁道具*/
-    if ([itemName isEqual: @"noitem"] || itemName == nil)
-    {
-        if (items[1] != 0) {
-            
-            NSLog(@"faceunity: destroy item");
-            [FURenderer destroyItem:items[1]];
-            
-            /**为避免道具句柄被销毁会后仍被使用导致程序出错，这里需要将存放道具句柄的items[1]设为0*/
-            items[1] = 0;
+
+    int destoryItem = items[1];
+
+    if (itemName != nil && ![itemName isEqual: @"noitem"]) {
+        /**先创建道具句柄*/
+        NSString *path = [[NSBundle mainBundle] pathForResource:[itemName stringByAppendingString:@".bundle"] ofType:nil];
+        int itemHandle = [FURenderer itemWithContentsOfFile:path];
+
+        // 人像驱动 设置 3DFlipH
+        BOOL isPortraitDrive = [itemName hasPrefix:@"picasso_e"];
+        if (isPortraitDrive) {
+            [FURenderer itemSetParam:itemHandle withName:@"is3DFlipH" value:@(1)];
+            [FURenderer itemSetParam:itemHandle withName:@"isFlipExpr" value:@(1)];
         }
-        
-        return;
+
+        /**将刚刚创建的句柄存放在items[1]中*/
+        items[1] = itemHandle;
+    }else{
+        /**为避免道具句柄被销毁会后仍被使用导致程序出错，这里需要将存放道具句柄的items[1]设为0*/
+        items[1] = 0;
     }
-    
-    /**先创建道具句柄*/
-    NSString *path = [[NSBundle mainBundle] pathForResource:[itemName stringByAppendingString:@".bundle"] ofType:nil];
-    int itemHandle = [FURenderer itemWithContentsOfFile:path];
-    
-    // 人像驱动 设置 3DFlipH
-    BOOL isPortraitDrive = [itemName hasPrefix:@"picasso_e"];
-    if (isPortraitDrive) {
-        [FURenderer itemSetParam:itemHandle withName:@"is3DFlipH" value:@(1)];
-        [FURenderer itemSetParam:itemHandle withName:@"isFlipExpr" value:@(1)];
-    }
-    
-    /**销毁老的道具句柄*/
-    if (items[1] != 0) {
-        NSLog(@"faceunity: destroy item");
-        [FURenderer destroyItem:items[1]];
-    }
-    
-    /**将刚刚创建的句柄存放在items[1]中*/
-    items[1] = itemHandle;
-    
     NSLog(@"faceunity: load item");
+
+    /**后销毁老道具句柄*/
+    if (destoryItem != 0)
+    {
+        NSLog(@"faceunity: destroy item");
+        [FURenderer destroyItem:destoryItem];
+    }
 }
 
 /**加载美颜道具*/

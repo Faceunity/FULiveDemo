@@ -163,7 +163,9 @@
     
     [self.mCamera stopCapture];
     
-    [[FUManager shareManager] destoryItems];
+    dispatch_async(self.mCamera.videoCaptureQueue, ^{
+        [[FUManager shareManager] destoryItems];
+    });
     
     [self.navigationController popViewControllerAnimated:YES];
 }

@@ -231,6 +231,7 @@ enum
         [self destoryProgram];
         
         if(videoTextureCache) {
+            CVOpenGLESTextureCacheFlush(videoTextureCache, 0);
             CFRelease(videoTextureCache);
             videoTextureCache = NULL;
         }

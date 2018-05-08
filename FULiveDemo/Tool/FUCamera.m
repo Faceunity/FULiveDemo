@@ -174,7 +174,7 @@ typedef enum : NSUInteger {
     if (!_audioOutput) {
         //添加音频输出
         _audioOutput = [[AVCaptureAudioDataOutput alloc] init];
-        [_audioOutput setSampleBufferDelegate:self queue:self.captureQueue];
+        [_audioOutput setSampleBufferDelegate:self queue:self.audioCaptureQueue];
     }
     
     return _audioOutput;
@@ -259,18 +259,25 @@ typedef enum : NSUInteger {
         _videoOutput = [[AVCaptureVideoDataOutput alloc] init];
         [_videoOutput setAlwaysDiscardsLateVideoFrames:YES];
         [_videoOutput setVideoSettings:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:_captureFormat] forKey:(id)kCVPixelBufferPixelFormatTypeKey]];
-        [_videoOutput setSampleBufferDelegate:self queue:self.captureQueue];
+        [_videoOutput setSampleBufferDelegate:self queue:self.videoCaptureQueue];
     }
     return _videoOutput;
 }
 
-//录制的队列
-- (dispatch_queue_t)captureQueue {
-    if (_captureQueue == nil) {
-//        _captureQueue = dispatch_queue_create("com.faceunity.captureQueue", DISPATCH_QUEUE_SERIAL);
-        _captureQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+//视频采集队列
+- (dispatch_queue_t)videoCaptureQueue {
+    if (_videoCaptureQueue == nil) {
+        _videoCaptureQueue = dispatch_queue_create("com.faceunity.videoCaptureQueue", NULL);
     }
-    return _captureQueue;
+    return _videoCaptureQueue;
+}
+
+//音频采集队列
+- (dispatch_queue_t)audioCaptureQueue {
+    if (_audioCaptureQueue == nil) {
+        _audioCaptureQueue = dispatch_queue_create("com.faceunity.audioCaptureQueue", NULL);
+    }
+    return _audioCaptureQueue;
 }
 
 //视频连接
