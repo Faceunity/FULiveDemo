@@ -216,7 +216,7 @@ enum
         
         boundsSizeAtFrameBufferEpoch = self.bounds.size;
         
-        dispatch_sync(_contextQueue, ^{
+        dispatch_async(_contextQueue, ^{
             [self destroyDisplayFramebuffer];
             [self createDisplayFramebuffer];
             [self updateVertices];
