@@ -2,11 +2,12 @@
 //  FUAPIDemoBar.h
 //  FUAPIDemoBar
 //
-//  Created by 刘洋 on 2017/1/10.
-//  Copyright © 2017年 刘洋. All rights reserved.
+//  Created by L on 2018/4/12.
+//  Copyright © 2018年 L. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
+#import "DemoBarType.h"
 
 //! Project version number for FUDemoBar.
 FOUNDATION_EXPORT double FUDemoBarVersionNumber;
@@ -17,10 +18,11 @@ FOUNDATION_EXPORT const unsigned char FUDemoBarVersionString[];
 // In this header, you should import all the public headers of your framework using statements like #import <FUDemoBar/PublicHeader.h>
 
 
-
 @protocol FUAPIDemoBarDelegate <NSObject>
 
 @optional
+- (void)demoBarDidSelectedItem:(NSString *)itemName;
+
 - (void)demoBarDidSelectedFilter:(NSString *)filter;
 
 - (void)demoBarBeautyParamChanged;
@@ -34,6 +36,7 @@ FOUNDATION_EXPORT const unsigned char FUDemoBarVersionString[];
 
 @property (nonatomic, assign) id<FUAPIDemoBarDelegate>delegate ;
 
+@property (nonatomic, assign) FUAPIDemoBarType demoBarType ;
 
 @property (nonatomic, assign) BOOL skinDetectEnable ;   // 精准美肤
 
@@ -56,6 +59,8 @@ FOUNDATION_EXPORT const unsigned char FUDemoBarVersionString[];
 @property (nonatomic, assign) double noseLevel;           /**鼻子 (0~1)*/
 @property (nonatomic, assign) double mouthLevel;          /**嘴型 (0~1)*/
 
+@property (nonatomic, strong) NSArray<NSString *> *itemsDataSource ; /**道具名称数组*/
+@property (nonatomic, copy) NSString *selectedItem ;                 /**选中的道具名称*/
 
 @property (nonatomic, strong) NSArray<NSString *> *filtersDataSource;     /**滤镜名称数组*/
 @property (nonatomic, strong) NSArray<NSString *> *beautyFiltersDataSource;     /**美颜滤镜名称数组*/

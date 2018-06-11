@@ -4,23 +4,13 @@ FULiveDemo 是集成了 Faceunity 面部跟踪、美颜、Animoji、道具贴纸
 
 注：第一运行Demo会报缺少证书的 error ,如果您已拥有我司颁发的证书，将证书替换到工程中重新运行即可。如您还没有我司颁发的证书，可以查看[这里](https://github.com/Faceunity/FULiveDemo/tree/dev#%E5%AF%BC%E5%85%A5%E8%AF%81%E4%B9%A6)获取证书
 
-## SDK v5.0 更新
+## SDK v5.1 更新
 
 更新内容
 
-- 新增高级美颜功能
-- 新增精细脸型调整功能
-- 新增3D绘制抗锯齿功能
-- 新增照片驱动功能
-- 新增人脸夸张变形功能
-- 新增音乐节奏滤镜
-- 新增被动表情校准模式
-- 优化手势识别
-- 人脸跟踪底层性能进一步优化
-- 性能优化
-- 其他累积问题修复、接口调整
-
-具体更新内容可以到[这里](https://github.com/Faceunity/FULiveDemo/blob/dev/docs/FUNama%20SDK%20v5.0%20%E6%9B%B4%E6%96%B0%E6%96%87%E6%A1%A3.md)查看详细文档。
+- 修复FXAA和自定义滤镜的兼容问题
+- 修复背景分割的道具在iPhone 5s上crash问题
+- 新增道具不加上自定义滤镜效果功能
 
 ## 软件需求
 
@@ -38,11 +28,11 @@ FULiveDemo 是集成了 Faceunity 面部跟踪、美颜、Animoji、道具贴纸
 
 含有深度学习的版本：
 
-	pod 'Nama', '5.0' #注意此版本目前为dev版
+	pod 'Nama', '5.1' #注意此版本目前为dev版
 
 不含深度学习的版本（lite版）：
 	
-	pod 'Nama-lite', '5.0' #注意此版本目前为dev版
+	pod 'Nama-lite', '5.1' #注意此版本目前为dev版
 
 接下来执行：
 
@@ -54,9 +44,9 @@ FULiveDemo 是集成了 Faceunity 面部跟踪、美颜、Animoji、道具贴纸
 
 ### 二、通过 github 下载集成
 
-含有深度学习的版本：[FaceUnity-SDK-iOS-v5.0-dev.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v5.0-dev-fix/FaceUnity-SDK-iOS-v5.0-dev.zip)
+含有深度学习的版本：[FaceUnity-SDK-iOS-v5.1-dev.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v5.1-dev/FaceUnity-SDK-iOS-v5.1-dev.zip)
 	
-不含深度学习的版本（lite版）：[FaceUnity-SDK-iOS-v5.0-dev-lite.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v5.0-dev-fix/FaceUnity-SDK-iOS-v5.0-dev-lite.zip)
+不含深度学习的版本（lite版）：[FaceUnity-SDK-iOS-v5.1-dev-lite.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v5.1-dev/FaceUnity-SDK-iOS-v5.1-dev-lite.zip)
 
 下载完成并解压后将库文件夹拖入到工程中，并勾选上 Copy items if needed，如图：
 

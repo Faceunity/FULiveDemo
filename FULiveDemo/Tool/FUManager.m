@@ -11,6 +11,7 @@
 #import "authpack.h"
 #import "FULiveModel.h"
 #import <sys/utsname.h>
+#import <CoreMotion/CoreMotion.h>
 #import "FUMusicPlayer.h"
 
 @interface FUManager ()
@@ -20,8 +21,13 @@
     int frameID;
     
     NSDictionary *hintDic;
+    
     NSDictionary *alertDic ;
 }
+
+// 用于设置默认人脸识别朝向
+@property (nonatomic, strong) CMMotionManager *motionManager;
+@property (nonatomic) int deviceOrientation;
 @end
 
 static FUManager *shareManager = NULL;
@@ -60,7 +66,7 @@ static FUManager *shareManager = NULL;
         
         NSLog(@"fuLoadExtendedARData %@",res1 == 0 ? @"failure":@"success" );
         
-       [self setDefaultParameters];
+       [self setBeautyDefaultParameters];
         
         NSLog(@"faceunitySDK version:%@",[FURenderer getVersion]);
         
@@ -88,6 +94,17 @@ static FUManager *shareManager = NULL;
         
         [self loadItemDataSource];
         
+        // 初始化陀螺仪
+        self.motionManager = [[CMMotionManager alloc] init];
+        self.motionManager.accelerometerUpdateInterval = 0.5;// 1s刷新一次
+        
+        if ([self.motionManager isDeviceMotionAvailable]) {
+            [self.motionManager startAccelerometerUpdates];
+        }
+        
+        // 默认竖屏
+        self.deviceOrientation = 0 ;
+        fuSetDefaultOrientation(self.deviceOrientation) ;
     }
     
     return self;
@@ -109,7 +126,6 @@ static FUManager *shareManager = NULL;
         model.title = itemName ;
         model.maxFace = [dict[@"maxFace"] integerValue] ;
         model.enble = NO;
-        model.imageName = itemName ;
         model.type = [dict[@"itemType"] integerValue];
         model.modules = dict[@"modules"] ;
         model.items = dict[@"items"] ;
@@ -125,9 +141,9 @@ static FUManager *shareManager = NULL;
         for (FULiveModel *model in modesArray) {
     
             model.enble = YES ;
-            model.imageName = [model.title stringByAppendingString:@"_selected"];
             [_dataSource addObject:model] ;
         }
+        
         return ;
     }
     
@@ -151,7 +167,6 @@ static FUManager *shareManager = NULL;
                 [_dataSource removeObject:model];
 
                 model.enble = YES ;
-                model.imageName = [model.title stringByAppendingString:@"_selected"];
 
                 [_dataSource insertObject:model atIndex:insertIndex] ;
                 insertIndex ++ ;
@@ -159,12 +174,11 @@ static FUManager *shareManager = NULL;
                 break ;
             }
         }
-
     }
 }
 
 /*设置默认参数*/
-- (void)setDefaultParameters {
+- (void)setBeautyDefaultParameters {
     
     self.filtersDataSource = @[@"origin", @"delta", @"electric", @"slowlived", @"tokyo", @"warm"];
     
@@ -174,25 +188,25 @@ static FUManager *shareManager = NULL;
     self.selectedFilter         = self.filtersDataSource[0] ;
     self.selectedFilterLevel    = 0.5 ;
     
-    self.skinDetectEnable       = YES ;
-    self.blurShape              = 0 ;
-    self.blurLevel              = 0.7 ;
-    self.whiteLevel             = 0.5 ;
-    self.redLevel               = 0.5 ;
+    self.skinDetectEnable       = YES ;// 精准美肤
+    self.blurShape              = 0 ;   // 朦胧磨皮 1 ，清晰磨皮 0
+    self.blurLevel              = 0.7 ; // 磨皮， 实际设置的时候 x6
+    self.whiteLevel             = 0.5 ; // 美白
+    self.redLevel               = 0.5 ; // 红润
     
-    self.eyelightingLevel       = 0.7 ;
-    self.beautyToothLevel       = 0.7 ;
+    self.eyelightingLevel       = 0.7 ; // 亮眼
+    self.beautyToothLevel       = 0.7 ; // 美牙
     
-    self.faceShape              = 4 ;
-    self.enlargingLevel         = 0.4 ;
-    self.thinningLevel          = 0.4 ;
+    self.faceShape              = 4 ;   // 脸型
+    self.enlargingLevel         = 0.4 ; // 大眼
+    self.thinningLevel          = 0.4 ; // 瘦脸
     
-    self.enlargingLevel_new     = 0.4 ;
-    self.thinningLevel_new      = 0.4 ;
-    self.jewLevel               = 0.3 ;
-    self.foreheadLevel          = 0.3 ;
-    self.noseLevel              = 0.5 ;
-    self.mouthLevel             = 0.4 ;
+    self.enlargingLevel_new     = 0.4 ; // 大眼
+    self.thinningLevel_new      = 0.4 ; // 瘦脸
+    self.jewLevel               = 0.3 ; // 下巴
+    self.foreheadLevel          = 0.3 ; // 额头
+    self.noseLevel              = 0.5 ; // 鼻子
+    self.mouthLevel             = 0.4 ; // 嘴
     
     self.enableGesture = NO;
     self.enableMaxFaces = NO;
@@ -262,8 +276,7 @@ static FUManager *shareManager = NULL;
     [FURenderer OnDeviceLost];
 
 //    /**销毁道具后，重置默认参数*/
-//    [self setDefaultParameters];
-    
+//    [self setBeautyDefaultParameters];
 }
 
 /**
@@ -281,7 +294,6 @@ static FUManager *shareManager = NULL;
     return alertDic[item] ;
 }
 
-
 - (void)setCalibrating {
     
     fuSetExpressionCalibration(1) ;
@@ -298,7 +310,6 @@ static FUManager *shareManager = NULL;
     fuGetFaceInfo(0, "is_calibrating", is_calibrating, 1);
     return is_calibrating[0] == 1.0;
 }
-
 
 - (void)loadAnimojiFaxxBundle {
     /**先创建道具句柄*/
@@ -323,6 +334,7 @@ static FUManager *shareManager = NULL;
         [FURenderer destroyItem:items[3]];
         items[3] = 0 ;
     }
+    
 }
 
 #pragma -Faceunity Load Data
@@ -348,6 +360,9 @@ static FUManager *shareManager = NULL;
             [FURenderer itemSetParam:itemHandle withName:@"isFlipExpr" value:@(1)];
         }
 
+    	if ([itemName isEqualToString:@"luhantongkuan_ztt_fu"]) {
+        	[FURenderer itemSetParam:itemHandle withName:@"flip_action" value:@(1)];
+    	}
         /**将刚刚创建的句柄存放在items[1]中*/
         items[1] = itemHandle;
     }else{
@@ -416,6 +431,29 @@ static FUManager *shareManager = NULL;
 /**将道具绘制到pixelBuffer*/
 - (CVPixelBufferRef)renderItemsToPixelBuffer:(CVPixelBufferRef)pixelBuffer
 {
+	// 在未识别到人脸时根据重力方向设置人脸检测方向
+    if (![FURenderer isTracking]) {
+
+        CMAcceleration acceleration = self.motionManager.accelerometerData.acceleration ;
+
+        int orientation = 0;
+        if (acceleration.x >= 0.75) {
+            orientation = 3;
+        } else if (acceleration.x <= -0.75) {
+            orientation = 1;
+        } else if (acceleration.y <= -0.75) {
+            orientation = 0;
+        } else if (acceleration.y >= 0.75) {
+            orientation = 2;
+        }
+
+        if (self.deviceOrientation != orientation) {
+            self.deviceOrientation = orientation ;
+
+            fuSetDefaultOrientation(self.deviceOrientation) ;
+        }
+    }
+
     /**设置美颜参数*/
     [self setBeautyParams];
     

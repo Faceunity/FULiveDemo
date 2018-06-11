@@ -14,6 +14,14 @@ typedef struct{
     GLuint bgraTextureHandle;
 }FUOutput;
 
+typedef enum {
+    FUFormatBGRABuffer = FU_FORMAT_BGRA_BUFFER,
+    FUFormatRGBABuffer = FU_FORMAT_RGBA_BUFFER,
+    FUFormatNV12Buffer = FU_FORMAT_NV12_BUFFER,
+    FUFormatI420Buffer = FU_FORMAT_I420_BUFFER,
+    FUFormatRGBATexture = FU_FORMAT_RGBA_TEXTURE,
+} FUFormat;
+
 @interface FURenderer : NSObject
 
 /**
@@ -217,12 +225,14 @@ typedef struct{
  @param itemCount 句柄数组中包含的句柄个数
  @param flip 道具镜像使能，如果设置为 YES 可以将道具做镜像操作
  @param masks 指定items中的道具画在多张人脸中的哪一张脸上的 int 数组，其长度要与 items 长度一致，
- masks中的每一位与items中的每一位道具一一对应。使用方法为：要使某一个道具画在检测到的第一张人脸上，
- 对应的int值为 "2的0次方"，画在第二张人脸上对应的int值为 “2的1次方”，第三张人脸对应的int值为 “2的2次方”，
- 以此类推。例：masks = {pow(2,0),pow(2,1),pow(2,2)....},值得注意的是美颜道具对应的int值为 0。
+        masks中的每一位与items中的每一位道具一一对应。使用方法为：要使某一个道具画在检测到的第一张人脸上，
+        对应的int值为 "2的0次方"，画在第二张人脸上对应的int值为 “2的1次方”，第三张人脸对应的int值为 “2的2次方”，
+        以此类推。例：masks = {pow(2,0),pow(2,1),pow(2,2)....},值得注意的是美颜道具对应的int值为 0。
  @return 被处理过的的图像数据，与传入的 pixelBuffer 为同一个 pixelBuffer
  */
 - (CVPixelBufferRef)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer withFrameId:(int)frameid items:(int*)items itemCount:(int)itemCount flipx:(BOOL)flip masks:(void*)masks;
+
+- (int)renderItems:(void *)inPtr inFormat:(FUFormat)inFormat outPtr:(void *)outPtr outFormat:(FUFormat)outFormat width:(int)width height:(int)height frameId:(int)frameid items:(int *)items itemCount:(int)itemCount flipx:(BOOL)flip;
 
 /**
  resize视频图像，目前仅支持BGRA格式的pixelBuffer
@@ -329,6 +339,10 @@ typedef struct{
  @return 参数值
  */
 + (NSString *)getStringParamFromItem:(int)item withName:(NSString *)name;
+
++ (int)itemSetParamu8v:(int)item withName:(NSString *)name buffer:(void *)buffer size:(int)size;
+
++ (int)itemGetParamu8v:(int)item withName:(NSString *)name buffer:(void *)buffer size:(int)size;
 
 /**
  判断是否检测到人脸：
@@ -456,4 +470,17 @@ typedef struct{
  */
 + (NSString *)getVersion;
 
++ (void)setExpressionCalibration:(int)expressionCalibration;
+
++ (void)setFocalLengthScale:(float)scale;
+
++ (int)loadExtendedARData:(void *)data size:(int)size;
+
++ (int)loadExtendedARDataWithDataPath:(NSString *)dataPath;
+
++ (int)loadAnimModel:(void *)model size:(int)size;
+
++ (int)loadAnimModelWithModelPath:(NSString *)modelPath;
+
++ (void)setDefaultRotationMode:(float)mode;
 @end

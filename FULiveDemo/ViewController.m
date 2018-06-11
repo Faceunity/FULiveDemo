@@ -21,15 +21,14 @@
 
 @implementation ViewController
 
-- (BOOL)prefersStatusBarHidden
-{
-    return YES;
+-(UIStatusBarStyle)preferredStatusBarStyle {
+    
+    return UIStatusBarStyleLightContent ;
 }
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-//    [[FUManager shareManager] loadItems];
     
     self.dataArray = [FUManager shareManager].dataSource;
 }
@@ -52,11 +51,25 @@
     
     return cell;
 }
+#pragma mark --- UICollectionViewDelegateFlowLayout
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+    if (kind == UICollectionElementKindSectionHeader) {
+        return [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"FUHeader" forIndexPath:indexPath];
+    }
+    return nil ;
+}
 
 #pragma mark --- UICollectionViewDelegateFlowLayout
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake((self.collection.frame.size.width - 20 * 4)/3.0 - 1, (self.collection.frame.size.width - 20 * 4)/3.0 + 12 ) ;
+    
+    CGFloat width = (self.view.frame.size.width - 72 )/ 3.0 ;
+    
+    return CGSizeMake(width, width / 101.0 * 122 ) ;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
+    return CGSizeMake(self.view.frame.size.width, self.view.frame.size.width / 375.0 * 212) ;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {

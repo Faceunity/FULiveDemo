@@ -34,6 +34,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *tipLabe;
 @property (weak, nonatomic) IBOutlet UILabel *alertLabel;
 
+@property (weak, nonatomic) IBOutlet UIButton *performanceBtn;
 @end
 
 @implementation FURenderViewController
@@ -58,6 +59,7 @@
         
         [self.itemsView removeFromSuperview ];
         self.itemsView = nil ;
+        self.performanceBtn.hidden = NO ;
         
         [[FUManager shareManager] loadFilter] ;
     }else {
@@ -301,8 +303,7 @@
     [self.mCamera stopRecord];
 }
 
-#pragma mark --- PhotoButtonDelegate
-
+#pragma mark --- FUAPIDemoBarDelegate
 /**设置美颜参数*/
 - (void)demoBarBeautyParamChanged
 {
@@ -384,6 +385,16 @@
     
 }
 
+- (IBAction)performanceValueChange:(UIButton *)sender {
+    sender.selected = !sender.selected ;
+    
+    self.demoBar.demoBarType = sender.selected ? FUAPIDemoBarTypePerformance : FUAPIDemoBarTypeCommon ;
+    
+    [[FUManager shareManager] setBeautyDefaultParameters];
+    [self demoBarSetBeautyDefultParams];
+    _demoBar.faceShape = 3;
+}
+
 #pragma mark --- FUItemsViewDelegate
 - (void)itemsViewDidSelectedItem:(NSString *)item {
     
@@ -459,6 +470,11 @@
     
     _demoBar = demoBar;
     
+    [self demoBarSetBeautyDefultParams];
+}
+
+- (void)demoBarSetBeautyDefultParams {
+    _demoBar.delegate = nil ;
     _demoBar.skinDetectEnable = [FUManager shareManager].skinDetectEnable;
     _demoBar.blurShape = [FUManager shareManager].blurShape ;
     _demoBar.blurLevel = [FUManager shareManager].blurLevel ;
@@ -467,7 +483,6 @@
     _demoBar.eyelightingLevel = [FUManager shareManager].eyelightingLevel ;
     _demoBar.beautyToothLevel = [FUManager shareManager].beautyToothLevel ;
     _demoBar.faceShape = [FUManager shareManager].faceShape ;
-    
     _demoBar.enlargingLevel = [FUManager shareManager].enlargingLevel ;
     _demoBar.thinningLevel = [FUManager shareManager].thinningLevel ;
     _demoBar.enlargingLevel_new = [FUManager shareManager].enlargingLevel_new ;
@@ -476,13 +491,13 @@
     _demoBar.foreheadLevel = [FUManager shareManager].foreheadLevel ;
     _demoBar.noseLevel = [FUManager shareManager].noseLevel ;
     _demoBar.mouthLevel = [FUManager shareManager].mouthLevel ;
-    
+
     _demoBar.filtersDataSource = [FUManager shareManager].filtersDataSource ;
     _demoBar.beautyFiltersDataSource = [FUManager shareManager].beautyFiltersDataSource ;
     _demoBar.filtersCHName = [FUManager shareManager].filtersCHName ;
     _demoBar.selectedFilter = [FUManager shareManager].selectedFilter ;
     [_demoBar setFilterLevel:[FUManager shareManager].selectedFilterLevel forFilter:[FUManager shareManager].selectedFilter] ;
-    
+
     _demoBar.delegate = self;
 }
 

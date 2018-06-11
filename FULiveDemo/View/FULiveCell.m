@@ -15,7 +15,6 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         
-        self.backgroundColor = [UIColor clearColor];
     }
     return self ;
 }
@@ -25,8 +24,8 @@
     _model = model ;
     
     self.title.text = _model.title ;
-    self.title.textColor = _model.enble ? [UIColor colorWithRed:97.0/255.0 green:202.0/255.0 blue:244.0/255.0 alpha:1.0] : [UIColor colorWithRed:168.0/255.0 green:168.0/255.0 blue:168.0/255.0 alpha:1.0];
-    self.image.image = [UIImage imageNamed:_model.imageName];
+    self.image.image = [UIImage imageNamed:_model.title];
+    self.bottomImage.image = _model.enble ? [UIImage imageNamed:@"bottomImage"] : [UIImage imageNamed:@"bottomImage_gray"] ;
 }
 
 @end

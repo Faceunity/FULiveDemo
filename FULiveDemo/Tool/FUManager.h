@@ -46,6 +46,8 @@
 
 + (FUManager *)shareManager;
 
+// 默认美颜参数
+- (void)setBeautyDefaultParameters ;
 /**初始化Faceunity,加载道具*/
 - (void)loadItems;
 

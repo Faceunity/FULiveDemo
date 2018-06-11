@@ -25,8 +25,6 @@ typedef NS_ENUM(NSUInteger, FULiveModelType) {
 
 @interface FULiveModel : NSObject
 
-@property (nonatomic, copy) NSString *imageName ;
-
 @property (nonatomic, assign) NSInteger maxFace ;
 
 @property (nonatomic, copy) NSString *title ;
