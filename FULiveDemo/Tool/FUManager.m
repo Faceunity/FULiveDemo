@@ -105,6 +105,9 @@ static FUManager *shareManager = NULL;
         // 默认竖屏
         self.deviceOrientation = 0 ;
         fuSetDefaultOrientation(self.deviceOrientation) ;
+        
+        // 性能优先关闭
+        self.performance = NO ;
     }
     
     return self;
@@ -296,19 +299,12 @@ static FUManager *shareManager = NULL;
 
 - (void)setCalibrating {
     
-    fuSetExpressionCalibration(1) ;
+    fuSetExpressionCalibration(2) ;
 }
 
 - (void)removeCalibrating {
     
     fuSetExpressionCalibration(0) ;
-}
-
-- (BOOL)isCalibrating{
-    float is_calibrating[1] = {0.0};
-    
-    fuGetFaceInfo(0, "is_calibrating", is_calibrating, 1);
-    return is_calibrating[0] == 1.0;
 }
 
 - (void)loadAnimojiFaxxBundle {

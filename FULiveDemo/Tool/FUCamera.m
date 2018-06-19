@@ -522,4 +522,9 @@ typedef enum : NSUInteger {
     }
 }
 
+- (void)setCaptureVideoOrientation:(AVCaptureVideoOrientation) orientation {
+    
+    [self.videoConnection setVideoOrientation:orientation];
+}
+
 @end

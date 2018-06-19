@@ -4,13 +4,18 @@ FULiveDemo 是集成了 Faceunity 面部跟踪、美颜、Animoji、道具贴纸
 
 注：第一运行Demo会报缺少证书的 error ,如果您已拥有我司颁发的证书，将证书替换到工程中重新运行即可。如您还没有我司颁发的证书，可以查看[这里](https://github.com/Faceunity/FULiveDemo/tree/dev#%E5%AF%BC%E5%85%A5%E8%AF%81%E4%B9%A6)获取证书
 
-## SDK v5.1.0 更新
+## SDK v5.2.0 更新
 
 更新内容
 
-- 修复FXAA和自定义滤镜的兼容问题
-- 修复背景分割的道具在iPhone 5s上crash问题
-- 新增道具不加上自定义滤镜效果功能
+- 人脸表情跟踪效果进一步优化提升
+- 优化美颜性能，减低功耗
+- 新增美颜美型突变过渡效果功能
+- 修复换脸高级融合只显示半脸问题
+
+需要注意的更新：
+
+- 优化后的SDK只支持被动校准功能，即fuSetExpressionCalibration接口只支持0（关闭）或2（被动校准）这两个数字，设置为1时将不再有效果。
 
 ## 软件需求
 
@@ -28,11 +33,11 @@ FULiveDemo 是集成了 Faceunity 面部跟踪、美颜、Animoji、道具贴纸
 
 含有深度学习的版本：
 
-	pod 'Nama', '5.1.0' #注意此版本目前为dev版
+	pod 'Nama', '5.2.0' #注意此版本目前为dev版
 
 不含深度学习的版本（lite版）：
 	
-	pod 'Nama-lite', '5.1.0' #注意此版本目前为dev版
+	pod 'Nama-lite', '5.2.0' #注意此版本目前为dev版
 
 接下来执行：
 
@@ -44,9 +49,9 @@ FULiveDemo 是集成了 Faceunity 面部跟踪、美颜、Animoji、道具贴纸
 
 ### 二、通过 github 下载集成
 
-含有深度学习的版本：[FaceUnity-SDK-iOS-v5.1.0-dev.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v5.1.0-dev/FaceUnity-SDK-iOS-v5.1.0-dev.zip)
+含有深度学习的版本：[FaceUnity-SDK-iOS-v5.2.0-dev.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v5.2.0-dev/FaceUnity-SDK-iOS-v5.2.0-dev.zip)
 	
-不含深度学习的版本（lite版）：[FaceUnity-SDK-iOS-v5.1.0-dev-lite.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v5.1.0-dev/FaceUnity-SDK-iOS-v5.1.0-dev-lite.zip)
+不含深度学习的版本（lite版）：[FaceUnity-SDK-iOS-v5.2.0-dev-lite.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v5.2.0-dev/FaceUnity-SDK-iOS-v5.2.0-dev-lite.zip)
 
 下载完成并解压后将库文件夹拖入到工程中，并勾选上 Copy items if needed，如图：
 
@@ -515,7 +520,20 @@ __使用方法__：
   face_shape: 4,   // 4为开启高级美型模式，0～3为基本美型
   intensity_mouth: 0.5,   // 大于0.5变大，小于0.5变小
 
-### 五、平台相关
+### 七、美颜变形过度参数
+
+使美颜变形过度的更自然，避免突变效果，可通过参数 change_frames 来控制渐变所需要的帧数，0 渐变关闭 ，大于0开启渐变，值为渐变所需要的帧数。
+
+设置参数的例子代码如下：
+
+```c
+//  Set item parameters - change_frames
+[FURenderer itemSetParam:items[1] withName:@"change_frames" value:@(10)];
+```
+
+#### 
+
+### 八、平台相关
 
 PC及MAC端的美颜，使用前必须将参数 is_opengl_es 设置为 0，移动端无需此操作：
 
@@ -525,6 +543,7 @@ PC及MAC端的美颜，使用前必须将参数 is_opengl_es 设置为 0，移�
 ```
 
 ## 手势识别
+
 目前我们的手势识别功能也是以道具的形式进行加载的。一个手势识别的道具中包含了要识别的手势、识别到该手势时触发的动效、及控制脚本。加载该道具的过程和加载普通道具、美颜道具的方法一致。
 
 线上例子中 heart_v2.bundle 为爱心手势演示道具。将其作为道具加载进行绘制即可启用手势识别功能。手势识别道具可以和普通道具及美颜共存，类似美颜将手势道具句柄保存在items句柄数组即可。

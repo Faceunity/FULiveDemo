@@ -42,4 +42,6 @@
 
 - (void)removeAudio;
 
+// 设置采集方向
+- (void)setCaptureVideoOrientation:(AVCaptureVideoOrientation)orientation;
 @end

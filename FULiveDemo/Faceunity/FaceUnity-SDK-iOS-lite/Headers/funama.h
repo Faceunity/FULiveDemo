@@ -575,7 +575,9 @@ FUNAMA_API int fuRenderItemsMasked(
 \brief Get the camera image size
 \param pret points to two integers, which receive the size
 */
-FUNAMA_API void fuGetCameraImageSize(int* pret);	
+FUNAMA_API void fuGetCameraImageSize(int* pret);
+
+FUNAMA_API int fuHasFace();
 
 #ifdef __cplusplus
 }

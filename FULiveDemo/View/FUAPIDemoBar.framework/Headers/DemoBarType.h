@@ -8,8 +8,8 @@
 
 
 typedef NS_ENUM(NSInteger, FUAPIDemoBarType) {
-    FUAPIDemoBarTypeCommon,         // 普通模式
-    FUAPIDemoBarTypePerformance,    // 性能优先
+    FUAPIDemoBarTypeCommon          = 0,         // 普通模式
+    FUAPIDemoBarTypePerformance     = 1,    // 性能优先
 };
 
 

@@ -60,8 +60,10 @@
         [self.itemsView removeFromSuperview ];
         self.itemsView = nil ;
         self.performanceBtn.hidden = NO ;
+        self.performanceBtn.selected = [FUManager shareManager].performance;
         
         [[FUManager shareManager] loadFilter] ;
+        
     }else {
         
         self.photoBtn.transform = CGAffineTransformMakeTranslation(0, -36) ;
@@ -115,10 +117,35 @@
     }
 }
 
+
+-(void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    
+    switch (orientation) {
+        case UIInterfaceOrientationPortrait:
+            [self.mCamera setCaptureVideoOrientation:AVCaptureVideoOrientationPortrait];
+            break;
+        case UIInterfaceOrientationPortraitUpsideDown:
+            [self.mCamera setCaptureVideoOrientation:AVCaptureVideoOrientationPortraitUpsideDown];
+            break;
+        case UIInterfaceOrientationLandscapeLeft:
+            [self.mCamera setCaptureVideoOrientation:AVCaptureVideoOrientationLandscapeLeft];
+            break;
+        case UIInterfaceOrientationLandscapeRight:
+            [self.mCamera setCaptureVideoOrientation:AVCaptureVideoOrientationLandscapeRight];
+            break;
+            
+        default:
+            break;
+    }
+}
+
 -(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
     CGRect frame = self.itemsView.frame ;
+    frame.origin = CGPointMake(0, self.view.frame.size.height - frame.size.height) ;
     frame.size = CGSizeMake(self.view.frame.size.width, frame.size.height) ;
     self.itemsView.frame = frame ;
     
@@ -249,22 +276,6 @@
         CGPoint center = [[FUManager shareManager] getFaceCenterInFrameSize:frameSize];;
         self.mCamera.exposurePoint = CGPointMake(center.y,self.mCamera.isFrontCamera ? center.x:1-center.x);
         
-        /** 显示表情校准 **/
-        if (self.model.type == FULiveModelTypeAnimoji) {
-            if ([[FUManager shareManager] isCalibrating]) {
-                
-                if (self.alertLabel.hidden) {
-                    self.alertLabel.alpha = 0.0;
-                    self.alertLabel.hidden = NO;
-                    self.alertLabel.text = @"表情校准中..." ;
-                    [UIView animateWithDuration:0.5 animations:^{
-                        self.alertLabel.alpha = .55;
-                    }];
-                }
-            }else{
-                self.alertLabel.hidden = YES;
-            }
-        }
     }) ;
 }
 
@@ -331,6 +342,7 @@
     
     [FUManager shareManager].selectedFilter = _demoBar.selectedFilter ;
     [FUManager shareManager].selectedFilterLevel = _demoBar.selectedFilterLevel;
+    
 //
 //    // 记录美颜参数
 //    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
@@ -389,10 +401,13 @@
     sender.selected = !sender.selected ;
     
     self.demoBar.demoBarType = sender.selected ? FUAPIDemoBarTypePerformance : FUAPIDemoBarTypeCommon ;
+    [FUManager shareManager].performance = sender.selected;
     
     [[FUManager shareManager] setBeautyDefaultParameters];
+    
+    [FUManager shareManager].faceShape = sender.selected ? 3 : 4;;
+    
     [self demoBarSetBeautyDefultParams];
-    _demoBar.faceShape = 3;
 }
 
 #pragma mark --- FUItemsViewDelegate
@@ -470,6 +485,10 @@
     
     _demoBar = demoBar;
     
+    BOOL perf = [FUManager shareManager].performance;
+    [FUManager shareManager].faceShape = perf ? 3 : 4 ;
+    
+    _demoBar.demoBarType = perf ? FUAPIDemoBarTypePerformance : FUAPIDemoBarTypeCommon;
     [self demoBarSetBeautyDefultParams];
 }
 
