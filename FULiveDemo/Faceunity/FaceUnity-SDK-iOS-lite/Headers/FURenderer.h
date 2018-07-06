@@ -107,7 +107,7 @@ typedef enum {
  @param customSize 自定义输出的分辨率，目前仅支持BGRA格式
  @return 被处理过的的图像数据，与传入的 pixelBuffer 为同一个 pixelBuffer
  */
-- (CVPixelBufferRef)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer withFrameId:(int)frameid items:(int*)items itemCount:(int)itemCount flipx:(BOOL)flip customSize:(CGSize)customSize;
+- (CVPixelBufferRef)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer withFrameId:(int)frameid items:(int*)items itemCount:(int)itemCount flipx:(BOOL)flip customSize:(CGSize)customSize NS_AVAILABLE_IOS(8_0);
 
 /**
  视频处理接口4：
@@ -119,7 +119,7 @@ typedef enum {
  @param itemCount 句柄数组中包含的句柄个数
  @return 被处理过的的图像数据，与传入的 pixelBuffer 不是同一个 pixelBuffer
  */
-- (CVPixelBufferRef)renderToInternalPixelBuffer:(CVPixelBufferRef)pixelBuffer withFrameId:(int)frameid items:(int*)items itemCount:(int)itemCount;
+- (CVPixelBufferRef)renderToInternalPixelBuffer:(CVPixelBufferRef)pixelBuffer withFrameId:(int)frameid items:(int*)items itemCount:(int)itemCount NS_AVAILABLE_IOS(8_0);
 
 /**
  视频处理接口5：
@@ -133,7 +133,7 @@ typedef enum {
  @param itemCount 句柄数组中包含的句柄个数
  @return 被处理过的的图像数据
  */
-- (FUOutput)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer bgraTexture:(GLuint)textureHandle withFrameId:(int)frameid items:(int *)items itemCount:(int)itemCount;
+- (FUOutput)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer bgraTexture:(GLuint)textureHandle withFrameId:(int)frameid items:(int *)items itemCount:(int)itemCount NS_AVAILABLE_IOS(8_0);
 
 /**
  视频处理接口6：
@@ -148,7 +148,7 @@ typedef enum {
  @param flip 道具镜像使能，如果设置为 YES 可以将道具做镜像操作
  @return 被处理过的的图像数据
  */
-- (FUOutput)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer bgraTexture:(GLuint)textureHandle withFrameId:(int)frameid items:(int *)items itemCount:(int)itemCount flipx:(BOOL)flip;
+- (FUOutput)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer bgraTexture:(GLuint)textureHandle withFrameId:(int)frameid items:(int *)items itemCount:(int)itemCount flipx:(BOOL)flip NS_AVAILABLE_IOS(8_0);
 
 /**
  视频处理接口7：
@@ -164,7 +164,7 @@ typedef enum {
  @param customSize 自定义输出的分辨率，目前仅支持BGRA格式
  @return 被处理过的的图像数据
  */
-- (FUOutput)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer bgraTexture:(GLuint)textureHandle withFrameId:(int)frameid items:(int *)items itemCount:(int)itemCount flipx:(BOOL)flip customSize:(CGSize)customSize;
+- (FUOutput)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer bgraTexture:(GLuint)textureHandle withFrameId:(int)frameid items:(int *)items itemCount:(int)itemCount flipx:(BOOL)flip customSize:(CGSize)customSize NS_AVAILABLE_IOS(8_0);
 
 /**
  视频处理接口8：
@@ -241,7 +241,7 @@ typedef enum {
  @param resizeSize resizeSize
  @return resizeSize之后的pixelBuffer
  */
-- (CVPixelBufferRef)resizePixelBuffer:(CVPixelBufferRef)pixelBuffer resizeSize:(CGSize)resizeSize;
+- (CVPixelBufferRef)resizePixelBuffer:(CVPixelBufferRef)pixelBuffer resizeSize:(CGSize)resizeSize NS_AVAILABLE_IOS(8_0);
 
 /**
  通过texture获取指定大小与格式的pixelBuffer
@@ -252,7 +252,7 @@ typedef enum {
  @param outputFormat 输出的pixelBuffer的格式，接受的参数有两个，分别为：FU_FORMAT_NV12_BUFFER、FU_FORMAT_BGRA_BUFFER
  @return 从texture获取到的指定大小与格式的pixelBuffer
  */
-- (CVPixelBufferRef)getPixelBufferFromTexture:(int)texture textureSize:(CGSize)textureSize outputSize:(CGSize)outPutSize outputFormat:(int)outputFormat;
+- (CVPixelBufferRef)getPixelBufferFromTexture:(int)texture textureSize:(CGSize)textureSize outputSize:(CGSize)outPutSize outputFormat:(int)outputFormat NS_AVAILABLE_IOS(8_0);
 
 /**
  切换摄像头时需调用的接口：

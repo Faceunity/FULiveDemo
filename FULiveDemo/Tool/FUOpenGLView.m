@@ -172,6 +172,8 @@ enum
                 NSLog(@"Error at CVOpenGLESTextureCacheCreate %d", err);
             }
         }
+        
+        self.contentMode = FUOpenGLViewContentModeScaleAspectFill;
     }
         
     return self;
@@ -202,6 +204,7 @@ enum
                 NSLog(@"Error at CVOpenGLESTextureCacheCreate %d", err);
             }
         }
+        self.contentMode = FUOpenGLViewContentModeScaleAspectFill;
     }
     return self;
 }
@@ -584,9 +587,10 @@ enum
 {
     const float width   = frameWidth;
     const float height  = frameHeight;
+    
     const float dH      = (float)backingHeight / height;
     const float dW      = (float)backingWidth      / width;
-    const float dd      = MAX(dH, dW);
+    const float dd      =  self.contentMode == FUOpenGLViewContentModeScaleAspectFill ? MAX(dH, dW) : MIN(dH, dW) ;
     const float h       = (height * dd / (float)backingHeight);
     const float w       = (width  * dd / (float)backingWidth );
     
@@ -599,7 +603,6 @@ enum
     vertices[6] =   w;
     vertices[7] =   h;
 }
-
 
 #pragma mark -  OpenGL ES 2 shader compilation
 

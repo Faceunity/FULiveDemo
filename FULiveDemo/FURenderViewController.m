@@ -15,8 +15,11 @@
 #import <FUAPIDemoBar/FUAPIDemoBar.h>
 #import "FULiveModel.h"
 #import "FUMusicPlayer.h"
+#import <SVProgressHUD.h>
+#import <MobileCoreServices/MobileCoreServices.h>
+#import "FURenderImageViewController.h"
 
-@interface FURenderViewController ()<FUCameraDelegate, PhotoButtonDelegate, FUAPIDemoBarDelegate, FUItemsViewDelegate>
+@interface FURenderViewController ()<FUCameraDelegate, PhotoButtonDelegate, FUAPIDemoBarDelegate, FUItemsViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 {
     BOOL faceBeautyMode ;
 }
@@ -33,6 +36,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *noTrackView;
 @property (weak, nonatomic) IBOutlet UILabel *tipLabe;
 @property (weak, nonatomic) IBOutlet UILabel *alertLabel;
+@property (weak, nonatomic) IBOutlet UIButton *selectedImageBtn;
 
 @property (weak, nonatomic) IBOutlet UIButton *performanceBtn;
 @end
@@ -49,11 +53,10 @@
     
     [self addObserver];
     
+    self.selectedImageBtn.hidden = !(self.model.type == FULiveModelTypeBeautifyFace || self.model.type == FULiveModelTypeItems) ;
     self.photoBtn.delegate = self ;
     
     faceBeautyMode = self.model.type == FULiveModelTypeBeautifyFace ;
-    
-    [FUManager shareManager].enableMaxFaces = self.model.maxFace == 4;
     
     if (faceBeautyMode) {
         
@@ -70,11 +73,6 @@
         [self.demoBar removeFromSuperview ];
         self.demoBar = nil ;
         
-        // 适配 iPhone X
-        CGRect frame = self.itemsView.frame ;
-        frame.origin = [[[FUManager shareManager] getPlatformtype] isEqualToString:@"iPhone X"] ? CGPointMake(0, self.view.frame.size.height - 108) : CGPointMake(0, self.view.frame.size.height - 74) ;
-        
-        self.itemsView.frame = frame ;
         self.itemsView.delegate = self ;
         [self.view addSubview:self.itemsView];
         
@@ -88,15 +86,6 @@
         [[FUManager shareManager] loadItem: selectItem];
         
         [[FUManager shareManager] loadFilter];
-        
-        if (self.model.type == FULiveModelTypePortraitDrive) {
-            
-            [[FUManager shareManager] set3DFlipH];
-        }else if (self.model.type == FULiveModelTypeGestureRecognition) {
-            
-            [[FUManager shareManager] setLoc_xy_flip];
-        }
-        
         
         dispatch_async(dispatch_get_main_queue(), ^{
             
@@ -115,6 +104,8 @@
             [self performSelector:@selector(dismissTipLabel) withObject:nil afterDelay:5 ];
         });
     }
+    
+    [FUManager shareManager].enableMaxFaces = self.model.maxFace == 4;
 }
 
 
@@ -144,27 +135,42 @@
 -(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-    CGRect frame = self.itemsView.frame ;
-    frame.origin = CGPointMake(0, self.view.frame.size.height - frame.size.height) ;
-    frame.size = CGSizeMake(self.view.frame.size.width, frame.size.height) ;
-    self.itemsView.frame = frame ;
-    
-    if (faceBeautyMode) {
+    if (!faceBeautyMode) {
         
-        CGRect tipFrame = self.tipLabe.frame ;
-        tipFrame.origin = CGPointMake(tipFrame.origin.x, [UIScreen mainScreen].bounds.size.height - 164 - tipFrame.size.height - 10) ;
-        self.tipLabe.frame = tipFrame ;
-        self.tipLabe.textColor = [UIColor whiteColor];
+        // 适配 iPhone X
+        CGRect frame = self.itemsView.frame ;
+        frame.origin = [[[FUManager shareManager] getPlatformtype] isEqualToString:@"iPhone X"] ? CGPointMake(0, self.view.frame.size.height - frame.size.height - 34) : CGPointMake(0, self.view.frame.size.height - frame.size.height) ; ;
+        frame.size = CGSizeMake(self.view.frame.size.width, frame.size.height) ;
+        self.itemsView.frame = frame ;
     }
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    if (faceBeautyMode) {
+        
+        [self demoBarSetBeautyDefultParams];
+    }else {
+        if (!self.itemsView.selectedItem) {
+            self.itemsView.selectedItem = [FUManager shareManager].selectedItem ;
+        }else {
+            [[FUManager shareManager] loadItem:self.itemsView.selectedItem];
+        }
+    }
+    
     if (self.model.type == FULiveModelTypeAnimoji) {
         [[FUManager shareManager] setCalibrating];
         [[FUManager shareManager] loadAnimojiFaxxBundle];
+    }
+    
+    if (self.model.type == FULiveModelTypePortraitDrive || self.model.type == FULiveModelTypeAnimoji) {
+        
+        [[FUManager shareManager] set3DFlipH];
+    }
+    if (self.model.type == FULiveModelTypeGestureRecognition) {
+        
+        [[FUManager shareManager] setLoc_xy_flip];
     }
     
     [self.mCamera startCapture];
@@ -186,11 +192,29 @@
         
         [[FUManager shareManager] destoryAnimojiFaxxBundle];
     }
+    
+    [self.mCamera stopCapture];
+    // 清除缓存
+    [[FUManager shareManager] onCameraChange];
+}
+
+-(void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self.demoBar hiddeTopView];
+}
+
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [super touchesBegan:touches withEvent:event];
+    if (faceBeautyMode) {
+        [self.demoBar hiddeTopView];
+    }
 }
 
 - (IBAction)backAction:(UIButton *)sender {
     
     [self.mCamera stopCapture];
+    
+    [FUManager shareManager].currentModel = nil ;
     
     dispatch_async(self.mCamera.videoCaptureQueue, ^{
         [[FUManager shareManager] destoryItems];
@@ -276,6 +300,22 @@
         CGPoint center = [[FUManager shareManager] getFaceCenterInFrameSize:frameSize];;
         self.mCamera.exposurePoint = CGPointMake(center.y,self.mCamera.isFrontCamera ? center.x:1-center.x);
         
+        /** 显示表情校准 **/
+        if (self.model.type == FULiveModelTypeAnimoji) {
+            if ([[FUManager shareManager] isCalibrating]) {
+                
+                if (self.alertLabel.hidden) {
+                    self.alertLabel.alpha = 0.0;
+                    self.alertLabel.hidden = NO;
+                    self.alertLabel.text = @"表情校准中..." ;
+                    [UIView animateWithDuration:0.5 animations:^{
+                        self.alertLabel.alpha = .55;
+                    }];
+                }
+            }else{
+                self.alertLabel.hidden = YES;
+            }
+        }
     }) ;
 }
 
@@ -323,64 +363,48 @@
 
 - (void)syncBeautyParams    {
     
-    [FUManager shareManager].skinDetectEnable = _demoBar.skinDetectEnable;
-    [FUManager shareManager].blurShape = _demoBar.blurShape;
+    [FUManager shareManager].skinDetectEnable = _demoBar.skinDetect;
+    [FUManager shareManager].blurShape = _demoBar.heavyBlur;
     [FUManager shareManager].blurLevel = _demoBar.blurLevel ;
-    [FUManager shareManager].whiteLevel = _demoBar.whiteLevel;
+    [FUManager shareManager].whiteLevel = _demoBar.colorLevel;
     [FUManager shareManager].redLevel = _demoBar.redLevel;
-    [FUManager shareManager].eyelightingLevel = _demoBar.eyelightingLevel;
-    [FUManager shareManager].beautyToothLevel = _demoBar.beautyToothLevel;
+    [FUManager shareManager].eyelightingLevel = _demoBar.eyeBrightLevel;
+    [FUManager shareManager].beautyToothLevel = _demoBar.toothWhitenLevel;
     [FUManager shareManager].faceShape = _demoBar.faceShape;
     [FUManager shareManager].enlargingLevel = _demoBar.enlargingLevel;
     [FUManager shareManager].thinningLevel = _demoBar.thinningLevel;
     [FUManager shareManager].enlargingLevel_new = _demoBar.enlargingLevel_new;
     [FUManager shareManager].thinningLevel_new = _demoBar.thinningLevel_new;
-    [FUManager shareManager].jewLevel = _demoBar.jewLevel;
+    [FUManager shareManager].jewLevel = _demoBar.chinLevel;
     [FUManager shareManager].foreheadLevel = _demoBar.foreheadLevel;
     [FUManager shareManager].noseLevel = _demoBar.noseLevel;
     [FUManager shareManager].mouthLevel = _demoBar.mouthLevel;
     
     [FUManager shareManager].selectedFilter = _demoBar.selectedFilter ;
     [FUManager shareManager].selectedFilterLevel = _demoBar.selectedFilterLevel;
+}
+
+-(void)demoBarShouldShowMessage:(NSString *)message {
     
-//
-//    // 记录美颜参数
-//    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-//    [userDefault setObject:[FUManager shareManager].selectedFilter forKey:@"selectedFilter"];
-//    [userDefault setObject:@([FUManager shareManager].selectedFilterLevel) forKey:@"selectedFilterLevel"];
-//    [userDefault setBool:[FUManager shareManager].skinDetectEnable forKey:@"skinDetectEnable"];
-//    [userDefault setObject:@([FUManager shareManager].blurShape) forKey:@"blurShape"];
-//    [userDefault setObject:@([FUManager shareManager].blurLevel) forKey:@"blurLevel"];
-//    [userDefault setObject:@([FUManager shareManager].whiteLevel) forKey:@"whiteLevel"];
-//    [userDefault setObject:@([FUManager shareManager].redLevel) forKey:@"redLevel"];
-//    [userDefault setObject:@([FUManager shareManager].eyelightingLevel) forKey:@"eyelightingLevel"];
-//    [userDefault setObject:@([FUManager shareManager].beautyToothLevel) forKey:@"beautyToothLevel"];
-//    [userDefault setObject:@([FUManager shareManager].faceShape) forKey:@"faceShape"];
-//    [userDefault setObject:@([FUManager shareManager].enlargingLevel) forKey:@"enlargingLevel"];
-//    [userDefault setObject:@([FUManager shareManager].thinningLevel) forKey:@"thinningLevel"];
-//    [userDefault setObject:@([FUManager shareManager].jewLevel) forKey:@"jewLevel"];
-//    [userDefault setObject:@([FUManager shareManager].foreheadLevel) forKey:@"foreheadLevel"];
-//    [userDefault setObject:@([FUManager shareManager].noseLevel) forKey:@"noseLevel"];
-//    [userDefault setObject:@([FUManager shareManager].mouthLevel) forKey:@"mouthLevel"];
-//
-//    [userDefault setObject:@([FUManager shareManager].enlargingLevel_new) forKey:@"enlargingLevel_new"];
-//    [userDefault setObject:@([FUManager shareManager].thinningLevel_new) forKey:@"thinningLevel_new"];
-    
+    self.tipLabe.hidden = NO;
+    self.tipLabe.text = message;
+    [FURenderViewController cancelPreviousPerformRequestsWithTarget:self selector:@selector(dismissTipLabel) object:nil];
+    [self performSelector:@selector(dismissTipLabel) withObject:nil afterDelay:1 ];
 }
 
 -(void)demoBarDidShowTopView:(BOOL)shown {
     
     if (shown) {
 
-        CGAffineTransform photoTransform0 = CGAffineTransformMakeTranslation(0, - _demoBar.frame.size.height * 1.2) ;
-        CGAffineTransform photoTransform1 = CGAffineTransformMakeScale(0.75, 0.75) ;
+        CGAffineTransform photoTransform0 = CGAffineTransformMakeTranslation(0, -_demoBar.frame.size.height * 0.9) ;
+        CGAffineTransform photoTransform1 = CGAffineTransformMakeScale(0.8, 0.8) ;
 
         [UIView animateWithDuration:0.35 animations:^{
 
             self.photoBtn.transform = CGAffineTransformConcat(photoTransform0, photoTransform1) ;
         }];
     } else {
-        
+
         [UIView animateWithDuration:0.35 animations:^{
 
             self.photoBtn.transform = CGAffineTransformIdentity ;
@@ -388,19 +412,11 @@
     }
 }
 
-- (void)demoBarDidShouldShowTip:(NSString *)tip {
-    
-    self.tipLabe.hidden = NO;
-    self.tipLabe.text = tip;
-    [FURenderViewController cancelPreviousPerformRequestsWithTarget:self selector:@selector(dismissTipLabel) object:nil];
-    [self performSelector:@selector(dismissTipLabel) withObject:nil afterDelay:1 ];
-    
-}
-
 - (IBAction)performanceValueChange:(UIButton *)sender {
     sender.selected = !sender.selected ;
     
-    self.demoBar.demoBarType = sender.selected ? FUAPIDemoBarTypePerformance : FUAPIDemoBarTypeCommon ;
+    self.demoBar.performance = sender.selected ;
+    
     [FUManager shareManager].performance = sender.selected;
     
     [[FUManager shareManager] setBeautyDefaultParameters];
@@ -434,7 +450,6 @@
             [[FUMusicPlayer sharePlayer] playMusic:@"douyin.mp3"];
         }
     }
-    
     
     if (self.model.type == FULiveModelTypeGestureRecognition) {
         
@@ -479,34 +494,35 @@
     return _mCamera ;
 }
 
-
-
 -(void)setDemoBar:(FUAPIDemoBar *)demoBar {
     
     _demoBar = demoBar;
+//
+//    BOOL perf = [FUManager shareManager].performance;
+//    [FUManager shareManager].faceShape = perf ? 3 : 4 ;
+//
+//    _demoBar.performance = perf ;
     
-    BOOL perf = [FUManager shareManager].performance;
-    [FUManager shareManager].faceShape = perf ? 3 : 4 ;
+    _demoBar.performance = [FUManager shareManager].performance;
     
-    _demoBar.demoBarType = perf ? FUAPIDemoBarTypePerformance : FUAPIDemoBarTypeCommon;
     [self demoBarSetBeautyDefultParams];
 }
 
 - (void)demoBarSetBeautyDefultParams {
     _demoBar.delegate = nil ;
-    _demoBar.skinDetectEnable = [FUManager shareManager].skinDetectEnable;
-    _demoBar.blurShape = [FUManager shareManager].blurShape ;
+    _demoBar.skinDetect = [FUManager shareManager].skinDetectEnable;
+    _demoBar.heavyBlur = [FUManager shareManager].blurShape ;
     _demoBar.blurLevel = [FUManager shareManager].blurLevel ;
-    _demoBar.whiteLevel = [FUManager shareManager].whiteLevel ;
+    _demoBar.colorLevel = [FUManager shareManager].whiteLevel ;
     _demoBar.redLevel = [FUManager shareManager].redLevel;
-    _demoBar.eyelightingLevel = [FUManager shareManager].eyelightingLevel ;
-    _demoBar.beautyToothLevel = [FUManager shareManager].beautyToothLevel ;
+    _demoBar.eyeBrightLevel = [FUManager shareManager].eyelightingLevel ;
+    _demoBar.toothWhitenLevel = [FUManager shareManager].beautyToothLevel ;
     _demoBar.faceShape = [FUManager shareManager].faceShape ;
     _demoBar.enlargingLevel = [FUManager shareManager].enlargingLevel ;
     _demoBar.thinningLevel = [FUManager shareManager].thinningLevel ;
     _demoBar.enlargingLevel_new = [FUManager shareManager].enlargingLevel_new ;
     _demoBar.thinningLevel_new = [FUManager shareManager].thinningLevel_new ;
-    _demoBar.jewLevel = [FUManager shareManager].jewLevel ;
+    _demoBar.chinLevel = [FUManager shareManager].jewLevel ;
     _demoBar.foreheadLevel = [FUManager shareManager].foreheadLevel ;
     _demoBar.noseLevel = [FUManager shareManager].noseLevel ;
     _demoBar.mouthLevel = [FUManager shareManager].mouthLevel ;
@@ -515,7 +531,6 @@
     _demoBar.beautyFiltersDataSource = [FUManager shareManager].beautyFiltersDataSource ;
     _demoBar.filtersCHName = [FUManager shareManager].filtersCHName ;
     _demoBar.selectedFilter = [FUManager shareManager].selectedFilter ;
-    [_demoBar setFilterLevel:[FUManager shareManager].selectedFilterLevel forFilter:[FUManager shareManager].selectedFilter] ;
 
     _demoBar.delegate = self;
 }
@@ -530,29 +545,37 @@
 
 - (void)willResignActive
 {
-    [_mCamera stopCapture];
-    if (self.model.type == FULiveModelTypeMusicFilter) {
-        [[FUMusicPlayer sharePlayer] pause] ;
+    
+    if (self.navigationController.visibleViewController == self) {
+        [_mCamera stopCapture];
+        if (self.model.type == FULiveModelTypeMusicFilter) {
+            [[FUMusicPlayer sharePlayer] pause] ;
+        }
     }
 }
 
 - (void)willEnterForeground
 {
-    [_mCamera startCapture];
     
-    if (self.model.type == FULiveModelTypeMusicFilter && ![[FUManager shareManager].selectedItem isEqualToString:@"noitem"]) {
-        [[FUMusicPlayer sharePlayer] playMusic:@"douyin.mp3"] ;
+    if (self.navigationController.visibleViewController == self) {
+        [_mCamera startCapture];
+        
+        if (self.model.type == FULiveModelTypeMusicFilter && ![[FUManager shareManager].selectedItem isEqualToString:@"noitem"]) {
+            [[FUMusicPlayer sharePlayer] playMusic:@"douyin.mp3"] ;
+        }
     }
 }
 
 - (void)didBecomeActive
 {
-    [_mCamera startCapture];
-    if (self.model.type == FULiveModelTypeMusicFilter && ![[FUManager shareManager].selectedItem isEqualToString:@"noitem"]) {
-        [[FUMusicPlayer sharePlayer] playMusic:@"douyin.mp3"] ;
+    
+    if (self.navigationController.visibleViewController == self) {
+        [_mCamera startCapture];
+        if (self.model.type == FULiveModelTypeMusicFilter && ![[FUManager shareManager].selectedItem isEqualToString:@"noitem"]) {
+            [[FUMusicPlayer sharePlayer] playMusic:@"douyin.mp3"] ;
+        }
     }
 }
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }

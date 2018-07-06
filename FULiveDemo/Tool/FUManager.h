@@ -44,7 +44,11 @@
 @property (nonatomic, strong)               NSMutableArray<FULiveModel *> *dataSource;  /**道具分类数组*/
 @property (nonatomic, strong)               NSString *selectedItem;     /**选中的道具名称*/
 
+// 是否性能优先
 @property (nonatomic, assign) BOOL performance ;
+// 当前页面的 model
+@property (nonatomic, strong) FULiveModel *currentModel ;
+
 + (FUManager *)shareManager;
 
 // 默认美颜参数
@@ -71,6 +75,7 @@
 /** 表情校准 **/
 - (void)setCalibrating ;
 - (void)removeCalibrating ;
+- (BOOL)isCalibrating ;
 
 /**获取item的提示语*/
 - (NSString *)hintForItem:(NSString *)item;

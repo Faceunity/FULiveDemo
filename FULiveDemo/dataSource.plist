@@ -152,8 +152,8 @@
 		</array>
 		<key>items</key>
 		<array>
-			<string>douyin_old</string>
-			<string>douyin</string>
+			<string>douyin_01</string>
+			<string>douyin_02</string>
 		</array>
 	</dict>
 	<dict>
@@ -207,7 +207,7 @@
 		<key>itemName</key>
 		<string>哈哈镜</string>
 		<key>maxFace</key>
-		<integer>1</integer>
+		<integer>4</integer>
 		<key>enble</key>
 		<false/>
 		<key>itemType</key>

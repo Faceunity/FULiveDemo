@@ -518,6 +518,17 @@ FUNAMA_API int fuLoadExtendedARData(void* data,int sz);
 FUNAMA_API int fuLoadAnimModel(void* dat, int dat_sz);
 FUNAMA_API int fuLoadAnimModelSrc(void* dat, int dat_sz);
 
+/**
+\brief Load Tongue Detector data, to support tongue animation.
+\param data - the pointer to tongue model data 'tongue.bundle', 
+	which is along beside lib files in SDK package
+\param sz - the data size, we use plain int to avoid cross-language compilation issues
+\return zero for failure, one for success
+*/
+FUNAMA_API int fuLoadTongueModel(void* dat, int dat_sz);
+
+
+
 FUNAMA_API void fuSetStrictTracking(int i);
 
 /**

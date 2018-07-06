@@ -96,6 +96,7 @@
         
         FURenderViewController *renderController = (FURenderViewController *)segue.destinationViewController ;
         renderController.model = (FULiveModel *)sender ;
+        [FUManager shareManager].currentModel = (FULiveModel *)sender ;
     }
 }
 

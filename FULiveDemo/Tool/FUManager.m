@@ -25,7 +25,6 @@
     NSDictionary *alertDic ;
 }
 
-// 用于设置默认人脸识别朝向
 @property (nonatomic, strong) CMMotionManager *motionManager;
 @property (nonatomic) int deviceOrientation;
 @end
@@ -185,8 +184,8 @@ static FUManager *shareManager = NULL;
     
     self.filtersDataSource = @[@"origin", @"delta", @"electric", @"slowlived", @"tokyo", @"warm"];
     
-    self.beautyFiltersDataSource = @[@"ziran", @"danya", @"fennen", @"qingxin", @"hongrun"];
-    self.filtersCHName = @{@"ziran":@"自然", @"danya":@"淡雅", @"fennen":@"粉嫩", @"qingxin":@"清新", @"hongrun":@"红润"};
+    self.beautyFiltersDataSource = @[@"origin", @"ziran", @"danya", @"fennen", @"qingxin", @"hongrun"];
+    self.filtersCHName = @{@"origin" : @"原图", @"ziran":@"自然", @"danya":@"淡雅", @"fennen":@"粉嫩", @"qingxin":@"清新", @"hongrun":@"红润", @"origin":@"原图"};
     
     self.selectedFilter         = self.filtersDataSource[0] ;
     self.selectedFilterLevel    = 0.5 ;
@@ -299,12 +298,19 @@ static FUManager *shareManager = NULL;
 
 - (void)setCalibrating {
     
-    fuSetExpressionCalibration(2) ;
+    fuSetExpressionCalibration(1) ;
 }
 
 - (void)removeCalibrating {
     
     fuSetExpressionCalibration(0) ;
+}
+
+- (BOOL)isCalibrating{
+    float is_calibrating[1] = {0.0};
+    
+    fuGetFaceInfo(0, "is_calibrating", is_calibrating, 1);
+    return is_calibrating[0] == 1.0;
 }
 
 - (void)loadAnimojiFaxxBundle {
@@ -346,7 +352,14 @@ static FUManager *shareManager = NULL;
 
     if (itemName != nil && ![itemName isEqual: @"noitem"]) {
         /**先创建道具句柄*/
-        NSString *path = [[NSBundle mainBundle] pathForResource:[itemName stringByAppendingString:@".bundle"] ofType:nil];
+        
+        NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.bundle", itemName]];
+        
+        if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
+            path = [[NSBundle mainBundle] pathForResource:[itemName stringByAppendingString:@".bundle"] ofType:nil];
+        }
+        
+//        NSString *path = [[NSBundle mainBundle] pathForResource:[itemName stringByAppendingString:@".bundle"] ofType:nil];
         int itemHandle = [FURenderer itemWithContentsOfFile:path];
 
         // 人像驱动 设置 3DFlipH
@@ -378,9 +391,10 @@ static FUManager *shareManager = NULL;
 /**加载美颜道具*/
 - (void)loadFilter
 {
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"face_beautification.bundle" ofType:nil];
-
-    items[0] = [FURenderer itemWithContentsOfFile:path];
+    if (items[0] == 0) {
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"face_beautification.bundle" ofType:nil];
+        items[0] = [FURenderer itemWithContentsOfFile:path];
+    }
 }
 
 /**加载手势识别道具，默认未不加载*/

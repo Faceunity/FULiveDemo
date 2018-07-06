@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSUInteger, FULiveModelType) {
-    FULiveModelTypeBeautifyFace         = 0,
+    FULiveModelTypeBeautifyFace             = 0,
     FULiveModelTypeAnimoji,
     FULiveModelTypeItems,
     FULiveModelTypeARMarsk,

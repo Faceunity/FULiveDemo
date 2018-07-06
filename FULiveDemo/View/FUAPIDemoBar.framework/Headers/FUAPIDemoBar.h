@@ -2,71 +2,85 @@
 //  FUAPIDemoBar.h
 //  FUAPIDemoBar
 //
-//  Created by L on 2018/4/12.
+//  Created by L on 2018/6/26.
 //  Copyright © 2018年 L. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
-#import "DemoBarType.h"
-
-//! Project version number for FUDemoBar.
-FOUNDATION_EXPORT double FUDemoBarVersionNumber;
-
-//! Project version string for FUDemoBar.
-FOUNDATION_EXPORT const unsigned char FUDemoBarVersionString[];
-
-// In this header, you should import all the public headers of your framework using statements like #import <FUDemoBar/PublicHeader.h>
 
 
 @protocol FUAPIDemoBarDelegate <NSObject>
 
 @optional
-- (void)demoBarDidSelectedItem:(NSString *)itemName;
-
-- (void)demoBarDidSelectedFilter:(NSString *)filter;
-
+// 美颜参数改变
 - (void)demoBarBeautyParamChanged;
-
--(void)demoBarDidShowTopView:(BOOL)shown;
-
-- (void)demoBarDidShouldShowTip:(NSString *)tip ;
+// 滤镜程度改变
+- (void)demoBarFilterValueChange:(float)value ;
+// 显示提示语
+- (void)demoBarShouldShowMessage:(NSString *)message ;
+// 显示上半部分View
+-(void)demoBarDidShowTopView:(BOOL)shown ;
 @end
 
 @interface FUAPIDemoBar : UIView
 
+/**     美肤参数    **/
+/** 精准美肤 (0、1)    */
+@property (nonatomic, assign) BOOL skinDetect ;
+/** 美肤类型 (0、1、) 清晰：0，朦胧：1    */
+@property (nonatomic, assign) NSInteger heavyBlur;
+/** 磨皮(0.0 - 6.0)    */
+@property (nonatomic, assign) double blurLevel;
+/** 美白 (0~1)    */
+@property (nonatomic, assign) double colorLevel;
+/** 红润 (0~1)    */
+@property (nonatomic, assign) double redLevel;
+/** 亮眼 (0~1)    */
+@property (nonatomic, assign) double eyeBrightLevel;
+/** 美牙 (0~1)    */
+@property (nonatomic, assign) double toothWhitenLevel;
+
+
+/**     美型参数    **/
+/** 脸型 (0~1)  女神：0，网红：1，自然：2，默认：3，自定义：4 */
+@property (nonatomic, assign) NSInteger faceShape;
+/** 大眼 (0~1)    */
+@property (nonatomic, assign) double enlargingLevel;
+/** 瘦脸 (0~1)    */
+@property (nonatomic, assign) double thinningLevel;
+/** 大眼 (0~1) --  新版美颜*/
+@property (nonatomic, assign) double enlargingLevel_new;
+/** 瘦脸 (0~1) --  新版美颜*/
+@property (nonatomic, assign) double thinningLevel_new;
+/**下巴 (0~1)*/
+@property (nonatomic, assign) double chinLevel;
+/**额头 (0~1)*/
+@property (nonatomic, assign) double foreheadLevel;
+/**鼻子 (0~1)*/
+@property (nonatomic, assign) double noseLevel;
+/**嘴型 (0~1)*/
+@property (nonatomic, assign) double mouthLevel;
+
+
+/**滤镜名称数组*/
+@property (nonatomic, strong) NSArray<NSString *> *filtersDataSource;
+/**美颜滤镜名称数组*/
+@property (nonatomic, strong) NSArray<NSString *> *beautyFiltersDataSource;
+/**滤镜中文名称数组*/
+@property (nonatomic, strong) NSDictionary<NSString *,NSString *> *filtersCHName;
+/* 选中的滤镜 */
+@property (nonatomic, strong) NSString *selectedFilter;
+/* 选中滤镜的 level*/
+@property (nonatomic, assign, readonly) double selectedFilterLevel;
+
 @property (nonatomic, assign) id<FUAPIDemoBarDelegate>delegate ;
 
-@property (nonatomic, assign) FUAPIDemoBarType demoBarType ;
+// 性能优先，默认为 NO
+@property (nonatomic, assign) BOOL performance ;
 
-@property (nonatomic, assign) BOOL skinDetectEnable ;   // 精准美肤
+// 隐藏上半部分
+- (void)hiddeTopView ;
+// 上半部是否显示
+@property (nonatomic, assign) BOOL isTopViewShow ;
 
-@property (nonatomic, assign) NSInteger blurShape;      // 美肤类型 (0、1、) 清晰：0，朦胧：1
-@property (nonatomic, assign) double blurLevel;         // 磨皮
-@property (nonatomic, assign) double whiteLevel;        // 美白
-@property (nonatomic, assign) double redLevel;          // 红润
-@property (nonatomic, assign) double eyelightingLevel;  // 亮眼
-@property (nonatomic, assign) double beautyToothLevel;  // 美牙
-
-@property (nonatomic, assign) NSInteger faceShape;        // 脸型 (0、1、2) 女神：0，网红：1，自然：2
-@property (nonatomic, assign) double enlargingLevel;      /**大眼 (0~1)*/
-@property (nonatomic, assign) double thinningLevel;       /**瘦脸 (0~1)*/
-
-@property (nonatomic, assign) double enlargingLevel_new;      /**大眼 (0~1) --  新版美颜*/
-@property (nonatomic, assign) double thinningLevel_new;       /**瘦脸 (0~1) --  新版美颜*/
-
-@property (nonatomic, assign) double jewLevel;            /**下巴 (0~1)*/
-@property (nonatomic, assign) double foreheadLevel;       /**额头 (0~1)*/
-@property (nonatomic, assign) double noseLevel;           /**鼻子 (0~1)*/
-@property (nonatomic, assign) double mouthLevel;          /**嘴型 (0~1)*/
-
-@property (nonatomic, strong) NSArray<NSString *> *itemsDataSource ; /**道具名称数组*/
-@property (nonatomic, copy) NSString *selectedItem ;                 /**选中的道具名称*/
-
-@property (nonatomic, strong) NSArray<NSString *> *filtersDataSource;     /**滤镜名称数组*/
-@property (nonatomic, strong) NSArray<NSString *> *beautyFiltersDataSource;     /**美颜滤镜名称数组*/
-@property (nonatomic, strong) NSDictionary<NSString *,NSString *> *filtersCHName;       /**滤镜中文名称数组*/
-@property (nonatomic, strong) NSString *selectedFilter; /* 选中的滤镜 */
-@property (nonatomic, assign, readonly) double selectedFilterLevel; /* 选中滤镜的 level*/
-
-- (void)setFilterLevel:(double)level forFilter:(NSString *)filter;
 @end

@@ -21,6 +21,7 @@
 -(instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
+        self.backgroundColor = [UIColor colorWithRed:5/255.0 green:15/255.0 blue:20/255.0 alpha:0.6];
         loading = NO ;
     }
     return self ;
@@ -29,7 +30,7 @@
 -(void)layoutSubviews {
     [super layoutSubviews];
     
-    self.collection.frame = CGRectMake(0, 4, self.frame.size.width, 60) ;
+    self.collection.frame = CGRectMake(0, 4, self.frame.size.width, self.frame.size.height - 4) ;
 }
 
 -(void)setItemsArray:(NSArray *)itemsArray {
@@ -95,7 +96,6 @@
     
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
     
-//    self.userInteractionEnabled = NO;
     collectionView.userInteractionEnabled = NO ;
     
     self.selectedItem = imageName ;
@@ -103,21 +103,11 @@
     
     [collectionView reloadData];
     
-//    self.userInteractionEnabled = YES;
-    
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         
         if (self.delegate && [self.delegate respondsToSelector:@selector(itemsViewDidSelectedItem:)]) {
             [self.delegate itemsViewDidSelectedItem:imageName];
         }
-        
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            
-//            loading = NO ;
-//            FUItemsViewCell *cell = (FUItemsViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-//            [cell.indicator stopAnimating];
-//        });
-        
     });
 }
 
