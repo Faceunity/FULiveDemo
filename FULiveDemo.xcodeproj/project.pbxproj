@@ -6,6 +6,20 @@
 	objectVersion = 48;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		CDF89C0520F3400B0049BA76 /* loadSDK */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = CDF89C0820F3400B0049BA76 /* Build configuration list for PBXAggregateTarget "loadSDK" */;
+			buildPhases = (
+				CDF89C0920F340150049BA76 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = loadSDK;
+			productName = loadSDK;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		0B0B317D20809F6C0089BDAB /* FUAPIDemoBar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B30FE95207F891C008E0543 /* FUAPIDemoBar.framework */; };
 		0B0B317E20809F6C0089BDAB /* FUAPIDemoBar.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0B30FE95207F891C008E0543 /* FUAPIDemoBar.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -172,6 +186,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 0B5A0CB42021913900AAD47D;
 			remoteInfo = FULiveDemo;
+		};
+		CDF89C0A20F3402A0049BA76 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0B5A0CAD2021913900AAD47D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CDF89C0520F3400B0049BA76;
+			remoteInfo = loadSDK;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -794,6 +815,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				CDF89C0B20F3402A0049BA76 /* PBXTargetDependency */,
 			);
 			name = FULiveDemo;
 			productName = FULiveDemo;
@@ -859,6 +881,10 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = 0B5A0CB42021913900AAD47D;
 					};
+					CDF89C0520F3400B0049BA76 = {
+						CreatedOnToolsVersion = 10.0;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 0B5A0CB02021913900AAD47D /* Build configuration list for PBXProject "FULiveDemo" */;
@@ -875,6 +901,7 @@
 			projectRoot = "";
 			targets = (
 				0B5A0CB42021913900AAD47D /* FULiveDemo */,
+				CDF89C0520F3400B0049BA76 /* loadSDK */,
 				0B5A0CCC2021913900AAD47D /* FULiveDemoTests */,
 				0B5A0CD72021913900AAD47D /* FULiveDemoUITests */,
 			);
@@ -1073,6 +1100,23 @@
 			shellPath = /bin/sh;
 			shellScript = "APP_PATH=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\n\n# This script loops through the frameworks embedded in the application and\n\n# removes unused architectures.\n\nfind \"$APP_PATH\" -name '*.framework' -type d | while read -r FRAMEWORK\n\ndo\n\nFRAMEWORK_EXECUTABLE_NAME=$(defaults read \"$FRAMEWORK/Info.plist\" CFBundleExecutable)\n\nFRAMEWORK_EXECUTABLE_PATH=\"$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME\"\n\necho \"Executable is $FRAMEWORK_EXECUTABLE_PATH\"\n\nEXTRACTED_ARCHS=()\n\nfor ARCH in $ARCHS\n\ndo\n\necho \"Extracting $ARCH from $FRAMEWORK_EXECUTABLE_NAME\"\n\nlipo -extract \"$ARCH\" \"$FRAMEWORK_EXECUTABLE_PATH\" -o \"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\"\n\nEXTRACTED_ARCHS+=(\"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\")\n\ndone\n\necho \"Merging extracted architectures: ${ARCHS}\"\n\nlipo -o \"$FRAMEWORK_EXECUTABLE_PATH-merged\" -create \"${EXTRACTED_ARCHS[@]}\"\n\nrm \"${EXTRACTED_ARCHS[@]}\"\n\necho \"Replacing original executable with thinned version\"\n\nrm \"$FRAMEWORK_EXECUTABLE_PATH\"\n\nmv \"$FRAMEWORK_EXECUTABLE_PATH-merged\" \"$FRAMEWORK_EXECUTABLE_PATH\"\n\ndone\n";
 		};
+		CDF89C0920F340150049BA76 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n#!/bin/sh\ncd FULiveDemo/Faceunity/FaceUnity-SDK-iOS\nfilename=libnama.a\n#如果libnama.a不存在，直接下载\nif ! [ -f \"$filename\" ]\nthen\nopen -a Terminal ../loadSDK.sh\nelse \nfilesize=`ls -l $filename | awk '{ print $5 }'`\nmaxsize=$((1024*1024))\nif [ $filesize -lt $maxsize ]\nthen\ngrep -q \"version https://git-lfs.github.com/\" $filename\nif [ $? -eq 0 ];then\nopen -a Terminal ../loadSDK.sh\nfi\nfi\nfi\n\n";
+		};
 		FA957C64E2549EB6F75CB07D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1148,6 +1192,11 @@
 			isa = PBXTargetDependency;
 			target = 0B5A0CB42021913900AAD47D /* FULiveDemo */;
 			targetProxy = 0B5A0CD92021913900AAD47D /* PBXContainerItemProxy */;
+		};
+		CDF89C0B20F3402A0049BA76 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CDF89C0520F3400B0049BA76 /* loadSDK */;
+			targetProxy = CDF89C0A20F3402A0049BA76 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1397,6 +1446,24 @@
 			};
 			name = Release;
 		};
+		CDF89C0620F3400B0049BA76 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 35A6KD62ZJ;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		CDF89C0720F3400B0049BA76 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 35A6KD62ZJ;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1432,6 +1499,15 @@
 			buildConfigurations = (
 				0B5A0CE82021913900AAD47D /* Debug */,
 				0B5A0CE92021913900AAD47D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CDF89C0820F3400B0049BA76 /* Build configuration list for PBXAggregateTarget "loadSDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CDF89C0620F3400B0049BA76 /* Debug */,
+				CDF89C0720F3400B0049BA76 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
