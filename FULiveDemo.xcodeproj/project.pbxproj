@@ -1089,14 +1089,14 @@
 		};
 		CD11A34D20CE7C580005C58C /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "APP_PATH=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\n\n# This script loops through the frameworks embedded in the application and\n\n# removes unused architectures.\n\nfind \"$APP_PATH\" -name '*.framework' -type d | while read -r FRAMEWORK\n\ndo\n\nFRAMEWORK_EXECUTABLE_NAME=$(defaults read \"$FRAMEWORK/Info.plist\" CFBundleExecutable)\n\nFRAMEWORK_EXECUTABLE_PATH=\"$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME\"\n\necho \"Executable is $FRAMEWORK_EXECUTABLE_PATH\"\n\nEXTRACTED_ARCHS=()\n\nfor ARCH in $ARCHS\n\ndo\n\necho \"Extracting $ARCH from $FRAMEWORK_EXECUTABLE_NAME\"\n\nlipo -extract \"$ARCH\" \"$FRAMEWORK_EXECUTABLE_PATH\" -o \"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\"\n\nEXTRACTED_ARCHS+=(\"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\")\n\ndone\n\necho \"Merging extracted architectures: ${ARCHS}\"\n\nlipo -o \"$FRAMEWORK_EXECUTABLE_PATH-merged\" -create \"${EXTRACTED_ARCHS[@]}\"\n\nrm \"${EXTRACTED_ARCHS[@]}\"\n\necho \"Replacing original executable with thinned version\"\n\nrm \"$FRAMEWORK_EXECUTABLE_PATH\"\n\nmv \"$FRAMEWORK_EXECUTABLE_PATH-merged\" \"$FRAMEWORK_EXECUTABLE_PATH\"\n\ndone\n";
 		};
@@ -1115,7 +1115,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n#!/bin/sh\ncd FULiveDemo/Faceunity/FaceUnity-SDK-iOS\nfilename=libnama.a\n#如果libnama.a不存在，直接下载\nif ! [ -f \"$filename\" ]\nthen\nopen -a Terminal ../loadSDK.sh\nelse \nfilesize=`ls -l $filename | awk '{ print $5 }'`\nmaxsize=$((1024*1024))\nif [ $filesize -lt $maxsize ]\nthen\ngrep -q \"version https://git-lfs.github.com/\" $filename\nif [ $? -eq 0 ];then\nopen -a Terminal ../loadSDK.sh\nfi\nfi\nfi\n\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n#!/bin/sh\ncd FULiveDemo/Faceunity\n#解决从github下载后无法通过 open -a Terminal 指令打开loadSDK.sh的问题\nshname=loadSDK.sh\ncat $shname > load.sh\nmv -f load.sh $shname\nchmod +x $shname\n\ncd FaceUnity-SDK-iOS\nfilename=libnama.a\n#如果libnama.a不存在，直接下载\nif ! [ -f \"$filename\" ]\nthen\nopen -a Terminal ../loadSDK.sh\nelse \nfilesize=`ls -l $filename | awk '{ print $5 }'`\nmaxsize=$((1024*1024))\n#如果文件小于1M，则检索文件内容是否包含git-lfs字段\nif [ $filesize -lt $maxsize ]\nthen\ngrep -q \"version https://git-lfs.github.com/\" $filename\nif [ $? -eq 0 ];then\nopen -a Terminal ../loadSDK.sh\nfi\nfi\nfi\n\n";
 		};
 		FA957C64E2549EB6F75CB07D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1341,7 +1341,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/FULiveDemo/Faceunity/FaceUnity-SDK-iOS",
-					"$(PROJECT_DIR)/FULiveDemo/Faceunity/FaceUnity-SDK-iOS-lite",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1373,7 +1372,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/FULiveDemo/Faceunity/FaceUnity-SDK-iOS",
-					"$(PROJECT_DIR)/FULiveDemo/Faceunity/FaceUnity-SDK-iOS-lite",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
