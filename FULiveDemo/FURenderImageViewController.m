@@ -78,9 +78,6 @@
         [[FUManager shareManager] loadItem:item];
     }
     
-    self.videoReader = [[FUVideoReader alloc] init];
-    self.videoReader.delegate = self ;
-    
     takePic = NO ;
     videHasRendered = NO ;
 }
@@ -129,7 +126,15 @@
             self.downloadBtn.hidden = YES ;
             self.playBtn.hidden = NO ;
             
-            [self.videoReader setVideoURL:self.videoURL];
+            if (self.videoReader) {
+                
+                [self.videoReader setVideoURL:self.videoURL];
+            }else {
+                
+                self.videoReader = [[FUVideoReader alloc] initWithVideoURL:self.videoURL];
+                self.videoReader.delegate = self ;
+                self.glView.origintation = (int)self.videoReader.videoOrientation ;
+            }
             
             [self.videoReader startReadForFirstFrame];
         }
@@ -224,15 +229,21 @@
     _avPlayer.actionAtItemEnd = AVPlayerActionAtItemEndNone;
     
     [_avPlayer play];
-    [self.videoReader setVideoURL:self.videoURL];
+    
+    if (self.videoReader) {
+        [self.videoReader setVideoURL:self.videoURL];
+        self.glView.origintation = (int)self.videoReader.videoOrientation ;
+    }else {
+        self.videoReader = [[FUVideoReader alloc] initWithVideoURL:self.videoURL];
+        self.videoReader.delegate = self ;
+        self.glView.origintation = (int)self.videoReader.videoOrientation ;
+    }
     [self.videoReader startReadWithDestinationPath:finalPath];
 }
 
 #pragma mark ----   FUVideoReaderDelegate
 
 -(void)videoReaderDidReadVideoBuffer:(CVPixelBufferRef)pixelBuffer {
-    
-    self.glView.contentMode = CVPixelBufferGetWidth(pixelBuffer) < CVPixelBufferGetHeight(pixelBuffer) ? FUOpenGLViewContentModeScaleAspectFill:FUOpenGLViewContentModeScaleAspectFit;
    
     [[FUManager shareManager] renderItemsToPixelBuffer:pixelBuffer];
     
@@ -284,7 +295,7 @@
         if (!isTrack) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 
-                self.tipLabel.text = @"未识别到人脸" ;
+                self.tipLabel.text = NSLocalizedString(@"未识别到人脸", nil) ;
                 if (self.tipLabel.hidden) {
                     self.tipLabel.hidden = NO ;
                 }

@@ -8,7 +8,6 @@
 
 #import "FUCamera.h"
 #import <UIKit/UIKit.h>
-#import "FURecordEncoder.h"
 #import "WCLRecordEncoder.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 
@@ -23,7 +22,6 @@ typedef enum : NSUInteger {
 @interface FUCamera()<AVCaptureVideoDataOutputSampleBufferDelegate,AVCaptureAudioDataOutputSampleBufferDelegate>
 {
     RunMode runMode;
-    
     BOOL hasStarted;
 }
 @property (nonatomic, strong) AVCaptureSession *captureSession;
@@ -35,9 +33,7 @@ typedef enum : NSUInteger {
 
 @property (assign, nonatomic) AVCaptureDevicePosition cameraPosition;
 
-//@property (strong, nonatomic) FUrecordEncoder          *recordEncoder;//录制编码
-@property (strong, nonatomic) WCLRecordEncoder          *recordEncoder2;//录制编码
-
+@property (strong, nonatomic) WCLRecordEncoder          *recordEncoder;//录制编码
 
 @property (nonatomic, strong) AVCaptureDeviceInput      *audioMicInput;//麦克风输入
 @property (nonatomic, strong) AVCaptureAudioDataOutput  *audioOutput;//音频输出
@@ -95,7 +91,7 @@ typedef enum : NSUInteger {
 {
     if (!_captureSession) {
         _captureSession = [[AVCaptureSession alloc] init];
-        _captureSession.sessionPreset = AVCaptureSessionPreset1280x720;
+        _captureSession.sessionPreset = AVCaptureSessionPresetHigh;
         
         AVCaptureDeviceInput *deviceInput = self.isFrontCamera ? self.frontCameraInput:self.backCameraInput;
         
@@ -361,12 +357,12 @@ typedef enum : NSUInteger {
         
         if (runMode == VideoRecordMode) {
             
-            if (self.recordEncoder2 == nil) {
+            if (self.recordEncoder == nil) {
                 return ;
             }
             CFRetain(sampleBuffer);
             // 进行数据编码
-            [self.recordEncoder2 encodeFrame:sampleBuffer pixelBuffer:nil isVideo:NO];
+            [self.recordEncoder encodeFrame:sampleBuffer pixelBuffer:nil isVideo:NO];
 
             CFRelease(sampleBuffer);
         }
@@ -396,7 +392,7 @@ typedef enum : NSUInteger {
             
         case VideoRecordMode:
 
-            if (self.recordEncoder2 == nil) {
+            if (self.recordEncoder == nil) {
 
                 NSDate *currentDate = [NSDate date];//获取当前时间，日期
                 NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -409,29 +405,28 @@ typedef enum : NSUInteger {
                 float frameHeight = CVPixelBufferGetHeight(buffer);
 
                 if (frameWidth != 0 && frameHeight != 0) {
-
-//                    self.recordEncoder2 = [FUrecordEncoder2 encoderForPath:videoPath Height:frameHeight width:frameWidth];
-                    self.recordEncoder2 = [WCLRecordEncoder encoderForPath:videoPath Height:frameHeight width:frameWidth channels:1 samples:44100];
+                    
+                    self.recordEncoder = [WCLRecordEncoder encoderForPath:videoPath Height:frameHeight width:frameWidth channels:1 samples:44100];
                     return ;
                 }
             }
             CFRetain(sampleBuffer);
             // 进行数据编码
-            [self.recordEncoder2 encodeFrame:sampleBuffer pixelBuffer:CMSampleBufferGetImageBuffer(sampleBuffer) isVideo:YES];
+            [self.recordEncoder encodeFrame:sampleBuffer pixelBuffer:CMSampleBufferGetImageBuffer(sampleBuffer) isVideo:YES];
             CFRelease(sampleBuffer);
             break;
         case VideoRecordEndMode:
         {
             runMode = CommonMode;
             
-            if (self.recordEncoder2.writer.status == AVAssetWriterStatusUnknown) {
-                self.recordEncoder2 = nil;
+            if (self.recordEncoder.writer.status == AVAssetWriterStatusUnknown) {
+                self.recordEncoder = nil;
             }else{
                 
-                [self.recordEncoder2 finishWithCompletionHandler:^{
+                [self.recordEncoder finishWithCompletionHandler:^{
                     
-                    NSString *path = self.recordEncoder2.path;
-                    self.recordEncoder2 = nil;
+                    NSString *path = self.recordEncoder.path;
+                    self.recordEncoder = nil;
                     dispatch_async(dispatch_get_main_queue(), ^{
                         UISaveVideoAtPathToSavedPhotosAlbum(path, self, @selector(video:didFinishSavingWithError:contextInfo:), NULL);
                     });

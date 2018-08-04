@@ -1,0 +1,42 @@
+
+/* Class = "UIButton"; normalTitle = "选择视频"; ObjectID = "2ag-fZ-Ri1"; */
+"2ag-fZ-Ri1.normalTitle" = "选择视频";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "5je-9v-vRG"; */
+"5je-9v-vRG.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "IKc-Xp-TP9"; */
+"IKc-Xp-TP9.text" = "Label";
+
+/* Class = "UILabel"; text = "请从相册中选择图片或视频"; ObjectID = "Lpf-yL-Pbn"; */
+"Lpf-yL-Pbn.text" = "请从相册中选择图片或视频";
+
+/* Class = "UILabel"; text = "tip"; ObjectID = "SPa-lE-qrM"; */
+"SPa-lE-qrM.text" = "tip";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Stx-fP-4ke"; */
+"Stx-fP-4ke.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "选择图片"; ObjectID = "UiZ-vl-sDp"; */
+"UiZ-vl-sDp.normalTitle" = "选择图片";
+
+/* Class = "UINavigationItem"; title = "FULive"; ObjectID = "VOl-If-oZU"; */
+"VOl-If-oZU.title" = "FULive";
+
+/* Class = "UILabel"; text = "FU Live Demo"; ObjectID = "ZEM-xr-yq7"; */
+"ZEM-xr-yq7.text" = "FU Live Demo";
+
+/* Class = "UISegmentedControl"; iTs-WC-nMu.segmentTitles[0] = "BGRA"; ObjectID = "iTs-WC-nMu"; */
+"iTs-WC-nMu.segmentTitles[0]" = "BGRA";
+
+/* Class = "UISegmentedControl"; iTs-WC-nMu.segmentTitles[1] = "YUV"; ObjectID = "iTs-WC-nMu"; */
+"iTs-WC-nMu.segmentTitles[1]" = "YUV";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "jpY-tM-lDQ"; */
+"jpY-tM-lDQ.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "性能优先"; ObjectID = "xCs-c0-iQR"; */
+"xCs-c0-iQR.normalTitle" = "性能优先";
+
+/* Class = "UILabel"; text = "未检测到人脸"; ObjectID = "xr3-Jo-KJU"; */
+"xr3-Jo-KJU.text" = "未检测到人脸";

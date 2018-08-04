@@ -38,6 +38,11 @@
     self.collection.userInteractionEnabled = YES ;
 }
 
+//-(void)viewDidAppear:(BOOL)animated {
+//    [super viewDidAppear:animated];
+//    [self performSegueWithIdentifier:@"showFULiveView" sender:self.dataArray[1]];
+//}
+
 #pragma mark --- UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.dataArray.count ;

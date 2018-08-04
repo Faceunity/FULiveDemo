@@ -48,20 +48,23 @@
         // 图片转正
         if (image.imageOrientation != UIImageOrientationUp || image.imageOrientation != UIImageOrientationUpMirrored) {
             
-//            if (image.size.height > 3000 || image.size.width > 3000) {
+            UIGraphicsBeginImageContext(CGSizeMake(image.size.width * 0.5, image.size.height * 0.5));
             
-                UIGraphicsBeginImageContext(CGSizeMake(image.size.width * 0.5, image.size.height * 0.5));
-                
-                [image drawInRect:CGRectMake(0, 0, image.size.width * 0.5, image.size.height * 0.5)];
-                
-                image = UIGraphicsGetImageFromCurrentImageContext();
-                
-                UIGraphicsEndImageContext();
-//            }
+            [image drawInRect:CGRectMake(0, 0, image.size.width * 0.5, image.size.height * 0.5)];
+            
+            image = UIGraphicsGetImageFromCurrentImageContext();
+            
+            UIGraphicsEndImageContext();
         }
         
         [self performSegueWithIdentifier:@"renderImage" sender:image];
     }
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    
+    // 关闭相册
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)showImagePickerWithMediaType:(NSString *)mediaType {
@@ -89,7 +92,6 @@
         }
     }
 }
-
 
 // 返回
 - (IBAction)backAction:(UIButton *)sender {

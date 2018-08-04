@@ -9,14 +9,21 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 
+typedef NS_ENUM(NSInteger, FUVideoReaderOrientation) {
+        FUVideoReaderOrientationPortrait           = 0,
+        FUVideoReaderOrientationUpsideDown         = 1,
+        FUVideoReaderOrientationLandscapeRight     = 2,
+        FUVideoReaderOrientationLandscapeLeft      = 3,
+};
+
 @protocol FUVideoReaderDelegate <NSObject>
 
 @optional
 
-//- (void)videoReaderDidReadAudioBuffer:(CMSampleBufferRef)sampleBuffer ;
-
+// 每一帧视频数据
 - (void)videoReaderDidReadVideoBuffer:(CVPixelBufferRef)pixelBuffer;
 
+// 读写视频完成
 - (void)videoReaderDidFinishReadSuccess:(BOOL)success ;
 @end
 
@@ -25,13 +32,17 @@
 @property (nonatomic, assign) id<FUVideoReaderDelegate>delegate ;
 
 @property (nonatomic, strong) NSURL *videoURL ;
+// 视频朝向
+@property (nonatomic, assign, readonly) FUVideoReaderOrientation videoOrientation ;
+
+- (instancetype)initWithVideoURL:(NSURL *)videoRUL ;
 
 // 只读 第一帧
 - (void)startReadForFirstFrame ;
 // 只读 最后一帧
 - (void)startReadForLastFrame ;
 
-// 读写
+// 读写整个视频
 - (void)startReadWithDestinationPath:(NSString *)destinationPath ;
 
 // 停止

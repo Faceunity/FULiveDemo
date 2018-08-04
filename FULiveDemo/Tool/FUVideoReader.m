@@ -36,6 +36,10 @@
 @property (nonatomic, strong) AVAssetWriterInput *videoInput;
 // 视频输出
 @property (nonatomic, strong) AVAssetReaderTrackOutput *videoOutput;
+// 视频通道
+@property (nonatomic, strong) AVAssetTrack *videoTrack ;
+// 视频朝向
+@property (nonatomic, assign, readwrite) FUVideoReaderOrientation videoOrientation ;
 
 // 定时器
 @property (nonatomic, strong) CADisplayLink *displayLink;
@@ -44,64 +48,35 @@
 
 @implementation FUVideoReader
 
--(instancetype)init {
+-(instancetype)initWithVideoURL:(NSURL *)videoRUL {
     self = [super init];
     if (self) {
         
+        
         _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(displayLinkCallback:)];
         [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
-//        [_displayLink setPreferredFramesPerSecond:30];// 每秒30帧
-        [_displayLink setFrameInterval:2];
+        
+        if (@available(iOS 10.0, *)) {
+            [_displayLink setPreferredFramesPerSecond:30];
+        } else {
+            [_displayLink setFrameInterval:2];
+        }
         _displayLink.paused = YES;
+        
+        _videoURL = videoRUL ;
+        
+        [self configAssetReader];
         
         isReadFirstFrame = NO ;
         isReadLastFrame = NO ;
-        
     }
     return self ;
 }
 
 -(void)setVideoURL:(NSURL *)videoURL {
     _videoURL = videoURL ;
-}
-
-/** 编码音频 */
-- (NSDictionary *)configAudioInput{
-    AudioChannelLayout channelLayout = {
-        .mChannelLayoutTag = kAudioChannelLayoutTag_Stereo,
-        .mChannelBitmap = kAudioChannelBit_Left,
-        .mNumberChannelDescriptions = 0
-    };
-    NSData *channelLayoutData = [NSData dataWithBytes:&channelLayout length:offsetof(AudioChannelLayout, mChannelDescriptions)];
-    NSDictionary *audioInputSetting = @{
-                                        AVFormatIDKey: @(kAudioFormatMPEG4AAC),
-                                        AVSampleRateKey: @(44100),
-                                        AVNumberOfChannelsKey: @(2),
-                                        AVChannelLayoutKey:channelLayoutData
-                                        };
-    return audioInputSetting;
-}
-
-/** 编码视频 */
-- (NSDictionary *)configVideoInput{
     
-    //@{AVVideoAverageBitRateKey : [NSNumber numberWithDouble:3.0 * 1024.0 * 1024.0]};
-    
-    CVPixelBufferRef buffer = CMSampleBufferGetImageBuffer(firstFrame) ;
-    
-    CVPixelBufferLockBaseAddress(buffer, 0) ;
-    
-    int width = (int)CVPixelBufferGetWidth(buffer) ;
-    int height = (int)CVPixelBufferGetHeight(buffer) ;
-    
-    CVPixelBufferUnlockBaseAddress(buffer, 0) ;
-    
-    NSDictionary *videoInputSetting = @{
-                                        AVVideoCodecKey:AVVideoCodecH264,
-                                        AVVideoWidthKey: @(width),
-                                        AVVideoHeightKey: @(height),
-                                        };
-    return videoInputSetting;
+    [self configAssetReader];
 }
 
 -(void)configAssetReader {
@@ -112,9 +87,26 @@
     NSMutableDictionary *outputSettings = [NSMutableDictionary dictionary];
     [outputSettings setObject: [NSNumber numberWithInt:kCVPixelFormatType_32BGRA]  forKey: (NSString*)kCVPixelBufferPixelFormatTypeKey];
     
-    AVAssetTrack *videoTrack = [[asset tracksWithMediaType:AVMediaTypeVideo] firstObject];
-    self.videoOutput = [[AVAssetReaderTrackOutput alloc] initWithTrack:videoTrack outputSettings:outputSettings];
+    _videoTrack = [[asset tracksWithMediaType:AVMediaTypeVideo] firstObject];
+    self.videoOutput = [[AVAssetReaderTrackOutput alloc] initWithTrack:_videoTrack outputSettings:outputSettings];
     self.videoOutput.alwaysCopiesSampleData = NO;
+    
+    
+    CGAffineTransform transform = self.videoTrack.preferredTransform ;
+    
+    if(transform.a == 0 && transform.b == 1.0 && transform.c == -1.0 && transform.d == 0){
+        
+        self.videoOrientation = FUVideoReaderOrientationLandscapeRight ;
+    }else if(transform.a == 0 && transform.b == -1.0 && transform.c == 1.0 && transform.d == 0){
+        
+        self.videoOrientation = FUVideoReaderOrientationLandscapeLeft ;
+    }else if(transform.a == 1.0 && transform.b == 0 && transform.c == 0 && transform.d == 1.0){
+        
+        self.videoOrientation = FUVideoReaderOrientationPortrait ;
+    }else if(transform.a == -1.0 && transform.b == 0 && transform.c == 0 && transform.d == -1.0){
+        
+        self.videoOrientation = FUVideoReaderOrientationUpsideDown ;
+    }
     
     if ([self.assetReader canAddOutput:self.videoOutput]) {
         [self.assetReader addOutput:self.videoOutput];
@@ -160,6 +152,23 @@
     self.videoInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeVideo outputSettings:videoInputSetting];
     self.videoInput.expectsMediaDataInRealTime = YES;
     
+    CGAffineTransform transform ;
+    switch (self.videoOrientation) {
+        case FUVideoReaderOrientationPortrait:
+            transform = CGAffineTransformIdentity ;
+            break;
+        case FUVideoReaderOrientationLandscapeRight:
+            transform = CGAffineTransformMakeRotation(M_PI_2) ;
+            break;
+        case FUVideoReaderOrientationLandscapeLeft:
+            transform = CGAffineTransformMakeRotation(-M_PI_2) ;
+            break ;
+        case FUVideoReaderOrientationUpsideDown:
+            transform = CGAffineTransformMakeRotation(M_PI) ;
+            break ;
+    }
+    self.videoInput.transform = transform ;
+    
     if ([self.assetWriter canAddInput:self.videoInput]) {
         [self.assetWriter addInput:self.videoInput];
     } else {
@@ -174,7 +183,6 @@
         [[NSFileManager defaultManager] removeItemAtPath:destinationPath error:nil] ;
     }
     
-    [self configAssetReader];
     [self configAssetWriterWithPath:destinationPath];
     
     BOOL isReadingSuccess = [self.assetReader startReading];
@@ -187,17 +195,15 @@
     //这里开始时间是可以自己设置的
     [self.assetWriter startSessionAtSourceTime:kCMTimeZero];
     
-    
-    
-    finishGroup = dispatch_group_create();
-    
-    
-    dispatch_group_enter(finishGroup);
-    dispatch_group_enter(finishGroup);
-    
     isReadFirstFrame = NO ;
     isReadLastFrame = NO ;
     _displayLink.paused = NO ;
+    
+    finishGroup = dispatch_group_create();
+    
+    // 保证音视频同步
+    dispatch_group_enter(finishGroup);
+    dispatch_group_enter(finishGroup);
     
     dispatch_group_notify(finishGroup, dispatch_get_global_queue(0, 0), ^{
         
@@ -291,10 +297,6 @@ static BOOL isAudioFirst = YES;
             isAudioFirst = !isAudioFirst;
             return ;
         }
-        
-        //        if (self.delegate && [self.delegate respondsToSelector:@selector(videoReaderDidReadAudioBuffer:)]) {
-        //            [self.delegate videoReaderDidReadAudioBuffer:nextSampleBuffer];
-        //        }
         
         if (nextSampleBuffer) {
             [self.audioInput appendSampleBuffer:nextSampleBuffer];
@@ -391,11 +393,40 @@ static BOOL isVideoFirst = YES;
     isReadFirstFrame = NO ;
     isReadLastFrame = NO ;
     _displayLink.paused = YES ;
-//    _displayLink = nil ;
 }
 
-- (void)createPixelBufferWithSize:(CGSize)size
-{
+/** 编码音频 */
+- (NSDictionary *)configAudioInput  {
+    AudioChannelLayout channelLayout = {
+        .mChannelLayoutTag = kAudioChannelLayoutTag_Stereo,
+        .mChannelBitmap = kAudioChannelBit_Left,
+        .mNumberChannelDescriptions = 0
+    };
+    NSData *channelLayoutData = [NSData dataWithBytes:&channelLayout length:offsetof(AudioChannelLayout, mChannelDescriptions)];
+    NSDictionary *audioInputSetting = @{
+                                        AVFormatIDKey: @(kAudioFormatMPEG4AAC),
+                                        AVSampleRateKey: @(44100),
+                                        AVNumberOfChannelsKey: @(2),
+                                        AVChannelLayoutKey:channelLayoutData
+                                        };
+    return audioInputSetting;
+}
+
+/** 编码视频 */
+- (NSDictionary *)configVideoInput  {
+    
+    CGSize videoSize = self.videoTrack.naturalSize ;
+    
+    NSDictionary *videoInputSetting = @{
+                                        AVVideoCodecKey:AVVideoCodecH264,
+                                        AVVideoWidthKey: @(videoSize.width),
+                                        AVVideoHeightKey: @(videoSize.height),
+                                        };
+    return videoInputSetting;
+}
+
+- (void)createPixelBufferWithSize:(CGSize)size  {
+    
     if (!renderTarget) {
         NSDictionary* pixelBufferOptions = @{ (NSString*) kCVPixelBufferPixelFormatTypeKey :
                                                   @(kCVPixelFormatType_32BGRA),
@@ -412,8 +443,8 @@ static BOOL isVideoFirst = YES;
     }
 }
 
-- (void *)getCopyDataFromPixelBuffer:(CVPixelBufferRef)pixelBuffer
-{
+- (void *)getCopyDataFromPixelBuffer:(CVPixelBufferRef)pixelBuffer  {
+    
     CVPixelBufferLockBaseAddress(pixelBuffer, 0);
     
     size_t size = CVPixelBufferGetDataSize(pixelBuffer);
@@ -428,8 +459,8 @@ static BOOL isVideoFirst = YES;
     return copyData;
 }
 
-- (void)copyDataBackToPixelBuffer:(CVPixelBufferRef)pixelBuffer copyData:(void *)copyData
-{
+- (void)copyDataBackToPixelBuffer:(CVPixelBufferRef)pixelBuffer copyData:(void *)copyData   {
+    
     CVPixelBufferLockBaseAddress(pixelBuffer, 0);
     
     size_t size = CVPixelBufferGetDataSize(pixelBuffer);

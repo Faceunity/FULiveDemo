@@ -23,8 +23,8 @@
 -(void)setModel:(FULiveModel *)model {
     _model = model ;
     
-    self.title.text = _model.title ;
-    self.image.image = [UIImage imageNamed:_model.title];
+    self.title.text = NSLocalizedString( _model.title, nil) ;
+    self.image.image = [UIImage imageNamed:_model.title] ;
     self.bottomImage.image = _model.enble ? [UIImage imageNamed:@"bottomImage"] : [UIImage imageNamed:@"bottomImage_gray"] ;
 }
 

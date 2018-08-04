@@ -544,6 +544,11 @@ FUNAMA_API void fuSetDefaultRotationMode(int rotationMode);
 */
 FUNAMA_API int fuGetModuleCode(int i);
 
+/**
+\brief Turn on or turn off async track face
+\param enable > 0 means turning on, enable <= 0 means turning off
+*/
+FUNAMA_API int fuSetASYNCTrackFace(int enable);
 
 /*------------------------------------------*/
 /*************** Deprecated *****************/

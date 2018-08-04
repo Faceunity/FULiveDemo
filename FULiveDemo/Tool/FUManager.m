@@ -13,11 +13,12 @@
 #import <sys/utsname.h>
 #import <CoreMotion/CoreMotion.h>
 #import "FUMusicPlayer.h"
+#import "FUImageHelper.h"
 
 @interface FUManager ()
 {
     //MARK: Faceunity
-    int items[4];
+    int items[11];
     int frameID;
     
     NSDictionary *hintDic;
@@ -77,7 +78,7 @@ static FUManager *shareManager = NULL;
                     @"qingqing_ztt_fu":@"嘟嘴试试",
                     @"xiaobianzi_zh_fu":@"微笑触发",
                     @"xiaoxueshen_ztt_fu":@"吹气触发",
-                    @"hez_ztt_fu":@"转头触发",
+                    @"hez_ztt_fu":@"张嘴试试",
                     @"fu_lm_koreaheart":@"单手手指比心",
                     @"fu_zh_baoquan":@"双手抱拳",
                     @"fu_zh_hezxiong":@"双手合十",
@@ -120,15 +121,16 @@ static FUManager *shareManager = NULL;
     NSMutableArray *modesArray = [NSMutableArray arrayWithCapacity:1];
     NSArray *dataArray = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"dataSource.plist" ofType:nil]];
     
-    for (NSDictionary *dict in dataArray) {
+    NSInteger count = dataArray.count ;
+    for (int i = 0 ; i < count; i ++) {
+        NSDictionary *dict = dataArray[i] ;
         
         FULiveModel *model = [[FULiveModel alloc] init];
-        
         NSString *itemName = dict[@"itemName"] ;
         model.title = itemName ;
         model.maxFace = [dict[@"maxFace"] integerValue] ;
         model.enble = NO;
-        model.type = [dict[@"itemType"] integerValue];
+        model.type = i;
         model.modules = dict[@"modules"] ;
         model.items = dict[@"items"] ;
         [modesArray addObject:model];
@@ -182,13 +184,15 @@ static FUManager *shareManager = NULL;
 /*设置默认参数*/
 - (void)setBeautyDefaultParameters {
     
-    self.filtersDataSource = @[@"origin", @"delta", @"electric", @"slowlived", @"tokyo", @"warm"];
+    self.filtersDataSource = @[@"Origin", @"Delta", @"Electric", @"Slowlived", @"Tokyo", @"Warm"];
     
     self.beautyFiltersDataSource = @[@"origin", @"ziran", @"danya", @"fennen", @"qingxin", @"hongrun"];
-    self.filtersCHName = @{@"origin" : @"原图", @"ziran":@"自然", @"danya":@"淡雅", @"fennen":@"粉嫩", @"qingxin":@"清新", @"hongrun":@"红润", @"origin":@"原图"};
+    self.filtersCHName = @{@"origin" : @"原图", @"ziran":@"自然", @"danya":@"淡雅", @"fennen":@"粉嫩", @"qingxin":@"清新", @"hongrun":@"红润"};
     
-    self.selectedFilter         = self.filtersDataSource[0] ;
-    self.selectedFilterLevel    = 0.5 ;
+    if (!self.selectedFilter) {
+        self.selectedFilter    = self.filtersDataSource[0] ;
+    }
+    self.selectedFilterLevel    = 1.0 ;
     
     self.skinDetectEnable       = YES ;// 精准美肤
     self.blurShape              = 0 ;   // 朦胧磨皮 1 ，清晰磨皮 0
@@ -209,6 +213,15 @@ static FUManager *shareManager = NULL;
     self.foreheadLevel          = 0.3 ; // 额头
     self.noseLevel              = 0.5 ; // 鼻子
     self.mouthLevel             = 0.4 ; // 嘴
+    
+    /****  美妆程度  ****/
+    self.lipstick = 1.0 ;
+    self.blush = 1.0 ;
+    self.eyebrow = 1.0 ;
+    self.eyeShadow = 1.0 ;
+    self.eyeLiner = 1.0 ;
+    self.eyelash = 1.0 ;
+    self.contactLens = 1.0 ;
     
     self.enableGesture = NO;
     self.enableMaxFaces = NO;
@@ -296,23 +309,6 @@ static FUManager *shareManager = NULL;
     return alertDic[item] ;
 }
 
-- (void)setCalibrating {
-    
-    fuSetExpressionCalibration(1) ;
-}
-
-- (void)removeCalibrating {
-    
-    fuSetExpressionCalibration(0) ;
-}
-
-- (BOOL)isCalibrating{
-    float is_calibrating[1] = {0.0};
-    
-    fuGetFaceInfo(0, "is_calibrating", is_calibrating, 1);
-    return is_calibrating[0] == 1.0;
-}
-
 - (void)loadAnimojiFaxxBundle {
     /**先创建道具句柄*/
     NSString *path = [[NSBundle mainBundle] pathForResource:@"fxaa.bundle" ofType:nil];
@@ -352,19 +348,14 @@ static FUManager *shareManager = NULL;
 
     if (itemName != nil && ![itemName isEqual: @"noitem"]) {
         /**先创建道具句柄*/
+        NSString *path = [[NSBundle mainBundle] pathForResource:[itemName stringByAppendingString:@".bundle"] ofType:nil];
         
-        NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.bundle", itemName]];
-        
-        if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
-            path = [[NSBundle mainBundle] pathForResource:[itemName stringByAppendingString:@".bundle"] ofType:nil];
-        }
-        
-//        NSString *path = [[NSBundle mainBundle] pathForResource:[itemName stringByAppendingString:@".bundle"] ofType:nil];
         int itemHandle = [FURenderer itemWithContentsOfFile:path];
 
         // 人像驱动 设置 3DFlipH
         BOOL isPortraitDrive = [itemName hasPrefix:@"picasso_e"];
-        if (isPortraitDrive) {
+        BOOL isAnimoji = [itemName hasSuffix:@"_Animoji"];
+        if (isPortraitDrive || isAnimoji) {
             [FURenderer itemSetParam:itemHandle withName:@"is3DFlipH" value:@(1)];
             [FURenderer itemSetParam:itemHandle withName:@"isFlipExpr" value:@(1)];
         }
@@ -372,6 +363,7 @@ static FUManager *shareManager = NULL;
     	if ([itemName isEqualToString:@"luhantongkuan_ztt_fu"]) {
         	[FURenderer itemSetParam:itemHandle withName:@"flip_action" value:@(1)];
     	}
+        
         /**将刚刚创建的句柄存放在items[1]中*/
         items[1] = itemHandle;
     }else{
@@ -388,6 +380,31 @@ static FUManager *shareManager = NULL;
     }
 }
 
+/**加载美妆道具*/
+- (void)loadMakeupItemWithType:(NSInteger)typeIndex itemName:(NSString *)itemName {
+    
+    typeIndex += 4;
+    
+    int destoryItem = items[typeIndex];
+    
+    if (itemName != nil && ![itemName isEqual: @"noitem"]) {
+        
+        NSString *path = [[NSBundle mainBundle] pathForResource:[itemName stringByAppendingString:@".bundle"] ofType:nil];
+        
+        items[typeIndex] = [FURenderer itemWithContentsOfFile:path];
+    }else{
+        items[typeIndex] = 0;
+    }
+    NSLog(@"faceunity: load item");
+    /**后销毁老道具句柄*/
+    if (destoryItem != 0)
+    {
+        NSLog(@"faceunity: destroy item");
+        [FURenderer destroyItem:destoryItem];
+    }
+}
+
+
 /**加载美颜道具*/
 - (void)loadFilter
 {
@@ -396,6 +413,15 @@ static FUManager *shareManager = NULL;
         items[0] = [FURenderer itemWithContentsOfFile:path];
     }
 }
+
+///**加载美妆道具*/
+//- (void)loadMakeupItem {
+//    if (items[4] == 0) {
+//        NSString *path = [[NSBundle mainBundle] pathForResource:@"face_makeup.bundle" ofType:nil];
+//        items[4] = [FURenderer itemWithContentsOfFile:path];
+//    }
+//}
+
 
 /**加载手势识别道具，默认未不加载*/
 - (void)loadGesture
@@ -434,8 +460,32 @@ static FUManager *shareManager = NULL;
     [FURenderer itemSetParam:items[0] withName:@"intensity_forehead" value:@(self.foreheadLevel)];/**额头 (0~1)*/
     [FURenderer itemSetParam:items[0] withName:@"intensity_mouth" value:@(self.mouthLevel)];/**嘴型 (0~1)*/
     
-    [FURenderer itemSetParam:items[0] withName:@"filter_name" value:self.selectedFilter]; //滤镜名称
+    //滤镜名称需要小写
+    [FURenderer itemSetParam:items[0] withName:@"filter_name" value:[self.selectedFilter lowercaseString]];
     [FURenderer itemSetParam:items[0] withName:@"filter_level" value:@(self.selectedFilterLevel)]; //滤镜程度
+    
+    /**  美妆  **/
+    if (items[4] != 0) {
+        [FURenderer itemSetParam:items[4] withName:@"makeup_intensity" value:@(self.lipstick)]; // 口红
+    }
+    if (items[5] != 0) {
+        [FURenderer itemSetParam:items[5] withName:@"makeup_intensity" value:@(self.blush)]; // 腮红
+    }
+    if (items[6] != 0) {
+        [FURenderer itemSetParam:items[6] withName:@"makeup_intensity" value:@(self.eyebrow)]; // 眉毛
+    }
+    if (items[7] != 0) {
+        [FURenderer itemSetParam:items[7] withName:@"makeup_intensity" value:@(self.eyeShadow)]; // 眼影
+    }
+    if (items[8] != 0) {
+        [FURenderer itemSetParam:items[8] withName:@"makeup_intensity" value:@(self.eyeLiner)]; // 眼线
+    }
+    if (items[9] != 0) {
+        [FURenderer itemSetParam:items[9] withName:@"makeup_intensity" value:@(self.eyelash)]; // 睫毛
+    }
+    if (items[10] != 0) {
+        [FURenderer itemSetParam:items[10] withName:@"makeup_intensity" value:@(self.contactLens)]; // 美瞳
+    }
 }
 
 /**将道具绘制到pixelBuffer*/

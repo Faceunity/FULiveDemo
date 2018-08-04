@@ -172,8 +172,7 @@ enum
                 NSLog(@"Error at CVOpenGLESTextureCacheCreate %d", err);
             }
         }
-        
-        self.contentMode = FUOpenGLViewContentModeScaleAspectFill;
+        self.origintation = FUOpenGLViewOrientationPortrait ;
     }
         
     return self;
@@ -204,7 +203,7 @@ enum
                 NSLog(@"Error at CVOpenGLESTextureCacheCreate %d", err);
             }
         }
-        self.contentMode = FUOpenGLViewContentModeScaleAspectFill;
+        self.origintation = FUOpenGLViewOrientationPortrait ;
     }
     return self;
 }
@@ -233,10 +232,10 @@ enum
         [self destroyDisplayFramebuffer];
         [self destoryProgram];
         
-        if(videoTextureCache) {
-            CVOpenGLESTextureCacheFlush(videoTextureCache, 0);
-            CFRelease(videoTextureCache);
-            videoTextureCache = NULL;
+        if(self->videoTextureCache) {
+            CVOpenGLESTextureCacheFlush(self->videoTextureCache, 0);
+            CFRelease(self->videoTextureCache);
+            self->videoTextureCache = NULL;
         }
     });
 }
@@ -336,9 +335,9 @@ enum
     
     CVPixelBufferRetain(pixelBuffer);
     dispatch_sync(_contextQueue, ^{
-
-        frameWidth = (int)CVPixelBufferGetWidth(pixelBuffer);
-        frameHeight = (int)CVPixelBufferGetHeight(pixelBuffer);
+        
+        self->frameWidth = (int)CVPixelBufferGetWidth(pixelBuffer);
+        self->frameHeight = (int)CVPixelBufferGetHeight(pixelBuffer);
         
         if ([EAGLContext currentContext] != self.glContext) {
             if (![EAGLContext setCurrentContext:self.glContext]) {
@@ -454,12 +453,39 @@ enum
     glVertexAttribPointer(furgbaPositionAttribute, 2, GL_FLOAT, 0, 0, vertices);
     glEnableVertexAttribArray(furgbaPositionAttribute);
     
-    GLfloat quadTextureData[] =  {
-        0.0f, 1.0f,
-        1.0f, 1.0f,
-        0.0f,  0.0f,
-        1.0f,  0.0f,
-    };
+    GLfloat quadTextureData[8] = {0} ;
+    
+    switch (self.origintation) {
+        case FUOpenGLViewOrientationPortrait:{
+            quadTextureData[1] = 1.0 ;
+            quadTextureData[2] = 1.0 ;
+            quadTextureData[3] = 1.0 ;
+            quadTextureData[6] = 1.0 ;
+        }
+            break;
+        case FUOpenGLViewOrientationPortraitUpsideDown: {
+            quadTextureData[0] = 1.0 ;
+            quadTextureData[4] = 1.0 ;
+            quadTextureData[5] = 1.0 ;
+            quadTextureData[7] = 1.0 ;
+        }
+            break;
+        case FUOpenGLViewOrientationLandscapeRight: {
+            quadTextureData[0] = 1.0 ;
+            quadTextureData[1] = 1.0 ;
+            quadTextureData[2] = 1.0 ;
+            quadTextureData[5] = 1.0 ;
+        }
+            break;
+        case FUOpenGLViewOrientationLandscapeLeft: {
+            quadTextureData[3] = 1.0 ;
+            quadTextureData[4] = 1.0 ;
+            quadTextureData[6] = 1.0 ;
+            quadTextureData[7] = 1.0 ;
+        }
+            break;
+    }
+    
     glVertexAttribPointer(furgbaTextureCoordinateAttribute, 2, GL_FLOAT, 0, 0, quadTextureData);
     glEnableVertexAttribArray(furgbaTextureCoordinateAttribute);
     
@@ -559,12 +585,38 @@ enum
     glVertexAttribPointer(fuyuvConversionPositionAttribute, 2, GL_FLOAT, 0, 0, vertices);
     glEnableVertexAttribArray(fuyuvConversionPositionAttribute);
     
-    GLfloat quadTextureData[] =  {
-        0.0f, 1.0f,
-        1.0f, 1.0f,
-        0.0f,  0.0f,
-        1.0f,  0.0f,
-    };
+    GLfloat quadTextureData[8] = {0} ;
+    
+    switch (self.origintation) {
+        case FUOpenGLViewOrientationPortrait:{
+            quadTextureData[1] = 1.0 ;
+            quadTextureData[2] = 1.0 ;
+            quadTextureData[3] = 1.0 ;
+            quadTextureData[6] = 1.0 ;
+        }
+            break;
+        case FUOpenGLViewOrientationPortraitUpsideDown: {
+            quadTextureData[0] = 1.0 ;
+            quadTextureData[4] = 1.0 ;
+            quadTextureData[5] = 1.0 ;
+            quadTextureData[7] = 1.0 ;
+        }
+            break;
+        case FUOpenGLViewOrientationLandscapeRight: {
+            quadTextureData[0] = 1.0 ;
+            quadTextureData[1] = 1.0 ;
+            quadTextureData[2] = 1.0 ;
+            quadTextureData[5] = 1.0 ;
+        }
+            break;
+        case FUOpenGLViewOrientationLandscapeLeft: {
+            quadTextureData[3] = 1.0 ;
+            quadTextureData[4] = 1.0 ;
+            quadTextureData[6] = 1.0 ;
+            quadTextureData[7] = 1.0 ;
+        }
+            break;
+    }
     
     glVertexAttribPointer(fuyuvConversionTextureCoordinateAttribute, 2, GL_FLOAT, 0, 0, quadTextureData);
     glEnableVertexAttribArray(fuyuvConversionTextureCoordinateAttribute);
@@ -585,12 +637,26 @@ enum
 
 - (void)updateVertices
 {
-    const float width   = frameWidth;
-    const float height  = frameHeight;
+    float width, height ;
+    
+    switch (self.origintation) {
+        case FUOpenGLViewOrientationPortrait:
+        case FUOpenGLViewOrientationPortraitUpsideDown:{
+            width = frameWidth ;
+            height = frameHeight ;
+        }
+            break;
+        case FUOpenGLViewOrientationLandscapeRight:
+        case FUOpenGLViewOrientationLandscapeLeft:{
+            width = frameHeight ;
+            height = frameWidth ;
+        }
+            break ;
+    }
     
     const float dH      = (float)backingHeight / height;
     const float dW      = (float)backingWidth      / width;
-    const float dd      =  self.contentMode == FUOpenGLViewContentModeScaleAspectFill ? MAX(dH, dW) : MIN(dH, dW) ;
+    const float dd      = MAX(dH, dW) ;
     const float h       = (height * dd / (float)backingHeight);
     const float w       = (width  * dd / (float)backingWidth );
     

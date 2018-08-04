@@ -44,6 +44,15 @@
 @property (nonatomic, strong)               NSMutableArray<FULiveModel *> *dataSource;  /**道具分类数组*/
 @property (nonatomic, strong)               NSString *selectedItem;     /**选中的道具名称*/
 
+/****  美妆程度  ****/
+@property (nonatomic, assign) double lipstick;          // 口红
+@property (nonatomic, assign) double blush;             // 腮红
+@property (nonatomic, assign) double eyebrow;           // 眉毛
+@property (nonatomic, assign) double eyeShadow;         // 眼影
+@property (nonatomic, assign) double eyeLiner;          // 眼线
+@property (nonatomic, assign) double eyelash;           // 睫毛
+@property (nonatomic, assign) double contactLens;       // 美瞳
+
 // 是否性能优先
 @property (nonatomic, assign) BOOL performance ;
 // 当前页面的 model
@@ -58,12 +67,18 @@
 
 /**加载美颜道具*/
 - (void)loadFilter ;
+//
+///**加载美妆道具*/
+//- (void)loadMakeupItem ;
 
 /**销毁全部道具*/
 - (void)destoryItems;
 
 /**加载普通道具*/
 - (void)loadItem:(NSString *)itemName;
+
+/**加载美妆道具*/
+- (void)loadMakeupItemWithType:(NSInteger)typeIndex itemName:(NSString *)itemName ;
 
 - (void)loadAnimojiFaxxBundle ;
 
@@ -73,9 +88,9 @@
 
 
 /** 表情校准 **/
-- (void)setCalibrating ;
-- (void)removeCalibrating ;
-- (BOOL)isCalibrating ;
+//- (void)setCalibrating ;
+//- (void)removeCalibrating ;
+//- (BOOL)isCalibrating ;
 
 /**获取item的提示语*/
 - (NSString *)hintForItem:(NSString *)item;

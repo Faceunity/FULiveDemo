@@ -8,12 +8,17 @@
 
 #import <GLKit/GLKit.h>
 
+typedef NS_ENUM(NSInteger, FUOpenGLViewOrientation) {
+    FUOpenGLViewOrientationPortrait              = 0,
+    FUOpenGLViewOrientationPortraitUpsideDown    = 1,
+    FUOpenGLViewOrientationLandscapeRight        = 2,
+    FUOpenGLViewOrientationLandscapeLeft         = 3,
+};
+
 @interface FUOpenGLView : UIView
 
-typedef NS_ENUM(NSInteger,FUOpenGLViewContentMode) {
-    FUOpenGLViewContentModeScaleAspectFit,      // contents scaled to fit with fixed aspect. remainder is transparent
-    FUOpenGLViewContentModeScaleAspectFill,     // default mode,contents scaled to fill with fixed aspect. some portion of content may be clipped.
-};
+// 设置视频朝向，保证视频总是竖屏播放
+@property (nonatomic, assign) FUOpenGLViewOrientation origintation ;
 
 - (void)displayPixelBuffer:(CVPixelBufferRef)pixelBuffer;
 

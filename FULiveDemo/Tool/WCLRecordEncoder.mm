@@ -178,25 +178,25 @@
         if (isVideo) {
             //视频输入是否准备接受更多的媒体数据
             if (_videoInput.readyForMoreMediaData == YES && _writer.status == AVAssetWriterStatusWriting) {
-                //拼接数据
-//                [_videoInput appendSampleBuffer:sampleBuffer];
-                CVPixelBufferLockBaseAddress(buffer, 0);
-                
-                int h = (int)CVPixelBufferGetHeight(buffer);
-            
-                int stride = (int)CVPixelBufferGetBytesPerRow(buffer);
-            
-                int* img = (int*)CVPixelBufferGetBaseAddress(buffer);
-            
-                for (int x = 0; x < stride/4; x++){
-            
-                    for (int y = 0; y < h; y++){
-                        
-                        img[y * stride/4 + x] |= 0xff000000;
-                        
-                    }
-                }
-                CVPixelBufferUnlockBaseAddress(buffer, 0);
+//                //拼接数据
+////                [_videoInput appendSampleBuffer:sampleBuffer];
+//                CVPixelBufferLockBaseAddress(buffer, 0);
+//                
+//                int h = (int)CVPixelBufferGetHeight(buffer);
+//            
+//                int stride = (int)CVPixelBufferGetBytesPerRow(buffer);
+//            
+//                int* img = (int*)CVPixelBufferGetBaseAddress(buffer);
+//            
+//                for (int x = 0; x < stride/4; x++){
+//            
+//                    for (int y = 0; y < h; y++){
+//                        
+//                        img[y * stride/4 + x] |= 0xff000000;
+//                        
+//                    }
+//                }
+//                CVPixelBufferUnlockBaseAddress(buffer, 0);
                 CMTime currentSampleTime = CMSampleBufferGetOutputPresentationTimeStamp(sampleBuffer);
                 [_adaptor appendPixelBuffer:buffer withPresentationTime:currentSampleTime];
                 return YES;

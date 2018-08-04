@@ -71,7 +71,7 @@
 /* 选中的滤镜 */
 @property (nonatomic, strong) NSString *selectedFilter;
 /* 选中滤镜的 level*/
-@property (nonatomic, assign, readonly) double selectedFilterLevel;
+@property (nonatomic, assign) double selectedFilterLevel;
 
 @property (nonatomic, assign) id<FUAPIDemoBarDelegate>delegate ;
 

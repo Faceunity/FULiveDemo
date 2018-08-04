@@ -20,28 +20,6 @@
 	</dict>
 	<dict>
 		<key>itemName</key>
-		<string>Animoji</string>
-		<key>maxFace</key>
-		<integer>1</integer>
-		<key>enble</key>
-		<false/>
-		<key>itemType</key>
-		<integer>1</integer>
-		<key>modules</key>
-		<array>
-			<integer>16</integer>
-		</array>
-		<key>items</key>
-		<array>
-			<string>baimao_Animoji</string>
-			<string>chaiquan_Animoji</string>
-			<string>douniuquan_Animoji</string>
-			<string>kulutou_Animoji</string>
-			<string>maotouying_Animoji</string>
-		</array>
-	</dict>
-	<dict>
-		<key>itemName</key>
 		<string>道具贴纸</string>
 		<key>maxFace</key>
 		<integer>4</integer>
@@ -67,6 +45,30 @@
 	</dict>
 	<dict>
 		<key>itemName</key>
+		<string>Animoji</string>
+		<key>maxFace</key>
+		<integer>1</integer>
+		<key>enble</key>
+		<false/>
+		<key>itemType</key>
+		<integer>1</integer>
+		<key>modules</key>
+		<array>
+			<integer>16</integer>
+		</array>
+		<key>items</key>
+		<array>
+			<string>douniuquan_Animoji</string>
+			<string>hashiqi_Animoji</string>
+			<string>hetun_Animoji</string>
+			<string>baimao_Animoji</string>
+			<string>chaiquan_Animoji</string>
+			<string>kulutou_Animoji</string>
+			<string>maotouying_Animoji</string>
+		</array>
+	</dict>
+	<dict>
+		<key>itemName</key>
 		<string>AR面具</string>
 		<key>maxFace</key>
 		<integer>4</integer>
@@ -81,6 +83,11 @@
 		</array>
 		<key>items</key>
 		<array>
+			<string>bluebird_180718</string>
+			<string>lanhudie</string>
+			<string>fenhudie</string>
+			<string>tiger_huang_180718</string>
+			<string>tiger_bai_180718</string>
 			<string>afd</string>
 			<string>baozi</string>
 			<string>tiger</string>
@@ -195,12 +202,10 @@
 		<key>items</key>
 		<array>
 			<string>fu_lm_koreaheart</string>
-			<string>fu_zh_baoquan</string>
-			<string>fu_zh_hezxiong</string>
 			<string>fu_ztt_live520</string>
-			<string>ssd_thread_thumb</string>
-			<string>ssd_thread_six</string>
 			<string>ssd_thread_cute</string>
+			<string>ssd_thread_six</string>
+			<string>ssd_thread_thumb</string>
 		</array>
 	</dict>
 	<dict>
