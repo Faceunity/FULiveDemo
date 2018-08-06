@@ -483,4 +483,6 @@ typedef enum {
 + (int)loadAnimModelWithModelPath:(NSString *)modelPath;
 
 + (void)setDefaultRotationMode:(float)mode;
+
++ (void)setAsyncTrackFaceEnable:(int)enable;
 @end

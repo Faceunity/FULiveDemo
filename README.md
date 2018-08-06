@@ -2,7 +2,9 @@
 
 FULiveDemo 是集成了 Faceunity 面部跟踪、美颜、Animoji、道具贴纸、AR面具、换脸、表情识别、音乐滤镜、背景分割、手势识别、哈哈镜、人像光照以及人像驱动功能的Demo。Demo新增了一个展示Faceunity产品列表的主界面，新版Demo将根据客户证书权限来控制用户可以使用哪些产品。
 
-注：第一运行Demo会报缺少证书的 error ,如果您已拥有我司颁发的证书，将证书替换到工程中重新运行即可。如您还没有我司颁发的证书，可以查看[这里](https://github.com/Faceunity/FULiveDemo/tree/dev#%E5%AF%BC%E5%85%A5%E8%AF%81%E4%B9%A6)获取证书
+注1：第一运行Demo会报缺少证书的 error ,如果您已拥有我司颁发的证书，将证书替换到工程中重新运行即可。如您还没有我司颁发的证书，可以查看[这里](https://github.com/Faceunity/FULiveDemo/tree/dev#%E5%AF%BC%E5%85%A5%E8%AF%81%E4%B9%A6)获取证书
+
+注2：由于最新的含有深度学习的libnama.a大小已超过100M，我们使用了git-lfs上传，通过下载或克隆项目后，实际的libnama.a只是一个文件指针，这时工程肯定是不能直接编译运行的，所以我们同时上传了一个libnama.zip的文件，再你第一次编译工程的时候我们会解压libnama.zip，并替换掉libnama.a的文件指针。如果你想从工程目录中含有深度学习的libnama.a文件，并且你没有编译过工程的话，则需要先删除libnama.a的文件指针，并解压libnama.a才行。
 
 ## SDK v5.4.0 更新
 
@@ -23,10 +25,28 @@ FULiveDemo 是集成了 Faceunity 面部跟踪、美颜、Animoji、道具贴纸
 
 ## 导入SDK
 
-### 通过 github 下载集成
+### 一、通过cocoapods集成
+
+含有深度学习的版本：
+
+	pod 'Nama', '5.4.0' #注意此版本目前为dev版
+
+不含深度学习的版本（lite版）：
+	
+	pod 'Nama-lite', '5.4.0' #注意此版本目前为dev版
+
+接下来执行：
+
+	pod install
+
+如果提示无法找到该版本，请尝试执行以下指令后再试：
+
+	pod repo update 或 pod setup
+
+### 二、通过 github 下载集成
 
 含有深度学习的版本：[FaceUnity-SDK-iOS-v5.4.0-dev.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v5.4.0-dev/FaceUnity-SDK-iOS-v5.4.0-dev.zip)
-	
+
 不含深度学习的版本（lite版）：[FaceUnity-SDK-iOS-v5.4.0-dev-lite.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v5.4.0-dev/FaceUnity-SDK-iOS-v5.4.0-dev-lite.zip)
 
 下载完成并解压后将库文件夹拖入到工程中，并勾选上 Copy items if needed，如图：
@@ -40,6 +60,8 @@ FULiveDemo 是集成了 Faceunity 面部跟踪、美颜、Animoji、道具贴纸
 ![](./screenshots/picture2.png)
 
 
+
+注意：如文档开头的“注2”所述，如果你想从工程目录中含有深度学习的libnama.a文件，并且你没有编译过工程的话，则需要手动删除libnama.a的文件指针，并解压libnama.a才行。
 
 ## 文件说明
 
