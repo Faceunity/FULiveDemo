@@ -135,8 +135,8 @@
     if ([array containsObject:itemName]) {
         return [[makeupLevels objectForKey:itemName] floatValue] ;
     }
-    [makeupLevels setObject:@(1.0) forKey:itemName];
-    return 1.0 ;
+    [makeupLevels setObject:@(0.5) forKey:itemName];
+    return 0.5 ;
 }
 
 

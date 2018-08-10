@@ -10,6 +10,7 @@
 
 typedef NS_ENUM(NSUInteger, FULiveModelType) {
     FULiveModelTypeBeautifyFace             = 0,
+    FULiveModelTypeMakeUp,
     FULiveModelTypeItems,
     FULiveModelTypeAnimoji,
     FULiveModelTypeARMarsk,
@@ -21,7 +22,6 @@ typedef NS_ENUM(NSUInteger, FULiveModelType) {
     FULiveModelTypeHahaMirror,
     FULiveModelTypePortraitLighting,
     FULiveModelTypePortraitDrive,
-    FULiveModelTypeMakeUp,
 };
 
 @interface FULiveModel : NSObject

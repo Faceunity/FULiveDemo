@@ -414,15 +414,6 @@ static FUManager *shareManager = NULL;
     }
 }
 
-///**加载美妆道具*/
-//- (void)loadMakeupItem {
-//    if (items[4] == 0) {
-//        NSString *path = [[NSBundle mainBundle] pathForResource:@"face_makeup.bundle" ofType:nil];
-//        items[4] = [FURenderer itemWithContentsOfFile:path];
-//    }
-//}
-
-
 /**加载手势识别道具，默认未不加载*/
 - (void)loadGesture
 {

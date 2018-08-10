@@ -20,6 +20,22 @@
 	</dict>
 	<dict>
 		<key>itemName</key>
+		<string>美妆</string>
+		<key>maxFace</key>
+		<integer>4</integer>
+		<key>enble</key>
+		<false/>
+		<key>itemType</key>
+		<integer>0</integer>
+		<key>modules</key>
+		<array>
+			<integer>524288</integer>
+		</array>
+		<key>items</key>
+		<array/>
+	</dict>
+	<dict>
+		<key>itemName</key>
 		<string>道具贴纸</string>
 		<key>maxFace</key>
 		<integer>4</integer>

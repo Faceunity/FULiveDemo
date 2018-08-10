@@ -4,7 +4,7 @@ FULiveDemo 是集成了 Faceunity 面部跟踪、美颜、Animoji、道具贴纸
 
 注1：第一运行Demo会报缺少证书的 error ,如果您已拥有我司颁发的证书，将证书替换到工程中重新运行即可。如您还没有我司颁发的证书，可以查看[这里](https://github.com/Faceunity/FULiveDemo/tree/dev#%E5%AF%BC%E5%85%A5%E8%AF%81%E4%B9%A6)获取证书
 
-注2：由于最新的含有深度学习的libnama.a大小已超过100M，我们使用了git-lfs上传，通过下载或克隆项目后，实际的libnama.a只是一个文件指针，这时工程肯定是不能直接编译运行的，所以我们同时上传了一个libnama.zip的文件，再你第一次编译工程的时候我们会解压libnama.zip，并替换掉libnama.a的文件指针。如果你想从工程目录中获取含有深度学习的libnama.a，并且你没有编译过工程的话，则需要先删除libnama.a的文件指针，并解压libnama.zip才行。
+注2：由于最新的含有深度学习的libnama.a大小已超过100M，我们使用了git-lfs上传，通过下载或克隆项目后，实际的libnama.a只是一个文件指针，这时工程肯定是不能直接编译运行的，所以我们同时上传了一个libnama.zip的文件，在你第一次编译工程的时候我们会解压libnama.zip，并替换掉libnama.a的文件指针。如果你想从工程目录中获取含有深度学习的libnama.a，并且你没有编译过工程的话，则需要先删除libnama.a的文件指针，并解压libnama.zip才行。
 
 ## SDK v5.4.0 更新
 
