@@ -6,12 +6,13 @@ FULiveDemo 是集成了 Faceunity 面部跟踪、美颜、Animoji、道具贴纸
 
 注2：由于最新的含有深度学习的libnama.a大小已超过100M，我们使用了git-lfs上传，通过下载或克隆项目后，实际的libnama.a只是一个文件指针，这时工程肯定是不能直接编译运行的，所以我们同时上传了一个libnama.zip的文件，在你第一次编译工程的时候我们会解压libnama.zip，并替换掉libnama.a的文件指针。如果你想从工程目录中获取含有深度学习的libnama.a，并且你没有编译过工程的话，则需要先删除libnama.a的文件指针，并解压libnama.zip才行。
 
-## SDK v5.4.0 更新
+## SDK v5.5.0 更新
 
 更新内容
 
-- 绘制性能进一步优化提升
-- 新增美妆贴纸功能
+- 智能美肤性能优化提升
+- 表情跟踪针对细微表情优化
+- 修复MAC上rgb/bgr问题
 
 ## 软件需求
 
@@ -29,11 +30,11 @@ FULiveDemo 是集成了 Faceunity 面部跟踪、美颜、Animoji、道具贴纸
 
 含有深度学习的版本：
 
-	pod 'Nama', '5.4.0' #注意此版本目前为dev版
+	pod 'Nama', '5.5.0' #注意此版本目前为dev版
 
 不含深度学习的版本（lite版）：
 	
-	pod 'Nama-lite', '5.4.0' #注意此版本目前为dev版
+	pod 'Nama-lite', '5.5.0' #注意此版本目前为dev版
 
 接下来执行：
 
@@ -45,9 +46,9 @@ FULiveDemo 是集成了 Faceunity 面部跟踪、美颜、Animoji、道具贴纸
 
 ### 二、通过 github 下载集成
 
-含有深度学习的版本：[FaceUnity-SDK-iOS-v5.4.0-dev.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v5.4.0-dev/FaceUnity-SDK-iOS-v5.4.0-dev.zip)
+含有深度学习的版本：[FaceUnity-SDK-iOS-v5.5.0-dev.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v5.5.0-dev/FaceUnity-SDK-iOS-v5.5.0-dev.zip)
 
-不含深度学习的版本（lite版）：[FaceUnity-SDK-iOS-v5.4.0-dev-lite.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v5.4.0-dev/FaceUnity-SDK-iOS-v5.4.0-dev-lite.zip)
+不含深度学习的版本（lite版）：[FaceUnity-SDK-iOS-v5.5.0-dev-lite.zip](https://github.com/Faceunity/FULiveDemo/releases/download/v5.5.0-dev/FaceUnity-SDK-iOS-v5.5.0-dev-lite.zip)
 
 下载完成并解压后将库文件夹拖入到工程中，并勾选上 Copy items if needed，如图：
 
