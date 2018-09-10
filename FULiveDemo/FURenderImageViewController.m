@@ -355,7 +355,7 @@
     _demoBar.beautyFiltersDataSource = [FUManager shareManager].beautyFiltersDataSource ;
     _demoBar.filtersCHName = [FUManager shareManager].filtersCHName ;
     _demoBar.selectedFilter = [FUManager shareManager].selectedFilter ;
-    _demoBar.performance = NO ;
+    _demoBar.performance = [FUManager shareManager].performance ;
     _demoBar.delegate = self;
 }
 
@@ -514,19 +514,19 @@
 
 - (void)image: (UIImage *) image didFinishSavingWithError: (NSError *) error contextInfo: (void *) contextInfo  {
     if(error != NULL){
-        [SVProgressHUD showErrorWithStatus:@"保存图片失败"];
+        [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"保存图片失败", nil)];
     }else{
-        [SVProgressHUD showSuccessWithStatus:@"图片已保存到相册"];
+        [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"图片已保存到相册", nil)];
     }
 }
 
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
 {
     if(error != NULL){
-        [SVProgressHUD showErrorWithStatus:@"保存视频失败"];
+        [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"保存视频失败", nil)];
         
     }else{
-        [SVProgressHUD showSuccessWithStatus:@"视频已保存到相册"];
+        [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"视频已保存到相册", nil)];
     }
 }
 

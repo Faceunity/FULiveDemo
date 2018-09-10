@@ -469,20 +469,20 @@ typedef enum : NSUInteger {
     
     float dw = width / SW;
     float dh = height / SH;
-    
+
     float cropW = width;
     float cropH = height;
-    
+
     if (dw > dh) {
         cropW = SW * dh;
     }else
     {
         cropH = SH * dw;
     }
-    
+
     CGFloat cropX = (width - cropW) * 0.5;
     CGFloat cropY = (height - cropH) * 0.5;
-    
+
     CIImage *ciImage = [CIImage imageWithCVPixelBuffer:pixelBufferRef];
     
     CIContext *temporaryContext = [CIContext contextWithOptions:nil];
@@ -495,25 +495,26 @@ typedef enum : NSUInteger {
     UIImage *image = [UIImage imageWithCGImage:videoImage];
     CGImageRelease(videoImage);
     CVPixelBufferUnlockBaseAddress(pixelBufferRef, 0);
+    
     return image;
 }
 
 - (void)image: (UIImage *) image didFinishSavingWithError: (NSError *) error contextInfo: (void *) contextInfo
 {
     if(error != NULL){
-        [SVProgressHUD showErrorWithStatus:@"保存图片失败"];
+        [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"保存图片失败", nil)];
     }else{
-        [SVProgressHUD showSuccessWithStatus:@"图片已保存到相册"];
+        [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"图片已保存到相册", nil)];
     }
 }
 
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
 {
     if(error != NULL){
-        [SVProgressHUD showErrorWithStatus:@"保存视频失败"];
+        [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"保存视频失败", nil)];
         
     }else{
-        [SVProgressHUD showSuccessWithStatus:@"视频已保存到相册"];
+        [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"视频已保存到相册", nil)];
     }
 }
 

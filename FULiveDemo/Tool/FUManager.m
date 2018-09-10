@@ -281,7 +281,7 @@ static FUManager *shareManager = NULL;
 - (void)destoryItems
 {
     [FURenderer destroyAllItems];
-    
+    NSLog(@"---- destroy all items ~");
     /**销毁道具后，为保证被销毁的句柄不再被使用，需要将int数组中的元素都设为0*/
     for (int i = 0; i < sizeof(items) / sizeof(int); i++) {
         items[i] = 0;
@@ -290,8 +290,8 @@ static FUManager *shareManager = NULL;
     /**销毁道具后，清除context缓存*/
     [FURenderer OnDeviceLost];
 
-//    /**销毁道具后，重置默认参数*/
-//    [self setBeautyDefaultParameters];
+    /**销毁道具后，重置默认参数*/
+    [self setBeautyDefaultParameters];
 }
 
 /**
@@ -342,6 +342,7 @@ static FUManager *shareManager = NULL;
  */
 - (void)loadItem:(NSString *)itemName
 {
+    
     self.selectedItem = itemName ;
 
     int destoryItem = items[1];
@@ -355,6 +356,7 @@ static FUManager *shareManager = NULL;
         // 人像驱动 设置 3DFlipH
         BOOL isPortraitDrive = [itemName hasPrefix:@"picasso_e"];
         BOOL isAnimoji = [itemName hasSuffix:@"_Animoji"];
+        
         if (isPortraitDrive || isAnimoji) {
             [FURenderer itemSetParam:itemHandle withName:@"is3DFlipH" value:@(1)];
             [FURenderer itemSetParam:itemHandle withName:@"isFlipExpr" value:@(1)];

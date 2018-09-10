@@ -49,3 +49,9 @@
 "眼线" = "Eye Liner";
 "睫毛" = "Eyelash";
 "美瞳" = "Contact Lens";
+
+"保存图片失败" = "Failed";
+"图片已保存到相册" = "Successful";
+"保存视频失败" = "Failed";
+"视频已保存到相册" = "Successful";
+

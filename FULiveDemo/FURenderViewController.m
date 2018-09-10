@@ -21,7 +21,10 @@
 #import "FUMakeUpView.h"
 
 @interface FURenderViewController ()<FUCameraDelegate, PhotoButtonDelegate, FUAPIDemoBarDelegate, FUItemsViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, FUMakeUpViewDelegate>
-
+{
+    
+    dispatch_semaphore_t signal;
+}
 @property (nonatomic, strong) FUCamera *mCamera ;
 @property (weak, nonatomic) IBOutlet FUOpenGLView *renderView;
 
@@ -51,6 +54,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    signal = dispatch_semaphore_create(1);
     [self addObserver];
     
     self.selectedImageBtn.hidden = !(self.model.type == FULiveModelTypeBeautifyFace || self.model.type == FULiveModelTypeItems) ;
@@ -189,7 +193,8 @@
     
     [self.mCamera stopCapture];
     // 清除缓存
-    [[FUManager shareManager] onCameraChange];
+//    [[FUManager shareManager] destoryItems];
+//    [[FUManager shareManager] onCameraChange];
 }
 
 -(void)viewDidDisappear:(BOOL)animated {
@@ -217,16 +222,15 @@
 }
 
 - (IBAction)backAction:(UIButton *)sender {
-    
+    dispatch_semaphore_wait(signal, DISPATCH_TIME_FOREVER);
     [self.mCamera stopCapture];
     
     [FUManager shareManager].currentModel = nil ;
-    
-    dispatch_async(self.mCamera.videoCaptureQueue, ^{
-        [[FUManager shareManager] destoryItems];
-    });
+    [[FUManager shareManager] destoryItems];
+    [[FUManager shareManager] onCameraChange];
     
     [self.navigationController popViewControllerAnimated:YES];
+    dispatch_semaphore_signal(signal);
 }
 
 - (IBAction)changeCamera:(UIButton *)sender {
@@ -461,6 +465,8 @@
 #pragma mark --- FUItemsViewDelegate
 - (void)itemsViewDidSelectedItem:(NSString *)item {
     
+    dispatch_semaphore_wait(signal, DISPATCH_TIME_FOREVER);
+    
     [[FUManager shareManager] loadItem:item];
     
     [self.itemsView stopAnimation];
@@ -494,6 +500,8 @@
         [self performSelector:@selector(dismissTipLabel) withObject:nil afterDelay:5 ];
         
     });
+    
+    dispatch_semaphore_signal(signal);
 }
 
 - (void)dismissTipLabel

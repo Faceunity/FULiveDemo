@@ -430,7 +430,7 @@ typedef enum {
  @param contractsCount contracts 数组中 contract 道具句柄的个数
  @return 被绑定到 avatar 道具上的普通道具个数
  */
-+ (int)avatarBindItems:(int)avatarItem items:(int *)items itemsCount:(int)itemsCount contracts:(int *)contracts contractsCount:(int)contractsCount;
++ (int)avatarBindItems:(int)avatarItem items:(int *)items itemsCount:(int)itemsCount contracts:(int *)contracts contractsCount:(int)contractsCount DEPRECATED_MSG_ATTRIBUTE("use bindItems:items:itemsCount: instead");
 
 /**
  将普通道具从avatar道具上解绑：
@@ -441,7 +441,7 @@ typedef enum {
  @param itemsCount 句柄数组包含的道具句柄个数
  @return 从 avatar 道具上解除绑定的普通道具个数
  */
-+ (int)avatarUnbindItems:(int)avatarItem items:(int *)items itemsCount:(int)itemsCount;
++ (int)avatarUnbindItems:(int)avatarItem items:(int *)items itemsCount:(int)itemsCount DEPRECATED_MSG_ATTRIBUTE("use unBindItems:items:itemsCount: instead");
 
 /**
  绑定道具：
@@ -453,6 +453,17 @@ typedef enum {
  @return 被绑定到目标道具上的普通道具个数
  */
 + (int)bindItems:(int)item items:(int*)items itemsCount:(int)itemsCount;
+
+/**
+ 解绑道具：
+ -  该接口可以将一些普通道具从某个目标道具上解绑
+ 
+ @param item 目标道具句柄
+ @param items 需要从目标道具上解除绑定的普通道具的句柄数组
+ @param itemsCount 句柄数组包含的道具句柄个数
+ @return 被绑定到目标道具上的普通道具个数
+ */
++ (int)unBindItems:(int)item items:(int *)items itemsCount:(int)itemsCount;
 
 /**
  解绑所有道具：

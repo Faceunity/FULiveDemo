@@ -82,6 +82,8 @@
 		0B5B9F3A20E9C17F00FF7789 /* FUSelectedImageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B5B9F3920E9C17F00FF7789 /* FUSelectedImageController.m */; };
 		0B60B6D920DCE3D5004F801F /* FURenderImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B60B6D820DCE3D5004F801F /* FURenderImageViewController.m */; };
 		0B6B00FE20F49C0F0079118B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0B6B010020F49C0F0079118B /* Localizable.strings */; };
+		0B6DEE4E21462173003B97A0 /* huangya_Animoji.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DEE4C21462173003B97A0 /* huangya_Animoji.bundle */; };
+		0B6DEE4F21462173003B97A0 /* huangya_Animoji.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DEE4D21462173003B97A0 /* huangya_Animoji.png */; };
 		0B95D72F2089ED6D006A6FBA /* libnama.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B95D7272089ED6D006A6FBA /* libnama.a */; };
 		0B95D7302089ED6D006A6FBA /* release_note.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0B95D7282089ED6D006A6FBA /* release_note.txt */; };
 		0B95D7312089ED6D006A6FBA /* anim_model.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0B95D72A2089ED6D006A6FBA /* anim_model.bundle */; };
@@ -373,6 +375,8 @@
 		0B6B00FF20F49C0F0079118B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		0B6B010120F49C110079118B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		0B6B010320F4A25C0079118B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		0B6DEE4C21462173003B97A0 /* huangya_Animoji.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = huangya_Animoji.bundle; sourceTree = "<group>"; };
+		0B6DEE4D21462173003B97A0 /* huangya_Animoji.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = huangya_Animoji.png; sourceTree = "<group>"; };
 		0B95D7252089ED6D006A6FBA /* funama.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = funama.h; sourceTree = "<group>"; };
 		0B95D7262089ED6D006A6FBA /* FURenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FURenderer.h; sourceTree = "<group>"; };
 		0B95D7272089ED6D006A6FBA /* libnama.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libnama.a; sourceTree = "<group>"; };
@@ -931,6 +935,8 @@
 		0BF32B912068FB8B00A59FD9 /* Animoji */ = {
 			isa = PBXGroup;
 			children = (
+				0B6DEE4C21462173003B97A0 /* huangya_Animoji.bundle */,
+				0B6DEE4D21462173003B97A0 /* huangya_Animoji.png */,
 				0B2DDB5F2112A4900086E8C0 /* baimao_Animoji.bundle */,
 				0B2DDB672112A4900086E8C0 /* baimao_Animoji.png */,
 				0B2DDB642112A4900086E8C0 /* chaiquan_Animoji.bundle */,
@@ -1065,13 +1071,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0B5A0CE12021913900AAD47D /* Build configuration list for PBXNativeTarget "FULiveDemo" */;
 			buildPhases = (
-				CD0B4B85211613BB0019F9FA /* unzip */,
 				FA957C64E2549EB6F75CB07D /* [CP] Check Pods Manifest.lock */,
+				CD0B4B85211613BB0019F9FA /* unzip */,
 				0B5A0CB12021913900AAD47D /* Sources */,
 				0B5A0CB22021913900AAD47D /* Frameworks */,
 				0B5A0CB32021913900AAD47D /* Resources */,
 				0B5A0D7F202191AF00AAD47D /* Embed Frameworks */,
-				4F91CA75F85AF44CEEC4E935 /* [CP] Embed Pods Frameworks */,
 				4508CC438BF9C69090871A75 /* [CP] Copy Pods Resources */,
 				0B30FE7B207F8879008E0543 /* CopyFiles */,
 				CD11A34D20CE7C580005C58C /* ShellScript */,
@@ -1259,6 +1264,7 @@
 				0BF32B0C2068EDA000A59FD9 /* picasso_e3.bundle in Resources */,
 				0BF77C21211D9FEA00682938 /* 眉毛06.bundle in Resources */,
 				0B2DDB9F2112A4BA0086E8C0 /* afd.bundle in Resources */,
+				0B6DEE4F21462173003B97A0 /* huangya_Animoji.png in Resources */,
 				0B2DDB6A2112A4910086E8C0 /* chaiquan_Animoji.png in Resources */,
 				0BF77C2B211D9FEA00682938 /* 美瞳04.bundle in Resources */,
 				0BF77C3A211D9FEA00682938 /* 眼线04.bundle in Resources */,
@@ -1289,6 +1295,7 @@
 				0BF32B4E2068EDA000A59FD9 /* mask_liudehua.png in Resources */,
 				0B2DDB942112A4BA0086E8C0 /* tiger.png in Resources */,
 				0B5A0CC22021913900AAD47D /* Assets.xcassets in Resources */,
+				0B6DEE4E21462173003B97A0 /* huangya_Animoji.bundle in Resources */,
 				0BF32B162068EDA000A59FD9 /* fu_ztt_live520.png in Resources */,
 				0BF32B0A2068EDA000A59FD9 /* picasso_e1.bundle in Resources */,
 				0BF32B2A2068EDA000A59FD9 /* qingqing_ztt_fu.png in Resources */,
@@ -1391,26 +1398,11 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SVProgressHUD.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FULiveDemo/Pods-FULiveDemo-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4F91CA75F85AF44CEEC4E935 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FULiveDemo/Pods-FULiveDemo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		CD0B4B85211613BB0019F9FA /* unzip */ = {
@@ -1425,7 +1417,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n#!/bin/sh\ncd FULiveDemo/Faceunity/FaceUnity-SDK-iOS\nfilename=libnama.a\nzipname=libnama.zip\nmdcode=$(md5 $filename)\n\n#如果md5验证失败，且libnama.zip存在,则直接解压\nif ! [ ${mdcode##*=}x = \"b5d46724d0fdf55b2d51887577f88683\"x ] && [ -f \"$zipname\" ];\nthen\nrm -f $filename\nunzip $zipname\nmdcode=$(md5 $filename)\n\nif [ ${mdcode##*=}x = \"b5d46724d0fdf55b2d51887577f88683\"x ]; then\necho \"ssss\"\nrm -f $zipname\nelse\necho \"fffff\"\nrm -f $filename\nfi\nfi\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n#!/bin/sh\ncd FULiveDemo/Faceunity/FaceUnity-SDK-iOS\nfilename=libnama.a\nzipname=libnama.zip\nmdcode=$(md5 $filename)\n\n#如果md5验证失败，且libnama.zip存在,则直接解压\nif ! [ ${mdcode##*=}x = \"e7018631b9b11a0824e280597920204b\"x ] && [ -f \"$zipname\" ];\nthen\nrm -f $filename\nunzip $zipname\nmdcode=$(md5 $filename)\n\nif [ ${mdcode##*=}x = \"e7018631b9b11a0824e280597920204b\"x ]; then\necho \"ssss\"\nrm -f $zipname\nelse\necho \"fffff\"\nrm -f $filename\nfi\nfi\n";
 		};
 		CD11A34D20CE7C580005C58C /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
