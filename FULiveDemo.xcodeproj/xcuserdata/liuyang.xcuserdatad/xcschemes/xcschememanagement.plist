@@ -9,13 +9,10 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
-	</dict>
-	<key>SuppressBuildableAutocreation</key>
-	<dict>
-		<key>CD2E16D81E52AE0100A2C2A4</key>
+		<key>loadSDK.xcscheme</key>
 		<dict>
-			<key>primary</key>
-			<true/>
+			<key>orderHint</key>
+			<integer>3</integer>
 		</dict>
 	</dict>
 </dict>

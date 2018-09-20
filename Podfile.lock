@@ -1,12 +1,16 @@
 PODS:
-  - SVProgressHUD (2.0.4)
+  - SVProgressHUD (2.2.2)
 
 DEPENDENCIES:
-  - SVProgressHUD (~> 2.0.3)
+  - SVProgressHUD
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - SVProgressHUD
 
 SPEC CHECKSUMS:
-  SVProgressHUD: bfde85ed6c573ea802b9cb37894ed9b629034f1b
+  SVProgressHUD: 59b2d3dabacbd051576d21d32293ca7228dc18b0
 
-PODFILE CHECKSUM: 2c7d7e0e6175c5cfeebd63d872abe44503c37335
+PODFILE CHECKSUM: 0a18f1b47af1333520361de7e26b6bc58630b883
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.5.3

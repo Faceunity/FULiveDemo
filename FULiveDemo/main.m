@@ -1,9 +1,9 @@
 //
 //  main.m
-//  FUAPIDemo
+//  FULiveDemo
 //
-//  Created by 刘洋 on 2017/1/9.
-//  Copyright © 2017年 刘洋. All rights reserved.
+//  Created by L on 2018/1/31.
+//  Copyright © 2018年 L. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
