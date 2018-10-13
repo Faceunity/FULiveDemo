@@ -523,4 +523,16 @@ typedef enum : NSUInteger {
     [self.videoConnection setVideoOrientation:orientation];
 }
 
+- (void)setExposureValue:(float)value {
+    NSError *error;
+    if ([self.camera lockForConfiguration:&error])
+    {
+        CGFloat minISO = self.camera.activeFormat.minISO;
+        CGFloat maxISO = self.camera.activeFormat.maxISO;
+        CGFloat currentISO = (maxISO - minISO) * (value + 4.0) / 8.0 * 0.25 + minISO;
+        [self.camera setExposureModeCustomWithDuration:AVCaptureExposureDurationCurrent ISO:currentISO completionHandler:nil];
+        [self.camera unlockForConfiguration];
+    }else{
+    }
+}
 @end

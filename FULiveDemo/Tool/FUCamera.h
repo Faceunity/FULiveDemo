@@ -44,4 +44,6 @@
 
 // 设置采集方向
 - (void)setCaptureVideoOrientation:(AVCaptureVideoOrientation)orientation;
+
+- (void)setExposureValue:(float)value ;
 @end

@@ -50,6 +50,7 @@
 		</array>
 		<key>items</key>
 		<array>
+			<string>bling</string>
 			<string>fengya_ztt_fu</string>
 			<string>hudie_lm_fu</string>
 			<string>touhua_ztt_fu</string>
@@ -74,13 +75,42 @@
 		</array>
 		<key>items</key>
 		<array>
+
+			<string>frog_Animoji</string>
+			<string>huangya_Animoji</string>
+
+			<string>hetun_Animoji</string>
+			<string>buoutuzi_Animoji</string>
 			<string>douniuquan_Animoji</string>
 			<string>hashiqi_Animoji</string>
-			<string>hetun_Animoji</string>
 			<string>baimao_Animoji</string>
 			<string>chaiquan_Animoji</string>
-			<string>kulutou_Animoji</string>
-			<string>maotouying_Animoji</string>
+			<string>kuloutou_Animoji</string>
+		</array>
+	</dict>
+	<dict>
+		<key>itemName</key>
+		<string>美发</string>
+		<key>maxFace</key>
+		<integer>4</integer>
+		<key>enble</key>
+		<false/>
+		<key>itemType</key>
+		<integer>0</integer>
+		<key>modules</key>
+		<array>
+			<integer>524288</integer>
+		</array>
+		<key>items</key>
+		<array>
+			<string>hair_color_1</string>
+			<string>hair_color_2</string>
+			<string>hair_color_3</string>
+			<string>hair_color_4</string>
+			<string>hair_color_5</string>
+			<string>hair_color_6</string>
+			<string>hair_color_7</string>
+			<string>hair_color_8</string>
 		</array>
 	</dict>
 	<dict>
@@ -194,12 +224,12 @@
 		</array>
 		<key>items</key>
 		<array>
-			<string>chiji_lm_fu</string>
-			<string>ice_lm_fu</string>
-			<string>jingongmen_zh_fu</string>
+			<string>hez_ztt_fu</string>
 			<string>gufeng_zh_fu</string>
 			<string>men_ztt_fu</string>
-			<string>hez_ztt_fu</string>
+			<string>xiandai_ztt_fu</string>
+			<string>sea_lm_fu</string>
+			<string>ice_lm_fu</string>
 		</array>
 	</dict>
 	<dict>

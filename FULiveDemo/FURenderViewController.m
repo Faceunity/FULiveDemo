@@ -19,8 +19,20 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "FURenderImageViewController.h"
 #import "FUMakeUpView.h"
+#import "FUHairView.h"
+#import "FULightingView.h"
 
-@interface FURenderViewController ()<FUCameraDelegate, PhotoButtonDelegate, FUAPIDemoBarDelegate, FUItemsViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, FUMakeUpViewDelegate>
+@interface FURenderViewController ()<
+FUCameraDelegate,
+PhotoButtonDelegate,
+FUAPIDemoBarDelegate,
+FUItemsViewDelegate,
+FUMakeUpViewDelegate,
+FUHairViewDelegate,
+FULightingViewDelegate,
+UINavigationControllerDelegate,
+UIImagePickerControllerDelegate
+>
 {
     
     dispatch_semaphore_t signal;
@@ -42,6 +54,12 @@
 @property (weak, nonatomic) IBOutlet UIButton *performanceBtn;
 @property (weak, nonatomic) IBOutlet UIView *makeupContainer;
 @property (nonatomic, strong) FUMakeUpView *makeupView ;
+
+@property (weak, nonatomic) IBOutlet UIView *hairContainer;
+@property (nonatomic, strong) FUHairView *hairView ;
+@property (weak, nonatomic) IBOutlet UIView *lightingContainer;
+@property (nonatomic, strong) FULightingView *lightingView ;
+@property (weak, nonatomic) IBOutlet UIImageView *adjustImage;
 @end
 
 @implementation FURenderViewController
@@ -60,6 +78,8 @@
     self.selectedImageBtn.hidden = !(self.model.type == FULiveModelTypeBeautifyFace || self.model.type == FULiveModelTypeItems) ;
     self.photoBtn.delegate = self ;
     
+    [[FUManager shareManager] loadFilter] ;
+    
     switch (self.model.type) {
         case FULiveModelTypeBeautifyFace:{      // 美颜
             
@@ -67,11 +87,11 @@
             self.itemsView = nil ;
             [self.makeupContainer removeFromSuperview];
             self.makeupView = nil ;
+            [self.hairContainer removeFromSuperview];
             
             self.performanceBtn.hidden = NO ;
             self.performanceBtn.selected = [FUManager shareManager].performance;
             
-            [[FUManager shareManager] loadFilter] ;
         }
             break;
         case FULiveModelTypeMakeUp:{            //  美妆
@@ -80,9 +100,25 @@
             self.demoBar = nil ;
             [self.itemsView removeFromSuperview ];
             self.itemsView = nil ;
-            
-            [[FUManager shareManager] loadFilter];
+            [self.hairContainer removeFromSuperview];
 //            [[FUManager shareManager] loadMakeupItem] ;
+        }
+            break ;
+        case FULiveModelTypeHair:{
+            
+            self.photoBtn.transform = CGAffineTransformConcat(CGAffineTransformMakeTranslation(0, -100), CGAffineTransformMakeScale(0.8, 0.8)) ;
+            [self.demoBar removeFromSuperview ];
+            self.demoBar = nil ;
+            [self.itemsView removeFromSuperview ];
+            self.itemsView = nil ;
+            [self.makeupContainer removeFromSuperview];
+            self.makeupView = nil ;
+            
+            self.hairView.itemsArray = self.model.items;
+            
+            [[FUManager shareManager] loadItem:@"hair_color"];
+            [[FUManager shareManager] setHairColor:0];
+            [[FUManager shareManager] setHairStrength:0.5];
         }
             break ;
         default:{                               // 道具
@@ -92,6 +128,7 @@
             self.demoBar = nil ;
             [self.makeupContainer removeFromSuperview];
             self.makeupView = nil ;
+            [self.hairContainer removeFromSuperview];
             
             self.itemsView.delegate = self ;
             [self.view addSubview:self.itemsView];
@@ -100,12 +137,8 @@
             self.itemsView.itemsArray = self.model.items;
             
             NSString *selectItem = self.model.items.count > 0 ? self.model.items[0] : @"noitem" ;
-            
             self.itemsView.selectedItem = selectItem ;
-            
             [[FUManager shareManager] loadItem: selectItem];
-            
-            [[FUManager shareManager] loadFilter];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 
@@ -128,12 +161,17 @@
     }
     
     [FUManager shareManager].enableMaxFaces = self.model.maxFace == 4;
+    
+    self.lightingContainer.transform = CGAffineTransformMakeRotation(-M_PI_2);
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchScreenAction:)];
+    [self.renderView addGestureRecognizer:tap];
 }
 
 -(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-    if (self.model.type > 0) {
+    if (self.model.type > 0 && self.model.type != FULiveModelTypeHair) {
         
         // 适配 iPhone X
         CGRect frame = self.itemsView.frame ;
@@ -151,8 +189,7 @@
         [self demoBarSetBeautyDefultParams];
     }
     
-    
-    if (self.model.type > 1){
+    if (self.model.type > 1 && self.model.type != FULiveModelTypeHair){
         if (!self.itemsView.selectedItem) {
             self.itemsView.selectedItem = [FUManager shareManager].selectedItem ;
         }else {
@@ -203,21 +240,53 @@
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"FUMakeUpView"]) {
+    NSString *identifier = segue.identifier ;
+    if ([identifier isEqualToString:@"FUMakeUpView"]) {
         UIViewController *vc= segue.destinationViewController;
         self.makeupView = (FUMakeUpView *)vc.view ;
         self.makeupView.delegate = self ;
+    }else if ([identifier isEqualToString:@"FUHairView"]){
+        UIViewController *vc= segue.destinationViewController;
+        self.hairView = (FUHairView *)vc.view ;
+        self.hairView.delegate = self ;
+    }else if ([identifier isEqualToString:@"FULightingView"]){
+        UIViewController *vc= segue.destinationViewController;
+        self.lightingView = (FULightingView *)(vc.view) ;
+        self.lightingView.delegate = self ;
+        self.lightingView.hidden = YES ;
     }
 }
 
--(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    [super touchesBegan:touches withEvent:event];
+static CFAbsoluteTime adjustTime = 0 ;
+- (void)touchScreenAction:(UITapGestureRecognizer *)tap {
     
-    if (self.model.type == FULiveModelTypeBeautifyFace) {
-        [self.demoBar hiddeTopView];
-    }else if (self.model.type == FULiveModelTypeMakeUp) {
+    if (tap.view == self.renderView) {
+        if (self.model.type == FULiveModelTypeBeautifyFace) {
+            [self.demoBar hiddeTopView];
+        }else if (self.model.type == FULiveModelTypeMakeUp) {
+            [self.makeupView hiddenMakeupViewTopView] ;
+        }
+        // 聚焦
+        if (self.adjustImage.hidden) {
+            self.adjustImage.hidden = NO ;
+            self.lightingContainer.hidden = NO ;
+            self.lightingView.hidden = NO ;
+        }
         
-        [self.makeupView hiddenMakeupViewTopView] ;
+        CGPoint center = [tap locationInView:self.renderView];
+        // 聚焦 + 曝光
+        self.mCamera.focusPoint = CGPointMake(center.y/self.view.bounds.size.height, self.mCamera.isFrontCamera ? center.x/self.view.bounds.size.width : 1 - center.x/self.view.bounds.size.width);
+        self.mCamera.exposurePoint = CGPointMake(center.y/self.view.bounds.size.height, self.mCamera.isFrontCamera ? center.x/self.view.bounds.size.width : 1 - center.x/self.view.bounds.size.width);
+        
+        // UI
+        adjustTime = CFAbsoluteTimeGetCurrent() ;
+        self.adjustImage.center = center ;
+        self.adjustImage.transform = CGAffineTransformIdentity ;
+        [UIView animateWithDuration:0.3 animations:^{
+            self.adjustImage.transform = CGAffineTransformMakeScale(0.67, 0.67) ;
+        }completion:^(BOOL finished) {
+            [self hiddenAdjustViewWithTime:1.0];
+        }];
     }
 }
 
@@ -298,10 +367,6 @@
             fps = 30 ;
         }
         self.buglyLabel.text = [NSString stringWithFormat:@"resolution:\n %@\nfps: %.0f \nrender time:\n %.0fms", ratioStr, fps, renderTime * 1000.0];
-
-        // 根据人脸中心点实时调节摄像头曝光参数及聚焦参数
-        CGPoint center = [[FUManager shareManager] getFaceCenterInFrameSize:frameSize];;
-        self.mCamera.exposurePoint = CGPointMake(center.y,self.mCamera.isFrontCamera ? center.x:1-center.x);
     }) ;
 }
 
@@ -411,8 +476,8 @@
     
     [[FUManager shareManager] setBeautyDefaultParameters];
     
-    [FUManager shareManager].blurShape = sender.selected ? 1 : 0 ;
-    [FUManager shareManager].faceShape = sender.selected ? 3 : 4;;
+//    [FUManager shareManager].blurShape = sender.selected ? 1 : 0 ;
+//    [FUManager shareManager].faceShape = sender.selected ? 3 : 4;;
     
     [self demoBarSetBeautyDefultParams];
 }
@@ -466,6 +531,17 @@
 - (void)itemsViewDidSelectedItem:(NSString *)item {
     
     dispatch_semaphore_wait(signal, DISPATCH_TIME_FOREVER);
+    
+//        if ([item isEqualToString:@"noitem"]) {
+//
+//            [[FUManager shareManager] setHairStrength:NO];
+//        }else {
+//            NSInteger index = [self.model.items indexOfObject:item];
+//            [[FUManager shareManager] setHairColor:(int)index];
+//            [[FUManager shareManager] setHairStrength:YES];
+//        }
+//
+//        [self.itemsView stopAnimation];
     
     [[FUManager shareManager] loadItem:item];
     
@@ -559,6 +635,36 @@
     _demoBar.selectedFilterLevel = [FUManager shareManager].selectedFilterLevel;
 
     _demoBar.delegate = self;
+}
+
+#pragma mark --- FUHairViewDelegate
+-(void)hairViewDidSelectedhairIndex:(NSInteger)index Strength:(float)strength{
+    
+    if (index == -1) {
+        [[FUManager shareManager] setHairColor:0];
+        [[FUManager shareManager] setHairStrength:0.0];
+    }else {
+        [[FUManager shareManager] setHairColor:(int)index];
+        [[FUManager shareManager] setHairStrength:strength];
+    }
+}
+
+#pragma mark ---- FULightingViewDelegate
+-(void)lightingViewValueDidChange:(float)value {
+    adjustTime = CFAbsoluteTimeGetCurrent() ;
+    [self hiddenAdjustViewWithTime:1.3];
+    [self.mCamera setExposureValue:value];
+}
+
+- (void)hiddenAdjustViewWithTime:(float)time {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(time * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        if (CFAbsoluteTimeGetCurrent() - adjustTime > 1.29) {
+            self.adjustImage.hidden = YES ;
+            self.lightingContainer.hidden = YES ;
+            self.lightingView.hidden = YES ;
+        }
+    });
 }
 
 #pragma mark --- Observer

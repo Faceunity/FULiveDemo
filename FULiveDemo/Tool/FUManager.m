@@ -60,12 +60,13 @@ static FUManager *shareManager = NULL;
         NSLog(@"fuLoadAnimModel %@",res0 == 0 ? @"failure":@"success" );
 
         NSData *arModelData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ardata_ex.bundle" ofType:nil]];
-        
-        
         int res1 = fuLoadExtendedARData((void *)arModelData.bytes, (int)arModelData.length);
-        
         NSLog(@"fuLoadExtendedARData %@",res1 == 0 ? @"failure":@"success" );
         
+        NSData *tongueData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"tongue.bundle" ofType:nil]];
+        int ret2 = fuLoadTongueModel((void *)tongueData.bytes, (int)tongueData.length) ;
+        NSLog(@"fuLoadTongueModel %@",ret2 == 0 ? @"failure":@"success" );
+//
        [self setBeautyDefaultParameters];
         
         NSLog(@"faceunitySDK version:%@",[FURenderer getVersion]);
@@ -188,22 +189,22 @@ static FUManager *shareManager = NULL;
     
     self.beautyFiltersDataSource = @[@"origin", @"ziran", @"danya", @"fennen", @"qingxin", @"hongrun"];
     self.filtersCHName = @{@"origin" : @"原图", @"ziran":@"自然", @"danya":@"淡雅", @"fennen":@"粉嫩", @"qingxin":@"清新", @"hongrun":@"红润"};
+    self.selectedFilter = @"danya" ;
+    self.selectedFilterLevel = 0.5 ;
+//    if (!self.selectedFilter) {
+//        self.selectedFilter    = self.filtersDataSource[0] ;
+//    }
     
-    if (!self.selectedFilter) {
-        self.selectedFilter    = self.filtersDataSource[0] ;
-    }
-    self.selectedFilterLevel    = 1.0 ;
-    
-    self.skinDetectEnable       = YES ;// 精准美肤
-    self.blurShape              = 0 ;   // 朦胧磨皮 1 ，清晰磨皮 0
+    self.skinDetectEnable       = self.performance ? NO : YES ;// 精准美肤
+    self.blurShape              = self.performance ? 1 : 0 ;   // 朦胧磨皮 1 ，清晰磨皮 0
     self.blurLevel              = 0.7 ; // 磨皮， 实际设置的时候 x6
-    self.whiteLevel             = 0.5 ; // 美白
-    self.redLevel               = 0.5 ; // 红润
+    self.whiteLevel             = 0.2 ; // 美白
+    self.redLevel               = 0.0 ; // 红润
     
-    self.eyelightingLevel       = 0.7 ; // 亮眼
-    self.beautyToothLevel       = 0.7 ; // 美牙
+    self.eyelightingLevel       = self.performance ? 0 : 0.7 ; // 亮眼
+    self.beautyToothLevel       = self.performance ? 0 : 0.7 ; // 美牙
     
-    self.faceShape              = 4 ;   // 脸型
+    self.faceShape              = self.performance ? 3 :4 ;   // 脸型
     self.enlargingLevel         = 0.4 ; // 大眼
     self.thinningLevel          = 0.4 ; // 瘦脸
     
@@ -332,7 +333,6 @@ static FUManager *shareManager = NULL;
         [FURenderer destroyItem:items[3]];
         items[3] = 0 ;
     }
-    
 }
 
 #pragma -Faceunity Load Data
@@ -404,6 +404,14 @@ static FUManager *shareManager = NULL;
         NSLog(@"faceunity: destroy item");
         [FURenderer destroyItem:destoryItem];
     }
+}
+
+/**设置美发参数**/
+- (void)setHairColor:(int)colorIndex {
+    [FURenderer itemSetParam:items[1] withName:@"Index" value:@(colorIndex)]; // 发色
+}
+- (void)setHairStrength:(float)strength {
+    [FURenderer itemSetParam:items[1] withName:@"Strength" value: @(strength)]; // 发色
 }
 
 
@@ -506,7 +514,7 @@ static FUManager *shareManager = NULL;
             fuSetDefaultOrientation(self.deviceOrientation) ;
         }
     }
-
+    
     /**设置美颜参数*/
     [self setBeautyParams];
     

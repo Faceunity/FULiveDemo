@@ -8,8 +8,8 @@
 
 #import "FUOpenGLView.h"
 #import <CoreVideo/CoreVideo.h>
-#import <OpenGLES/ES2/gl.h>
-#import <OpenGLES/ES2/glext.h>
+#import <OpenGLES/ES3/gl.h>
+#import <OpenGLES/ES3/glext.h>
 #define STRINGIZE(x)    #x
 #define STRINGIZE2(x)    STRINGIZE(x)
 #define SHADER_STRING(text) @ STRINGIZE2(text)
@@ -28,7 +28,7 @@ NSString *const FUYUVToRGBAFragmentShaderString = SHADER_STRING
      lowp vec3 rgb;
      
      yuv.x = texture2D(luminanceTexture, textureCoordinate).r;
-     yuv.yz = texture2D(chrominanceTexture, textureCoordinate).rg - vec2(0.5, 0.5);
+     yuv.yz = texture2D(chrominanceTexture, textureCoordinate).ra - vec2(0.5, 0.5);
      rgb = colorConversionMatrix * yuv;
      
      gl_FragColor = vec4(rgb, 1.0);
@@ -160,8 +160,11 @@ enum
         eaglLayer.drawableProperties = @{ kEAGLDrawablePropertyRetainedBacking :[NSNumber numberWithBool:NO],
                                           kEAGLDrawablePropertyColorFormat : kEAGLColorFormatRGBA8};
         
-        _glContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-        
+        _glContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
+        if (!_glContext) {
+            NSLog(@"This devicde is not support OpenGLES3,try to create OpenGLES2");
+            _glContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+        }
         if (!self.glContext) {
             NSLog(@"failed to create context");
         }
@@ -520,10 +523,10 @@ enum
                                                        pixelBuffer,
                                                        NULL,
                                                        GL_TEXTURE_2D,
-                                                       GL_RED_EXT,
+                                                       GL_LUMINANCE,
                                                        frameWidth,
                                                        frameHeight,
-                                                       GL_RED_EXT,
+                                                       GL_LUMINANCE,
                                                        GL_UNSIGNED_BYTE,
                                                        0,
                                                        &luminanceTextureRef);
@@ -542,10 +545,10 @@ enum
                                                        pixelBuffer,
                                                        NULL,
                                                        GL_TEXTURE_2D,
-                                                       GL_RG_EXT,
+                                                       GL_LUMINANCE_ALPHA,
                                                        frameWidth / 2,
                                                        frameHeight / 2,
-                                                       GL_RG_EXT,
+                                                       GL_LUMINANCE_ALPHA,
                                                        GL_UNSIGNED_BYTE,
                                                        1,
                                                        &chrominanceTextureRef);

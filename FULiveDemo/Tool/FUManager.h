@@ -79,6 +79,7 @@
 
 /**加载美妆道具*/
 - (void)loadMakeupItemWithType:(NSInteger)typeIndex itemName:(NSString *)itemName ;
+- (void)setHairStrength:(float)strength;
 
 - (void)loadAnimojiFaxxBundle ;
 
@@ -86,6 +87,8 @@
 
 - (void)musicFilterSetMusicTime ;
 
+/**设置美发参数**/
+- (void)setHairColor:(int)colorIndex ;
 
 /** 表情校准 **/
 //- (void)setCalibrating ;

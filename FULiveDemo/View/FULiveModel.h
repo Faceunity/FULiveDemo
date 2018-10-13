@@ -13,6 +13,7 @@ typedef NS_ENUM(NSUInteger, FULiveModelType) {
     FULiveModelTypeMakeUp,
     FULiveModelTypeItems,
     FULiveModelTypeAnimoji,
+    FULiveModelTypeHair,
     FULiveModelTypeARMarsk,
     FULiveModelTypeFaceChange,
     FULiveModelTypeExpressionRecognition,
@@ -20,7 +21,7 @@ typedef NS_ENUM(NSUInteger, FULiveModelType) {
     FULiveModelTypeBGSegmentation,
     FULiveModelTypeGestureRecognition,
     FULiveModelTypeHahaMirror,
-    FULiveModelTypePortraitLighting,
+//    FULiveModelTypePortraitLighting,
     FULiveModelTypePortraitDrive,
 };
 
