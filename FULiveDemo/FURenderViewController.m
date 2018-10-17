@@ -80,6 +80,7 @@ UIImagePickerControllerDelegate
     
     [[FUManager shareManager] loadFilter] ;
     
+    [[FUManager shareManager] setAsyncTrackFaceEnable:YES];
     switch (self.model.type) {
         case FULiveModelTypeBeautifyFace:{      // 美颜
             
@@ -102,6 +103,7 @@ UIImagePickerControllerDelegate
             self.itemsView = nil ;
             [self.hairContainer removeFromSuperview];
 //            [[FUManager shareManager] loadMakeupItem] ;
+            [[FUManager shareManager] setAsyncTrackFaceEnable:NO];
         }
             break ;
         case FULiveModelTypeHair:{

@@ -114,6 +114,10 @@ static FUManager *shareManager = NULL;
     return self;
 }
 
+- (void)setAsyncTrackFaceEnable:(BOOL)enable{
+    [FURenderer setAsyncTrackFaceEnable:enable];
+}
+
 /** 根据证书判断权限
  *  有权限的排列在前，没有权限的在后
  */

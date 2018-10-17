@@ -60,6 +60,8 @@
 
 + (FUManager *)shareManager;
 
+- (void)setAsyncTrackFaceEnable:(BOOL)enable;
+
 // 默认美颜参数
 - (void)setBeautyDefaultParameters ;
 /**初始化Faceunity,加载道具*/
