@@ -35,7 +35,7 @@ typedef NS_ENUM(NSInteger, FUVideoReaderOrientation) {
 // 视频朝向
 @property (nonatomic, assign, readonly) FUVideoReaderOrientation videoOrientation ;
 
-- (instancetype)initWithVideoURL:(NSURL *)videoRUL ;
+- (instancetype)initWithVideoURL:(NSURL *)videoRUL;
 
 // 只读 第一帧
 - (void)startReadForFirstFrame ;
@@ -44,7 +44,6 @@ typedef NS_ENUM(NSInteger, FUVideoReaderOrientation) {
 
 // 读写整个视频
 - (void)startReadWithDestinationPath:(NSString *)destinationPath ;
-
 // 停止
 - (void)stopReading ;
 @end

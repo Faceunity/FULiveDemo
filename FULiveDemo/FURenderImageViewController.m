@@ -70,8 +70,7 @@
         
         self.itemsView.delegate = self ;
         [self.view addSubview:self.itemsView];
-        
-        self.itemsView.itemsArray = self.model.items;
+        [self.itemsView updateCollectionArray:self.model.items];
         
         NSString *item = self.model.items[0];
         self.itemsView.selectedItem = item;
@@ -216,7 +215,7 @@
 - (IBAction)playAction:(UIButton *)sender {
     sender.selected = YES ;
     sender.hidden = YES ;
-    
+    videHasRendered = NO;
     self.downloadBtn.hidden = YES ;
     
     if (_avPlayer) {

@@ -11,7 +11,7 @@
 
 @interface FUItemsView ()
 
-@property (weak, nonatomic) IBOutlet UICollectionView *collection;
+
 @end
 
 @implementation FUItemsView
@@ -27,15 +27,24 @@
     return self ;
 }
 
--(void)layoutSubviews {
-    [super layoutSubviews];
+
+-(void)awakeFromNib{
+    [super awakeFromNib];
+    [_collection registerNib:[UINib nibWithNibName:@"FUItemsViewCell" bundle:nil] forCellWithReuseIdentifier:@"FUItemsViewCell"];
     
-    self.collection.frame = CGRectMake(0, 4, self.frame.size.width, self.frame.size.height - 4) ;
 }
 
--(void)setItemsArray:(NSArray *)itemsArray {
-    
-    NSMutableArray *array = [itemsArray mutableCopy];
+-(void)layoutSubviews {
+    [super layoutSubviews];
+}
+
+//-(void)setItemsArray:(NSArray *)itemsArray {
+//
+//
+//}
+
+-(void)updateCollectionArray:(NSArray *)itemArray{
+    NSMutableArray *array = [itemArray mutableCopy];
     [array insertObject:@"noitem" atIndex:0];
     _itemsArray = [array copy] ;
     
@@ -83,6 +92,10 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     return CGSizeMake(60, 60) ;
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
+    return UIEdgeInsetsMake(12, 16, 12, 16);
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {

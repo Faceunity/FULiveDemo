@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FULightingSlider.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,7 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)lightingViewValueDidChange:(float)value ;
 @end
 
-@class FULightingSlider ;
 @interface FULightingView : UIView
 
 @property (weak, nonatomic) IBOutlet UIImageView *sunImage;

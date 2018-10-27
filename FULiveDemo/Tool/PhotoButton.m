@@ -8,29 +8,40 @@
 
 #import "PhotoButton.h"
 #import "CircleProgressView.h"
+#import <AudioToolbox/AudioToolbox.h>
+#import <MediaPlayer/MediaPlayer.h>
+#import <AVFoundation/AVFoundation.h>
+#import "FUVolumeObserver.h"
 
-@interface PhotoButton ()
+
+@interface PhotoButton ()<FUVolumeObserverProtocol>
 {
     NSTimer *timer;
     NSInteger time;
-    
     CGAffineTransform originTransform ;
+
 }
 @property  (nonatomic, strong) CircleProgressView *circleProgress;
+@property  (nonatomic, strong) UILongPressGestureRecognizer *longPress;
 @end
 
 @implementation PhotoButton
+
+
+
 
 - (void)awakeFromNib
 {
     [super awakeFromNib];
     
     time = 0;
-    
-    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(btnLong:)];
-    longPress.minimumPressDuration = 0; //定义按的时间
-    [self addGestureRecognizer:longPress];
+    _type = FUPhotoButtonTypeRecord | FUPhotoButtonTypeTakePhoto;
+    _longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(btnLong:)];
+    _longPress.minimumPressDuration = 0; //定义按的时间
+    [self addGestureRecognizer:_longPress];
     [self addSubview:self.circleProgress];
+    [FUVolumeObserver sharedInstance].delegate = self;
+    
 }
 
 - (void)layoutSubviews
@@ -85,7 +96,7 @@
 - (void)updateTime
 {
     time ++;
-    
+
     if (time - 4 >=0) {
         if (time - 4 == 0) {
             [self startRecord];
@@ -104,14 +115,14 @@
 }
 
 -(void)takePhoto{
+    if (!(_type & FUPhotoButtonTypeTakePhoto)) return;
     if ([self.delegate respondsToSelector:@selector(takePhoto)]) {
         [self.delegate takePhoto];
     }
 }
 -(void)startRecord{
-    
+    if (!(_type & FUPhotoButtonTypeRecord)) return;
     dispatch_async(dispatch_get_main_queue(), ^{
-        
         originTransform = self.transform ;
         [UIView animateWithDuration:0.5 animations:^{
 //            self.transform = CGAffineTransformMakeTranslation(0, -5);
@@ -124,6 +135,7 @@
 }
 
 -(void)stopRecord{
+    if (!(_type & FUPhotoButtonTypeRecord)) return;
     dispatch_async(dispatch_get_main_queue(), ^{
         if ([self.delegate respondsToSelector:@selector(stopRecord)]) {
             [self.delegate stopRecord];
@@ -133,4 +145,40 @@
 //        }];
     });
 }
+
+
+-(void)setType:(FUPhotoButtonType)type{
+    _type = type;
+    if (type & FUPhotoButtonTypeRecord){
+        _circleProgress.hidden = NO;
+         [self addGestureRecognizer:_longPress];
+    }else{
+        _circleProgress.hidden = YES;
+         [self removeGestureRecognizer:_longPress];
+        [self addTarget:self action:@selector(takePhoto) forControlEvents:UIControlEventTouchUpInside];
+    }
+}
+
+#pragma  mark ----  pulic  -----
+- (void)startObserveVolumeChangeEvents{
+    [[FUVolumeObserver sharedInstance] startObserveVolumeChangeEvents];
+}
+- (void)stopObserveVolumeChangeEvents{
+    [[FUVolumeObserver sharedInstance] stopObserveVolumeChangeEvents];
+}
+
+#pragma  mark ----  FUVolumeObserver delagatale  -----
+- (void)volumeButtonDidUp:(FUVolumeObserver *) button{
+    NSLog(@"change up");
+    [self takePhoto];
+}
+
+- (void)volumeButtonDidDown:(FUVolumeObserver *) button{
+    NSLog(@"change down");
+     [self takePhoto];
+
+}
+
+
+
 @end

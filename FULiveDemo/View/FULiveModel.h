@@ -16,6 +16,7 @@ typedef NS_ENUM(NSUInteger, FULiveModelType) {
     FULiveModelTypeHair,
     FULiveModelTypeARMarsk,
     FULiveModelTypeFaceChange,
+    FULiveModelTypePoster,//海报换脸
     FULiveModelTypeExpressionRecognition,
     FULiveModelTypeMusicFilter,
     FULiveModelTypeBGSegmentation,
@@ -38,4 +39,6 @@ typedef NS_ENUM(NSUInteger, FULiveModelType) {
 @property (nonatomic, assign) NSArray *modules ;
 
 @property (nonatomic, strong) NSArray *items ;
+
+@property (nonatomic, assign) int selIndex;
 @end

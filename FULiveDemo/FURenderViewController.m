@@ -21,6 +21,9 @@
 #import "FUMakeUpView.h"
 #import "FUHairView.h"
 #import "FULightingView.h"
+#import "FUSaveViewController.h"
+#import "FUEditImageViewController.h"
+#import "FUImageHelper.h"
 
 @interface FURenderViewController ()<
 FUCameraDelegate,
@@ -31,11 +34,13 @@ FUMakeUpViewDelegate,
 FUHairViewDelegate,
 FULightingViewDelegate,
 UINavigationControllerDelegate,
-UIImagePickerControllerDelegate
+UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate
 >
 {
     
     dispatch_semaphore_t signal;
+    dispatch_semaphore_t semaphore;
+    UIImage *mCaptureImage;
 }
 @property (nonatomic, strong) FUCamera *mCamera ;
 @property (weak, nonatomic) IBOutlet FUOpenGLView *renderView;
@@ -43,6 +48,7 @@ UIImagePickerControllerDelegate
 @property (weak, nonatomic) IBOutlet FUAPIDemoBar *demoBar;
 @property (weak, nonatomic) IBOutlet PhotoButton *photoBtn;
 @property (weak, nonatomic) IBOutlet FUItemsView *itemsView;
+@property (weak, nonatomic) IBOutlet UIButton *mHomeBtn;
 
 @property (weak, nonatomic) IBOutlet UIView *buglyView;
 @property (weak, nonatomic) IBOutlet UILabel *buglyLabel;
@@ -60,6 +66,12 @@ UIImagePickerControllerDelegate
 @property (weak, nonatomic) IBOutlet UIView *lightingContainer;
 @property (nonatomic, strong) FULightingView *lightingView ;
 @property (weak, nonatomic) IBOutlet UIImageView *adjustImage;
+
+/* 动漫滤镜按钮 */
+@property (strong, nonatomic) UIButton *mComicBtn;
+
+/* 针对海报融合的提示框 */
+@property (nonatomic, strong) UILabel *tipLabel;
 @end
 
 @implementation FURenderViewController
@@ -71,6 +83,9 @@ UIImagePickerControllerDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    //曝光补偿条设置
+    [self setupLightingValue];
     
     signal = dispatch_semaphore_create(1);
     [self addObserver];
@@ -118,12 +133,52 @@ UIImagePickerControllerDelegate
             
             self.hairView.itemsArray = self.model.items;
             
-            [[FUManager shareManager] loadItem:@"hair_color"];
+            [[FUManager shareManager] loadItem:@"hair_gradient"];
             [[FUManager shareManager] setHairColor:0];
             [[FUManager shareManager] setHairStrength:0.5];
         }
             break ;
+        case FULiveModelTypePoster:{
+            [self.itemsView removeFromSuperview ];
+            self.itemsView = nil ;
+            [self.makeupContainer removeFromSuperview];
+            self.makeupView = nil ;
+            [self.hairContainer removeFromSuperview];
+            [self.demoBar removeFromSuperview ];
+            self.demoBar = nil ;
+            [self.mHomeBtn setImage:[UIImage imageNamed:@"save_nav_back_n"] forState:UIControlStateNormal];
+            [_photoBtn setType:FUPhotoButtonTypeTakePhoto];
+            
+            _itemsView.hidden = YES;
+            self.selectedImageBtn.hidden = NO;
+            UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"face_contour"]];
+            CGPoint center = self.view.center;
+            center.y = center.y - 50;
+            imageView.center = center;
+            
+            _tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(imageView.frame) + 20, [UIScreen mainScreen].bounds.size.width, 20)];
+            _tipLabel.textAlignment = NSTextAlignmentCenter;
+            _tipLabel.text = NSLocalizedString(@"对准线框 正脸拍摄", nil);
+            _tipLabel.font = [UIFont systemFontOfSize:13];
+            _tipLabel.textColor = [UIColor whiteColor];
+            [self.view addSubview:_tipLabel];
+            
+            
+            [self.view addSubview:imageView];
+            
+        }
+            
+            break ;
         default:{                               // 道具
+            
+            if(self.model.type == FULiveModelTypeAnimoji){//animoji动漫滤镜按钮
+                _mComicBtn = [[UIButton alloc] init];
+                [_mComicBtn setImage:[UIImage imageNamed:@"btn_automaticl_nor"] forState:UIControlStateNormal];
+                [_mComicBtn setImage:[UIImage imageNamed:@"btn_anime filter_sel"] forState:UIControlStateSelected];
+                [_mComicBtn addTarget:self action:@selector(comicBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+                [self.view addSubview:_mComicBtn];
+            }
+            
             
             self.photoBtn.transform = CGAffineTransformMakeTranslation(0, -36) ;
             [self.demoBar removeFromSuperview ];
@@ -135,8 +190,7 @@ UIImagePickerControllerDelegate
             self.itemsView.delegate = self ;
             [self.view addSubview:self.itemsView];
             
-            
-            self.itemsView.itemsArray = self.model.items;
+            [self.itemsView updateCollectionArray:self.model.items];
             
             NSString *selectItem = self.model.items.count > 0 ? self.model.items[0] : @"noitem" ;
             self.itemsView.selectedItem = selectItem ;
@@ -170,6 +224,24 @@ UIImagePickerControllerDelegate
     [self.renderView addGestureRecognizer:tap];
 }
 
+#pragma  mark ----  曝光补偿初始化  -----
+-(void)setupLightingValue{
+    float min ,max,currentV;
+    [self.mCamera getCurrentExposureValue:&currentV max:&max min:&min];
+    
+    //设置默认调节的区间
+    self.lightingView.slider.minimumValue = -2;
+    self.lightingView.slider.maximumValue = 2;
+    if(currentV > 2){
+        currentV = 2;
+    }
+    if (currentV < -2) {
+        currentV = -2;
+    }
+    self.lightingView.slider.value = currentV;
+}
+
+
 -(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
@@ -179,13 +251,17 @@ UIImagePickerControllerDelegate
         CGRect frame = self.itemsView.frame ;
         frame.origin = [[[FUManager shareManager] getPlatformtype] isEqualToString:@"iPhone X"] ? CGPointMake(0, self.view.frame.size.height - frame.size.height - 34) : CGPointMake(0, self.view.frame.size.height - frame.size.height) ; ;
         frame.size = CGSizeMake(self.view.frame.size.width, frame.size.height) ;
-        self.itemsView.frame = frame ;
+        self.itemsView.frame = frame;
+        if (_mComicBtn) {
+            _mComicBtn.frame = CGRectMake(17, CGRectGetMinY(frame) - 17 - 30, 86, 30);
+        }
     }
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+    /* 开启音量拦截*/
+    [_photoBtn startObserveVolumeChangeEvents];
     if (self.model.type == FULiveModelTypeBeautifyFace) {
         
         [self demoBarSetBeautyDefultParams];
@@ -221,19 +297,26 @@ UIImagePickerControllerDelegate
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    /* 关闭音量拦截*/
+    [_photoBtn stopObserveVolumeChangeEvents];
     if (self.model.type == FULiveModelTypeMusicFilter) {
         
-        [self.mCamera removeAudio ];
+        [self.mCamera removeAudio];
         [[FUMusicPlayer sharePlayer] stop];
     }else if (self.model.type == FULiveModelTypeAnimoji) {
         
         [[FUManager shareManager] destoryAnimojiFaxxBundle];
     }
     
+    [self.mCamera resetFocusAndExposureModes];
     [self.mCamera stopCapture];
+    
     // 清除缓存
 //    [[FUManager shareManager] destoryItems];
 //    [[FUManager shareManager] onCameraChange];
+}
+-(void)dealloc{
+    NSLog(@"dealloc---");
 }
 
 -(void)viewDidDisappear:(BOOL)animated {
@@ -257,6 +340,14 @@ UIImagePickerControllerDelegate
         self.lightingView.delegate = self ;
         self.lightingView.hidden = YES ;
     }
+}
+
+#pragma  mark ----  UI Action  -----
+
+
+-(void)comicBtnClick:(UIButton *)btn{
+    btn.selected = !btn.selected;
+    [[FUManager shareManager] changeFilterAnimoji:btn.selected];
 }
 
 static CFAbsoluteTime adjustTime = 0 ;
@@ -292,11 +383,12 @@ static CFAbsoluteTime adjustTime = 0 ;
     }
 }
 
+
+
 - (IBAction)backAction:(UIButton *)sender {
     dispatch_semaphore_wait(signal, DISPATCH_TIME_FOREVER);
     [self.mCamera stopCapture];
     
-    [FUManager shareManager].currentModel = nil ;
     [[FUManager shareManager] destoryItems];
     [[FUManager shareManager] onCameraChange];
     
@@ -331,6 +423,25 @@ static CFAbsoluteTime adjustTime = 0 ;
     self.buglyView.hidden = !self.buglyView.hidden ;
 }
 
+- (IBAction)pickerPhotoClick:(id)sender {
+    
+    if (self.model.type == FULiveModelTypePoster) {
+        [self selectedImage];
+    }else{
+        [self performSegueWithIdentifier:@"sleIamgeView" sender:nil];
+    }
+    
+}
+
+-(UIImage *)captureImage{
+    mCaptureImage = nil;
+    semaphore = dispatch_semaphore_create(0);
+    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+    return mCaptureImage;
+    
+}
+
+
 #pragma mark --- FUCameraDelegate
 
 -(void)didOutputVideoSampleBuffer:(CMSampleBufferRef)sampleBuffer {
@@ -344,6 +455,11 @@ static CFAbsoluteTime adjustTime = 0 ;
     
     if (self.model.type == FULiveModelTypeMusicFilter) {
         [[FUManager shareManager] musicFilterSetMusicTime];
+    }
+    
+    if (!mCaptureImage && semaphore) {//拍照抓图
+        mCaptureImage = [FUImageHelper imageFromPixelBuffer:pixelBuffer];
+        dispatch_semaphore_signal(semaphore);
     }
 
     CFAbsoluteTime frameTime = (CFAbsoluteTimeGetCurrent() - startTime);
@@ -394,7 +510,19 @@ static CFAbsoluteTime adjustTime = 0 ;
         }];
     }];
     
-    [self.mCamera takePhotoAndSave];
+    if (_model.type == FULiveModelTypePoster) {
+        NSLog(@"抓图");
+        UIImage *image = [self captureImage];
+        FUSaveViewController *vc = [[FUSaveViewController alloc] init];
+        vc.view.backgroundColor = [UIColor whiteColor];
+        vc.mImage = image;
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    }else{
+         [self.mCamera takePhotoAndSave];
+    }
+    
+   
 }
 
 /*  开始录像    */
@@ -546,6 +674,9 @@ static CFAbsoluteTime adjustTime = 0 ;
 //        [self.itemsView stopAnimation];
     
     [[FUManager shareManager] loadItem:item];
+    if (self.model.type == FULiveModelTypeAnimoji){//动漫滤镜
+        [[FUManager shareManager] changeFilterAnimoji:_mComicBtn.selected];
+    }
     
     [self.itemsView stopAnimation];
     
@@ -589,6 +720,10 @@ static CFAbsoluteTime adjustTime = 0 ;
 
 - (void)dismissAlertLabel {
     self.alertLabel.hidden = YES ;
+}
+
+-(void)changePosterTip:(NSString *)str{
+    _tipLabel.text = str;
 }
 
 
@@ -645,10 +780,17 @@ static CFAbsoluteTime adjustTime = 0 ;
     if (index == -1) {
         [[FUManager shareManager] setHairColor:0];
         [[FUManager shareManager] setHairStrength:0.0];
-    }else {
-        [[FUManager shareManager] setHairColor:(int)index];
+    }else{
+        if(index < 3) {//渐变色
+         [[FUManager shareManager] loadItem:@"hair_gradient"];
+        [[FUManager shareManager] setHairColor:(int)index + 3];
+        [[FUManager shareManager] setHairStrength:strength];
+         }else{
+        [[FUManager shareManager] loadItem:@"hair_color"];
+        [[FUManager shareManager] setHairColor:(int)index - 3];
         [[FUManager shareManager] setHairStrength:strength];
     }
+  }
 }
 
 #pragma mark ---- FULightingViewDelegate
@@ -668,6 +810,113 @@ static CFAbsoluteTime adjustTime = 0 ;
         }
     });
 }
+
+#pragma  mark ----  Picker photo  -----
+
+- (void)selectedImage{
+    [self showImagePickerWithMediaType:(NSString *)kUTTypeImage];
+}
+
+
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    // 关闭相册
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    FUEditImageViewController *vc = [[FUEditImageViewController alloc] initWithNibName:@"FUEditImageViewController" bundle:nil];
+    vc.view.backgroundColor = [UIColor blackColor];
+    vc.PushFrom = FUEditImagePushFromAlbum;
+    [self.navigationController pushViewController:vc animated:YES];
+    // 图片转正
+    if(image.size.width  > 1500 ||  image.size.height > 1500 ){// 图片转正 + 超大取缩略,这里有点随意，不知道sdk算法
+        int scalew = image.size.width  / 1000;
+        int scaleH = image.size.height  / 1000;
+        
+        int scale = scalew > scaleH ? scalew + 1: scaleH + 1;
+        
+        UIGraphicsBeginImageContext(CGSizeMake(image.size.width / scale, image.size.height / scale));
+        
+        [image drawInRect:CGRectMake(0, 0, image.size.width/scale, image.size.height/scale)];
+        
+        image = UIGraphicsGetImageFromCurrentImageContext();
+        
+        UIGraphicsEndImageContext();
+    }else{
+        
+        UIGraphicsBeginImageContext(CGSizeMake(image.size.width , image.size.height));
+        
+        [image drawInRect:CGRectMake(0, 0, image.size.width, image.size.height)];
+        
+        image = UIGraphicsGetImageFromCurrentImageContext();
+        
+        UIGraphicsEndImageContext();
+    }
+    vc.mPhotoImage = image;
+}
+
+- (UIImage *)normalizedImage:(UIImage *)photoImage{
+    if (photoImage.imageOrientation == UIImageOrientationUp) return photoImage;
+
+    UIGraphicsBeginImageContextWithOptions(photoImage.size, NO, photoImage.scale);
+    [photoImage drawInRect:CGRectMake(0, 0, photoImage.size.width/4, photoImage.size.height/4)];
+    UIImage *normalizedImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return normalizedImage;
+}
+
+
+- (UIImage *)thumbnailWithImageWithoutScale:(UIImage *)image size:(CGSize)asize{
+    UIImage *newimage;
+    if (nil == image) {
+        newimage = nil;
+    }else{
+        CGSize oldsize = image.size;
+        CGRect rect;
+        if (asize.width/asize.height > oldsize.width/oldsize.height) {
+            rect.size.width = asize.height*oldsize.width/oldsize.height;
+            rect.size.height = asize.height;
+            rect.origin.x = (asize.width - rect.size.width)/2;
+            rect.origin.y = 0;
+        }else{
+            rect.size.width = asize.width;
+            rect.size.height = asize.width*oldsize.height/oldsize.width;
+            rect.origin.x = 0;
+            rect.origin.y = (asize.height - rect.size.height)/2;
+        }
+        
+        UIGraphicsBeginImageContext(asize);
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        CGContextSetFillColorWithColor(context, [[UIColor clearColor] CGColor]);
+        UIRectFill(CGRectMake(0, 0, asize.width, asize.height));//clear background
+        [image drawInRect:rect];
+        newimage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+    }
+    return newimage;
+}
+
+
+
+
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    
+    // 关闭相册
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)showImagePickerWithMediaType:(NSString *)mediaType {
+    
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    
+    picker.delegate = self;
+    picker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+    picker.allowsEditing = NO;
+    picker.mediaTypes = @[mediaType] ;
+    [self presentViewController:picker animated:YES completion:nil];
+}
+
+
 
 #pragma mark --- Observer
 

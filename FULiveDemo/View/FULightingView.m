@@ -7,7 +7,7 @@
 //
 
 #import "FULightingView.h"
-#import "FULightingSlider.h"
+
 
 @implementation FULightingView
 {
@@ -42,5 +42,6 @@
         [self.delegate lightingViewValueDidChange:value];
     }
 }
+
 
 @end

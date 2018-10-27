@@ -209,4 +209,99 @@
     }
     return image;
 }
+
+
+
++(CVPixelBufferRef) pixelBufferFromImage:(UIImage *)image {
+    
+    NSDictionary *options = @{
+                              (NSString*)kCVPixelBufferCGImageCompatibilityKey : @YES,
+                              (NSString*)kCVPixelBufferCGBitmapContextCompatibilityKey : @YES,
+                              (NSString*)kCVPixelBufferIOSurfacePropertiesKey: [NSDictionary dictionary]
+                              };
+    
+    CVPixelBufferRef pxbuffer = NULL;
+    CGFloat frameWidth = CGImageGetWidth(image.CGImage);
+    CGFloat frameHeight = CGImageGetHeight(image.CGImage);
+    CVReturn status = CVPixelBufferCreate(
+                                          kCFAllocatorDefault,
+                                          frameWidth,
+                                          frameHeight,
+                                          kCVPixelFormatType_32BGRA,
+                                          (__bridge CFDictionaryRef)options,
+                                          &pxbuffer);
+    
+    NSParameterAssert(status == kCVReturnSuccess && pxbuffer != NULL);
+    
+    CVPixelBufferLockBaseAddress(pxbuffer, 0);
+    
+    void *pxdata = CVPixelBufferGetBaseAddress(pxbuffer);
+    
+    NSParameterAssert(pxdata != NULL);
+    
+    CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
+    
+    CGContextRef context = CGBitmapContextCreate(
+                                                 pxdata,
+                                                 frameWidth,
+                                                 frameHeight,
+                                                 8,
+                                                 CVPixelBufferGetBytesPerRow(pxbuffer),
+                                                 rgbColorSpace, kCGImageAlphaNoneSkipFirst | kCGBitmapByteOrder32Little);
+    NSParameterAssert(context);
+    
+    CGContextConcatCTM(context, CGAffineTransformIdentity);
+    
+    CGContextDrawImage(context, CGRectMake(0, 0, frameWidth, frameHeight), image.CGImage);
+    
+    CGColorSpaceRelease(rgbColorSpace);
+    CGContextRelease(context);
+    CVPixelBufferUnlockBaseAddress(pxbuffer, 0);
+    //    CFRelease(rgbColorSpace) ;
+    
+    return pxbuffer;
+}
+
++(UIImage *)imageFromPixelBuffer:(CVPixelBufferRef)pixelBufferRef {
+    
+    CVPixelBufferLockBaseAddress(pixelBufferRef, 0);
+    
+    CGFloat SW = [UIScreen mainScreen].bounds.size.width;
+    CGFloat SH = [UIScreen mainScreen].bounds.size.height;
+    
+    float width = CVPixelBufferGetWidth(pixelBufferRef);
+    float height = CVPixelBufferGetHeight(pixelBufferRef);
+    
+    float dw = width / SW;
+    float dh = height / SH;
+    
+    float cropW = width;
+    float cropH = height;
+    
+    if (dw > dh) {
+        cropW = SW * dh;
+    }else
+    {
+        cropH = SH * dw;
+    }
+    
+    CGFloat cropX = (width - cropW) * 0.5;
+    CGFloat cropY = (height - cropH) * 0.5;
+    
+    CIImage *ciImage = [CIImage imageWithCVPixelBuffer:pixelBufferRef];
+    
+    CIContext *temporaryContext = [CIContext contextWithOptions:nil];
+    CGImageRef videoImage = [temporaryContext
+                             createCGImage:ciImage
+                             fromRect:CGRectMake(cropX, cropY,
+                                                 cropW,
+                                                 cropH)];
+    
+    UIImage *image = [UIImage imageWithCGImage:videoImage];
+    CGImageRelease(videoImage);
+    CVPixelBufferUnlockBaseAddress(pixelBufferRef, 0);
+    
+    return image;
+}
+
 @end

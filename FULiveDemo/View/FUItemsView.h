@@ -23,7 +23,12 @@
 
 @property (nonatomic, strong) NSString *selectedItem ;
 
+@property (weak, nonatomic) IBOutlet UICollectionView *collection;
+
 @property (nonatomic, assign) id<FUItemsViewDelegate>delegate ;
+
+
+-(void)updateCollectionArray:(NSArray *)itemArray;
 
 - (void)stopAnimation ;
 @end

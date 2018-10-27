@@ -12,4 +12,12 @@
 @interface FUImageHelper : NSObject
 
 + (void) convertUIImageToBitmapRGBA8:(UIImage *) image completionHandler:(void (^)(int32_t size, unsigned char * bits))completionHandler ;
++ (UIImage *) convertBitmapRGBA8ToUIImage:(unsigned char *) buffer
+                                withWidth:(int) width
+                               withHeight:(int) height ;
+
++(CVPixelBufferRef) pixelBufferFromImage:(UIImage *)image;
+
+
++(UIImage *)imageFromPixelBuffer:(CVPixelBufferRef)pixelBufferRef;
 @end

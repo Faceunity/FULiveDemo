@@ -6,11 +6,12 @@ FULiveDemo 是集成了 Faceunity 面部跟踪、美颜、Animoji、道具贴纸
 
 注2：由于最新的含有深度学习的libnama.a大小已超过100M，我们没有上传libnama.a的原文件，只是上传了一个libnama.zip的文件，在你第一次编译工程的时候我们会解压libnama.zip。如果你想从工程目录中获取含有深度学习的libnama.a，并且你没有编译过工程的话，则需要先解压libnama.zip获得libnama.a才行。
 
-## SDK v5.6.1 更新
+## SDK v5.7.0 更新
 
 更新内容
 
-- 优化跟踪抖动
+- 新增海报换脸功能
+- 优化头发分割效果
 
 ## 软件需求
 
@@ -28,11 +29,11 @@ FULiveDemo 是集成了 Faceunity 面部跟踪、美颜、Animoji、道具贴纸
 
 含有深度学习的版本：
 
-	pod 'Nama', '5.6.1' #注意此版本目前为dev版
+	pod 'Nama', '5.7.0' #注意此版本目前为dev版
 
 不含深度学习的版本（lite版）：
 
-	pod 'Nama-lite', '5.6.1' #注意此版本目前为dev版
+	pod 'Nama-lite', '5.7.0' #注意此版本目前为dev版
 
 接下来执行：
 
@@ -44,9 +45,9 @@ FULiveDemo 是集成了 Faceunity 面部跟踪、美颜、Animoji、道具贴纸
 
 ### 二、通过 github 下载集成
 
-含有深度学习的版本：[FaceUnity-SDK-iOS-v5.6.1-dev.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v5.6.1-dev.zip)
+含有深度学习的版本：[FaceUnity-SDK-iOS-v5.7.0-dev.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v5.7.0-dev.zip)
 
-不含深度学习的版本（lite版）：[FaceUnity-SDK-iOS-v5.6.1-dev-lite.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v5.6.1-dev-lite.zip)
+不含深度学习的版本（lite版）：[FaceUnity-SDK-iOS-v5.7.0-dev-lite.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v5.7.0-dev-lite.zip)
 
 下载完成并解压后将库文件夹拖入到工程中，并勾选上 Copy items if needed，如图：
 
@@ -608,42 +609,14 @@ __使用方法__：
 
 ## 鉴权
 
-我们的系统通过标准TLS证书进行鉴权。客户在使用时先从发证机构申请证书，之后将证书数据写在客户端代码中，客户端运行时发回我司服务器进行验证。在证书有效期内，可以正常使用库函数所提供的各种功能。没有证书或者证书失效等鉴权失败的情况会限制库函数的功能，在开始运行一段时间后自动终止。
+我们的系统通过标准TLS证书进行鉴权。客户在使用时先从我司申请证书，之后将证书数据写在客户端代码中，客户端运行时发回我司服务器进行验证。在证书有效期内，可以正常使用库函数所提供的各种功能。没有证书或者证书失效等鉴权失败的情况会限制库函数的功能，在开始运行一段时间后自动终止。
 
-证书类型分为**两种**，分别为**发证机构证书**和**终端用户证书**。
-
-#### - 发证机构证书
-**适用对象**：此类证书适合需批量生成终端证书的机构或公司，比如软件代理商，大客户等。
-
-发证机构的二级CA证书必须由我司颁发，具体流程如下。
-
-1. 机构生成私钥
-机构调用以下命令在本地生成私钥 CERT_NAME.key ，其中 CERT_NAME 为机构名称。
-```
-openssl ecparam -name prime256v1 -genkey -out CERT_NAME.key
-```
-
-2. 机构根据私钥生成证书签发请求
-机构根据本地生成的私钥，调用以下命令生成证书签发请求 CERT_NAME.csr 。在生成证书签发请求的过程中注意在 Common Name 字段中填写机构的正式名称。
-```
-openssl req -new -sha256 -key CERT_NAME.key -out CERT_NAME.csr
-```
-
-3. 将证书签发请求发回我司颁发机构证书
-
-之后发证机构就可以独立进行终端用户的证书发行工作，不再需要我司的配合。
-
-如果需要在终端用户证书有效期内终止证书，可以由机构自行用OpenSSL吊销，然后生成pem格式的吊销列表文件发给我们。例如如果要吊销先前误发的 "bad_client.crt"，可以如下操作：
-```
-openssl ca -config ca.conf -revoke bad_client.crt -keyfile CERT_NAME.key -cert CERT_NAME.crt
-openssl ca -config ca.conf -gencrl -keyfile CERT_NAME.key -cert CERT_NAME.crt -out CERT_NAME.crl.pem
-```
-然后将生成的 CERT_NAME.crl.pem 发回给我司。
+### 证书类型：
 
 #### - 终端用户证书
 **适用对象**：直接的终端证书使用者。比如，直接客户或个人等。
 
-终端用户由我司或者其他发证机构颁发证书，并通过我司的证书工具生成一个代码头文件交给用户。该文件中是一个常量数组，内容是加密之后的证书数据，形式如下。
+终端用户由我司颁发证书，并通过我司的证书工具生成一个代码头文件交给用户。该文件中是一个常量数组，内容是加密之后的证书数据，形式如下。
 ```
 static char g_auth_package[]={ ... }
 ```

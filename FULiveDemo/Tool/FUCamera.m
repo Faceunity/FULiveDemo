@@ -77,7 +77,7 @@ typedef enum : NSUInteger {
     }
 }
 
-- (void)addAudio    {
+- (void)addAudio{
     if ([_captureSession canAddOutput:self.audioOutput]) {
         [_captureSession addOutput:self.audioOutput];
     }
@@ -290,18 +290,24 @@ typedef enum : NSUInteger {
     if (_captureFormat == captureFormat) {
         return;
     }
-    
+
     _captureFormat = captureFormat;
     
     if (((NSNumber *)[[_videoOutput videoSettings] objectForKey:(id)kCVPixelBufferPixelFormatTypeKey]).intValue != captureFormat) {
         
         [_videoOutput setVideoSettings:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:_captureFormat] forKey:(id)kCVPixelBufferPixelFormatTypeKey]];
+        if ([self.camera lockForConfiguration:nil]){
+            [self.camera setExposureMode:AVCaptureExposureModeContinuousAutoExposure];
+            [self.camera unlockForConfiguration];
+        }
     }
+    
 }
 
 
-- (void)setFocusPoint:(CGPoint)focusPoint
-{
+- (void)setFocusPoint:(CGPoint)focusPoint{
+    // NSLog(@"camera----对焦点----%@",NSStringFromCGPoint(focusPoint));
+    _focusPoint = focusPoint;
     if (!self.focusPointSupported) {
         return;
     }
@@ -317,13 +323,9 @@ typedef enum : NSUInteger {
     [self.camera unlockForConfiguration];
 }
 
-- (BOOL)focusPointSupported
-{
-    return self.camera.focusPointOfInterestSupported;
-}
-
-- (void)setExposurePoint:(CGPoint)exposurePoint
-{
+- (void)setExposurePoint:(CGPoint)exposurePoint{
+    _exposurePoint = exposurePoint;
+   // NSLog(@"camera----曝光点----%@",NSStringFromCGPoint(exposurePoint));
     if (!self.exposurePointSupported) {
         return;
     }
@@ -335,10 +337,46 @@ typedef enum : NSUInteger {
     }
     self.camera.exposureMode = AVCaptureExposureModeLocked;
     self.camera.exposurePointOfInterest = exposurePoint;
-    self.camera.exposureMode = AVCaptureExposureModeContinuousAutoExposure;
+    self.camera.exposureMode = AVCaptureExposureModeAutoExpose;
     
     [self.camera unlockForConfiguration];
 }
+
+/**
+ * 切换回连续对焦和曝光模式
+ * 中心店对焦和曝光(centerPoint)
+ */
+- (void)resetFocusAndExposureModes {
+    AVCaptureFocusMode focusMode = AVCaptureFocusModeContinuousAutoFocus;
+    BOOL canResetFocus = [self.camera isFocusPointOfInterestSupported] && [self.camera isFocusModeSupported:focusMode];
+    
+    AVCaptureExposureMode exposureMode = AVCaptureExposureModeContinuousAutoExposure;
+    BOOL canResetExposure = [self.camera isExposurePointOfInterestSupported] && [self.camera isExposureModeSupported:exposureMode];
+    
+    CGPoint centerPoint = CGPointMake(0.5f, 0.5f);
+    
+    NSError *error;
+    if ([self.camera lockForConfiguration:&error]) {
+        if (canResetFocus) {
+            self.camera.focusMode = focusMode;
+            self.camera.focusPointOfInterest = centerPoint;
+        }
+        if (canResetExposure) {
+            self.camera.exposureMode = exposureMode;
+            self.camera.exposurePointOfInterest = centerPoint;
+        }
+        [self.camera unlockForConfiguration];
+    } else {
+        NSLog(@"%@",error);
+    }
+    
+}
+
+- (BOOL)focusPointSupported
+{
+    return self.camera.focusPointOfInterestSupported;
+}
+
 
 - (BOOL)exposurePointSupported
 {
@@ -351,8 +389,7 @@ typedef enum : NSUInteger {
     return self.cameraPosition == AVCaptureDevicePositionFront;
 }
 
-- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
-{
+- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection{
     if (captureOutput == self.audioOutput) {
         
         if (runMode == VideoRecordMode) {
@@ -523,14 +560,19 @@ typedef enum : NSUInteger {
     [self.videoConnection setVideoOrientation:orientation];
 }
 
+- (void)getCurrentExposureValue:(float *)current max:(float *)max min:(float *)min{
+    *min = self.camera.minExposureTargetBias;
+    *max = self.camera.maxExposureTargetBias;
+    *current = self.camera.exposureTargetBias;
+
+}
+
 - (void)setExposureValue:(float)value {
+//    NSLog(@"camera----曝光值----%lf",value);
     NSError *error;
-    if ([self.camera lockForConfiguration:&error])
-    {
-        CGFloat minISO = self.camera.activeFormat.minISO;
-        CGFloat maxISO = self.camera.activeFormat.maxISO;
-        CGFloat currentISO = (maxISO - minISO) * (value + 4.0) / 8.0 * 0.25 + minISO;
-        [self.camera setExposureModeCustomWithDuration:AVCaptureExposureDurationCurrent ISO:currentISO completionHandler:nil];
+    if ([self.camera lockForConfiguration:&error]){
+        [self.camera setExposureMode:AVCaptureExposureModeContinuousAutoExposure];
+        [self.camera setExposureTargetBias:value completionHandler:nil];
         [self.camera unlockForConfiguration];
     }else{
     }

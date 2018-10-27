@@ -12,6 +12,7 @@
 #import "FULiveCell.h"
 #import "FURenderViewController.h"
 #import <SVProgressHUD.h>
+#import "FUPosterListViewController.h"
 
 @interface ViewController ()
 
@@ -85,8 +86,16 @@
     }
     
     self.collection.userInteractionEnabled = NO ;
-    [self performSegueWithIdentifier:@"showFULiveView" sender:model];
-    
+    if ([model.title isEqualToString:@"海报换脸"]) {
+        FUPosterListViewController *posterListVC = [[FUPosterListViewController alloc] init];
+        posterListVC.model = model;
+        [FUManager shareManager].currentModel = model;
+        [self.navigationController pushViewController:posterListVC animated:YES];
+
+    }else{
+        [self performSegueWithIdentifier:@"showFULiveView" sender:model];
+    }
+
     collectionView.userInteractionEnabled = YES ;
 }
 

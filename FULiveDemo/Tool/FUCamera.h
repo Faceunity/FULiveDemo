@@ -46,4 +46,9 @@
 - (void)setCaptureVideoOrientation:(AVCaptureVideoOrientation)orientation;
 
 - (void)setExposureValue:(float)value ;
+
+/* 获取当前曝光补偿信息 */
+- (void)getCurrentExposureValue:(float *)current max:(float *)max min:(float *)min;
+/* 重置曝光,将对焦点和曝光点放在中心位置 */
+- (void)resetFocusAndExposureModes;
 @end

@@ -75,16 +75,12 @@
 		</array>
 		<key>items</key>
 		<array>
-
 			<string>frog_Animoji</string>
 			<string>huangya_Animoji</string>
-
 			<string>hetun_Animoji</string>
-			<string>buoutuzi_Animoji</string>
 			<string>douniuquan_Animoji</string>
 			<string>hashiqi_Animoji</string>
 			<string>baimao_Animoji</string>
-			<string>chaiquan_Animoji</string>
 			<string>kuloutou_Animoji</string>
 		</array>
 	</dict>
@@ -103,6 +99,9 @@
 		</array>
 		<key>items</key>
 		<array>
+			<string>icon_gradualchangehair_04</string>
+			<string>icon_gradualchangehair_05</string>
+			<string>icon_gradualchangehair_06</string>
 			<string>hair_color_1</string>
 			<string>hair_color_2</string>
 			<string>hair_color_3</string>
@@ -164,6 +163,31 @@
 			<string>mask_huangxiaoming</string>
 			<string>mask_matianyu</string>
 			<string>mask_tongliya</string>
+		</array>
+	</dict>
+	<dict>
+		<key>itemName</key>
+		<string>海报换脸</string>
+		<key>maxFace</key>
+		<integer>4</integer>
+		<key>enble</key>
+		<false/>
+		<key>itemType</key>
+		<integer>12</integer>
+		<key>modules</key>
+		<array>
+			<integer>128</integer>
+		</array>
+		<key>items</key>
+		<array>
+			<string>poster1</string>
+			<string>poster2</string>
+			<string>poster3</string>
+			<string>poster4</string>
+			<string>poster5</string>
+			<string>poster6</string>
+			<string>poster7</string>
+			<string>poster8</string>
 		</array>
 	</dict>
 	<dict>
@@ -247,6 +271,9 @@
 		</array>
 		<key>items</key>
 		<array>
+			<string>ctrl_rain</string>
+			<string>ctrl_snow</string>
+			<string>ctrl_flower</string>
 			<string>fu_lm_koreaheart</string>
 			<string>fu_ztt_live520</string>
 			<string>ssd_thread_cute</string>

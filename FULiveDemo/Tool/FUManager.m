@@ -14,11 +14,12 @@
 #import <CoreMotion/CoreMotion.h>
 #import "FUMusicPlayer.h"
 #import "FUImageHelper.h"
+#import "FURenderer+header.h"
 
 @interface FUManager ()
 {
     //MARK: Faceunity
-    int items[11];
+    int items[12];
     int frameID;
     
     NSDictionary *hintDic;
@@ -28,6 +29,11 @@
 
 @property (nonatomic, strong) CMMotionManager *motionManager;
 @property (nonatomic) int deviceOrientation;
+/* 重力感应道具 */
+@property (nonatomic,assign) BOOL isMotionItem;
+/* 当前加载的道具资源 */
+@property (nonatomic,copy) NSString *currentBoudleName;
+
 @end
 
 static FUManager *shareManager = NULL;
@@ -47,6 +53,7 @@ static FUManager *shareManager = NULL;
 - (instancetype)init
 {
     if (self = [super init]) {
+        [self setupDeviceMotion];
         
         NSString *path = [[NSBundle mainBundle] pathForResource:@"v3.bundle" ofType:nil];
         
@@ -94,14 +101,6 @@ static FUManager *shareManager = NULL;
                      };
         
         [self loadItemDataSource];
-        
-        // 初始化陀螺仪
-        self.motionManager = [[CMMotionManager alloc] init];
-        self.motionManager.accelerometerUpdateInterval = 0.5;// 1s刷新一次
-        
-        if ([self.motionManager isDeviceMotionAvailable]) {
-            [self.motionManager startAccelerometerUpdates];
-        }
         
         // 默认竖屏
         self.deviceOrientation = 0 ;
@@ -299,6 +298,16 @@ static FUManager *shareManager = NULL;
     [self setBeautyDefaultParameters];
 }
 
+
+- (void)destoryItem:(int)index{
+    /**后销毁老道具句柄*/
+    if (items[index] != 0) {
+        NSLog(@"faceunity: destroy item");
+        [FURenderer destroyItem:items[3]];
+    }
+}
+
+
 /**
  获取item的提示语
 
@@ -369,6 +378,13 @@ static FUManager *shareManager = NULL;
     	if ([itemName isEqualToString:@"luhantongkuan_ztt_fu"]) {
         	[FURenderer itemSetParam:itemHandle withName:@"flip_action" value:@(1)];
     	}
+        
+        if ([itemName isEqualToString:@"ctrl_rain"] || [itemName isEqualToString:@"ctrl_snow"] || [itemName isEqualToString:@"ctrl_flower"]) {//带重力感应道具
+            [FURenderer itemSetParam:itemHandle withName:@"rotMode" value:@(self.deviceOrientation)];
+            self.isMotionItem = YES;
+        }else{
+            self.isMotionItem = NO;
+        }
         
         /**将刚刚创建的句柄存放在items[1]中*/
         items[1] = itemHandle;
@@ -445,6 +461,24 @@ static FUManager *shareManager = NULL;
     items[2] = [FURenderer itemWithContentsOfFile:path];
 }
 
+/* 加载海报合成 */
+- (void)loadPoster
+{
+    if (items[2] != 0) {
+        [FURenderer destroyItem:items[2]];
+        items[2] = 0;
+    }
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"change_face_test.bundle" ofType:nil];
+    items[2] = [FURenderer itemWithContentsOfFile:path];
+}
+
+-(void)destroyItemPoster{
+    if (items[2] != 0) {
+        [FURenderer destroyItem:items[2]];
+        items[2] = 0;
+    }
+}
+
 /**设置美颜参数*/
 - (void)setBeautyParams {
     
@@ -497,25 +531,19 @@ static FUManager *shareManager = NULL;
 - (CVPixelBufferRef)renderItemsToPixelBuffer:(CVPixelBufferRef)pixelBuffer
 {
 	// 在未识别到人脸时根据重力方向设置人脸检测方向
-    if (![FURenderer isTracking]) {
-
-        CMAcceleration acceleration = self.motionManager.accelerometerData.acceleration ;
-
-        int orientation = 0;
-        if (acceleration.x >= 0.75) {
-            orientation = 3;
-        } else if (acceleration.x <= -0.75) {
-            orientation = 1;
-        } else if (acceleration.y <= -0.75) {
-            orientation = 0;
-        } else if (acceleration.y >= 0.75) {
-            orientation = 2;
+    if ([self isDeviceMotionChange]) {
+          fuSetDefaultOrientation(self.deviceOrientation);
+        if (self.isMotionItem) {
+            [FURenderer itemSetParam:items[1] withName:@"rotMode" value:@(self.deviceOrientation)];
         }
-
-        if (self.deviceOrientation != orientation) {
-            self.deviceOrientation = orientation ;
-
-            fuSetDefaultOrientation(self.deviceOrientation) ;
+        
+    }
+    
+    if ([_currentBoudleName isEqualToString:@"fuzzytoonfilter"]) {//动漫滤镜需要兼容老版本
+        if ( [EAGLContext currentContext].API <= 2) {
+            [FURenderer itemSetParam:items[2] withName:@"glVer" value:@(2)];
+        }else{
+            [FURenderer itemSetParam:items[2] withName:@"glVer" value:@(3)];
         }
     }
     
@@ -525,10 +553,157 @@ static FUManager *shareManager = NULL;
     /*Faceunity核心接口，将道具及美颜效果绘制到pixelBuffer中，执行完此函数后pixelBuffer即包含美颜及贴纸效果*/
     CVPixelBufferRef buffer = [[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:sizeof(items)/sizeof(int) flipx:YES];//flipx 参数设为YES可以使道具做水平方向的镜像翻转
     frameID += 1;
-    
     return buffer;
 }
 
+
+
+- (UIImage *)renderItemsToImage:(UIImage *)image{
+    
+    int postersWidth = (int)CGImageGetWidth(image.CGImage);
+    int postersHeight = (int)CGImageGetHeight(image.CGImage);
+    CFDataRef dataFromImageDataProvider = CGDataProviderCopyData(CGImageGetDataProvider(image.CGImage));
+    GLubyte *imageData = (GLubyte *)CFDataGetBytePtr(dataFromImageDataProvider);
+    
+    [[FURenderer shareRenderer] renderItems:imageData inFormat:FU_FORMAT_BGRA_BUFFER outPtr:imageData outFormat:FU_FORMAT_BGRA_BUFFER width:postersWidth height:postersHeight frameId:frameID items:items itemCount:sizeof(items)/sizeof(int) flipx:NO];
+
+    frameID++;
+    /* 转回image */
+    image = [FUImageHelper convertBitmapRGBA8ToUIImage:imageData withWidth:postersWidth withHeight:postersHeight];
+    CFRelease(dataFromImageDataProvider);
+    
+    return image;
+}
+
+-(void)productionPoster:(UIImage *)posterImage photo:(UIImage *)photoImage photoLandmarks:(float *)photoLandmarks{
+    [self destoryItems];
+    [self loadPoster];
+
+    int postersWidth = (int)CGImageGetWidth(posterImage.CGImage);
+    int postersHeight = (int)CGImageGetHeight(posterImage.CGImage);
+    int postersBytesPerPixel = 4;
+    int postersBytesPerRow = postersBytesPerPixel * postersWidth * postersHeight;
+    
+    CFDataRef posterDataFromImageDataProvider = CGDataProviderCopyData(CGImageGetDataProvider(posterImage.CGImage));
+    GLubyte *posterData = (GLubyte *)CFDataGetBytePtr(posterDataFromImageDataProvider);
+
+
+    int photoWidth = (int)CGImageGetWidth(photoImage.CGImage);
+    int photoHeight = (int)CGImageGetHeight(photoImage.CGImage);
+    int photoBytesPerPixel = 4;
+    int photoBytesPerRow = photoBytesPerPixel * photoWidth * photoHeight;
+    CFDataRef photoDataFromImageDataProvider = CGDataProviderCopyData(CGImageGetDataProvider(photoImage.CGImage));
+    GLubyte *photoData = (GLubyte *)CFDataGetBytePtr(photoDataFromImageDataProvider);
+    
+    
+//    fuOnCameraChange();
+//    float photoLandmarks[150];
+//    for (int i = 0; i<40; i++) {
+//        [FURenderer trackFace:FU_FORMAT_BGRA_BUFFER inputData:photoData width:photoWidth height:photoHeight];
+//    }
+//    /* 检测人脸，放在控制 */
+//    int ret = [FURenderer getFaceInfo:index name:@"landmarks" pret:photoLandmarks number:150];
+//    if (ret == 0) {
+//        memset(photoLandmarks, 0, sizeof(float)*150);
+//    }
+
+    CFAbsoluteTime startTime0 = CFAbsoluteTimeGetCurrent();
+    fuOnCameraChange();
+    float posterLandmarks[150];
+    int endI = 0;
+    for (int i = 0; i<50; i++) {//校验出人脸再trsckFace 5次
+        [FURenderer trackFace:FU_FORMAT_BGRA_BUFFER inputData:posterData width:postersWidth height:postersHeight];
+        if ([FURenderer isTracking] > 0) {
+            if (endI == 0) {
+                endI = i;
+            }
+            if (i > endI + 5) {
+                break;
+            }
+        }
+    }
+    
+   int ret = [FURenderer getFaceInfo:0 name:@"landmarks" pret:posterLandmarks number:150];
+    if (ret == 0) {
+        memset(posterLandmarks, 0, sizeof(float)*150);
+    }
+    CFAbsoluteTime endTime0 = (CFAbsoluteTimeGetCurrent() - startTime0);
+    NSLog(@"-------photo----------postersLandmarks+trackFace: %f ms", endTime0 * 1000.0);
+
+    double poster[150];
+    double photo[150];
+    
+    for (int i = 0; i < 150; i ++) {
+        poster[i] = (double)posterLandmarks[i];
+        photo[i]  = (double)photoLandmarks[i];
+    }
+    
+    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+    [[FURenderer shareRenderer] setUpCurrentContext];
+    /* 照片 */
+    fuItemSetParamd(items[2], "input_width", photoWidth);
+    fuItemSetParamd(items[2], "input_height", photoHeight);
+    fuItemSetParamdv(items[2], "input_face_points", photo, 150);
+    fuItemSetParamu8v(items[2], "tex_input", photoData, photoBytesPerRow);
+    
+    /* 模板海报 */
+    fuItemSetParamd(items[2], "template_width", postersWidth);
+    fuItemSetParamd(items[2], "template_height", postersHeight);
+    fuItemSetParamdv(items[2], "template_face_points", poster, 150);
+    fuItemSetParamu8v(items[2], "tex_template", posterData, postersBytesPerRow);
+    [[FURenderer shareRenderer] setBackCurrentContext];
+    
+    CFRelease(posterDataFromImageDataProvider);
+    CFRelease(photoDataFromImageDataProvider);
+    CFAbsoluteTime endTime = (CFAbsoluteTimeGetCurrent() - startTime);
+    NSLog(@"-------photo----------setParameter: %f ms", endTime * 1000.0);
+}
+
+
+//- (void *)dataFromImage:(UIImage *)image{
+//    CFDataRef dataFromImageDataProvider = CGDataProviderCopyData(CGImageGetDataProvider(image.CGImage));
+//    GLubyte *imageData = (GLubyte *)CFDataGetBytePtr(dataFromImageDataProvider);
+//    CGSize size = image.size;
+//
+//    CFRelease(dataFromImageDataProvider);
+//
+//}
+
+
+- (unsigned char *)pixelBRGABytesFromImage:(UIImage *)image {
+    return [self pixelBRGABytesFromImageRef:image.CGImage];
+}
+
+- (unsigned char *)pixelBRGABytesFromImageRef:(CGImageRef)imageRef {
+    
+    NSUInteger iWidth = CGImageGetWidth(imageRef);
+    NSUInteger iHeight = CGImageGetHeight(imageRef);
+    NSUInteger iBytesPerPixel = 4;
+    NSUInteger iBytesPerRow = iBytesPerPixel * iWidth;
+    NSUInteger iBitsPerComponent = 8;
+    unsigned char *imageBytes = malloc(iWidth * iHeight * iBytesPerPixel);
+    
+    CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
+    
+    CGContextRef context = CGBitmapContextCreate(imageBytes,
+                                                 iWidth,
+                                                 iHeight,
+                                                 iBitsPerComponent,
+                                                 iBytesPerRow,
+                                                 colorspace,
+                                                 kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedLast);
+    
+    CGRect rect = CGRectMake(0 , 0 , iWidth , iHeight);
+    CGContextDrawImage(context , rect ,imageRef);
+    CGColorSpaceRelease(colorspace);
+    CGContextRelease(context);
+    CGImageRelease(imageRef);
+    
+    return imageBytes;
+}
+
+
+/* 考锯齿 */
 - (void)set3DFlipH {
     
     [FURenderer itemSetParam:items[1] withName:@"is3DFlipH" value:@(1)];
@@ -545,6 +720,42 @@ static FUManager *shareManager = NULL;
     
     [FURenderer itemSetParam:items[1] withName:@"music_time" value:@([FUMusicPlayer sharePlayer].currentTime * 1000 + 50)];//需要加50ms的延迟
 }
+
+#pragma  mark ----  动漫滤镜  -----
+/* 关闭开启动漫滤镜 */
+- (void)changeFilterAnimoji:(BOOL)isAdd{
+    [self changeGlobal:isAdd];//
+    if (isAdd) {
+        if (items[2] == 0) {
+            NSString *path = [[NSBundle mainBundle] pathForResource:@"fuzzytoonfilter.bundle" ofType:nil];
+            int itemHandle = [FURenderer itemWithContentsOfFile:path];
+            self.currentBoudleName = @"fuzzytoonfilter";
+            if ( [EAGLContext currentContext].API == 2) {
+                [FURenderer itemSetParam:items[2] withName:@"glVer" value:@(3)];
+            }else{
+                [FURenderer itemSetParam:items[2] withName:@"glVer" value:@(2)];
+            }
+            items[2] = itemHandle;            
+        }
+    }else{
+        if (items[2] != 0){
+            [FURenderer destroyItem:items[2]];
+        }
+        items[2] = 0;
+        self.currentBoudleName = @"";
+    }
+}
+
+/* animoji跟踪 */
+-(void)changeGlobal:(BOOL)isOn{
+    if (isOn) {
+        [FURenderer itemSetParam:items[1] withName:@"{\"thing\":\"<global>\",\"param\":\"follow\"}" value:@(1)];
+    }else{
+        [FURenderer itemSetParam:items[1] withName:@"{\"thing\":\"<global>\",\"param\":\"follow\"}" value:@(0)];
+    }
+}
+
+
 
 /**获取图像中人脸中心点*/
 - (CGPoint)getFaceCenterInFrameSize:(CGSize)frameSize{
@@ -582,14 +793,47 @@ static FUManager *shareManager = NULL;
 }
 
 /**获取75个人脸特征点*/
-- (void)getLandmarks:(float *)landmarks
+- (void)getLandmarks:(float *)landmarks index:(int)index;
 {
-    int ret = [FURenderer getFaceInfo:0 name:@"landmarks" pret:landmarks number:150];
+    int ret = [FURenderer getFaceInfo:index name:@"landmarks" pret:landmarks number:150];
     
     if (ret == 0) {
         memset(landmarks, 0, sizeof(float)*150);
     }
 }
+
+- (CGRect)getFaceRectWithIndex:(int)index size:(CGSize)renderImageSize{
+    CGRect rect = CGRectZero ;
+    float faceRect[4];
+    
+    [FURenderer getFaceInfo:index name:@"face_rect" pret:faceRect number:4];
+    
+    CGFloat centerX = (faceRect[0] + faceRect[2]) * 0.5;
+    CGFloat centerY = (faceRect[1] + faceRect[3]) * 0.5;
+    CGFloat width = faceRect[2] - faceRect[0] ;
+    CGFloat height = faceRect[3] - faceRect[1] ;
+    
+    centerX = renderImageSize.width - centerX;
+    centerX = centerX / renderImageSize.width;
+    
+    centerY = renderImageSize.height - centerY;
+    centerY = centerY / renderImageSize.height;
+    
+    width = width / renderImageSize.width ;
+    
+    height = height / renderImageSize.height ;
+    
+    CGPoint center = CGPointMake(centerX, centerY);
+    
+    CGSize size = CGSizeMake(width, height) ;
+    
+    rect.origin = CGPointMake(center.x - size.width / 2.0, center.y - size.height / 2.0) ;
+    rect.size = size ;
+    
+    
+    return rect ;
+}
+
 
 /**判断是否检测到人脸*/
 - (BOOL)isTracking
@@ -626,6 +870,44 @@ static FUManager *shareManager = NULL;
     NSString *version = [FURenderer getVersion];
     return [version containsString:@"lite"];
 }
+
+
+
+#pragma  mark ----  重力感应  -----
+-(void)setupDeviceMotion{
+    
+    // 初始化陀螺仪
+    self.motionManager = [[CMMotionManager alloc] init];
+    self.motionManager.accelerometerUpdateInterval = 0.5;// 1s刷新一次
+    
+    if ([self.motionManager isDeviceMotionAvailable]) {
+       [self.motionManager startAccelerometerUpdates];
+    }
+}
+
+#pragma  mark ----  设备类型  -----
+-(BOOL)isDeviceMotionChange{
+    if (![FURenderer isTracking]) {
+        CMAcceleration acceleration = self.motionManager.accelerometerData.acceleration ;
+        int orientation = 0;
+        if (acceleration.x >= 0.75) {
+            orientation = 3;
+        } else if (acceleration.x <= -0.75) {
+            orientation = 1;
+        } else if (acceleration.y <= -0.75) {
+            orientation = 0;
+        } else if (acceleration.y >= 0.75) {
+            orientation = 2;
+        }
+        
+        if (self.deviceOrientation != orientation) {
+            self.deviceOrientation = orientation ;
+            return YES;
+        }
+    }
+    return NO;
+}
+
 
 
 - (NSString *)getPlatformtype {

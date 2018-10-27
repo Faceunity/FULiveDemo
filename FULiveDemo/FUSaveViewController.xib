@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FUSaveViewController">
+            <connections>
+                <outlet property="closeBtn" destination="JH1-0f-Kgl" id="cvh-Hq-NtS"/>
+                <outlet property="doneBtn" destination="xfp-WO-Mhf" id="r62-bD-X6I"/>
+                <outlet property="mImageView" destination="ET3-ny-JbL" id="Pb1-kH-PGN"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ET3-ny-JbL">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JH1-0f-Kgl">
+                    <rect key="frame" x="68" y="567" width="67" height="67"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="67" id="2DQ-GT-23L"/>
+                        <constraint firstAttribute="width" constant="67" id="U7b-nR-ypz"/>
+                    </constraints>
+                    <state key="normal" image="save_close"/>
+                    <connections>
+                        <action selector="closeAction:" destination="-1" eventType="touchUpInside" id="iH3-LO-wpI"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xfp-WO-Mhf">
+                    <rect key="frame" x="240" y="567" width="67" height="67"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="67" id="HtR-Wa-sj1"/>
+                        <constraint firstAttribute="width" constant="67" id="VqM-Zp-IZm"/>
+                    </constraints>
+                    <state key="normal" image="save_done"/>
+                    <connections>
+                        <action selector="doneAction:" destination="-1" eventType="touchUpInside" id="eoC-Tl-9OI"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="xfp-WO-Mhf" firstAttribute="centerX" secondItem="ET3-ny-JbL" secondAttribute="centerX" constant="86" id="8Rp-I0-nBu"/>
+                <constraint firstItem="xfp-WO-Mhf" firstAttribute="centerY" secondItem="JH1-0f-Kgl" secondAttribute="centerY" id="YSH-cu-na0"/>
+                <constraint firstItem="ET3-ny-JbL" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="cu4-gH-9GJ"/>
+                <constraint firstAttribute="bottom" secondItem="ET3-ny-JbL" secondAttribute="bottom" id="djb-ts-XO7"/>
+                <constraint firstAttribute="bottomMargin" secondItem="JH1-0f-Kgl" secondAttribute="bottom" constant="33" id="gd2-JX-Vdr"/>
+                <constraint firstAttribute="trailing" secondItem="ET3-ny-JbL" secondAttribute="trailing" id="kOm-aC-dfp"/>
+                <constraint firstItem="ET3-ny-JbL" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="sKO-6h-e6x"/>
+                <constraint firstItem="JH1-0f-Kgl" firstAttribute="centerX" secondItem="ET3-ny-JbL" secondAttribute="centerX" constant="-86" id="vZU-Ce-pTv"/>
+            </constraints>
+            <point key="canvasLocation" x="33.5" y="53.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="save_close" width="67" height="67"/>
+        <image name="save_done" width="67" height="67"/>
+    </resources>
+</document>

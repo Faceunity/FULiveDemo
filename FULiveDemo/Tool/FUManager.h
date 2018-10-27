@@ -75,13 +75,35 @@
 
 /**销毁全部道具*/
 - (void)destoryItems;
+/* 销毁指定道具
+ */
+- (void)destoryItem:(int)index;
 
 /**加载普通道具*/
 - (void)loadItem:(NSString *)itemName;
 
+/* 添加动漫滤镜 */
+- (void)changeFilterAnimoji:(BOOL)isAdd;
+/**
+ 合成海报输入参数
+
+ @param posterImage 海报模板照片
+ @param photoImage 人脸照片
+ @param photoLandmarks 要处理人脸点位
+ */
+-(void)productionPoster:(UIImage *)posterImage photo:(UIImage *)photoImage photoLandmarks:(float *)photoLandmarks;
+/* 海报合成 */
+- (UIImage *)renderItemsToImage:(UIImage *)image;
+
+
 /**加载美妆道具*/
 - (void)loadMakeupItemWithType:(NSInteger)typeIndex itemName:(NSString *)itemName ;
 - (void)setHairStrength:(float)strength;
+
+/* 加载海报道具 */
+- (void)loadPoster;
+/* 销毁海报道具 */
+- (void)destroyItemPoster;
 
 - (void)loadAnimojiFaxxBundle ;
 
@@ -110,7 +132,7 @@
 - (void)setLoc_xy_flip ;
 
 /**获取75个人脸特征点*/
-- (void)getLandmarks:(float *)landmarks;
+- (void)getLandmarks:(float *)landmarks index:(int)index;
 
 /**
  获取图像中人脸中心点位置

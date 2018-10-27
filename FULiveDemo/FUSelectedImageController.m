@@ -9,8 +9,14 @@
 #import "FUSelectedImageController.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "FURenderImageViewController.h"
+#import "FUManager.h"
+#import "FULiveModel.h"
+#import "FUEditImageViewController.h"
 
 @interface FUSelectedImageController ()<UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@property (weak, nonatomic) IBOutlet UIButton *mSelImageBtn;
+@property (weak, nonatomic) IBOutlet UIButton *mSelVideoBtn;
+@property (weak, nonatomic) IBOutlet UILabel *mLable;
 
 @end
 
@@ -46,7 +52,7 @@
         UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
         
         // 图片转正
-        if (image.imageOrientation != UIImageOrientationUp || image.imageOrientation != UIImageOrientationUpMirrored) {
+        if (image.imageOrientation != UIImageOrientationUp && image.imageOrientation != UIImageOrientationUpMirrored) {
             
             UIGraphicsBeginImageContext(CGSizeMake(image.size.width * 0.5, image.size.height * 0.5));
             
