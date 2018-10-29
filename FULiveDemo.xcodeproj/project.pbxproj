@@ -207,7 +207,7 @@
 		0BFCF75A206CC86B001AFBE2 /* WCLRecordEncoder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0BFCF758206CC86A001AFBE2 /* WCLRecordEncoder.mm */; };
 		1489B052F80EF752AAACF444 /* libPods-FULiveDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 26534FD6B7B039E164CB3E2B /* libPods-FULiveDemo.a */; };
 		CD49E6D52184712400814AF5 /* fuzzytoonfilter.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD49E6D42184712400814AF5 /* fuzzytoonfilter.bundle */; };
-		CD4D6EA621796EA400E02F39 /* change_face_test.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD4D6EA521796EA400E02F39 /* change_face_test.bundle */; };
+		CD4D6EA621796EA400E02F39 /* change_face.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CD4D6EA521796EA400E02F39 /* change_face.bundle */; };
 		CDA60866216F436F00A3DA93 /* kuloutou_Animoji.png in Resources */ = {isa = PBXBuildFile; fileRef = CDA60854216F436D00A3DA93 /* kuloutou_Animoji.png */; };
 		CDA60867216F436F00A3DA93 /* baimao_Animoji.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CDA60855216F436D00A3DA93 /* baimao_Animoji.bundle */; };
 		CDA6086A216F436F00A3DA93 /* hetun_Animoji.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CDA60858216F436E00A3DA93 /* hetun_Animoji.bundle */; };
@@ -533,7 +533,7 @@
 		26534FD6B7B039E164CB3E2B /* libPods-FULiveDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FULiveDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		29B79CC7B81FD9FA254B7E7E /* Pods-FULiveDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FULiveDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FULiveDemo/Pods-FULiveDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		CD49E6D42184712400814AF5 /* fuzzytoonfilter.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = fuzzytoonfilter.bundle; sourceTree = "<group>"; };
-		CD4D6EA521796EA400E02F39 /* change_face_test.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = change_face_test.bundle; sourceTree = "<group>"; };
+		CD4D6EA521796EA400E02F39 /* change_face.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = change_face.bundle; sourceTree = "<group>"; };
 		CDA60854216F436D00A3DA93 /* kuloutou_Animoji.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kuloutou_Animoji.png; sourceTree = "<group>"; };
 		CDA60855216F436D00A3DA93 /* baimao_Animoji.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = baimao_Animoji.bundle; sourceTree = "<group>"; };
 		CDA60858216F436E00A3DA93 /* hetun_Animoji.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = hetun_Animoji.bundle; sourceTree = "<group>"; };
@@ -1162,7 +1162,7 @@
 		CD4D6EA421796EA400E02F39 /* 海报换脸 */ = {
 			isa = PBXGroup;
 			children = (
-				CD4D6EA521796EA400E02F39 /* change_face_test.bundle */,
+				CD4D6EA521796EA400E02F39 /* change_face.bundle */,
 			);
 			path = "海报换脸";
 			sourceTree = "<group>";
@@ -1330,7 +1330,7 @@
 				0BE101AC2150F9EE00098F1B /* 腮红09.bundle in Resources */,
 				0BE101642150F9EE00098F1B /* mask_matianyu.png in Resources */,
 				0BE1012B2150F9ED00098F1B /* fu_lm_koreaheart.png in Resources */,
-				CD4D6EA621796EA400E02F39 /* change_face_test.bundle in Resources */,
+				CD4D6EA621796EA400E02F39 /* change_face.bundle in Resources */,
 				0BE101652150F9EE00098F1B /* mask_tongliya.bundle in Resources */,
 				0B6121252154EE2200B9958D /* bling.bundle in Resources */,
 				E37B0B5621814AFA00066133 /* ctrl_rain.png in Resources */,

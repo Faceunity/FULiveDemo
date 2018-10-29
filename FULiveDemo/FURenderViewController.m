@@ -134,7 +134,7 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
             self.hairView.itemsArray = self.model.items;
             
             [[FUManager shareManager] loadItem:@"hair_gradient"];
-            [[FUManager shareManager] setHairColor:0];
+            [[FUManager shareManager] setHairColor:3];
             [[FUManager shareManager] setHairStrength:0.5];
         }
             break ;

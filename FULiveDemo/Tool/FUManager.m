@@ -468,7 +468,7 @@ static FUManager *shareManager = NULL;
         [FURenderer destroyItem:items[2]];
         items[2] = 0;
     }
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"change_face_test.bundle" ofType:nil];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"change_face.bundle" ofType:nil];
     items[2] = [FURenderer itemWithContentsOfFile:path];
 }
 
@@ -703,7 +703,7 @@ static FUManager *shareManager = NULL;
 }
 
 
-/* 考锯齿 */
+/* 抗锯齿 */
 - (void)set3DFlipH {
     
     [FURenderer itemSetParam:items[1] withName:@"is3DFlipH" value:@(1)];

@@ -176,7 +176,7 @@
 		<integer>12</integer>
 		<key>modules</key>
 		<array>
-			<integer>128</integer>
+			<integer>8388608</integer>
 		</array>
 		<key>items</key>
 		<array>

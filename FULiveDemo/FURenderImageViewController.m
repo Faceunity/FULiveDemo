@@ -99,6 +99,7 @@
     [_avPlayer pause];
     _avPlayer = nil ;
     [self.videoReader stopReading];
+    [_displayLink invalidate];
     _displayLink.paused = YES ;
     _displayLink = nil ;
     
