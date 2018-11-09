@@ -95,7 +95,7 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
     
     [[FUManager shareManager] loadFilter] ;
     
-    [[FUManager shareManager] setAsyncTrackFaceEnable:YES];
+    [[FUManager shareManager] setAsyncTrackFaceEnable:NO];
     switch (self.model.type) {
         case FULiveModelTypeBeautifyFace:{      // 美颜
             
