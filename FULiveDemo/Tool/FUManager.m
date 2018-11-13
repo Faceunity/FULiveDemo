@@ -60,7 +60,7 @@ static FUManager *shareManager = NULL;
         /**这里新增了一个参数shouldCreateContext，设为YES的话，不用在外部设置context操作，我们会在内部创建并持有一个context。
          还有设置为YES,则需要调用FURenderer.h中的接口，不能再调用funama.h中的接口。*/
         [[FURenderer shareRenderer] setupWithDataPath:path authPackage:&g_auth_package authSize:sizeof(g_auth_package) shouldCreateContext:YES];
-        [[FUManager shareManager] setAsyncTrackFaceEnable:NO];
+        [self setAsyncTrackFaceEnable:NO];
         // 开启表情跟踪优化功能
         NSData *animModelData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"anim_model.bundle" ofType:nil]];
         int res0 = fuLoadAnimModel((void *)animModelData.bytes, (int)animModelData.length);
@@ -365,7 +365,7 @@ static FUManager *shareManager = NULL;
         NSString *path = [[NSBundle mainBundle] pathForResource:[itemName stringByAppendingString:@".bundle"] ofType:nil];
         
         int itemHandle = [FURenderer itemWithContentsOfFile:path];
-
+        
         // 人像驱动 设置 3DFlipH
         BOOL isPortraitDrive = [itemName hasPrefix:@"picasso_e"];
         BOOL isAnimoji = [itemName hasSuffix:@"_Animoji"];
