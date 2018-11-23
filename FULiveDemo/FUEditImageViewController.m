@@ -120,7 +120,7 @@
         if ([FURenderer isTracking] == 1) {
             
             FULiveModel *model = [FUManager shareManager].currentModel;
-            CFAbsoluteTime startTime0 = CFAbsoluteTimeGetCurrent();
+//            CFAbsoluteTime startTime0 = CFAbsoluteTimeGetCurrent();
             
             if (![self isGoodFace:0]) {
                 self.mNoFaceView.hidden = NO;
@@ -132,10 +132,8 @@
                 return;
             }
             [[FUManager shareManager] getLandmarks:photoLandmarks index:0];
-            CFAbsoluteTime endTime0 = (CFAbsoluteTimeGetCurrent() - startTime0);
-            NSLog(@"-------photo----------getPhotoLandmarks: %f ms", endTime0 * 1000.0);
-            
-            [self productionPoster:[UIImage imageNamed:model.items[model.selIndex]]];
+            id warpValue = model.selIndex == 5 ? @0.2 : nil;
+            [self productionPoster:[UIImage imageNamed:model.items[model.selIndex]] warpValue:warpValue];
 
         }else{//多人脸
             /* 添加遮罩选择逻辑 */
@@ -220,7 +218,8 @@
     _isSave = NO;
     [_mItemView stopAnimation];
     NSArray *array = [item componentsSeparatedByString:@"_"];
-    [self productionPoster:[UIImage imageNamed:array[0]]];
+    id warpValue = [array[0] isEqualToString:@"poster6"] ? @0.2 : nil;
+    [self productionPoster:[UIImage imageNamed:array[0]] warpValue:warpValue];
 }
 
 
@@ -239,7 +238,7 @@
 
 }
 
--(void)productionPoster:(UIImage *)posterImage{
+-(void)productionPoster:(UIImage *)posterImage warpValue:(id)warpValue{
     self.loadingImage.hidden = NO;
     self.view.userInteractionEnabled = NO;
     __block UIImage * posterImagen = posterImage;
@@ -248,15 +247,9 @@
         if (!photoImage || !posterImage) {
             return ;
         }
-        CFAbsoluteTime startTime0 = CFAbsoluteTimeGetCurrent();
-        [[FUManager shareManager] productionPoster:posterImage photo:photoImage photoLandmarks:photoLandmarks];
-
-        CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+        [[FUManager shareManager] productionPoster:posterImage photo:photoImage photoLandmarks:photoLandmarks warpValue:warpValue];
         posterImagen = [[FUManager shareManager] renderItemsToImage:posterImagen];
-        CFAbsoluteTime endTime = (CFAbsoluteTimeGetCurrent() - startTime);
-        NSLog(@"-------photo----------render: %f ms", endTime * 1000.0);
-        CFAbsoluteTime endTime0 = (CFAbsoluteTimeGetCurrent() - startTime0);
-        NSLog(@"-------photo----------total: %f ms", endTime0 * 1000.0);
+
         
         dispatch_async(dispatch_get_main_queue(), ^{
             self.mImageView.image = posterImagen;
@@ -348,7 +341,8 @@
                 return;
             }
             [[FUManager shareManager] getLandmarks:photoLandmarks index:index];
-            [self productionPoster:[UIImage imageNamed:model.items[model.selIndex]]];
+            id warpValue = model.selIndex == 5 ? @0.2 : nil;
+            [self productionPoster:[UIImage imageNamed:model.items[model.selIndex]] warpValue:warpValue];
             NSLog(@"rect[0] ---%lf ,photoLa[0] = %lf ",rect.origin.x, photoLandmarks[0]);
          //   return;
         }

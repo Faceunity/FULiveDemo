@@ -46,4 +46,6 @@ typedef NS_ENUM(NSInteger, FUVideoReaderOrientation) {
 - (void)startReadWithDestinationPath:(NSString *)destinationPath ;
 // 停止
 - (void)stopReading ;
+// 销毁
+- (void)destory ;
 @end

@@ -24,6 +24,8 @@
 #import "FUSaveViewController.h"
 #import "FUEditImageViewController.h"
 #import "FUImageHelper.h"
+#import "FURenderer.h"
+#import "FUSegmentBarView.h"
 
 @interface FURenderViewController ()<
 FUCameraDelegate,
@@ -67,11 +69,14 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
 @property (nonatomic, strong) FULightingView *lightingView ;
 @property (weak, nonatomic) IBOutlet UIImageView *adjustImage;
 
-/* 动漫滤镜按钮 */
-@property (strong, nonatomic) UIButton *mComicBtn;
-
+/* 动漫滤镜分栏*/
+@property (strong, nonatomic) FUSegmentBarView *segmentBarView;
+@property (strong, nonatomic) NSArray *comicItemArray;
 /* 针对海报融合的提示框 */
 @property (nonatomic, strong) UILabel *tipLabel;
+
+@property (strong,nonatomic) NSString *selAnmoji;
+@property (strong,nonatomic) NSString *selComic;
 @end
 
 @implementation FURenderViewController
@@ -84,9 +89,13 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    //重置曝光值为0
+    [self.mCamera setExposureValue:0];
+    
     //曝光补偿条设置
     [self setupLightingValue];
     
+    [self.mCamera startCapture];
     signal = dispatch_semaphore_create(1);
     [self addObserver];
     
@@ -111,13 +120,14 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
         }
             break;
         case FULiveModelTypeMakeUp:{            //  美妆
-            
+            self.photoBtn.transform = CGAffineTransformConcat(CGAffineTransformMakeTranslation(0, -150), CGAffineTransformMakeScale(0.8, 0.8)) ;
             [self.demoBar removeFromSuperview ];
             self.demoBar = nil ;
             [self.itemsView removeFromSuperview ];
             self.itemsView = nil ;
             [self.hairContainer removeFromSuperview];
 //            [[FUManager shareManager] loadMakeupItem] ;
+            [self.makeupView setDefaultSupItem:1];
             [[FUManager shareManager] setAsyncTrackFaceEnable:NO];
         }
             break ;
@@ -134,7 +144,7 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
             self.hairView.itemsArray = self.model.items;
             
             [[FUManager shareManager] loadItem:@"hair_gradient"];
-            [[FUManager shareManager] setHairColor:3];
+            [[FUManager shareManager] setHairColor:0];
             [[FUManager shareManager] setHairStrength:0.5];
         }
             break ;
@@ -170,16 +180,6 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
             
             break ;
         default:{                               // 道具
-            
-            if(self.model.type == FULiveModelTypeAnimoji){//animoji动漫滤镜按钮
-                _mComicBtn = [[UIButton alloc] init];
-                [_mComicBtn setImage:[UIImage imageNamed:@"btn_automaticl_nor"] forState:UIControlStateNormal];
-                [_mComicBtn setImage:[UIImage imageNamed:@"btn_anime filter_sel"] forState:UIControlStateSelected];
-                [_mComicBtn addTarget:self action:@selector(comicBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-                [self.view addSubview:_mComicBtn];
-            }
-            
-            
             self.photoBtn.transform = CGAffineTransformMakeTranslation(0, -36) ;
             [self.demoBar removeFromSuperview ];
             self.demoBar = nil ;
@@ -193,6 +193,30 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
             [self.itemsView updateCollectionArray:self.model.items];
             
             NSString *selectItem = self.model.items.count > 0 ? self.model.items[0] : @"noitem" ;
+
+
+            
+            if(self.model.type == FULiveModelTypeAnimoji){//animoji动漫滤镜按钮
+                selectItem = @"noitem";
+                [[FUManager shareManager] loadFilterAnimoji:@"fuzzytoonfilter" style:0];//默认开启动漫
+                _selAnmoji = self.itemsView.selectedItem;
+                _comicItemArray = @[@"fuzzytoonfilter1",@"fuzzytoonfilter2",@"fuzzytoonfilter3"];
+                _selComic = _comicItemArray[0];
+                _segmentBarView = [[FUSegmentBarView alloc] initWithFrame:CGRectMake(0, 200,[UIScreen mainScreen].bounds.size.width, 49) titleArray:@[@"Animoji",NSLocalizedString(@"动漫滤镜",nil)] selBlock:^(int index) {
+                    if (index == 0) {
+                        self.itemsView.selectedItem = _selAnmoji;
+                        [_itemsView updateCollectionArray:self.model.items];
+                    }else{
+                        self.itemsView.selectedItem = _selComic;
+                        [_itemsView updateCollectionArray:_comicItemArray];
+                    }
+                    NSLog(@"选中---%d",index);
+                }];
+                [self.view addSubview:_segmentBarView];
+                
+                
+            }
+            
             self.itemsView.selectedItem = selectItem ;
             [[FUManager shareManager] loadItem: selectItem];
             
@@ -200,14 +224,18 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
                 
                 NSString *alertString = [[FUManager shareManager] alertForItem:selectItem];
                 self.alertLabel.hidden = alertString == nil ;
-                self.alertLabel.text = NSLocalizedString(alertString, nil) ;
+                if (alertString && alertString.length != 0) {
+                    self.alertLabel.text = NSLocalizedString(alertString, nil) ;
+                }
                 
                 [FURenderViewController cancelPreviousPerformRequestsWithTarget:self selector:@selector(dismissAlertLabel) object:nil];
                 [self performSelector:@selector(dismissAlertLabel) withObject:nil afterDelay:3];
                 
                 NSString *hint = [[FUManager shareManager] hintForItem:selectItem];
                 self.tipLabe.hidden = hint == nil;
-                self.tipLabe.text = NSLocalizedString(hint, nil);
+                if (hint && hint.length != 0) {
+                    self.tipLabe.text = NSLocalizedString(hint, nil);
+                }
                 
                 [FURenderViewController cancelPreviousPerformRequestsWithTarget:self selector:@selector(dismissTipLabel) object:nil];
                 [self performSelector:@selector(dismissTipLabel) withObject:nil afterDelay:5 ];
@@ -222,23 +250,26 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchScreenAction:)];
     [self.renderView addGestureRecognizer:tap];
+    
+    /* 开启音量拦截*/
+    [_photoBtn startObserveVolumeChangeEvents];
 }
 
 #pragma  mark ----  曝光补偿初始化  -----
 -(void)setupLightingValue{
-    float min ,max,currentV;
-    [self.mCamera getCurrentExposureValue:&currentV max:&max min:&min];
+//    float min ,max,currentV;
+//    [self.mCamera getCurrentExposureValue:&currentV max:&max min:&min];
     
     //设置默认调节的区间
     self.lightingView.slider.minimumValue = -2;
     self.lightingView.slider.maximumValue = 2;
-    if(currentV > 2){
-        currentV = 2;
-    }
-    if (currentV < -2) {
-        currentV = -2;
-    }
-    self.lightingView.slider.value = currentV;
+//    if(currentV > 2){
+//        currentV = 2;
+//    }
+//    if (currentV < -2) {
+//        currentV = -2;
+//    }
+    self.lightingView.slider.value = 0;
 }
 
 
@@ -252,18 +283,22 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
         frame.origin = [[[FUManager shareManager] getPlatformtype] isEqualToString:@"iPhone X"] ? CGPointMake(0, self.view.frame.size.height - frame.size.height - 34) : CGPointMake(0, self.view.frame.size.height - frame.size.height) ; ;
         frame.size = CGSizeMake(self.view.frame.size.width, frame.size.height) ;
         self.itemsView.frame = frame;
-        if (_mComicBtn) {
-            _mComicBtn.frame = CGRectMake(17, CGRectGetMinY(frame) - 17 - 30, 86, 30);
+        
+        if (self.model.type == FULiveModelTypeAnimoji) {
+            CGRect frame0 = CGRectMake(frame.origin.x, frame.origin.y - 49, frame.size.width, frame.size.height);
+            self.itemsView.frame = frame0;
+            _segmentBarView.frame = CGRectMake(0,[UIScreen mainScreen].bounds.size.height - 49, frame.size.width, 49);
+            
+            CGRect frame1 = CGRectMake(_photoBtn.frame.origin.x, _photoBtn.frame.origin.y - 49, _photoBtn.frame.size.width, _photoBtn.frame.size.height);
+            _photoBtn.frame = frame1;
         }
     }
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    /* 开启音量拦截*/
-    [_photoBtn startObserveVolumeChangeEvents];
+
     if (self.model.type == FULiveModelTypeBeautifyFace) {
-        
         [self demoBarSetBeautyDefultParams];
     }
     
@@ -297,6 +332,10 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+
+    [self.mCamera resetFocusAndExposureModes];
+    [self.mCamera stopCapture];
+    
     /* 关闭音量拦截*/
     [_photoBtn stopObserveVolumeChangeEvents];
     if (self.model.type == FULiveModelTypeMusicFilter) {
@@ -307,9 +346,6 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
         
         [[FUManager shareManager] destoryAnimojiFaxxBundle];
     }
-    
-    [self.mCamera resetFocusAndExposureModes];
-    [self.mCamera stopCapture];
     
     // 清除缓存
 //    [[FUManager shareManager] destoryItems];
@@ -344,20 +380,12 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
 
 #pragma  mark ----  UI Action  -----
 
-
--(void)comicBtnClick:(UIButton *)btn{
-    btn.selected = !btn.selected;
-    [[FUManager shareManager] changeFilterAnimoji:btn.selected];
-}
-
 static CFAbsoluteTime adjustTime = 0 ;
 - (void)touchScreenAction:(UITapGestureRecognizer *)tap {
     
     if (tap.view == self.renderView) {
         if (self.model.type == FULiveModelTypeBeautifyFace) {
             [self.demoBar hiddeTopView];
-        }else if (self.model.type == FULiveModelTypeMakeUp) {
-            [self.makeupView hiddenMakeupViewTopView] ;
         }
         // 聚焦
         if (self.adjustImage.hidden) {
@@ -451,7 +479,7 @@ static CFAbsoluteTime adjustTime = 0 ;
     CFAbsoluteTime startRenderTime = CFAbsoluteTimeGetCurrent();
     [[FUManager shareManager] renderItemsToPixelBuffer:pixelBuffer];
     CFAbsoluteTime renderTime = (CFAbsoluteTimeGetCurrent() - startRenderTime);
-    [self.renderView displayPixelBuffer:pixelBuffer];
+    [self.renderView displayPixelBuffer:pixelBuffer withLandmarks:NULL count:0];
     
     if (self.model.type == FULiveModelTypeMusicFilter) {
         [[FUManager shareManager] musicFilterSetMusicTime];
@@ -614,47 +642,214 @@ static CFAbsoluteTime adjustTime = 0 ;
 
 #pragma mark ---- FUMakeUpViewDelegate
 // 显示上半部分
--(void)makeupViewDidShowTopView:(BOOL)shown {
-    [self setPhotoScaleWithHeight:self.makeupView.frame.size.height show:shown];
+//-(void)makeupViewDidShowTopView:(BOOL)shown {
+//    [self setPhotoScaleWithHeight:self.makeupView.frame.size.height show:shown];
+//}
+- (void)makeupSupItemDidSel:(int)index value:(float)value{
+    NSLog(@"选中了%d",index);
+    [self makeupRemoveAll];
+    value = 0.7 * value;//组合妆，产品说降低值域
+    switch (index) {
+        case 0:
+            //卸妆
+           // [[FUManager shareManager] makeupIntensity:0 param:@"is_makeup_on"];
+            break;
+        case 1:{//桃花
+            [self loadPeachBlossomMakeupParm:value];
+        }
+            break;
+        case 2:{//雀斑
+            [self loadFrecklesParm:value];
+        }
+            break;
+        case 3:{
+            //朋克
+            [self loadPunkMakeupParm:value];
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+-(void)makeupSupDidChangeValue:(int)index value:(float)value{
+    value = value * 0.7;//组合妆，产品说降低值域
+   // [[FUManager shareManager] makeupIntensity:value param:@"makeup_intensity"];
+    [self makeupAllValue:value];
+    if (index == 3) {//朋克妆 没有腮红
+        [[FUManager shareManager] makeupIntensity:0 param:@"makeup_intensity_blusher"];
+    }
+   
 }
 
 // 点击事件
 -(void)makeupViewDidSelectedItemWithType:(NSInteger)typeIndex itemName:(NSString *)itemName value:(float)value {
-//    NSLog(@"--- did selected type: %ld - name: %@ - value: %f", typeIndex, itemName, value);
-    [self makeupViewDidChangeValue:value Type:typeIndex];
+    itemName = [itemName stringByAppendingString:@"_nama"];
+    switch (typeIndex) {
+        case 0:{
+            NSArray *rgba = [self jsonToLipRgbaArrayResName:itemName];
+            double lip[4] = {[rgba[0] doubleValue],[rgba[1] doubleValue],[rgba[2] doubleValue],[rgba[3] doubleValue]};
+            [[FUManager shareManager] makeupLipstick:lip];
+        }
+            break;
+        case 1:{
+             [[FUManager shareManager] loadMakeupItemImage:[UIImage imageNamed:itemName] param:@"tex_blusher"];
+        }
+            break;
+        case 2:{
+             [[FUManager shareManager] loadMakeupItemImage:[UIImage imageNamed:itemName] param:@"tex_brow"];
+        }
+            break;
+        case 3:{
+             [[FUManager shareManager] loadMakeupItemImage:[UIImage imageNamed:itemName] param:@"tex_eye"];
+        }
+            break;
+        case 4:{
+             [[FUManager shareManager] loadMakeupItemImage:[UIImage imageNamed:itemName] param:@"tex_eyeLiner"];
+        }
+            break;
+        case 5:{
+            [[FUManager shareManager] loadMakeupItemImage:[UIImage imageNamed:itemName] param:@"tex_eyeLash"];
+        }
+            break;
+        case 6:{
+             [[FUManager shareManager] loadMakeupItemImage:[UIImage imageNamed:itemName] param:@"tex_pupil"];
+        }
+            break;
+            
+        default:
+            break;
+    }
     
-    [[FUManager shareManager] loadMakeupItemWithType:typeIndex itemName:itemName];
+    if ([itemName isEqualToString:@"makeup_noitem_nama"]){
+        [self makeupViewDidChangeValue:0 Type:typeIndex];
+    }else{
+        [self makeupViewDidChangeValue:value Type:typeIndex];
+    }
+    
+    
 }
 
 // 滑动事件
 -(void)makeupViewDidChangeValue:(float)value Type:(NSInteger)typeIndx {
 //    NSLog(@"--- value change: %f - type: %ld", value, typeIndx);
     switch (typeIndx) {
-        case 0:
+        case 0:{
+            [[FUManager shareManager] makeupIntensity:value param:@"makeup_intensity_lip"];
             [FUManager shareManager].lipstick = value;
-            break;
-        case 1:
+            break;            
+        }
+        case 1:{
+            [[FUManager shareManager] makeupIntensity:value param:@"makeup_intensity_blusher"];
             [FUManager shareManager].blush = value;
+        }
             break;
-        case 2:
+        case 2:{
+            [[FUManager shareManager] makeupIntensity:value param:@"makeup_intensity_eyeBrow"];
             [FUManager shareManager].eyebrow = value;
+        }
             break;
-        case 3:
+        case 3:{
+            [[FUManager shareManager] makeupIntensity:value param:@"makeup_intensity_eye"];
             [FUManager shareManager].eyeShadow = value;
+        }
             break;
-        case 4:
+        case 4:{
+            [[FUManager shareManager] makeupIntensity:value param:@"makeup_intensity_eyeLiner"];
             [FUManager shareManager].eyeLiner = value;
+        }
             break;
-        case 5:
+        case 5:{
+            [[FUManager shareManager] makeupIntensity:value param:@"makeup_intensity_eyelash"];
             [FUManager shareManager].eyelash = value;
+        }
             break;
-        case 6:
+        case 6:{
             [FUManager shareManager].contactLens = value;
+            [[FUManager shareManager] makeupIntensity:value param:@"makeup_intensity_pupil"];
+        }
             break;
             
         default:
             break;
     }
+}
+
+#pragma  mark ----  桃花妆  -----
+-(void)loadPeachBlossomMakeupParm:(float)value{
+    NSArray *rgba = [self jsonToLipRgbaArrayResName:@"口红07_nama"];
+    double lip[4] = {[rgba[0] doubleValue],[rgba[1] doubleValue],[rgba[2] doubleValue],[rgba[3] doubleValue]};
+    [[FUManager shareManager] makeupLipstick:lip];
+    //桃花
+    [[FUManager shareManager] loadMakeupItemImage:[UIImage imageNamed:@"眉毛07_nama"] param:@"tex_brow"];
+    [[FUManager shareManager] loadMakeupItemImage:[UIImage imageNamed:@"眼影07_nama"] param:@"tex_eye"];
+    [[FUManager shareManager] loadMakeupItemImage:[UIImage imageNamed:@"眼线07_nama"] param:@"tex_eyeLiner"];
+    [[FUManager shareManager] loadMakeupItemImage:[UIImage imageNamed:@"睫毛07_nama"] param:@"tex_eyeLash"];
+    [[FUManager shareManager] loadMakeupItemImage:[UIImage imageNamed:@"美瞳10_nama"] param:@"tex_pupil"];
+    [[FUManager shareManager] loadMakeupItemImage:[UIImage imageNamed:@"腮红11_nama"] param:@"tex_blusher"];
+    [self makeupAllValue:value];
+}
+
+#pragma  mark ----  雀斑妆  -----
+
+-(void)loadFrecklesParm:(float)value{
+
+    NSArray *rgba = [self jsonToLipRgbaArrayResName:@"口红08_nama"];
+    double lip[4] = {[rgba[0] doubleValue],[rgba[1] doubleValue],[rgba[2] doubleValue],[rgba[3] doubleValue]};
+     [[FUManager shareManager] makeupLipstick:lip];
+    [[FUManager shareManager] loadMakeupItemImage:[UIImage imageNamed:@"眉毛08_nama"] param:@"tex_brow"];
+    [[FUManager shareManager] loadMakeupItemImage:[UIImage imageNamed:@"眼影08_nama"] param:@"tex_eye"];
+    [[FUManager shareManager] loadMakeupItemImage:[UIImage imageNamed:@"眼线08_nama"] param:@"tex_eyeLiner"];
+    [[FUManager shareManager] loadMakeupItemImage:[UIImage imageNamed:@"睫毛08_nama"] param:@"tex_eyeLash"];
+    [[FUManager shareManager] loadMakeupItemImage:[UIImage imageNamed:@"美瞳11_nama"] param:@"tex_pupil"];
+    [[FUManager shareManager] loadMakeupItemImage:[UIImage imageNamed:@"腮红12_nama"] param:@"tex_blusher"];
+    [self makeupAllValue:value];
+}
+#pragma  mark ----  朋克妆  -----
+-(void)loadPunkMakeupParm:(float)value{
+    NSArray *rgba = [self jsonToLipRgbaArrayResName:@"口红09_nama"];
+    double lip[4] = {[rgba[0] doubleValue],[rgba[1] doubleValue],[rgba[2] doubleValue],[rgba[3] doubleValue]};
+     [[FUManager shareManager] makeupLipstick:lip];
+    
+    [[FUManager shareManager] loadMakeupItemImage:[UIImage imageNamed:@"眉毛09_nama"] param:@"tex_brow"];
+    [[FUManager shareManager] loadMakeupItemImage:[UIImage imageNamed:@"眼影09_nama"] param:@"tex_eye"];
+    [[FUManager shareManager] loadMakeupItemImage:[UIImage imageNamed:@"眼线08_nama"] param:@"tex_eyeLiner"];
+    [[FUManager shareManager] loadMakeupItemImage:[UIImage imageNamed:@"睫毛07_nama"] param:@"tex_eyeLash"];
+    [[FUManager shareManager] loadMakeupItemImage:[UIImage imageNamed:@"美瞳12_nama"] param:@"tex_pupil"];
+
+    [self makeupAllValue:value];
+    [[FUManager shareManager] makeupIntensity:0 param:@"makeup_intensity_blusher"];//没有腮红
+
+}
+
+
+#pragma  mark ----  关闭美妆  -----
+-(void)makeupRemoveAll{
+    [self makeupAllValue:0];
+}
+
+-(void)makeupAllValue:(float)value{
+    [[FUManager shareManager] makeupIntensity:value param:@"makeup_intensity_blusher"];
+    [[FUManager shareManager] makeupIntensity:value param:@"makeup_intensity_eyeBrow"];
+    [[FUManager shareManager] makeupIntensity:value param:@"makeup_intensity_eye"];
+    [[FUManager shareManager] makeupIntensity:value param:@"makeup_intensity_eyeLiner"];
+    [[FUManager shareManager] makeupIntensity:value param:@"makeup_intensity_eyelash"];
+    [[FUManager shareManager] makeupIntensity:value param:@"makeup_intensity_pupil"];
+    [[FUManager shareManager] makeupIntensity:value param:@"makeup_intensity_lip"];
+}
+
+
+-(NSArray *)jsonToLipRgbaArrayResName:(NSString *)resName{
+    NSString *path=[[NSBundle mainBundle] pathForResource:resName ofType:@"json"];
+    NSData *data=[[NSData alloc] initWithContentsOfFile:path];
+    //解析成字典
+    NSDictionary *dic=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+    NSArray *rgba = [dic objectForKey:@"rgba"];
+    
+    if (rgba.count != 4) {
+        NSLog(@"颜色json不合法");
+    }
+    return rgba;
 }
 
 #pragma mark --- FUItemsViewDelegate
@@ -673,9 +868,27 @@ static CFAbsoluteTime adjustTime = 0 ;
 //
 //        [self.itemsView stopAnimation];
     
-    [[FUManager shareManager] loadItem:item];
-    if (self.model.type == FULiveModelTypeAnimoji){//动漫滤镜
-        [[FUManager shareManager] changeFilterAnimoji:_mComicBtn.selected];
+    
+    if (self.model.type == FULiveModelTypeAnimoji && self.segmentBarView.currentBtnIndex == 1){//动漫滤镜
+        _selComic = item;
+        if ([item containsString:@"3"]) { // fuzzytoonfilter123
+            [[FUManager shareManager] loadFilterAnimoji:item style:1];
+        }else if ([item containsString:@"2"]){
+            [[FUManager shareManager] loadFilterAnimoji:item style:2];
+        }else{
+            [[FUManager shareManager] loadFilterAnimoji:item style:0];
+        }
+        
+    }else{
+         _selAnmoji = item;
+        [[FUManager shareManager] loadItem:item];
+        if ([_selComic containsString:@"3"]) { // fuzzytoonfilter123
+            [[FUManager shareManager] loadFilterAnimoji:_selComic style:1];
+        }else if ([item containsString:@"2"]){
+            [[FUManager shareManager] loadFilterAnimoji:_selComic style:2];
+        }else{
+            [[FUManager shareManager] loadFilterAnimoji:_selComic style:0];
+        }
     }
     
     [self.itemsView stopAnimation];
@@ -696,15 +909,17 @@ static CFAbsoluteTime adjustTime = 0 ;
         
         NSString *alertString = [[FUManager shareManager] alertForItem:item];
         self.alertLabel.hidden = alertString == nil ;
-        self.alertLabel.text = NSLocalizedString(alertString, nil) ;
-        
+        if (alertString && alertString.length != 0) {
+            self.alertLabel.text = NSLocalizedString(alertString, nil) ;
+        }
         [FURenderViewController cancelPreviousPerformRequestsWithTarget:self selector:@selector(dismissAlertLabel) object:nil];
         [self performSelector:@selector(dismissAlertLabel) withObject:nil afterDelay:3];
         
         NSString *hint = [[FUManager shareManager] hintForItem:item];
         self.tipLabe.hidden = hint == nil;
-        self.tipLabe.text = NSLocalizedString(hint, nil);
-        
+        if (hint && hint.length != 0) {
+            self.tipLabe.text = NSLocalizedString(hint, nil);
+        }
         [FURenderViewController cancelPreviousPerformRequestsWithTarget:self selector:@selector(dismissTipLabel) object:nil];
         [self performSelector:@selector(dismissTipLabel) withObject:nil afterDelay:5 ];
         
@@ -775,22 +990,23 @@ static CFAbsoluteTime adjustTime = 0 ;
 }
 
 #pragma mark --- FUHairViewDelegate
--(void)hairViewDidSelectedhairIndex:(NSInteger)index Strength:(float)strength{
-    
+-(void)hairViewDidSelectedhairIndex:(NSInteger)index{
     if (index == -1) {
         [[FUManager shareManager] setHairColor:0];
         [[FUManager shareManager] setHairStrength:0.0];
     }else{
-        if(index < 3) {//渐变色
-         [[FUManager shareManager] loadItem:@"hair_gradient"];
-        [[FUManager shareManager] setHairColor:(int)index + 3];
-        [[FUManager shareManager] setHairStrength:strength];
+        if(index < 5) {//渐变色
+            [[FUManager shareManager] loadItem:@"hair_gradient"];
+            [[FUManager shareManager] setHairColor:(int)index];
          }else{
-        [[FUManager shareManager] loadItem:@"hair_color"];
-        [[FUManager shareManager] setHairColor:(int)index - 3];
-        [[FUManager shareManager] setHairStrength:strength];
+             [[FUManager shareManager] loadItem:@"hair_color"];
+             [[FUManager shareManager] setHairColor:(int)index - 5];
     }
   }
+}
+
+-(void)hairViewChanageStrength:(float)strength{
+    [[FUManager shareManager] setHairStrength:strength];
 }
 
 #pragma mark ---- FULightingViewDelegate
@@ -928,7 +1144,6 @@ static CFAbsoluteTime adjustTime = 0 ;
 
 - (void)willResignActive
 {
-    
     if (self.navigationController.visibleViewController == self) {
         [_mCamera stopCapture];
         if (self.model.type == FULiveModelTypeMusicFilter) {
@@ -939,7 +1154,6 @@ static CFAbsoluteTime adjustTime = 0 ;
 
 - (void)willEnterForeground
 {
-    
     if (self.navigationController.visibleViewController == self) {
         [_mCamera startCapture];
         

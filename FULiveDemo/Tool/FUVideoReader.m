@@ -11,8 +11,6 @@
 
 @interface FUVideoReader ()
 {
-    dispatch_group_t finishGroup ;
-    
     BOOL isReadFirstFrame ;
     BOOL isReadLastFrame ;
     
@@ -44,6 +42,7 @@
 // 定时器
 @property (nonatomic, strong) CADisplayLink *displayLink;
 
+@property (nonatomic, strong) dispatch_semaphore_t finishSemaphore ;
 @end
 
 @implementation FUVideoReader
@@ -65,8 +64,6 @@
         
         _videoURL = videoRUL ;
         
-        [self configAssetReader];
-        
         isReadFirstFrame = NO ;
         isReadLastFrame = NO ;
     }
@@ -75,8 +72,6 @@
 
 -(void)setVideoURL:(NSURL *)videoURL {
     _videoURL = videoURL ;
-    
-    [self configAssetReader];
 }
 
 -(void)configAssetReader {
@@ -179,54 +174,30 @@
 // 开始读
 - (void)startReadWithDestinationPath:(NSString *)destinationPath {
     
+    if (self.finishSemaphore == nil) {
+        self.finishSemaphore = dispatch_semaphore_create(1) ;
+    }
+    
     if ([[NSFileManager defaultManager] fileExistsAtPath:destinationPath]) {
         [[NSFileManager defaultManager] removeItemAtPath:destinationPath error:nil] ;
     }
     
+    [self configAssetReader];
     [self configAssetWriterWithPath:destinationPath];
     
-    BOOL isReadingSuccess = [self.assetReader startReading];
-    BOOL isWritingSuccess = [self.assetWriter startWriting];
-    
-    if (!isReadingSuccess || !isWritingSuccess) {
-        NSLog(@"开启失败");
-        return;
+    if (self.assetReader.status != AVAssetReaderStatusReading) {
+        [self.assetReader startReading];
     }
-    //这里开始时间是可以自己设置的
+    if (self.assetWriter.status != AVAssetWriterStatusWriting) {
+        [self.assetWriter startWriting];
+    }
+    
     [self.assetWriter startSessionAtSourceTime:kCMTimeZero];
     
     isReadFirstFrame = NO ;
     isReadLastFrame = NO ;
     _displayLink.paused = NO ;
     
-    finishGroup = dispatch_group_create();
-    
-    // 保证音视频同步
-    dispatch_group_enter(finishGroup);
-    dispatch_group_enter(finishGroup);
-    
-    dispatch_group_notify(finishGroup, dispatch_get_global_queue(0, 0), ^{
-        
-        if (self.assetWriter.status == AVAssetWriterStatusWriting) {
-            
-            [self.assetWriter finishWritingWithCompletionHandler:^{
-                
-                AVAssetWriterStatus status = self.assetWriter.status;
-                BOOL success ;
-                if (status == AVAssetWriterStatusCompleted) {
-                    success = YES ;
-                    NSLog(@"finsished");
-                } else {
-                    success = NO ;
-                    NSLog(@"failure %ld",(long)status);
-                }
-                self->_displayLink.paused = YES ;
-                if (self.delegate && [self.delegate respondsToSelector:@selector(videoReaderDidFinishReadSuccess:)]) {
-                    [self.delegate videoReaderDidFinishReadSuccess:success];
-                }
-            }];
-        }
-    });
 }
 
 - (void)displayLinkCallback:(CADisplayLink *)displatLink {
@@ -260,7 +231,7 @@
         CVPixelBufferUnlockBaseAddress(renderTarget, 0);
         CVPixelBufferUnlockBaseAddress(pixelBuffer, 0) ;
         
-        if (self.delegate && [self.delegate respondsToSelector:@selector(videoReaderDidReadVideoBuffer:)]) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(videoReaderDidReadVideoBuffer:)] && !_displayLink.isPaused) {
             [self.delegate videoReaderDidReadVideoBuffer:renderTarget];
         }
         return ;
@@ -270,7 +241,7 @@
     if (isReadLastFrame) {
         void *bytes = [self getCopyDataFromPixelBuffer:renderTarget];
         
-        if (self.delegate && [self.delegate respondsToSelector:@selector(videoReaderDidReadVideoBuffer:)]) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(videoReaderDidReadVideoBuffer:)] && !_displayLink.isPaused) {
             [self.delegate videoReaderDidReadVideoBuffer:renderTarget];
         }
         
@@ -286,38 +257,44 @@
     [self readVideoBuffer];
 }
 
-static BOOL isAudioFirst = YES;
+static BOOL isAudioFirst = YES ;
 - (void)readAudioBuffer {
     
     if ([self.audioInput isReadyForMoreMediaData] && self.assetReader.status == AVAssetReaderStatusReading) {
         
-        CMSampleBufferRef nextSampleBuffer = [self.audioOutput copyNextSampleBuffer];
-        
         if (isAudioFirst) {
-            isAudioFirst = !isAudioFirst;
+            isAudioFirst = NO;
             return ;
         }
         
+        CMSampleBufferRef nextSampleBuffer = [self.audioOutput copyNextSampleBuffer];
+        
         if (nextSampleBuffer) {
             [self.audioInput appendSampleBuffer:nextSampleBuffer];
+            
+            CMSampleBufferInvalidate(nextSampleBuffer);
             CFRelease(nextSampleBuffer);
         } else {
             [self.audioInput markAsFinished];
-            dispatch_group_leave(finishGroup) ;
+            
+            if (dispatch_semaphore_wait(self.finishSemaphore, DISPATCH_TIME_NOW) != 0) {
+                [self readVideoFinished];
+            }
         }
     }
 }
 
-static BOOL isVideoFirst = YES;
+static BOOL isVideoFirst = YES ;
 - (void)readVideoBuffer {
     
     if ([self.videoInput isReadyForMoreMediaData] && self.assetReader.status == AVAssetReaderStatusReading) {
-        CMSampleBufferRef nextSampleBuffer = [self.videoOutput copyNextSampleBuffer];
         
         if (isVideoFirst) {
-            isVideoFirst = !isVideoFirst;
+            isVideoFirst = NO;
             return ;
         }
+        
+        CMSampleBufferRef nextSampleBuffer = [self.videoOutput copyNextSampleBuffer];
         
         if (nextSampleBuffer) {
             
@@ -350,17 +327,49 @@ static BOOL isVideoFirst = YES;
             CVPixelBufferUnlockBaseAddress(renderTarget, 0);
             CVPixelBufferUnlockBaseAddress(pixelBuffer, 0) ;
             
-            if (self.delegate && [self.delegate respondsToSelector:@selector(videoReaderDidReadVideoBuffer:)]) {
+            if (self.delegate && [self.delegate respondsToSelector:@selector(videoReaderDidReadVideoBuffer:)] && !_displayLink.isPaused) {
                 CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(nextSampleBuffer) ;
                 [self.delegate videoReaderDidReadVideoBuffer:pixelBuffer];
             }
             
             [self.videoInput appendSampleBuffer:nextSampleBuffer];
+            
+            CMSampleBufferInvalidate(nextSampleBuffer);
             CFRelease(nextSampleBuffer);
         }else {
             [self.videoInput markAsFinished];
-            dispatch_group_leave(finishGroup) ;
+            
+            if (dispatch_semaphore_wait(self.finishSemaphore, DISPATCH_TIME_NOW) != 0) {
+                [self readVideoFinished];
+            }
         }
+    }
+}
+
+- (void)readVideoFinished {
+    
+    dispatch_semaphore_signal(self.finishSemaphore) ;
+    
+    self.finishSemaphore = nil ;
+    
+    if (self.assetWriter.status == AVAssetWriterStatusWriting) {
+        
+        [self.assetWriter finishWritingWithCompletionHandler:^{
+            
+            AVAssetWriterStatus status = self.assetWriter.status;
+            BOOL success ;
+            if (status == AVAssetWriterStatusCompleted) {
+                success = YES ;
+                NSLog(@"finsished");
+            } else {
+                success = NO ;
+                NSLog(@"failure %ld",(long)status);
+            }
+            self.displayLink.paused = YES ;
+            if (self.delegate && [self.delegate respondsToSelector:@selector(videoReaderDidFinishReadSuccess:)]) {
+                [self.delegate videoReaderDidFinishReadSuccess:success];
+            }
+        }];
     }
 }
 
@@ -392,7 +401,34 @@ static BOOL isVideoFirst = YES;
     
     isReadFirstFrame = NO ;
     isReadLastFrame = NO ;
-    _displayLink.paused = YES ;
+    _displayLink.paused = YES;
+}
+
+- (void)destory {
+    
+    _displayLink.paused = YES;
+    [_displayLink invalidate];
+    _displayLink = nil ;
+    
+    [self.assetReader cancelReading];
+    [self.assetWriter cancelWriting];
+    
+    self.assetWriter = nil;
+    self.assetReader = nil;
+    
+    [self destorySemaphore];
+}
+
+- (void)destorySemaphore {
+    if (self.finishSemaphore) {
+        
+        do {
+            if (dispatch_semaphore_wait(self.finishSemaphore, DISPATCH_TIME_NOW) != 0) {
+                dispatch_semaphore_signal(self.finishSemaphore) ;
+                self.finishSemaphore = nil ;
+            }
+        } while (self.finishSemaphore);
+    }
 }
 
 /** 编码音频 */
@@ -469,6 +505,17 @@ static BOOL isVideoFirst = YES;
     memcpy(bytes, copyData, size);
     
     CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
+}
+
+- (void)dealloc{
+    NSLog(@"FUVideoReader dealloc");
+    if (renderTarget) {
+        CVPixelBufferRelease(renderTarget);
+    }
+    
+    if (firstFrame) {
+        CFRelease(firstFrame);
+    }
 }
 
 @end

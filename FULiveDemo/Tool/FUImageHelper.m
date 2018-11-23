@@ -125,6 +125,30 @@
     return context;
 }
 
+
++ (unsigned char *)getRGBAWithImage:(UIImage *)image
+{
+    int RGBA = 4;
+    
+    CGImageRef imageRef = [image CGImage];
+    
+    size_t width = CGImageGetWidth(imageRef);
+    size_t height = CGImageGetHeight(imageRef);
+    
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    unsigned char *rawData = (unsigned char *) malloc(width * height * sizeof(unsigned char) * RGBA);
+    NSUInteger bytesPerPixel = RGBA;
+    NSUInteger bytesPerRow = bytesPerPixel * width;
+    NSUInteger bitsPerComponent = 8;
+    CGContextRef context = CGBitmapContextCreate(rawData, width, height, bitsPerComponent, bytesPerRow, colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+    
+    CGContextDrawImage(context, CGRectMake(0, 0, width, height), imageRef);
+    
+    CGColorSpaceRelease(colorSpace);
+    CGContextRelease(context);
+    return rawData;
+}
+
 + (UIImage *) convertBitmapRGBA8ToUIImage:(unsigned char *) buffer
                                 withWidth:(int) width
                                withHeight:(int) height {
@@ -176,35 +200,35 @@
                                                  colorSpaceRef,
                                                  kCGImageAlphaPremultipliedLast);
     
-    if(context == NULL) {
-        NSLog(@"Error context not created");
-        free(pixels);
+    UIImage *image = nil;
+    
+//    if(context == NULL) {
+//        NSLog(@"Error context not created");
+//        free(pixels);
+//        
+//        return nil ;
+//    }
+    
+    CGContextDrawImage(context, CGRectMake(0.0f, 0.0f, width, height), iref);
+    
+    CGImageRef imageRef = CGBitmapContextCreateImage(context);
+    
+    // Support both iPad 3.2 and iPhone 4 Retina displays with the correct scale
+    if([UIImage respondsToSelector:@selector(imageWithCGImage:scale:orientation:)]) {
+        float scale = [[UIScreen mainScreen] scale];
+        image = [UIImage imageWithCGImage:imageRef scale:scale orientation:UIImageOrientationUp];
+    } else {
+        image = [UIImage imageWithCGImage:imageRef];
     }
     
-    UIImage *image = nil;
-    if(context) {
-        
-        CGContextDrawImage(context, CGRectMake(0.0f, 0.0f, width, height), iref);
-        
-        CGImageRef imageRef = CGBitmapContextCreateImage(context);
-        
-        // Support both iPad 3.2 and iPhone 4 Retina displays with the correct scale
-        if([UIImage respondsToSelector:@selector(imageWithCGImage:scale:orientation:)]) {
-            float scale = [[UIScreen mainScreen] scale];
-            image = [UIImage imageWithCGImage:imageRef scale:scale orientation:UIImageOrientationUp];
-        } else {
-            image = [UIImage imageWithCGImage:imageRef];
-        }
-        
-        CGImageRelease(imageRef);
-        CGContextRelease(context);
-    }
+    CGImageRelease(imageRef);
+    CGContextRelease(context);
     
     CGColorSpaceRelease(colorSpaceRef);
     CGImageRelease(iref);
     CGDataProviderRelease(provider);
     
-    if(pixels) {
+    if(pixels != nil) {
         free(pixels);
     }
     return image;

@@ -20,4 +20,5 @@
 
 
 +(UIImage *)imageFromPixelBuffer:(CVPixelBufferRef)pixelBufferRef;
++ (unsigned char *)getRGBAWithImage:(UIImage *)image;
 @end

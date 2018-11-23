@@ -33,8 +33,8 @@
 }
 
 - (IBAction)sliderValueChange:(FUMakeupSlider *)sender {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(hairViewDidSelectedhairIndex:Strength:)]) {
-        [self.delegate hairViewDidSelectedhairIndex:selectedIndex - 1 Strength:sender.value];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(hairViewChanageStrength:)]) {
+        [self.delegate hairViewChanageStrength:sender.value];
     }
     
     NSString *imageName = self.itemsArray[selectedIndex] ;
@@ -86,8 +86,8 @@
     [collectionView reloadData];
     
     if (indexPath.row == 0) {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(hairViewDidSelectedhairIndex:Strength:)]) {
-            [self.delegate hairViewDidSelectedhairIndex:-1 Strength:0];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(hairViewDidSelectedhairIndex:)]) {
+            [self.delegate hairViewDidSelectedhairIndex:-1];
         }
         
         self.slider.hidden = YES ;
@@ -100,8 +100,8 @@
         }else {
             [self.paramDic setObject:@(0.5) forKey:imageName];
         }
-        if (self.delegate && [self.delegate respondsToSelector:@selector(hairViewDidSelectedhairIndex:Strength:)]) {
-            [self.delegate hairViewDidSelectedhairIndex:indexPath.row - 1 Strength:strength];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(hairViewDidSelectedhairIndex:)]) {
+            [self.delegate hairViewDidSelectedhairIndex:indexPath.row - 1];
         }
         
         self.slider.hidden = NO ;

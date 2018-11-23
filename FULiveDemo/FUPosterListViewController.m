@@ -104,16 +104,11 @@ static NSString *registerID = @"PosterCell";
 //点击item方法
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
-//    [self performSegueWithIdentifier:@"showFULiveView" sender:_model];
-//     FURenderViewController *renderController = [[FURenderViewController alloc] init];
-//    renderController.model = _model;
-//    [self.navigationController pushViewController:renderController animated:YES];
-    NSLog(@"----1");
     UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
     FURenderViewController *view = [story instantiateViewControllerWithIdentifier:@"rendView"];
     _model.selIndex = (int)indexPath.row;
     view.model = _model;
-   NSLog(@"----2");
+ 
     [self.navigationController pushViewController:view animated:YES];
     
     

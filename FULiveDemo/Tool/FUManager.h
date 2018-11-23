@@ -83,7 +83,7 @@
 - (void)loadItem:(NSString *)itemName;
 
 /* 添加动漫滤镜 */
-- (void)changeFilterAnimoji:(BOOL)isAdd;
+- (void)loadFilterAnimoji:(NSString *)itemName style:(int)style;
 /**
  合成海报输入参数
 
@@ -91,13 +91,31 @@
  @param photoImage 人脸照片
  @param photoLandmarks 要处理人脸点位
  */
--(void)productionPoster:(UIImage *)posterImage photo:(UIImage *)photoImage photoLandmarks:(float *)photoLandmarks;
+-(void)productionPoster:(UIImage *)posterImage photo:(UIImage *)photoImage photoLandmarks:(float *)photoLandmarks warpValue:(id)warpValue;
 /* 海报合成 */
 - (UIImage *)renderItemsToImage:(UIImage *)image;
 
+/**
+ 美妆贴纸
 
-/**加载美妆道具*/
-- (void)loadMakeupItemWithType:(NSInteger)typeIndex itemName:(NSString *)itemName ;
+ @param image 贴纸图片
+ @param paramStr nama 参数
+ */
+-(void)loadMakeupItemImage:(UIImage *)image param:(NSString *)paramStr;
+/**
+ 美妆程度值
+
+ @param value 0~1
+ @param paramStr nama 参数
+ */
+-(void)makeupIntensity:(float )value param:(NSString *)paramStr;
+/**
+ 口红色值
+
+ @param lipData [0,0,0,0] //长度为4的数组，rgba颜色值
+ */
+-(void)makeupLipstick:(double *)lipData;
+
 - (void)setHairStrength:(float)strength;
 
 /* 加载海报道具 */

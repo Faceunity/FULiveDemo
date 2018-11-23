@@ -77,12 +77,12 @@
     
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];
     launchVolume = audioSession.outputVolume;
-    launchVolume = launchVolume == 0 ? 0.05 : launchVolume;
-    launchVolume = launchVolume == 1 ? 0.95 : launchVolume;
-    if (launchVolume == 0.05 || launchVolume == 0.95) {
-        [[MPMusicPlayerController applicationMusicPlayer] setVolume:launchVolume];
-    }
-    
+//    launchVolume = launchVolume == 0 ? 0.05 : launchVolume;
+//    launchVolume = launchVolume == 1 ? 0.95 : launchVolume;
+//    if (launchVolume == 0.05 || launchVolume == 0.95) {
+//
+//    }
+//    [[MPMusicPlayerController applicationMusicPlayer] setVolume:launchVolume];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeChangeNotification:) name:@"SystemVolumeDidChange" object:nil];
     
 }
@@ -95,6 +95,7 @@
     }
     
     if (no.object != sender || [[no.userInfo objectForKey:@"AudioVolume"] floatValue] == launchVolume) {
+//        NSLog(@"当前的音量，%lf",launchVolume);
         return;
     }
     if(!_delegate) return;

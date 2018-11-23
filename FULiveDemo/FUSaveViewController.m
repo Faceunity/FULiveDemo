@@ -29,7 +29,6 @@
 -(void)setMImage:(UIImage *)mImage{
     _mImageView.image = mImage;
     _mImage = mImage;
-    
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -49,11 +48,11 @@
     vc.PushFrom = FUEditImagePushFromPhoto;
     [self.navigationController pushViewController:vc animated:YES];
     vc.mPhotoImage = self.mImageView.image;
+    if (self.mImageView.image) {
+        UIImageWriteToSavedPhotosAlbum(self.mImageView.image, self, nil, NULL);
+    }
     
 }
-
-
-
 
 #pragma  mark ----  重载系统方法  -----
 - (BOOL)prefersStatusBarHidden

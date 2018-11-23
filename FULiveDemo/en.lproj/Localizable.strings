@@ -19,8 +19,8 @@
 "手势识别" = "Gesture" ;
 "哈哈镜" = "FaceWarp" ;
 "人像驱动" = "Dynamic Portrait" ;
-"海报换脸"        = "face fusion";
-"美发"        = "hair color";
+"海报换脸"        = "Face Fusion";
+"美发"        = "Hair Color";
 
 "AR面具高精度版" = "High-Precision AR Mesh";
 
@@ -38,12 +38,15 @@
 "双手比心" = "Heart_b";
 "竖个拇指" = "Thumb_up";
 "比个六" = "Shaka sign";
+"推出手掌" = "push hand";
+"动漫滤镜" = "cartoon filter";
 
 "双拳靠近脸颊卖萌" = "Be cute";
 "转头触发" = "Swivel";
 
 "未识别到人脸" = "No Face Tracking" ;
 
+//美妆
 "口红" = "Lipstick";
 "腮红" = "Blush";
 "眉毛" = "Eyebrow";
@@ -52,6 +55,11 @@
 "睫毛" = "Eyelash";
 "美瞳" = "Contact Lens";
 
+"自定义" = "customize";
+"卸妆" = "remove";
+"桃花妆" = "peach";
+"雀斑妆" = "freckles";
+"朋克妆" = "punk.";
 "保存图片失败" = "Failed";
 "图片已保存到相册" = "Successful";
 "保存视频失败" = "Failed";
@@ -65,3 +73,6 @@
 "人脸倾斜大于15°，请重新选择"    =  "please face face shooting.";
 "知道了"    =  "OK";
 "未检测出人脸，请重新拍摄"    =  "No face detected, please re-shoot";
+
+
+

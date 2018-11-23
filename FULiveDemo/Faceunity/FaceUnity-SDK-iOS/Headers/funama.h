@@ -301,6 +301,28 @@ FUNAMA_API int fuItemSetParamdv(int item,char* name,double* value,int n);
 */
 FUNAMA_API int fuItemSetParamu8v(int item, char* name, void* value, int n);
 /**
+\brief create a texture for a rgba buffer and set tex as an item parameter
+\param item specifies the item
+\param name is the parameter name
+\param value rgba buffer
+\param width image width
+\param height image height
+\return zero for failure, non-zero for success
+*/
+FUNAMA_API int fuCreateTexForItem(int item, char* name, void* value, int width,int height);
+/**
+\brief delete the texture in item,only can be used to delete texutre create by fuCreateTexForItem
+\param item specifies the item
+\param name is the parameter name
+\param value rgba buffer
+\param width image width
+\param height image height
+\return zero for failure, non-zero for success
+*/
+FUNAMA_API int fuDeleteTexForItem(int item, char* name);
+
+
+/**
 \brief Set an item parameter to a string value
 \param item specifies the item
 \param name is the parameter name
@@ -571,6 +593,12 @@ FUNAMA_API int fuGetModuleCode(int i);
 \param enable > 0 means turning on, enable <= 0 means turning off
 */
 FUNAMA_API int fuSetASYNCTrackFace(int enable);
+
+/**
+\brief Clear Physics World
+\return 0 means physics disabled and no need to clear,1 means cleared successfully
+*/
+FUNAMA_API int fuClearPhysics();
 
 /*------------------------------------------*/
 /*************** Deprecated *****************/

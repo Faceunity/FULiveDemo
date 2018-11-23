@@ -10,6 +10,7 @@
 #import <CoreVideo/CoreVideo.h>
 #import <OpenGLES/ES3/gl.h>
 #import <OpenGLES/ES3/glext.h>
+
 #define STRINGIZE(x)    #x
 #define STRINGIZE2(x)    STRINGIZE(x)
 #define SHADER_STRING(text) @ STRINGIZE2(text)
@@ -240,6 +241,8 @@ enum
             CFRelease(self->videoTextureCache);
             self->videoTextureCache = NULL;
         }
+        
+        NSLog(@"FUOpenGLView dealloc");
     });
 }
 
@@ -254,8 +257,9 @@ enum
     
     glGenRenderbuffers(1, &renderBufferHandle);
     glBindRenderbuffer(GL_RENDERBUFFER, renderBufferHandle);
-    
-    [self.glContext renderbufferStorage:GL_RENDERBUFFER fromDrawable:(CAEAGLLayer *)self.layer];
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        [self.glContext renderbufferStorage:GL_RENDERBUFFER fromDrawable:(CAEAGLLayer *)self.layer];
+    });
 
     glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &backingWidth);
     glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &backingHeight);
@@ -329,6 +333,7 @@ enum
 
 - (void)displayPixelBuffer:(CVPixelBufferRef)pixelBuffer
 {
+
     [self displayPixelBuffer:pixelBuffer withLandmarks:NULL count:0];
 }
 
@@ -456,7 +461,7 @@ enum
     glVertexAttribPointer(furgbaPositionAttribute, 2, GL_FLOAT, 0, 0, vertices);
     glEnableVertexAttribArray(furgbaPositionAttribute);
     
-    GLfloat quadTextureData[8] = {0} ;
+    GLfloat quadTextureData[8] = {0};
     
     switch (self.origintation) {
         case FUOpenGLViewOrientationPortrait:{

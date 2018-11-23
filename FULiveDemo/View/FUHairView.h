@@ -13,7 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol FUHairViewDelegate <NSObject>
 
 @optional
-- (void)hairViewDidSelectedhairIndex:(NSInteger)index Strength:(float)strength;
+- (void)hairViewDidSelectedhairIndex:(NSInteger)index;
+
+-(void)hairViewChanageStrength:(float)strength;
 @end
 
 @interface FUHairView : UIView

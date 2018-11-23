@@ -25,6 +25,8 @@
     NSDictionary *hintDic;
     
     NSDictionary *alertDic ;
+    
+    dispatch_queue_t makeupQueue;
 }
 
 @property (nonatomic, strong) CMMotionManager *motionManager;
@@ -33,6 +35,7 @@
 @property (nonatomic,assign) BOOL isMotionItem;
 /* 当前加载的道具资源 */
 @property (nonatomic,copy) NSString *currentBoudleName;
+
 
 @end
 
@@ -54,13 +57,13 @@ static FUManager *shareManager = NULL;
 {
     if (self = [super init]) {
         [self setupDeviceMotion];
-        
+        makeupQueue = dispatch_queue_create("com.faceUMakeup", DISPATCH_QUEUE_SERIAL);
         NSString *path = [[NSBundle mainBundle] pathForResource:@"v3.bundle" ofType:nil];
         
         /**这里新增了一个参数shouldCreateContext，设为YES的话，不用在外部设置context操作，我们会在内部创建并持有一个context。
          还有设置为YES,则需要调用FURenderer.h中的接口，不能再调用funama.h中的接口。*/
         [[FURenderer shareRenderer] setupWithDataPath:path authPackage:&g_auth_package authSize:sizeof(g_auth_package) shouldCreateContext:YES];
-        [self setAsyncTrackFaceEnable:NO];
+        
         // 开启表情跟踪优化功能
         NSData *animModelData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"anim_model.bundle" ofType:nil]];
         int res0 = fuLoadAnimModel((void *)animModelData.bytes, (int)animModelData.length);
@@ -94,6 +97,9 @@ static FUManager *shareManager = NULL;
                     @"ssd_thread_thumb":@"竖个拇指",
                     @"ssd_thread_six":@"比个六",
                     @"ssd_thread_cute":@"双拳靠近脸颊卖萌",
+                    @"ctrl_rain":@"推出手掌",
+                    @"ctrl_snow":@"推出手掌",
+                    @"ctrl_flower":@"推出手掌"
                     };
         
         alertDic = @{
@@ -219,7 +225,7 @@ static FUManager *shareManager = NULL;
     self.mouthLevel             = 0.4 ; // 嘴
     
     /****  美妆程度  ****/
-    self.lipstick = 1.0 ;
+    self.lipstick = 1.0;
     self.blush = 1.0 ;
     self.eyebrow = 1.0 ;
     self.eyeShadow = 1.0 ;
@@ -303,7 +309,7 @@ static FUManager *shareManager = NULL;
     /**后销毁老道具句柄*/
     if (items[index] != 0) {
         NSLog(@"faceunity: destroy item");
-        [FURenderer destroyItem:items[3]];
+        [FURenderer destroyItem:items[index]];
     }
 }
 
@@ -365,14 +371,17 @@ static FUManager *shareManager = NULL;
         NSString *path = [[NSBundle mainBundle] pathForResource:[itemName stringByAppendingString:@".bundle"] ofType:nil];
         
         int itemHandle = [FURenderer itemWithContentsOfFile:path];
-        
+
         // 人像驱动 设置 3DFlipH
         BOOL isPortraitDrive = [itemName hasPrefix:@"picasso_e"];
         BOOL isAnimoji = [itemName hasSuffix:@"_Animoji"];
         
         if (isPortraitDrive || isAnimoji) {
+            [FURenderer itemSetParam:itemHandle withName:@"{\"thing\":\"<global>\",\"param\":\"follow\"}" value:@(1)];
             [FURenderer itemSetParam:itemHandle withName:@"is3DFlipH" value:@(1)];
             [FURenderer itemSetParam:itemHandle withName:@"isFlipExpr" value:@(1)];
+            [FURenderer itemSetParam:itemHandle withName:@"isFlipTrack" value:@(1)];
+            [FURenderer itemSetParam:itemHandle withName:@"isFlipLight" value:@(1)];
         }
 
     	if ([itemName isEqualToString:@"luhantongkuan_ztt_fu"]) {
@@ -402,28 +411,99 @@ static FUManager *shareManager = NULL;
     }
 }
 
-/**加载美妆道具*/
-- (void)loadMakeupItemWithType:(NSInteger)typeIndex itemName:(NSString *)itemName {
-    
-    typeIndex += 4;
-    
-    int destoryItem = items[typeIndex];
-    
-    if (itemName != nil && ![itemName isEqual: @"noitem"]) {
+#pragma  mark ----  美妆  -----
+/*
+ tex_brow 眉毛
+ tex_eye 眼影
+ tex_pupil 美瞳
+ tex_eyeLash 睫毛
+ tex_lip 口红
+ tex_highlight 口红高光
+ //jiemao
+ //meimao
+ tex_eyeLiner 眼线
+ tex_blusher腮红 value对应一个u8类型的数组长度为n，其中前[0-7]bytes是图片宽和高,[8-n]是图片rgba数据
+ 
+ */
+-(void)loadMakeupItemImage:(UIImage *)image param:(NSString *)paramStr{
+    dispatch_async(makeupQueue, ^{
+        if (!image) {
+            NSLog(@"美妆图片为空");
+            return;
+        }
+        if(items[4] == 0){
+            NSString *filePath = [[NSBundle mainBundle] pathForResource:@"face_makeup" ofType:@"bundle"];
+            items[4] = [FURenderer itemWithContentsOfFile:filePath];
+            fuItemSetParamd(items[4], "makeup_lip_mask", 1.0);//使用优化的口红效果
+        }
+        [[FUManager shareManager] makeupIntensity:1 param:@"is_makeup_on"];
+        int photoWidth = (int)CGImageGetWidth(image.CGImage);
+        int photoHeight = (int)CGImageGetHeight(image.CGImage);
+//        int photoBytesPerPixel = 4;
+//        int photoBytesPerRow = photoBytesPerPixel * photoWidth * photoHeight;
         
-        NSString *path = [[NSBundle mainBundle] pathForResource:[itemName stringByAppendingString:@".bundle"] ofType:nil];
+        unsigned char *imageData = [FUImageHelper getRGBAWithImage:image];
         
-        items[typeIndex] = [FURenderer itemWithContentsOfFile:path];
-    }else{
-        items[typeIndex] = 0;
-    }
-    NSLog(@"faceunity: load item");
-    /**后销毁老道具句柄*/
-    if (destoryItem != 0)
-    {
-        NSLog(@"faceunity: destroy item");
-        [FURenderer destroyItem:destoryItem];
-    }
+//        unsigned char *newData=(unsigned char *)malloc(sizeof(char)*(photoBytesPerRow + 8));
+//        memcpy(newData, &photoWidth, 4);
+//        memcpy(newData + 4, &photoHeight, 4);
+//        memcpy(newData + 8, imageData, photoBytesPerRow);
+        
+        [[FURenderer shareRenderer] setUpCurrentContext];
+        fuItemSetParamd(items[4], "reverse_alpha", 1.0);
+      //  fuItemSetParamu8v(items[4], (char *)[paramStr UTF8String], (char *)newData, photoBytesPerRow + 8);
+        fuCreateTexForItem(items[4], (char *)[paramStr UTF8String], imageData, photoWidth, photoHeight);
+        [[FURenderer shareRenderer] setBackCurrentContext];
+        
+ //       free(newData);
+        free(imageData);
+        NSLog(@"美妆设置---Parma（%@）",paramStr);
+        
+    });
+    
+}
+
+/*
+ is_makeup_on: 1, //美妆开关
+ makeup_intensity:1.0, //美妆程度 //下面是每个妆容单独的参数，intensity设置为0即为关闭这种妆效 makeup_intensity_lip:1.0, //kouhong makeup_intensity_pupil:1.0, //meitong
+ makeup_intensity_eye:1.0,
+ makeup_intensity_eyeLiner:1.0,
+ makeup_intensity_eyelash:1.0,
+ makeup_intensity_eyeBrow:1.0,
+ makeup_intensity_blusher:1.0, //saihong
+ makeup_lip_color:[0,0,0,0] //长度为4的数组，rgba颜色值
+ makeup_lip_mask:0.0 //嘴唇优化效果开关，1.0为开 0为关
+ */
+-(void)makeupIntensity:(float )value param:(NSString *)paramStr{
+    dispatch_async(makeupQueue, ^{
+        if (items[4]) {
+            int res = fuItemSetParamd(items[4], (char *)[paramStr UTF8String], value);
+            if (!res) NSLog(@"美妆设置失败---Parma（%@）---value(%lf)",paramStr,value);
+            
+        }else{
+            NSLog(@"美妆设置--bundle(nil)");
+        }
+    });
+}
+
+-(void)makeupLipstick:(double *)lipData{
+    //nama
+//    dispatch_async(makeupQueue, ^{
+        if(items[4] == 0){
+            NSString *filePath = [[NSBundle mainBundle] pathForResource:@"face_makeup" ofType:@"bundle"];
+            items[4] = [FURenderer itemWithContentsOfFile:filePath];
+            fuItemSetParamd(items[4], "makeup_lip_mask", 1.0);//使用优化的口红效果
+        }
+        //    [[FUManager shareManager] makeupIntensity:1 param:@"is_makeup_on"];
+        CFAbsoluteTime startTime =CFAbsoluteTimeGetCurrent();
+        [[FURenderer shareRenderer] setUpCurrentContext];
+        fuItemSetParamd(items[4], "reverse_alpha", 1.0);
+        //fuItemSetParamu8v(items[4], "makeup_lip_color",lipData, 4);
+        fuItemSetParamdv(items[4], "makeup_lip_color", lipData, 4);
+        [[FURenderer shareRenderer] setBackCurrentContext];
+        CFAbsoluteTime linkTime = (CFAbsoluteTimeGetCurrent() - startTime);
+        NSLog(@"口红设置耗时 --- %f ms", linkTime *1000.0);
+//    });
 }
 
 /**设置美发参数**/
@@ -503,28 +583,6 @@ static FUManager *shareManager = NULL;
     [FURenderer itemSetParam:items[0] withName:@"filter_name" value:[self.selectedFilter lowercaseString]];
     [FURenderer itemSetParam:items[0] withName:@"filter_level" value:@(self.selectedFilterLevel)]; //滤镜程度
     
-    /**  美妆  **/
-    if (items[4] != 0) {
-        [FURenderer itemSetParam:items[4] withName:@"makeup_intensity" value:@(self.lipstick)]; // 口红
-    }
-    if (items[5] != 0) {
-        [FURenderer itemSetParam:items[5] withName:@"makeup_intensity" value:@(self.blush)]; // 腮红
-    }
-    if (items[6] != 0) {
-        [FURenderer itemSetParam:items[6] withName:@"makeup_intensity" value:@(self.eyebrow)]; // 眉毛
-    }
-    if (items[7] != 0) {
-        [FURenderer itemSetParam:items[7] withName:@"makeup_intensity" value:@(self.eyeShadow)]; // 眼影
-    }
-    if (items[8] != 0) {
-        [FURenderer itemSetParam:items[8] withName:@"makeup_intensity" value:@(self.eyeLiner)]; // 眼线
-    }
-    if (items[9] != 0) {
-        [FURenderer itemSetParam:items[9] withName:@"makeup_intensity" value:@(self.eyelash)]; // 睫毛
-    }
-    if (items[10] != 0) {
-        [FURenderer itemSetParam:items[10] withName:@"makeup_intensity" value:@(self.contactLens)]; // 美瞳
-    }
 }
 
 /**将道具绘制到pixelBuffer*/
@@ -533,12 +591,15 @@ static FUManager *shareManager = NULL;
 	// 在未识别到人脸时根据重力方向设置人脸检测方向
     if ([self isDeviceMotionChange]) {
           fuSetDefaultOrientation(self.deviceOrientation);
-        if (self.isMotionItem) {
-            [FURenderer itemSetParam:items[1] withName:@"rotMode" value:@(self.deviceOrientation)];
-        }
+//        if (self.isMotionItem) {
+//            [FURenderer itemSetParam:items[1] withName:@"rotMode" value:@(self.deviceOrientation)];
+//        }
         
     }
-    
+    if (self.isMotionItem) {
+        [FURenderer itemSetParam:items[1] withName:@"rotMode" value:@(self.deviceOrientation)];
+    }
+
     if ([_currentBoudleName isEqualToString:@"fuzzytoonfilter"]) {//动漫滤镜需要兼容老版本
         if ( [EAGLContext currentContext].API <= 2) {
             [FURenderer itemSetParam:items[2] withName:@"glVer" value:@(2)];
@@ -557,7 +618,7 @@ static FUManager *shareManager = NULL;
 }
 
 
-
+#pragma  mark ----  海报换脸  -----
 - (UIImage *)renderItemsToImage:(UIImage *)image{
     
     int postersWidth = (int)CGImageGetWidth(image.CGImage);
@@ -575,37 +636,20 @@ static FUManager *shareManager = NULL;
     return image;
 }
 
--(void)productionPoster:(UIImage *)posterImage photo:(UIImage *)photoImage photoLandmarks:(float *)photoLandmarks{
+-(void)productionPoster:(UIImage *)posterImage photo:(UIImage *)photoImage photoLandmarks:(float *)photoLandmarks warpValue:(id)warpValue{
     [self destoryItems];
     [self loadPoster];
 
     int postersWidth = (int)CGImageGetWidth(posterImage.CGImage);
     int postersHeight = (int)CGImageGetHeight(posterImage.CGImage);
-    int postersBytesPerPixel = 4;
-    int postersBytesPerRow = postersBytesPerPixel * postersWidth * postersHeight;
-    
     CFDataRef posterDataFromImageDataProvider = CGDataProviderCopyData(CGImageGetDataProvider(posterImage.CGImage));
     GLubyte *posterData = (GLubyte *)CFDataGetBytePtr(posterDataFromImageDataProvider);
 
 
     int photoWidth = (int)CGImageGetWidth(photoImage.CGImage);
     int photoHeight = (int)CGImageGetHeight(photoImage.CGImage);
-    int photoBytesPerPixel = 4;
-    int photoBytesPerRow = photoBytesPerPixel * photoWidth * photoHeight;
     CFDataRef photoDataFromImageDataProvider = CGDataProviderCopyData(CGImageGetDataProvider(photoImage.CGImage));
     GLubyte *photoData = (GLubyte *)CFDataGetBytePtr(photoDataFromImageDataProvider);
-    
-    
-//    fuOnCameraChange();
-//    float photoLandmarks[150];
-//    for (int i = 0; i<40; i++) {
-//        [FURenderer trackFace:FU_FORMAT_BGRA_BUFFER inputData:photoData width:photoWidth height:photoHeight];
-//    }
-//    /* 检测人脸，放在控制 */
-//    int ret = [FURenderer getFaceInfo:index name:@"landmarks" pret:photoLandmarks number:150];
-//    if (ret == 0) {
-//        memset(photoLandmarks, 0, sizeof(float)*150);
-//    }
 
     CFAbsoluteTime startTime0 = CFAbsoluteTimeGetCurrent();
     fuOnCameraChange();
@@ -644,70 +688,35 @@ static FUManager *shareManager = NULL;
     fuItemSetParamd(items[2], "input_width", photoWidth);
     fuItemSetParamd(items[2], "input_height", photoHeight);
     fuItemSetParamdv(items[2], "input_face_points", photo, 150);
-    fuItemSetParamu8v(items[2], "tex_input", photoData, photoBytesPerRow);
+    fuCreateTexForItem(items[2], "tex_input", photoData, photoWidth, photoHeight);
     
     /* 模板海报 */
     fuItemSetParamd(items[2], "template_width", postersWidth);
     fuItemSetParamd(items[2], "template_height", postersHeight);
     fuItemSetParamdv(items[2], "template_face_points", poster, 150);
-    fuItemSetParamu8v(items[2], "tex_template", posterData, postersBytesPerRow);
+    if (warpValue) {
+        fuItemSetParamd(items[2], "warp_intensity", [warpValue doubleValue]);
+    }
+    fuCreateTexForItem(items[2], "tex_template", posterData, postersWidth, postersHeight);
     [[FURenderer shareRenderer] setBackCurrentContext];
+
     
     CFRelease(posterDataFromImageDataProvider);
     CFRelease(photoDataFromImageDataProvider);
     CFAbsoluteTime endTime = (CFAbsoluteTimeGetCurrent() - startTime);
     NSLog(@"-------photo----------setParameter: %f ms", endTime * 1000.0);
 }
-
-
-//- (void *)dataFromImage:(UIImage *)image{
-//    CFDataRef dataFromImageDataProvider = CGDataProviderCopyData(CGImageGetDataProvider(image.CGImage));
-//    GLubyte *imageData = (GLubyte *)CFDataGetBytePtr(dataFromImageDataProvider);
-//    CGSize size = image.size;
-//
-//    CFRelease(dataFromImageDataProvider);
-//
-//}
-
-
-- (unsigned char *)pixelBRGABytesFromImage:(UIImage *)image {
-    return [self pixelBRGABytesFromImageRef:image.CGImage];
-}
-
-- (unsigned char *)pixelBRGABytesFromImageRef:(CGImageRef)imageRef {
-    
-    NSUInteger iWidth = CGImageGetWidth(imageRef);
-    NSUInteger iHeight = CGImageGetHeight(imageRef);
-    NSUInteger iBytesPerPixel = 4;
-    NSUInteger iBytesPerRow = iBytesPerPixel * iWidth;
-    NSUInteger iBitsPerComponent = 8;
-    unsigned char *imageBytes = malloc(iWidth * iHeight * iBytesPerPixel);
-    
-    CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
-    
-    CGContextRef context = CGBitmapContextCreate(imageBytes,
-                                                 iWidth,
-                                                 iHeight,
-                                                 iBitsPerComponent,
-                                                 iBytesPerRow,
-                                                 colorspace,
-                                                 kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedLast);
-    
-    CGRect rect = CGRectMake(0 , 0 , iWidth , iHeight);
-    CGContextDrawImage(context , rect ,imageRef);
-    CGColorSpaceRelease(colorspace);
-    CGContextRelease(context);
-    CGImageRelease(imageRef);
-    
-    return imageBytes;
-}
-
-
-/* 抗锯齿 */
+/*
+ is3DFlipH 翻转模型
+ isFlipExpr 翻转表情
+ isFlipTrack 翻转位置和旋转
+ isFlipLight 翻转光照
+ */
 - (void)set3DFlipH {
-    
     [FURenderer itemSetParam:items[1] withName:@"is3DFlipH" value:@(1)];
     [FURenderer itemSetParam:items[1] withName:@"isFlipExpr" value:@(1)];
+    [FURenderer itemSetParam:items[1] withName:@"isFlipTrack" value:@(1)];
+    [FURenderer itemSetParam:items[1] withName:@"isFlipLight" value:@(1)];
 }
 
 - (void)setLoc_xy_flip {
@@ -723,35 +732,29 @@ static FUManager *shareManager = NULL;
 
 #pragma  mark ----  动漫滤镜  -----
 /* 关闭开启动漫滤镜 */
-- (void)changeFilterAnimoji:(BOOL)isAdd{
-    [self changeGlobal:isAdd];//
-    if (isAdd) {
+- (void)loadFilterAnimoji:(NSString *)itemName style:(int)style{
+    
+    if (itemName != nil && ![itemName isEqual: @"noitem"]) {
         if (items[2] == 0) {
             NSString *path = [[NSBundle mainBundle] pathForResource:@"fuzzytoonfilter.bundle" ofType:nil];
             int itemHandle = [FURenderer itemWithContentsOfFile:path];
             self.currentBoudleName = @"fuzzytoonfilter";
-            if ( [EAGLContext currentContext].API == 2) {
-                [FURenderer itemSetParam:items[2] withName:@"glVer" value:@(3)];
+            if ( [EAGLContext currentContext].API == 3) {
+                [FURenderer itemSetParam:itemHandle withName:@"glVer" value:@(3)];
             }else{
-                [FURenderer itemSetParam:items[2] withName:@"glVer" value:@(2)];
+                [FURenderer itemSetParam:itemHandle withName:@"glVer" value:@(2)];
             }
-            items[2] = itemHandle;            
+            
+            items[2] = itemHandle;
         }
+        
+        [FURenderer itemSetParam:items[2] withName:@"style" value:@(style)];
     }else{
         if (items[2] != 0){
             [FURenderer destroyItem:items[2]];
         }
         items[2] = 0;
         self.currentBoudleName = @"";
-    }
-}
-
-/* animoji跟踪 */
--(void)changeGlobal:(BOOL)isOn{
-    if (isOn) {
-        [FURenderer itemSetParam:items[1] withName:@"{\"thing\":\"<global>\",\"param\":\"follow\"}" value:@(1)];
-    }else{
-        [FURenderer itemSetParam:items[1] withName:@"{\"thing\":\"<global>\",\"param\":\"follow\"}" value:@(0)];
     }
 }
 
@@ -908,6 +911,38 @@ static FUManager *shareManager = NULL;
     return NO;
 }
 
+
+//- (unsigned char *)pixelBRGABytesFromImage:(UIImage *)image {
+//    return [self pixelBRGABytesFromImageRef:image.CGImage];
+//}
+//
+//- (unsigned char *)pixelBRGABytesFromImageRef:(CGImageRef)imageRef {
+//
+//    NSUInteger iWidth = CGImageGetWidth(imageRef);
+//    NSUInteger iHeight = CGImageGetHeight(imageRef);
+//    NSUInteger iBytesPerPixel = 4;
+//    NSUInteger iBytesPerRow = iBytesPerPixel * iWidth;
+//    NSUInteger iBitsPerComponent = 8;
+//    unsigned char *imageBytes = malloc(iWidth * iHeight * iBytesPerPixel);
+//
+//    CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
+//
+//    CGContextRef context = CGBitmapContextCreate(imageBytes,
+//                                                 iWidth,
+//                                                 iHeight,
+//                                                 iBitsPerComponent,
+//                                                 iBytesPerRow,
+//                                                 colorspace,
+//                                                 kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedLast);
+//
+//    CGRect rect = CGRectMake(0 , 0 , iWidth , iHeight);
+//    CGContextDrawImage(context , rect ,imageRef);
+//    CGColorSpaceRelease(colorspace);
+//    CGContextRelease(context);
+//    CGImageRelease(imageRef);
+//
+//    return imageBytes;
+//}
 
 
 - (NSString *)getPlatformtype {

@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "icon_gradualchangehair_03.png",
+      "filename" : "icon_gradualchangehair_04.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "icon_gradualchangehair_03@2x.png",
+      "filename" : "icon_gradualchangehair_04@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "icon_gradualchangehair_03@3x.png",
+      "filename" : "icon_gradualchangehair_04@3x.png",
       "scale" : "3x"
     }
   ],

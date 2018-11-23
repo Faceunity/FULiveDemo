@@ -64,7 +64,7 @@
 		<key>itemName</key>
 		<string>Animoji</string>
 		<key>maxFace</key>
-		<integer>1</integer>
+		<integer>4</integer>
 		<key>enble</key>
 		<false/>
 		<key>itemType</key>
@@ -99,9 +99,11 @@
 		</array>
 		<key>items</key>
 		<array>
+			<string>icon_gradualchangehair_01</string>
+			<string>icon_gradualchangehair_02</string>
+			<string>icon_gradualchangehair_03</string>
 			<string>icon_gradualchangehair_04</string>
 			<string>icon_gradualchangehair_05</string>
-			<string>icon_gradualchangehair_06</string>
 			<string>hair_color_1</string>
 			<string>hair_color_2</string>
 			<string>hair_color_3</string>

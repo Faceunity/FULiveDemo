@@ -13,28 +13,25 @@
 
 @implementation CircleProgressView
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    if([super initWithFrame:frame])
-    {
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if(self) {
         [self initData];
     }
     return self;
 }
 
-- (instancetype)init
-{
-    if([super init])
-    {
+- (instancetype)init {
+    self = [super init];
+    if(self) {
         [self initData];
     }
     return self;
 }
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder
-{
-    if([super initWithCoder:aDecoder])
-    {
+- (instancetype)initWithCoder:(NSCoder *)aDecoder   {
+    self = [super initWithCoder:aDecoder] ;
+    if(self) {
         [self initData];
     }
     return self;

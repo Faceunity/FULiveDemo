@@ -82,7 +82,7 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+    [super viewWillAppear:animated];
     
     [self startRendering];
 }
@@ -90,7 +90,7 @@
 - (IBAction)backAction:(UIButton *)sender {
     
     [self.videoReader stopReading];
-    
+    [self.videoReader destory];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -99,7 +99,9 @@
     [_avPlayer pause];
     _avPlayer = nil ;
     [self.videoReader stopReading];
-    [_displayLink invalidate];
+    [self.videoReader destory];
+    
+    [_displayLink invalidate]; 
     _displayLink.paused = YES ;
     _displayLink = nil ;
     

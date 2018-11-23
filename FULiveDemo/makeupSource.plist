@@ -7,6 +7,10 @@
 		<string>口红</string>
 		<key>items</key>
 		<array>
+			<string>makeup_noitem</string>
+			<string>口红07</string>
+			<string>口红08</string>
+			<string>口红09</string>
 			<string>口红01</string>
 			<string>口红02</string>
 			<string>口红03</string>
@@ -20,6 +24,9 @@
 		<string>腮红</string>
 		<key>items</key>
 		<array>
+			<string>makeup_noitem</string>
+			<string>腮红11</string>
+			<string>腮红12</string>
 			<string>腮红01</string>
 			<string>腮红02</string>
 			<string>腮红03</string>
@@ -37,6 +44,10 @@
 		<string>眉毛</string>
 		<key>items</key>
 		<array>
+			<string>makeup_noitem</string>
+			<string>眉毛07</string>
+			<string>眉毛08</string>
+			<string>眉毛09</string>
 			<string>眉毛01</string>
 			<string>眉毛02</string>
 			<string>眉毛03</string>
@@ -50,6 +61,10 @@
 		<string>眼影</string>
 		<key>items</key>
 		<array>
+			<string>makeup_noitem</string>
+			<string>眼影07</string>
+			<string>眼影08</string>
+			<string>眼影09</string>
 			<string>眼影01</string>
 			<string>眼影02</string>
 			<string>眼影03</string>
@@ -63,6 +78,9 @@
 		<string>眼线</string>
 		<key>items</key>
 		<array>
+			<string>makeup_noitem</string>
+			<string>眼线07</string>
+			<string>眼线08</string>
 			<string>眼线01</string>
 			<string>眼线02</string>
 			<string>眼线03</string>
@@ -76,6 +94,9 @@
 		<string>睫毛</string>
 		<key>items</key>
 		<array>
+			<string>makeup_noitem</string>
+			<string>睫毛07</string>
+			<string>睫毛08</string>
 			<string>睫毛01</string>
 			<string>睫毛02</string>
 			<string>睫毛03</string>
@@ -89,9 +110,10 @@
 		<string>美瞳</string>
 		<key>items</key>
 		<array>
-			<string>美瞳01</string>
-			<string>美瞳02</string>
-			<string>美瞳03</string>
+			<string>makeup_noitem</string>
+			<string>美瞳10</string>
+			<string>美瞳11</string>
+			<string>美瞳12</string>
 			<string>美瞳04</string>
 			<string>美瞳05</string>
 			<string>美瞳06</string>

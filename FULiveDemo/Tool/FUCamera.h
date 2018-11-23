@@ -16,7 +16,7 @@
 @end
 
 @interface FUCamera : NSObject
-@property (nonatomic, assign) id<FUCameraDelegate> delegate;
+@property (nonatomic, weak) id<FUCameraDelegate> delegate;
 @property (nonatomic, assign, readonly) BOOL isFrontCamera;
 @property (assign, nonatomic) CGPoint focusPoint;
 @property (assign, nonatomic) CGPoint exposurePoint;

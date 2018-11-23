@@ -65,8 +65,9 @@ typedef enum : NSUInteger {
     if (![self.captureSession isRunning] && !hasStarted) {
         hasStarted = YES;
         [self.captureSession startRunning];
-        self.exposurePoint = CGPointMake(0.49, 0.5);
-        self.focusPoint = CGPointMake(0.49, 0.5);
+//        self.exposurePoint = CGPointMake(0.49, 0.5);
+//        self.focusPoint = CGPointMake(0.49, 0.5);
+        NSLog(@"开启视频采集");
     }
 }
 
@@ -337,7 +338,7 @@ typedef enum : NSUInteger {
     }
     self.camera.exposureMode = AVCaptureExposureModeLocked;
     self.camera.exposurePointOfInterest = exposurePoint;
-    self.camera.exposureMode = AVCaptureExposureModeAutoExpose;
+    self.camera.exposureMode = AVCaptureExposureModeContinuousAutoExposure;
     
     [self.camera unlockForConfiguration];
 }
@@ -576,5 +577,9 @@ typedef enum : NSUInteger {
         [self.camera unlockForConfiguration];
     }else{
     }
+}
+
+- (void)dealloc{
+    NSLog(@"camera dealloc");
 }
 @end
