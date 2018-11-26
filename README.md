@@ -34,7 +34,7 @@ Xcode 8或更高版本
 
 ### 一、通过cocoapods集成
 
-含有深度学习的版本：
+全功能版本：
 
 ```
 pod 'Nama', '5.8.0' #注意此版本目前为dev版
@@ -60,9 +60,9 @@ pod repo update 或 pod setup
 
 ### 二、直接下载文件集成
 
-含有深度学习的版本：[FaceUnity-SDK-iOS-v5.8.0-dev.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v5.8.0-dev.zip)
+全功能版本：[FaceUnity-SDK-iOS-v5.8.0-dev.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v5.8.0-dev.zip)
 
-不含深度学习的版本（lite版）：[FaceUnity-SDK-iOS-v5.8.0-dev-lite.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v5.8.0-dev-lite.zip)
+不含机器学习以及物理引擎的版本（lite版）：[FaceUnity-SDK-iOS-v5.8.0-dev-lite.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v5.8.0-dev-lite.zip)
 
 下载完成并解压后将库文件夹拖入到工程中，并勾选上 Copy items if needed，如图：
 
