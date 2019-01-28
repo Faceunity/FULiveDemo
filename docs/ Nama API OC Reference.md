@@ -147,6 +147,36 @@
 **视频处理接口3：**
 
 ```
+- (CVPixelBufferRef)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer withFrameId:(int)frameid items:(int*)items itemCount:(int)itemCount flipx:(BOOL)flip customSize:(CGSize)customSize NS_AVAILABLE_IOS(8_0);
+```
+
+接口说明：
+
+- 将 items 中的道具绘制到 pixelBuffer 中，与 **视频处理接口2** 相比新增 customSize 参数，可以自定义输出分辨率。
+
+参数说明：
+
+`pixelBuffer ` 图像数据，支持的格式为：BGRA、YUV420SP
+
+`frameid ` 当前处理的视频帧序数，每次处理完对其进行加 1 操作，不加 1 将无法驱动道具中的特效动画
+
+`items ` 包含多个道具句柄的 int 数组，包括普通道具、美颜道具、手势道具等
+
+`itemCount ` 句柄数组中包含的句柄个数
+
+`flip ` 道具镜像使能，如果设置为 YES 可以将道具做镜像操作
+
+`customSize` 自定义输出的分辨率，目前仅支持BGRA格式
+
+返回值：
+
+`CVPixelBufferRef ` 被处理过的的图像数据，与传入的 pixelBuffer 不是同一个 pixelBuffer
+
+------
+
+**视频处理接口4：**
+
+```
 - (CVPixelBufferRef)renderToInternalPixelBuffer:(CVPixelBufferRef)pixelBuffer withFrameId:(int)frameid items:(int*)items itemCount:(int)itemCount;
 ```
 
@@ -170,7 +200,7 @@
 
 ------
 
-**视频处理接口4：**
+**视频处理接口5：**
 
 ```
 - (FUOutput)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer bgraTexture:(GLuint)textureHandle withFrameId:(int)frameid items:(int *)items itemCount:(int)itemCount;
@@ -205,7 +235,7 @@ typedef struct{
 
 ------
 
-**视频处理接口5：**
+**视频处理接口6：**
 
 ```
 - (FUOutput)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer bgraTexture:(GLuint)textureHandle withFrameId:(int)frameid items:(int *)items itemCount:(int)itemCount flipx:(BOOL)flip;
@@ -213,7 +243,7 @@ typedef struct{
 
 接口说明：
 
-- 将items中的道具绘制到 textureHandle 及 pixelBuffer 中，与 **视频处理接口4** 相比新增 flip 参数，将该参数设置为 YES 可使道具做水平镜像翻转。
+- 将items中的道具绘制到 textureHandle 及 pixelBuffer 中，与 **视频处理接口5** 相比新增 flip 参数，将该参数设置为 YES 可使道具做水平镜像翻转。
 
 参数说明：
 
@@ -242,7 +272,44 @@ typedef struct{
 
 ------
 
-**视频处理接口6：**
+**视频处理接口7：**
+
+```
+- (FUOutput)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer bgraTexture:(GLuint)textureHandle withFrameId:(int)frameid items:(int *)items itemCount:(int)itemCount flipx:(BOOL)flip customSize:(CGSize)customSize NS_AVAILABLE_IOS(8_0);
+```
+
+接口说明：
+
+- 将items中的道具绘制到 textureHandle 及 pixelBuffer 中，与 **视频处理接口6** 相比，新增 customSize 参数，可以自定义输出分辨率。
+
+参数说明：
+
+`pixelBuffer ` 图像数据，支持的格式为：BGRA、YUV420SP，用于人脸识别
+
+`textureHandle ` 用户当前 EAGLContext 下的 textureID，用于图像处理
+
+`frameid ` 当前处理的视频帧序数，每次处理完对其进行加 1 操作，不加 1 将无法驱动道具中的特效动画
+
+`items ` 包含多个道具句柄的int数组，包括普通道具、美颜道具、手势道具等
+
+`itemCount ` 句柄数组中包含的句柄个数
+
+`flip ` 道具镜像使能，如果设置为 YES 可以将道具做镜像操作
+
+`customSize` 自定义输出的分辨率，目前仅支持BGRA格式
+
+返回值：
+
+`FUOutput ` 被处理过的的图像数据， FUOutput 的定义如下：
+
+```
+typedef struct{
+    CVPixelBufferRef pixelBuffer;
+    GLuint bgraTextureHandle;
+}FUOutput;
+```
+
+**视频处理接口8：**
 
 ```
 - (CVPixelBufferRef)beautifyPixelBuffer:(CVPixelBufferRef)pixelBuffer withBeautyItem:(int)item;
@@ -264,7 +331,7 @@ typedef struct{
 
 ------
 
-**视频处理接口7：**
+**视频处理接口9：**
 
 ```
 - (void)renderFrame:(uint8_t*)y u:(uint8_t*)u v:(uint8_t*)v ystride:(int)ystride ustride:(int)ustride vstride:(int)vstride width:(int)width height:(int)height frameId:(int)frameid items:(int *)items itemCount:(int)itemCount;
@@ -300,7 +367,7 @@ typedef struct{
 
 ------
 
-**视频处理接口8：**
+**视频处理接口10：**
 
 ```
 - (void)renderFrame:(uint8_t*)y u:(uint8_t*)u v:(uint8_t*)v ystride:(int)ystride ustride:(int)ustride vstride:(int)vstride width:(int)width height:(int)height frameId:(int)frameid items:(int *)items itemCount:(int)itemCount flipx:(BOOL)flip;
@@ -308,7 +375,7 @@ typedef struct{
 
 接口说明：
 
-- 将 items 中的道具绘制到 YUV420P 图像中，与 **视频处理接口7** 相比新增 flip 参数，将该参数设置为 YES 可使道具做水平镜像翻转
+- 将 items 中的道具绘制到 YUV420P 图像中，与 **视频处理接口8** 相比新增 flip 参数，将该参数设置为 YES 可使道具做水平镜像翻转
 
 参数说明：
 

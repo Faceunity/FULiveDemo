@@ -6,15 +6,14 @@ FULiveDemo 是集成了 Faceunity 面部跟踪、美颜、Animoji、道具贴纸
 
 注2：由于最新的含有深度学习的libnama.a大小已超过100M，我们没有上传libnama.a的原文件，只是上传了一个libnama.zip的文件，在你第一次编译工程的时候我们会解压libnama.zip。如果你想从工程目录中获取含有深度学习的libnama.a，并且你没有编译过工程的话，则需要先解压libnama.zip获得libnama.a才行。
 
-## SDK v5.8.0 更新
+## SDK v5.9.0 更新
 
 更新内容
-- 支持ETC2压缩纹理，减少内存占用，提高绘制性能
-- 优化美妆唇部效果，更加贴合唇形
-- 新增支持多人物理动效
-- 新增两款艺术滤镜
-- 海报换脸功能优化，支持表情融合
-- 海报换脸性能优化
+
+- 人脸大角度效果优化
+- 人脸检测跟踪优化，加强黑色人种检测，对眼镜反光更鲁棒等
+- 优化道具加载速度，需FUEditor5.9.0以上
+- 美颜亮眼功能优化
 
 ## 软件要求
 
@@ -37,13 +36,13 @@ Xcode 8或更高版本
 全功能版本：
 
 ```
-pod 'Nama', '5.8.0' #注意此版本目前为dev版
+pod 'Nama', '5.9.0' #注意此版本目前为dev版
 ```
 
 不含机器学习以及物理引擎的版本（lite版）：
 
 ```
-pod 'Nama-lite', '5.8.0' #注意此版本目前为dev版
+pod 'Nama-lite', '5.9.0' #注意此版本目前为dev版
 ```
 
 接下来执行：
@@ -60,9 +59,9 @@ pod repo update 或 pod setup
 
 ### 二、直接下载文件集成
 
-全功能版本：[FaceUnity-SDK-iOS-v5.8.0-dev.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v5.8.0-dev.zip)
+全功能版本：[FaceUnity-SDK-iOS-v5.9.0-dev.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v5.9.0-dev.zip)
 
-不含机器学习以及物理引擎的版本（lite版）：[FaceUnity-SDK-iOS-v5.8.0-dev-lite.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v5.8.0-dev-lite.zip)
+不含机器学习以及物理引擎的版本（lite版）：[FaceUnity-SDK-iOS-v5.9.0-dev-lite.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v5.9.0-dev-lite.zip)
 
 下载完成并解压后将库文件夹拖入到工程中，并勾选上 Copy items if needed，如图：
 
@@ -662,7 +661,7 @@ __使用方法__：
 
 ## 海报换脸
 
-Nama SDK 从5.8.0开始支持新版海报换脸功能，该功能可实现将用户的脸完美的融合到海报中模特的脸上，实现换脸功能。
+Nama SDK 从5.9.0开始支持新版海报换脸功能，该功能可实现将用户的脸完美的融合到海报中模特的脸上，实现换脸功能。
 
 首先需要加载change_face.bundle道具，然后参考参考[海报换脸接口文档](docs/海报换脸接口文档.md)，同时也可以参考我们Demo中的实际使用方法。
 
@@ -670,7 +669,7 @@ Nama SDK 从5.8.0开始支持新版海报换脸功能，该功能可实现将用
 
 ## 人脸美妆
 
-Nama SDK 从5.8.0开始支持新版的人脸美妆功能，该功能可实现口红、腮红、眉毛、眼影、眼线、睫毛、美瞳等功能，同时支持精细调整。
+Nama SDK 从5.9.0开始支持新版的人脸美妆功能，该功能可实现口红、腮红、眉毛、眼影、眼线、睫毛、美瞳等功能，同时支持精细调整。
 
 首先需要加载face_makeup.bundle道具，然后参考[美妆bundle参数说明](docs/美妆bundle参数说明.pdf)进行开发，同时也可以参考我们Demo中的实际使用方法。
 
@@ -678,7 +677,7 @@ Nama SDK 从5.8.0开始支持新版的人脸美妆功能，该功能可实现口
 
 ## 美发功能
 
-Nama SDK 从5.8.0开始支持美发功能，该功能可以改变人物头发颜色，目前支持8种普通发色及5种渐变色，同时调节美发程度。
+Nama SDK 从5.9.0开始支持美发功能，该功能可以改变人物头发颜色，目前支持8种普通发色及5种渐变色，同时调节美发程度。
 
 ### 普通发色
 
