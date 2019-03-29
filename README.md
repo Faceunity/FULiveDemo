@@ -24,7 +24,7 @@ FULiveDemo 是集成了 Faceunity 面部跟踪、美颜、Animoji、道具贴纸
 
 ### 一、支持平台
 
-    iOS 8.0以上系统
+    iOS 9.0以上系统
 
 ### 二、开发环境
 
