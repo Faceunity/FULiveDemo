@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FUItemsViewCell" id="cc4-uR-m9b" customClass="FUItemsViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="60" height="53"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                <rect key="frame" x="0.0" y="0.0" width="60" height="53"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DiN-SQ-UbU">
+                        <rect key="frame" x="0.0" y="0.0" width="60" height="53"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="30"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </imageView>
+                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="4Iq-Kr-rha">
+                        <rect key="frame" x="11.5" y="8" width="37" height="37"/>
+                    </activityIndicatorView>
+                </subviews>
+            </view>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="DiN-SQ-UbU" firstAttribute="top" secondItem="cc4-uR-m9b" secondAttribute="top" id="3Fk-UK-aaL"/>
+                <constraint firstAttribute="bottom" secondItem="DiN-SQ-UbU" secondAttribute="bottom" id="CU8-v5-doe"/>
+                <constraint firstItem="4Iq-Kr-rha" firstAttribute="centerX" secondItem="cc4-uR-m9b" secondAttribute="centerX" id="gsw-fc-qSb"/>
+                <constraint firstItem="4Iq-Kr-rha" firstAttribute="centerY" secondItem="cc4-uR-m9b" secondAttribute="centerY" id="mVd-C8-uUp"/>
+                <constraint firstAttribute="trailing" secondItem="DiN-SQ-UbU" secondAttribute="trailing" id="qSN-aQ-WbM"/>
+                <constraint firstItem="DiN-SQ-UbU" firstAttribute="leading" secondItem="cc4-uR-m9b" secondAttribute="leading" id="qaR-iX-0JC"/>
+            </constraints>
+            <size key="customSize" width="60" height="53"/>
+            <connections>
+                <outlet property="imageView" destination="DiN-SQ-UbU" id="wBC-yw-VjM"/>
+                <outlet property="indicator" destination="4Iq-Kr-rha" id="ck5-98-tnD"/>
+            </connections>
+            <point key="canvasLocation" x="84" y="54.5"/>
+        </collectionViewCell>
+    </objects>
+</document>

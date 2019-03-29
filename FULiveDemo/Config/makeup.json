@@ -1,0 +1,40 @@
+{"data":
+[{
+    "name" :"口红",
+    "namaTypeStr" : "makeup_lip_color",
+    "namaValueStr":"makeup_intensity_lip",
+    "sgArr" :  [{"iconStr":"makeup_noitem","namaImgStr":"makeup_noitem","value":0.0},
+        {"iconStr":"demo_lip_16","namaImgStr":"mu_lip_16","value":1.0},
+        {"iconStr":"demo_lip_17","namaImgStr":"mu_lip_17","value":1.0},
+        {"iconStr":"demo_lip_19","namaImgStr":"mu_lip_19","value":1.0}]
+},
+{
+    "name" :"腮红",
+    "namaTypeStr" : "tex_blusher",
+    "namaValueStr":"makeup_intensity_blusher",
+    "sgArr" :  [{"iconStr":"makeup_noitem","namaImgStr":"","value":0.0},
+        {"iconStr":"demo_blush_18","namaImgStr":"mu_blush_18","value":1.0},
+        {"iconStr":"demo_blush_19","namaImgStr":"mu_blush_19","value":1.0},
+        {"iconStr":"demo_blush_21","namaImgStr":"mu_blush_21","value":1.0}]
+},
+{
+    "name" :"眉毛",
+    "namaTypeStr" : "tex_brow",
+    "namaValueStr":"makeup_intensity_eyeBrow",
+    "sgArr" :  [{"iconStr":"makeup_noitem","namaImgStr":"","value":0.0},
+        {"iconStr":"demo_eyebrow_10","namaImgStr":"mu_eyebrow_10","value":1.0},
+        {"iconStr":"demo_eyebrow_12","namaImgStr":"mu_eyebrow_12","value":1.0},
+        {"iconStr":"demo_eyebrow_19","namaImgStr":"mu_eyebrow_19","value":1.0}]
+    
+},
+{
+    "name" :"眼影",
+    "namaTypeStr" : "tex_eye",
+    "namaValueStr":"makeup_intensity_eye",
+    "sgArr" :   [{"iconStr":"makeup_noitem","namaImgStr":"","value":0.0},
+        {"iconStr":"demo_eyeshadow_16","namaImgStr":"mu_eyeshadow_16","value":1.0},
+        {"iconStr":"demo_eyeshadow_17","namaImgStr":"mu_eyeshadow_17","value":1.0},
+        {"iconStr":"demo_eyeshadow_19","namaImgStr":"mu_eyeshadow_19","value":1.0}]
+    
+}]
+}
