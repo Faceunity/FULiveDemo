@@ -81,6 +81,7 @@
     NSDictionary *wholeDic=[NSJSONSerialization JSONObjectWithData:wholeData options:NSJSONReadingMutableContainers error:nil];
     NSArray *supArray = [FUMakeupSupModel mj_objectArrayWithKeyValuesArray:wholeDic[@"data1"]];
     _makeupView = [[FUMakeUpView alloc] initWithFrame:CGRectMake(0,-10, [UIScreen mainScreen].bounds.size.width, 160)];
+    [_makeupView setDefaultSupItem:self.selMakeupIndex];
     _makeupView.delegate = self;
     [_makeupView setWholeArray:supArray];
 
@@ -613,6 +614,12 @@
 }
 
 #pragma mark --- setter
+
+-(void)setSelMakeupIndex:(int)selMakeupIndex{
+    _selMakeupIndex = selMakeupIndex;
+    [_makeupView setDefaultSupItem:selMakeupIndex];
+}
+
 
 /** 精准美肤 (0、1)    */
 -(void)setSkinDetect:(BOOL)skinDetect {

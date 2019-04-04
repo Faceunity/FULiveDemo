@@ -362,7 +362,7 @@
 }
 
 -(void)dealloc{
-    [[FUManager shareManager] destoryItem:4];//销毁海报
+    [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeChangeface];//销毁海报
 }
 
 @end

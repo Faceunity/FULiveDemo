@@ -110,6 +110,7 @@
     
     _demoBar.delegate = self;
     _demoBar.demoBar.makeupView.delegate = self;
+    _demoBar.demoBar.selMakeupIndex = _demoBar.demoBar.makeupView.supIndex;
 }
 
 #pragma  mark -  按钮点击
@@ -143,6 +144,10 @@
     [FUManager shareManager].noseLevel = _demoBar.noseLevel;
     [FUManager shareManager].mouthLevel = _demoBar.mouthLevel;
     
+    /* 暂时解决展示表中，没有显示滤镜，引起bug */
+    if (![[FUManager shareManager].beautyFiltersDataSource containsObject:_demoBar.selectedFilter]) {
+        return;
+    }
     [FUManager shareManager].selectedFilter = _demoBar.selectedFilter ;
     [FUManager shareManager].selectedFilterLevel = _demoBar.selectedFilterLevel;
 }

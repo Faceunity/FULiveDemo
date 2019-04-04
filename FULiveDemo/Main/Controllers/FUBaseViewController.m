@@ -90,6 +90,8 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
     [self.mCamera resetFocusAndExposureModes];
     [self.mCamera stopCapture];
     
+    /* 清一下信息，防止快速切换有人脸信息缓存 */
+    [FURenderer onCameraChange];
 }
 
 #pragma  mark -  UI
@@ -383,12 +385,6 @@ static  NSTimeInterval oldTime = 0;
         dispatch_semaphore_signal(semaphore);
     }
     
-    
-    //    float landmarks[150];
-    //    int ret = [FURenderer getFaceInfo:0 name:@"landmarks" pret:landmarks number:150];
-    //    if (ret == 0) {
-    //        memset(landmarks, 0, sizeof(float)*150);
-    //    }
     [self.renderView displayPixelBuffer:pixelBuffer];
     dispatch_async(dispatch_get_main_queue(), ^{
         /**判断是否检测到人脸*/

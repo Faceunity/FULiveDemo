@@ -44,6 +44,8 @@
 
 // 定时器
 @property (nonatomic, strong) CADisplayLink *displayLink;
+
+@property (nonatomic,assign) NSInteger  degress;
 @end
 
 @implementation FURenderImageViewController
@@ -68,6 +70,9 @@
         self.itemsView = nil ;
         
         self.downloadBtn.transform = CGAffineTransformMakeTranslation(0, 30) ;
+        /* 销毁美妆，新建 */
+        [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeMakeup];
+        
     }else {
         self.demoBar.hidden = YES ;
         
@@ -194,7 +199,7 @@
     [_displayLink invalidate];
     _displayLink.paused = YES ;
     _displayLink = nil ;
-    
+    [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeMakeup];
     [super viewWillDisappear:animated];
 }
 
@@ -272,6 +277,11 @@
 
 -(void)setVideoURL:(NSURL *)videoURL {
     _videoURL = videoURL ;
+    
+    self.degress = [self degressFromVideoFileWithURL:videoURL];
+    
+    _glView.origintation = self.degress;
+//    degressFromVideoFileWithURL
 }
 
 #pragma  mark -  UI事件
@@ -471,6 +481,10 @@
     [FUManager shareManager].noseLevel = _demoBar.noseLevel;
     [FUManager shareManager].mouthLevel = _demoBar.mouthLevel;
     
+    /* 暂时解决展示表中，没有显示滤镜，引起bug */
+    if (![[FUManager shareManager].beautyFiltersDataSource containsObject:_demoBar.selectedFilter]) {
+        return;
+    }
     [FUManager shareManager].selectedFilter = _demoBar.selectedFilter ;
     [FUManager shareManager].selectedFilterLevel = _demoBar.selectedFilterLevel;
 }
@@ -659,6 +673,36 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+
+- (NSUInteger)degressFromVideoFileWithURL:(NSURL *)url
+{
+    NSUInteger degress = 0;
+    
+    AVAsset *asset = [AVAsset assetWithURL:url];
+    NSArray *tracks = [asset tracksWithMediaType:AVMediaTypeVideo];
+    if([tracks count] > 0) {
+        AVAssetTrack *videoTrack = [tracks objectAtIndex:0];
+        CGAffineTransform t = videoTrack.preferredTransform;
+        
+        if(t.a == 0 && t.b == 1.0 && t.c == -1.0 && t.d == 0){
+            // Portrait
+            degress = 1;
+        }else if(t.a == 0 && t.b == -1.0 && t.c == 1.0 && t.d == 0){
+            // PortraitUpsideDown
+            degress = 3;
+        }else if(t.a == 1.0 && t.b == 0 && t.c == 0 && t.d == 1.0){
+            // LandscapeRight
+            degress = 0;
+        }else if(t.a == -1.0 && t.b == 0 && t.c == 0 && t.d == -1.0){
+            // LandscapeLeft
+            degress = 2;
+        }
+    }
+    
+    
+    return degress;
 }
 
 -(void)dealloc {

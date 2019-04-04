@@ -66,6 +66,7 @@
 /**嘴型 (0~1)*/
 @property (nonatomic, assign) double mouthLevel;
 
+@property (nonatomic,assign) int selMakeupIndex;
 
 /**滤镜名称数组*/
 @property (nonatomic, strong) NSArray<NSString *> *filtersDataSource;
@@ -78,7 +79,7 @@
 
 /* 选中的滤镜 */
 @property (nonatomic, strong) NSString *selectedFilter;
-@property (nonatomic, assign)   double  selectedFilterLevel ;
+@property (nonatomic, assign)   double  selectedFilterLevel;
 
 @property (nonatomic, assign) id<FUDemoBarDelegate>mDelegate ;
 

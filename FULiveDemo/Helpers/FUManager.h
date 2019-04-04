@@ -12,6 +12,22 @@
 #import "FURenderer.h"
 
 @class FULiveModel ;
+
+/*
+ items 保存加载到Nama中bundle的操作句柄集
+ 为方便演示阅读，这里将
+ */
+typedef NS_ENUM(NSUInteger, FUNamaHandleType) {
+    FUMNamaHandleTypeBeauty = 0,   /* items[0] ------ 放置 美颜道具句柄 */
+    FUMNamaHandleTypeItem = 1,     /* items[1] ------ 放置 普通道具句柄（包含很多，如：贴纸，aoimoji...若不单一存在，可放句柄集其他位置） */
+    FUMNamaHandleTypeFxaa = 2,     /* items[2] ------ fxaa抗锯齿道具句柄 */
+    FUNamaHandleTypeGesture = 3,    /* items[3] ------ 手势识别道具句柄 */
+    FUNamaHandleTypeChangeface = 4, /* items[4] ------ 海报换脸道具句柄 */
+    FUNamaHandleTypeComic = 5,      /* items[5] ------ 动漫道具句柄 */
+    FUNamaHandleTypeMakeup = 6,     /* items[6] ------ 美妆道具句柄 */
+    FUNamaHandleTypePhotolive = 7,  /* items[7] ------ 异图道具句柄 */
+};
+
 @interface FUManager : NSObject
 
 @property (nonatomic, assign)               BOOL enableGesture;         /**设置是否开启手势识别，默认未开启*/
@@ -74,7 +90,7 @@
 - (void)destoryItems;
 /* 销毁指定道具
  */
-- (void)destoryItem:(int)index;
+- (void)destoryItemAboutType:(FUNamaHandleType)type;
 
 /**加载普通道具*/
 - (void)loadItem:(NSString *)itemName;

@@ -250,34 +250,34 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
             }
         }
     }else{
-        FUMakeupSupModel *modle = _supArray[indexPath.row];
-        _supIndex = (int)indexPath.row;
-        if (indexPath.row != 0) {
-            self.slider.hidden = NO ;
-            self.slider.value = modle.value;
-        }else{
-            self.slider.hidden = YES;
-        }
-        for (int i = 0; i < _supArray[_supIndex].makeups.count; i ++) {
-            FUSingleMakeupModel *sModel = _supArray[_supIndex].makeups[i];
-            
-            if ([self.delegate respondsToSelector:@selector(makeupViewDidSelectedItemName:namaStr:isLip:)]){
-                if (i == 0) {
-                    [self.delegate makeupViewDidSelectedItemName:sModel.namaImgStr namaStr:sModel.namaTypeStr isLip:YES];
-                }else{
-                    [self.delegate makeupViewDidSelectedItemName:sModel.namaImgStr namaStr:sModel.namaTypeStr isLip:NO];
-                }
-            }
-            
-            if ([self.delegate respondsToSelector:@selector(makeupViewDidChangeValue:namaValueStr:)]){
-                [self.delegate makeupViewDidChangeValue:sModel.value * _supArray[_supIndex].value namaValueStr:sModel.namaValueStr];
-            }
-            
-        }
-        
-        if ([self.delegate respondsToSelector:@selector(makeupFilter:value:)]){
-            [self.delegate makeupFilter:modle.selectedFilter value:modle.selectedFilterLevel];
-        }
+//        FUMakeupSupModel *modle = _supArray[indexPath.row];
+//        _supIndex = (int)indexPath.row;
+//        if (indexPath.row != 0) {
+//            self.slider.hidden = NO ;
+//            self.slider.value = modle.value;
+//        }else{
+//            self.slider.hidden = YES;
+//        }
+//        for (int i = 0; i < _supArray[_supIndex].makeups.count; i ++) {
+//            FUSingleMakeupModel *sModel = _supArray[_supIndex].makeups[i];
+//
+//            if ([self.delegate respondsToSelector:@selector(makeupViewDidSelectedItemName:namaStr:isLip:)]){
+//                if (i == 0) {
+//                    [self.delegate makeupViewDidSelectedItemName:sModel.namaImgStr namaStr:sModel.namaTypeStr isLip:YES];
+//                }else{
+//                    [self.delegate makeupViewDidSelectedItemName:sModel.namaImgStr namaStr:sModel.namaTypeStr isLip:NO];
+//                }
+//            }
+//
+//            if ([self.delegate respondsToSelector:@selector(makeupViewDidChangeValue:namaValueStr:)]){
+//                [self.delegate makeupViewDidChangeValue:sModel.value * _supArray[_supIndex].value namaValueStr:sModel.namaValueStr];
+//            }
+//
+//        }
+//
+//        if ([self.delegate respondsToSelector:@selector(makeupFilter:value:)]){
+//            [self.delegate makeupFilter:modle.selectedFilter value:modle.selectedFilterLevel];
+//        }
         
         [self setDefaultSupItem:(int)indexPath.row];
     }
@@ -361,6 +361,29 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
 -(void)setDefaultSupItem:(int)index{
     if (index >= _supArray.count || index < 0) {
         return;
+    }
+    
+    FUMakeupSupModel *modle = _supArray[index];
+    _supIndex = index;
+    for (int i = 0; i < _supArray[_supIndex].makeups.count; i ++) {
+        FUSingleMakeupModel *sModel = _supArray[_supIndex].makeups[i];
+        
+        if ([self.delegate respondsToSelector:@selector(makeupViewDidSelectedItemName:namaStr:isLip:)]){
+            if (i == 0) {
+                [self.delegate makeupViewDidSelectedItemName:sModel.namaImgStr namaStr:sModel.namaTypeStr isLip:YES];
+            }else{
+                [self.delegate makeupViewDidSelectedItemName:sModel.namaImgStr namaStr:sModel.namaTypeStr isLip:NO];
+            }
+        }
+        
+        if ([self.delegate respondsToSelector:@selector(makeupViewDidChangeValue:namaValueStr:)]){
+            [self.delegate makeupViewDidChangeValue:sModel.value * _supArray[_supIndex].value namaValueStr:sModel.namaValueStr];
+        }
+        
+    }
+    
+    if ([self.delegate respondsToSelector:@selector(makeupFilter:value:)]){
+        [self.delegate makeupFilter:modle.selectedFilter value:modle.selectedFilterLevel];
     }
     
     float supValue = _supArray[_supIndex].value;
