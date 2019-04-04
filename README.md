@@ -23,8 +23,6 @@ FULiveDemo 是集成了 Faceunity 面部跟踪、美颜、Animoji、道具贴纸
 
 更新文档
 
-更新文档
-
 - [美颜道具参数说明_完整版](docs/美颜道具参数说明_完整版.pdf)
 - [美妆bundle参数说明](docs/美妆bundle参数说明.pdf)
 - [质感美颜参数说明](docs/质感美颜参数说明.pdf)
