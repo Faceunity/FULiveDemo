@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yDv-Oh-bsv" customClass="FUTipView">
+            <rect key="frame" x="0.0" y="0.0" width="245" height="225"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="未识别icon" translatesAutoresizingMaskIntoConstraints="NO" id="AZU-fS-8l1" customClass="Fut">
+                    <rect key="frame" x="90.5" y="40" width="64" height="63"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PQN-4F-DyR">
+                    <rect key="frame" x="0.0" y="180" width="245" height="45"/>
+                    <color key="backgroundColor" red="0.36862745099999999" green="0.18039215689999999" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="Mfo-gW-p2p"/>
+                    </constraints>
+                    <state key="normal" title="知道了">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="fuType">
+                            <integer key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="okBtnClick:" destination="yDv-Oh-bsv" eventType="touchUpInside" id="xCb-Az-VxO"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="未检测到人脸，请重新拍摄" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IlW-QO-OLb">
+                    <rect key="frame" x="37" y="151" width="171" height="17"/>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                    <color key="textColor" red="0.19215686269999999" green="0.2156862745" blue="0.24313725489999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="PQN-4F-DyR" firstAttribute="top" secondItem="IlW-QO-OLb" secondAttribute="bottom" constant="12" id="4LA-zk-h3u"/>
+                <constraint firstItem="IlW-QO-OLb" firstAttribute="centerX" secondItem="yDv-Oh-bsv" secondAttribute="centerX" id="BAw-T7-SOE"/>
+                <constraint firstAttribute="trailing" secondItem="PQN-4F-DyR" secondAttribute="trailing" id="DVu-Mo-cdM"/>
+                <constraint firstAttribute="width" constant="245" id="EBy-kl-ICU"/>
+                <constraint firstItem="AZU-fS-8l1" firstAttribute="top" secondItem="yDv-Oh-bsv" secondAttribute="top" constant="40" id="KTB-NX-hvb"/>
+                <constraint firstAttribute="height" constant="225" id="NtB-0j-tmV"/>
+                <constraint firstAttribute="bottom" secondItem="PQN-4F-DyR" secondAttribute="bottom" id="m5c-39-O4Y"/>
+                <constraint firstItem="PQN-4F-DyR" firstAttribute="leading" secondItem="yDv-Oh-bsv" secondAttribute="leading" id="wdN-43-lwr"/>
+                <constraint firstItem="AZU-fS-8l1" firstAttribute="centerX" secondItem="yDv-Oh-bsv" secondAttribute="centerX" id="xbM-Ey-wCo"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                    <integer key="value" value="10"/>
+                </userDefinedRuntimeAttribute>
+            </userDefinedRuntimeAttributes>
+            <connections>
+                <outlet property="OKBtn" destination="PQN-4F-DyR" id="Fde-mO-fAS"/>
+                <outlet property="mTextLabel" destination="IlW-QO-OLb" id="JVt-nE-0ST"/>
+            </connections>
+            <point key="canvasLocation" x="195.19999999999999" y="-274.81259370314842"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="未识别icon" width="64" height="63"/>
+    </resources>
+</document>

@@ -1,0 +1,131 @@
+/*
+  Localizable.strings
+  FULiveDemo
+
+  Created by L on 2018/7/10.
+  Copyright © 2018年 L. All rights reserved.
+*/
+
+
+"美颜" = "Beautification" ;
+"美妆"  =  "Make Up" ;
+"Animoji" = "Animoji" ;
+"道具贴纸" = "Sticker" ;
+"AR面具" = "AR Mesh" ;
+"换脸" = "Face Transfer" ;
+"表情识别" = "Expression" ;
+"音乐滤镜" = "Music Filter" ;
+"背景分割" = "Background" ;
+"手势识别" = "Gesture" ;
+"哈哈镜" = "FaceWarp" ;
+"人像驱动" = "Dynamic Portrait" ;
+"海报换脸"        = "Face Fusion";
+"美发"        = "Hair Color";
+
+"AR面具高精度版" = "High-Precision AR Mesh";
+
+"张嘴试试" = "Open Your Mouth";
+"鼓腮帮子" = "Puff Your Cheeks";
+"皱眉触发" = "Frown";
+"眨一眨眼" = "Blink";
+"嘟嘴试试" = "Give me a kiss";
+"微笑触发" = "Have a Smile";
+"吹气触发" = "Whistle";
+
+"单手手指比心" = "Heart_a";
+"双手抱拳" = "Fist";
+"双手合十" = "Namaste";
+"双手比心" = "Heart_b";
+"竖个拇指" = "Thumb_up";
+"比个六" = "Shaka sign";
+"推出手掌" = "push hand";
+"动漫滤镜" = "cartoon filter";
+
+"双拳靠近脸颊卖萌" = "Be cute";
+"转头触发" = "Swivel";
+
+"未识别到人脸" = "No Face Tracking" ;
+
+"Performance_Preferred" = "Performance";
+"No_Face_Tracking"   = "No Face Tracking";
+"sel_Photo"         =    "Photo";
+"Choose_photo_or_video_from_your_album"  = "Choose photo or video from your album";
+"sel_Video"              =  "Video";
+
+//美妆
+"口红" = "Lipstick";
+"腮红" = "Blush";
+"眉毛" = "Eyebrow";
+"眼影" = "Eye Shadow";
+"眼线" = "Eye Liner";
+"睫毛" = "Eyelash";
+"美瞳" = "Contact Lens";
+
+"自定义" = "customize";
+"卸妆" = "remove";
+"桃花妆" = "peach";
+"雀斑妆" = "freckles";
+"朋克妆" = "punk.";
+"保存图片失败" = "Failed";
+"图片已保存到相册" = "Successful";
+"保存视频失败" = "Failed";
+"视频已保存到相册" = "Successful";
+
+/* 海报融合 */
+"对准线框 正脸拍摄"    =  "Please take photos by positive face.";
+"未检测出人脸，请重新上传"    =  "No face detected, please re-upload";
+"检测到多人，请选择一人进行换脸"    =  "Please select a face.";
+"人脸偏转角度过大，请重新拍摄"    =  "please face face shooting.";
+"人脸偏转角度过大，请重新选择"    =  "please face face shooting.";
+"知道了"    =  "OK";
+"未检测出人脸，请重新拍摄"    =  "No face detected, please re-shoot";
+
+/* 表情动图---异图 */
+"表情动图"                   =      "Emotional Motion Map";
+"动动你的五官"                =        "Move your five senses";
+"精细调整"                   =        "adjustment";
+"你还没有添加五官哦"            =        "You haven't added five senses yet";
+"不添加"                     =        "Do not add";
+"去添加"                     =        "To add";
+"返回后当前操作将不会保存哦"     =        "The current operation will not be saved after returning";
+"继续"                      =        "Continue";
+"取消"                      =        "Cancel";
+"道具保存成功"                =        "Projects are successfully preserved";
+"不能添加更多了哦~"            =        "Can't add more oh -";
+
+"返回上步"                  =        "Back to step up";
+"请选择以下五官至上方调整"      =        "Please select the following five senses to adjust to the top";
+"左眼"                     =        "Left eye";
+"右眼"                     =        "Right eye";
+"嘴巴"                     =        "Mouth";
+"鼻子"                     =        "Nose";
+"左眉毛"                   =        "Left eyeb.";
+"右眉毛"                     =        "Right eyeb.";
+
+"暂无制作道具哦~"                      = "No props for the time being";
+"删除道具"                                  =  "Delete props";
+"确定删除所选中的道具？"                 = "Determine to delete the selected props? ";
+"确定"                                = "Definite" ;
+"全选"                                = "All elections";
+"删除"                                 ="Delete";
+"删除(%ld)"                           ="Delete(%ld)";
+
+// 一键变表情
+"一键变表情"                                  =  "Change expression";
+"对准线框，正脸拍摄"                                  =  "Align the wire frame, face shooting";
+"原图"                                  =  "Original";
+"微笑"                                  =  "smile";
+"露齿笑"                                  =  "Grinning";
+"大笑"                                  =  "laughing out loud";
+"左闭眼"                                  =  "L-closed";
+"右闭眼"                                  =  "R-closed";
+"生气"                                  =  "pissed off";
+"伤感"                                  =  "Sad";
+"左邪魅"                                  =  "Left evil";
+"右邪魅"                                  =  "Right evil";
+"人脸表情夸张，请正脸拍摄"                                  =  "Facial expression is exaggerated, please face the face";
+"返回后当前操作将不会被保存哦"                                  =  "The current operation will not be saved after returning.";
+"请保持面部无夸张表情"                                  =  "Please keep your face without exaggerated expressions";
+"播放"                                   =  "Play";
+"加速"                                   =  "Quicken";
+"正在处理图片"                            =   "Processing Pictures";
