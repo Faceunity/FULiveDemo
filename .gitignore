@@ -1,7 +1,7 @@
 
 FULiveDemo/.DS_Store
 
-FULiveDemo.xcworkspace/xcuserdata/liuyang.xcuserdatad/UserInterfaceState.xcuserstate
+*/xcuserdata/*
 
 *.xcuserstate
 *.DS_Store
@@ -12,3 +12,8 @@ FULiveDemo/DemoCode/.DS_Store
 FULiveDemo/Faceunity/.DS_Store
 
 FULiveDemo/Faceunity/FaceUnity-SDK-iOS/.DS_Store
+fastlane/*
+Gemfile
+Gemfile.lock
+FULiveDemo.ipa
+FULiveDemo.app.dSYM.zip

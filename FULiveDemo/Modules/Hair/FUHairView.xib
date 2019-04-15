@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="A0w-X6-C5P" customClass="FUHairView">
+            <rect key="frame" x="0.0" y="0.0" width="356" height="141"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="dZo-4H-wZ8">
+                    <rect key="frame" x="0.0" y="50" width="356" height="84"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="84" id="AO6-XH-pgy"/>
+                    </constraints>
+                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="5aI-oH-Y36">
+                        <size key="itemSize" width="60" height="60"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="16" minY="10" maxX="16" maxY="10"/>
+                    </collectionViewFlowLayout>
+                    <cells/>
+                </collectionView>
+                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="QKd-ye-X1q" customClass="FUMakeupSlider">
+                    <rect key="frame" x="66" y="10" width="224" height="31"/>
+                    <connections>
+                        <action selector="sliderValueChange:" destination="A0w-X6-C5P" eventType="valueChanged" id="ji0-nK-HBb"/>
+                    </connections>
+                </slider>
+            </subviews>
+            <color key="backgroundColor" red="0.019607843140000001" green="0.058823529409999999" blue="0.078431372550000003" alpha="0.73927119009999998" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailingMargin" secondItem="QKd-ye-X1q" secondAttribute="trailing" constant="52" id="21i-hc-8MH"/>
+                <constraint firstAttribute="trailing" secondItem="dZo-4H-wZ8" secondAttribute="trailing" id="9PQ-4Z-2Ne"/>
+                <constraint firstItem="QKd-ye-X1q" firstAttribute="leading" secondItem="A0w-X6-C5P" secondAttribute="leadingMargin" constant="52" id="Co6-mT-LOi"/>
+                <constraint firstItem="QKd-ye-X1q" firstAttribute="top" secondItem="A0w-X6-C5P" secondAttribute="topMargin" constant="10" id="jMH-52-ULV"/>
+                <constraint firstItem="dZo-4H-wZ8" firstAttribute="leading" secondItem="A0w-X6-C5P" secondAttribute="leading" id="qK7-yJ-ftZ"/>
+                <constraint firstItem="dZo-4H-wZ8" firstAttribute="top" secondItem="QKd-ye-X1q" secondAttribute="bottom" constant="10" id="uhg-rU-NN5"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="collection" destination="dZo-4H-wZ8" id="Ohs-f6-Xge"/>
+                <outlet property="slider" destination="QKd-ye-X1q" id="Y4I-iQ-xPz"/>
+            </connections>
+            <point key="canvasLocation" x="131.19999999999999" y="155.17241379310346"/>
+        </view>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FUHairCell" id="VOm-R8-SNw" customClass="FUHairCell">
+            <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="K4s-9Z-iep">
+                        <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="30"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </imageView>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="K4s-9Z-iep" firstAttribute="top" secondItem="VOm-R8-SNw" secondAttribute="top" id="040-PO-Mxz"/>
+                <constraint firstAttribute="bottom" secondItem="K4s-9Z-iep" secondAttribute="bottom" id="QGP-fI-ZkD"/>
+                <constraint firstItem="K4s-9Z-iep" firstAttribute="leading" secondItem="VOm-R8-SNw" secondAttribute="leading" id="Wcm-xV-PPA"/>
+                <constraint firstAttribute="trailing" secondItem="K4s-9Z-iep" secondAttribute="trailing" id="eOA-4B-5Qt"/>
+            </constraints>
+            <connections>
+                <outlet property="imageView" destination="K4s-9Z-iep" id="Ewj-TH-tNH"/>
+            </connections>
+            <point key="canvasLocation" x="664" y="171"/>
+        </collectionViewCell>
+    </objects>
+</document>

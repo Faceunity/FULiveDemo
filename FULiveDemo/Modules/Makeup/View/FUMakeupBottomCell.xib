@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FUMakeupBottomCell" id="9dQ-Au-p1D" customClass="FUMakeupBottomCell">
+            <rect key="frame" x="0.0" y="0.0" width="132" height="156"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                <rect key="frame" x="0.0" y="0.0" width="132" height="156"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="B1W-hi-9nv">
+                        <rect key="frame" x="0.0" y="0.0" width="132" height="156"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="makeup_dot" translatesAutoresizingMaskIntoConstraints="NO" id="5Xo-U1-nzb">
+                        <rect key="frame" x="126" y="10" width="4" height="4"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="4" id="9jl-6w-J3t"/>
+                            <constraint firstAttribute="width" constant="4" id="MeG-Be-Ie0"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+            </view>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="B1W-hi-9nv" secondAttribute="trailing" id="0OQ-o4-jVB"/>
+                <constraint firstItem="B1W-hi-9nv" firstAttribute="top" secondItem="9dQ-Au-p1D" secondAttribute="top" id="29A-H2-kQy"/>
+                <constraint firstItem="5Xo-U1-nzb" firstAttribute="top" secondItem="9dQ-Au-p1D" secondAttribute="top" constant="10" id="MCT-Hw-paV"/>
+                <constraint firstAttribute="bottom" secondItem="B1W-hi-9nv" secondAttribute="bottom" id="OhK-pl-PGd"/>
+                <constraint firstAttribute="trailing" secondItem="5Xo-U1-nzb" secondAttribute="trailing" constant="2" id="jqY-aL-RmS"/>
+                <constraint firstItem="B1W-hi-9nv" firstAttribute="leading" secondItem="9dQ-Au-p1D" secondAttribute="leading" id="vYQ-tX-xPp"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="wUj-zl-0c3"/>
+            <size key="customSize" width="132" height="156"/>
+            <connections>
+                <outlet property="mImageView" destination="5Xo-U1-nzb" id="YR4-ez-Qvj"/>
+                <outlet property="name" destination="B1W-hi-9nv" id="GES-0O-Kh4"/>
+            </connections>
+            <point key="canvasLocation" x="745.60000000000002" y="-1.7991004497751126"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="makeup_dot" width="16" height="16"/>
+    </resources>
+</document>
