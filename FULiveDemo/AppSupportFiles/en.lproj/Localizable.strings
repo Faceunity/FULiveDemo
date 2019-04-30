@@ -5,6 +5,51 @@
   Created by L on 2018/7/10.
   Copyright © 2018年 L. All rights reserved.
 */
+/* demobar  */
+"精准美肤" = "Skin Detect" ;
+"清晰磨皮" = "Light Blur" ;
+"朦胧磨皮" = "Heavy Blur" ;
+"磨皮" = "Blur" ;
+"美白" = "Whiten" ;
+"红润" = "Ruddy" ;
+"亮眼" = "Eye Brighten" ;
+"美牙" = "Tooth Whiten" ;
+"脸型" = "Face Shape" ;
+"大眼" = "Eye Enlarge" ;
+"瘦脸" = "Cheek Thin" ;
+"下巴" = "Chin" ;
+"额头" = "Forehead" ;
+"瘦鼻" = "Nose" ;
+"嘴型" = "Mouth" ;
+"原图" = "Origin" ;
+"自然" = "Nature" ;
+"淡雅" = "Elegant" ;
+"粉嫩" = "Pink" ;
+"红润" = "Ruddy" ;
+"白亮" = "bright";
+"冷色调"= "Cold tone";
+"暖色调"= "Warm tone";
+"小清新"  = "fresh";
+"自定义" =  "Customize" ;
+"默认" =  "Default" ;
+"女神" =  "Fairy" ;
+"网红" =  "Belle" ;
+"自然" =  "Nature" ;
+"精准美肤 开启" = "Skin Detect ON" ;
+"精准美肤 关闭" = "Skin Detect OFF" ;
+"当前为清晰磨皮模式" = "Light Blur mode" ;
+"当前为朦胧磨皮模式" = "Heavy Blur mode" ;
+"美肤" = "Skin" ;
+"美型" = "Style" ;
+"滤镜" = "Filter" ;
+"质感美颜" = "Makeup" ;
+"桃花"       =  "peach";
+"西柚"       =  "grapefruit";
+"清透"       =  "clear";
+"男友"       =  "boyfriend";
+"赤茶妆"       =  "redtea";
+"冬日妆"       =  "winter";
+"奶油妆"       =  "cream";
 
 
 "美颜" = "Beautification" ;
@@ -103,10 +148,10 @@
 "右眉毛"                     =        "Right eyeb.";
 
 "暂无制作道具哦~"                      = "No props for the time being";
-"删除道具"                                  =  "Delete props";
+"删除道具"                                  =  "Delete model";
 "确定删除所选中的道具？"                 = "Determine to delete the selected props? ";
 "确定"                                = "Definite" ;
-"全选"                                = "All elections";
+"全选"                                = "Select all";
 "删除"                                 ="Delete";
 "删除(%ld)"                           ="Delete(%ld)";
 
@@ -129,3 +174,34 @@
 "播放"                                   =  "Play";
 "加速"                                   =  "Quicken";
 "正在处理图片"                            =   "Processing Pictures";
+
+
+/*  捏脸   */
+"Avatar 捏脸" = "Knead Face";
+"删除模型"   =  "Delete model";
+"新建模型"   =  "Create model";
+"发型"   =  "Hair style";
+"脸型"   =  "Face";
+"眼睛"   =  "Eyes";
+"嘴唇"   =  "Mouth";
+"鼻子"   =  "Nose";
+"自定义"   =  "Custom";
+"脸型长度"   =  "Face length";
+"脸颊宽度"   =  "Cheek width";
+"下颚宽度"   =  "Jaw width";
+"下巴高低"   =  "Jaw length";
+"眼睛位置"   =  "Eye position";
+"眼角高度"   =  "Canthus pos.";
+"眼睛高低"   =  "Eye width";
+"眼睛宽窄"   =  "Eye length";
+"嘴部位置"   =  "Mouth pos.";
+"上唇厚度"   =  "Upper lip thi.";
+"下唇厚度"   =  "Down lip thi.";
+"嘴唇宽度"   =  "Lip width";
+"鼻子位置"   =  "Nose position";
+"鼻翼宽窄"   =  "Nose width";
+"鼻头高低"   =  "Nose heigth";
+"是否将所有参数恢复到默认值"   =  "Reset all parameters to default?";
+"取消"   =  "Cancel";
+"确定"   =  "OK";
+

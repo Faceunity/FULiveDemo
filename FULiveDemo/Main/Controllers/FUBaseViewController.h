@@ -15,8 +15,9 @@
 #import <Masonry.h>
 #import "FULiveModel.h"
 #import "FUManager.h"
-
+#import "FUOpenGLView.h"
 NS_ASSUME_NONNULL_BEGIN
+
 @interface FUBaseViewController : UIViewController
 @property (nonatomic, strong) FULiveModel *model;
 
@@ -24,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) FUHeadButtonView *headButtonView;
 @property (strong, nonatomic) FUPhotoButton *photoBtn;
 
+@property (strong, nonatomic) FUOpenGLView *renderView;
 @property (strong, nonatomic) UILabel *noTrackLabel;
 @property (strong, nonatomic) UILabel *tipLabel;
 

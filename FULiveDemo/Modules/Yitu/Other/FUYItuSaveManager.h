@@ -10,7 +10,7 @@
 #import <UIKit/UIKit.h>
 #import "FUYituModel.h"
 //默认模板数
-#define defaultNum 3
+#define defaultYiTuNum 4
 
 NS_ASSUME_NONNULL_BEGIN
 @interface FUYItuSaveManager : NSObject
@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 +(NSArray <FUYituModel *>*)loadDataArray;
 
 + (NSString *)saveImg:(UIImage *)image withVideoMid:(NSString *)imgName;
++ (void)removeImagePath:(NSString *)imagePath;
 
 + (UIImage *)loadImageWithVideoMid:(NSString *)imgName;
 @end

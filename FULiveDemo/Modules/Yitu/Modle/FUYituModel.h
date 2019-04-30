@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "FUYituItemModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,6 +18,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSArray* group_points;
 @property (nonatomic, strong) NSArray* group_type;
 @property (nonatomic, copy) NSString* imagePathMid;
+
+
+/* 保存UI状态，用于再次编译 */
+@property (nonatomic, strong) NSArray <FUYituItemModel *> *itemModels;
+
+
 @end
 
 NS_ASSUME_NONNULL_END

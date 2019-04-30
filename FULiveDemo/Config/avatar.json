@@ -1,0 +1,227 @@
+{
+    "data":[{
+        "avatarType":0,
+        "title":"发型",
+        "haveCustom":false,
+        "bundleSelIndex":1,
+        "bundles":
+        [
+        {"bundleName":"","iconName":"not_hair","color":"0x121212"},
+        {"bundleName":"male_hair_05","iconName":"male_hair_2","color":"0x121212"},
+        {"bundleName":"female_hair_06","iconName":"female_hair_9","color":"0x121212"},
+        {"bundleName":"female_hair_03","iconName":"female_hair_16","color":"0x121212"},
+        {"bundleName":"female_hair_02","iconName":"female_hair_12","color":"0x121212"},
+        {"bundleName":"female_hair_04","iconName":"female_hair_23","color":"0x121212"},
+        {"bundleName":"female_hair_01","iconName":"female_hair_7","color":"0x121212"}],
+        "colorsSelIndex":0,
+        "colorsParam":"channel0",
+        "colors":[{
+            "r":31, "g":31, "b":31, "intensity":1.0},
+        {"r":174, "g":77, "b":108, "intensity":4.0},
+        {"r":114, "g":77, "b":40, "intensity":4.0},
+        {"r":65, "g":77, "b":97, "intensity":4.0},
+        {"r":108, "g":85, "b":60, "intensity":4.0},
+        {"r":123, "g":48, "b":31, "intensity":4.0},
+        {"r":37, "g":61, "b":108, "intensity":4.0},
+        {"r":249, "g":223, "b":152, "intensity":6.0},
+        {"r":142, "g":115, "b":230, "intensity":6.0},
+        {"r":219, "g":115, "b":162, "intensity":6.0}
+        ]
+    },
+    
+    {
+        "avatarType":1,
+        "title":"脸型",
+        "haveCustom":true,
+        "bundleSelIndex":0,
+        "bundles":[{"iconName":"demo_icon_diy","color":"0x121212","params":
+               [{"paramS":"3","paramB":"4","icon":"demo_face_1","title":"脸型长度","icon_sel":"demo_face_1_sel","value":0},
+                {"paramS":"1","paramB":"2","icon":"demo_face_3","title":"脸颊宽度","icon_sel":"demo_face_3_sel","value":0},
+                {"paramS":"9","paramB":"10","icon":"demo_face_4","title":"下颚宽度","icon_sel":"demo_face_4_sel","value":0},
+            {"paramS":"7","paramB":"8","icon":"demo_face_5","title":"下巴高低","icon_sel":"demo_face_5_sel","value":0}]},
+        
+        {"iconName":"demo_lianxing_01","color":"0x121212","params":
+            [{"paramS":"3","paramB":"4","icon":"demo_face_1","title":"脸型长度","icon_sel":"demo_face_1_sel","value":0},
+                {"paramS":"1","paramB":"2","icon":"demo_face_3","title":"脸颊宽度","icon_sel":"demo_face_3_sel","value":0.6},
+                {"paramS":"9","paramB":"10","icon":"demo_face_4","title":"下颚宽度","icon_sel":"demo_face_4_sel","value":0},
+            {"paramS":"7","paramB":"8","icon":"demo_face_5","title":"下巴高低","icon_sel":"demo_face_5_sel","value":0.45}]},
+        
+        {"iconName":"demo_lianxing_02","color":"0x121212","params":
+            [{"paramS":"3","paramB":"4","icon":"demo_face_1","title":"脸型长度","icon_sel":"demo_face_1_sel","value":0},
+                {"paramS":"1","paramB":"2","icon":"demo_face_3","title":"脸颊宽度","icon_sel":"demo_face_3_sel","value":0},
+                {"paramS":"9","paramB":"10","icon":"demo_face_4","title":"下颚宽度","icon_sel":"demo_face_4_sel","value":0.7},
+            {"paramS":"7","paramB":"8","icon":"demo_face_5","title":"下巴高低","icon_sel":"demo_face_5_sel","value":0}]},
+        
+        {"iconName":"demo_lianxing_03","color":"0x121212","params":
+            [{"paramS":"3","paramB":"4","icon":"demo_face_1","title":"脸型长度","icon_sel":"demo_face_1_sel","value":0},
+                {"paramS":"1","paramB":"2","icon":"demo_face_3","title":"脸颊宽度","icon_sel":"demo_face_3_sel","value":-0.2},
+                {"paramS":"9","paramB":"10","icon":"demo_face_4","title":"下颚宽度","icon_sel":"demo_face_4_sel","value":-0.75},
+            {"paramS":"7","paramB":"8","icon":"demo_face_5","title":"下巴高低","icon_sel":"demo_face_5_sel","value":0.40}]}
+        ],
+        
+        "colorsSelIndex":0,
+        "colorsParam":"channel0",
+        "colors":[
+            {"r":255, "g":226, "b":192},
+            {"r":242, "g":214, "b":201},
+            {"r":237, "g":189, "b":179},
+            {"r":230, "g":197, "b":182},
+            {"r":244, "g":209, "b":171},
+            {"r":248, "g":200, "b":162},
+            {"r":230, "g":178, "b":141},
+            {"r":228, "g":159, "b":117},
+            {"r":197, "g":121, "b":85},
+            {"r":184, "g":108, "b":59},
+            {"r":160, "g":92, "b":47},
+            {"r":144, "g":75, "b":33},
+            {"r":126, "g":61, "b":23},
+            {"r":90,  "g":44, "b":11}
+        ]
+    },
+    
+    {
+        "avatarType":2,
+        "title":"眼睛",
+        "haveCustom":true,
+        "bundleSelIndex":0,
+        "bundles":
+        [{"iconName":"demo_icon_diy","color":"0x121212","params":
+            [{"paramS":"36","paramB":"37","title":"眼睛位置","icon":"demo_eyes_1","icon_sel":"demo_eyes_1_sel","value":0},
+                {"paramS":"34","paramB":"35","title":"眼角高度","icon":"demo_eyes_2","icon_sel":"demo_eyes_2_sel","value":0},
+                {"paramS":"29","paramB":"33","title":"眼睛高低","icon":"demo_eyes_3","icon_sel":"demo_eyes_3_sel","value":0},
+            {"paramS":"27","paramB":"28","title":"眼睛宽窄","icon":"demo_eyes_4","icon_sel":"demo_eyes_4_sel","value":0}]},
+        
+        {"iconName":"demo_yanjing_01","color":"0x121212","params":
+            [{"paramS":"36","paramB":"37","title":"眼睛位置","icon":"demo_eyes_1","icon_sel":"demo_eyes_1_sel","value":0},
+                {"paramS":"34","paramB":"35","title":"眼角高度","icon":"demo_eyes_2","icon_sel":"demo_eyes_2_sel","value":0.40},
+                {"paramS":"29","paramB":"33","title":"眼睛高低","icon":"demo_eyes_3","icon_sel":"demo_eyes_3_sel","value":0.45},
+            {"paramS":"27","paramB":"28","title":"眼睛宽窄","icon":"demo_eyes_4","icon_sel":"demo_eyes_4_sel","value":0.58}]},
+        
+        {"iconName":"demo_yanjing_02","color":"0x121212","params":
+            [{"paramS":"36","paramB":"37","title":"眼睛位置","icon":"demo_eyes_1","icon_sel":"demo_eyes_1_sel","value":0.0},
+                {"paramS":"34","paramB":"35","title":"眼角高度","icon":"demo_eyes_2","icon_sel":"demo_eyes_2_sel","value":-0.25},
+                {"paramS":"29","paramB":"33","title":"眼睛高低","icon":"demo_eyes_3","icon_sel":"demo_eyes_3_sel","value":-0.6},
+            {"paramS":"27","paramB":"28","title":"眼睛宽窄","icon":"demo_eyes_4","icon_sel":"demo_eyes_4_sel","value":0}]},
+        
+        {"iconName":"demo_yanjing_03","color":"0x121212","params":
+            [{"paramS":"36","paramB":"37","title":"眼睛位置","icon":"demo_eyes_1","icon_sel":"demo_eyes_1_sel","value":0},
+                {"paramS":"34","paramB":"35","title":"眼角高度","icon":"demo_eyes_2","icon_sel":"demo_eyes_2_sel","value":-0.7},
+                {"paramS":"29","paramB":"33","title":"眼睛高低","icon":"demo_eyes_3","icon_sel":"demo_eyes_3_sel","value":-0.25},
+            {"paramS":"27","paramB":"28","title":"眼睛宽窄","icon":"demo_eyes_4","icon_sel":"demo_eyes_4_sel","value":0.25}]}
+        ],
+        "colorsSelIndex":0,
+        "colorsParam":"channel2",
+        "colors":[{
+            "r":105, "g":66, "b":45},
+        {"r":28, "g":20, "b":17},
+        {"r":50, "g":17, "b":13},
+        {"r":161, "g":62, "b":62},
+        {"r":122, "g":102, "b":26},
+        {"r":72, "g":103, "b":123},
+        {"r":79, "g":85, "b":88},
+        {"r":102, "g":49, "b":33},
+        {"r":121, "g":79, "b":110},
+        {"r":92, "g":134, "b":71}
+        ]
+    },
+    
+    {
+        "avatarType":3,
+        "title":"嘴唇",
+        "haveCustom":true,
+        "bundleSelIndex":0,
+        "bundles":
+        [{"iconName":"demo_icon_diy","color":"0x121212","params":
+            [{"paramS":"16","paramB":"17","title":"嘴部位置","icon":"demo_mouth_1","icon_sel":"demo_mouth_1_sel","value":0},
+                {"paramS":"24","paramB":"25","title":"上唇厚度","icon":"demo_mouth_2","icon_sel":"demo_mouth_2_sel","value":0},
+                {"paramS":"13","paramB":"14","title":"下唇厚度","icon":"demo_mouth_3","icon_sel":"demo_mouth_3_sel","value":0},
+            {"paramS":"11","paramB":"12","title":"嘴唇宽度","icon":"demo_mouth_4","icon_sel":"demo_mouth_4_sel","value":0}]
+        },
+        
+        {"iconName":"demo_zuiba_01","color":"0x121212","params":
+            [{"paramS":"16","paramB":"17","title":"嘴部位置","icon":"demo_mouth_1","icon_sel":"demo_mouth_1_sel","value":0},
+                {"paramS":"24","paramB":"25","title":"上唇厚度","icon":"demo_mouth_2","icon_sel":"demo_mouth_2_sel","value":-0.15},
+                {"paramS":"13","paramB":"14","title":"下唇厚度","icon":"demo_mouth_3","icon_sel":"demo_mouth_3_sel","value":0},
+            {"paramS":"11","paramB":"12","title":"嘴唇宽度","icon":"demo_mouth_4","icon_sel":"demo_mouth_4_sel","value":0.7}]
+        },
+        
+        {"iconName":"demo_zuiba_02","color":"0x121212","params":
+            [{"paramS":"16","paramB":"17","title":"嘴部位置","icon":"demo_mouth_1","icon_sel":"demo_mouth_1_sel","value":0},
+                {"paramS":"24","paramB":"25","title":"上唇厚度","icon":"demo_mouth_2","icon_sel":"demo_mouth_2_sel","value":-0.05},
+                {"paramS":"13","paramB":"14","title":"下唇厚度","icon":"demo_mouth_3","icon_sel":"demo_mouth_3_sel","value":0.65},
+            {"paramS":"11","paramB":"12","title":"嘴唇宽度","icon":"demo_mouth_4","icon_sel":"demo_mouth_4_sel","value":-0.65}]
+        },
+        {"iconName":"demo_zuiba_03","color":"0x121212","params":
+            [{"paramS":"16","paramB":"17","title":"嘴部位置","icon":"demo_mouth_1","icon_sel":"demo_mouth_1_sel","value":0},
+                {"paramS":"24","paramB":"25","title":"上唇厚度","icon":"demo_mouth_2","icon_sel":"demo_mouth_2_sel","value":0.05},
+                {"paramS":"13","paramB":"14","title":"下唇厚度","icon":"demo_mouth_3","icon_sel":"demo_mouth_3_sel","value":0.25},
+            {"paramS":"11","paramB":"12","title":"嘴唇宽度","icon":"demo_mouth_4","icon_sel":"demo_mouth_4_sel","value":-0.25}]
+        },
+        {"iconName":"demo_zuiba_03","color":"0x121212","params":
+            [{"paramS":"16","paramB":"17","title":"嘴部位置","icon":"demo_mouth_1","icon_sel":"demo_mouth_1_sel","value":0},
+                {"paramS":"24","paramB":"25","title":"上唇厚度","icon":"demo_mouth_2","icon_sel":"demo_mouth_2_sel","value":0.25},
+                {"paramS":"13","paramB":"14","title":"下唇厚度","icon":"demo_mouth_3","icon_sel":"demo_mouth_3_sel","value":0.25},
+            {"paramS":"11","paramB":"12","title":"嘴唇宽度","icon":"demo_mouth_4","icon_sel":"demo_mouth_4_sel","value":0.0}]
+        }
+        ],
+        "colorsSelIndex":0,
+        "colorsParam":"channel1",
+        "colors":[{
+            "r":208, "g":143, "b":149},
+        {"r":208, "g":111, "b":121},
+        {"r":194, "g":109, "b":108},
+        {"r":223, "g":153, "b":140},
+        {"r":228, "g":168, "b":166},
+        {"r":183, "g":117, "b":125},
+        {"r":199, "g":125, "b":120},
+        {"r":185, "g":122, "b":115},
+        {"r":172, "g":105, "b":102},
+        {"r":151, "g":43, "b":56},
+        {"r":185, "g":20, "b":34},
+        {"r":206, "g":62, "b":47},
+        {"r":188, "g":78, "b":86},
+        {"r":218, "g":88, "b":68},
+        {"r":226, "g":118, "b":116},
+        {"r":240, "g":82, "b":99},
+        {"r":249, "g":111, "b":147}
+        ]
+    },
+    
+    {
+        "avatarType":4,
+        "title":"鼻子",
+        "haveCustom":true,
+        "bundleSelIndex":1,
+        "bundles":
+        [{"iconName":"demo_icon_diy","color":"0x121212","params":
+            [{"paramS":"18","paramB":"19","title":"鼻子位置","icon":"demo_nose_1","icon_sel":"demo_nose_1_sel","value":0},
+                {"paramS":"22","paramB":"23","title":"鼻翼宽窄","icon":"demo_nose_2","icon_sel":"demo_nose_2_sel","value":0},
+            {"paramS":"20","paramB":"21","title":"鼻头高低","icon":"demo_nose_3","icon_sel":"demo_nose_3_sel","value":0}]
+        },
+        
+        {"iconName":"demo_bizi_01","color":"0x121212","params":
+            [{"paramS":"18","paramB":"19","title":"鼻子位置","icon":"demo_nose_1","icon_sel":"demo_nose_1_sel","value":0},
+                {"paramS":"22","paramB":"23","title":"鼻翼宽窄","icon":"demo_nose_2","icon_sel":"demo_nose_2_sel","value":-0.75},
+            {"paramS":"20","paramB":"21","title":"鼻头高低","icon":"demo_nose_3","icon_sel":"demo_nose_3_sel","value":-0.05}]
+        },
+        
+        {"iconName":"demo_bizi_02","color":"0x121212","params":
+            [{"paramS":"18","paramB":"19","title":"鼻子位置","icon":"demo_nose_1","icon_sel":"demo_nose_1_sel","value":0.15},
+                {"paramS":"22","paramB":"23","title":"鼻翼宽窄","icon":"demo_nose_2","icon_sel":"demo_nose_2_sel","value":-0.8},
+            {"paramS":"20","paramB":"21","title":"鼻头高低","icon":"demo_nose_3","icon_sel":"demo_nose_3_sel","value":-0.2}]
+        },
+        {"iconName":"demo_bizi_03","color":"0x121212","params":
+            [{"paramS":"18","paramB":"19","title":"鼻子位置","icon":"demo_nose_1","icon_sel":"demo_nose_1_sel","value":0.1},
+                {"paramS":"22","paramB":"23","title":"鼻翼宽窄","icon":"demo_nose_2","icon_sel":"demo_nose_2_sel","value":-0.30},
+            {"paramS":"20","paramB":"21","title":"鼻头高低","icon":"demo_nose_3","icon_sel":"demo_nose_3_sel","value":0.20}]
+        },
+        {"iconName":"demo_bizi_04","color":"0x121212","params":
+            [{"paramS":"18","paramB":"19","title":"鼻子位置","icon":"demo_nose_1","icon_sel":"demo_nose_1_sel","value":0},
+                {"paramS":"22","paramB":"23","title":"鼻翼宽窄","icon":"demo_nose_2","icon_sel":"demo_nose_2_sel","value":-0.6},
+            {"paramS":"20","paramB":"21","title":"鼻头高低","icon":"demo_nose_3","icon_sel":"demo_nose_3_sel","value":0.25}]
+        }],
+        "colorsSelIndex":0,
+        "colors":[]
+    }
+    ]
+}

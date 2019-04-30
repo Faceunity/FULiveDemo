@@ -21,6 +21,7 @@
 #import "FUYItuController.h"
 #import "FUMusicFilterController.h"
 #import "FUGanController.h"
+#import "FUFacepupController.h"
 
 @interface FUMainViewController ()
 
@@ -143,6 +144,14 @@
     
         case FULiveModelTypeGan:{
             FUGanController *vc = [[FUGanController alloc] init];
+            vc.model = model;
+            vc.view.backgroundColor = [UIColor grayColor];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
+            
+        case FULiveModelTypeNieLian:{
+            FUFacepupController *vc = [[FUFacepupController alloc] init];
             vc.model = model;
             vc.view.backgroundColor = [UIColor grayColor];
             [self.navigationController pushViewController:vc animated:YES];

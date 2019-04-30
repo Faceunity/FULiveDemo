@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 
-@property (nonatomic, assign) int selIndex ;
+@property (nonatomic, assign) int selIndex;
 
 @property (nonatomic, assign) id<FUYituItemsDelegate>delegate ;
 

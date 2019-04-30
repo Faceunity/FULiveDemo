@@ -26,8 +26,6 @@
 @property (nonatomic, strong) UIButton* clearBtn;
 
 @property (nonatomic, assign) double zoomSpeed;
-
-@property (nonatomic, strong) NSArray *points;
 /* 精细调整对应的位置视图 */
 @property (nonatomic, strong) NSMutableArray <CAShapeLayer *>*pointsLayer;
 /* 精细调整 “+” */
@@ -211,7 +209,6 @@
                 [self rotateTransform:bbb];
             }else{
                 panGesture.view.center = CGPointMake(panGesture.view.center.x + translation.x, panGesture.view.center.y + translation.y);
-            
             }
            [panGesture setTranslation:CGPointZero inView:panGesture.view.superview];
         }
@@ -329,6 +326,10 @@
     return self.transform;
 }
 
+- (CGPoint)getCenter{
+    return self.center;
+}
+
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     NSLog(@"\n-----------------------------\n|%lf,%lf,0|\n|%lf,%lf,0|\n|%lf,%lf,0|\n-------------------------------",
@@ -374,6 +375,24 @@
     return mutArray;
 }
 
+/* 模板点位被精细调整后，重设模板 */
+-(void)setDefaultPoint:(NSArray *)points aboutView:(UIView *)view{
+    CGPoint point = CGPointMake(0, 0);
+    NSMutableArray *mutArray = [NSMutableArray array];
+    for (int i = 0; i < points.count; i++) {
+        if (i % 2 && i != 0) {
+            point.y = [points[i] floatValue];
+            CGPoint newPoint = [view convertPoint:point toView:self.imageview];
+            [mutArray addObject:@(newPoint.x/self.imageview.frame.size.width * 500)];
+            [mutArray addObject:@(newPoint.y/self.imageview.frame.size.width * 500)];
+        }else{
+            point.x = [points[i] floatValue];
+        }
+    }
+    
+    _points = [mutArray copy];
+}
+
 
 -(CGPoint )getConvertCenterImage:(UIView *)view{
     CGPoint newPoint = [self.imageview convertPoint:CGPointMake(self.imageview.frame.size.width/2, self.imageview.frame.size.height/2) toView:view];
@@ -386,48 +405,177 @@
 
  @param type 五官类型
  */
--(void)setType:(FUFacialFeaturesType)type{
-    _type = type;
-    NSString *titleStr = nil;
-    switch (type) {
-        case FUFacialFeaturesLeye://图片和人物有镜像关系
-            self.imageview.image = [UIImage imageNamed:@"icon_yitu_leye"];
-            titleStr = @"reye";
-            break;
-        case FUFacialFeaturesReye:
-            self.imageview.image = [UIImage imageNamed:@"icon_yitu_reye"];
-            titleStr = @"leye";
-            break;
-        case FUFacialFeaturesNose:
-            self.imageview.image = [UIImage imageNamed:@"icon_yitu_nose_add"];
-            titleStr = @"nose";
-            break;
-        case FUFacialFeaturesMouth:
-            self.imageview.image = [UIImage imageNamed:@"icon_yitu_mouth_add"];
-            titleStr = @"mouth";
-            break;
-        case FUFacialFeatureLbrow:
-            self.imageview.image = [UIImage imageNamed:@"icon_yitu_lbrow"];
-            titleStr = @"lbrow";
-            break;
-        case FUFacialFeaturesRbrow:
-            self.imageview.image = [UIImage imageNamed:@"icon_yitu_rbrow"];
-            titleStr = @"rbrow";
-            break;
-        default:
-            break;
+-(void)setModel:(FUYituItemModel *)model{
+    _model = model;
+    NSString *pointsStr = nil;
+    NSString *pointsType = nil;
+    if (model.faceType == FUFaceTypeRealism) {
+        switch (model.type) {
+            case FUFacialFeaturesLeye://图片和人物有镜像关系
+                self.imageview.image = [UIImage imageNamed:@"reality_leye"];
+                pointsType = @"reye";
+                break;
+            case FUFacialFeaturesReye:
+                self.imageview.image = [UIImage imageNamed:@"reality_reye"];
+                pointsType = @"leye";
+                break;
+            case FUFacialFeaturesNose:
+                self.imageview.image = [UIImage imageNamed:@"reality_nose"];
+                pointsType = @"nose";
+                break;
+            case FUFacialFeaturesMouth:
+                self.imageview.image = [UIImage imageNamed:@"reality_mouth"];
+                pointsType = @"mouth";
+                break;
+            case FUFacialFeatureLbrow:
+                self.imageview.image = [UIImage imageNamed:@"lbrow"];
+                pointsType = @"lbrow";
+                break;
+            case FUFacialFeaturesRbrow:
+                self.imageview.image = [UIImage imageNamed:@"rbrow"];
+                pointsType = @"rbrow";
+                break;
+            default:
+                break;
+        }
+        pointsStr = @"xieshi_points";
     }
-    _points = [self jsonToLipRgbaArrayResName:titleStr];
-    [self getConvertPointsToView:self];
+    
+    if (model.faceType == FUFaceTypeMengBan) {
+        switch (model.type) {
+            case FUFacialFeaturesLeye://图片和人物有镜像关系
+                self.imageview.image = [UIImage imageNamed:@"q_leyes"];
+                pointsType = @"reye";
+                break;
+            case FUFacialFeaturesReye:
+                self.imageview.image = [UIImage imageNamed:@"q_reyes"];
+                pointsType = @"leye";
+                break;
+            case FUFacialFeaturesNose:
+                self.imageview.image = [UIImage imageNamed:@"nose"];
+                pointsType = @"nose";
+                break;
+            case FUFacialFeaturesMouth:
+                self.imageview.image = [UIImage imageNamed:@"mouth"];
+                pointsType = @"mouth";
+                break;
+            case FUFacialFeatureLbrow:
+                self.imageview.image = [UIImage imageNamed:@"lbrow"];
+                pointsType = @"lbrow";
+                break;
+            case FUFacialFeaturesRbrow:
+                self.imageview.image = [UIImage imageNamed:@"rbrow"];
+                pointsType = @"rbrow";
+                break;
+            default:
+                break;
+        }
+        pointsStr = @"mengban_point";
+    }
+    
+    if (model.faceType == FUFaceTypeComicBoy) {
+        switch (model.type) {
+            case FUFacialFeaturesLeye://图片和人物有镜像关系
+                self.imageview.image = [UIImage imageNamed:@"comic_boy_leyes"];
+                pointsType = @"reye";
+                break;
+            case FUFacialFeaturesReye:
+                self.imageview.image = [UIImage imageNamed:@"comic_boy_reyes"];
+                pointsType = @"leye";
+                break;
+            case FUFacialFeaturesNose:
+                self.imageview.image = [UIImage imageNamed:@"nose"];
+                pointsType = @"nose";
+                break;
+            case FUFacialFeaturesMouth:
+                self.imageview.image = [UIImage imageNamed:@"mouth"];
+                pointsType = @"mouth";
+                break;
+            case FUFacialFeatureLbrow:
+                self.imageview.image = [UIImage imageNamed:@"lbrow"];
+                pointsType = @"lbrow";
+                break;
+            case FUFacialFeaturesRbrow:
+                self.imageview.image = [UIImage imageNamed:@"rbrow"];
+                pointsType = @"rbrow";
+                break;
+            default:
+                break;
+        }
+        pointsStr = @"manhuanan_point";
+    }
+    
+    if (model.faceType == FUFaceTypeComicGirl) {
+        switch (model.type) {
+            case FUFacialFeaturesLeye://图片和人物有镜像关系
+                self.imageview.image = [UIImage imageNamed:@"comic_girl_leyes"];
+                pointsType = @"reye";
+                break;
+            case FUFacialFeaturesReye:
+                self.imageview.image = [UIImage imageNamed:@"comic_girl_reyes"];
+                pointsType = @"leye";
+                break;
+            case FUFacialFeaturesNose:
+                self.imageview.image = [UIImage imageNamed:@"nose"];
+                pointsType = @"nose";
+                break;
+            case FUFacialFeaturesMouth:
+                self.imageview.image = [UIImage imageNamed:@"mouth"];
+                pointsType = @"mouth";
+                break;
+            case FUFacialFeatureLbrow:
+                self.imageview.image = [UIImage imageNamed:@"lbrow"];
+                pointsType = @"lbrow";
+                break;
+            case FUFacialFeaturesRbrow:
+                self.imageview.image = [UIImage imageNamed:@"rbrow"];
+                pointsType = @"rbrow";
+                break;
+            default:
+                break;
+        }
+        pointsStr = @"manhuanv_point";
+    }
+    
+    if (model.points.count > 0) {
+        _points = model.points;
+    }else{
+        _points = [self getPointsWithjsonName:pointsStr subTypeName:pointsType];
+    }
+
+//    [self getConvertPointsToView:self];
+    
+    //设置变化
+    self.transform = model.Transform;
+    if (!CGPointEqualToPoint(model.itemCenter, CGPointZero)) {
+        self.center = model.itemCenter;
+    }
+    float xscale = [self xscale];
+    float yscale = [self yscale];
+    _clearBtn.transform = CGAffineTransformScale(_clearBtn.transform, 1/xscale, 1/yscale);
+    _addOneBtn.transform = CGAffineTransformScale(_addOneBtn.transform, 1/xscale, 1/yscale);
+    _rotateBtn.transform = CGAffineTransformScale(_rotateBtn.transform, 1/xscale, 1/yscale);
+    
 }
 
+- (CGFloat)xscale {
+    CGAffineTransform t = self.transform;
+    return sqrt(t.a * t.a + t.c * t.c);
+}
+
+- (CGFloat)yscale {
+    CGAffineTransform t = self.transform;
+    return sqrt(t.b * t.b + t.d * t.d);
+}
+
+
 /* 拿默认点位数组 */
--(NSArray *)jsonToLipRgbaArrayResName:(NSString *)titleStr{
-    NSString *path=[[NSBundle mainBundle] pathForResource:@"points" ofType:@"json"];
+-(NSArray *)getPointsWithjsonName:(NSString *)pointsStr subTypeName:(NSString *)typeName{
+    NSString *path=[[NSBundle mainBundle] pathForResource:pointsStr ofType:@"json"];
     NSData *data=[[NSData alloc] initWithContentsOfFile:path];
     if (!data) return nil;
     NSDictionary *dic=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-    NSArray *points = [dic objectForKey:titleStr];
+    NSArray *points = [dic objectForKey:typeName];
     return points;
 }
 
@@ -441,7 +589,6 @@
     _rotateBtn.hidden = !editing;
     lineLayer.hidden =  !editing;
 }
-
 
 -(void)dealloc{
     NSLog(@"FUAdjustImageView<dealloc>");

@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) UIImageView* imageview;
 
-@property (nonatomic, assign) FUFacialFeaturesType type;
+@property (nonatomic, strong) FUYituItemModel *model;
 
 @property (nonatomic, assign) BOOL editing;
 
@@ -36,7 +36,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,strong) UIButton *addOneBtn;
 
+@property (nonatomic, strong) NSArray *points;
+
 - (CGAffineTransform)getTransform;
+- (CGPoint)getCenter;
 /**
  获取相对view的关键点坐标
 
@@ -46,6 +49,9 @@ NS_ASSUME_NONNULL_BEGIN
 -(NSArray *)getConvertPointsToView:(UIView *)view;
 
 -(CGPoint)getConvertCenterImage:(UIView *)view;
+
+/* 模板点位被精细调整后，重设模板 */
+-(void)setDefaultPoint:(NSArray *)points aboutView:(UIView *)view;
 
 @end
 

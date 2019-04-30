@@ -26,6 +26,7 @@ typedef NS_ENUM(NSUInteger, FULiveModelType) {
     FULiveModelTypePortraitDrive,
     FULiveModelTypeYiTu,
     FULiveModelTypeGan,
+    FULiveModelTypeNieLian,
 };
 
 @interface FULiveModel : NSObject

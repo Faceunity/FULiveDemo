@@ -187,7 +187,7 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
     }else{
         FUMakeupTopCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:topCellID forIndexPath:indexPath];
         cell.imageView.image = [UIImage imageNamed:_supArray[indexPath.row].imageStr];
-        cell.mLabel.text = _supArray[indexPath.row].name;
+        cell.mLabel.text = NSLocalizedString(_supArray[indexPath.row].name, nil);;
         cell.imageView.layer.borderWidth = _supArray[indexPath.row].isSel ? 3.0 : 0.0 ;
         cell.imageView.layer.borderColor = _supArray[indexPath.row].isSel ? [UIColor colorWithRed:94/255.0 green:199/255.0 blue:254/255.0 alpha:1.0].CGColor : [UIColor clearColor].CGColor;
         return cell;

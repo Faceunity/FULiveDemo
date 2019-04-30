@@ -269,7 +269,7 @@
 #pragma  mark ----  UI事件  -----
 -(void)backBtnClick:(UIButton *)btn{
     
-    UIAlertController *alertCon = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"返回后当前操作将不会被保存哦",nil) preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertCon = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"返回后当前操作将不会保存哦",nil) preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"取消",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         

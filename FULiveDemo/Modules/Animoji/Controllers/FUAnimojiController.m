@@ -35,7 +35,7 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-     [[FUManager shareManager] destoryAnimojiFaxxBundle];
+     [[FUManager shareManager] destoryItemAboutType:FUMNamaHandleTypeFxaa];
 }
 
 -(void)setupView{

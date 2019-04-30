@@ -63,10 +63,10 @@ typedef enum : NSUInteger {
 }
 
 - (void)startCapture{
-    [self addAudio];
+
     if (![self.captureSession isRunning] && !hasStarted) {
         hasStarted = YES;
-
+//        [self addAudio];
         [self.captureSession startRunning];
 //        self.exposurePoint = CGPointMake(0.49, 0.5);
 //        self.focusPoint = CGPointMake(0.49, 0.5);
@@ -75,7 +75,7 @@ typedef enum : NSUInteger {
 
 - (void)stopCapture{
     hasStarted = NO;
-    [self removeAudio];
+//    [self removeAudio];
     if ([self.captureSession isRunning]) {
         [self.captureSession stopRunning];
     }
@@ -267,7 +267,8 @@ typedef enum : NSUInteger {
 //视频采集队列
 - (dispatch_queue_t)videoCaptureQueue {
     if (_videoCaptureQueue == nil) {
-        _videoCaptureQueue = dispatch_queue_create("com.faceunity.videoCaptureQueue", NULL);
+//        _videoCaptureQueue = dispatch_queue_create("com.faceunity.videoCaptureQueue", NULL);
+        _videoCaptureQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
     }
     return _videoCaptureQueue;
 }

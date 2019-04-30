@@ -28,12 +28,22 @@ static FUYItuSaveManager *shareManager = NULL;
     if (self = [super init]) {
         self.dataDataArray = [NSMutableArray array];
 
-        FUYituModel *model2 = [self loadAYituModlePointJsonStr:@"yitu_shuiguo_target" imageName:@"yitu_shuiguo"];
-        [self.dataDataArray addObject:model2];
-        FUYituModel *model1 = [self loadAYituModlePointJsonStr:@"yitu_huli_target" imageName:@"yitu_huli"];
-        [self.dataDataArray addObject:model1];
-        FUYituModel *model0 = [self loadAYituModlePointJsonStr:@"yitu_chouxiang_target" imageName:@"yitu_chouxiang"];
-        [self.dataDataArray addObject:model0];
+//        FUYituModel *model2 = [self loadAYituModlePointJsonStr:@"yitu_shuiguo_target" imageName:@"yitu_shuiguo"];
+//        [self.dataDataArray addObject:model2];
+//        FUYituModel *model1 = [self loadAYituModlePointJsonStr:@"yitu_huli_target" imageName:@"yitu_huli"];
+//        [self.dataDataArray addObject:model1];
+//        FUYituModel *model0 = [self loadAYituModlePointJsonStr:@"yitu_chouxiang_target" imageName:@"yitu_chouxiang"];
+//        [self.dataDataArray addObject:model0];
+        
+        FUYituModel *model3 = [self loadAYituModlePointJsonStr:@"xieshi_target" imageName:@"xieshi"];
+        [self.dataDataArray addObject:model3];
+        FUYituModel *model4 = [self loadAYituModlePointJsonStr:@"manhuanan_target" imageName:@"manhuanan"];
+        [self.dataDataArray addObject:model4];
+        FUYituModel *model5 = [self loadAYituModlePointJsonStr:@"manhuanv_target" imageName:@"manhuanv"];
+        [self.dataDataArray addObject:model5];
+        FUYituModel *model6 = [self loadAYituModlePointJsonStr:@"manhuameng_target" imageName:@"manhuameng"];
+        [self.dataDataArray addObject:model6];
+
 
         NSMutableArray <FUYituModel *>*array =  [[FUYItuSaveManager loadDataArray] mutableCopy];
         if (array.count > 0) {
@@ -61,24 +71,21 @@ static FUYItuSaveManager *shareManager = NULL;
     model0.height = H;
     model0.imagePathMid = [NSString stringWithFormat:@"yitu%d",(int)self.dataDataArray.count + 1];
     
-    NSString *imageFile = [NSString stringWithFormat:@"%@/%@.png", [[NSBundle mainBundle] resourcePath],imageName];
+    NSString *imageFile = [NSString stringWithFormat:@"%@/%@.jpg", [[NSBundle mainBundle] resourcePath],imageName];
     UIImage *image = [UIImage imageWithContentsOfFile:imageFile];
     [FUYItuSaveManager saveImg:image withVideoMid:model0.imagePathMid];
     return model0;
 }
 
-
-
-
 +(void)dataWriteToFile{//只写入自己创建的道具
     NSArray *arr =  [FUYItuSaveManager shareManager].dataDataArray;
-    if (defaultNum >= arr.count) {
+    if (defaultYiTuNum >= arr.count) {
         [[NSFileManager defaultManager] removeItemAtPath:[FUYItuSaveManager dataPath] error:nil];
         return;
     }
     NSMutableArray *writeArr = [NSMutableArray array];
     for (int i = 0; i < arr.count; i ++) {
-        if (i >= defaultNum) {
+        if (i >= defaultYiTuNum) {
             [writeArr addObject:arr[i]];
         }
     }
@@ -89,9 +96,9 @@ static FUYItuSaveManager *shareManager = NULL;
 +(NSArray <FUYituModel *>*)loadDataArray{
     NSString *path = [FUYItuSaveManager dataPath];
     NSArray *newArr = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
-    
     return newArr;
 }
+
 
 +(NSString *)dataPath{
     NSString *paths =[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
@@ -113,6 +120,21 @@ static FUYItuSaveManager *shareManager = NULL;
     NSString *savedImagePath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imgName]];
     [imagedata writeToFile:savedImagePath atomically:YES];
     return savedImagePath;
+}
+
+
++ (void)removeImagePath:(NSString *)imagePath{
+    
+    if (!imagePath) {
+        NSLog(@"移除路径为空");
+        return;
+    }
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *Path = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imagePath]];
+    if ([fileManager fileExistsAtPath:Path]) {
+        
+        [fileManager removeItemAtPath:Path error:nil];
+    }
 }
 
 +(UIImage *)loadImageWithVideoMid:(NSString *)imgName{
