@@ -89,6 +89,12 @@
     _makeupView.noitemBtn.hidden = YES;
     _makeupView.backgroundColor = [UIColor clearColor];
     [self.topView addSubview:_makeupView];
+    
+    [self.skinBtn setTitle:NSLocalizedString(@"美肤", nil) forState:UIControlStateNormal];
+    [self.shapeBtn setTitle:NSLocalizedString(@"美型", nil) forState:UIControlStateNormal];
+    [self.beautyFilterBtn setTitle:NSLocalizedString(@"滤镜", nil) forState:UIControlStateNormal];
+    [self.filterBtn setTitle:NSLocalizedString(@"质感美颜", nil) forState:UIControlStateNormal];
+
 }
 
 -(void)layoutSubviews{

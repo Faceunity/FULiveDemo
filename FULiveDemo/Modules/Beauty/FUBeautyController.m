@@ -34,7 +34,16 @@
     self.headButtonView.selectedImageBtn.hidden = NO;
     [self.view bringSubviewToFront:self.photoBtn];
 
+//    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(50, 100, 80, 30)];
+//    label1.text = @"窄脸:";
+//    label1.textColor = [UIColor redColor];
+//    [self.view addSubview:label1];
+//
+//    UISlider *slider1 = [[UISlider alloc] initWithFrame:CGRectMake(150, 100, 200, 20)];
+//    [slider1 addTarget:self action:@selector(sliderChange1:) forControlEvents:UIControlEventValueChanged];
+//    [self.view addSubview:slider1];
 }
+
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -219,7 +228,6 @@
 
     [[FUManager shareManager] setMakeupItemIntensity:value param:namaStr];
     
-    NSLog(@"当前设置的值-------%lf",value);
 }
 
 -(void)makeupFilter:(NSString *)filterStr value:(float)filterValue{

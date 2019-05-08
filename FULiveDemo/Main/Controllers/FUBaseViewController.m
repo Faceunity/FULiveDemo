@@ -7,7 +7,6 @@
 //
 
 #import "FUBaseViewController.h"
-#import "FUOpenGLView.h"
 #import "FUItemsView.h"
 #import "FULiveModel.h"
 #import <SVProgressHUD.h>
@@ -37,8 +36,8 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
     UIImage *mCaptureImage;
 }
 @property (strong, nonatomic) FUCamera *mCamera ;
-@property (strong, nonatomic) FUOpenGLView *renderView;
-@property (strong, nonatomic) FUItemsView *itemsView;
+//@property (strong, nonatomic) FUOpenGLView *renderView;
+//@property (strong, nonatomic) FUItemsView *itemsView;
 
 @property (strong, nonatomic) UILabel *buglyLabel;
 @property (strong, nonatomic) FULightingView *lightingView ;
@@ -52,7 +51,6 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
 {
     return YES;
 }
-
 
 -(void)viewDidLoad{
     [super viewDidLoad];
@@ -155,7 +153,7 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
     _noTrackLabel.textColor = [UIColor whiteColor];
     _noTrackLabel.font = [UIFont systemFontOfSize:17];
     _noTrackLabel.textAlignment = NSTextAlignmentCenter;
-    _noTrackLabel.text = @"未检测到人脸";
+    _noTrackLabel.text = NSLocalizedString(@"No_Face_Tracking", @"未检测到人脸");
     [self.view addSubview:_noTrackLabel];
     [_noTrackLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self.view);
@@ -427,6 +425,7 @@ static  NSTimeInterval oldTime = 0;
 - (void)willResignActive{
     if (self.navigationController.visibleViewController == self) {
         [self.mCamera stopCapture];
+        NSLog(@"--------------结束");
         self.mCamera = nil;
     }
 }
@@ -436,6 +435,10 @@ static  NSTimeInterval oldTime = 0;
     if (self.navigationController.visibleViewController == self) {
         [self.mCamera startCapture];
     }
+}
+
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [self.mCamera startCapture];
 }
 
 

@@ -245,12 +245,10 @@ typedef enum : NSUInteger {
                 landmarks2[i] = [self.pointsArray[i] floatValue] ;
             }
             
-            
             [self.renderView displayImageData:imageData Size:size Landmarks:landmarks count:count];
             
             [self.preView displayImageData:imageData withSize:size Center:_preCenter Landmarks:landmarks2 count:count];
-            
-
+        
             CFRelease(dataFromImageDataProvider);
         }
         free(landmarks);
@@ -567,8 +565,6 @@ static int pointIndex = -1 ;
 }
 
 @end
-
-
 
 @implementation FULandmarksAdjustMode
 

@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @optional
 
-- (void)yituAddItemView:(FUFacialFeaturesType )type;
+- (void)yituAddItemView:(FUYituItemModel *)model;
 
 @end
 

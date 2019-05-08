@@ -121,6 +121,5 @@ static NSString *registerID = @"PosterCell";
 
 -(void)dealloc{
     [[FUManager shareManager] destoryItems];
-    NSLog(@"海报融合--------销毁");
 }
 @end

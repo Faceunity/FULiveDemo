@@ -44,7 +44,7 @@
     _dataArray = [NSMutableArray array];
     
     for (int i = 0; i  < [FUYItuSaveManager shareManager].dataDataArray.count ; i ++ ) {
-        if (i  < defaultNum) {
+        if (i  < defaultYiTuNum) {
             continue;
         }
          [_dataArray addObject:[FUYItuSaveManager shareManager].dataDataArray[i]];
@@ -102,7 +102,7 @@
 
     __weak typeof(self)weakSelf = self ;
     UIAlertAction *certainAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"确定",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [weakSelf certainDeleteAction ];
+        [weakSelf certainDeleteAction];
     }];
     [certainAction setValue:[self colorWithHexColorString:@"869DFF"] forKey:@"titleTextColor"];
 
@@ -184,8 +184,6 @@
     }else {
         cell.contentView.layer.borderWidth = 0;
     }
-
-
     return cell ;
 }
 

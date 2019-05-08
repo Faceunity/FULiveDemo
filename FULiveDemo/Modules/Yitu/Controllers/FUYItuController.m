@@ -20,6 +20,9 @@
 
 @interface FUYItuController ()<FUYituItemsDelegate,FUMyItemsViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @property (strong,nonatomic) FUYituItemsView *yituItemsView;
+
+@property (strong,nonatomic) UIImage *photoImage;
+@property (nonatomic,assign) int currentIndex;
 @end
 
 @implementation FUYItuController
@@ -49,35 +52,128 @@
         make.height.mas_equalTo(80);
     }];
     
+    /* 删除按钮 */
+    UIButton *delBtn = [[UIButton alloc] init];
+    delBtn.frame = CGRectMake(17,534,84,32);
+    delBtn.layer.backgroundColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0].CGColor;
+    delBtn.layer.cornerRadius = 16;
+    delBtn.layer.shadowColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.3].CGColor;
+    delBtn.layer.shadowOffset = CGSizeMake(0,0);
+    delBtn.layer.shadowOpacity = 1;
+    delBtn.layer.shadowRadius = 2;
+    [delBtn setTitle:@"删除道具" forState:UIControlStateNormal];
+    [delBtn addTarget:self action:@selector(delYituModel) forControlEvents:UIControlEventTouchUpInside];
+    [delBtn setTitleColor:[UIColor colorWithRed:44/255.0 green:46/255.0 blue:48/255.0 alpha:1.0] forState:UIControlStateNormal];
+//    [delBtn setTitleColor:[UIColor colorWithRed:31/255.0 green:178/255.0 blue:255/255.0 alpha:1.0] forState:UIControlStateHighlighted];
+    delBtn.titleLabel.font = [UIFont systemFontOfSize:11];
+    [self.view addSubview:delBtn];
+    [delBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(_yituItemsView.mas_top).offset(-26);
+        make.left.equalTo(self.view).offset(17);
+        make.width.mas_equalTo(80);
+        make.height.mas_equalTo(32);
+    }];
+    
+    /* 重新编辑 */
+    UIButton *reEditBt = [[UIButton alloc] init];
+    reEditBt.layer.backgroundColor = [UIColor colorWithRed:31/255.0 green:178/255.0 blue:255/255.0 alpha:1.0].CGColor;
+    reEditBt.layer.cornerRadius = 16;
+    [reEditBt setTitle:@"重新编辑" forState:UIControlStateNormal];
+    [reEditBt addTarget:self action:@selector(reEditBtClick) forControlEvents:UIControlEventTouchUpInside];
+    [reEditBt setTitleColor:[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0] forState:UIControlStateNormal];
+    //    [delBtn setTitleColor:[UIColor colorWithRed:31/255.0 green:178/255.0 blue:255/255.0 alpha:1.0] forState:UIControlStateHighlighted];
+    reEditBt.titleLabel.font = [UIFont systemFontOfSize:11];
+    [self.view addSubview:reEditBt];
+    [reEditBt mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(_yituItemsView.mas_top).offset(-26);
+        make.right.equalTo(self.view).offset(-17);
+        make.width.mas_equalTo(80);
+        make.height.mas_equalTo(32);
+    }];
+    
     self.photoBtn.transform = CGAffineTransformMakeTranslation(0,-36);
 
 }
 
 #pragma  mark - 异图ItemDelagate
 -(void)yituDidSelectedItemsIndex:(int)index{
-    if (index < [FUYItuSaveManager shareManager].dataDataArray.count) {
-        dispatch_async(dispatch_get_main_queue(), ^{
+    __weak typeof(self)weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+       if (index < [FUYItuSaveManager shareManager].dataDataArray.count) {
             FUYituModel *model = [FUYItuSaveManager shareManager].dataDataArray[index];
             UIImage *image = [FUYItuSaveManager loadImageWithVideoMid:model.imagePathMid];
             [[FUManager shareManager] setEspeciallyItemParamImage:image group_points:model.group_points group_type:model.group_type];
-        });
-    }else if (index == [FUYItuSaveManager shareManager].dataDataArray.count){
-        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            weakSelf.photoImage = image;
+            weakSelf.currentIndex = index;
+       }else if (index == [FUYItuSaveManager shareManager].dataDataArray.count){
             [self didClickSelPhoto];
-        });
-    }else{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            FUMyItemsViewController *vc = [[FUMyItemsViewController alloc] init];
-            vc.mDelegate = self;
-            [self.navigationController pushViewController:vc animated:YES];
-        });
+
+       }else{
+
+        FUMyItemsViewController *vc = [[FUMyItemsViewController alloc] init];
+        vc.mDelegate = self;
+        [self.navigationController pushViewController:vc animated:YES];
+
+       }
+    });
         
-    }
 }
 
 -(void)myItemViewDidDelete{
     [self.yituItemsView updateCollectionAndSel:0];
 }
+
+
+#pragma  mark -  UI 事件
+
+-(void)delYituModel{
+    if (_yituItemsView.selIndex < 4) {
+        [self showMessage:@"模板图不能删除"];
+        return;
+    }
+    
+    UIAlertController *alertCon = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"确定删除所选中的道具？",nil) preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"取消",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    [cancleAction setValue:[self colorWithHexColorString:@"2C2E30"] forKey:@"titleTextColor"];
+    
+    __weak typeof(self)weakSelf = self ;
+    UIAlertAction *certainAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"确定",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [[FUYItuSaveManager shareManager].dataDataArray removeObjectAtIndex:_yituItemsView.selIndex];
+        /* 更新存储 */
+        [FUYItuSaveManager dataWriteToFile];
+        [weakSelf.yituItemsView updateCollectionAndSel:0];
+    }];
+    [certainAction setValue:[self colorWithHexColorString:@"869DFF"] forKey:@"titleTextColor"];
+    
+    [alertCon addAction:cancleAction];
+    [alertCon addAction:certainAction];
+    
+    [self presentViewController:alertCon animated:YES completion:^{
+    }];
+}
+
+-(void)reEditBtClick{
+    if (self.currentIndex < defaultYiTuNum) {
+        [self showMessage:@"模板不能重新编辑"];
+        return;
+    }
+    
+    FUFaceAdjustController *vc = [[FUFaceAdjustController alloc] init];
+    vc.view.backgroundColor = [UIColor blackColor];
+    [self.navigationController pushViewController:vc animated:YES];
+    vc.imageView.image = self.photoImage;
+    FUYituModel *model = [FUYItuSaveManager shareManager].dataDataArray[self.currentIndex];
+    [vc addAllFaceItems:model.itemModels];
+    vc.editType = FUFaceEditModleTypeReEdit;
+    vc.saveSuccessBlock = ^(FUYituModel * model) {
+        [[FUYItuSaveManager shareManager].dataDataArray replaceObjectAtIndex:self.currentIndex withObject:model];
+        [_yituItemsView updateCollectionAndSel:(int)[FUYItuSaveManager shareManager].dataDataArray.count -1];
+    };
+}
+
 
 
 #pragma  mark - 选择照片
@@ -127,12 +223,15 @@
         
         UIGraphicsEndImageContext();
     }
+    
     FUFaceAdjustController *vc = [[FUFaceAdjustController alloc] init];
     vc.view.backgroundColor = [UIColor blackColor];
     [self.navigationController pushViewController:vc animated:YES];
     vc.imageView.image = image;
-    vc.returnBlock = ^(int index) {
-        [_yituItemsView updateCollectionAndSel:index];
+    vc.editType = FUFaceEditModleTypeNew;
+    vc.saveSuccessBlock = ^(FUYituModel * model) {
+        [[FUYItuSaveManager shareManager].dataDataArray addObject:model];
+        [_yituItemsView updateCollectionAndSel:(int)[FUYItuSaveManager shareManager].dataDataArray.count -1];
     };
 }
 
@@ -151,16 +250,35 @@
 }
 
 
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark  十六进制颜色
+-(UIColor *)colorWithHexColorString:(NSString *)hexColorString{
+    return [self colorWithHexColorString:hexColorString alpha:1.0f];
 }
-*/
+
+#pragma mark  十六进制颜色
+- (UIColor *)colorWithHexColorString:(NSString *)hexColorString alpha:(float)alpha{
+    
+    unsigned int red, green, blue;
+    
+    NSRange range;
+    
+    range.length =2;
+    
+    range.location =0;
+    
+    [[NSScanner scannerWithString:[hexColorString substringWithRange:range]]scanHexInt:&red];
+    
+    range.location =2;
+    
+    [[NSScanner scannerWithString:[hexColorString substringWithRange:range]]scanHexInt:&green];
+    
+    range.location =4;
+    
+    [[NSScanner scannerWithString:[hexColorString substringWithRange:range]]scanHexInt:&blue];
+    
+    UIColor *color = [UIColor colorWithRed:(float)(red/255.0f)green:(float)(green/255.0f)blue:(float)(blue/255.0f)alpha:alpha];
+    
+    return color;
+}
 
 @end

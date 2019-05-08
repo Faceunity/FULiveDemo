@@ -80,7 +80,6 @@
     [[FUManager shareManager] musicFilterSetMusicTime];
 }
 
-
 #pragma mark --- Observer
 
 - (void)addObserver{
@@ -93,8 +92,6 @@
         [[FUMusicPlayer sharePlayer] pause] ;
     }
 }
-
-
 
 - (void)didBecomeActive{
     

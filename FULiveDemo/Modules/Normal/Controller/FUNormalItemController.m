@@ -68,11 +68,6 @@
     [[FUManager shareManager] loadItem:item];
     [self.itemsView stopAnimation];
     
-    /* 普通道具中手势道具，触发位置根据j情况调节 */
-    if (self.model.type == FULiveModelTypeGestureRecognition) {
-        [[FUManager shareManager] setLoc_xy_flip];
-    }
-    
     dispatch_async(dispatch_get_main_queue(), ^{
         NSString *hint = [[FUManager shareManager] hintForItem:item];
         self.tipLabel.hidden = hint == nil;

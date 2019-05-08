@@ -23,6 +23,7 @@
 @property (assign, nonatomic) int captureFormat; //采集格式
 @property (copy  , nonatomic) dispatch_queue_t  videoCaptureQueue;//视频采集的队列
 @property (copy  , nonatomic) dispatch_queue_t  audioCaptureQueue;//音频采集队列
+@property (copy  , nonatomic) dispatch_queue_t  tmpCaptureQueue;//视频采集的队列
 
 - (instancetype)initWithCameraPosition:(AVCaptureDevicePosition)cameraPosition captureFormat:(int)captureFormat;
 

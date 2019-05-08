@@ -26,6 +26,9 @@ typedef NS_ENUM(NSUInteger, FUNamaHandleType) {
     FUNamaHandleTypeComic = 5,      /* items[5] ------ 动漫道具句柄 */
     FUNamaHandleTypeMakeup = 6,     /* items[6] ------ 美妆道具句柄 */
     FUNamaHandleTypePhotolive = 7,  /* items[7] ------ 异图道具句柄 */
+    FUNamaHandleTypeAvtarHead = 8,  /* items[8] ------ Avtar头*/
+    FUNamaHandleTypeAvtarHiar = 9,  /* items[9] ------ Avtar头发 */
+    FUNamaHandleTypeAvtarbg = 10,  /* items[10] ------ Avtar背景 */
 };
 
 @interface FUManager : NSObject
@@ -105,6 +108,8 @@ typedef NS_ENUM(NSUInteger, FUNamaHandleType) {
 /**将道具绘制到pixelBuffer*/
 - (CVPixelBufferRef)renderItemsToPixelBuffer:(CVPixelBufferRef)pixelBuffer;
 
+- (CVPixelBufferRef)renderAvatarPixelBuffer:(CVPixelBufferRef)pixelBuffer;
+
 /* 加载海报道具 */
 - (void)loadPoster;
 /**
@@ -146,13 +151,38 @@ typedef NS_ENUM(NSUInteger, FUNamaHandleType) {
  */
 -(void)setEspeciallyItemParamImage:(UIImage *)image group_points:(NSArray *)g_points group_type:(NSArray *)g_type;
 
+
+#pragma  mark -  捏脸
+-(void)enterAvatar;
+-(void)recomputeAvatar;
+-(void)clearAvatar;
+-(void)quitAvatar;
+
+/* 暂时 */
+-(void)avatarBundleAddRender:(BOOL)isAdd;
+-(BOOL)avatarBundleIsload;
+
+/* 扭脸维度 */
+-(void)setAvatarParam:(NSString *)paramStr value:(float )value;
+/* 部位颜色 */
+-(void)setAvatarItemParam:(NSString *)paramStr colorWithRed:(float )r green:(int)g blue:(int)b;
+/* 捏脸模型缩放 */
+-(void)setAvatarItemScale:(float)scaleValue;
+/* 头平移 */
+-(void)setAvatarItemTranslateX:(int)x y:(int)y z:(int)z;
+
+-(void)avatarBindHairItem:(NSString *)bundleName;
+    
+-(void)setAvatarHairColorParam:(NSString *)paramStr colorWithRed:(float )r green:(int)g blue:(int)b intensity:(int)i;
+
+-(void)loadBgAvatar;
+
+-(void)loadAvatarBundel;
+
 /* 销毁海报道具 */
 - (void)destroyItemPoster;
 
 - (void)loadAnimojiFaxxBundle;
-
-- (void)destoryAnimojiFaxxBundle;
-
 - (void)musicFilterSetMusicTime;
 
 /**设置美发参数**/
@@ -163,8 +193,6 @@ typedef NS_ENUM(NSUInteger, FUNamaHandleType) {
 - (NSString *)hintForItem:(NSString *)item;
 
 - (void)set3DFlipH ;
-
-- (void)setLoc_xy_flip ;
 
 /**获取75个人脸特征点*/
 - (void)getLandmarks:(float *)landmarks index:(int)index;
@@ -194,4 +222,6 @@ typedef NS_ENUM(NSUInteger, FUNamaHandleType) {
 
 /* 是否夸张 */
 -(BOOL)isExaggeration:(int)index;
+
+-(void)setParamItemAboutType:(FUNamaHandleType)type name:(NSString *)paramName value:(float)value;
 @end
