@@ -35,7 +35,7 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-     [[FUManager shareManager] destoryItemAboutType:FUMNamaHandleTypeFxaa];
+     [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeFxaa];
 }
 
 -(void)setupView{
