@@ -18,9 +18,9 @@
  为方便演示阅读，这里将
  */
 typedef NS_ENUM(NSUInteger, FUNamaHandleType) {
-    FUMNamaHandleTypeBeauty = 0,   /* items[0] ------ 放置 美颜道具句柄 */
-    FUMNamaHandleTypeItem = 1,     /* items[1] ------ 放置 普通道具句柄（包含很多，如：贴纸，aoimoji...若不单一存在，可放句柄集其他位置） */
-    FUMNamaHandleTypeFxaa = 2,     /* items[2] ------ fxaa抗锯齿道具句柄 */
+    FUNamaHandleTypeBeauty = 0,   /* items[0] ------ 放置 美颜道具句柄 */
+    FUNamaHandleTypeItem = 1,     /* items[1] ------ 放置 普通道具句柄（包含很多，如：贴纸，aoimoji...若不单一存在，可放句柄集其他位置） */
+    FUNamaHandleTypeFxaa = 2,     /* items[2] ------ fxaa抗锯齿道具句柄 */
     FUNamaHandleTypeGesture = 3,    /* items[3] ------ 手势识别道具句柄 */
     FUNamaHandleTypeChangeface = 4, /* items[4] ------ 海报换脸道具句柄 */
     FUNamaHandleTypeComic = 5,      /* items[5] ------ 动漫道具句柄 */
