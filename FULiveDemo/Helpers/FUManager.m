@@ -249,7 +249,11 @@ static FUManager *shareManager = NULL;
 
 - (void)loadMakeupBundleWithName:(NSString *)name{
     dispatch_async(asyncLoadQueue, ^{
-        [self destoryItemAboutType:FUNamaHandleTypeMakeup];
+        if (items[FUNamaHandleTypeMakeup] != 0) {
+            NSLog(@"faceunity: destroy item");
+            [FURenderer destroyItem:items[FUNamaHandleTypeMakeup]];
+            items[FUNamaHandleTypeMakeup] = 0;
+        }
         NSString *filePath = [[NSBundle mainBundle] pathForResource:name ofType:@"bundle"];
         items[FUNamaHandleTypeMakeup] = [FURenderer itemWithContentsOfFile:filePath];
         fuItemSetParamd(items[FUNamaHandleTypeMakeup], "makeup_lip_mask", 1.0);//使用优化的口红效果
@@ -324,8 +328,8 @@ static FUManager *shareManager = NULL;
     [FURenderer itemSetParam:items[FUNamaHandleTypeBeauty] withName:@"red_level" value:@(self.redLevel)]; //红润 (0~1)
     [FURenderer itemSetParam:items[FUNamaHandleTypeBeauty] withName:@"eye_bright" value:@(self.eyelightingLevel)]; // 亮眼
     [FURenderer itemSetParam:items[FUNamaHandleTypeBeauty] withName:@"tooth_whiten" value:@(self.beautyToothLevel)];// 美牙
-    [FURenderer itemSetParam:items[FUNamaHandleTypeBeauty] withName:@"face_shape" value:@(5)]; //美型类型 (0、1、2、3、4)女神：0，网红：1，自然：2，默认：3，自定义：4
-    [FURenderer itemSetParam:items[FUNamaHandleTypeBeauty] withName:@"eye_enlarging" value:self.faceShape == 4 ? @(self.enlargingLevel_new) : @(self.enlargingLevel)]; //大眼 (0~1)
+    [FURenderer itemSetParam:items[FUNamaHandleTypeBeauty] withName:@"face_shape" value:@(self.faceShape)]; //美型类型 (0、1、2、3、4)女神：0，网红：1，自然：2，默认：3，自定义：4
+    [FURenderer itemSetParam:items[FUNamaHandleTypeBeauty] withName:@"eye_enlarging" value:self.faceShape == 4 ? @(self.enlargingLevel_new):@(self.enlargingLevel)]; //大眼 (0~1)
     [FURenderer itemSetParam:items[FUNamaHandleTypeBeauty] withName:@"cheek_thinning" value:self.faceShape == 4 ? @(self.thinningLevel_new):@(self.thinningLevel)]; //瘦脸 (0~1)
     [FURenderer itemSetParam:items[FUNamaHandleTypeBeauty] withName:@"intensity_chin" value:@(self.jewLevel)]; /**下巴 (0~1)*/
     [FURenderer itemSetParam:items[FUNamaHandleTypeBeauty] withName:@"intensity_nose" value:@(self.noseLevel)];/**鼻子 (0~1)*/
@@ -448,7 +452,7 @@ static FUManager *shareManager = NULL;
  */
 -(void)setMakeupItemIntensity:(float )value param:(NSString *)paramStr{
     
-    if (!paramStr && paramStr) {
+    if (!paramStr || [paramStr isEqualToString:@""]) {
         NSLog(@"参数为nil");
     }
     dispatch_async(makeupQueue, ^{
@@ -530,7 +534,7 @@ static FUManager *shareManager = NULL;
 
 -(CVPixelBufferRef)renderAvatarPixelBuffer:(CVPixelBufferRef)pixelBuffer{
     float expression[46] = {0};
-    float translation[3] = {0,-20,850};
+    float translation[3] = {0,-20,500};
     float rotation[4] = {0,0,0,1};
     float rotation_mode[1] = {0};
     float pupil_pos[2] = {0};
@@ -754,16 +758,15 @@ static FUManager *shareManager = NULL;
 
 /* 避免头部道具，销毁创建带来一系列问题，暂时.... */
 -(void)avatarBundleAddRender:(BOOL)isAdd{
-    dispatch_async(asyncLoadQueue, ^{
-        if (isAdd && items[FUNamaHandleTypeAvtarHead] == 0) {
-            items[FUNamaHandleTypeAvtarHead] = avtarStrongHandle;
-        }
+    if (isAdd && items[FUNamaHandleTypeAvtarHead] == 0) {
+        items[FUNamaHandleTypeAvtarHead] = avtarStrongHandle;
+    }
         
-        if (!isAdd && items[FUNamaHandleTypeAvtarHead]) {
-            avtarStrongHandle = items[FUNamaHandleTypeAvtarHead];
-            items[FUNamaHandleTypeAvtarHead] = 0;
-        }
-    });
+    if (!isAdd && items[FUNamaHandleTypeAvtarHead]) {
+        avtarStrongHandle = items[FUNamaHandleTypeAvtarHead];
+        items[FUNamaHandleTypeAvtarHead] = 0;
+    }
+
 }
 
 -(BOOL)avatarBundleIsload{
@@ -1089,9 +1092,9 @@ static FUManager *shareManager = NULL;
     NSInteger count = dataArray.count;
     for (int i = 0 ; i < count; i ++) {
         NSDictionary *dict = dataArray[i] ;
-//        if(i == FULiveModelTypeYiTu || i == FULiveModelTypeGan){
-//            continue;
-//        }
+        if(i == FULiveModelTypeYiTu || i == FULiveModelTypeGan){
+            continue;
+        }
         FULiveModel *model = [[FULiveModel alloc] init];
         NSString *itemName = dict[@"itemName"] ;
         model.title = itemName ;
