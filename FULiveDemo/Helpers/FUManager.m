@@ -258,6 +258,8 @@ static FUManager *shareManager = NULL;
         items[FUNamaHandleTypeMakeup] = [FURenderer itemWithContentsOfFile:filePath];
         fuItemSetParamd(items[FUNamaHandleTypeMakeup], "makeup_lip_mask", 1.0);//使用优化的口红效果
         [[FUManager shareManager] setMakeupItemIntensity:0 param:@"makeup_intensity_lip"];//口红设置为0
+        
+        NSLog(@"-------美妆bundle -- %d",items[FUNamaHandleTypeMakeup]);
     });
 }
 
@@ -277,7 +279,7 @@ static FUManager *shareManager = NULL;
 //                                     @"nuansediao1",@"nuansediao2",@"nuansediao3",
 //                                     @"xiaoqingxin1",@"xiaoqingxin2",@"xiaoqingxin3",@"xiaoqingxin4",@"xiaoqingxin5",@"xiaoqingxin6"];
     
-    
+
     self.filtersCHName = @{@"origin" : @"原图", @"bailiang1":@"白亮", @"fennen1":@"粉嫩", @"gexing1":@"个性", @"heibai1":@"黑白", @"lengsediao1":@"冷色调",@"nuansediao1":@"暖色调", @"xiaoqingxin1":@"小清新"};
     self.selectedFilter = @"fennen1";
     self.selectedFilterLevel = 0.7;
@@ -774,10 +776,17 @@ static FUManager *shareManager = NULL;
 }
 -(void)enterAvatar{
     dispatch_async(asyncLoadQueue, ^{
+//        [FURenderer itemSetParam:items[FUNamaHandleTypeAvtarHead] withName:@"setLazyBundle" value:@(1)];
         [FURenderer itemSetParam:items[FUNamaHandleTypeAvtarHead] withName:@"enter_facepup" value:@(1)];
     });
 }
 
+-(void)lazyAvatar{
+    dispatch_async(asyncLoadQueue, ^{
+        [FURenderer itemSetParam:items[FUNamaHandleTypeAvtarHead] withName:@"setLazyBundle" value:@(1)];
+      //  [FURenderer itemSetParam:items[FUNamaHandleTypeAvtarHead] withName:@"enter_facepup" value:@(1)];
+    });
+}
 -(void)recomputeAvatar{
  
     dispatch_async(asyncLoadQueue, ^{
@@ -801,6 +810,7 @@ static FUManager *shareManager = NULL;
     dispatch_async(asyncLoadQueue, ^{
         NSString *str = [NSString stringWithFormat:@"{\"name\":\"facepup\",\"param\":\"%@\"}",paramStr];
         [FURenderer itemSetParam:items[FUNamaHandleTypeAvtarHead] withName:str value:@(value)];
+        NSLog(@"--------%@----------%lf",str,value);
     });
 }
 
@@ -854,7 +864,7 @@ static FUManager *shareManager = NULL;
         
         /* 头发镜像，通过这个4参数设置 */
         [FURenderer itemSetParam:itemHandle withName:@"is3DFlipH" value:@(1)];
-        [FURenderer itemSetParam:itemHandle withName:@"isFlipExpr" value:@(1)];
+//        [FURenderer itemSetParam:itemHandle withName:@"isFlipExpr" value:@(1)];
         [FURenderer itemSetParam:itemHandle withName:@"isFlipTrack" value:@(1)];
         [FURenderer itemSetParam:itemHandle withName:@"isFlipLight" value:@(1)];
         

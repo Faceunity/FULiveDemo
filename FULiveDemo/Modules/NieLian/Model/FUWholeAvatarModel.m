@@ -11,14 +11,14 @@
 @implementation FUWholeAvatarModel
 - (void)encodeWithCoder:(NSCoder *)coder {
     [coder encodeObject:_image forKey:@"image"];
-    [coder encodeObject:_avatarModel forKey:@"avatarModel"];
+    [coder encodeObject:_avatarModels forKey:@"avatarModel"];
 }
     
 - (instancetype)initWithCoder:(NSCoder *)coder  {
     self = [super init];
     if (self) {
         _image = [coder decodeObjectForKey:@"image"];
-        _avatarModel = [coder decodeObjectForKey:@"avatarModel"];
+        _avatarModels = [coder decodeObjectForKey:@"avatarModel"];
     }
     return self;
 }

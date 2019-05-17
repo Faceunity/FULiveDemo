@@ -53,8 +53,6 @@
     self.maximumTrackTintColor = [UIColor whiteColor];
     self.minimumTrackTintColor = [UIColor redColor];
     [self setThumbImage:[UIImage imageNamed:@"figure-slider-dot"] forState:UIControlStateNormal];
-//    [self setMaximumTrackImage:[UIImage imageNamed:@"control_Long_strip_nor"] forState:UIControlStateNormal];
-//    [self setMinimumTrackImage:[UIImage imageNamed:@"control_Long_strip_sel"] forState:UIControlStateNormal];
     
      self.middleView.hidden = YES;
      self.line.hidden = YES;
@@ -107,7 +105,6 @@
     if (_type == FUSliderCellType101) {
         self.line.hidden = NO ;
         self.middleView.hidden = NO ;
-//        [self setMinimumTrackTintColor:[UIColor whiteColor]];
         [self setMinimumTrackImage:[UIImage imageNamed:@"control_Long_strip_nor"] forState:UIControlStateNormal];
     }else{
         self.line.hidden = YES ;
@@ -138,8 +135,6 @@
         CGRect frame1 = _mIndicateLabel.frame;
         frame1.origin.x = x;
         frame1.origin.y  = -40;
-     //   _mIndicateLabel.hidden = !self.tracking;
-        
         
         CGRect frame2 = self.bgImageView.frame;
         frame2.origin.x = frame1.origin.x + 8;
@@ -162,7 +157,6 @@
         CGRect frame = _mIndicateLabel.frame;
         frame.origin.x = x;
         frame.origin.y  = -40;
-    //    _mIndicateLabel.hidden = !self.tracking;
         _mIndicateLabel.frame = frame;
         
         CGRect frame2 = self.bgImageView.frame;
@@ -180,7 +174,6 @@
                 [self stopAnimation];
             }
         }
-        
     }
     
 }

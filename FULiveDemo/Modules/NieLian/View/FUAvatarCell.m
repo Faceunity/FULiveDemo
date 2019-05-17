@@ -19,6 +19,10 @@
     self = [super initWithFrame:frame];
     if (self)
     {
+        self.backgroundColor = [UIColor whiteColor];
+        self.layer.cornerRadius = 4;
+        self.clipsToBounds = YES;
+        
         _image0  = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
         [self.contentView addSubview:_image0];
         
@@ -40,12 +44,8 @@
 -(void)setIsSel:(BOOL)isSel{
     _isSel = isSel;
     if (isSel) {
-//        _botlabel.textColor = [UIColor colorWithRed:94/255.0 green:199/255.0 blue:254/255.0 alpha:1.0];
-        [_dottedLineBorder setStrokeColor:[UIColor colorWithRed:94/255.0 green:199/255.0 blue:254/255.0 alpha:1.0].CGColor];
-        
-        
+        [_dottedLineBorder setStrokeColor:[UIColor colorWithRed:94/255.0 green:199/255.0 blue:254/255.0 alpha:1.0].CGColor];    
     }else{
-//        _botlabel.textColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0];
         [_dottedLineBorder setStrokeColor:[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0].CGColor];
     }
 }

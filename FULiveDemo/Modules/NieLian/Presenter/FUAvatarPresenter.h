@@ -19,13 +19,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface FUAvatarPresenter : NSObject
 + (FUAvatarPresenter *)shareManager;
 
-/* 单个完整扭脸模型 */
-@property (nonatomic, strong) NSMutableArray<FUAvatarModel *> *dataDataArray;  /**道具分类数组*/
 /* 所有完整扭脸模型 */
-@property (nonatomic, strong) NSMutableArray<FUWholeAvatarModel *> *wholeAvatarArray;  /**道具分类数组*/
+@property (nonatomic, strong) NSMutableArray<FUWholeAvatarModel *> *wholeAvatarArray;
 
-
--(void)addWholeAvatar:(NSMutableArray<FUAvatarModel *> *)array icon:(UIImage *)image;
+-(void)addWholeAvatar:(NSArray<FUAvatarModel *> *)array icon:(UIImage *)image;
 
 -(void)dataWriteToFile;
 /* 展示一个模式 */

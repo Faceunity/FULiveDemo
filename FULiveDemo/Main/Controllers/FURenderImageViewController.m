@@ -56,6 +56,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    
      renderQueue = dispatch_queue_create("com.faceUMakeup", DISPATCH_QUEUE_SERIAL);
     [self addObserver];
     
@@ -70,8 +72,8 @@
         self.itemsView = nil ;
         
         self.downloadBtn.transform = CGAffineTransformMakeTranslation(0, 30) ;
-        /* 销毁美妆，新建 */
-        [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeMakeup];
+        /* 轻美妆 */
+        [[FUManager shareManager] loadMakeupBundleWithName:@"light_makeup"];
         
     }else {
         self.demoBar.hidden = YES ;
@@ -523,6 +525,9 @@
 
 #pragma mark -  FUMakeUpViewDelegate
 - (void)makeupViewDidSelectedItemName:(NSString *)itemName namaStr:(NSString *)namaStr isLip:(BOOL)isLip{
+    if (!itemName || [itemName isEqualToString:@""]) {
+        return;
+    }
     if (isLip) {
         NSArray *rgba = [self jsonToLipRgbaArrayResName:itemName];
         double lip[4] = {[rgba[0] doubleValue],[rgba[1] doubleValue],[rgba[2] doubleValue],[rgba[3] doubleValue]};
@@ -537,15 +542,21 @@
 }
 
 -(void)makeupViewDidChangeValue:(float)value namaValueStr:(NSString *)namaStr{
+    
     [[FUManager shareManager] setMakeupItemIntensity:value param:namaStr];
+    
 }
 
 -(void)makeupFilter:(NSString *)filterStr value:(float)filterValue{
-    _demoBar.selectedFilter = filterStr;
+    if(!filterStr || [filterStr isEqualToString:@""]){
+        return;
+    }
+    self.demoBar.selectedFilter = filterStr;
+    self.demoBar.selectedFilterLevel = filterValue;
     [FUManager shareManager].selectedFilter = filterStr ;
-    _demoBar.selectedFilterLevel = filterValue;
     [FUManager shareManager].selectedFilterLevel = filterValue;
 }
+
 
 -(NSArray *)jsonToLipRgbaArrayResName:(NSString *)resName{
     NSString *path=[[NSBundle mainBundle] pathForResource:resName ofType:@"json"];

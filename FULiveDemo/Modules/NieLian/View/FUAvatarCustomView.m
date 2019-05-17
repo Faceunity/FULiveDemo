@@ -98,20 +98,19 @@ static  NSString *cellID = @"avatarCustomCell";
 
 -(void)setAvatarModel:(FUAvatarModel *)avatarModel{
     _avatarModel = avatarModel;
+    _oldAvatarModel = [avatarModel copy];
     _titleLabel.text = NSLocalizedString(avatarModel.title, nil);
     _selIndex = 0;
     _slider.hidden = YES;
     _explainLabel.hidden = YES;
     
-    if (_avatarModel.bundleSelIndex != 0) {
-        int index =  _avatarModel.bundleSelIndex;
-        for (int i = 0; i  < _avatarModel.bundles[0].params.count; i ++) {
-            _avatarModel.bundles[0].params[i].value = _avatarModel.bundles[index].params[i].value;
-        }
-        
-    }
-//    _explainLabel.text = _avatarModel.bundles[0].params[_selIndex].title;
-//    _slider.value = (_avatarModel.bundles[0].params[_selIndex].value + 1)/2;
+//    if (_avatarModel.bundleSelIndex != 0) {
+//        int index =  _avatarModel.bundleSelIndex;
+//        for (int i = 0; i  < _avatarModel.bundles[0].params.count; i ++) {
+//            _avatarModel.bundles[0].params[i].value = 0;
+//        }
+//        
+//    }
     [self.collection reloadData];
     
 }
@@ -120,14 +119,19 @@ static  NSString *cellID = @"avatarCustomCell";
 
 -(void)sliderChangeValue:(FUAvatarSlider *)slider{
     NSLog(@"-----%lf",slider.value);
-    
+    if(_selIndex < 1){
+        NSLog(@"重置不能调节");
+        return;
+    }
+        
     FUAvatarParam *paramModel = _avatarModel.bundles[0].params[_selIndex - 1];
     paramModel.value =  (slider.value - 0.5) * 2;
     if (slider.value > 0.5) {
+        [[FUManager shareManager] setAvatarParam:paramModel.paramS value:0];
         [[FUManager shareManager] setAvatarParam:paramModel.paramB value:(slider.value - 0.5) * 2];
     }else{
-
         [[FUManager shareManager] setAvatarParam:paramModel.paramS value:fabs(0.5 - slider.value) * 2];
+        [[FUManager shareManager] setAvatarParam:paramModel.paramB value:0];
     }
 }
 
@@ -139,9 +143,6 @@ static  NSString *cellID = @"avatarCustomCell";
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-
-    
-    
     FUAvatarCustomCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
     
     if (indexPath.row == 0) {
@@ -151,7 +152,6 @@ static  NSString *cellID = @"avatarCustomCell";
         
         cell.image.image = _selIndex == indexPath.row ?[UIImage imageNamed:modle.icon_sel] : [UIImage imageNamed:modle.icon];
     }
-
 
     return cell;
 }
@@ -163,28 +163,19 @@ static  NSString *cellID = @"avatarCustomCell";
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    _selIndex = indexPath.row;
     FUBundelModel *modle = _avatarModel.bundles[0];
-    if (_selIndex == 0) {//重置
-        _explainLabel.hidden = YES;
-        _slider.hidden = YES;
-        _explainLabel.hidden = YES;
+    if (indexPath.row == 0) {//重置
         [self restBundleParm:modle];
     }else{
+        _selIndex = indexPath.row;
         _slider.value =  (modle.params[_selIndex - 1].value + 1)/2;
-        
         _explainLabel.hidden = NO;
         _slider.hidden = NO;
         _explainLabel.hidden = NO;
-        
         _explainLabel.text = NSLocalizedString(_avatarModel.bundles[0].params[_selIndex - 1].title, nil);
         _slider.value = (1 + _avatarModel.bundles[0].params[_selIndex - 1].value) / 2;
+          [_collection reloadData];
     }
-    
-
-
-    [_collection reloadData];
-    
 }
 
 -(void)restBundleParm:(FUBundelModel *)modle{
@@ -196,14 +187,7 @@ static  NSString *cellID = @"avatarCustomCell";
 
     UIAlertAction *certainAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"确定",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
-        for (FUAvatarParam *param in modle.params) {
-            if (param.value < 0) {
-                [[FUManager shareManager] setAvatarParam:param.paramS value:0];
-            }else{
-                [[FUManager shareManager] setAvatarParam:param.paramB value:0];
-            }
-            param.value = 0;
-        }
+        [self setAvatarValueZero];
     }];
     [certainAction setValue:[UIColor colorWithRed:31/255.0 green:178/255.0 blue:255/255.0 alpha:1.0] forKey:@"titleTextColor"];
     
@@ -213,6 +197,7 @@ static  NSString *cellID = @"avatarCustomCell";
     [[self viewControllerFromView:self]  presentViewController:alertCon animated:YES completion:^{
     }];
 }
+
 
 - (UIViewController *)viewControllerFromView:(UIView *)view {
     for (UIView *next = [view superview]; next; next = next.superview) {
@@ -224,5 +209,52 @@ static  NSString *cellID = @"avatarCustomCell";
     return nil;
 }
 
+
+-(void)resetDefaultValue{
+    FUBundelModel *modle = _avatarModel.bundles[0];
+    FUBundelModel *oldModle = _oldAvatarModel.bundles[0];
+    
+    for (int i = 0; i  < modle.params.count; i ++) {
+        FUAvatarParam *param = modle.params[i];
+        FUAvatarParam *oldParam = oldModle.params[i];
+        param.value = oldParam.value;
+        
+        if (param.value < 0) {
+            [[FUManager shareManager] setAvatarParam:param.paramB value:0];
+            [[FUManager shareManager] setAvatarParam:param.paramS value:fabsf(param.value)];
+        }else{
+            [[FUManager shareManager] setAvatarParam:param.paramS value:0];
+            [[FUManager shareManager] setAvatarParam:param.paramB value:fabsf(param.value)];
+        }
+    }
+    _slider.hidden = YES;
+    [_collection reloadData];
+}
+
+-(void)setAvatarValueZero{
+    for (FUAvatarParam *param in _avatarModel.bundles[0].params) {
+        param.value = 0;
+        [[FUManager shareManager] setAvatarParam:param.paramB value:0];
+        [[FUManager shareManager] setAvatarParam:param.paramS value:0];
+    }
+    _selIndex = 0;
+    _slider.hidden = YES;
+    _explainLabel.hidden = YES;
+    [_collection reloadData];
+}
+
+
+
+-(BOOL)isParamValueChange{
+    /* 自定义数据 */
+    FUBundelModel *modle = _avatarModel.bundles[0];
+    FUBundelModel *oldModle = _oldAvatarModel.bundles[0];
+    
+    for (int i = 0; i  < modle.params.count; i ++) {
+        if (modle.params[i].value != oldModle.params[i].value) return YES;
+    }
+    
+    return NO;
+}
 
 @end

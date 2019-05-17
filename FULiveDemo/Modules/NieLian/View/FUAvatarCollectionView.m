@@ -60,10 +60,9 @@ static NSString *cellID = @"AvatarCell";
     
     FUAvatarCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
 
-    
     if (indexPath.row == 0) {
         cell.isSel = _selIndex == indexPath.row ? YES : NO;
-        cell.image1.image = nil;
+        cell.image1.image = [UIImage imageNamed:@"demo_avatar_icon_cancel"];
         cell.image0.image = [UIImage imageNamed:@"demo_avatar_icon_cancel"];
     }else{
         FUWholeAvatarModel *modle = [FUAvatarPresenter shareManager].wholeAvatarArray[indexPath.row - 1];
@@ -76,17 +75,16 @@ static NSString *cellID = @"AvatarCell";
 
 #pragma mark --- UICollectionViewDelegateFlowLayout
 
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-//    return CGSizeMake(60, 60) ;
-//}
-//
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
     return UIEdgeInsetsMake(12, 16, 12, 16);
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if(_selIndex == indexPath.row){
+        return;
+    }
     _selIndex = indexPath.row;
-    [_collection reloadData];
+    [self.collection reloadItemsAtIndexPaths:[self.collection indexPathsForVisibleItems]];
     if ([self.delegate respondsToSelector:@selector(avatarCollectionViewDidSel:)]) {
         [self.delegate avatarCollectionViewDidSel:(int)indexPath.row];
     }

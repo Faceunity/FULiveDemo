@@ -67,14 +67,14 @@
     self.beautyFilterView.type = FUFilterViewTypeBeautyFilter ;
     self.beautyFilterView.mDelegate = self ;
     
-    self.shapeView.type = FUBeautyViewTypeShape ;
+    self.shapeView.type = FUBeautyViewTypeShape;
     self.shapeView.mDelegate = self ;
     
-//    self.faceCollection.type = FUFaceCollectionTypeCommon ;
-    self.faceCollection.mDelegate = self ;
+//    self.faceCollection.type = FUFaceCollectionTypeCommon;
+    self.faceCollection.mDelegate = self;
     
-    self.skinView.type = FUBeautyViewTypeSkin ;
-    self.skinView.mDelegate = self ;
+    self.skinView.type = FUBeautyViewTypeSkin;
+    self.skinView.mDelegate = self;
     
     NSString *wholePath=[[NSBundle mainBundle] pathForResource:@"makeup_whole" ofType:@"json"];
     NSData *wholeData=[[NSData alloc] initWithContentsOfFile:wholePath];

@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) UIImage* image;
 
-@property (nonatomic, strong) NSArray <FUAvatarModel *> *avatarModel;
+@property (nonatomic, strong) NSArray <FUAvatarModel *> *avatarModels;
 
 @end
 

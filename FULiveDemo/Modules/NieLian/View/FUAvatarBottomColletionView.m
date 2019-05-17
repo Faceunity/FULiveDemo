@@ -75,7 +75,7 @@ static  NSString *cellID = @"bottomCell";
 }
 
 
--(void)setDataArray:(NSMutableArray<FUAvatarModel *> *)dataArray{
+-(void)setDataArray:(NSArray<FUAvatarModel *> *)dataArray{
     _dataArray = dataArray;
     [self.collection reloadData];
 }
@@ -92,16 +92,12 @@ static  NSString *cellID = @"bottomCell";
     
     cell.botlabel.text = NSLocalizedString(self.dataArray[indexPath.row].title, nil);
     cell.isSel = _selIndex == indexPath.row ? YES:NO;
-//    cell.backgroundColor = [UIColor redColor];
     
     return cell;
 }
 
 #pragma mark --- UICollectionViewDelegateFlowLayout
 
-//- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-//    return UIEdgeInsetsMake(20, 10, 20, 10);
-//}
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     _selIndex = indexPath.row;

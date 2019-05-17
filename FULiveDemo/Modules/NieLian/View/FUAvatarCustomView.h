@@ -19,6 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FUAvatarCustomView : UIView
 @property (nonatomic, strong) FUAvatarModel *avatarModel;
+@property (nonatomic, strong) FUAvatarModel *oldAvatarModel;
+/* 恢复默认0 */
+-(void)resetDefaultValue;
+/* 值是否有变化 */
+-(BOOL)isParamValueChange;
 @end
 
 NS_ASSUME_NONNULL_END
