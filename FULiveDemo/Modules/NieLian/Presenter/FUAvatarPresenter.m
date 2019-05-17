@@ -12,8 +12,11 @@
 #import "MJExtension.h"
 #import "FUManager.h"
 #import "FUAvatarModel.h"
+@interface FUAvatarPresenter()
+/* 单个完整扭脸模型 (包含脸，鼻子，眼，嘴，头发)*/
+@property (nonatomic, strong) NSMutableArray<FUAvatarModel *> *dataDataArray;
 
-
+@end;
 @implementation FUAvatarPresenter
 static FUAvatarPresenter *shareManager = NULL;
 
@@ -38,8 +41,7 @@ static FUAvatarPresenter *shareManager = NULL;
     [self addWholeAvatar:self.dataDataArray icon:image];
 //    [self addWholeAvatar:self.dataDataArray icon:image];
     [self.wholeAvatarArray addObjectsFromArray:[self loadWholeAvatarArray]];
-        
-        
+
     }
     return self;
 }
@@ -51,8 +53,6 @@ static FUAvatarPresenter *shareManager = NULL;
     NSDictionary *wholeDic=[NSJSONSerialization JSONObjectWithData:wholeData options:NSJSONReadingMutableContainers error:nil];
     self.dataDataArray = [FUAvatarModel mj_objectArrayWithKeyValuesArray:wholeDic[@"data"]];
 }
-
-
 
 #pragma  mark -  保存
 
@@ -88,24 +88,23 @@ static FUAvatarPresenter *shareManager = NULL;
 
 #pragma  mark -  对外接口
 
--(void)addWholeAvatar:(NSMutableArray<FUAvatarModel *> *)array icon:(UIImage *)image{
+-(void)addWholeAvatar:(NSArray<FUAvatarModel *> *)array icon:(UIImage *)image{
     FUWholeAvatarModel *model = [[FUWholeAvatarModel alloc] init];
     NSMutableArray *newArray = [NSMutableArray array];
     for (FUAvatarModel *model in array) {
         [newArray addObject:[model copy]];
     }
-    model.avatarModel = newArray;
+    model.avatarModels = newArray;
     model.image = image;
     
     [self.wholeAvatarArray addObject:model];
-    
 }
 
     
 -(void)showAProp:(FUWholeAvatarModel *)wholeAvatarModel{
 
-    for (int i = (int)wholeAvatarModel.avatarModel.count - 1; i >= 0; i --) {
-        FUAvatarModel *avatarModel = wholeAvatarModel.avatarModel[i];
+    for (int i = (int)wholeAvatarModel.avatarModels.count - 1; i >= 0; i --) {
+        FUAvatarModel *avatarModel = wholeAvatarModel.avatarModels[i];
         int colorIndex = avatarModel.colorsSelIndex;
         int bundleIndex = avatarModel.bundleSelIndex;
 
@@ -127,11 +126,11 @@ static FUAvatarPresenter *shareManager = NULL;
                 }
                 if (model0.value < 0) {
                     [[FUManager shareManager] setAvatarParam:model0.paramS value:fabsf(model0.value)];
+                    [[FUManager shareManager] setAvatarParam:model0.paramB value:0];
                 }else{
+                    [[FUManager shareManager] setAvatarParam:model0.paramS value:0];
                     [[FUManager shareManager] setAvatarParam:model0.paramB value:fabsf(model0.value)];
                 }
-                
-                NSLog(@"参数设置---- %@---%@--Value---%lf \n",model0.title,model0.paramS,model0.value);
             }
                        
         }

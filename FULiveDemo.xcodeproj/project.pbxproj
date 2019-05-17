@@ -162,11 +162,11 @@
 		E3226499225F0CCB003A6182 /* tiger_bai.png in Resources */ = {isa = PBXBuildFile; fileRef = E3226487225F0CCB003A6182 /* tiger_bai.png */; };
 		E322649C225F6CB7003A6182 /* jet_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = E322649A225F6CB7003A6182 /* jet_mask.png */; };
 		E322649D225F6CB7003A6182 /* jet_mask.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E322649B225F6CB7003A6182 /* jet_mask.bundle */; };
+		E32BDA1B2282BE5F00E308A1 /* female_hair_05.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E32BDA1A2282BE5B00E308A1 /* female_hair_05.bundle */; };
 		E3481030224369D200D6C941 /* FUColor.m in Sources */ = {isa = PBXBuildFile; fileRef = E348102F224369D200D6C941 /* FUColor.m */; };
 		E34810322243778000D6C941 /* avatar.json in Resources */ = {isa = PBXBuildFile; fileRef = E34810312243778000D6C941 /* avatar.json */; };
 		E34810362243799B00D6C941 /* FUAvatarModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E34810352243799B00D6C941 /* FUAvatarModel.m */; };
 		E348103922437CB000D6C941 /* FUAvatarPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = E348103822437CB000D6C941 /* FUAvatarPresenter.m */; };
-		E34810C1224506A500D6C941 /* female_hair.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E34810C0224506A000D6C941 /* female_hair.bundle */; };
 		E34810C422450B6700D6C941 /* FUWholeAvatarModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E34810C322450B6700D6C941 /* FUWholeAvatarModel.m */; };
 		E34810C722451C8500D6C941 /* avatar_bg.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E34810C52245122400D6C941 /* avatar_bg.bundle */; };
 		E35AE65C2226709C0076C375 /* FUDemoBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = E35AE63A2226709C0076C375 /* FUDemoBar.xib */; };
@@ -366,7 +366,6 @@
 		E3B0CC452232433E00900760 /* mu_blush_17.png in Resources */ = {isa = PBXBuildFile; fileRef = E3B0CBEF2232433E00900760 /* mu_blush_17.png */; };
 		E3BC285D21CA15B500A04E02 /* FUYItuMeItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3BC285C21CA15B500A04E02 /* FUYItuMeItemCell.m */; };
 		E3C8253F2223EBC900494DE4 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E3C8253E2223EBC900494DE4 /* libc++.tbd */; };
-		E3CB023521C0FF5900105B00 /* photolive.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3CB023421C0FF5800105B00 /* photolive.bundle */; };
 		E3CB024E21C7827700105B00 /* FUYituItemsView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3CB024D21C7827700105B00 /* FUYituItemsView.m */; };
 		E3CB025221C797D800105B00 /* FUMyItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3CB024F21C797D700105B00 /* FUMyItemsViewController.m */; };
 		E3CB025321C797D800105B00 /* FUMyItemsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3CB025021C797D800105B00 /* FUMyItemsViewController.xib */; };
@@ -380,7 +379,6 @@
 		E3CB027121C9109900105B00 /* FUYituModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E3CB027021C9109900105B00 /* FUYituModel.m */; };
 		E3CB5D7F226D6C32004EE355 /* female_hair_02.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3CB5D7A226D6C32004EE355 /* female_hair_02.bundle */; };
 		E3CB5D80226D6C32004EE355 /* female_hair_04.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3CB5D7B226D6C32004EE355 /* female_hair_04.bundle */; };
-		E3CB5D81226D6C32004EE355 /* male_hair_05.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3CB5D7C226D6C32004EE355 /* male_hair_05.bundle */; };
 		E3CB5D82226D6C32004EE355 /* female_hair_01.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3CB5D7D226D6C32004EE355 /* female_hair_01.bundle */; };
 		E3CB5D83226D6C32004EE355 /* female_hair_03.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3CB5D7E226D6C32004EE355 /* female_hair_03.bundle */; };
 		E3D13CAE22420CCB00B5229D /* FUFacepupController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D13CAD22420CCB00B5229D /* FUFacepupController.m */; };
@@ -394,7 +392,6 @@
 		E3D13CD222431FC900B5229D /* FUAvatarBottomColletionView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D13CD122431FC900B5229D /* FUAvatarBottomColletionView.m */; };
 		E3D13CD822432FFE00B5229D /* FUAvatarCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D13CD722432FFE00B5229D /* FUAvatarCustomView.m */; };
 		E3D13CDE2243441900B5229D /* FUAvatarSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D13CDC2243441900B5229D /* FUAvatarSlider.m */; };
-		E3DDB85D2241CD1B000296FD /* soul_Animoji.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3DDB85C2241CB5C000296FD /* soul_Animoji.bundle */; };
 		E3F1BDFD226F06DA00834871 /* female_hair_06.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3F1BDFC226F063B00834871 /* female_hair_06.bundle */; };
 /* End PBXBuildFile section */
 
@@ -632,6 +629,7 @@
 		E3226487225F0CCB003A6182 /* tiger_bai.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tiger_bai.png; sourceTree = "<group>"; };
 		E322649A225F6CB7003A6182 /* jet_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jet_mask.png; sourceTree = "<group>"; };
 		E322649B225F6CB7003A6182 /* jet_mask.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = jet_mask.bundle; sourceTree = "<group>"; };
+		E32BDA1A2282BE5B00E308A1 /* female_hair_05.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = female_hair_05.bundle; sourceTree = "<group>"; };
 		E348102E224369D200D6C941 /* FUColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUColor.h; sourceTree = "<group>"; };
 		E348102F224369D200D6C941 /* FUColor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUColor.m; sourceTree = "<group>"; };
 		E34810312243778000D6C941 /* avatar.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = avatar.json; sourceTree = "<group>"; };
@@ -639,7 +637,6 @@
 		E34810352243799B00D6C941 /* FUAvatarModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUAvatarModel.m; sourceTree = "<group>"; };
 		E348103722437CB000D6C941 /* FUAvatarPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUAvatarPresenter.h; sourceTree = "<group>"; };
 		E348103822437CB000D6C941 /* FUAvatarPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUAvatarPresenter.m; sourceTree = "<group>"; };
-		E34810C0224506A000D6C941 /* female_hair.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = female_hair.bundle; sourceTree = "<group>"; };
 		E34810C222450B6700D6C941 /* FUWholeAvatarModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUWholeAvatarModel.h; sourceTree = "<group>"; };
 		E34810C322450B6700D6C941 /* FUWholeAvatarModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUWholeAvatarModel.m; sourceTree = "<group>"; };
 		E34810C52245122400D6C941 /* avatar_bg.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = avatar_bg.bundle; sourceTree = "<group>"; };
@@ -883,7 +880,6 @@
 		E3BC285B21CA15B500A04E02 /* FUYItuMeItemCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUYItuMeItemCell.h; sourceTree = "<group>"; };
 		E3BC285C21CA15B500A04E02 /* FUYItuMeItemCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUYItuMeItemCell.m; sourceTree = "<group>"; };
 		E3C8253E2223EBC900494DE4 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
-		E3CB023421C0FF5800105B00 /* photolive.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = photolive.bundle; sourceTree = "<group>"; };
 		E3CB024C21C7827700105B00 /* FUYituItemsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUYituItemsView.h; sourceTree = "<group>"; };
 		E3CB024D21C7827700105B00 /* FUYituItemsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUYituItemsView.m; sourceTree = "<group>"; };
 		E3CB024F21C797D700105B00 /* FUMyItemsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUMyItemsViewController.m; sourceTree = "<group>"; };
@@ -907,7 +903,6 @@
 		E3CB027021C9109900105B00 /* FUYituModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUYituModel.m; sourceTree = "<group>"; };
 		E3CB5D7A226D6C32004EE355 /* female_hair_02.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = female_hair_02.bundle; sourceTree = "<group>"; };
 		E3CB5D7B226D6C32004EE355 /* female_hair_04.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = female_hair_04.bundle; sourceTree = "<group>"; };
-		E3CB5D7C226D6C32004EE355 /* male_hair_05.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = male_hair_05.bundle; sourceTree = "<group>"; };
 		E3CB5D7D226D6C32004EE355 /* female_hair_01.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = female_hair_01.bundle; sourceTree = "<group>"; };
 		E3CB5D7E226D6C32004EE355 /* female_hair_03.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = female_hair_03.bundle; sourceTree = "<group>"; };
 		E3D13CAC22420CCB00B5229D /* FUFacepupController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUFacepupController.h; sourceTree = "<group>"; };
@@ -932,7 +927,6 @@
 		E3D13CD722432FFE00B5229D /* FUAvatarCustomView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUAvatarCustomView.m; sourceTree = "<group>"; };
 		E3D13CDC2243441900B5229D /* FUAvatarSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUAvatarSlider.m; sourceTree = "<group>"; };
 		E3D13CDD2243441900B5229D /* FUAvatarSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUAvatarSlider.h; sourceTree = "<group>"; };
-		E3DDB85C2241CB5C000296FD /* soul_Animoji.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = soul_Animoji.bundle; sourceTree = "<group>"; };
 		E3F1BDFC226F063B00834871 /* female_hair_06.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = female_hair_06.bundle; sourceTree = "<group>"; };
 		E3FB0A5E2213CB0C00B41E21 /* FURecordEncoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FURecordEncoder.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1183,7 +1177,6 @@
 		0BE1004C2150F9ED00098F1B /* Animoji */ = {
 			isa = PBXGroup;
 			children = (
-				E3DDB85C2241CB5C000296FD /* soul_Animoji.bundle */,
 				CDA60855216F436D00A3DA93 /* baimao_Animoji.bundle */,
 				CDA60859216F436E00A3DA93 /* baimao_Animoji.png */,
 				CDA60860216F436E00A3DA93 /* douniuquan_Animoji.bundle */,
@@ -1385,13 +1378,12 @@
 		E34810772244EB3000D6C941 /* hairN */ = {
 			isa = PBXGroup;
 			children = (
+				E32BDA1A2282BE5B00E308A1 /* female_hair_05.bundle */,
 				E3CB5D7D226D6C32004EE355 /* female_hair_01.bundle */,
 				E3CB5D7A226D6C32004EE355 /* female_hair_02.bundle */,
 				E3CB5D7E226D6C32004EE355 /* female_hair_03.bundle */,
 				E3CB5D7B226D6C32004EE355 /* female_hair_04.bundle */,
-				E3CB5D7C226D6C32004EE355 /* male_hair_05.bundle */,
 				E3F1BDFC226F063B00834871 /* female_hair_06.bundle */,
-				E34810C0224506A000D6C941 /* female_hair.bundle */,
 			);
 			path = hairN;
 			sourceTree = "<group>";
@@ -1974,7 +1966,6 @@
 		E3CB023321C0FF5800105B00 /* 异图 */ = {
 			isa = PBXGroup;
 			children = (
-				E3CB023421C0FF5800105B00 /* photolive.bundle */,
 			);
 			path = "异图";
 			sourceTree = "<group>";
@@ -2097,14 +2088,14 @@
 			buildConfigurationList = 0B5A0CE12021913900AAD47D /* Build configuration list for PBXNativeTarget "FULiveDemo" */;
 			buildPhases = (
 				FA957C64E2549EB6F75CB07D /* [CP] Check Pods Manifest.lock */,
-				CD0B4B85211613BB0019F9FA /* unzip libnama.zip */,
+				CD0B4B85211613BB0019F9FA /* unzip */,
 				0B5A0CB12021913900AAD47D /* Sources */,
 				0B5A0CB22021913900AAD47D /* Frameworks */,
 				0B5A0CB32021913900AAD47D /* Resources */,
 				0B5A0D7F202191AF00AAD47D /* Embed Frameworks */,
 				4508CC438BF9C69090871A75 /* [CP] Copy Pods Resources */,
 				0B30FE7B207F8879008E0543 /* CopyFiles */,
-				CD11A34D20CE7C580005C58C /* removes unused architectures when archive */,
+				CD11A34D20CE7C580005C58C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2294,7 +2285,6 @@
 				E3226445225F0288003A6182 /* face_makeup.bundle in Resources */,
 				E3B0CC2B2232433E00900760 /* mu_eyelash_08.png in Resources */,
 				E3A74CE6224B24AF0058E1EE /* light_makeup.bundle in Resources */,
-				E34810C1224506A500D6C941 /* female_hair.bundle in Resources */,
 				0BE1015A2150F9EE00098F1B /* mask_guocaijie.png in Resources */,
 				E3B0CC082232433E00900760 /* mu_eyebrow_09.png in Resources */,
 				E3B0CBFB2232433E00900760 /* mu_lip_10.json in Resources */,
@@ -2359,8 +2349,8 @@
 				E322648F225F0CCB003A6182 /* xiongmao.png in Resources */,
 				E3B0CC0C2232433E00900760 /* mu_eyebrow_13.png in Resources */,
 				E3B0CC2D2232433E00900760 /* mu_eyepupil_02.png in Resources */,
+				E32BDA1B2282BE5F00E308A1 /* female_hair_05.bundle in Resources */,
 				0BE1010A2150F9ED00098F1B /* touhua_ztt_fu.png in Resources */,
-				E3DDB85D2241CD1B000296FD /* soul_Animoji.bundle in Resources */,
 				E3B0CC132232433E00900760 /* mu_eyeshadow_06.png in Resources */,
 				E3226459225F083F003A6182 /* gufeng_zh_fu_mp.bundle in Resources */,
 				CDA6086C216F436F00A3DA93 /* hashiqi_Animoji.bundle in Resources */,
@@ -2414,7 +2404,6 @@
 				CDA6086D216F436F00A3DA93 /* frog_Animoji.png in Resources */,
 				E3706F4F216B4E4E004BFC7F /* FUPosterCell.xib in Resources */,
 				E3226468225F097F003A6182 /* sdx2.png in Resources */,
-				E3CB023521C0FF5900105B00 /* photolive.bundle in Resources */,
 				0BE101002150F9ED00098F1B /* douyin_02.png in Resources */,
 				E379EDBF2238ADC10080BD04 /* mu_eyeshadow_18.png in Resources */,
 				E3B0CC442232433E00900760 /* mu_blush_16.png in Resources */,
@@ -2453,7 +2442,6 @@
 				E3B0CC0A2232433E00900760 /* mu_eyebrow_11.png in Resources */,
 				0BE101082150F9ED00098F1B /* mask_hat.png in Resources */,
 				0BE1010E2150F9ED00098F1B /* yuguan.png in Resources */,
-				E3CB5D81226D6C32004EE355 /* male_hair_05.bundle in Resources */,
 				0BE1015B2150F9EE00098F1B /* mask_huangxiaoming.bundle in Resources */,
 				E3B0CC182232433E00900760 /* mu_eyeshadow_11.png in Resources */,
 				0B95D7352089ED6D006A6FBA /* v3.bundle in Resources */,
@@ -2533,33 +2521,32 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FULiveDemo/Pods-FULiveDemo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		CD0B4B85211613BB0019F9FA /* unzip libnama.zip */ = {
+		CD0B4B85211613BB0019F9FA /* unzip */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "unzip libnama.zip";
+			name = unzip;
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n#!/bin/sh/\ncd FULiveDemo/Lib/FaceUnity-SDK-iOS\nfilename=libnama.a\nzipname=libnama.zip\n\nif [ -f \"$zipname\" ];\nthen\nrm -f $filename\nunzip $zipname\nrm -f $zipname\nfi\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n#!/bin/sh/\ncd FULiveDemo/Lib/FaceUnity-SDK-iOS\nfilename=libnama.a\nzipname=libnama.zip\nmdcode=$(md5 $filename)\n\nif [ -f \"$zipname\" ];\nthen\nrm -f $filename\nunzip $zipname\nrm -f $zipname\nfi\n";
 		};
-		CD11A34D20CE7C580005C58C /* removes unused architectures when archive */ = {
+		CD11A34D20CE7C580005C58C /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "removes unused architectures when archive";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "APP_PATH=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\n\n# This script loops through the frameworks embedded in the application and\n\n# removes unused architectures.\n\nfind \"$APP_PATH\" -name '*.framework' -type d | while read -r FRAMEWORK\n\ndo\n\nFRAMEWORK_EXECUTABLE_NAME=$(defaults read \"$FRAMEWORK/Info.plist\" CFBundleExecutable)\n\nFRAMEWORK_EXECUTABLE_PATH=\"$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME\"\n\necho \"Executable is $FRAMEWORK_EXECUTABLE_PATH\"\n\nEXTRACTED_ARCHS=()\n\nfor ARCH in $ARCHS\n\ndo\n\necho \"Extracting $ARCH from $FRAMEWORK_EXECUTABLE_NAME\"\n\nlipo -extract \"$ARCH\" \"$FRAMEWORK_EXECUTABLE_PATH\" -o \"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\"\n\nEXTRACTED_ARCHS+=(\"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\")\n\ndone\n\necho \"Merging extracted architectures: ${ARCHS}\"\n\nlipo -o \"$FRAMEWORK_EXECUTABLE_PATH-merged\" -create \"${EXTRACTED_ARCHS[@]}\"\n\nrm \"${EXTRACTED_ARCHS[@]}\"\n\necho \"Replacing original executable with thinned version\"\n\nrm \"$FRAMEWORK_EXECUTABLE_PATH\"\n\nmv \"$FRAMEWORK_EXECUTABLE_PATH-merged\" \"$FRAMEWORK_EXECUTABLE_PATH\"\n\ndone\n";
+			shellScript = "APP_PATH=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\n\n# This script loops through the frameworks embedded in the application and\n\n# removes unused architectures.\necho \"-------------\"\necho \"-------------\"\necho \"-------------\"\necho \"-------------\"\necho \"-------------\"\necho \"-------------\"\necho \"-------------\"\necho \"-------------\"\necho \"-------------\"\necho \"-------------\"\necho \"-------------\"\necho \"-------------\"\n\nfind \"$APP_PATH\" -name '*.framework' -type d | while read -r FRAMEWORK\n\ndo\n\nFRAMEWORK_EXECUTABLE_NAME=$(defaults read \"$FRAMEWORK/Info.plist\" CFBundleExecutable)\n\nFRAMEWORK_EXECUTABLE_PATH=\"$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME\"\n\necho \"Executable is $FRAMEWORK_EXECUTABLE_PATH\"\n\nEXTRACTED_ARCHS=()\n\nfor ARCH in $ARCHS\n\ndo\n\necho \"Extracting $ARCH from $FRAMEWORK_EXECUTABLE_NAME\"\n\nlipo -extract \"$ARCH\" \"$FRAMEWORK_EXECUTABLE_PATH\" -o \"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\"\n\nEXTRACTED_ARCHS+=(\"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\")\n\ndone\n\necho \"Merging extracted architectures: ${ARCHS}\"\n\nlipo -o \"$FRAMEWORK_EXECUTABLE_PATH-merged\" -create \"${EXTRACTED_ARCHS[@]}\"\n\nrm \"${EXTRACTED_ARCHS[@]}\"\n\necho \"Replacing original executable with thinned version\"\n\nrm \"$FRAMEWORK_EXECUTABLE_PATH\"\n\nmv \"$FRAMEWORK_EXECUTABLE_PATH-merged\" \"$FRAMEWORK_EXECUTABLE_PATH\"\n\ndone\n";
 		};
 		FA957C64E2549EB6F75CB07D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

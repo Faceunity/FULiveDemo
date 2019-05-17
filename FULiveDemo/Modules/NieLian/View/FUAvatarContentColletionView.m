@@ -55,13 +55,7 @@
 -(void)setIsSel:(BOOL)isSel{
     _isSel = isSel;
     _dottedLineBorder.hidden = !isSel;
-    
-    NSLog(@"-----------%d",isSel);
-//    if (isSel) {
-//        [_dottedLineBorder setStrokeColor:[UIColor colorWithRed:94/255.0 green:199/255.0 blue:254/255.0 alpha:1.0].CGColor];
-//    }else{
-//        [_dottedLineBorder setStrokeColor:[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0].CGColor];
-//    }
+
 }
 
 @end
@@ -130,15 +124,14 @@ static  NSString *cellID = @"colorCell";
 
 #pragma mark --- UICollectionViewDelegateFlowLayout
 
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-//    return CGSizeMake(60, 60) ;
-//}
-//
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
     return UIEdgeInsetsMake(10, 10, 10, 10);
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if(_selIndex == indexPath.row && indexPath.row != 0){
+        return;
+    }
     _selIndex = indexPath.row;
     [self.collection reloadItemsAtIndexPaths:[self.collection indexPathsForVisibleItems]];
     if ([self.delegate respondsToSelector:@selector(avatarContentColletionViewDidSelectedIndex:)]) {
@@ -147,14 +140,5 @@ static  NSString *cellID = @"colorCell";
     _avatarModel.bundleSelIndex = (int)_selIndex;
 }
 
-    
-//-(void)setDefaultSel:(int)index{
-//    _selIndex = index;
-////    _avatarModel.bundleSelIndex = index;
-////    [self.collection reloadItemsAtIndexPaths:[self.collection indexPathsForVisibleItems]];
-////    if ([self.delegate respondsToSelector:@selector(avatarContentColletionViewDidSelectedIndex:)]) {
-////        [self.delegate avatarContentColletionViewDidSelectedIndex:index];
-////    }
-//}
 
 @end

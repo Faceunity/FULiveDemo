@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FUAvatarBottomColletionView : UIView
 
-@property (nonatomic, strong) NSMutableArray<FUAvatarModel *> *dataArray;  /**道具分类数组*/
+@property (nonatomic, strong) NSArray<FUAvatarModel *> *dataArray;  /**道具分类数组*/
 
 @property (assign, nonatomic) BOOL isSel;
 

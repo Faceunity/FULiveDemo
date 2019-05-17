@@ -12,9 +12,12 @@
 #import "FUManager.h"
 #import "FUAvatarsController.h"
 #import "FUAvatarPresenter.h"
+#import "FUWholeAvatarModel.h"
 
 @interface FUFacepupController ()<FUAvatarsControllerDelegate,FUAvatarCollectionViewDelegate>
 @property(strong,nonatomic) FUAvatarCollectionView *avatarCollectionView;
+
+@property(strong,nonatomic) UIButton *addBtn;
 
 @end
 
@@ -28,13 +31,10 @@
     [[FUManager shareManager] enterAvatar];
     
     [self setupView];
-    
-    NSLog(@"-------------wqwq");
 }
 
 -(void)setupView{
     self.photoBtn.transform = CGAffineTransformMakeTranslation(0, -50);
-    
     /* 删除按钮 */
     UIButton *deletBtn = [[UIButton alloc] init];
     deletBtn.titleLabel.font = [UIFont systemFontOfSize:11];
@@ -50,15 +50,14 @@
     deletBtn.layer.shadowRadius = 4;
     
     /* 新建捏脸 */
-    UIButton *nieBtn = [[UIButton alloc] init];
-    nieBtn.layer.backgroundColor = [UIColor colorWithRed:31/255.0 green:178/255.0 blue:255/255.0 alpha:1.0].CGColor;
-    nieBtn.layer.cornerRadius = 16;
-    nieBtn.titleLabel.font = [UIFont systemFontOfSize:11];
-    [nieBtn setTitle:NSLocalizedString(@"新建模型", nil) forState:UIControlStateNormal];
-    [nieBtn setTitleColor:[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0] forState:UIControlStateNormal];
-    [nieBtn addTarget:self action:@selector(pushFaceEditView) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:nieBtn];
-    
+    self.addBtn = [[UIButton alloc] init];
+    _addBtn.layer.backgroundColor = [UIColor colorWithRed:31/255.0 green:178/255.0 blue:255/255.0 alpha:1.0].CGColor;
+    _addBtn.layer.cornerRadius = 16;
+    _addBtn.titleLabel.font = [UIFont systemFontOfSize:11];
+    [_addBtn setTitle:NSLocalizedString(@"新建模型", nil) forState:UIControlStateNormal];
+    [_addBtn setTitleColor:[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0] forState:UIControlStateNormal];
+    [_addBtn addTarget:self action:@selector(pushFaceEditView) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_addBtn];
     
     /* collectionView */
     _avatarCollectionView = [[FUAvatarCollectionView alloc] init];
@@ -67,7 +66,7 @@
     [_avatarCollectionView updataCurrentSel:1];
     [self.view addSubview:_avatarCollectionView];
     
-    
+    /* 添加约束 */
     [_avatarCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(iOS 11.0, *)) {
             make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
@@ -89,7 +88,7 @@
         make.width.mas_equalTo(84);
     }];
     
-    [nieBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_addBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(iOS 11.0, *)) {
             make.bottom.equalTo(_avatarCollectionView.mas_top).offset(-18);
         } else {
@@ -114,10 +113,19 @@
     if (![[FUManager shareManager] avatarBundleIsload]) {
         return;
     }
-    
-    FUAvatarEditController *vc = [[FUAvatarEditController alloc] init];
+        FUAvatarEditController *vc = [[FUAvatarEditController alloc] init];
+    if (_avatarCollectionView.selIndex == 0 || _avatarCollectionView.selIndex == 1) {
+        vc.state = FUAvatarEditStateNew;
+        FUWholeAvatarModel *model = [FUAvatarPresenter shareManager].wholeAvatarArray[0];
+        vc.avatarModel = model;
+    }else{
+        vc.state = FUAvatarEditStateUpdate;
+        int index = (int)_avatarCollectionView.selIndex - 1;
+        FUWholeAvatarModel *model = [FUAvatarPresenter shareManager].wholeAvatarArray[index];
+        vc.avatarModel = model;
+    }
+ 
     __weak typeof(self)weakSelf  = self ;
-
     vc.returnBlock = ^(BOOL isAdd) {
         if (isAdd) {
             /* 刷新选中最后一个 */
@@ -142,16 +150,24 @@
 //        [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeAvtarHead];
         [[FUManager shareManager] avatarBundleAddRender:NO];
         [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeAvtarHiar];
+        [_addBtn setTitle:NSLocalizedString(@"新建模型", nil) forState:UIControlStateNormal];
+        _addBtn.hidden = YES;
         return;
     }
+    _addBtn.hidden = NO;
     [[FUManager shareManager] avatarBundleAddRender:YES];
     [[FUManager shareManager] enterAvatar];
     [[FUManager shareManager] clearAvatar];
-    FUWholeAvatarModel *model = [FUAvatarPresenter shareManager].wholeAvatarArray[index - 1];
+    FUWholeAvatarModel *model = nil;
+    if (index == 0 || index == 1) {
+        model = [FUAvatarPresenter shareManager].wholeAvatarArray[0];
+        [_addBtn setTitle:NSLocalizedString(@"新建模型", nil) forState:UIControlStateNormal];
+    }else{
+        model = [FUAvatarPresenter shareManager].wholeAvatarArray[index - 1];
+        [_addBtn setTitle:NSLocalizedString(@"编辑模型", nil) forState:UIControlStateNormal];
+    }
     [[FUAvatarPresenter shareManager] showAProp:model];
-    
     [[FUManager shareManager] recomputeAvatar];
-//    [[FUManager shareManager] quitAvatar];
 }
 
 

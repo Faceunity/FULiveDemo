@@ -157,6 +157,7 @@ typedef NS_ENUM(NSUInteger, FUNamaHandleType) {
 -(void)recomputeAvatar;
 -(void)clearAvatar;
 -(void)quitAvatar;
+-(void)lazyAvatar;
 
 /* 暂时 */
 -(void)avatarBundleAddRender:(BOOL)isAdd;

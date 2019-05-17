@@ -180,6 +180,7 @@
 "Avatar 捏脸" = "Knead Face";
 "删除模型"   =  "Delete model";
 "新建模型"   =  "Create model";
+"编辑模型"   =  "update model";
 "发型"   =  "Hair style";
 "脸型"   =  "Face";
 "眼睛"   =  "Eyes";
@@ -204,4 +205,5 @@
 "是否将所有参数恢复到默认值"   =  "Reset all parameters to default?";
 "取消"   =  "Cancel";
 "确定"   =  "OK";
+"返回后当前操作将不会保存？"  = "The current operation will not be saved after returning?";
 

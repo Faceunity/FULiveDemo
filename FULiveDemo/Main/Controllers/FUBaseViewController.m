@@ -426,7 +426,7 @@ static  NSTimeInterval oldTime = 0;
     if (self.navigationController.visibleViewController == self) {
         [self.mCamera stopCapture];
         NSLog(@"--------------结束");
-        self.mCamera = nil;
+//        self.mCamera = nil;
     }
 }
 
