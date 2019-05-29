@@ -5,6 +5,14 @@
 ------
 ### 最新更新内容：
 
+2018.05.27 v1.0 Nama v6.1.0： 
+
+\- 新增fuSetupLocal函数，支持离线鉴权。  
+
+\- 新增fuDestroyLibData函数，支持tracker内存释放。 
+
+------
+
 2019-04-29 v1.0 Nama v6.0.0：
 
 接口无更新
@@ -951,6 +959,12 @@ __参数说明:__
 **参数说明：**
 
 *expressionCalibration*: 0为关闭表情校准，2为被动校准。
+
+------
+
+##### namaLibDestroy
+
+释放nama SDK 占用资源
 
 ------
 

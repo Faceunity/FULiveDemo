@@ -223,16 +223,27 @@
 -(void)avatarEditViewDidCustom:(BOOL)isCustomStata{
     if (isCustomStata) {
         [UIView animateWithDuration:0.25 animations:^{
-            float h = self.avatarEditView.avatarContentColletionView.frame.size.height;
+            float h = self.avatarEditView.avatarCustomView.frame.size.height + 49;
             self.renderView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - h);
         }];
     }else{
         [UIView animateWithDuration:0.25 animations:^{
-            float h = self.avatarEditView.avatarContentColletionView.frame.size.height;
+            float h = self.avatarEditView.frame.size.height;
             self.renderView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - h);
         }];
     }
 }
+
+-(void)viewDidLayoutSubviews{
+    [super viewDidLayoutSubviews];
+//        _renderView.frame = CGRectMake(0,-10, [UIScreen mainScreen].bounds.size.width, 160);
+    
+    NSLog(@"_________%@",NSStringFromCGRect(self.renderView.frame));
+    
+}
+
+
+
 
     
 -(UIImage *)captureImage{

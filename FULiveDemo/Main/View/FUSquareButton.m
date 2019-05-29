@@ -56,7 +56,7 @@
 
 
     frame1.origin.x = 0;
-    frame1.origin.y = CGRectGetMaxY(self.imageView.frame) + 5;
+    frame1.origin.y = CGRectGetMaxY(self.imageView.frame) + 8;
     frame1.size.height = 11;
     frame1.size.width = self.bounds.size.width;;
     self.titleLabel.frame = frame1;

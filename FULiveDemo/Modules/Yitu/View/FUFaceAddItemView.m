@@ -63,9 +63,9 @@
     spView.backgroundColor = [UIColor colorWithRed:229/255.0 green:229/255.0 blue:229/255.0 alpha:1.0];
     [_typeTitlesView addSubview:spView];
     // 添加标题
-    NSArray *titles = @[@"写实", @"萌版", @"漫画女", @"漫画男"];
+    NSArray *titles = @[NSLocalizedString(@"写实", nil),NSLocalizedString(@"漫画男", nil),NSLocalizedString(@"漫画女", nil),NSLocalizedString(@"萌版", nil)];
     NSUInteger count = titles.count;
-    CGFloat titleButtonW = [UIScreen mainScreen].bounds.size.width / count;
+    CGFloat titleButtonW = ([UIScreen mainScreen].bounds.size.width -34) / count;
     CGFloat titleButtonH = 49;
     for (NSUInteger i = 0; i < count; i++) {
         // 创建
@@ -76,7 +76,7 @@
         // 设置数据
         [titleButton setTitle:titles[i] forState:UIControlStateNormal];
         // 设置frame
-        titleButton.frame = CGRectMake(i * titleButtonW, 1, titleButtonW, titleButtonH);
+        titleButton.frame = CGRectMake(i * titleButtonW + 17, 1, titleButtonW, titleButtonH);
         titleButton.titleLabel.font = [UIFont systemFontOfSize:13];
         
         [titleButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -114,7 +114,7 @@
     FUYituItemModel *model1 = [FUYituItemModel getClassTitle:NSLocalizedString(@"右眼",nil) imageStr:@"icon_right_eye" faceType:FUFaceTypeRealism subType:FUFacialFeaturesReye];
     FUYituItemModel *model2 = [FUYituItemModel getClassTitle:NSLocalizedString(@"嘴巴",nil) imageStr:@"icon_yitu_mouth"  faceType:FUFaceTypeRealism subType:FUFacialFeaturesMouth];
     FUYituItemModel *model3 = [FUYituItemModel getClassTitle:NSLocalizedString(@"鼻子",nil) imageStr:@"icon_yitu_nose" faceType:FUFaceTypeRealism subType:FUFacialFeaturesNose];
-    FUYituItemModel *model4 = [FUYituItemModel getClassTitle:NSLocalizedString(@"左眉毛",nil) imageStr:@"icon_left_eyebrow"  faceType:FUFaceTypeRealism subType:FUFacialFeatureLbrow];
+    FUYituItemModel *model4 = [FUYituItemModel getClassTitle:NSLocalizedString(@"左眉毛",nil) imageStr:@"demo_icon_leyebrow"  faceType:FUFaceTypeRealism subType:FUFacialFeatureLbrow];
     FUYituItemModel *model5 = [FUYituItemModel getClassTitle:NSLocalizedString(@"右眉毛",nil) imageStr:@"icon_right_eyebrow"  faceType:FUFaceTypeRealism subType:FUFacialFeaturesRbrow];
     NSArray *array0 = @[model0,model1,model2,model3,model4,model5];
     
@@ -145,7 +145,7 @@
     FUYituItemModel *gModel5 = [FUYituItemModel getClassTitle:NSLocalizedString(@"右眉毛",nil) imageStr:@"icon_right_eyebrow"  faceType:FUFaceTypeComicGirl subType:FUFacialFeaturesRbrow];
     NSArray *array3 = @[gModel0,gModel1,gModel2,gModel3,gModel4,gModel5];
     
-    _allArray = @[array0,array1,array3,array2];
+    _allArray = @[array0,array2,array3,array1];
     _dataArray = array0;
 }
 

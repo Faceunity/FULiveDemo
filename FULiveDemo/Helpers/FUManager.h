@@ -31,6 +31,11 @@ typedef NS_ENUM(NSUInteger, FUNamaHandleType) {
     FUNamaHandleTypeAvtarbg = 10,  /* items[10] ------ Avtar背景 */
 };
 
+typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
+    FUBeautyModuleTypeSkin = 1 << 0,
+    FUBeautyModuleTypeShape = 1 << 1,
+};
+
 @interface FUManager : NSObject
 
 @property (nonatomic, assign)               BOOL enableGesture;         /**设置是否开启手势识别，默认未开启*/
@@ -44,11 +49,21 @@ typedef NS_ENUM(NSUInteger, FUNamaHandleType) {
 @property (nonatomic, assign) double eyelightingLevel;  // 亮眼
 @property (nonatomic, assign) double beautyToothLevel;  // 美牙
 
+
 @property (nonatomic, assign) NSInteger faceShape;        //脸型 (0、1、2、3、4)女神：0，网红：1，自然：2，默认：3，自定义：4
+/* v脸 (0~1) */
+@property (nonatomic, assign) double vLevel;
+/* 鹅蛋 (0~1) */
+@property (nonatomic, assign) double eggLevel;
+/* 窄脸(0~1) */
+@property (nonatomic, assign) double narrowLevel;
+/* 小脸 (0~1) */
+@property (nonatomic, assign) double smallLevel;
+
 @property (nonatomic, assign) double enlargingLevel;      /**大眼 (0~1)*/
 @property (nonatomic, assign) double thinningLevel;       /**瘦脸 (0~1)*/
-@property (nonatomic, assign) double enlargingLevel_new;  /**大眼 (0~1) --  新版美颜*/
-@property (nonatomic, assign) double thinningLevel_new;   /**瘦脸 (0~1) --  新版美颜*/
+//@property (nonatomic, assign) double enlargingLevel_new;  /**大眼 (0~1) --  新版美颜*/
+//@property (nonatomic, assign) double thinningLevel_new;   /**瘦脸 (0~1) --  新版美颜*/
 
 @property (nonatomic, assign) double jewLevel;            /**下巴 (0~1)*/
 @property (nonatomic, assign) double foreheadLevel;       /**额头 (0~1)*/
@@ -65,25 +80,29 @@ typedef NS_ENUM(NSUInteger, FUNamaHandleType) {
 @property (nonatomic, strong)               NSString *selectedItem;     /**选中的道具名称*/
 
 /****  美妆程度  ****/
-@property (nonatomic, assign) double lipstick;          // 口红
-@property (nonatomic, assign) double blush;             // 腮红
-@property (nonatomic, assign) double eyebrow;           // 眉毛
-@property (nonatomic, assign) double eyeShadow;         // 眼影
-@property (nonatomic, assign) double eyeLiner;          // 眼线
-@property (nonatomic, assign) double eyelash;           // 睫毛
-@property (nonatomic, assign) double contactLens;       // 美瞳
+//@property (nonatomic, assign) double lipstick;          // 口红
+//@property (nonatomic, assign) double blush;             // 腮红
+//@property (nonatomic, assign) double eyebrow;           // 眉毛
+//@property (nonatomic, assign) double eyeShadow;         // 眼影
+//@property (nonatomic, assign) double eyeLiner;          // 眼线
+//@property (nonatomic, assign) double eyelash;           // 睫毛
+//@property (nonatomic, assign) double contactLens;       // 美瞳
 
-// 是否性能优先
-@property (nonatomic, assign) BOOL performance ;
 // 当前页面的 model
 @property (nonatomic, strong) FULiveModel *currentModel ;
 
 + (FUManager *)shareManager;
 
 - (void)setAsyncTrackFaceEnable:(BOOL)enable;
-
+/* 默认滤镜 */
+-(void)setDefaultFilter;
 // 默认美颜参数
-- (void)setBeautyDefaultParameters;
+- (void)setBeautyDefaultParameters:(FUBeautyModuleType)type;
+
+/**
+ 判断是不是默认美型参数
+ */
+-(BOOL)isDefaultShapeValue;
 - (void)resetAllBeautyParams;
 /**初始化Faceunity,加载道具*/
 - (void)loadItems;

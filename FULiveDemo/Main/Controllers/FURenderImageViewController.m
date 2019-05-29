@@ -146,7 +146,6 @@
     
     /* 美颜调节 */
     _demoBar = [[FUAPIDemoBar alloc] init];
-    _demoBar.performance = [FUManager shareManager].performance;
     [self demoBarSetBeautyDefultParams];
     [self.view addSubview:_demoBar];
     [_demoBar mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -366,7 +365,7 @@
     if (!_displayLink) {
         _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(displayLinkAction)];
         [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
-        [_displayLink setFrameInterval:30];
+        [_displayLink setFrameInterval:10];
         _displayLink.paused = NO;
     }
     if (_displayLink.paused) {
@@ -388,7 +387,7 @@
         GLubyte *imageData = (GLubyte *)CFDataGetBytePtr(dataFromImageDataProvider);
         //        void *data =
         
-        [weakSelf.glView displayImageData:imageData Size:CGSizeMake(postersWidth, postersHeight) Landmarks:NULL count:0];
+        [weakSelf.glView displayImageData:imageData Size:CGSizeMake(postersWidth, postersHeight) Landmarks:NULL count:0 zoomScale:1];
         CFRelease(dataFromImageDataProvider);
         BOOL isTrack = [[FUManager shareManager] isTracking] ;
         
@@ -431,17 +430,22 @@
 - (void)demoBarSetBeautyDefultParams {
     _demoBar.delegate = nil ;
     _demoBar.skinDetect = [FUManager shareManager].skinDetectEnable;
-    _demoBar.blurLevel = [FUManager shareManager].blurShape ;
+    _demoBar.heavyBlur = [FUManager shareManager].blurShape ;
     _demoBar.blurLevel = [FUManager shareManager].blurLevel ;
     _demoBar.colorLevel = [FUManager shareManager].whiteLevel ;
     _demoBar.redLevel = [FUManager shareManager].redLevel;
     _demoBar.eyeBrightLevel = [FUManager shareManager].eyelightingLevel ;
     _demoBar.toothWhitenLevel = [FUManager shareManager].beautyToothLevel ;
-    _demoBar.faceShape = [FUManager shareManager].faceShape ;
+
+    _demoBar.vLevel =  [FUManager shareManager].vLevel;
+    _demoBar.eggLevel = [FUManager shareManager].eggLevel;
+    _demoBar.narrowLevel = [FUManager shareManager].narrowLevel;
+    _demoBar.smallLevel = [FUManager shareManager].smallLevel;
+//    _demoBar.faceShape = [FUManager shareManager].faceShape ;
     _demoBar.enlargingLevel = [FUManager shareManager].enlargingLevel ;
     _demoBar.thinningLevel = [FUManager shareManager].thinningLevel ;
-    _demoBar.enlargingLevel_new = [FUManager shareManager].enlargingLevel_new ;
-    _demoBar.thinningLevel_new = [FUManager shareManager].thinningLevel_new ;
+//    _demoBar.enlargingLevel_new = [FUManager shareManager].enlargingLevel_new ;
+//    _demoBar.thinningLevel_new = [FUManager shareManager].thinningLevel_new ;
     _demoBar.chinLevel = [FUManager shareManager].jewLevel ;
     _demoBar.foreheadLevel = [FUManager shareManager].foreheadLevel ;
     _demoBar.noseLevel = [FUManager shareManager].noseLevel ;
@@ -452,7 +456,6 @@
     _demoBar.filtersCHName = [FUManager shareManager].filtersCHName ;
     _demoBar.selectedFilter = [FUManager shareManager].selectedFilter ;
     _demoBar.selectedFilterLevel = [FUManager shareManager].selectedFilterLevel;
-    _demoBar.performance = [FUManager shareManager].performance ;
     _demoBar.delegate = self;
     _demoBar.demoBar.makeupView.delegate = self;
 }
@@ -464,6 +467,16 @@
     [[FUManager shareManager] resetAllBeautyParams];
 }
 
+-(void)restDefaultValue:(int)type{
+    if (type == 1) {//美肤
+        [[FUManager shareManager] setBeautyDefaultParameters:FUBeautyModuleTypeSkin];
+    }
+    if (type == 2) {
+        [[FUManager shareManager] setBeautyDefaultParameters:FUBeautyModuleTypeShape];
+    }
+    [self demoBarSetBeautyDefultParams];
+}
+
 - (void)syncBeautyParams    {
     
     [FUManager shareManager].skinDetectEnable = _demoBar.skinDetect;
@@ -473,11 +486,15 @@
     [FUManager shareManager].redLevel = _demoBar.redLevel;
     [FUManager shareManager].eyelightingLevel = _demoBar.eyeBrightLevel;
     [FUManager shareManager].beautyToothLevel = _demoBar.toothWhitenLevel;
-    [FUManager shareManager].faceShape = _demoBar.faceShape;
+//    [FUManager shareManager].faceShape = _demoBar.faceShape;
+    [FUManager shareManager].vLevel = _demoBar.vLevel;
+    [FUManager shareManager].eggLevel = _demoBar.eggLevel;
+    [FUManager shareManager].narrowLevel = _demoBar.narrowLevel;
+    [FUManager shareManager].smallLevel = _demoBar.smallLevel;
     [FUManager shareManager].enlargingLevel = _demoBar.enlargingLevel;
     [FUManager shareManager].thinningLevel = _demoBar.thinningLevel;
-    [FUManager shareManager].enlargingLevel_new = _demoBar.enlargingLevel_new;
-    [FUManager shareManager].thinningLevel_new = _demoBar.thinningLevel_new;
+//    [FUManager shareManager].enlargingLevel_new = _demoBar.enlargingLevel_new;
+//    [FUManager shareManager].thinningLevel_new = _demoBar.thinningLevel_new;
     [FUManager shareManager].jewLevel = _demoBar.chinLevel;
     [FUManager shareManager].foreheadLevel = _demoBar.foreheadLevel;
     [FUManager shareManager].noseLevel = _demoBar.noseLevel;

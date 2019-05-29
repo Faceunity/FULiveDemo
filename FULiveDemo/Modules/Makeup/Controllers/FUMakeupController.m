@@ -113,4 +113,9 @@
     return rgba;
 }
 
+
+-(void)dealloc{
+    [[FUManager shareManager] setDefaultFilter];
+}
+
 @end

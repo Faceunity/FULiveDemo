@@ -15,7 +15,6 @@
 @interface FUBeautyController ()<FUAPIDemoBarDelegate,FUMakeUpViewDelegate>
 
 @property (strong, nonatomic) FUAPIDemoBar *demoBar;
-@property (strong, nonatomic) UIButton *performanceBtn;
 @end
 
 @implementation FUBeautyController
@@ -28,8 +27,7 @@
    // [[FUManager shareManager] loadFilter];
     
     [self setupView];
-    self.performanceBtn.hidden = NO;
-    self.performanceBtn.selected = [FUManager shareManager].performance;
+
     
     self.headButtonView.selectedImageBtn.hidden = NO;
     [self.view bringSubviewToFront:self.photoBtn];
@@ -56,7 +54,6 @@
 
 -(void)setupView{
     _demoBar = [[FUAPIDemoBar alloc] init];
-    _demoBar.performance = [FUManager shareManager].performance;
     [self demoBarSetBeautyDefultParams];
     [self.view addSubview:_demoBar];
     [_demoBar mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -70,31 +67,29 @@
     }];
     
     /* 性能优化按钮 */
-    _performanceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_performanceBtn setImage:[UIImage imageNamed:@"Performance"] forState:UIControlStateNormal];
-    [_performanceBtn setImage:[UIImage imageNamed:@"Performance_selected"] forState:UIControlStateSelected];
-    _performanceBtn.tintColor = [UIColor whiteColor];
-    _performanceBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-    [_performanceBtn setTitle:NSLocalizedString(@"Performance_Preferred",nil) forState:UIControlStateNormal];
-    [_performanceBtn addTarget:self action:@selector(performanceAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:_performanceBtn];
-    [_performanceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.headButtonView.mas_bottom);
-        make.right.equalTo(self.view).offset(-10);
-        make.width.mas_equalTo(100);
-        make.height.mas_equalTo(44);
-    }];
+//    _performanceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [_performanceBtn setImage:[UIImage imageNamed:@"Performance"] forState:UIControlStateNormal];
+//    [_performanceBtn setImage:[UIImage imageNamed:@"Performance_selected"] forState:UIControlStateSelected];
+//    _performanceBtn.tintColor = [UIColor whiteColor];
+//    _performanceBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+//    [_performanceBtn setTitle:NSLocalizedString(@"Performance_Preferred",nil) forState:UIControlStateNormal];
+//    [_performanceBtn addTarget:self action:@selector(performanceAction:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:_performanceBtn];
+//    [_performanceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.headButtonView.mas_bottom);
+//        make.right.equalTo(self.view).offset(-10);
+//        make.width.mas_equalTo(100);
+//        make.height.mas_equalTo(44);
+//    }];
 }
 
 
--(void)performanceAction:(UIButton *)btn{
-    btn.selected = !btn.selected;
-    self.demoBar.performance = btn.selected;
-    /* 全局美颜参数设置 */
-    [FUManager shareManager].performance = btn.selected;
-    [[FUManager shareManager] setBeautyDefaultParameters];
-    [self demoBarSetBeautyDefultParams];
-}
+//-(void)performanceAction:(UIButton *)btn{
+//    btn.selected = !btn.selected;
+//    /* 全局美颜参数设置 */
+//    [[FUManager shareManager] setBeautyDefaultParameters];
+//    [self demoBarSetBeautyDefultParams];
+//}
 
 - (void)demoBarSetBeautyDefultParams {
     _demoBar.delegate = nil ;
@@ -105,11 +100,16 @@
     _demoBar.redLevel = [FUManager shareManager].redLevel;
     _demoBar.eyeBrightLevel = [FUManager shareManager].eyelightingLevel ;
     _demoBar.toothWhitenLevel = [FUManager shareManager].beautyToothLevel ;
-    _demoBar.faceShape = [FUManager shareManager].faceShape ;
+    
+    _demoBar.vLevel =  [FUManager shareManager].vLevel;
+    _demoBar.eggLevel = [FUManager shareManager].eggLevel;
+    _demoBar.narrowLevel = [FUManager shareManager].narrowLevel;
+    _demoBar.smallLevel = [FUManager shareManager].smallLevel;
+    //    _demoBar.faceShape = [FUManager shareManager].faceShape ;
     _demoBar.enlargingLevel = [FUManager shareManager].enlargingLevel ;
     _demoBar.thinningLevel = [FUManager shareManager].thinningLevel ;
-    _demoBar.enlargingLevel_new = [FUManager shareManager].enlargingLevel_new ;
-    _demoBar.thinningLevel_new = [FUManager shareManager].thinningLevel_new ;
+    //    _demoBar.enlargingLevel_new = [FUManager shareManager].enlargingLevel_new ;
+    //    _demoBar.thinningLevel_new = [FUManager shareManager].thinningLevel_new ;
     _demoBar.chinLevel = [FUManager shareManager].jewLevel ;
     _demoBar.foreheadLevel = [FUManager shareManager].foreheadLevel ;
     _demoBar.noseLevel = [FUManager shareManager].noseLevel ;
@@ -120,7 +120,6 @@
     _demoBar.filtersCHName = [FUManager shareManager].filtersCHName ;
     _demoBar.selectedFilter = [FUManager shareManager].selectedFilter ;
     _demoBar.selectedFilterLevel = [FUManager shareManager].selectedFilterLevel;
-    
     _demoBar.delegate = self;
     _demoBar.demoBar.makeupView.delegate = self;
     _demoBar.demoBar.selMakeupIndex = _demoBar.demoBar.makeupView.supIndex;
@@ -139,6 +138,18 @@
     [self syncBeautyParams];
 }
 
+-(void)restDefaultValue:(int)type{
+    if (type == 1) {//美肤
+       [[FUManager shareManager] setBeautyDefaultParameters:FUBeautyModuleTypeSkin];
+    }
+    
+    if (type == 2) {
+       [[FUManager shareManager] setBeautyDefaultParameters:FUBeautyModuleTypeShape];
+    }
+    
+    [self demoBarSetBeautyDefultParams];
+}
+
 - (void)syncBeautyParams{
     [FUManager shareManager].skinDetectEnable = _demoBar.skinDetect;
     [FUManager shareManager].blurShape = _demoBar.heavyBlur;
@@ -147,11 +158,15 @@
     [FUManager shareManager].redLevel = _demoBar.redLevel;
     [FUManager shareManager].eyelightingLevel = _demoBar.eyeBrightLevel;
     [FUManager shareManager].beautyToothLevel = _demoBar.toothWhitenLevel;
-    [FUManager shareManager].faceShape = _demoBar.faceShape;
+    //    [FUManager shareManager].faceShape = _demoBar.faceShape;
+    [FUManager shareManager].vLevel = _demoBar.vLevel;
+    [FUManager shareManager].eggLevel = _demoBar.eggLevel;
+    [FUManager shareManager].narrowLevel = _demoBar.narrowLevel;
+    [FUManager shareManager].smallLevel = _demoBar.smallLevel;
     [FUManager shareManager].enlargingLevel = _demoBar.enlargingLevel;
     [FUManager shareManager].thinningLevel = _demoBar.thinningLevel;
-    [FUManager shareManager].enlargingLevel_new = _demoBar.enlargingLevel_new;
-    [FUManager shareManager].thinningLevel_new = _demoBar.thinningLevel_new;
+    //    [FUManager shareManager].enlargingLevel_new = _demoBar.enlargingLevel_new;
+    //    [FUManager shareManager].thinningLevel_new = _demoBar.thinningLevel_new;
     [FUManager shareManager].jewLevel = _demoBar.chinLevel;
     [FUManager shareManager].foreheadLevel = _demoBar.foreheadLevel;
     [FUManager shareManager].noseLevel = _demoBar.noseLevel;
@@ -163,6 +178,7 @@
     }
     [FUManager shareManager].selectedFilter = _demoBar.selectedFilter ;
     [FUManager shareManager].selectedFilterLevel = _demoBar.selectedFilterLevel;
+    
 }
 
 -(void)demoBarShouldShowMessage:(NSString *)message {
@@ -238,8 +254,6 @@
     self.demoBar.selectedFilterLevel = filterValue;
     [FUManager shareManager].selectedFilter = filterStr ;
     [FUManager shareManager].selectedFilterLevel = filterValue;
-
-
 }
 
 -(NSArray *)jsonToLipRgbaArrayResName:(NSString *)resName{
@@ -255,15 +269,8 @@
     return rgba;
 }
 
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
+-(void)dealloc{
+    [[FUManager shareManager] setDefaultFilter];
+}
 
 @end

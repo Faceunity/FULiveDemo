@@ -21,13 +21,12 @@
 - (void)showMessage:(NSString *)message ;
 
 // 显示上半部分View
--(void)showTopView:(BOOL)shown ;
+-(void)showTopView:(BOOL)shown;
+
+-(void)restDefaultValue:(int)type;
 @end
 
 @interface FUDemoBar : UIView
-
-// 性能优先，默认为 NO
-@property (nonatomic, assign) BOOL performance ;
 
 /**     美肤参数    **/
 /** 精准美肤 (0、1)    */
@@ -48,15 +47,24 @@
 
 /**     美型参数    **/
 /** 脸型 (0~1)  女神：0，网红：1，自然：2，默认：3，自定义：4 */
-@property (nonatomic, assign) NSInteger faceShape;
-/** 大眼 (0~1)    */
+//@property (nonatomic, assign) NSInteger faceShape;
+
+/* v脸 (0~1) */
+@property (nonatomic, assign) double vLevel;
+/* 鹅蛋 (0~1) */
+@property (nonatomic, assign) double eggLevel;
+/* 窄脸(0~1) */
+@property (nonatomic, assign) double narrowLevel;
+/* 小脸 (0~1) */
+@property (nonatomic, assign) double smallLevel;
+/* 大眼 (0~1)    */
 @property (nonatomic, assign) double enlargingLevel;
 /** 瘦脸 (0~1)    */
 @property (nonatomic, assign) double thinningLevel;
-/** 大眼 (0~1) --  新版美颜*/
-@property (nonatomic, assign) double enlargingLevel_new;
-/** 瘦脸 (0~1) --  新版美颜*/
-@property (nonatomic, assign) double thinningLevel_new;
+///** 大眼 (0~1) --  新版美颜*/
+//@property (nonatomic, assign) double enlargingLevel_new;
+///** 瘦脸 (0~1) --  新版美颜*/
+//@property (nonatomic, assign) double thinningLevel_new;
 /**下巴 (0~1)*/
 @property (nonatomic, assign) double chinLevel;
 /**额头 (0~1)*/

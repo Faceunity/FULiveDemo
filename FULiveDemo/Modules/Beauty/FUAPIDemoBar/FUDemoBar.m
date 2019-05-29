@@ -15,9 +15,11 @@
 
 #import "MJExtension.h"
 #import "FUMakeupSupModel.h"
+#import "FUSquareButton.h"
+#import "FUManager.h"
 
 
-@interface FUDemoBar ()<FUFilterViewDelegate, FUBeautyViewDelegate, FUFaceCollectionDelegate,FUMakeUpViewDelegate>
+@interface FUDemoBar ()<FUFilterViewDelegate, FUBeautyViewDelegate,FUMakeUpViewDelegate>
 
 
 @property (weak, nonatomic) IBOutlet UIButton *itemsBtn;
@@ -51,6 +53,11 @@
 // 清晰磨皮数值_0 / 朦胧磨皮数值_1
 @property (nonatomic, assign) double blurLevel_0;
 @property (nonatomic, assign) double blurLevel_1;
+
+@property (weak, nonatomic) IBOutlet FUSquareButton *mRestBtn;
+
+@property (weak, nonatomic) IBOutlet UIView *sqLine;
+
 @end
 
 @implementation FUDemoBar
@@ -94,13 +101,13 @@
     [self.shapeBtn setTitle:NSLocalizedString(@"美型", nil) forState:UIControlStateNormal];
     [self.beautyFilterBtn setTitle:NSLocalizedString(@"滤镜", nil) forState:UIControlStateNormal];
     [self.filterBtn setTitle:NSLocalizedString(@"质感美颜", nil) forState:UIControlStateNormal];
+    [self.mRestBtn setTitle:NSLocalizedString(@"恢复", nil) forState:UIControlStateNormal];
 
 }
 
 -(void)layoutSubviews{
     [super layoutSubviews];
-//    _makeupView.frame = self.topView.frame;
-    
+    _makeupView.frame = CGRectMake(0,-10, [UIScreen mainScreen].bounds.size.width, 160);    
 }
 
 - (NSMutableDictionary<NSString *,NSNumber *> *)filtersLevel{
@@ -147,45 +154,58 @@
     
      // 美型页面
     self.faceCollection.hidden = YES ;
+    [self setRestBtnHidden:YES];
     if (self.shapeBtn.selected) {
-        
+        [self setRestBtnHidden:NO];
         NSInteger selectedIndex = self.shapeView.selectedIndex;
-        if (selectedIndex < 0) {
-            
-            self.beautySlider.hidden = YES;
-            self.faceCollection.hidden = YES ;
-        }else {
+//        if (selectedIndex < 0) {
+//
+//            self.beautySlider.hidden = YES;
+//            self.faceCollection.hidden = YES ;
+//        }else {
             switch (selectedIndex) {
-                case 0:{        // 脸型
-                    self.faceCollection.hidden = NO ;
+                case 0:{        // 廋脸
+                    self.beautySlider.type =  FUFilterSliderTypeThinFace;
+                    self.beautySlider.value =  self.thinningLevel ;
                 }
                     break;
-                case 1:{        // 大眼
-                    self.beautySlider.type = self.faceShape == 4 ? FUFilterSliderTypeEyeLarge_new : FUFilterSliderTypeEyeLarge ;
-                    self.beautySlider.value = self.faceShape == 4 ? self.enlargingLevel_new : self.enlargingLevel ;
+                case 1:{        // V脸
+                    self.beautySlider.type =  FUFilterSliderTypeVFace ;
+                    self.beautySlider.value =  self.vLevel ;
                 }
                     break;
-                case 2:{        // 瘦脸
-                    self.beautySlider.type = self.faceShape == 4 ? FUFilterSliderTypeThinFace_new : FUFilterSliderTypeThinFace ;
-                    self.beautySlider.value = self.faceShape == 4 ? self.thinningLevel_new : self.thinningLevel ;
+                case 2:{        //窄脸
+                    self.beautySlider.type =  FUFilterSliderTypeNarrowFace;
+                    self.beautySlider.value =  self.narrowLevel ;
                 }
                     break;
-                case 3:{        // 下巴
+                case 3:{        // 小脸
+                    self.beautySlider.type =  FUFilterSliderTypeSmallFace ;
+                    self.beautySlider.value =  self.smallLevel ;
+                }
+                    break;
+                case 4:{        // 大眼
+                    self.beautySlider.type =  FUFilterSliderTypeEyeLarge ;
+                    self.beautySlider.value =  self.enlargingLevel ;
+                }
+                    break;
+
+                case 5:{        // 下巴
                     self.beautySlider.type = FUFilterSliderTypeChin ;
                     self.beautySlider.value = self.chinLevel ;
                 }
                     break;
-                case 4:{        // 额头
+                case 6:{        // 额头
                     self.beautySlider.type = FUFilterSliderTypeForehead ;
                     self.beautySlider.value = self.foreheadLevel ;
                 }
                     break;
-                case 5:{        // 鼻子
+                case 7:{        // 鼻子
                     self.beautySlider.type = FUFilterSliderTypeNose ;
                     self.beautySlider.value = self.noseLevel ;
                 }
                     break;
-                case 6:{        // 嘴型
+                case 8:{        // 嘴型
                     self.beautySlider.type = FUFilterSliderTypeMouth ;
                     self.beautySlider.value = self.mouthLevel ;
                 }
@@ -195,12 +215,12 @@
                     break;
             }
             
-            self.beautySlider.hidden = selectedIndex == 0 ;
+            self.beautySlider.hidden = selectedIndex < 0 ;
         }
-    }
+//    }
     
     if (self.skinBtn.selected) {
-        NSInteger selectedIndex = self.skinView.performance ? self.skinView.selectedIndex + 1 : self.skinView.selectedIndex;
+        NSInteger selectedIndex = self.skinView.selectedIndex;
         
         self.beautySlider.hidden = selectedIndex < 1 ;
         switch (selectedIndex) {
@@ -250,6 +270,10 @@
     }
     if (self.filterBtn.selected) {
         
+        if (self.makeupView.supIndex == 0) {//没有质感美感状态
+            [self.makeupView setDefaultSupItem:1];//默认选中桃花
+        }
+    
         NSInteger selectedIndex = self.filterView.selectedIndex ;
         self.beautySlider.type = FUFilterSliderTypeFilter ;
         self.beautySlider.hidden = selectedIndex < 0;
@@ -321,6 +345,60 @@
     }
 }
 
+#pragma  mark -  恢复默认参数逻辑
+
+- (IBAction)clickRestBtn:(id)sender {
+    if ([[FUManager shareManager] isDefaultShapeValue]) {
+        return;
+    }
+    
+    [self restBeautyDefaultValue];
+}
+
+-(void)setRestBtnHidden:(BOOL)hiddle{
+    _mRestBtn.hidden = hiddle;
+    _sqLine.hidden = hiddle;
+}
+
+-(void)restBeautyDefaultValue{
+    UIAlertController *alertCon = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"是否将所有参数恢复到默认值",nil) preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"取消",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    [cancleAction setValue:[UIColor colorWithRed:44/255.0 green:46/255.0 blue:48/255.0 alpha:1.0] forKey:@"titleTextColor"];
+    
+    UIAlertAction *certainAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"确定",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        if ([self.mDelegate respondsToSelector:@selector(restDefaultValue:)]) {
+            if (self.skinBtn.selected) {
+                [self.mDelegate restDefaultValue:1];
+                [self shapeViewDidSelectedIndex:self.skinView.selectedIndex];
+            }
+            if (self.shapeBtn.selected) {
+                [self.mDelegate restDefaultValue:2];
+               [self shapeViewDidSelectedIndex:self.shapeView.selectedIndex];
+            }
+        }
+        
+    }];
+    [certainAction setValue:[UIColor colorWithRed:31/255.0 green:178/255.0 blue:255/255.0 alpha:1.0] forKey:@"titleTextColor"];
+    
+    [alertCon addAction:cancleAction];
+    [alertCon addAction:certainAction];
+    
+    [[self viewControllerFromView:self]  presentViewController:alertCon animated:YES completion:^{
+    }];
+}
+
+
+- (UIViewController *)viewControllerFromView:(UIView *)view {
+    for (UIView *next = [view superview]; next; next = next.superview) {
+        UIResponder *nextResponder = [next nextResponder];
+        if ([nextResponder isKindOfClass:[UIViewController class]]) {
+            return (UIViewController *)nextResponder;
+        }
+    }
+    return nil;
+}
 
 
 #pragma mark ---- FUFilterViewDelegate
@@ -362,45 +440,58 @@
     }
 }
 
-#pragma mark ---- FUBeautyViewDelegate
+#pragma mar
 // 美型页点击
 -(void)shapeViewDidSelectedIndex:(NSInteger)index {
-    
-    self.beautySlider.hidden = index == 0 ;
+    if (index < 0) {
+        return;
+    }
+    self.beautySlider.hidden = NO;
     self.faceCollection.hidden = YES ;
     
     switch (index) {
-        case 0:{        //  脸型
-            self.faceCollection.hidden = NO ;
+        case 0:{        // 廋脸
+            self.beautySlider.type =  FUFilterSliderTypeThinFace;
+            self.beautySlider.value =  self.thinningLevel ;
         }
             break;
-        case 1:{        //  大眼
-            self.beautySlider.type = self.faceShape == 4 ? FUFilterSliderTypeEyeLarge_new : FUFilterSliderTypeEyeLarge ;
-            self.beautySlider.value = self.faceShape == 4 ? self.enlargingLevel_new : self.enlargingLevel ;
+        case 1:{        // V脸
+            self.beautySlider.type =  FUFilterSliderTypeVFace ;
+            self.beautySlider.value =  self.vLevel ;
         }
             break;
-        case 2:{        //  瘦脸
-            self.beautySlider.type = self.faceShape == 4 ? FUFilterSliderTypeThinFace_new : FUFilterSliderTypeThinFace ;
+        case 2:{        //窄脸
+            self.beautySlider.type =  FUFilterSliderTypeNarrowFace;
+            self.beautySlider.value =  self.narrowLevel ;
+        }
+            break;
+        case 3:{        // 小脸
+            self.beautySlider.type =  FUFilterSliderTypeSmallFace ;
+            self.beautySlider.value =  self.smallLevel ;
+        }
+            break;
+        case 4:{        // 大眼
+            self.beautySlider.type =  FUFilterSliderTypeEyeLarge ;
+            self.beautySlider.value =  self.enlargingLevel ;
+        }
+            break;
             
-            self.beautySlider.value = self.faceShape == 4 ? self.thinningLevel_new : self.thinningLevel ;
-        }
-            break;
-        case 3:{        //  下巴
+        case 5:{        // 下巴
             self.beautySlider.type = FUFilterSliderTypeChin ;
             self.beautySlider.value = self.chinLevel ;
         }
             break;
-        case 4:{        //  额头
+        case 6:{        // 额头
             self.beautySlider.type = FUFilterSliderTypeForehead ;
             self.beautySlider.value = self.foreheadLevel ;
         }
             break;
-        case 5:{        //  👃
+        case 7:{        // 鼻子
             self.beautySlider.type = FUFilterSliderTypeNose ;
             self.beautySlider.value = self.noseLevel ;
         }
             break;
-        case 6:{        //  👄
+        case 8:{        // 嘴型
             self.beautySlider.type = FUFilterSliderTypeMouth ;
             self.beautySlider.value = self.mouthLevel ;
         }
@@ -543,16 +634,20 @@
             self.enlargingLevel = sender.value ;
         }
             break ;
-        case FUFilterSliderTypeThinFace:{   // 瘦脸
+        case FUFilterSliderTypeThinFace:{   // 大眼
             self.thinningLevel = sender.value ;
         }
             break ;
-        case FUFilterSliderTypeEyeLarge_new:{   // 大眼——新版
-            self.enlargingLevel_new = sender.value ;
+        case FUFilterSliderTypeVFace:{   // v脸
+            self.vLevel = sender.value ;
         }
             break ;
-        case FUFilterSliderTypeThinFace_new:{   // 大眼——新版
-            self.thinningLevel_new = sender.value ;
+        case FUFilterSliderTypeNarrowFace:{   // 窄脸
+            self.narrowLevel = sender.value ;
+        }
+            break ;
+        case FUFilterSliderTypeSmallFace:{   // 小脸
+            self.smallLevel = sender.value ;
         }
             break ;
         case FUFilterSliderTypeChin:{   // 下巴
@@ -580,44 +675,44 @@
 
 #pragma mark --- FUFaceCollectionDelegate
 
--(void)didSelectedFaceType:(NSInteger)index {
-    NSInteger faceShape = 0 ;
-    
-    switch (index) {
-        case 0:{        // 自定义
-            faceShape = 4 ;
-        }
-            break;
-        case 1:{        // 默认
-            faceShape = 3 ;
-        }
-            break;
-        case 2:{        // 女神
-            faceShape = 0 ;
-        }
-            break;
-        case 3:{        // 网红
-            faceShape = 1 ;
-        }
-            break;
-        case 4:{        // 自然
-            faceShape = 2 ;
-        }
-            break;
-            
-        default:
-            break;
-    }
-    if (_faceShape == faceShape) {
-        return ;
-    }
-    
-    _faceShape = faceShape ;
-    self.shapeView.faceShape = faceShape ;
-    if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(beautyParamChanged)]) {
-        [self.mDelegate beautyParamChanged];
-    }
-}
+//-(void)didSelectedFaceType:(NSInteger)index {
+//    NSInteger faceShape = 0 ;
+//
+//    switch (index) {
+//        case 0:{        // 自定义
+//            faceShape = 4 ;
+//        }
+//            break;
+//        case 1:{        // 默认
+//            faceShape = 3 ;
+//        }
+//            break;
+//        case 2:{        // 女神
+//            faceShape = 0 ;
+//        }
+//            break;
+//        case 3:{        // 网红
+//            faceShape = 1 ;
+//        }
+//            break;
+//        case 4:{        // 自然
+//            faceShape = 2 ;
+//        }
+//            break;
+//
+//        default:
+//            break;
+//    }
+//    if (_faceShape == faceShape) {
+//        return ;
+//    }
+//
+//    _faceShape = faceShape ;
+//    self.shapeView.faceShape = faceShape ;
+//    if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(beautyParamChanged)]) {
+//        [self.mDelegate beautyParamChanged];
+//    }
+//}
 
 #pragma mark --- setter
 
@@ -815,40 +910,79 @@
 }
 
 /**     美型参数    **/
--(void)setFaceShape:(NSInteger)faceShape {
-    _faceShape = faceShape ;
+//-(void)setFaceShape:(NSInteger)faceShape {
+//    _faceShape = faceShape ;
+//
+//    NSInteger selectedIndex = 0 ;
+//    switch (faceShape) {
+//        case 0:{        // 女神
+//            selectedIndex = _performance ? 1 : 2 ;
+//        }
+//            break;
+//        case 1:{        // 网红
+//            selectedIndex = _performance ? 2 : 3 ;
+//        }
+//            break;
+//        case 2:{        // 自然
+//            selectedIndex = _performance ? 3 : 4 ;
+//        }
+//            break;
+//        case 3:{        // 默认
+//            selectedIndex = _performance ? 0 : 1 ;
+//        }
+//            break;
+//        case 4:{        // 自定义
+//            selectedIndex = 0 ;
+//        }
+//            break;
+//
+//        default:
+//            break;
+//    }
+//
+//    self.shapeView.faceShape = faceShape ;
+//    self.faceCollection.selectedIndex = selectedIndex ;
+//}
+//v脸
+-(void)setVLevel:(double)vLevel{
+    _vLevel = vLevel ;
     
-    NSInteger selectedIndex = 0 ;
-    switch (faceShape) {
-        case 0:{        // 女神
-            selectedIndex = _performance ? 1 : 2 ;
-        }
-            break;
-        case 1:{        // 网红
-            selectedIndex = _performance ? 2 : 3 ;
-        }
-            break;
-        case 2:{        // 自然
-            selectedIndex = _performance ? 3 : 4 ;
-        }
-            break;
-        case 3:{        // 默认
-            selectedIndex = _performance ? 0 : 1 ;
-        }
-            break;
-        case 4:{        // 自定义
-            selectedIndex = 0 ;
-        }
-            break;
-            
-        default:
-            break;
+    BOOL current = vLevel > 0.0 ;
+    BOOL selected = [[self.openedDict objectForKey:@"vLevel"] boolValue];
+    
+    if (current != selected) {
+        
+        [_openedDict setObject:@(current) forKey:@"vLevel"];
+        self.shapeView.openedDict = _openedDict ;
     }
-    
-    self.shapeView.faceShape = faceShape ;
-    self.faceCollection.selectedIndex = selectedIndex ;
 }
 
+-(void)setNarrowLevel:(double)narrowLevel{
+    _narrowLevel = narrowLevel ;
+    
+    BOOL current = narrowLevel > 0.0 ;
+    BOOL selected = [[self.openedDict objectForKey:@"narrowLevel"] boolValue];
+    
+    if (current != selected) {
+        
+        [_openedDict setObject:@(current) forKey:@"narrowLevel"];
+        self.shapeView.openedDict = _openedDict ;
+    }
+}
+
+-(void)setSmallLevel:(double)smallLevel{
+    _smallLevel = smallLevel ;
+    
+    BOOL current = smallLevel > 0.0 ;
+    BOOL selected = [[self.openedDict objectForKey:@"smallLevel"] boolValue];
+    
+    if (current != selected) {
+        
+        [_openedDict setObject:@(current) forKey:@"smallLevel"];
+        self.shapeView.openedDict = _openedDict ;
+    }
+}
+    
 // 大眼
 -(void)setEnlargingLevel:(double)enlargingLevel {
     _enlargingLevel = enlargingLevel ;
@@ -886,40 +1020,40 @@
 }
 
 // 大眼新版
--(void)setEnlargingLevel_new:(double)enlargingLevel_new {
-    _enlargingLevel_new = enlargingLevel_new ;
-    
-    BOOL current = enlargingLevel_new > 0.0 ;
-    BOOL selected = [[self.openedDict objectForKey:@"enlargingLevel_new"] boolValue];
-    
-    if (current != selected) {
-        
-        [_openedDict setObject:@(current) forKey:@"enlargingLevel_new"];
-        self.shapeView.openedDict = _openedDict ;
-        
-//        if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(showMessage:)]) {
-//            [self.mDelegate showMessage:current ? @"大眼开启" : @"大眼关闭"];
-//        }
-    }
-}
+//-(void)setEnlargingLevel_new:(double)enlargingLevel_new {
+//    _enlargingLevel_new = enlargingLevel_new ;
+//
+//    BOOL current = enlargingLevel_new > 0.0 ;
+//    BOOL selected = [[self.openedDict objectForKey:@"enlargingLevel_new"] boolValue];
+//
+//    if (current != selected) {
+//
+//        [_openedDict setObject:@(current) forKey:@"enlargingLevel_new"];
+//        self.shapeView.openedDict = _openedDict ;
+//
+////        if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(showMessage:)]) {
+////            [self.mDelegate showMessage:current ? @"大眼开启" : @"大眼关闭"];
+////        }
+//    }
+//}
 
 // 瘦脸新版
--(void)setThinningLevel_new:(double)thinningLevel_new {
-    _thinningLevel_new = thinningLevel_new ;
-    
-    BOOL current = thinningLevel_new > 0.0 ;
-    BOOL selected = [[self.openedDict objectForKey:@"thinningLevel_new"] boolValue];
-    
-    if (current != selected) {
-        
-        [_openedDict setObject:@(current) forKey:@"thinningLevel_new"];
-        self.shapeView.openedDict = _openedDict ;
-        
-//        if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(showMessage:)]) {
-//            [self.mDelegate showMessage:current ? @"瘦脸开启" : @"瘦脸关闭"];
-//        }
-    }
-}
+//-(void)setThinningLevel_new:(double)thinningLevel_new {
+//    _thinningLevel_new = thinningLevel_new ;
+//
+//    BOOL current = thinningLevel_new > 0.0 ;
+//    BOOL selected = [[self.openedDict objectForKey:@"thinningLevel_new"] boolValue];
+//
+//    if (current != selected) {
+//
+//        [_openedDict setObject:@(current) forKey:@"thinningLevel_new"];
+//        self.shapeView.openedDict = _openedDict ;
+//
+////        if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(showMessage:)]) {
+////            [self.mDelegate showMessage:current ? @"瘦脸开启" : @"瘦脸关闭"];
+////        }
+//    }
+//}
 
 // 下巴
 -(void)setChinLevel:(double)chinLevel {
@@ -1108,27 +1242,6 @@
         if ([keys1 containsObject:_selectedFilter]) {
             self.beautyFiltersLevel[_selectedFilter] = @(selectedFilterLevel) ;
         }
-    }
-}
-
-
-
--(void)setPerformance:(BOOL)performance {
-    _performance = performance ;
-    
-    self.skinView.performance = performance ;
-    self.shapeView.performance = performance ;
-    self.faceCollection.performance = performance ;
-    
-    self.faceShape = performance ? 3 : 4 ;
-    
-    self.heavyBlur = performance ? 1 : 0 ;
-    
-    self.beautySlider.hidden = YES;
-    self.faceCollection.hidden = YES ;
-    
-    if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(beautyParamChanged)]) {
-        [self.mDelegate beautyParamChanged];
     }
 }
 

@@ -251,8 +251,6 @@ enum
             CFRelease(self->videoTextureCache);
             self->videoTextureCache = NULL;
         }
-        
-        NSLog(@"FUOpenGLView dealloc");
     });
 }
 
@@ -390,7 +388,7 @@ enum
         CVPixelBufferRelease(pixelBuffer);
         
         if (landmarks) {
-            [self prepareToDrawLandmarks:landmarks count:count MAX:max];
+            [self prepareToDrawLandmarks:landmarks count:count MAX:max zoomScale:1];
         }
         
         [self presentFramebuffer];
@@ -547,11 +545,13 @@ enum
     
     glUseProgram(pointProgram);
     
-    count = count/2;
+    count = count;
     
     float sizeData[count];
     
     float colorData[count * 4];
+    
+    float newLandmarks[count *2];
     
     float bw = self.frame.size.width * [UIScreen mainScreen].scale ;
     float bh = self.frame.size.height * [UIScreen mainScreen].scale ;
@@ -579,16 +579,29 @@ enum
         colorData[4 * i + 3] = .0;
         
         //转化坐标
-        landmarks[2 * i] = (float)((2 * landmarks[2 * i] / frameWidth - 1)) * w - (center.x - 0.5) * 2 * w;
+        newLandmarks[2 * i] = (float)((2 * landmarks[2 * i] / frameWidth - 1)) * w - (center.x - 0.5) * 2 * w;
         
-        landmarks[2 * i + 1] = (float)(1 - 2 * landmarks[2 * i + 1] / frameHeight ) * h - (0.5 - center.y) * 2 * h;
+        newLandmarks[2 * i + 1] = (float)(1 - 2 * landmarks[2 * i + 1] / frameHeight ) * h - (0.5 - center.y) * 2 * h;
+    }
+    
+    for (int i = count/2; i < count; i++)
+    {
+        sizeData[i] = [UIScreen mainScreen].scale * 3;
+        
+        colorData[4 * i ] = 1.0;
+        colorData[4 * i + 1] = 1.0;
+        colorData[4 * i + 2] = 1.0;
+        colorData[4 * i + 3] = 1.0;
+        
+        newLandmarks[2 * i] = (float)((2 * landmarks[2 * i - count] / frameWidth - 1)) * w - (center.x - 0.5) * 2 * w;
+        newLandmarks[2 * i + 1] = (float)(1 - 2 * landmarks[2 * i + 1 - count] / frameHeight ) * h - (0.5 - center.y) * 2 * h;
     }
     
     glEnableVertexAttribArray(fuPointSize);
     glVertexAttribPointer(fuPointSize, 1, GL_FLOAT, GL_FALSE, 0, sizeData);
     
     glEnableVertexAttribArray(GLKVertexAttribPosition);
-    glVertexAttribPointer(GLKVertexAttribPosition, 2, GL_FLOAT, GL_FALSE, 0, (GLfloat *)landmarks);
+    glVertexAttribPointer(GLKVertexAttribPosition, 2, GL_FLOAT, GL_FALSE, 0, (GLfloat *)newLandmarks);
     
     glEnableVertexAttribArray(fuPointColor);
     glVertexAttribPointer(fuPointColor, 4, GL_FLOAT, GL_FALSE, 0, colorData);
@@ -596,7 +609,7 @@ enum
     glDrawArrays(GL_POINTS, 0, count);
 }
 
-- (void)displayImageData:(void *)imageData Size:(CGSize)size Landmarks:(float *)landmarks count:(int)count {
+- (void)displayImageData:(void *)imageData Size:(CGSize)size Landmarks:(float *)landmarks count:(int)count zoomScale:(float)zoomScale{
     
     frameWidth = (int)size.width;
     frameHeight = (int)size.height;
@@ -653,7 +666,7 @@ enum
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     
     if (landmarks) {
-        [self prepareToDrawLandmarks:landmarks count:count MAX:NO];
+        [self prepareToDrawLandmarks:landmarks count:count MAX:NO zoomScale:zoomScale];
     }
     
     [self presentFramebuffer];
@@ -679,7 +692,7 @@ enum
     imageVertices[7] =   h;
 }
 
-- (void)prepareToDrawLandmarks:(float *)landmarks count:(int)count MAX:(BOOL)max
+- (void)prepareToDrawLandmarks:(float *)landmarks count:(int)count MAX:(BOOL)max zoomScale:(float)zoomScale
 {
     if (!pointProgram) {
         [self loadPointsShaders];
@@ -687,11 +700,13 @@ enum
     
     glUseProgram(pointProgram);
     
-    count = count/2;
+    count = count;
     
     float sizeData[count];
     
     float colorData[count * 4];
+    
+    float newLandmarks[count * 2];
     
     float width   = frameWidth;
     float height  = frameHeight;
@@ -706,27 +721,40 @@ enum
     float h       = (height * dd / (float)backingHeight);
     float w       = (width  * dd / (float)backingWidth );
     
-    for (int i = 0; i < count; i++)
+    for (int i = 0; i < count / 2; i++)
     {
         //点的大小
-        sizeData[i] = [UIScreen mainScreen].scale * 5;
-        
-        //点的颜色
-        colorData[4 * i] = 1.0;
-        colorData[4 * i + 1] = .0;
-        colorData[4 * i + 2] = .0;
-        colorData[4 * i + 3] = .0;
+        sizeData[i] = [UIScreen mainScreen].scale * 5 / zoomScale;
+  
+        colorData[4 * i ] = 1.0;
+        colorData[4 * i + 1] = 0.0;
+        colorData[4 * i + 2] = 0.0;
+        colorData[4 * i + 3] = 0.0;
         
         //转化坐标
-        landmarks[2 * i] = (float)((2 * landmarks[2 * i] / frameWidth - 1))*w;
-        landmarks[2 * i + 1] = (float)(1 - 2 * landmarks[2 * i + 1] / frameHeight)*h;
+        newLandmarks[2 * i] = (float)((2 * landmarks[2 * i] / frameWidth - 1))*w;
+        newLandmarks[2 * i + 1] = (float)(1 - 2 * landmarks[2 * i + 1] / frameHeight)*h;
     }
+    
+    for (int i = count/2; i < count; i++)
+    {
+        sizeData[i] = [UIScreen mainScreen].scale * 2 / zoomScale;
+
+        colorData[4 * i ] = 1.0;
+        colorData[4 * i + 1] = 1.0;
+        colorData[4 * i + 2] = 1.0;
+        colorData[4 * i + 3] = 1.0;
+        
+        newLandmarks[2 * i] = (float)((2 * landmarks[2 * i - count] / frameWidth - 1))*w;
+        newLandmarks[2 * i + 1] = (float)(1 - 2 * landmarks[2 * i + 1 - count] / frameHeight)*h;
+    }
+    
     
     glEnableVertexAttribArray(fuPointSize);
     glVertexAttribPointer(fuPointSize, 1, GL_FLOAT, GL_FALSE, 0, sizeData);
     
     glEnableVertexAttribArray(GLKVertexAttribPosition);
-    glVertexAttribPointer(GLKVertexAttribPosition, 2, GL_FLOAT, GL_FALSE, 0, (GLfloat *)landmarks);
+    glVertexAttribPointer(GLKVertexAttribPosition, 2, GL_FLOAT, GL_FALSE, 0, (GLfloat *)newLandmarks);
     
     glEnableVertexAttribArray(fuPointColor);
     glVertexAttribPointer(fuPointColor, 4, GL_FLOAT, GL_FALSE, 0, colorData);

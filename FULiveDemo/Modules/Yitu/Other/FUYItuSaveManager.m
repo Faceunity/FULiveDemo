@@ -30,13 +30,13 @@ static FUYItuSaveManager *shareManager = NULL;
 
 //        FUYituModel *model2 = [self loadAYituModlePointJsonStr:@"yitu_shuiguo_target" imageName:@"yitu_shuiguo"];
 //        [self.dataDataArray addObject:model2];
-//        FUYituModel *model1 = [self loadAYituModlePointJsonStr:@"yitu_huli_target" imageName:@"yitu_huli"];
-//        [self.dataDataArray addObject:model1];
+        FUYituModel *model1 = [self loadAYituModlePointJsonStr:@"yitu_huli_target" imageName:@"yitu_huli"];
+        [self.dataDataArray addObject:model1];
 //        FUYituModel *model0 = [self loadAYituModlePointJsonStr:@"yitu_chouxiang_target" imageName:@"yitu_chouxiang"];
 //        [self.dataDataArray addObject:model0];
         
-        FUYituModel *model3 = [self loadAYituModlePointJsonStr:@"xieshi_target" imageName:@"xieshi"];
-        [self.dataDataArray addObject:model3];
+//        FUYituModel *model3 = [self loadAYituModlePointJsonStr:@"xieshi_target" imageName:@"xieshi"];
+//        [self.dataDataArray addObject:model3];
         FUYituModel *model4 = [self loadAYituModlePointJsonStr:@"manhuanan_target" imageName:@"manhuanan"];
         [self.dataDataArray addObject:model4];
         FUYituModel *model5 = [self loadAYituModlePointJsonStr:@"manhuanv_target" imageName:@"manhuanv"];
@@ -71,8 +71,12 @@ static FUYItuSaveManager *shareManager = NULL;
     model0.height = H;
     model0.imagePathMid = [NSString stringWithFormat:@"yitu%d",(int)self.dataDataArray.count + 1];
     
-    NSString *imageFile = [NSString stringWithFormat:@"%@/%@.jpg", [[NSBundle mainBundle] resourcePath],imageName];
-    UIImage *image = [UIImage imageWithContentsOfFile:imageFile];
+    UIImage *image = [UIImage imageNamed:imageName];
+    if (!image) {
+        NSString *imageFile = [NSString stringWithFormat:@"%@/%@.jpg", [[NSBundle mainBundle] resourcePath],imageName];
+        image = [UIImage imageWithContentsOfFile:imageFile];
+    }
+
     [FUYItuSaveManager saveImg:image withVideoMid:model0.imagePathMid];
     return model0;
 }

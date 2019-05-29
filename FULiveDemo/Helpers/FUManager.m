@@ -74,12 +74,12 @@ static FUManager *shareManager = NULL;
             NSLog(@"fuLoadTongueModel %@",ret0 == 0 ? @"failure":@"success" );
      
         });
+        [self setupFilterData];
+        [self setDefaultFilter];
+        [self setBeautyDefaultParameters:FUBeautyModuleTypeShape | FUBeautyModuleTypeSkin];
+        self.enableGesture = NO;
+        self.enableMaxFaces = NO;
         
-        [self setBeautyDefaultParameters];
-                
-        NSLog(@"faceunitySDK version:%@",[FURenderer getVersion]);
-        
-
         /* 提示语句 */
         [self setupItmeHintData];
         /* 道具加载model */
@@ -89,8 +89,7 @@ static FUManager *shareManager = NULL;
         self.deviceOrientation = 0 ;
         fuSetDefaultOrientation(self.deviceOrientation) ;
         
-        // 性能优先关闭
-        self.performance = NO ;
+        NSLog(@"faceunitySDK version:%@",[FURenderer getVersion]);
         
     }
     
@@ -118,6 +117,12 @@ static FUManager *shareManager = NULL;
                 @"ctrl_snow":@"推出手掌",
                 @"ctrl_flower":@"推出手掌",
         };
+}
+
+-(void)setupFilterData{
+    self.beautyFiltersDataSource = @[@"origin",@"bailiang1",@"fennen1",@"lengsediao1",@"nuansediao1",@"xiaoqingxin1"];
+    
+    self.filtersCHName = @{@"origin" : @"原图", @"bailiang1":@"白亮", @"fennen1":@"粉嫩", @"gexing1":@"个性", @"heibai1":@"黑白", @"lengsediao1":@"冷色调",@"nuansediao1":@"暖色调", @"xiaoqingxin1":@"小清新"};
 }
 
 - (void)loadItems
@@ -238,7 +243,6 @@ static FUManager *shareManager = NULL;
 /**加载美颜道具*/
 - (void)loadFilter{
     dispatch_async(asyncLoadQueue, ^{
-        NSLog(@"aaaaa111");
         if (items[FUNamaHandleTypeBeauty] == 0) {
             NSString *path = [[NSBundle mainBundle] pathForResource:@"face_beautification.bundle" ofType:nil];
             items[FUNamaHandleTypeBeauty] = [FURenderer itemWithContentsOfFile:path];
@@ -258,66 +262,48 @@ static FUManager *shareManager = NULL;
         items[FUNamaHandleTypeMakeup] = [FURenderer itemWithContentsOfFile:filePath];
         fuItemSetParamd(items[FUNamaHandleTypeMakeup], "makeup_lip_mask", 1.0);//使用优化的口红效果
         [[FUManager shareManager] setMakeupItemIntensity:0 param:@"makeup_intensity_lip"];//口红设置为0
-        
-        NSLog(@"-------美妆bundle -- %d",items[FUNamaHandleTypeMakeup]);
     });
 }
 
-
-/*设置默认参数*/
-- (void)setBeautyDefaultParameters {
-    
-//    self.filtersDataSource = @[@"Origin", @"Delta", @"Electric", @"Slowlived", @"Tokyo", @"Warm"];
-//
-    self.beautyFiltersDataSource = @[@"origin",@"bailiang1",@"fennen1",@"lengsediao1",@"nuansediao1",@"xiaoqingxin1"];
-//    self.beautyFiltersDataSource = @[@"origin",@"bailiang1",@"bailiang2",@"bailiang3",@"bailiang4",@"bailiang5",@"bailiang6",@"bailiang7",
-//                                     @"fennen1",@"fennen2",@"fennen3",@"fennen4",@"fennen5",@"fennen6",@"fennen7",@"fennen8",
-//                                     @"gexing1",@"gexing2",@"gexing3",@"gexing4",@"gexing5",@"gexing6",@"gexing7",@"gexing8",@"gexing9",@"gexing10",
-//                                     @"heibai1",@"heibai2",@"heibai3",@"heibai4",@"heibai5",
-//                                     @"lengsediao1",@"lengsediao2",@"lengsediao3",@"lengsediao4",@"lengsediao5",@"lengsediao6",@"lengsediao7",@"lengsediao8",
-//                                     @"lengsediao9",@"lengsediao10",@"lengsediao11",
-//                                     @"nuansediao1",@"nuansediao2",@"nuansediao3",
-//                                     @"xiaoqingxin1",@"xiaoqingxin2",@"xiaoqingxin3",@"xiaoqingxin4",@"xiaoqingxin5",@"xiaoqingxin6"];
-    
-
-    self.filtersCHName = @{@"origin" : @"原图", @"bailiang1":@"白亮", @"fennen1":@"粉嫩", @"gexing1":@"个性", @"heibai1":@"黑白", @"lengsediao1":@"冷色调",@"nuansediao1":@"暖色调", @"xiaoqingxin1":@"小清新"};
+-(void)setDefaultFilter{
     self.selectedFilter = @"fennen1";
     self.selectedFilterLevel = 0.7;
-    //    if (!self.selectedFilter) {
-    //        self.selectedFilter    = self.filtersDataSource[0] ;
-    //    }
+}
+/*设置默认参数*/
+- (void)setBeautyDefaultParameters:(FUBeautyModuleType)type{
     
-    self.skinDetectEnable       = self.performance ? NO : YES ;// 精准美肤
-    self.blurShape              = self.performance ? 1 : 0 ;   // 朦胧磨皮 1 ，清晰磨皮 0
-    self.blurLevel              = 0.7 ; // 磨皮， 实际设置的时候 x6
-    self.whiteLevel             = 0.3 ; // 美白
-    self.redLevel               = 0.3 ; // 红润
+    if((type & FUBeautyModuleTypeSkin) == FUBeautyModuleTypeSkin){
+        self.skinDetectEnable       = YES ;// 精准美肤
+        self.blurShape              =  0 ;   // 朦胧磨皮 1 ，清晰磨皮 0
+        self.blurLevel              = 0.7 ; // 磨皮， 实际设置的时候 x6
+        self.whiteLevel             = 0.3 ; // 美白
+        self.redLevel               = 0.3 ; // 红润
+        
+        self.eyelightingLevel       = 0.7 ; // 亮眼
+        self.beautyToothLevel       = 0.7 ; // 美牙
+    }
     
-    self.eyelightingLevel       = self.performance ? 0 : 0.7 ; // 亮眼
-    self.beautyToothLevel       = self.performance ? 0 : 0.7 ; // 美牙
-    
-    self.faceShape              = self.performance ? 3 :4 ;   // 脸型
-    self.enlargingLevel         = 0.4 ; // 大眼
-    self.thinningLevel          = 0.4 ; // 瘦脸
-    
-    self.enlargingLevel_new     = 0.4 ; // 大眼
-    self.thinningLevel_new      = 0.4 ; // 瘦脸
-    self.jewLevel               = 0.3 ; // 下巴
-    self.foreheadLevel          = 0.3 ; // 额头
-    self.noseLevel              = 0.5 ; // 鼻子
-    self.mouthLevel             = 0.4 ; // 嘴
-    
-    /****  美妆程度  ****/
-    self.lipstick = 1.0;
-    self.blush = 1.0 ;
-    self.eyebrow = 1.0 ;
-    self.eyeShadow = 1.0 ;
-    self.eyeLiner = 1.0 ;
-    self.eyelash = 1.0 ;
-    self.contactLens = 1.0 ;
-    
-    self.enableGesture = NO;
-    self.enableMaxFaces = NO;
+    if((type & FUBeautyModuleTypeShape) == FUBeautyModuleTypeShape){
+        self.faceShape              = 4;// 脸型
+        self.enlargingLevel         = 0.4 ; // 大眼
+        self.thinningLevel          = 0 ; // 瘦脸
+        self.vLevel                 = 0.5 ;  //V脸
+        self.narrowLevel            = 0;    //窄脸
+        self.smallLevel             = 0;    //小脸
+        self.jewLevel               = 0.3 ; // 下巴
+        self.foreheadLevel          = 0.3 ; // 额头
+        self.noseLevel              = 0.5 ; // 鼻子
+        self.mouthLevel             = 0.4 ; // 嘴
+        
+    }
+}
+
+-(BOOL)isDefaultShapeValue{
+    if(self.vLevel == 0.5 && self.narrowLevel == 0 && self.smallLevel == 0 && self.enlargingLevel == 0.4
+       &&self.jewLevel == 0.3 && self.foreheadLevel == 0.3 && self.noseLevel == 0.5 && self.mouthLevel == 0.4 && self.thinningLevel == 0){
+        return YES;
+    }
+    return NO;
 }
 
 /**设置美颜参数*/
@@ -331,8 +317,11 @@ static FUManager *shareManager = NULL;
     [FURenderer itemSetParam:items[FUNamaHandleTypeBeauty] withName:@"eye_bright" value:@(self.eyelightingLevel)]; // 亮眼
     [FURenderer itemSetParam:items[FUNamaHandleTypeBeauty] withName:@"tooth_whiten" value:@(self.beautyToothLevel)];// 美牙
     [FURenderer itemSetParam:items[FUNamaHandleTypeBeauty] withName:@"face_shape" value:@(self.faceShape)]; //美型类型 (0、1、2、3、4)女神：0，网红：1，自然：2，默认：3，自定义：4
-    [FURenderer itemSetParam:items[FUNamaHandleTypeBeauty] withName:@"eye_enlarging" value:self.faceShape == 4 ? @(self.enlargingLevel_new):@(self.enlargingLevel)]; //大眼 (0~1)
-    [FURenderer itemSetParam:items[FUNamaHandleTypeBeauty] withName:@"cheek_thinning" value:self.faceShape == 4 ? @(self.thinningLevel_new):@(self.thinningLevel)]; //瘦脸 (0~1)
+    [FURenderer itemSetParam:items[FUNamaHandleTypeBeauty] withName:@"eye_enlarging" value:@(self.enlargingLevel)]; //大眼 (0~1)
+    [FURenderer itemSetParam:items[FUNamaHandleTypeBeauty] withName:@"cheek_thinning" value:@(self.thinningLevel)]; //瘦脸 (0~1)
+    [FURenderer itemSetParam:items[FUNamaHandleTypeBeauty] withName:@"cheek_v" value:@(self.vLevel)]; //v脸 (0~1)
+    [FURenderer itemSetParam:items[FUNamaHandleTypeBeauty] withName:@"cheek_narrow" value:@(self.narrowLevel/2)]; //窄脸 (0~1)  demo窄脸、小脸上限0.5
+    [FURenderer itemSetParam:items[FUNamaHandleTypeBeauty] withName:@"cheek_small" value:@(self.smallLevel/2)]; //小脸 (0~1)
     [FURenderer itemSetParam:items[FUNamaHandleTypeBeauty] withName:@"intensity_chin" value:@(self.jewLevel)]; /**下巴 (0~1)*/
     [FURenderer itemSetParam:items[FUNamaHandleTypeBeauty] withName:@"intensity_nose" value:@(self.noseLevel)];/**鼻子 (0~1)*/
     [FURenderer itemSetParam:items[FUNamaHandleTypeBeauty] withName:@"intensity_forehead" value:@(self.foreheadLevel)];/**额头 (0~1)*/
@@ -497,13 +486,13 @@ static FUManager *shareManager = NULL;
 {
 	// 在未识别到人脸时根据重力方向设置人脸检测方向
     if ([self isDeviceMotionChange]) {
-          fuSetDefaultOrientation(self.deviceOrientation);
         
+        fuSetDefaultOrientation(self.deviceOrientation);
         /* 解决旋转屏幕效果异常 onCameraChange*/
         [FURenderer onCameraChange];
     }
     if (self.isMotionItem) {//针对带重力道具
-        [FURenderer itemSetParam:items[FUNamaHandleTypeGesture] withName:@"rotMode" value:@(self.deviceOrientation)];
+        [FURenderer itemSetParam:items[FUNamaHandleTypeItem] withName:@"rotMode" value:@(self.deviceOrientation)];
     }    
     /**设置美颜参数*/
     [self resetAllBeautyParams];
@@ -536,7 +525,7 @@ static FUManager *shareManager = NULL;
 
 -(CVPixelBufferRef)renderAvatarPixelBuffer:(CVPixelBufferRef)pixelBuffer{
     float expression[46] = {0};
-    float translation[3] = {0,-20,500};
+    float translation[3] = {0,-40,500};
     float rotation[4] = {0,0,0,1};
     float rotation_mode[1] = {0};
     float pupil_pos[2] = {0};
@@ -1102,7 +1091,7 @@ static FUManager *shareManager = NULL;
     NSInteger count = dataArray.count;
     for (int i = 0 ; i < count; i ++) {
         NSDictionary *dict = dataArray[i] ;
-        if(i == FULiveModelTypeYiTu || i == FULiveModelTypeGan){
+        if(i == FULiveModelTypeGan){
             continue;
         }
         FULiveModel *model = [[FULiveModel alloc] init];
@@ -1116,7 +1105,8 @@ static FUManager *shareManager = NULL;
         [modesArray addObject:model];
     }
     
-    int module = fuGetModuleCode(0) ;
+    int module = fuGetModuleCode(0);
+    int module1 = fuGetModuleCode(1);
     
     if (!module) {
         
@@ -1145,6 +1135,10 @@ static FUManager *shareManager = NULL;
         for (NSNumber *num in model.modules) {
             
             BOOL isEable = module & [num intValue] ;
+            /* 捏脸的后32位 暂时特殊判断 */
+            if (model.type == FULiveModelTypeNieLian) {
+                isEable = module1 & [num intValue];
+            }
             
             if (isEable) {
                 

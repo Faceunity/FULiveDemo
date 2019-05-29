@@ -24,11 +24,16 @@
 @synthesize eyeBrightLevel = _eyeBrightLevel ;
 @synthesize toothWhitenLevel = _toothWhitenLevel ;
 
-@synthesize faceShape = _faceShape ;
+
+@synthesize vLevel = _vLevel ;
+@synthesize eggLevel = _eggLevel ;
+@synthesize narrowLevel = _narrowLevel ;
+@synthesize smallLevel = _smallLevel ;
+//@synthesize faceShape = _faceShape ;
 @synthesize enlargingLevel = _enlargingLevel ;
 @synthesize thinningLevel = _thinningLevel ;
-@synthesize enlargingLevel_new = _enlargingLevel_new ;
-@synthesize thinningLevel_new = _thinningLevel_new ;
+//@synthesize enlargingLevel_new = _enlargingLevel_new ;
+//@synthesize thinningLevel_new = _thinningLevel_new ;
 @synthesize chinLevel = _chinLevel ;
 @synthesize foreheadLevel = _foreheadLevel ;
 @synthesize noseLevel = _noseLevel ;
@@ -60,11 +65,16 @@
         _demoBar.eyeBrightLevel = self.eyeBrightLevel;
         _demoBar.toothWhitenLevel = self.toothWhitenLevel ;
         
-        _demoBar.faceShape = self.faceShape ;
+        
+        _demoBar.vLevel = self.vLevel ;
+        _demoBar.eggLevel = self.eggLevel ;
+        _demoBar.narrowLevel = self.narrowLevel ;
+        _demoBar.smallLevel = self.smallLevel ;
+//        _demoBar.faceShape = self.faceShape ;
         _demoBar.enlargingLevel = self.enlargingLevel ;
         _demoBar.thinningLevel = self.thinningLevel ;
-        _demoBar.enlargingLevel_new = self.enlargingLevel_new ;
-        _demoBar.thinningLevel_new = self.thinningLevel_new ;
+//        _demoBar.enlargingLevel_new = self.enlargingLevel_new ;
+//        _demoBar.thinningLevel_new = self.thinningLevel_new ;
         _demoBar.chinLevel = self.chinLevel ;
         _demoBar.foreheadLevel = self.foreheadLevel ;
         _demoBar.noseLevel = self.noseLevel ;
@@ -95,11 +105,17 @@
         _demoBar.eyeBrightLevel = self.eyeBrightLevel;
         _demoBar.toothWhitenLevel = self.toothWhitenLevel ;
         
-        _demoBar.faceShape = self.faceShape ;
+        
+        _demoBar.vLevel = self.vLevel ;
+        _demoBar.eggLevel = self.eggLevel ;
+        _demoBar.narrowLevel = self.narrowLevel ;
+        _demoBar.smallLevel = self.smallLevel ;
+        
+//        _demoBar.faceShape = self.faceShape ;
         _demoBar.enlargingLevel = self.enlargingLevel ;
         _demoBar.thinningLevel = self.thinningLevel ;
-        _demoBar.enlargingLevel_new = self.enlargingLevel_new ;
-        _demoBar.thinningLevel_new = self.thinningLevel_new ;
+//        _demoBar.enlargingLevel_new = self.enlargingLevel_new ;
+//        _demoBar.thinningLevel_new = self.thinningLevel_new ;
         _demoBar.chinLevel = self.chinLevel ;
         _demoBar.foreheadLevel = self.foreheadLevel ;
         _demoBar.noseLevel = self.noseLevel ;
@@ -195,14 +211,46 @@
     return self.demoBar.toothWhitenLevel ;
 }
 
+-(void)setVLevel:(double)vLevel{
+    _vLevel = vLevel;
+    self.demoBar.vLevel = vLevel;
+}
+-(double)vLevel{
+    return self.demoBar.vLevel
+    ;
+}
+-(void)setEggLevel:(double)eggLevel{
+    _eggLevel = eggLevel;
+    self.demoBar.eggLevel = eggLevel;
+}
+-(double)eggLevel{
+    return self.demoBar.eggLevel;
+}
+
+-(void)setNarrowLevel:(double)narrowLevel{
+    _narrowLevel = narrowLevel;
+    self.demoBar.narrowLevel = narrowLevel;
+}
+-(double)narrowLevel{
+    return self.demoBar.narrowLevel;
+}
+
+-(void)setSmallLevel:(double)smallLevel{
+    _smallLevel = smallLevel;
+    self.demoBar.smallLevel = smallLevel;
+}
+-(double)smallLevel{
+    return self.demoBar.smallLevel;
+}
+
 // 脸型
--(void)setFaceShape:(NSInteger)faceShape {
-    _faceShape = faceShape ;
-    self.demoBar.faceShape = faceShape ;
-}
--(NSInteger)faceShape {
-    return self.demoBar.faceShape ;
-}
+//-(void)setFaceShape:(NSInteger)faceShape {
+//    _faceShape = faceShape ;
+//    self.demoBar.faceShape = faceShape ;
+//}
+//-(NSInteger)faceShape {
+//    return self.demoBar.faceShape ;
+//}
 
 // 大眼
 -(void)setEnlargingLevel:(double)enlargingLevel {
@@ -223,22 +271,22 @@
 }
 
 // 大眼新版
--(void)setEnlargingLevel_new:(double)enlargingLevel_new {
-    _enlargingLevel_new = enlargingLevel_new ;
-    self.demoBar.enlargingLevel_new = enlargingLevel_new ;
-}
--(double)enlargingLevel_new {
-    return self.demoBar.enlargingLevel_new ;
-}
+//-(void)setEnlargingLevel_new:(double)enlargingLevel_new {
+//    _enlargingLevel_new = enlargingLevel_new ;
+//    self.demoBar.enlargingLevel_new = enlargingLevel_new ;
+//}
+//-(double)enlargingLevel_new {
+//    return self.demoBar.enlargingLevel_new ;
+//}
 
 // 瘦脸新版
--(void)setThinningLevel_new:(double)thinningLevel_new {
-    _thinningLevel_new = thinningLevel_new ;
-    self.demoBar.thinningLevel_new = thinningLevel_new ;
-}
--(double)thinningLevel_new {
-    return self.demoBar.thinningLevel_new ;
-}
+//-(void)setThinningLevel_new:(double)thinningLevel_new {
+//    _thinningLevel_new = thinningLevel_new ;
+//    self.demoBar.thinningLevel_new = thinningLevel_new ;
+//}
+//-(double)thinningLevel_new {
+//    return self.demoBar.thinningLevel_new ;
+//}
 
 // 下巴
 -(void)setChinLevel:(double)chinLevel {
@@ -280,6 +328,12 @@
 - (void)beautyParamChanged {
     if (self.delegate && [self.delegate respondsToSelector:@selector(demoBarBeautyParamChanged)]) {
         [self.delegate demoBarBeautyParamChanged];
+    }
+}
+
+-(void)restDefaultValue:(int)type{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(restDefaultValue:)]) {
+        [self.delegate restDefaultValue:type];
     }
 }
 
@@ -329,10 +383,6 @@
     self.demoBar.selectedFilterLevel = selectedFilterLevel ;
 }
 
--(void)setPerformance:(BOOL)performance {
-    _performance = performance ;
-    self.demoBar.performance = performance ;
-}
 
 -(BOOL)isTopViewShow {
     return self.demoBar.isTopViewShow ;

@@ -25,15 +25,18 @@ typedef NS_ENUM(NSInteger, FUSliderType) {
     FUFilterSliderTypeToothWhiten       = 6,// 美牙
     
     FUFilterSliderTypeEyeLarge          = 7,// 大眼
-    FUFilterSliderTypeThinFace          = 8,// 瘦脸
-    FUFilterSliderTypeEyeLarge_new      = 9,// 大眼
-    FUFilterSliderTypeThinFace_new      = 10,// 瘦脸
-    FUFilterSliderTypeChin              = 11,// 下巴
-    FUFilterSliderTypeForehead          = 12,// 额头
-    FUFilterSliderTypeNose              = 13,// 鼻子
-    FUFilterSliderTypeMouth             = 14,// 嘴型
+    FUFilterSliderTypeVFace            = 8,// v脸
+    FUFilterSliderTypeNarrowFace     = 9,// 窄脸
+    FUFilterSliderTypeSmallFace      = 10,// 瘦脸
+    FUFilterSliderTypeThinFace          = 11,// 瘦脸
+//    FUFilterSliderTypeEyeLarge_new      = 9,// 大眼
+//    FUFilterSliderTypeThinFace_new      = 10,// 瘦脸
+    FUFilterSliderTypeChin              = 12,// 下巴
+    FUFilterSliderTypeForehead          = 13,// 额头
+    FUFilterSliderTypeNose              = 14,// 鼻子
+    FUFilterSliderTypeMouth             = 15,// 嘴型
     
-    FUFilterSliderTypeBeautyFilter      = 15,// 美颜滤镜
+    FUFilterSliderTypeBeautyFilter      = 16,// 美颜滤镜
 };
 
 //typedef NS_ENUM(NSInteger, FUFaceCollectionType) {

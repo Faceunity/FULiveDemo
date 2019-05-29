@@ -78,7 +78,6 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
     [super viewWillAppear:animated];
     /* 美颜道具 */
     [[FUManager shareManager] loadFilter];
-    NSLog(@"aaaa222");
     [self.mCamera startCapture];
 }
 
@@ -435,10 +434,6 @@ static  NSTimeInterval oldTime = 0;
     if (self.navigationController.visibleViewController == self) {
         [self.mCamera startCapture];
     }
-}
-
--(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    [self.mCamera startCapture];
 }
 
 

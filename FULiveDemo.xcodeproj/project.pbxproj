@@ -32,11 +32,9 @@
 		0B5B9F3A20E9C17F00FF7789 /* FUSelectedImageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B5B9F3920E9C17F00FF7789 /* FUSelectedImageController.m */; };
 		0B6121252154EE2200B9958D /* bling.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0B6121232154EE2100B9958D /* bling.bundle */; };
 		0B6121262154EE2200B9958D /* bling.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B6121242154EE2200B9958D /* bling.png */; };
-		0B6121282154EE4E00B9958D /* tongue.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0B6121272154EE4E00B9958D /* tongue.bundle */; };
 		0B6B00FE20F49C0F0079118B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0B6B010020F49C0F0079118B /* Localizable.strings */; };
 		0B95D72F2089ED6D006A6FBA /* libnama.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B95D7272089ED6D006A6FBA /* libnama.a */; };
 		0B95D7302089ED6D006A6FBA /* release_note.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0B95D7282089ED6D006A6FBA /* release_note.txt */; };
-		0B95D7332089ED6D006A6FBA /* face_beautification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0B95D72C2089ED6D006A6FBA /* face_beautification.bundle */; };
 		0B95D7342089ED6D006A6FBA /* fxaa.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0B95D72D2089ED6D006A6FBA /* fxaa.bundle */; };
 		0B95D7352089ED6D006A6FBA /* v3.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0B95D72E2089ED6D006A6FBA /* v3.bundle */; };
 		0B9A273C20D0C85F00677F82 /* FUVideoReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9A273A20D0C85F00677F82 /* FUVideoReader.m */; };
@@ -169,6 +167,9 @@
 		E348103922437CB000D6C941 /* FUAvatarPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = E348103822437CB000D6C941 /* FUAvatarPresenter.m */; };
 		E34810C422450B6700D6C941 /* FUWholeAvatarModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E34810C322450B6700D6C941 /* FUWholeAvatarModel.m */; };
 		E34810C722451C8500D6C941 /* avatar_bg.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E34810C52245122400D6C941 /* avatar_bg.bundle */; };
+		E3502E0E2297D26500C7447F /* tongue.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3502E0D2297D26500C7447F /* tongue.bundle */; };
+		E3502E172297D5A600C7447F /* yitu_huli_target.json in Resources */ = {isa = PBXBuildFile; fileRef = E3502E132297D5A600C7447F /* yitu_huli_target.json */; };
+		E3502E182297D5A600C7447F /* yitu_huli.png in Resources */ = {isa = PBXBuildFile; fileRef = E3502E142297D5A600C7447F /* yitu_huli.png */; };
 		E35AE65C2226709C0076C375 /* FUDemoBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = E35AE63A2226709C0076C375 /* FUDemoBar.xib */; };
 		E35AE65F2226709C0076C375 /* FUAPIDemoBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E35AE6412226709C0076C375 /* FUAPIDemoBar.m */; };
 		E35AE6602226709C0076C375 /* FUBeautyView.m in Sources */ = {isa = PBXBuildFile; fileRef = E35AE6432226709C0076C375 /* FUBeautyView.m */; };
@@ -393,6 +394,7 @@
 		E3D13CD822432FFE00B5229D /* FUAvatarCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D13CD722432FFE00B5229D /* FUAvatarCustomView.m */; };
 		E3D13CDE2243441900B5229D /* FUAvatarSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D13CDC2243441900B5229D /* FUAvatarSlider.m */; };
 		E3F1BDFD226F06DA00834871 /* female_hair_06.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3F1BDFC226F063B00834871 /* female_hair_06.bundle */; };
+		E3F4591A2293A2B1009805F4 /* photolive.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3F459192293A2B1009805F4 /* photolive.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -486,7 +488,6 @@
 		0B60B6D820DCE3D5004F801F /* FURenderImageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FURenderImageViewController.m; sourceTree = "<group>"; };
 		0B6121232154EE2100B9958D /* bling.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = bling.bundle; sourceTree = "<group>"; };
 		0B6121242154EE2200B9958D /* bling.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bling.png; sourceTree = "<group>"; };
-		0B6121272154EE4E00B9958D /* tongue.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = tongue.bundle; sourceTree = "<group>"; };
 		0B6B00FA20F49BE90079118B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		0B6B00FB20F49BEA0079118B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		0B6B00FF20F49C0F0079118B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -496,7 +497,6 @@
 		0B95D7262089ED6D006A6FBA /* FURenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FURenderer.h; sourceTree = "<group>"; };
 		0B95D7272089ED6D006A6FBA /* libnama.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libnama.a; sourceTree = "<group>"; };
 		0B95D7282089ED6D006A6FBA /* release_note.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_note.txt; sourceTree = "<group>"; };
-		0B95D72C2089ED6D006A6FBA /* face_beautification.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = face_beautification.bundle; sourceTree = "<group>"; };
 		0B95D72D2089ED6D006A6FBA /* fxaa.bundle */ = {isa = PBXFileReference; lastKnownFileType = text; path = fxaa.bundle; sourceTree = "<group>"; };
 		0B95D72E2089ED6D006A6FBA /* v3.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = v3.bundle; sourceTree = "<group>"; };
 		0B9A273A20D0C85F00677F82 /* FUVideoReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUVideoReader.m; sourceTree = "<group>"; };
@@ -640,6 +640,9 @@
 		E34810C222450B6700D6C941 /* FUWholeAvatarModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUWholeAvatarModel.h; sourceTree = "<group>"; };
 		E34810C322450B6700D6C941 /* FUWholeAvatarModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUWholeAvatarModel.m; sourceTree = "<group>"; };
 		E34810C52245122400D6C941 /* avatar_bg.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = avatar_bg.bundle; sourceTree = "<group>"; };
+		E3502E0D2297D26500C7447F /* tongue.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = tongue.bundle; sourceTree = "<group>"; };
+		E3502E132297D5A600C7447F /* yitu_huli_target.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = yitu_huli_target.json; sourceTree = "<group>"; };
+		E3502E142297D5A600C7447F /* yitu_huli.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yitu_huli.png; sourceTree = "<group>"; };
 		E35AE63B2226709C0076C375 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/FUDemoBar.xib; sourceTree = "<group>"; };
 		E35AE6402226709C0076C375 /* FUAPIDemoBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUAPIDemoBar.h; sourceTree = "<group>"; };
 		E35AE6412226709C0076C375 /* FUAPIDemoBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUAPIDemoBar.m; sourceTree = "<group>"; };
@@ -928,6 +931,7 @@
 		E3D13CDC2243441900B5229D /* FUAvatarSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUAvatarSlider.m; sourceTree = "<group>"; };
 		E3D13CDD2243441900B5229D /* FUAvatarSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUAvatarSlider.h; sourceTree = "<group>"; };
 		E3F1BDFC226F063B00834871 /* female_hair_06.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = female_hair_06.bundle; sourceTree = "<group>"; };
+		E3F459192293A2B1009805F4 /* photolive.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = photolive.bundle; sourceTree = "<group>"; };
 		E3FB0A5E2213CB0C00B41E21 /* FURecordEncoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FURecordEncoder.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -968,7 +972,6 @@
 				E3B0CB922232433D00900760 /* 美妆 */,
 				E3CB023321C0FF5800105B00 /* 异图 */,
 				CD49E6D32184712400814AF5 /* 动漫滤镜 */,
-				0B6121272154EE4E00B9958D /* tongue.bundle */,
 				CD4D6EA421796EA400E02F39 /* 海报换脸 */,
 				CDA6083A216F406900A3DA93 /* 背景分割 */,
 				0BE100872150F9ED00098F1B /* 表情识别 */,
@@ -1132,7 +1135,7 @@
 		0B95D7292089ED6D006A6FBA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				0B95D72C2089ED6D006A6FBA /* face_beautification.bundle */,
+				E3502E0D2297D26500C7447F /* tongue.bundle */,
 				0B95D72D2089ED6D006A6FBA /* fxaa.bundle */,
 				0B95D72E2089ED6D006A6FBA /* v3.bundle */,
 			);
@@ -1396,6 +1399,15 @@
 				E34810772244EB3000D6C941 /* hairN */,
 			);
 			path = Avatar;
+			sourceTree = "<group>";
+		};
+		E3502E122297D5A600C7447F /* magic_photo_02 */ = {
+			isa = PBXGroup;
+			children = (
+				E3502E132297D5A600C7447F /* yitu_huli_target.json */,
+				E3502E142297D5A600C7447F /* yitu_huli.png */,
+			);
+			path = magic_photo_02;
 			sourceTree = "<group>";
 		};
 		E35AE6392226709C0076C375 /* FUAPIDemoBar */ = {
@@ -1966,6 +1978,7 @@
 		E3CB023321C0FF5800105B00 /* 异图 */ = {
 			isa = PBXGroup;
 			children = (
+				E3F459192293A2B1009805F4 /* photolive.bundle */,
 			);
 			path = "异图";
 			sourceTree = "<group>";
@@ -2028,6 +2041,7 @@
 		E3CB026B21C90BC200105B00 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				E3502E122297D5A600C7447F /* magic_photo_02 */,
 				E3791660226561FB0011215B /* manhuameng */,
 				E379165D226561FA0011215B /* manhuanan */,
 				E379165A226561F90011215B /* manhuanv */,
@@ -2268,7 +2282,6 @@
 				E3226494225F0CCB003A6182 /* afd.png in Resources */,
 				0BE101332150F9EE00098F1B /* ssd_thread_cute.png in Resources */,
 				E3B0CC432232433E00900760 /* mu_blush_15.png in Resources */,
-				0B95D7332089ED6D006A6FBA /* face_beautification.bundle in Resources */,
 				E379EDA62238AD450080BD04 /* mu_eyebrow_16.png in Resources */,
 				CDA60866216F436F00A3DA93 /* kuloutou_Animoji.png in Resources */,
 				E3B0CBFA2232433E00900760 /* mu_lip_09.json in Resources */,
@@ -2285,6 +2298,7 @@
 				E3226445225F0288003A6182 /* face_makeup.bundle in Resources */,
 				E3B0CC2B2232433E00900760 /* mu_eyelash_08.png in Resources */,
 				E3A74CE6224B24AF0058E1EE /* light_makeup.bundle in Resources */,
+				E3502E0E2297D26500C7447F /* tongue.bundle in Resources */,
 				0BE1015A2150F9EE00098F1B /* mask_guocaijie.png in Resources */,
 				E3B0CC082232433E00900760 /* mu_eyebrow_09.png in Resources */,
 				E3B0CBFB2232433E00900760 /* mu_lip_10.json in Resources */,
@@ -2377,6 +2391,7 @@
 				E37B0B5821814AFF00066133 /* ctrl_snow.png in Resources */,
 				E3B0CC3A2232433E00900760 /* mu_blush_06.png in Resources */,
 				E3B0CC312232433E00900760 /* mu_eyepupil_06.png in Resources */,
+				E3502E182297D5A600C7447F /* yitu_huli.png in Resources */,
 				0BE101212150F9ED00098F1B /* facewarp3.bundle in Resources */,
 				0BE1015D2150F9EE00098F1B /* mask_linzhiling.bundle in Resources */,
 				E3B0CC3F2232433E00900760 /* mu_blush_11.png in Resources */,
@@ -2388,7 +2403,6 @@
 				E3B0CC282232433E00900760 /* mu_eyelash_05.png in Resources */,
 				E3B0CC412232433E00900760 /* mu_blush_13.png in Resources */,
 				E3226470225F097F003A6182 /* xiaobianzi_zh_fu.png in Resources */,
-				0B6121282154EE4E00B9958D /* tongue.bundle in Resources */,
 				E3226466225F097F003A6182 /* luhantongkuan_ztt_fu.png in Resources */,
 				E3B0CC152232433E00900760 /* mu_eyeshadow_08.png in Resources */,
 				E3226496225F0CCB003A6182 /* afd.bundle in Resources */,
@@ -2399,6 +2413,7 @@
 				0BE101632150F9EE00098F1B /* mask_matianyu.bundle in Resources */,
 				0BE101242150F9ED00098F1B /* facewarp4.png in Resources */,
 				E3B0CC2C2232433E00900760 /* mu_eyepupil_01.png in Resources */,
+				E3F4591A2293A2B1009805F4 /* photolive.bundle in Resources */,
 				E322646E225F097F003A6182 /* future_warrior.png in Resources */,
 				0BE101322150F9EE00098F1B /* ssd_thread_cute.bundle in Resources */,
 				CDA6086D216F436F00A3DA93 /* frog_Animoji.png in Resources */,
@@ -2424,6 +2439,7 @@
 				E3B0CC212232433E00900760 /* mu_eyeliner_06.png in Resources */,
 				E3CB5D80226D6C32004EE355 /* female_hair_04.bundle in Resources */,
 				E3B0CC342232433E00900760 /* mu_eyepupil_09.png in Resources */,
+				E3502E172297D5A600C7447F /* yitu_huli_target.json in Resources */,
 				E379EDB42238AD8F0080BD04 /* mu_blush_22.png in Resources */,
 				E390BDCE226EE9BB00FACC0F /* Assets.xcassets in Resources */,
 				E3791BD7219C1FE40071D066 /* fuzzytoonfilter.bundle in Resources */,

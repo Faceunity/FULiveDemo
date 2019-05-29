@@ -50,7 +50,10 @@
 "赤茶妆"       =  "redtea";
 "冬日妆"       =  "winter";
 "奶油妆"       =  "cream";
-
+"恢复"         =  "recovery";
+"v脸"          =  "V face";
+"窄脸"          = "Narrow Face";
+"小脸"          = "Small Face";
 
 "美颜" = "Beautification" ;
 "美妆"  =  "Make Up" ;
@@ -138,7 +141,7 @@
 "道具保存成功"                =        "Projects are successfully preserved";
 "不能添加更多了哦~"            =        "Can't add more oh -";
 
-"返回上步"                  =        "Back to step up";
+"保存点位"                  =        "Back to step up";
 "请选择以下五官至上方调整"      =        "Please select the following five senses to adjust to the top";
 "左眼"                     =        "Left eye";
 "右眼"                     =        "Right eye";
@@ -149,6 +152,7 @@
 
 "暂无制作道具哦~"                      = "No props for the time being";
 "删除道具"                                  =  "Delete model";
+"重新编辑"                            = "re-edit";
 "确定删除所选中的道具？"                 = "Determine to delete the selected props? ";
 "确定"                                = "Definite" ;
 "全选"                                = "Select all";
@@ -174,8 +178,10 @@
 "播放"                                   =  "Play";
 "加速"                                   =  "Quicken";
 "正在处理图片"                            =   "Processing Pictures";
-
-
+"写实"                                     = "Realistic";
+"漫画男"                                     = "Comic boy";
+"漫画女"                                     = "Comic girl";
+"萌版"                                     = "Chibi version";
 /*  捏脸   */
 "Avatar 捏脸" = "Knead Face";
 "删除模型"   =  "Delete model";

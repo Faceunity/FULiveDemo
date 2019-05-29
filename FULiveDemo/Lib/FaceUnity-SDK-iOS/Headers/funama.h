@@ -127,6 +127,25 @@ extern "C"{
 \return non-zero for success, zero for failure
 */
 FUNAMA_API int fuSetup(float* v3data,int sz_v3data,float* ardata,void* authdata,int sz_authdata);
+
+/**
+\brief offline authentication
+	Initialize and authenticate your SDK instance to the FaceUnity server, must be called exactly once before all other functions.
+	The buffers should NEVER be freed while the other functions are still being called.
+	You can call this function multiple times to "switch pointers".
+\param v3data should point to contents of the "v3.bin" we provide
+\param sz_v3data should point to num-of-bytes of the "v3.bin" we provide
+\param ardata should be NULL
+\param authdata is the pointer to the authentication data pack we provide. You must avoid storing the data in a file.
+	Normally you can just `#include "authpack.h"` and put `g_auth_package` here.
+\param sz_authdata is the authentication data size, we use plain int to avoid cross-language compilation issues.
+	Normally you can just `#include "authpack.h"` and put `sizeof(g_auth_package)` here.
+\param offline_bundle_ptr is the pointer to offline bundle from FaceUnity server
+\param offline_bundle_sz is size of offline bundle
+\return non-zero for success, zero for failure
+*/
+FUNAMA_API int fuSetupLocal(float* v3data, int sz_v3data,float* ardata,void* authdata,int sz_authdata,void** offline_bundle_ptr,int* offline_bundle_sz);
+
 /**
 \brief if nama is inited return 1,else return 0.
 */
@@ -159,6 +178,10 @@ FUNAMA_API void fuDestroyItem(int item);
 	This function MUST be called in the same GLES context / thread as the original fuCreateItemFromPackage.
 */
 FUNAMA_API void fuDestroyAllItems();
+/**
+\brief Destroy all internal data, resources, threads, etc.
+*/
+FUNAMA_API void fuDestroyLibData();
 
 /**
 \brief Render a list of items on top of a GLES texture or a memory buffer.

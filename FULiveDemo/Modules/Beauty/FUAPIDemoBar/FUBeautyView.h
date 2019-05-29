@@ -21,14 +21,12 @@
 - (void)skinDetectChanged:(BOOL)detect ;
 // 清晰磨皮 朦胧磨皮切换
 - (void)heavyBlurChange:(NSInteger)heavyBlur ;
+
 @end
 
 @interface FUBeautyView : UICollectionView
 
 @property (nonatomic, assign) FUBeautyViewType type ;
-
-// 性能优先，默认为 NO
-@property (nonatomic, assign) BOOL performance ;
 
 @property (nonatomic, assign) id<FUBeautyViewDelegate>mDelegate ;
 
