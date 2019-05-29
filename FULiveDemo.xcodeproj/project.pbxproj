@@ -161,6 +161,7 @@
 		E322649C225F6CB7003A6182 /* jet_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = E322649A225F6CB7003A6182 /* jet_mask.png */; };
 		E322649D225F6CB7003A6182 /* jet_mask.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E322649B225F6CB7003A6182 /* jet_mask.bundle */; };
 		E32BDA1B2282BE5F00E308A1 /* female_hair_05.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E32BDA1A2282BE5B00E308A1 /* female_hair_05.bundle */; };
+		E3340372229ED76F00D56810 /* face_beautification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3340371229ED72B00D56810 /* face_beautification.bundle */; };
 		E3481030224369D200D6C941 /* FUColor.m in Sources */ = {isa = PBXBuildFile; fileRef = E348102F224369D200D6C941 /* FUColor.m */; };
 		E34810322243778000D6C941 /* avatar.json in Resources */ = {isa = PBXBuildFile; fileRef = E34810312243778000D6C941 /* avatar.json */; };
 		E34810362243799B00D6C941 /* FUAvatarModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E34810352243799B00D6C941 /* FUAvatarModel.m */; };
@@ -630,6 +631,7 @@
 		E322649A225F6CB7003A6182 /* jet_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jet_mask.png; sourceTree = "<group>"; };
 		E322649B225F6CB7003A6182 /* jet_mask.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = jet_mask.bundle; sourceTree = "<group>"; };
 		E32BDA1A2282BE5B00E308A1 /* female_hair_05.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = female_hair_05.bundle; sourceTree = "<group>"; };
+		E3340371229ED72B00D56810 /* face_beautification.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = face_beautification.bundle; sourceTree = "<group>"; };
 		E348102E224369D200D6C941 /* FUColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUColor.h; sourceTree = "<group>"; };
 		E348102F224369D200D6C941 /* FUColor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUColor.m; sourceTree = "<group>"; };
 		E34810312243778000D6C941 /* avatar.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = avatar.json; sourceTree = "<group>"; };
@@ -1135,6 +1137,7 @@
 		0B95D7292089ED6D006A6FBA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E3340371229ED72B00D56810 /* face_beautification.bundle */,
 				E3502E0D2297D26500C7447F /* tongue.bundle */,
 				0B95D72D2089ED6D006A6FBA /* fxaa.bundle */,
 				0B95D72E2089ED6D006A6FBA /* v3.bundle */,
@@ -2239,6 +2242,7 @@
 				E37916522264A78F0011215B /* manhuanv_point.json in Resources */,
 				0BE1010D2150F9ED00098F1B /* yuguan.bundle in Resources */,
 				E37B0B4E218147BA00066133 /* ctrl_rain.bundle in Resources */,
+				E3340372229ED76F00D56810 /* face_beautification.bundle in Resources */,
 				E3B0CBFD2232433E00900760 /* mu_lip_12.json in Resources */,
 				E3226453225F083F003A6182 /* xiandai_ztt_fu_mp.png in Resources */,
 				E3791665226561FB0011215B /* manhuanv_target.json in Resources */,
