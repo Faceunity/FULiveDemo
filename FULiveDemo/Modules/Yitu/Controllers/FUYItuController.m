@@ -23,6 +23,9 @@
 
 @property (strong,nonatomic) UIImage *photoImage;
 @property (nonatomic,assign) int currentIndex;
+
+@property (strong,nonatomic) UIButton *delBtn;
+@property (strong,nonatomic) UIButton *reEditBt;
 @end
 
 @implementation FUYItuController
@@ -32,11 +35,14 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor blackColor];
     [self setupView];
+    
+    for (UIGestureRecognizer *gr in self.renderView.gestureRecognizers) {
+        [self.renderView removeGestureRecognizer:gr];
+    }
+    
 }
 
 -(void)setupView{
-     self.headButtonView.selectedImageBtn.hidden = NO;
-    
     _yituItemsView = [[FUYituItemsView alloc] init];
     _yituItemsView.delegate = self;
     [_yituItemsView updateCollectionAndSel:0];
@@ -53,21 +59,22 @@
     }];
     
     /* 删除按钮 */
-    UIButton *delBtn = [[UIButton alloc] init];
-    delBtn.frame = CGRectMake(17,534,84,32);
-    delBtn.layer.backgroundColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0].CGColor;
-    delBtn.layer.cornerRadius = 16;
-    delBtn.layer.shadowColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.3].CGColor;
-    delBtn.layer.shadowOffset = CGSizeMake(0,0);
-    delBtn.layer.shadowOpacity = 1;
-    delBtn.layer.shadowRadius = 2;
-    [delBtn setTitle:@"删除道具" forState:UIControlStateNormal];
-    [delBtn addTarget:self action:@selector(delYituModel) forControlEvents:UIControlEventTouchUpInside];
-    [delBtn setTitleColor:[UIColor colorWithRed:44/255.0 green:46/255.0 blue:48/255.0 alpha:1.0] forState:UIControlStateNormal];
+    self.delBtn = [[UIButton alloc] init];
+    self.delBtn.frame = CGRectMake(17,534,84,32);
+    self.delBtn.layer.backgroundColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0].CGColor;
+    self.delBtn.layer.cornerRadius = 16;
+    self.delBtn.layer.shadowColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.3].CGColor;
+    self.delBtn.layer.shadowOffset = CGSizeMake(0,0);
+    self.delBtn.layer.shadowOpacity = 1;
+    self.delBtn.layer.shadowRadius = 2;
+    [self.delBtn setTitle:NSLocalizedString(@"删除道具", nil)  forState:UIControlStateNormal];
+    [self.delBtn addTarget:self action:@selector(delYituModel) forControlEvents:UIControlEventTouchUpInside];
+    [self.delBtn setTitleColor:[UIColor colorWithRed:44/255.0 green:46/255.0 blue:48/255.0 alpha:1.0] forState:UIControlStateNormal];
 //    [delBtn setTitleColor:[UIColor colorWithRed:31/255.0 green:178/255.0 blue:255/255.0 alpha:1.0] forState:UIControlStateHighlighted];
-    delBtn.titleLabel.font = [UIFont systemFontOfSize:11];
-    [self.view addSubview:delBtn];
-    [delBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.delBtn.titleLabel.font = [UIFont systemFontOfSize:11];
+    self.delBtn.hidden = YES;
+    [self.view addSubview:self.delBtn];
+    [self.delBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(_yituItemsView.mas_top).offset(-26);
         make.left.equalTo(self.view).offset(17);
         make.width.mas_equalTo(80);
@@ -75,16 +82,17 @@
     }];
     
     /* 重新编辑 */
-    UIButton *reEditBt = [[UIButton alloc] init];
-    reEditBt.layer.backgroundColor = [UIColor colorWithRed:31/255.0 green:178/255.0 blue:255/255.0 alpha:1.0].CGColor;
-    reEditBt.layer.cornerRadius = 16;
-    [reEditBt setTitle:@"重新编辑" forState:UIControlStateNormal];
-    [reEditBt addTarget:self action:@selector(reEditBtClick) forControlEvents:UIControlEventTouchUpInside];
-    [reEditBt setTitleColor:[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0] forState:UIControlStateNormal];
+    self.reEditBt = [[UIButton alloc] init];
+    self.reEditBt.layer.backgroundColor = [UIColor colorWithRed:31/255.0 green:178/255.0 blue:255/255.0 alpha:1.0].CGColor;
+    self.reEditBt.layer.cornerRadius = 16;
+    [self.reEditBt setTitle:NSLocalizedString(@"重新编辑", nil) forState:UIControlStateNormal];
+    [self.reEditBt addTarget:self action:@selector(reEditBtClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.reEditBt setTitleColor:[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0] forState:UIControlStateNormal];
     //    [delBtn setTitleColor:[UIColor colorWithRed:31/255.0 green:178/255.0 blue:255/255.0 alpha:1.0] forState:UIControlStateHighlighted];
-    reEditBt.titleLabel.font = [UIFont systemFontOfSize:11];
-    [self.view addSubview:reEditBt];
-    [reEditBt mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.reEditBt.titleLabel.font = [UIFont systemFontOfSize:11];
+    self.reEditBt.hidden = YES;
+    [self.view addSubview:self.reEditBt];
+    [self.reEditBt mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(_yituItemsView.mas_top).offset(-26);
         make.right.equalTo(self.view).offset(-17);
         make.width.mas_equalTo(80);
@@ -92,6 +100,16 @@
     }];
     
     self.photoBtn.transform = CGAffineTransformMakeTranslation(0,-36);
+    
+    /* iphone x 刘海齐黑 */
+    [self.renderView mas_makeConstraints:^(MASConstraintMaker *make) {
+        if (@available(iOS 11.0, *)) {
+            make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop);
+        } else {
+            make.top.equalTo(self.view.mas_top);
+        }
+        make.left.right.height.equalTo(self.view);
+    }];
 
 }
 
@@ -100,6 +118,9 @@
     __weak typeof(self)weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
        if (index < [FUYItuSaveManager shareManager].dataDataArray.count) {
+           self.delBtn.hidden = index < defaultYiTuNum? YES:NO;
+           self.reEditBt.hidden = index < defaultYiTuNum? YES:NO;
+           
             FUYituModel *model = [FUYItuSaveManager shareManager].dataDataArray[index];
             UIImage *image = [FUYItuSaveManager loadImageWithVideoMid:model.imagePathMid];
             [[FUManager shareManager] setEspeciallyItemParamImage:image group_points:model.group_points group_type:model.group_type];
@@ -168,9 +189,10 @@
     FUYituModel *model = [FUYItuSaveManager shareManager].dataDataArray[self.currentIndex];
     [vc addAllFaceItems:model.itemModels];
     vc.editType = FUFaceEditModleTypeReEdit;
+    __weak typeof(self)weakSelf = self;
     vc.saveSuccessBlock = ^(FUYituModel * model) {
-        [[FUYItuSaveManager shareManager].dataDataArray replaceObjectAtIndex:self.currentIndex withObject:model];
-        [_yituItemsView updateCollectionAndSel:(int)[FUYItuSaveManager shareManager].dataDataArray.count -1];
+        [[FUYItuSaveManager shareManager].dataDataArray replaceObjectAtIndex:weakSelf.currentIndex withObject:model];
+        [_yituItemsView updateCollectionAndSel:weakSelf.currentIndex];
     };
 }
 
@@ -242,7 +264,7 @@
     [SVProgressHUD setDefaultAnimationType:SVProgressHUDAnimationTypeNative];
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeCustom]; //设置HUD背景图层的样式
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setBackgroundColor:[UIColor blackColor]];
+    [SVProgressHUD setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.74]];
     [SVProgressHUD setBackgroundLayerColor:[UIColor clearColor]];
     [SVProgressHUD setCornerRadius:5];
     [SVProgressHUD dismissWithDelay:2];

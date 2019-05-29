@@ -151,7 +151,7 @@
             break;
         }
     }
-    if (!isOK) {
+    if (!isOK && self.editType == FUFaceEditModleTypeNew) {
         [self.navigationController popViewControllerAnimated:YES];
         return;
     }
@@ -385,15 +385,23 @@
     }
     _curAdjustView.editing = NO;
     
+    FUYituItemModel *modleNew = [[FUYituItemModel alloc] init];
+    modleNew.title = [model.title copy];
+    modleNew.imageName = [model.imageName copy];
+    modleNew.type =  model.type;
+    modleNew.faceType = model.faceType;
+    modleNew.Transform = model.Transform;
+    modleNew.itemCenter = model.itemCenter;
+    modleNew.points = model.points;
+    
     float x = arc4random() % 200 + ([UIScreen mainScreen].bounds.size.width - 300)/2;
     float y = arc4random() % 200 + ([UIScreen mainScreen].bounds.size.height - 300)/2;
     FUAdjustImageView *view = [[FUAdjustImageView alloc] initWithFrame:CGRectMake(x, y, 100, 100)];
     view.delegate = self;
-    view.model = model;
+    view.model = modleNew;
     _curAdjustView = view;
     [self.view addSubview:view];
     self.miniAdjustBtn.hidden = NO;
-
 }
 
 -(void)addAllFaceItems:(NSArray <FUYituItemModel *> *)itemModels{

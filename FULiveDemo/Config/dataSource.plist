@@ -323,6 +323,22 @@
 	</dict>
 	<dict>
 		<key>itemName</key>
+		<string>Avatar 捏脸</string>
+		<key>maxFace</key>
+		<integer>1</integer>
+		<key>enble</key>
+		<false/>
+		<key>itemType</key>
+		<integer>0</integer>
+		<key>modules</key>
+		<array>
+			<integer>16</integer>
+		</array>
+		<key>items</key>
+		<array/>
+	</dict>
+	<dict>
+		<key>itemName</key>
 		<string>表情动图</string>
 		<key>maxFace</key>
 		<integer>4</integer>
@@ -342,22 +358,6 @@
 		<string>一键变表情</string>
 		<key>maxFace</key>
 		<integer>4</integer>
-		<key>enble</key>
-		<false/>
-		<key>itemType</key>
-		<integer>0</integer>
-		<key>modules</key>
-		<array>
-			<integer>16777216</integer>
-		</array>
-		<key>items</key>
-		<array/>
-	</dict>
-	<dict>
-		<key>itemName</key>
-		<string>Avatar 捏脸</string>
-		<key>maxFace</key>
-		<integer>1</integer>
 		<key>enble</key>
 		<false/>
 		<key>itemType</key>

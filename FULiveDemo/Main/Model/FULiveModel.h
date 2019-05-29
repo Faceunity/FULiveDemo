@@ -24,9 +24,9 @@ typedef NS_ENUM(NSUInteger, FULiveModelType) {
     FULiveModelTypeHahaMirror,
 //    FULiveModelTypePortraitLighting,
     FULiveModelTypePortraitDrive,
+    FULiveModelTypeNieLian,
     FULiveModelTypeYiTu,
     FULiveModelTypeGan,
-    FULiveModelTypeNieLian,
 };
 
 @interface FULiveModel : NSObject

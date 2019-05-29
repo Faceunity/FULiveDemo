@@ -5,6 +5,24 @@
 ------
 ## 最新更新内容：
 
+2019-05-27 SDK v6.1.0更新：
+
+\- 新增fuSetupLocal函数，支持离线鉴权。  
+
+\- 新增fuDestroyLibData函数，支持tracker内存释放。 
+
+\- 美型优化新增v脸、小脸、窄脸三款瘦脸形式。  
+
+\- 优化“表情动图”功能，玩转图片表情包。  
+
+\- 人脸跟踪模块优化边缘人脸抖动问题。  
+
+\- 修复并支持i420格式。  
+
+\- 修复asan问题。 
+
+------
+
 2019-04-28 SDK v6.0.0更新：
 
 - 优化人脸检测，提高检测率，提高性能。
@@ -101,7 +119,7 @@ pod repo update 或 pod setup
 
 ![](imgs/picture1.png)
 
-然后在Build Phases → Link Binary With Libraries 中添加依赖库，这里需要添加 OpenGLES.framework、Accelerate.framework、CoreMedia.framework、AVFoundation.framework、libc++.tbd 这几个依赖库，如图：
+然后在Build Phases → Link Binary With Libraries 中添加依赖库，这里需要添加 OpenGLES.framework、Accelerate.framework、CoreMedia.framework、AVFoundation.framework、stdc++.tbd 这几个依赖库，如果你使用的是lite版可以不添加 stdc++.tbd 依赖，如图：
 
 ------
 
@@ -449,17 +467,26 @@ red_level 取值范围 0.0-1.0,0.0为无效果，1.0为最大效果，默认值0
 
 __face_shape参数详解__
 
-1.`face_shape` 为0  1  2  3时对应0：女神 1：网红 2：自然 3：默认 
+1. `face_shape` 为0 1 2 3时对应0：女神 1：网红 2：自然 3：默认 
 
    可以使用参数
      `eye_enlarging`:  默认0.5,  //大眼程度范围0.0-1.0
      `cheek_thinning`:  默认0.0,   //v脸程度范围0.0-1.0
 
-2.`face_shape`:  为4时，为精细变形，添加了鼻子额头嘴巴下巴的调整
-      可以使用参数
-      
-     `eye_enlarging`:  默认0.5,           //大眼程度范围0.0-1.0
-     `cheek_thinning`: 默认0.0,           //v脸程度范围0.0-1.0
+2. `face_shape`:  为4时，为精细变形，添加了鼻子额头嘴巴下巴的调整
+   可以使用参数
+
+    `eye_enlarging`:  默认0.5,           //大眼程度范围0.0-1.0
+    `cheek_thinning`:	默认0.0,  		//瘦脸程度范围0.0-1.0
+
+    `cheek_v`:	默认0.0,  		//v脸程度范围0.0-1.0
+
+    `cheek_narrow`:   默认0.0,          //窄脸程度范围0.0-1.0
+
+    `cheek_small`:   默认0.0,          //小脸程度范围0.0-1.0
+
+    `cheek_oval`:    默认0.0,          //鹅蛋脸程度范围0.0-1.0
+
      `intensity_nose`:  默认0.0,           //瘦鼻程度范围0.0-1.0
      `intensity_forehead`:  默认0.5,   //额头调整程度范围0.0-1.0
      `intensity_mouth`: 默认0.5,         //嘴巴调整程度范围0.0-1.0

@@ -40,6 +40,8 @@ typedef enum : NSUInteger {
 
 @property (strong, nonatomic) UIImageView *centerImageView;
 @property (strong, nonatomic) UIImageView *gestureImageView;
+
+@property (assign, nonatomic) float zoomScale;
 // 调整记录
 //@property (nonatomic, strong) NSMutableArray *adjustedArray ;
 //@property (nonatomic, assign) NSInteger adjustedIndex ;
@@ -57,6 +59,8 @@ typedef enum : NSUInteger {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.zoomScale = 1;
+    
     [self addObserver];
     self.automaticallyAdjustsScrollViewInsets = NO;
 
@@ -82,7 +86,7 @@ typedef enum : NSUInteger {
     self.renderView.userInteractionEnabled = YES;
     self.scrollView.contentSize = CGSizeMake(500, 500);
     self.scrollView.maximumZoomScale=2.0;
-    self.scrollView.minimumZoomScale=0.5;
+    self.scrollView.minimumZoomScale=1.0;
     [self.scrollView addSubview:self.renderView];
     
     self.preView = [[FUOpenGLView alloc] init];
@@ -97,7 +101,7 @@ typedef enum : NSUInteger {
     self.backBtn.layer.shadowRadius = 2;
     self.backBtn.layer.cornerRadius = 15;
     [self.backBtn setImage:[UIImage imageNamed:@"icon_yitu_adjusting_back"] forState:UIControlStateNormal];
-    [self.backBtn setTitle:NSLocalizedString(@"返回上步",nil) forState:UIControlStateNormal];
+    [self.backBtn setTitle:NSLocalizedString(@"保存点位",nil) forState:UIControlStateNormal];
     [self.backBtn setTitleColor:[UIColor colorWithWhite:0.05 alpha:1] forState:UIControlStateNormal];
     self.backBtn.titleLabel.font = [UIFont systemFontOfSize:12];
     [self.backBtn addTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -245,7 +249,11 @@ typedef enum : NSUInteger {
                 landmarks2[i] = [self.pointsArray[i] floatValue] ;
             }
             
-            [self.renderView displayImageData:imageData Size:size Landmarks:landmarks count:count];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.zoomScale = self.scrollView.zoomScale;
+            });
+            
+            [self.renderView displayImageData:imageData Size:size Landmarks:landmarks count:count zoomScale:self.zoomScale];
             
             [self.preView displayImageData:imageData withSize:size Center:_preCenter Landmarks:landmarks2 count:count];
         
@@ -310,7 +318,6 @@ typedef enum : NSUInteger {
 
 // Zoom
 -(UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
-    NSLog(@"11111111111111");
     return self.renderView ;
 }
 

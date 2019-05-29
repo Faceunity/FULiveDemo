@@ -65,8 +65,8 @@
 {
     self.userInteractionEnabled = YES;
     self.zoomSpeed = 1.0;
-    self.minZoom = .2;
-    self.maxZoom = 5;
+    self.minZoom = .4;
+    self.maxZoom = 4;
     
     self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
     self.panGesture.delegate = self;
@@ -90,7 +90,7 @@
     self.pointsLayer = [NSMutableArray array];
     
     CGRect frame = self.frame;
-    CGRect sqFrame = CGRectMake(btnWH/2, btnWH/2, frame.size.width - btnWH, frame.size.height - btnWH);
+    CGRect sqFrame = CGRectMake(5, 5, frame.size.width - 10, frame.size.height - 10);
     self.imageview = [[UIImageView alloc] init];
     self.imageview.image = [UIImage imageNamed:@"icon_yitu_leye"];
     self.imageview.frame = sqFrame;//CGRectMake(sqFrame.origin.x + space, sqFrame.origin.y + space, sqFrame.size.width - 2 * space, sqFrame.size.height - 2 * space);
@@ -589,6 +589,31 @@
     _rotateBtn.hidden = !editing;
     lineLayer.hidden =  !editing;
 }
+
+
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    
+    if (!self.isUserInteractionEnabled || self.isHidden || self.alpha <= 0.01) {
+        return nil;
+    }
+    /**
+     *  此注释掉的方法用来判断点击是否在父View Bounds内，
+     *  如果不在父view内，就会直接不会去其子View中寻找HitTestView，return 返回
+     */
+    //    if ([self pointInside:point withEvent:event]) {
+    for (UIView *subview in [self.subviews reverseObjectEnumerator]) {
+        CGPoint convertedPoint = [subview convertPoint:point fromView:self];
+        UIView *hitTestView = [subview hitTest:convertedPoint withEvent:event];
+        if (hitTestView) {
+            return hitTestView;
+        }
+    }
+    return [super hitTest:point withEvent:event];
+    //    }
+    return nil;
+}
+
+
 
 -(void)dealloc{
     NSLog(@"FUAdjustImageView<dealloc>");

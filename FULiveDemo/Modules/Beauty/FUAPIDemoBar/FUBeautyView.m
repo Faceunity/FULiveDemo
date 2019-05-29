@@ -38,7 +38,7 @@
             self.dataArray = @[@"精准美肤", @"清晰磨皮", @"美白",@"红润", @"亮眼",@"美牙"];
             break;
         case FUBeautyViewTypeShape:
-            self.dataArray = @[@"脸型", @"大眼", @"瘦脸", @"下巴",@"额头", @"瘦鼻",@"嘴型"];
+            self.dataArray = @[@"瘦脸",@"v脸",@"窄脸",@"小脸", @"大眼", @"下巴",@"额头", @"瘦鼻",@"嘴型"];
     }
     
     [self reloadData];
@@ -49,35 +49,13 @@
     if (self.type == FUBeautyViewTypeShape) {
         
         if (faceShape == 4) {
-            self.dataArray = @[@"脸型", @"大眼", @"瘦脸", @"下巴",@"额头", @"瘦鼻",@"嘴型"];
+            self.dataArray = @[@"瘦脸",@"v脸",@"窄脸",@"小脸", @"大眼", @"下巴",@"额头", @"瘦鼻",@"嘴型"];
         }else {
-            self.dataArray = @[@"脸型", @"大眼", @"瘦脸"];
+            self.dataArray = @[@"大眼", @"瘦脸"];
         }
         [self reloadData];
     }
 }
-
-
--(void)setPerformance:(BOOL)performance {
-    _performance = performance ;
-    
-    switch (_type) {
-        case FUBeautyViewTypeSkin:{
-            
-            self.dataArray = performance ? @[@"磨皮", @"美白",@"红润"] : @[@"精准美肤", @"清晰磨皮", @"美白",@"红润", @"亮眼",@"美牙"];
-            self.selectedIndex = -1 ;
-        }
-            break ;
-        case FUBeautyViewTypeShape:{
-            
-            self.dataArray = performance ? @[@"脸型", @"大眼", @"瘦脸"] :  @[@"脸型", @"大眼", @"瘦脸", @"下巴",@"额头", @"瘦鼻",@"嘴型"];
-            self.selectedIndex = -1 ;
-        }
-            break ;
-    }
-    [self reloadData];
-}
-
 
 
 -(void)setSkinDetect:(BOOL)skinDetect {
@@ -113,90 +91,46 @@
                 
                 if (indexPath.row == 0) {
                     
-                    if (self.performance) { // 磨皮
-                        title = @"磨皮" ;
-                        
-                        BOOL selected = _selectedIndex == 0 ;
-                        
-                        NSString *cellName = @"blurLevel_1";
-                        
-                        BOOL opened = [[_openedDict objectForKey:cellName] boolValue];
-                        
-                        if (selected) {
-                            imageName = opened ? [@"磨皮" stringByAppendingString:@"-3.png"] : [@"磨皮" stringByAppendingString:@"-2.png"] ;
-                        }else {
-                            imageName = opened ? [@"磨皮" stringByAppendingString:@"-1.png"] : [@"磨皮" stringByAppendingString:@"-0.png"] ;
-                        }
-                        
-                        cell.imageView.image = [UIImage imageWithName:imageName];
-                        cell.titleLabel.text = [title LocalizableString] ;
-                        cell.titleLabel.textColor = _selectedIndex == indexPath.row ? [UIColor colorWithHexColorString:@"5EC7FE"] : [UIColor whiteColor];
-                        
-                    }else {        //  精准美肤
-                        
-                        BOOL selected = _selectedIndex == 0 ;
-                        
-                        if (selected) {
-                            imageName = self.skinDetect ? [title stringByAppendingString:@"-3.png"] : [title stringByAppendingString:@"-2.png"] ;
-                        }else {
-                            imageName = self.skinDetect ? [title stringByAppendingString:@"-1.png"] : [title stringByAppendingString:@"-0.png"] ;
-                        }
-                        
-                        cell.imageView.image = [UIImage imageWithName:imageName];
-                        cell.titleLabel.text = [title LocalizableString] ;
-                        cell.titleLabel.textColor = _selectedIndex == indexPath.row ? [UIColor colorWithHexColorString:@"5EC7FE"] : [UIColor whiteColor];
-                        
+                    BOOL selected = _selectedIndex == 0 ;
+                    
+                    if (selected) {
+                        imageName = self.skinDetect ? [title stringByAppendingString:@"-3.png"] : [title stringByAppendingString:@"-2.png"] ;
+                    }else {
+                        imageName = self.skinDetect ? [title stringByAppendingString:@"-1.png"] : [title stringByAppendingString:@"-0.png"] ;
                     }
+                    
+                    cell.imageView.image = [UIImage imageWithName:imageName];
+                    cell.titleLabel.text = [title LocalizableString] ;
+                    cell.titleLabel.textColor = _selectedIndex == indexPath.row ? [UIColor colorWithHexColorString:@"5EC7FE"] : [UIColor whiteColor];
                     return cell ;
                 }
                 
                 if (indexPath.row == 1) {
                     
-                    if (self.performance) { // 美白
-                        
-                        BOOL selected = _selectedIndex == 1 ;
-                        
-                        NSString *cellName = @"colorLevel";
-                        BOOL opened = [[_openedDict objectForKey:cellName] boolValue];
-                        
-                        if (selected) {
-                            imageName = opened ? [title stringByAppendingString:@"-3.png"] : [title stringByAppendingString:@"-2.png"] ;
-                        }else {
-                            imageName = opened ? [title stringByAppendingString:@"-1.png"] : [title stringByAppendingString:@"-0.png"] ;
-                        }
-                        
-                        cell.imageView.image = [UIImage imageWithName:imageName];
-                        cell.titleLabel.text = [title LocalizableString] ;
-                        cell.titleLabel.textColor = _selectedIndex == indexPath.row ? [UIColor colorWithHexColorString:@"5EC7FE"] : [UIColor whiteColor];
-                        
-                        
-                    }else {     // 磨皮
-                        
-                        title = self.heavyBlur == 0 ? @"清晰磨皮" : @"朦胧磨皮" ;
-                        
-                        BOOL selected = _selectedIndex == 1 ;
-                        
-                        NSString *cellName = self.heavyBlur == 0 ? @"blurLevel_0" : @"blurLevel_1" ;
-                        
-                        BOOL opened = [[_openedDict objectForKey:cellName] boolValue];
-                        
-                        if (selected) {
-                            imageName = opened ? [@"磨皮" stringByAppendingString:@"-3.png"] : [@"磨皮" stringByAppendingString:@"-2.png"] ;
-                        }else {
-                            imageName = opened ? [@"磨皮" stringByAppendingString:@"-1.png"] : [@"磨皮" stringByAppendingString:@"-0.png"] ;
-                        }
-                        
-                        cell.imageView.image = [UIImage imageWithName:imageName];
-                        cell.titleLabel.text = [title LocalizableString] ;
-                        cell.titleLabel.textColor = _selectedIndex == indexPath.row ? [UIColor colorWithHexColorString:@"5EC7FE"] : [UIColor whiteColor];
+                    title = self.heavyBlur == 0 ? @"清晰磨皮" : @"朦胧磨皮" ;
+                    
+                    BOOL selected = _selectedIndex == 1 ;
+                    
+                    NSString *cellName = self.heavyBlur == 0 ? @"blurLevel_0" : @"blurLevel_1" ;
+                    
+                    BOOL opened = [[_openedDict objectForKey:cellName] boolValue];
+                    
+                    if (selected) {
+                        imageName = opened ? [@"磨皮" stringByAppendingString:@"-3.png"] : [@"磨皮" stringByAppendingString:@"-2.png"] ;
+                    }else {
+                        imageName = opened ? [@"磨皮" stringByAppendingString:@"-1.png"] : [@"磨皮" stringByAppendingString:@"-0.png"] ;
                     }
+                    
+                    cell.imageView.image = [UIImage imageWithName:imageName];
+                    cell.titleLabel.text = [title LocalizableString] ;
+                    cell.titleLabel.textColor = _selectedIndex == indexPath.row ? [UIColor colorWithHexColorString:@"5EC7FE"] : [UIColor whiteColor];
                     return cell ;
                 }
                 
                 NSString *cellName ;
                 switch (indexPath.row) {
                     case 2:
-                        cellName = self.performance ? @"redLevel" : @"colorLevel" ;
+                        cellName = @"colorLevel" ;
                         break;
                     case 3:
                         cellName = @"redLevel" ;
@@ -231,31 +165,38 @@
                 NSString *title = self.dataArray[indexPath.row] ;
                 NSString *imageName ;
                 
-                if (indexPath.row == 0) {   // 脸型
-                     imageName = _selectedIndex == 0 ? [title stringByAppendingString:@"-1.png"] : [title stringByAppendingString:@"-0.png"];
-                }else {
-                    
+//                if (indexPath.row == 0) {   // 脸型
+//                     imageName = _selectedIndex == 0 ? [title stringByAppendingString:@"-1.png"] : [title stringByAppendingString:@"-0.png"];
+//                }else {
+
                     NSString *cellName ;
                     switch (indexPath.row) {
+                            
                         case 0:
-                            cellName = @"faceShape" ;
+                            cellName =  @"thinningLevel" ;
                             break;
                         case 1:
-                            cellName = self.faceShape == 4 ? @"enlargingLevel_new" : @"enlargingLevel" ;
+                            cellName =  @"vLevel" ;
                             break;
                         case 2:
-                            cellName = self.faceShape == 4 ? @"thinningLevel_new" : @"thinningLevel" ;
+                            cellName = @"narrowLevel";
                             break;
                         case 3:
-                            cellName = @"chinLevel" ;
+                            cellName = @"smallLevel" ;
                             break;
                         case 4:
-                            cellName = @"foreheadLevel" ;
+                            cellName = @"enlargingLevel" ;
                             break;
                         case 5:
-                            cellName = @"noseLevel" ;
+                            cellName = @"chinLevel" ;
                             break;
                         case 6:
+                            cellName = @"foreheadLevel" ;
+                            break;
+                        case 7:
+                            cellName = @"noseLevel" ;
+                            break;
+                        case 8:
                             cellName = @"mouthLevel" ;
                             break;
                             
@@ -271,7 +212,7 @@
                     }else {
                         imageName = opened ? [title stringByAppendingString:@"-1.png"] : [title stringByAppendingString:@"-0.png"] ;
                     }
-                }
+//                }
                 
                 cell.imageView.image = [UIImage imageWithName:imageName];
                 cell.titleLabel.text = [title LocalizableString] ;
@@ -298,43 +239,20 @@
                 _selectedIndex = indexPath.row ;
                 [self reloadData];
                 
-                if (self.performance) {     // 清晰磨皮
-                    
-                    if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(skinViewDidSelectedIndex:)]) {
-                        [self.mDelegate skinViewDidSelectedIndex:1];
-                    }
-                    return ;
-                    
-                }else {         // 精准美肤
-                    
-                    self.skinDetect = !self.skinDetect ;
-                    if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(skinDetectChanged:)]) {
-                        [self.mDelegate skinDetectChanged:self.skinDetect];
-                    }
-                    return ;
+                self.skinDetect = !self.skinDetect ;
+                if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(skinDetectChanged:)]) {
+                    [self.mDelegate skinDetectChanged:self.skinDetect];
                 }
+                return ;
             }
             
             if (indexPath.row == 1) {
                 
-                if (self.performance) {     // 美白
-                    
-                    _selectedIndex = indexPath.row ;
-                    [self reloadData];
-                    
-                    if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(skinViewDidSelectedIndex:)]) {
-                        [self.mDelegate skinViewDidSelectedIndex:2];
-                    }
-                    return ;
-                    
-                }else {                     // 磨皮
-                    
-                    if (_selectedIndex == 1) {
-                        self.heavyBlur ++ ;
-                        self.heavyBlur = self.heavyBlur % 2 ;
-                        if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(heavyBlurChange:)]) {
-                            [self.mDelegate heavyBlurChange:self.heavyBlur];
-                        }
+                if (_selectedIndex == 1) {
+                    self.heavyBlur ++ ;
+                    self.heavyBlur = self.heavyBlur % 2 ;
+                    if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(heavyBlurChange:)]) {
+                        [self.mDelegate heavyBlurChange:self.heavyBlur];
                     }
                 }
             }
@@ -343,7 +261,7 @@
             [self reloadData];
             
             if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(skinViewDidSelectedIndex:)]) {
-                [self.mDelegate skinViewDidSelectedIndex:self.performance ? _selectedIndex + 1 : _selectedIndex];
+                [self.mDelegate skinViewDidSelectedIndex:_selectedIndex];
             }
         }
             break;
@@ -369,26 +287,30 @@
     
     switch (self.type) {
         case FUBeautyViewTypeSkin:{
-            if (self.performance) {
-                
-                CGFloat left = (self.frame.size.width - 44 * 3 - 32) / 2.0 ;
-                return UIEdgeInsetsMake(16, left, 6, 16) ;
-            }
+//            if (self.performance) {
+//
+//                CGFloat left = (self.frame.size.width - 44 * 3 - 32) / 2.0 ;
+//                return UIEdgeInsetsMake(16, left, 6, 16) ;
+//            }
             return UIEdgeInsetsMake(16, 16, 6, 16) ;
         }
             break;
         case FUBeautyViewTypeShape:{
-            
-            if (self.faceShape == 4) {
-                return UIEdgeInsetsMake(16, 16, 6, 16) ;
-            }
-            
-            CGFloat left = (self.frame.size.width - 44 * 3 - 32) / 2.0 ;
-            return UIEdgeInsetsMake(16, left, 6, 16) ;
+             return UIEdgeInsetsMake(16, 16, 6, 16) ;
+//            if (self.faceShape == 4) {
+//                return UIEdgeInsetsMake(16, 16, 6, 16) ;
+//            }
+//            
+//            CGFloat left = (self.frame.size.width - 44 * 3 - 32) / 2.0 ;
+//            return UIEdgeInsetsMake(16, left, 6, 16) ;
         }
             break ;
     }
 }
+
+
+
+
 
 @end
 
