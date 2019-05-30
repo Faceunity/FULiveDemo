@@ -86,13 +86,13 @@ Xcode 8或更高版本
 全功能版本：
 
 ```
-pod 'Nama', '6.0.0' 
+pod 'Nama', '6.1.0' 
 ```
 
 不含物理引擎的版本（lite版）：
 
 ```
-pod 'Nama-lite', '6.0.0' 
+pod 'Nama-lite', '6.1.0' 
 ```
 
 接下来执行：
@@ -109,9 +109,9 @@ pod repo update 或 pod setup
 
 #### 3.2.1 通过 github 下载集成
 
-全功能版本：[FaceUnity-SDK-iOS-v6.0.0-dev.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v6.0.0-dev.zip)
+全功能版本：[FaceUnity-SDK-iOS-v6.1.0.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v6.1.0.zip)
 
-不含物理引擎的版本（lite版）：[FaceUnity-SDK-iOS-v6.0.0-dev-lite.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v6.0.0-dev-lite.zip)
+不含物理引擎的版本（lite版）：[FaceUnity-SDK-iOS-v6.1.0-lite.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v6.1.0-lite.zip)
 
 下载完成并解压后将库文件夹拖入到工程中，并勾选上 Copy items if needed，如图：
 
