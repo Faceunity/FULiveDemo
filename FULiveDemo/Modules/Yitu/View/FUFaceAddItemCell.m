@@ -9,8 +9,6 @@
 #import "FUFaceAddItemCell.h"
 @interface FUFaceAddItemCell ()
 
-
-
 @end
 
 @implementation FUFaceAddItemCell

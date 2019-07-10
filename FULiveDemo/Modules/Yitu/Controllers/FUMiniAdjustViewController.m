@@ -83,6 +83,7 @@ typedef enum : NSUInteger {
     [self.view addSubview:self.scrollView];
     
     self.renderView = [[FUOpenGLView alloc] init];
+    self.renderView.contentMode = FUOpenGLViewContentModeScaleAspectFit;
     self.renderView.userInteractionEnabled = YES;
     self.scrollView.contentSize = CGSizeMake(500, 500);
     self.scrollView.maximumZoomScale=2.0;

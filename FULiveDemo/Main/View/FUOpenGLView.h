@@ -15,11 +15,26 @@ typedef NS_ENUM(NSInteger, FUOpenGLViewOrientation) {
     FUOpenGLViewOrientationLandscapeLeft         = 3,
 };
 
+typedef NS_ENUM(NSInteger, FUOpenGLViewContentMode) {
+    /* 等比例短边充满 */
+    FUOpenGLViewContentModeScaleAspectFill       = 0,
+    /* 拉伸铺满 */
+    FUOpenGLViewContentModeScaleToFill           = 1,
+     /* 等比例长边充满 */
+    FUOpenGLViewContentModeScaleAspectFit        = 2,
+
+};
+
+
 @interface FUOpenGLView : UIView
 
+/* 视频填充模式 */
+@property (nonatomic, assign) FUOpenGLViewOrientation contentMode;
 // 设置视频朝向，保证视频总是竖屏播放
-@property (nonatomic, assign) FUOpenGLViewOrientation origintation ;
+@property (nonatomic, assign) FUOpenGLViewContentMode origintation;
 @property (nonatomic, assign) NSInteger disapplePointIndex ;
+
+
 
 - (void)displayPixelBuffer:(CVPixelBufferRef)pixelBuffer;
 

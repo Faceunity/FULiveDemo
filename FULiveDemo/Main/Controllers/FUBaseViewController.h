@@ -16,9 +16,14 @@
 #import "FULiveModel.h"
 #import "FUManager.h"
 #import "FUOpenGLView.h"
+
+#define KScreenWidth ([UIScreen mainScreen].bounds.size.width)
+#define KScreenHeight ([UIScreen mainScreen].bounds.size.height)
+#define  iPhoneXStyle ((KScreenWidth == 375.f && KScreenHeight == 812.f ? YES : NO) || (KScreenWidth == 414.f && KScreenHeight == 896.f ? YES : NO))
+
 NS_ASSUME_NONNULL_BEGIN
 
-@interface FUBaseViewController : UIViewController
+@interface FUBaseViewController : UIViewController<FUHeadButtonViewDelegate>
 @property (nonatomic, strong) FULiveModel *model;
 
 @property (strong, nonatomic,readonly) FUCamera *mCamera;

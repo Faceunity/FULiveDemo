@@ -25,4 +25,6 @@ NS_ASSUME_NONNULL_BEGIN
 //+(FUMakeupSupModel *)getClassName:(NSString *)name image:(NSString *)imageStr isSel:(BOOL)sel value:(float)value;
 @end
 
+
+
 NS_ASSUME_NONNULL_END

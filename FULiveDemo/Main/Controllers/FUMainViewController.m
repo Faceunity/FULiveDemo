@@ -22,6 +22,7 @@
 #import "FUMusicFilterController.h"
 #import "FUGanController.h"
 #import "FUFacepupController.h"
+#import "FUBGSegmentationController.h"
 
 @interface FUMainViewController ()
 
@@ -154,6 +155,13 @@
             FUFacepupController *vc = [[FUFacepupController alloc] init];
             vc.model = model;
             vc.view.backgroundColor = [UIColor grayColor];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
+            
+        case FULiveModelTypeBGSegmentation:{
+            FUBGSegmentationController *vc = [[FUBGSegmentationController alloc] init];
+            vc.model = model;
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;

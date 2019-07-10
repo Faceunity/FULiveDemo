@@ -136,7 +136,6 @@ enum
     GLint displayInputTextureUniform;
     
     GLfloat vertices[8];
-    GLfloat imageVertices[8];
     
     int frameWidth;
     int frameHeight;
@@ -184,6 +183,7 @@ enum
             }
         }
         self.origintation = FUOpenGLViewOrientationPortrait ;
+        self.contentMode = FUOpenGLViewContentModeScaleAspectFill;
     }
         
     return self;
@@ -218,6 +218,7 @@ enum
             }
         }
         self.origintation = FUOpenGLViewOrientationPortrait ;
+        self.contentMode = FUOpenGLViewContentModeScaleAspectFill;
     }
     return self;
 }
@@ -434,10 +435,10 @@ enum
     glBindTexture(GL_TEXTURE_2D, texture);
     glUniform1i(displayInputTextureUniform, 1);
     
-    [self updateVerticesRenderImage];
+    [self updateVertices];
     
     // 更新顶点数据
-    glVertexAttribPointer(furgbaPositionAttribute, 2, GL_FLOAT, 0, 0, imageVertices);
+    glVertexAttribPointer(furgbaPositionAttribute, 2, GL_FLOAT, 0, 0, vertices);
     glEnableVertexAttribArray(furgbaPositionAttribute);
     
     GLfloat quadTextureData[] =  {
@@ -493,28 +494,10 @@ enum
     glBindTexture(GL_TEXTURE_2D, texture);
     glUniform1i(displayInputTextureUniform, 1);
     
-    float bw = self.frame.size.width * [UIScreen mainScreen].scale ;
-    float bh = self.frame.size.height * [UIScreen mainScreen].scale ;
-    
-    const float width   = frameWidth;
-    const float height  = frameHeight;
-    const float dH      = bh / height;
-    const float dW      = bw / width;
-    const float dd      = MAX(dH, dW);
-    const float h       = height * dd / bh;
-    const float w       = width  * dd / bw;
-    
-    imageVertices[0] = - w;
-    imageVertices[1] = - h;
-    imageVertices[2] =   w;
-    imageVertices[3] = - h;
-    imageVertices[4] = - w;
-    imageVertices[5] =   h;
-    imageVertices[6] =   w;
-    imageVertices[7] =   h;
+    [self updateVertices];
     
     // 更新顶点数据
-    glVertexAttribPointer(furgbaPositionAttribute, 2, GL_FLOAT, 0, 0, imageVertices);
+    glVertexAttribPointer(furgbaPositionAttribute, 2, GL_FLOAT, 0, 0, vertices);
     glEnableVertexAttribArray(furgbaPositionAttribute);
     
     GLfloat quadTextureData[] =  {
@@ -647,10 +630,10 @@ enum
     glBindTexture(GL_TEXTURE_2D, texture);
     glUniform1i(displayInputTextureUniform, 1);
     
-    [self updateVerticesRenderImage];
+    [self updateVertices];
     
     // 更新顶点数据
-    glVertexAttribPointer(furgbaPositionAttribute, 2, GL_FLOAT, 0, 0, imageVertices);
+    glVertexAttribPointer(furgbaPositionAttribute, 2, GL_FLOAT, 0, 0, vertices);
     glEnableVertexAttribArray(furgbaPositionAttribute);
     
     GLfloat quadTextureData[] =  {
@@ -672,25 +655,25 @@ enum
     [self presentFramebuffer];
 }
 
-- (void)updateVerticesRenderImage
-{
-    const float width   = frameWidth;
-    const float height  = frameHeight;
-    const float dH      = (float)backingHeight / height;
-    const float dW      = (float)backingWidth      / width;
-    const float dd      = MIN(dH, dW);
-    const float h       = (height * dd / (float)backingHeight);
-    const float w       = (width  * dd / (float)backingWidth );
-    
-    imageVertices[0] = - w;
-    imageVertices[1] = - h;
-    imageVertices[2] =   w;
-    imageVertices[3] = - h;
-    imageVertices[4] = - w;
-    imageVertices[5] =   h;
-    imageVertices[6] =   w;
-    imageVertices[7] =   h;
-}
+//- (void)updateVerticesRenderImage
+//{
+//    const float width   = frameWidth;
+//    const float height  = frameHeight;
+//    const float dH      = (float)backingHeight / height;
+//    const float dW      = (float)backingWidth      / width;
+//    const float dd      = MIN(dH, dW);
+//    const float h       = (height * dd / (float)backingHeight);
+//    const float w       = (width  * dd / (float)backingWidth );
+//
+//    imageVertices[0] = - w;
+//    imageVertices[1] = - h;
+//    imageVertices[2] =   w;
+//    imageVertices[3] = - h;
+//    imageVertices[4] = - w;
+//    imageVertices[5] =   h;
+//    imageVertices[6] =   w;
+//    imageVertices[7] =   h;
+//}
 
 - (void)prepareToDrawLandmarks:(float *)landmarks count:(int)count MAX:(BOOL)max zoomScale:(float)zoomScale
 {
@@ -798,12 +781,54 @@ enum
     glVertexAttribPointer(furgbaPositionAttribute, 2, GL_FLOAT, 0, 0, vertices);
     glEnableVertexAttribArray(furgbaPositionAttribute);
     
-    GLfloat quadTextureData[] =  {
-        0.0f, 1.0f,
-        1.0f, 1.0f,
-        0.0f,  0.0f,
-        1.0f,  0.0f,
-    };
+    GLfloat *quadTextureData;
+
+    if (_origintation == FUOpenGLViewOrientationPortrait) {
+        float quadTextureData0[] =  {
+                0.0f, 1.0f,
+                1.0f, 1.0f,
+                0.0f,  0.0f,
+                1.0f,  0.0f,
+        };
+        
+         quadTextureData = quadTextureData0;
+    }
+    
+    if (_origintation == FUOpenGLViewOrientationLandscapeRight) {
+        float quadTextureData0[] =  {
+            1.0f, 1.0f,
+            1.0f, 0.0f,
+            0.0f,  1.0f,
+            0.0f,  0.0f,
+        };
+        
+        quadTextureData = quadTextureData0;
+    }
+    
+    if (_origintation == FUOpenGLViewOrientationPortraitUpsideDown) {
+        float quadTextureData0[] =  {
+            1.0f, 0.0f,
+            0.0f, 0.0f,
+            1.0f,  1.0f,
+            0.0f,  1.0f,
+        };
+        
+        quadTextureData = quadTextureData0;
+    }
+    
+    if (_origintation == FUOpenGLViewOrientationLandscapeLeft) {
+        float quadTextureData0[] =  {
+            0.0f, 0.0f,
+            0.0f, 1.0f,
+            1.0f,  0.0f,
+            1.0f,  1.0f,
+        };
+        
+        quadTextureData = quadTextureData0;
+    }
+
+    
+    
     glVertexAttribPointer(furgbaTextureCoordinateAttribute, 2, GL_FLOAT, 0, 0, quadTextureData);
     glEnableVertexAttribArray(furgbaTextureCoordinateAttribute);
     
@@ -928,22 +953,59 @@ enum
 
 - (void)updateVertices
 {
-    const float width   = frameWidth;
-    const float height  = frameHeight;
-    const float dH      = (float)backingHeight / height;
-    const float dW      = (float)backingWidth      / width;
-    const float dd      = MAX(dH, dW) ;
-    const float h       = (height * dd / (float)backingHeight);
-    const float w       = (width  * dd / (float)backingWidth );
+    float height   = frameHeight;
+    float width  = frameWidth;
+    if (_origintation == FUOpenGLViewOrientationLandscapeRight || _origintation == FUOpenGLViewOrientationLandscapeLeft) {
+        height   = frameWidth;
+        width  = frameHeight;
+    }
     
-    vertices[0] = - w;
-    vertices[1] = - h;
-    vertices[2] =   w;
-    vertices[3] = - h;
-    vertices[4] = - w;
-    vertices[5] =   h;
-    vertices[6] =   w;
-    vertices[7] =   h;
+    float dH      = (float)backingHeight / height;
+    float dW      = (float)backingWidth      / width;
+    
+    if(_contentMode == FUOpenGLViewContentModeScaleToFill){
+        vertices[0] = - 1;
+        vertices[1] = - 1;
+        vertices[2] =   1;
+        vertices[3] = - 1;
+        vertices[4] = - 1;
+        vertices[5] =   1;
+        vertices[6] =   1;
+        vertices[7] =   1;
+    }
+    
+    if (_contentMode == FUOpenGLViewContentModeScaleAspectFill) {
+        float dd      = MAX(dH, dW) ;
+        float h       = (height * dd / (float)backingHeight);
+        float w       = (width  * dd / (float)backingWidth );
+        
+        vertices[0] = - w;
+        vertices[1] = - h;
+        vertices[2] =   w;
+        vertices[3] = - h;
+        vertices[4] = - w;
+        vertices[5] =   h;
+        vertices[6] =   w;
+        vertices[7] =   h;
+    }
+    
+    if (_contentMode == FUOpenGLViewContentModeScaleAspectFit) {
+        float dd      = MIN(dH, dW) ;
+        float h       = (height * dd / (float)backingHeight);
+        float w       = (width  * dd / (float)backingWidth );
+        
+        vertices[0] = - w;
+        vertices[1] = - h;
+        vertices[2] =   w;
+        vertices[3] = - h;
+        vertices[4] = - w;
+        vertices[5] =   h;
+        vertices[6] =   w;
+        vertices[7] =   h;
+    }
+    
+
+    
 }
 
 #pragma mark -  OpenGL ES 2 shader compilation

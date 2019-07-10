@@ -13,10 +13,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FUMakeupModel : NSObject
 @property (nonatomic, copy) NSString* name;
-@property (nonatomic, copy) NSString* namaTypeStr;
-@property (nonatomic, copy) NSString* namaValueStr;
+//@property (nonatomic, copy) NSString* namaTypeStr;
+//@property (nonatomic, copy) NSString* namaValueStr;
 @property (nonatomic, copy) NSArray <FUSingleMakeupModel *>* sgArr;
 @property (assign, nonatomic) int singleSelIndex;
+
+@property (nonatomic, copy) NSString* colorStr;
+@property (nonatomic, strong) NSArray* colorStrV;
+
 
 @end
 

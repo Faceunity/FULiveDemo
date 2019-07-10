@@ -231,7 +231,7 @@
         CVPixelBufferUnlockBaseAddress(renderTarget, 0);
         CVPixelBufferUnlockBaseAddress(pixelBuffer, 0) ;
         
-        if (self.delegate && [self.delegate respondsToSelector:@selector(videoReaderDidReadVideoBuffer:)] && !_displayLink.isPaused) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(videoReaderDidReadVideoBuffer:)] && !self.displayLink.paused) {
             dispatch_async(dispatch_get_global_queue(0, 0), ^{
                 [self.delegate videoReaderDidReadVideoBuffer:renderTarget];
             });
@@ -331,7 +331,7 @@ static BOOL isVideoFirst = YES ;
             CVPixelBufferUnlockBaseAddress(renderTarget, 0);
             CVPixelBufferUnlockBaseAddress(pixelBuffer, 0) ;
             
-            if (self.delegate && [self.delegate respondsToSelector:@selector(videoReaderDidReadVideoBuffer:)] && !_displayLink.isPaused) {
+            if (self.delegate && [self.delegate respondsToSelector:@selector(videoReaderDidReadVideoBuffer:)] && !self.displayLink.paused) {
                 CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(nextSampleBuffer) ;
                 [self.delegate videoReaderDidReadVideoBuffer:pixelBuffer];
             }
@@ -353,7 +353,7 @@ static BOOL isVideoFirst = YES ;
 - (void)readVideoFinished {
     
     dispatch_semaphore_signal(self.finishSemaphore) ;
-    
+    [self stopReading];
     self.finishSemaphore = nil ;
     
     if (self.assetWriter.status == AVAssetWriterStatusWriting) {
