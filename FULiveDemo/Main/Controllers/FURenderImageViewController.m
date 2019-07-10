@@ -16,6 +16,7 @@
 #import "FUAPIDemoBar.h"
 #import "FUItemsView.h"
 #import <Masonry.h>
+#import "FUImageHelper.h"
 
 #define finalPath   [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:@"finalVideo.mp4"]
 
@@ -100,6 +101,7 @@
 -(void)setupView{
     /* opengl */
     _glView = [[FUOpenGLView alloc] initWithFrame:self.view.bounds];
+    _glView.contentMode = FUOpenGLViewContentModeScaleAspectFit;
     [self.view addSubview:_glView];
     
     /* 播放按钮 */
@@ -234,7 +236,7 @@
                 self.glView.origintation = (int)self.videoReader.videoOrientation ;
             }
             
-            [self.videoReader startReadForFirstFrame];
+            [self playAction:_playBtn];
         }
     }
 }
@@ -304,26 +306,26 @@
     videHasRendered = NO;
     self.downloadBtn.hidden = YES ;
     
-    if (_avPlayer) {
-        [_avPlayer pause];
-        _avPlayer = nil ;
-    }
-    _avPlayer = [[AVPlayer alloc] init];
-    AVPlayerItem *item = [AVPlayerItem playerItemWithURL:self.videoURL];
-    [_avPlayer replaceCurrentItemWithPlayerItem:item];
-    _avPlayer.actionAtItemEnd = AVPlayerActionAtItemEndNone;
-    
-    [_avPlayer play];
+//    if (_avPlayer) {
+//        [_avPlayer pause];
+//        _avPlayer = nil ;
+//    }
+//    _avPlayer = [[AVPlayer alloc] init];
+//    AVPlayerItem *item = [AVPlayerItem playerItemWithURL:self.videoURL];
+//    [_avPlayer replaceCurrentItemWithPlayerItem:item];
+//    _avPlayer.actionAtItemEnd = AVPlayerActionAtItemEndNone;
+//
+//    [_avPlayer play];
     
     if (self.videoReader) {
         [self.videoReader setVideoURL:self.videoURL];
-        self.glView.origintation = (int)self.videoReader.videoOrientation ;
     }else {
         self.videoReader = [[FUVideoReader alloc] initWithVideoURL:self.videoURL];
         self.videoReader.delegate = self ;
-        self.glView.origintation = (int)self.videoReader.videoOrientation ;
     }
     [self.videoReader startReadWithDestinationPath:finalPath];
+    
+    self.glView.origintation = (int)self.videoReader.videoOrientation ;
 }
 
 
@@ -354,7 +356,7 @@
         }
     });
     
-    [self.videoReader startReadForLastFrame];
+//    [self.videoReader startReadForLastFrame];
     videHasRendered = YES ;
 }
 
@@ -541,27 +543,18 @@
 }
 
 #pragma mark -  FUMakeUpViewDelegate
-- (void)makeupViewDidSelectedItemName:(NSString *)itemName namaStr:(NSString *)namaStr isLip:(BOOL)isLip{
-    if (!itemName || [itemName isEqualToString:@""]) {
-        return;
-    }
-    if (isLip) {
-        NSArray *rgba = [self jsonToLipRgbaArrayResName:itemName];
-        double lip[4] = {[rgba[0] doubleValue],[rgba[1] doubleValue],[rgba[2] doubleValue],[rgba[3] doubleValue]};
-        [[FUManager shareManager] setMakeupItemLipstick:lip];
-    }else{
-        UIImage *namaImage = [UIImage imageNamed:itemName];
-        if (!namaImage) {
-            return;
-        }
-        [[FUManager shareManager] setMakeupItemParamImage:[UIImage imageNamed:itemName]  param:namaStr];
-    }
+-(void)makeupViewDidSelectedNamaStr:(NSString *)namaStr valueArr:(NSArray *)valueArr{
+    [[FUManager shareManager] setMakeupItemStr:namaStr valueArr:valueArr];
 }
+
+-(void)makeupViewDidSelectedNamaStr:(NSString *)namaStr imageName:(NSString *)imageName{
+    [[FUManager shareManager] setMakeupItemParamImage:[UIImage imageNamed:imageName]  param:namaStr];
+}
+
 
 -(void)makeupViewDidChangeValue:(float)value namaValueStr:(NSString *)namaStr{
     
     [[FUManager shareManager] setMakeupItemIntensity:value param:namaStr];
-    
 }
 
 -(void)makeupFilter:(NSString *)filterStr value:(float)filterValue{

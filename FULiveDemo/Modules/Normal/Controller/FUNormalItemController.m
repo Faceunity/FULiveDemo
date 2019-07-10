@@ -75,7 +75,7 @@
             self.tipLabel.text = NSLocalizedString(hint, nil);
         }
         [FUNormalItemController cancelPreviousPerformRequestsWithTarget:self selector:@selector(dismissTipLabel) object:nil];
-        [self performSelector:@selector(dismissTipLabel) withObject:nil afterDelay:5];
+        [self performSelector:@selector(dismissTipLabel) withObject:nil afterDelay:1];
     });
 }
 
@@ -92,14 +92,6 @@
     
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

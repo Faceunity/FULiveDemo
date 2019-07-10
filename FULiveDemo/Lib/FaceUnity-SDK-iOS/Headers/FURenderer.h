@@ -491,13 +491,21 @@ typedef enum {
 + (void)setExpressionCalibration:(int)expressionCalibration;
 
 + (void)setFocalLengthScale:(float)scale;
-
+/**
+\warning: deprecated API
+*/
 + (int)loadExtendedARData:(void *)data size:(int)size;
-
+/**
+\warning: deprecated API
+*/
 + (int)loadExtendedARDataWithDataPath:(NSString *)dataPath;
-
+/**
+\warning: deprecated API
+*/
 + (int)loadAnimModel:(void *)model size:(int)size;
-
+/**
+\warning: deprecated API
+*/
 + (int)loadAnimModelWithModelPath:(NSString *)modelPath;
 
 + (void)setDefaultRotationMode:(float)mode;

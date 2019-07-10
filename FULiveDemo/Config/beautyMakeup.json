@@ -1,0 +1,251 @@
+{
+    "data": [{
+        "name": "卸妆",
+        "imageStr": "makeup_noitem",
+        "isSel": true,
+        "value": 1.0,
+        "selectedFilter": "",
+        "selectedFilterLevel": 1.0,
+        "makeups": [{
+            "makeType": 0,
+            "namaValueStr": "makeup_intensity_lip",
+            "value": 0.0
+        },
+        {
+            "makeType": 1,
+            "namaValueStr": "makeup_intensity_blusher",
+            "value": 0.0
+        },
+        {
+            "makeType": 2,
+            "namaValueStr": "makeup_intensity_eyeBrow",
+            "value": 0.0
+        },
+        {
+            "makeType": 3,
+            "namaValueStr": "makeup_intensity_eye",
+            "value": 0.0
+        },
+        {
+            "makeType": 4,
+            "namaValueStr": "makeup_intensity_eyeLiner",
+            "value": 0.0
+        },
+        {
+            "makeType": 5,
+            "namaValueStr": "makeup_intensity_eyelash",
+            "value": 0.0
+        },
+        {
+            "makeType": 6,
+            "namaValueStr": "makeup_intensity_pupil",
+            "value": 0.0
+        },
+        
+        {
+            "makeType": 7,
+            "namaValueStr": "makeup_intensity_eyeLiner",
+            "value": 0.0
+        },
+        {
+            "makeType": 8,
+            "namaValueStr": "makeup_intensity_eyelash",
+            "value": 0.0
+        },
+        {
+            "makeType": 9,
+            "namaValueStr": "makeup_intensity_pupil",
+            "value": 0.0
+        }
+        ]
+    },
+    
+    {
+        "name": "桃花",
+        "imageStr": "demo_makeup_peachblossom",
+        "value": 1.0,
+        "selectedFilter": "fennen3",
+        "selectedFilterLevel": 1.0,
+        "isSel": false,
+        "makeups": [{
+            "makeType": 0,
+            "namaValueStr": "makeup_intensity_lip",
+            "value": 0.9,
+            "colorStr": "makeup_lip_color",
+            "colorStrV": [0.90, 0.21, 0.49, 0.3],
+            "colorStr2": "makeup_lip_color2",
+            "colorStr2V": "",
+            "is_two_color": 0,
+            "lip_type": 1
+        },
+        {
+            "makeType": 1,
+            "namaTypeStr": "tex_blusher",
+            "namaImgStr": "mu_blush_01",
+            "namaValueStr": "makeup_intensity_blusher",
+            "value": 0.9,
+            "colorStr": "makeup_blusher_color",
+            "colorStrV": [1.0, 0.0, 0.0, 1.0]
+        },
+        {
+            "makeType": 2,
+            "namaTypeStr": "tex_brow",
+            "namaImgStr": "mu_eyebrow_01",
+            "namaValueStr": "makeup_intensity_eyeBrow",
+            "value": 0.9
+        },
+        {
+            "makeType": 3,
+            "namaTypeStr": "tex_eye",
+            "namaImgStr": "mu_eyeshadow_01",
+            "namaValueStr": "makeup_intensity_eye",
+            "value": 0.9,
+            "colorStr": "makeup_eye_color",
+            "colorStrV": [
+                1.0, 0.0, 0.0, 1.0,
+                0.0, 1.0, 0.0, 1.0,
+                0.0, 0.0, 1.0, 1.0
+            ]
+        }
+        ]
+    },
+    
+    {
+        "name": "西柚",
+        "imageStr": "demo_makeup_grapefruit",
+        "value": 1.0,
+        "selectedFilter": "lengsediao4",
+        "selectedFilterLevel": 0.7,
+        "isSel": false,
+        "makeups": [{
+            "makeType": 0,
+            "namaValueStr": "makeup_intensity_lip",
+            "value": 0.7,
+            "colorStr": "makeup_lip_color",
+            "colorStrV": [0.94, 0.29, 0.11, 0.4],
+            "colorStr2": "makeup_lip_color2",
+            "colorStr2V": "",
+            "is_two_color": 0,
+            "lip_type": 1
+        },
+        {
+            "makeType": 1,
+            "namaTypeStr": "tex_blusher",
+            "namaImgStr": "mu_blush_23",
+            "namaValueStr": "makeup_intensity_blusher",
+            "value": 0.7,
+            "colorStr": "makeup_blusher_color",
+            "colorStrV": [1.0, 0.0, 0.0, 1.0]
+        },
+        {
+            "makeType": 2,
+            "namaTypeStr": "tex_brow",
+            "namaImgStr": "mu_eyebrow_19",
+            "namaValueStr": "makeup_intensity_eyeBrow",
+            "value": 0.5
+        },
+        {
+            "makeType": 3,
+            "namaTypeStr": "tex_eye",
+            "namaImgStr": "mu_eyeshadow_21",
+            "namaValueStr": "makeup_intensity_eye",
+            "value": 0.7,
+            "colorStr": "makeup_eye_color",
+            "colorStrV": []
+        }
+        ]
+    },
+    
+    {
+        "name": "男友",
+        "imageStr": "demo_makeup_boyfriend",
+        "value": 1.0,
+        "selectedFilter": "xiaoqingxin3",
+        "selectedFilterLevel": 0.9,
+        "isSel": false,
+        "makeups": [{
+            "makeType": 0,
+            "namaValueStr": "makeup_intensity_lip",
+            "value": 0.7,
+            "colorStr": "makeup_lip_color",
+            "colorStrV": [0.88, 0.55, 0.51, 0.7],
+            "colorStr2": "makeup_lip_color2",
+            "colorStr2V": "",
+            "is_two_color": 0,
+            "lip_type": 1
+        },
+        {
+            "makeType": 1,
+            "namaTypeStr": "tex_blusher",
+            "namaImgStr": "mu_blush_20",
+            "namaValueStr": "makeup_intensity_blusher",
+            "value": 0.7,
+            "colorStr": "makeup_blusher_color",
+            "colorStrV": [1.0, 0.0, 0.0, 1.0]
+        },
+        {
+            "makeType": 2,
+            "namaTypeStr": "tex_brow",
+            "namaImgStr": "mu_eyebrow_16",
+            "namaValueStr": "makeup_intensity_eyeBrow",
+            "value": 0.5
+        },
+        {
+            "makeType": 3,
+            "namaTypeStr": "tex_eye",
+            "namaImgStr": "mu_eyeshadow_18",
+            "namaValueStr": "makeup_intensity_eye",
+            "value": 0.7,
+            "colorStr": "makeup_eye_color",
+            "colorStrV": []
+        }
+        ]
+    },
+    {
+        "name": "清透",
+        "imageStr": "demo_makeup_clear",
+        "value": 1.0,
+        "selectedFilter": "xiaoqingxin6",
+        "selectedFilterLevel": 0.8,
+        "isSel": false,
+        "makeups": [{
+            "makeType": 0,
+            "namaValueStr": "makeup_intensity_lip",
+            "value": 0.7,
+            "colorStr": "makeup_lip_color",
+            "colorStrV": [0.89, 0.59, 0.58, 0.50],
+            "colorStr2": "makeup_lip_color2",
+            "colorStr2V": "",
+            "is_two_color": 0,
+            "lip_type": 1
+        },
+        {
+            "makeType": 1,
+            "namaTypeStr": "tex_blusher",
+            "namaImgStr": "mu_blush_22",
+            "namaValueStr": "makeup_intensity_blusher",
+            "value": 0.7,
+            "colorStr": "makeup_blusher_color",
+            "colorStrV": []
+        },
+        {
+            "makeType": 2,
+            "namaTypeStr": "tex_brow",
+            "namaImgStr": "mu_eyebrow_18",
+            "namaValueStr": "makeup_intensity_eyeBrow",
+            "value": 0.5
+        },
+        {
+            "makeType": 3,
+            "namaTypeStr": "tex_eye",
+            "namaImgStr": "mu_eyeshadow_20",
+            "namaValueStr": "makeup_intensity_eye",
+            "value": 0.7,
+            "colorStr": "makeup_eye_color",
+            "colorStrV": []
+        }
+        ]
+    }
+    
+    ]
+}

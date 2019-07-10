@@ -83,12 +83,12 @@
     self.skinView.type = FUBeautyViewTypeSkin;
     self.skinView.mDelegate = self;
     
-    NSString *wholePath=[[NSBundle mainBundle] pathForResource:@"makeup_whole" ofType:@"json"];
+    NSString *wholePath=[[NSBundle mainBundle] pathForResource:@"beautyMakeup" ofType:@"json"];
     NSData *wholeData=[[NSData alloc] initWithContentsOfFile:wholePath];
     NSDictionary *wholeDic=[NSJSONSerialization JSONObjectWithData:wholeData options:NSJSONReadingMutableContainers error:nil];
-    NSArray *supArray = [FUMakeupSupModel mj_objectArrayWithKeyValuesArray:wholeDic[@"data1"]];
+    NSArray *supArray = [FUMakeupSupModel mj_objectArrayWithKeyValuesArray:wholeDic[@"data"]];
     _makeupView = [[FUMakeUpView alloc] initWithFrame:CGRectMake(0,-10, [UIScreen mainScreen].bounds.size.width, 160)];
-    [_makeupView setDefaultSupItem:self.selMakeupIndex];
+    [_makeupView setSelSupItem:self.selMakeupIndex];
     _makeupView.delegate = self;
     [_makeupView setWholeArray:supArray];
 
@@ -271,7 +271,7 @@
     if (self.filterBtn.selected) {
         
         if (self.makeupView.supIndex == 0) {//没有质感美感状态
-            [self.makeupView setDefaultSupItem:1];//默认选中桃花
+            [self.makeupView setSelSupItem:1];//默认选中桃花
         }
     
         NSInteger selectedIndex = self.filterView.selectedIndex ;
@@ -718,7 +718,7 @@
 
 -(void)setSelMakeupIndex:(int)selMakeupIndex{
     _selMakeupIndex = selMakeupIndex;
-    [_makeupView setDefaultSupItem:selMakeupIndex];
+    [_makeupView setSelSupItem:selMakeupIndex];
 }
 
 

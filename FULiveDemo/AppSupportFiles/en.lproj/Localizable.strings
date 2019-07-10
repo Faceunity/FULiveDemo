@@ -119,6 +119,60 @@
 "保存视频失败" = "Failed";
 "视频已保存到相册" = "Successful";
 
+"性感" =  "Sexy";
+"甜美" =  "sweet";
+"邻家" =  "next-door";
+"欧美" =  "European";
+"妩媚" =  "Charming";
+"花花" =  "flower";
+"硬汉" =  "Tough guy";
+"星月" =  "star";
+"珊瑚" =  "coral";
+"仕女" =  "Lady";
+
+"粉底" =  "Foundation";
+"雾面" =  "Matte";
+"缎面" =  "Satin";
+"苹果肌" =  "Apple muscle";
+"扇形" =  "sector";
+"眼角" =  "canthus";
+"微醺" =  "tipsy";
+
+"柳叶眉" =  "willow";
+"标准眉" =  "standard";
+"小山眉" =  "hill";
+"一字眉" =  "horizontal";
+"扶形眉" =  "Shaped";
+"日常风" =  "daily";
+"日系风" =  "Japanese";
+
+"单色眼影" =  "monochrome";
+"双色眼影Ⅰ" =  "dichromatic Ⅰ";
+"双色眼影Ⅱ" =  "dichromatic Ⅱ";
+"双色眼影Ⅲ" =  "dichromatic Ⅲ";
+"三色眼影Ⅰ" =  "Tricolor Ⅰ";
+"三色眼影Ⅱ" =  "Tricolor Ⅱ";
+"三色眼影Ⅲ" =  "Tricolor Ⅲ";
+
+"猫眼" =  "cats eye";
+"下垂眼" =  "drooping eye";
+"拉开眼距" =  "expand eye distance";
+"拉近眼距" =  "shorten eye distance";
+"长眼" =  "long eye";
+"圆眼" =  "round eye";
+
+"自然型Ⅰ" =  "natural Ⅰ";
+"自然型Ⅱ" =  "natural Ⅱ";
+"浓密型Ⅰ" =  "denseness Ⅰ";
+"浓密型Ⅱ" =  "denseness Ⅱ";
+"夸张型Ⅰ" =  "hyperbole Ⅰ";
+"夸张型Ⅱ" =  "hyperbole Ⅱ";
+"高光" =  "highlight";
+"Ⅰ号"    =   "highlight I";
+"Ⅱ号"    =   "highlight Ⅱ";
+"阴影" =  "shadow";
+
+
 /* 海报融合 */
 "对准线框 正脸拍摄"    =  "Please take photos by positive face.";
 "未检测出人脸，请重新上传"    =  "No face detected, please re-upload";

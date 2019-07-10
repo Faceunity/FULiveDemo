@@ -1,39 +1,22 @@
 # iOS Nama SDK 集成指导文档  
 级别：Public  
-更新日期：2019-05-06  
+更新日期：2019-07-08 
 
 ------
-## 最新更新内容：
+**FaceUnity Nama SDK v6.2.0 (2019.07.08)**
 
-2019-05-27 SDK v6.1.0更新：
+更新内容
 
-\- 新增fuSetupLocal函数，支持离线鉴权。  
-
-\- 新增fuDestroyLibData函数，支持tracker内存释放。 
-
-\- 美型优化新增v脸、小脸、窄脸三款瘦脸形式。  
-
-\- 优化“表情动图”功能，玩转图片表情包。  
-
-\- 人脸跟踪模块优化边缘人脸抖动问题。  
-
-\- 修复并支持i420格式。  
-
-\- 修复asan问题。 
-
-------
-
-2019-04-28 SDK v6.0.0更新：
-
-- 优化人脸检测，提高检测率，提高性能。
-- 新增质感美颜功能（注：道具支持SDK v6.0.0以上版本）。
-- 人脸融合(海报换脸)效果优化（注：道具支持 SDK v6.0.0以上版本）。
-- 背景分割分割精度优化（注：此版本背景分割、手势识别道具只支持 SDK v6.0.0以上版本）。
-- 舌头跟踪trackface逻辑支持，Getfaceinfo支持。
-- 新增Avatar捏脸功能，需FUEditor 6.0.0以上版本。
-- 美颜滤镜优化（注：原有滤镜整合，重命名归类及效果新增， 道具支持SDK v5.5.0以上版本）。
-- 修复mebedtls符号冲突问题。
-- 注：美发、Animoji道具支持FUEditor v5.6.0以上制作版本，其余道具在任意SDK皆可兼容   
+- 优化人脸检测，提高正脸大角度检测率。
+- 优化背景分割，提高准确度。
+- 优化手势识别，提供15种手势；手势模型支持独立运行，见FUCreator文档。
+- 优化人脸美妆，提高准确度，支持更丰富的效果。
+- 优化人脸跟踪模块边缘人脸抖动问题。  
+- 修复多人脸舌头跟踪相互影响问题。 
+- 修复avatar模式下fxaa抗锯齿失效问题。
+- 废弃高精度模型 armesh_ex.bundle，以及对应的接口 fuLoadExtendedARData。
+- 废弃人脸表情动画模型 anim_model.bundle, 以及对应的接口 fuLoadAnimModel。
+  注：废弃的数据以及接口，可能引起编译不通过，移除代码即可。
 
 ------
 ## 目录：
@@ -86,13 +69,13 @@ Xcode 8或更高版本
 全功能版本：
 
 ```
-pod 'Nama', '6.1.0' 
+pod 'Nama', '6.2.0' 
 ```
 
 不含物理引擎的版本（lite版）：
 
 ```
-pod 'Nama-lite', '6.1.0' 
+pod 'Nama-lite', '6.2.0' 
 ```
 
 接下来执行：
@@ -109,9 +92,9 @@ pod repo update 或 pod setup
 
 #### 3.2.1 通过 github 下载集成
 
-全功能版本：[FaceUnity-SDK-iOS-v6.1.0.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v6.1.0.zip)
+全功能版本：[FaceUnity-SDK-iOS-v6.2.0.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v6.2.0.zip)
 
-不含物理引擎的版本（lite版）：[FaceUnity-SDK-iOS-v6.1.0-lite.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v6.1.0-lite.zip)
+不含物理引擎的版本（lite版）：[FaceUnity-SDK-iOS-v6.2.0-lite.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v6.2.0-lite.zip)
 
 下载完成并解压后将库文件夹拖入到工程中，并勾选上 Copy items if needed，如图：
 
@@ -402,8 +385,6 @@ red_level 取值范围 0.0-1.0,0.0为无效果，1.0为最大效果，默认值0
 [FURenderer itemSetParam:items[1] withName:@"red_level" value:@(0.5)];
 ```
 
-注: 新增的美颜滤镜如 “shaonv”滤镜本身能够美白肤色，提亮红唇，开启该滤镜时，适当减弱独立的美白红润功能
-
 #### 4.1.3 磨皮
 
 控制磨皮的参数有四个：blur_level，skin_detect，nonskin_blur_scale，heavy_blur
@@ -471,7 +452,7 @@ __face_shape参数详解__
 
    可以使用参数
      `eye_enlarging`:  默认0.5,  //大眼程度范围0.0-1.0
-     `cheek_thinning`:  默认0.0,   //v脸程度范围0.0-1.0
+     `cheek_thinning`:  默认0.0,   //瘦脸脸程度范围0.0-1.0
 
 2. `face_shape`:  为4时，为精细变形，添加了鼻子额头嘴巴下巴的调整
    可以使用参数
@@ -484,8 +465,6 @@ __face_shape参数详解__
     `cheek_narrow`:   默认0.0,          //窄脸程度范围0.0-1.0
 
     `cheek_small`:   默认0.0,          //小脸程度范围0.0-1.0
-
-    `cheek_oval`:    默认0.0,          //鹅蛋脸程度范围0.0-1.0
 
      `intensity_nose`:  默认0.0,           //瘦鼻程度范围0.0-1.0
      `intensity_forehead`:  默认0.5,   //额头调整程度范围0.0-1.0
@@ -802,7 +781,7 @@ Nama SDK 从 6.0.0 开始支持质感美颜功能。
 
 质感美颜方案是一套更为精致高效的美颜解决方案，包含磨皮、美型、滤镜、美妆4大模块，提供60+套丰富素材库，支持客户任意切换风格与效果变化。
 
-首先加载 light_makeup.bundle，然后设置腮红、眼影、眼线、口红等参数，使用方法请参考[美妆bundle参数说明](美妆道具功能文档.md)，同时参考 FULiveDemo 中的示例代码。
+首先加载 light_makeup.bundle，然后设置腮红、眼影、眼线、口红等参数，使用方法请参考[质感美颜道具](美妆道具功能文档.md)，同时参考 FULiveDemo 中的示例代码。
 
 ------
 

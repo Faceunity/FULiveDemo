@@ -223,27 +223,17 @@
 }
 
 #pragma mark -  FUMakeUpViewDelegate
-- (void)makeupViewDidSelectedItemName:(NSString *)itemName namaStr:(NSString *)namaStr isLip:(BOOL)isLip{
-    if (!itemName || [itemName isEqualToString:@""]) {
-        return;
-    }
-    if (isLip) {
-        NSArray *rgba = [self jsonToLipRgbaArrayResName:itemName];
-        double lip[4] = {[rgba[0] doubleValue],[rgba[1] doubleValue],[rgba[2] doubleValue],[rgba[3] doubleValue]};
-        [[FUManager shareManager] setMakeupItemLipstick:lip];
-    }else{
-        UIImage *namaImage = [UIImage imageNamed:itemName];
-        if (!namaImage) {
-            return;
-        }
-        [[FUManager shareManager] setMakeupItemParamImage:[UIImage imageNamed:itemName]  param:namaStr];
-    }
+-(void)makeupViewDidSelectedNamaStr:(NSString *)namaStr valueArr:(NSArray *)valueArr{
+    [[FUManager shareManager] setMakeupItemStr:namaStr valueArr:valueArr];
+}
+
+-(void)makeupViewDidSelectedNamaStr:(NSString *)namaStr imageName:(NSString *)imageName{
+    [[FUManager shareManager] setMakeupItemParamImage:[UIImage imageNamed:imageName]  param:namaStr];
 }
 
 -(void)makeupViewDidChangeValue:(float)value namaValueStr:(NSString *)namaStr{
-
-    [[FUManager shareManager] setMakeupItemIntensity:value param:namaStr];
     
+    [[FUManager shareManager] setMakeupItemIntensity:value param:namaStr];
 }
 
 -(void)makeupFilter:(NSString *)filterStr value:(float)filterValue{
@@ -270,7 +260,9 @@
 }
 
 -(void)dealloc{
-    [[FUManager shareManager] setDefaultFilter];
+    if (![[FUManager shareManager].beautyFiltersDataSource containsObject:_demoBar.selectedFilter]) {
+        [[FUManager shareManager] setDefaultFilter];
+    }
 }
 
 @end

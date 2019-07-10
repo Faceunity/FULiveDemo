@@ -9,8 +9,14 @@
 #import "FUHairController.h"
 #import "FUHairView.h"
 
+typedef NS_ENUM(NSUInteger, FUHairModel) {
+    FUHairModelModelNormal,
+    FUHairModelModelGradient
+};
 @interface FUHairController ()<FUHairViewDelegate>
 @property (nonatomic, strong) FUHairView *hairView ;
+
+@property (nonatomic, assign) FUHairModel currentModle;
 
 @end
 
@@ -46,6 +52,7 @@
     [[FUManager shareManager] loadItem:@"hair_gradient"];
     [[FUManager shareManager] setHairColor:0];
     [[FUManager shareManager] setHairStrength:0.5];
+    _currentModle = FUHairModelModelGradient;
     
     self.photoBtn.transform = CGAffineTransformMakeTranslation(0, -100) ;
 }
@@ -57,11 +64,17 @@
         [[FUManager shareManager] setHairStrength:0.0];
     }else{
         if(index < 5) {//渐变色
-            [[FUManager shareManager] loadItem:@"hair_gradient"];
+            if (_currentModle != FUHairModelModelGradient) {
+                [[FUManager shareManager] loadItem:@"hair_gradient"];
+                _currentModle = FUHairModelModelGradient;
+            }           
             [[FUManager shareManager] setHairColor:(int)index];
             [[FUManager shareManager] setHairStrength:self.hairView.slider.value];
         }else{
-            [[FUManager shareManager] loadItem:@"hair_color"];
+            if (_currentModle != FUHairModelModelNormal) {
+                [[FUManager shareManager] loadItem:@"hair_color"];
+                _currentModle = FUHairModelModelNormal;
+            }
             [[FUManager shareManager] setHairColor:(int)index - 5];
             [[FUManager shareManager] setHairStrength:self.hairView.slider.value];
         }

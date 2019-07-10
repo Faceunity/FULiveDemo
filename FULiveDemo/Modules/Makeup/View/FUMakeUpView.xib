@@ -62,7 +62,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cqU-3V-tEr">
                             <rect key="frame" x="0.0" y="42" width="86" height="98"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iTa-oW-hFz" customClass="FUSquareButton">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iTa-oW-hFz" customClass="FUMakeButton">
                                     <rect key="frame" x="16" y="22" width="54" height="54"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="54" id="lhV-mT-X30"/>
@@ -96,8 +96,8 @@
                             </constraints>
                         </view>
                         <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="pGX-zE-MLF" customClass="FUMakeupSlider">
-                            <rect key="frame" x="54" y="2" width="351" height="31"/>
-                            <color key="minimumTrackTintColor" red="0.36862745098039218" green="0.7803921568627451" blue="0.99607843137254903" alpha="1" colorSpace="calibratedRGB"/>
+                            <rect key="frame" x="54" y="7" width="351" height="31"/>
+                            <color key="minimumTrackTintColor" red="0.12156862745098039" green="0.69803921568627447" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="sliderValueChange:" destination="bh8-Nm-foI" eventType="valueChanged" id="F5G-Zs-Pqy"/>
                             </connections>
@@ -108,7 +108,7 @@
                         <constraint firstItem="33O-R7-s7k" firstAttribute="height" secondItem="cqU-3V-tEr" secondAttribute="height" id="GNr-sA-q9d"/>
                         <constraint firstItem="cqU-3V-tEr" firstAttribute="leading" secondItem="01v-fN-mN3" secondAttribute="leading" id="RwK-OU-7eT"/>
                         <constraint firstItem="pGX-zE-MLF" firstAttribute="leading" secondItem="01v-fN-mN3" secondAttribute="leading" constant="56" id="UVS-5b-FCA"/>
-                        <constraint firstItem="33O-R7-s7k" firstAttribute="top" secondItem="pGX-zE-MLF" secondAttribute="bottom" constant="10" id="fWR-8x-vyX"/>
+                        <constraint firstItem="33O-R7-s7k" firstAttribute="top" secondItem="pGX-zE-MLF" secondAttribute="bottom" constant="5" id="fWR-8x-vyX"/>
                         <constraint firstAttribute="trailing" secondItem="33O-R7-s7k" secondAttribute="trailing" id="hnb-xh-ueR"/>
                         <constraint firstItem="33O-R7-s7k" firstAttribute="leading" secondItem="01v-fN-mN3" secondAttribute="leading" constant="86" id="l5U-2K-sqt"/>
                         <constraint firstAttribute="bottom" secondItem="33O-R7-s7k" secondAttribute="bottom" id="sN7-rS-WvB"/>
@@ -136,6 +136,7 @@
             <connections>
                 <outlet property="bottomCollection" destination="ppE-5j-WyN" id="EGJ-Ch-k6O"/>
                 <outlet property="collectionLeadingLayoutConstraint" destination="l5U-2K-sqt" id="0NV-Qt-Mew"/>
+                <outlet property="lineBottomConstraint" destination="3eo-SJ-mB3" id="B0O-fu-NgL"/>
                 <outlet property="mNoitemH" destination="lhV-mT-X30" id="YTl-Pu-QYb"/>
                 <outlet property="mSepLine" destination="g4j-xE-MXI" id="7Kb-p8-5tn"/>
                 <outlet property="mTopBottom" destination="d0e-o5-UVh" id="Lnq-qM-7rz"/>

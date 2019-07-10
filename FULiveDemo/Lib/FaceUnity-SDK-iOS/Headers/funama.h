@@ -575,6 +575,7 @@ FUNAMA_API void fuSetExpressionCalibration(int i);
 FUNAMA_API void fuSetFocalLengthScale(float scale);
 
 /**
+\warning: deprecated API
 \brief Load extended AR data, which is required for high quality AR items
 \param data - the pointer to the extended AR data
 \param sz - the data size, we use plain int to avoid cross-language compilation issues
@@ -583,6 +584,7 @@ FUNAMA_API void fuSetFocalLengthScale(float scale);
 FUNAMA_API int fuLoadExtendedARData(void* data,int sz);
 
 /**
+\warning: deprecated API
 \brief Load facial animation model data, to enable expression optimization
 \param data - the pointer to facial animation model data 'anim_model.bundle', 
 	which is along beside lib files in SDK package
@@ -641,12 +643,13 @@ FUNAMA_API int fuClearPhysics();
 \param detector is the detector context, currently it is allowed to set to NULL, i.e., globally set all contexts.
 \param name is the parameter name, it can be:
 	"use_new_cnn_detection": 1 if the new cnn-based detection method is used, 0 else
-	"other_face_detection_frame_step": if one face already exists, then we detect other faces not each frame, but with a step
+	"other_face_detection_frame_step": if one face already exists, then we detect other faces not each frame, but with a step,default 10 frames
 	if use_new_cnn_detection == 1, then
 		"min_facesize_small", int[default=18]: minimum size to detect a small face; must be called **BEFORE** fuSetup
 		"min_facesize_big", int[default=27]: minimum size to detect a big face; must be called **BEFORE** fuSetup
 		"small_face_frame_step", int[default=5]: the frame step to detect a small face; it is time cost, thus we do not detect each frame
 		"use_cross_frame_speedup", int[default=0]: perform a half-cnn inference each frame to speedup
+		"enable_large_pose_detection", int[default=1]: enable rotated face detection up to 45^deg roll in each rotation mode.
 	else
 		"scaling_factor": the scaling across image pyramids, default 1.2f
 		"step_size": the step of each sliding window, default 2.f
@@ -654,7 +657,6 @@ FUNAMA_API int fuClearPhysics();
 		"size_max": maximal face supported on 640x480 image, default is a large value
 		"min_neighbors": algorithm internal, default 3.f
 		"min_required_variance": algorithm internal, default 15.f
-		"is_mono": specifies the input is monocular or BGRA 
 \param value points to the new parameter value, e.g., 
 	float scaling_factor=1.2f;
 	dde_facedet_set(ctx, "scaling_factor", &scaling_factor);

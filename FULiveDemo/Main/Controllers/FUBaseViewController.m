@@ -17,14 +17,9 @@
 #import "FUImageHelper.h"
 #import "FURenderer.h"
 
-#define KScreenWidth ([UIScreen mainScreen].bounds.size.width)
-#define KScreenHeight ([UIScreen mainScreen].bounds.size.height)
-#define  iPhoneXStyle ((KScreenWidth == 375.f && KScreenHeight == 812.f ? YES : NO) || (KScreenWidth == 414.f && KScreenHeight == 896.f ? YES : NO))
-
 @interface FUBaseViewController ()<
 FUCameraDelegate,
 FUPhotoButtonDelegate,
-FUHeadButtonViewDelegate,
 FUItemsViewDelegate,
 FULightingViewDelegate,
 UINavigationControllerDelegate,
@@ -163,16 +158,16 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
     /* 额外操作提示 */
     _tipLabel = [[UILabel alloc] init];
     _tipLabel.textColor = [UIColor whiteColor];
-    _tipLabel.font = [UIFont systemFontOfSize:17];
+    _tipLabel.font = [UIFont systemFontOfSize:32];
     _tipLabel.textAlignment = NSTextAlignmentCenter;
     _tipLabel.text = @"张张嘴";
     _tipLabel.hidden = YES;
     [self.view addSubview:_tipLabel];
     [_tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.noTrackLabel.mas_bottom).offset(-54);
+        make.top.equalTo(self.noTrackLabel.mas_bottom);
         make.centerX.equalTo(self.view);
-        make.width.mas_equalTo(160);
-        make.height.mas_equalTo(22);
+        make.width.mas_equalTo(300);
+        make.height.mas_equalTo(32);
     }];
     
     /* 录制按钮 */
@@ -212,6 +207,7 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
         // 聚焦 + 曝光
         self.mCamera.focusPoint = CGPointMake(center.y/self.view.bounds.size.height, self.mCamera.isFrontCamera ? center.x/self.view.bounds.size.width : 1 - center.x/self.view.bounds.size.width);
         self.mCamera.exposurePoint = CGPointMake(center.y/self.view.bounds.size.height, self.mCamera.isFrontCamera ? center.x/self.view.bounds.size.width : 1 - center.x/self.view.bounds.size.width);
+        
     
         // UI
         adjustTime = CFAbsoluteTimeGetCurrent() ;
@@ -375,7 +371,6 @@ static  NSTimeInterval oldTime = 0;
     totalRenderTime += endTime - startTime;
     rate ++;
     [self updateVideoParametersText:endTime bufferRef:pixelBuffer];
-
     /* 拍照抓图 */
     if (!mCaptureImage && semaphore) {
         mCaptureImage = [FUImageHelper imageFromPixelBuffer:pixelBuffer];
@@ -387,6 +382,11 @@ static  NSTimeInterval oldTime = 0;
         /**判断是否检测到人脸*/
         self.noTrackLabel.hidden = [[FUManager shareManager] isTracking];
     }) ;
+
+//    NSLog(@"-------%@-------%@",NSStringFromCGPoint(self.mCamera.focusPoint),NSStringFromCGPoint(self.mCamera.exposurePoint));
+    
+    
+    
 }
 
 

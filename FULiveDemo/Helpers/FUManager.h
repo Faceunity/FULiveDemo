@@ -25,10 +25,13 @@ typedef NS_ENUM(NSUInteger, FUNamaHandleType) {
     FUNamaHandleTypeChangeface = 4, /* items[4] ------ 海报换脸道具句柄 */
     FUNamaHandleTypeComic = 5,      /* items[5] ------ 动漫道具句柄 */
     FUNamaHandleTypeMakeup = 6,     /* items[6] ------ 美妆道具句柄 */
-    FUNamaHandleTypePhotolive = 7,  /* items[7] ------ 异图道具句柄 */
-    FUNamaHandleTypeAvtarHead = 8,  /* items[8] ------ Avtar头*/
-    FUNamaHandleTypeAvtarHiar = 9,  /* items[9] ------ Avtar头发 */
-    FUNamaHandleTypeAvtarbg = 10,  /* items[10] ------ Avtar背景 */
+    FUNamaHandleTypeMakeupType = 7,  /* items[7] ------ 美妆类型 ---- 由类型bundle 控制*/
+    FUNamaHandleTypePhotolive = 8,  /* items[8] ------ 异图道具句柄 */
+    FUNamaHandleTypeAvtarHead = 9,  /* items[9] ------ Avtar头*/
+    FUNamaHandleTypeAvtarHiar = 10,  /* items[10] ------ Avtar头发 */
+    FUNamaHandleTypeAvtarbg = 11,  /* items[11] ------ Avtar背景 */
+    
+    FUNamaHandleTotal = 12
 };
 
 typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
@@ -98,7 +101,6 @@ typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
 -(void)setDefaultFilter;
 // 默认美颜参数
 - (void)setBeautyDefaultParameters:(FUBeautyModuleType)type;
-
 /**
  判断是不是默认美型参数
  */
@@ -112,12 +114,19 @@ typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
 - (void)loadFilter ;
 /**销毁全部道具*/
 - (void)destoryItems;
-/* 销毁指定道具
+/*
+ 销毁指定道具
  */
 - (void)destoryItemAboutType:(FUNamaHandleType)type;
 
+/* 获取handle */
+- (int)getHandleAboutType:(FUNamaHandleType)type;
+
 /**加载普通道具*/
 - (void)loadItem:(NSString *)itemName;
+
+/* 点位模式 */
+-(void)loadMakeupType:(NSString *)itemName;
 
 /* 添加动漫滤镜 */
 - (void)loadFilterAnimoji:(NSString *)itemName style:(int)style;
@@ -154,12 +163,14 @@ typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
  @param paramStr 美妆部位参数
  */
 -(void)setMakeupItemIntensity:(float )value param:(NSString *)paramStr;
-/**
- 口红色值
 
- @param lipData [0,0,0,0] //长度为4的数组，rgba颜色值
+/**
+ 美妆颜色设置
+
+ @param sdkStr sdk键值
+ @param valueArr 值
  */
--(void)setMakeupItemLipstick:(double *)lipData;
+-(void)setMakeupItemStr:(NSString *)sdkStr valueArr:(NSArray *)valueArr;
 
 /**
  意图道具参数设置
