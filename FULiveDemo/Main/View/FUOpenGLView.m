@@ -781,8 +781,13 @@ enum
     glVertexAttribPointer(furgbaPositionAttribute, 2, GL_FLOAT, 0, 0, vertices);
     glEnableVertexAttribArray(furgbaPositionAttribute);
     
-    GLfloat *quadTextureData;
-
+    GLfloat quadTextureData[] =  {
+        0.0f, 1.0f,
+        1.0f, 1.0f,
+        0.0f,  0.0f,
+        1.0f,  0.0f,
+    };
+    
     if (_origintation == FUOpenGLViewOrientationPortrait) {
         float quadTextureData0[] =  {
                 0.0f, 1.0f,
@@ -790,8 +795,7 @@ enum
                 0.0f,  0.0f,
                 1.0f,  0.0f,
         };
-        
-         quadTextureData = quadTextureData0;
+        memcpy(quadTextureData, quadTextureData0, sizeof(quadTextureData));
     }
     
     if (_origintation == FUOpenGLViewOrientationLandscapeRight) {
@@ -802,7 +806,7 @@ enum
             0.0f,  0.0f,
         };
         
-        quadTextureData = quadTextureData0;
+        memcpy(quadTextureData, quadTextureData0, sizeof(quadTextureData));
     }
     
     if (_origintation == FUOpenGLViewOrientationPortraitUpsideDown) {
@@ -813,7 +817,7 @@ enum
             0.0f,  1.0f,
         };
         
-        quadTextureData = quadTextureData0;
+        memcpy(quadTextureData, quadTextureData0, sizeof(quadTextureData));
     }
     
     if (_origintation == FUOpenGLViewOrientationLandscapeLeft) {
@@ -823,8 +827,7 @@ enum
             1.0f,  0.0f,
             1.0f,  1.0f,
         };
-        
-        quadTextureData = quadTextureData0;
+        memcpy(quadTextureData, quadTextureData0, sizeof(quadTextureData));
     }
 
     

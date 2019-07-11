@@ -29,9 +29,9 @@ typedef NS_ENUM(NSInteger, FUOpenGLViewContentMode) {
 @interface FUOpenGLView : UIView
 
 /* 视频填充模式 */
-@property (nonatomic, assign) FUOpenGLViewOrientation contentMode;
+@property (nonatomic, assign) FUOpenGLViewContentMode contentMode;
 // 设置视频朝向，保证视频总是竖屏播放
-@property (nonatomic, assign) FUOpenGLViewContentMode origintation;
+@property (nonatomic, assign) FUOpenGLViewOrientation origintation;
 @property (nonatomic, assign) NSInteger disapplePointIndex ;
 
 
