@@ -8,13 +8,11 @@
 
 更新内容
 
-- 新增fuSetFaceTrackParam函数，用于设置人脸跟踪参数。
-- setupLocalWithV3Path:offLinePath:authPackage: authSize: shouldCreateContext:函数，用于离线鉴权
+- 优化人脸美妆功能，提高性能，降低功耗。
 
-Demo更新：
+- 新增fuSetFaceTrackParam接口，用于设置人脸表情跟踪参数。 
 
-- 优化美颜磨皮交互
-- 更新Nama v6.3.0
+- 新增人脸美颜精细磨皮效果。
 
 ------
 ### 目录：
