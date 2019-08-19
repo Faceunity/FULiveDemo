@@ -18,9 +18,9 @@
 - (void)skinViewDidSelectedIndex:(NSInteger)index ;
 
 // 精准美肤变化
-- (void)skinDetectChanged:(BOOL)detect ;
+//- (void)skinDetectChanged:(BOOL)detect ;
 // 清晰磨皮 朦胧磨皮切换
-- (void)heavyBlurChange:(NSInteger)heavyBlur ;
+- (void)blurTypeChange:(NSInteger)blurType ;
 
 @end
 
@@ -39,7 +39,7 @@
 @property (nonatomic, assign) BOOL skinDetect ;
 
 /** 美肤类型 (0、1、) 清晰：0，朦胧：1    */
-@property (nonatomic, assign) NSInteger heavyBlur;
+@property (nonatomic, assign) NSInteger blurType;
 
 @property (nonatomic, strong) NSDictionary *openedDict ;
 @end

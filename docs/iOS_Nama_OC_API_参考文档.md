@@ -1,21 +1,15 @@
 # iOS Nama Objective-C API 参考文档
 级别：Public   
-更新日期：2019-07-08   
+更新日期：2019-08-14   
 
 ------
 **最新更新内容：**
 
-2019-07-08 v1.0 Nama v6.2.0：
+2019-08-14 v1.0 Nama v6.3.0：
 
-接口无更新
+- 新增fuSetFaceTrackParam函数，用于设置人脸跟踪参数。
 
-
-
-2019.05.27 v1.0 Nama v6.1.0： 
-
-\- 新增fuSetupLocal函数，支持离线鉴权。  
-
-\- 新增fuDestroyLibData函数，支持tracker内存释放。 
+- 新增setupLocalWithV3Path:offLinePath:authPackage: authSize: shouldCreateContext:函数，用于离线鉴权
 
 ------
 ### 目录：
@@ -110,6 +104,30 @@ __参数说明:__
 __返回值:__
 
 返回非0值代表成功，返回0代表失败。如初始化失败，可以通过 ```fuGetSystemError``` 获取错误代码。
+
+------
+
+##### setupLocalWithV3Path:offLinePath:authPackage: authSize: shouldCreateContext:
+
+```objective-c
+- (NSData *)setupLocalWithV3Path:(NSString *)v3path offLinePath:(NSString *)offLinePath authPackage:(void *)package authSize:(int)size shouldCreateContext:(BOOL)shouldCreate;
+```
+
+__参数说明:__
+
+*v3path*：  v3.bundle 对应的文件路径
+
+*offLinePath*:  offLineBundle.bundle 离线鉴权包路径
+
+*package*： 内存指针，指向鉴权数据的内容。如果是用包含 authpack.h 的方法在编译时提供鉴权数据，则这里可以写为 ```g_auth_package``` 。
+
+*size*：鉴权数据的长度，以字节为单位。如果鉴权数据提供的是 authpack.h 中的 ```g_auth_package```，这里可写作 ```sizeof(g_auth_package)```
+
+*shouldCreate*：如果设置为 YES，我们会在内部创建并持有一个 EAGLContext，此时必须使用OC层接口
+
+__返回值:__
+
+鉴权成功后的文件
 
 ------
 

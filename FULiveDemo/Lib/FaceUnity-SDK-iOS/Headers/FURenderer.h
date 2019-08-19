@@ -73,6 +73,22 @@ typedef enum {
  */
 - (int)setupWithDataPath:(NSString *)v3path authPackage:(void *)package authSize:(int)size shouldCreateContext:(BOOL)shouldCreate;
 
+
+/**
+ 初始化接口4：
+
+ - 初始化SDK，采用离线鉴权方式
+ 
+ @param v3path v3.bundle 对应的文件路径
+ @param offLinePath offLineBundle.bundle 离线鉴权包路径
+ @param package 密钥数组，必须配置好密钥，SDK 才能正常工作
+ @param size 密钥数组大小
+ @param shouldCreate  如果设置为 YES，我们会在内部创建并持有一个 EAGLContext，此时必须使用OC层接口
+ @return 第一次鉴权成功后的文件
+ */
+
+- (NSData *)setupLocalWithV3Path:(NSString *)v3path offLinePath:(NSString *)offLinePath authPackage:(void *)package authSize:(int)size shouldCreateContext:(BOOL)shouldCreate;
+
 /**
  视频处理接口1：
      - 将 items 中的道具绘制到 pixelBuffer 中
@@ -509,6 +525,8 @@ typedef enum {
 + (int)loadAnimModelWithModelPath:(NSString *)modelPath;
 
 + (void)setDefaultRotationMode:(float)mode;
+
++ (int)getCurrentRotationMode;
 
 + (void)setAsyncTrackFaceEnable:(int)enable;
 

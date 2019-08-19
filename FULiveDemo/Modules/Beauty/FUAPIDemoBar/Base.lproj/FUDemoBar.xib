@@ -200,7 +200,7 @@
                             </collectionViewFlowLayout>
                         </collectionView>
                         <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Oz7-LF-H3c" customClass="FUBeautyView">
-                            <rect key="frame" x="0.0" y="48" width="375" height="98"/>
+                            <rect key="frame" x="76" y="48" width="299" height="98"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="98" id="xa5-Vl-FVQ"/>
@@ -238,7 +238,7 @@
                         <constraint firstItem="uvW-i0-quc" firstAttribute="leading" secondItem="EDc-v0-QNc" secondAttribute="leading" constant="76" id="nvc-o4-0hC"/>
                         <constraint firstAttribute="height" constant="146" id="pCb-78-8CE"/>
                         <constraint firstItem="yzS-kB-xDl" firstAttribute="leading" secondItem="EDc-v0-QNc" secondAttribute="leading" constant="56" id="viK-rr-fWj"/>
-                        <constraint firstItem="Oz7-LF-H3c" firstAttribute="leading" secondItem="EDc-v0-QNc" secondAttribute="leading" id="yKi-fH-fBd"/>
+                        <constraint firstItem="Oz7-LF-H3c" firstAttribute="leading" secondItem="EDc-v0-QNc" secondAttribute="leading" constant="76" id="yKi-fH-fBd"/>
                     </constraints>
                 </view>
             </subviews>

@@ -37,8 +37,9 @@
 "自然" =  "Nature" ;
 "精准美肤 开启" = "Skin Detect ON" ;
 "精准美肤 关闭" = "Skin Detect OFF" ;
-"当前为清晰磨皮模式" = "Light Blur mode" ;
-"当前为朦胧磨皮模式" = "Heavy Blur mode" ;
+"清晰磨皮" = "Light Blur mode" ;
+"朦胧磨皮" = "Heavy Blur mode" ;
+"精细磨皮" = "Fine Blur mode" ;
 "美肤" = "Skin" ;
 "美型" = "Style" ;
 "滤镜" = "Filter" ;

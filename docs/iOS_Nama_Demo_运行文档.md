@@ -1,28 +1,20 @@
 # Demo运行说明文档-iOS  
 级别：Public   
-更新日期：2019-07-08   
+更新日期：2019-08-14   
 
 -------
 
-**FaceUnity Nama SDK v6.2.0 (2019.07.08)**
+**FaceUnity Nama SDK v6.3.0 (2019.08.14)**
 
 更新内容
 
-- 优化人脸检测，提高正脸大角度检测率。
-- 优化背景分割，提高准确度。
-- 优化手势识别，提供15种手势；手势模型支持独立运行，见FUCreator文档。
-- 优化人脸美妆，提高准确度，支持更丰富的效果。
-- 优化人脸跟踪模块边缘人脸抖动问题。  
-- 修复多人脸舌头跟踪相互影响问题。 
-- 修复avatar模式下fxaa抗锯齿失效问题。
-- 废弃高精度模型 armesh_ex.bundle，以及对应的接口 fuLoadExtendedARData。
-- 废弃人脸表情动画模型 anim_model.bundle, 以及对应的接口 fuLoadAnimModel。
-  注：废弃的数据以及接口，可能引起编译不通过，移除代码即可。
+- 新增fuSetFaceTrackParam函数，用于设置人脸跟踪参数。
+- setupLocalWithV3Path:offLinePath:authPackage: authSize: shouldCreateContext:函数，用于离线鉴权
 
 Demo更新：
 
-- 优化美妆交互
-- 更新Nama v6.2.0
+- 优化美颜磨皮交互
+- 更新Nama v6.3.0
 
 ------
 ### 目录：

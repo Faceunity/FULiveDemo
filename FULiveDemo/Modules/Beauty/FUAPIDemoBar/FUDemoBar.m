@@ -50,9 +50,7 @@
 // 记录是否打开状态
 @property (nonatomic, strong) NSMutableDictionary *openedDict ;
 
-// 清晰磨皮数值_0 / 朦胧磨皮数值_1
-@property (nonatomic, assign) double blurLevel_0;
-@property (nonatomic, assign) double blurLevel_1;
+/* 0清晰磨皮  1重度磨皮   2精细磨皮 */
 
 @property (weak, nonatomic) IBOutlet FUSquareButton *mRestBtn;
 
@@ -62,7 +60,7 @@
 
 @implementation FUDemoBar
 
-@synthesize blurLevel = _blurLevel ;
+//@synthesize blurLevel = _blurLevel ;
 @synthesize selectedFilterLevel = _selectedFilterLevel ;
 
 -(void)awakeFromNib {
@@ -102,6 +100,14 @@
     [self.beautyFilterBtn setTitle:NSLocalizedString(@"滤镜", nil) forState:UIControlStateNormal];
     [self.filterBtn setTitle:NSLocalizedString(@"质感美颜", nil) forState:UIControlStateNormal];
     [self.mRestBtn setTitle:NSLocalizedString(@"恢复", nil) forState:UIControlStateNormal];
+    
+    self.skinBtn.tag = 101;
+    self.shapeBtn.tag = 102;
+    self.beautyFilterBtn.tag = 103 ;
+    self.filterBtn.tag = 104;
+    
+    _blurLevel_1 = 0.7;
+    _blurLevel_2 = 0.7;
 
 }
 
@@ -133,19 +139,22 @@
 }
 
 - (IBAction)bottomBtnsSelected:(UIButton *)sender {
-    
     if (sender.selected) {
         sender.selected = NO ;
         [self hiddenTopViewWithAnimation:YES];
         return ;
     }
     
-    self.itemsBtn.selected = sender == self.itemsBtn ;
-    self.skinBtn.selected = sender == self.skinBtn ;
-    self.shapeBtn.selected = sender == self.shapeBtn ;
-    self.beautyFilterBtn.selected = sender == self.beautyFilterBtn ;
-    self.filterBtn.selected = sender == self.filterBtn ;
     
+    self.itemsBtn.selected = NO;
+    self.skinBtn.selected = NO;
+    self.shapeBtn.selected = NO;
+    self.beautyFilterBtn.selected = NO;
+    self.filterBtn.selected = NO;
+    
+    sender.selected = YES;
+    
+    _currentSel.bottomIndex = (int)sender.tag - 101;
     self.skinView.hidden = !self.skinBtn.selected ;
     self.shapeView.hidden = !self.shapeBtn.selected ;
     self.beautyFilterView.hidden = !self.beautyFilterBtn.selected ;
@@ -158,6 +167,7 @@
     if (self.shapeBtn.selected) {
         [self setRestBtnHidden:NO];
         NSInteger selectedIndex = self.shapeView.selectedIndex;
+        _currentSel.topIndex = (int)selectedIndex;
 //        if (selectedIndex < 0) {
 //
 //            self.beautySlider.hidden = YES;
@@ -221,12 +231,21 @@
     
     if (self.skinBtn.selected) {
         NSInteger selectedIndex = self.skinView.selectedIndex;
-        
+        _currentSel.topIndex = (int)selectedIndex;
+        [self setRestBtnHidden:NO];
         self.beautySlider.hidden = selectedIndex < 1 ;
         switch (selectedIndex) {
             case 1:{        //  磨皮
                 self.beautySlider.type = FUFilterSliderTypeBlur ;
-                self.beautySlider.value = _heavyBlur == 0 ? self.blurLevel_0 : self.blurLevel_1 ;
+                if (_blurType == 0) {
+                    self.beautySlider.value = self.blurLevel_0;
+                }
+                if (_blurType == 1) {
+                    self.beautySlider.value = self.blurLevel_1;
+                }
+                if (_blurType == 2) {
+                    self.beautySlider.value = self.blurLevel_2;
+                }
             }
                 break;
             case 2:{        // 美白
@@ -286,7 +305,22 @@
     
     
     [self showTopViewWithAnimation:self.topView.isHidden];
+    [self setBlurViewHidden];
+
 }
+
+-(void)setBlurViewHidden{
+    if (_currentSel.bottomIndex == 0 && _currentSel.topIndex == 1 && !self.topView.isHidden) {
+        if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(blurDidSelect:)]) {
+            [self.mDelegate blurDidSelect:YES];
+        }
+    }else{
+        if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(blurDidSelect:)]) {
+            [self.mDelegate blurDidSelect:NO];
+        }
+    }
+}
+
 
 // 开启上半部分
 - (void)showTopViewWithAnimation:(BOOL)animation {
@@ -348,7 +382,10 @@
 #pragma  mark -  恢复默认参数逻辑
 
 - (IBAction)clickRestBtn:(id)sender {
-    if ([[FUManager shareManager] isDefaultShapeValue]) {
+    if ([[FUManager shareManager] isDefaultShapeValue] && self.shapeBtn.selected) {
+        return;
+    }
+    if ([[FUManager shareManager] isDefaultSkinValue] && self.skinBtn.selected) {
         return;
     }
     
@@ -371,14 +408,15 @@
         if ([self.mDelegate respondsToSelector:@selector(restDefaultValue:)]) {
             if (self.skinBtn.selected) {
                 [self.mDelegate restDefaultValue:1];
-                [self shapeViewDidSelectedIndex:self.skinView.selectedIndex];
+                if(self.skinView.selectedIndex){//第一个不能点击
+                   [self skinViewDidSelectedIndex:self.skinView.selectedIndex];
+                }
             }
             if (self.shapeBtn.selected) {
                 [self.mDelegate restDefaultValue:2];
                [self shapeViewDidSelectedIndex:self.shapeView.selectedIndex];
             }
         }
-        
     }];
     [certainAction setValue:[UIColor colorWithRed:31/255.0 green:178/255.0 blue:255/255.0 alpha:1.0] forKey:@"titleTextColor"];
     
@@ -448,7 +486,7 @@
     }
     self.beautySlider.hidden = NO;
     self.faceCollection.hidden = YES ;
-    
+    _currentSel.topIndex = (int)index;
     switch (index) {
         case 0:{        // 廋脸
             self.beautySlider.type =  FUFilterSliderTypeThinFace;
@@ -505,18 +543,30 @@
 // 美肤页点击
 -(void)skinViewDidSelectedIndex:(NSInteger)index {
     self.beautySlider.hidden = index == 0 ;
-    
+     _currentSel.topIndex = (int)index;
     switch (index) {
         case 0:{        // 精准美肤
             self.skinDetect = !self.skinDetect ;
             if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(beautyParamChanged)]) {
                 [self.mDelegate beautyParamChanged];
             }
+            if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(showMessage:)]) {
+                NSString *message = self.skinDetect ? [@"精准美肤 开启" LocalizableString] : [@"精准美肤 关闭" LocalizableString] ;
+                [self.mDelegate showMessage:message];
+            }
         }
             break;
         case 1:{        // 清晰磨皮
-            self.beautySlider.type = FUFilterSliderTypeBlur ;
-            self.beautySlider.value = self.heavyBlur == 0 ? self.blurLevel_0 : self.blurLevel_1 ;
+            self.beautySlider.type = FUFilterSliderTypeBlur ;            
+            if (_blurType == 0) {
+                self.beautySlider.value = self.blurLevel_0;
+            }
+            if (_blurType == 1) {
+                self.beautySlider.value = self.blurLevel_1;
+            }
+            if (_blurType == 2) {
+                self.beautySlider.value = self.blurLevel_2;
+            }
         }
             break;
         case 2:{        // 美白
@@ -543,36 +593,63 @@
         default:
             break;
     }
+    
+        [self setBlurViewHidden];
 }
 
 // skin detect 改变
--(void)skinDetectChanged:(BOOL)detect {
-    _skinDetect = detect ;
+//-(void)skinDetectChanged:(BOOL)detect {
+//    _skinDetect = detect ;
     
-    self.beautySlider.hidden = YES ;
-    if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(beautyParamChanged)]) {
-        [self.mDelegate beautyParamChanged];
-    }
+//    self.beautySlider.hidden = YES ;
+//    if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(beautyParamChanged)]) {
+//        [self.mDelegate beautyParamChanged];
+//    }
     
-    if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(showMessage:)]) {
-        NSString *message = detect ? [@"精准美肤 开启" LocalizableString] : [@"精准美肤 关闭" LocalizableString] ;
-        [self.mDelegate showMessage:message];
+//    if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(showMessage:)]) {
+//        NSString *message = detect ? [@"精准美肤 开启" LocalizableString] : [@"精准美肤 关闭" LocalizableString] ;
+//        [self.mDelegate showMessage:message];
+//    }
+//}
+
+// 清晰磨皮 朦胧磨皮切换
+- (void)blurTypeChange:(NSInteger)blurType {
+    _blurType = blurType ;
+    if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(blurDidSelect:)]) {
+        [self.mDelegate blurDidSelect:YES];
     }
 }
 
-// 清晰磨皮 朦胧磨皮切换
-- (void)heavyBlurChange:(NSInteger)heavyBlur {
-    _heavyBlur = heavyBlur ;
+-(void)demoBarChangeBlurType:(NSInteger)blurType{
+    if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(showMessage:)]) {
+        NSString *title = nil;
+        if (blurType == 0) {
+            title = [@"清晰磨皮" LocalizableString];
+        }
+        if (blurType == 1) {
+            title = [@"朦胧磨皮" LocalizableString];
+        }
+        if (blurType == 2) {
+            title = [@"精细磨皮" LocalizableString];
+        }
+        
+        [self.mDelegate showMessage:title];
+    }
+    self.beautySlider.type = FUFilterSliderTypeBlur ;
+    if (_blurType == 0) {
+        self.beautySlider.value = self.blurLevel_0;
+    }
+    if (_blurType == 1) {
+        self.beautySlider.value = self.blurLevel_1;
+    }
+    if (_blurType == 2) {
+        self.beautySlider.value = self.blurLevel_2;
+    }
     if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(beautyParamChanged)]) {
         [self.mDelegate beautyParamChanged];
     }
-    if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(showMessage:)]) {
-        [self.mDelegate showMessage:heavyBlur == 0 ? [@"当前为清晰磨皮模式" LocalizableString] : [@"当前为朦胧磨皮模式" LocalizableString] ];
-    }
-    
-    self.beautySlider.type = FUFilterSliderTypeToothWhiten ;
-    self.beautySlider.value = self.heavyBlur == 0 ? _blurLevel_0 : _blurLevel_1 ;
 }
+
 
 // 滑条滑动
 - (IBAction)filterSliderValueChange:(FUSlider *)sender {
@@ -605,12 +682,15 @@
         }
             break;
         case FUFilterSliderTypeBlur: {      // 磨皮
-            if (self.heavyBlur == 0) {
-                
+            
+            if (_blurType == 0) {
                 self.blurLevel_0 = sender.value ; // 清晰磨皮
-            }else {
-                
-                self.blurLevel_1 = sender.value ; // 朦胧磨皮
+            }
+            if (_blurType == 1) {
+                self.blurLevel_1 = sender.value ; // 清晰磨皮
+            }
+            if (_blurType == 2) {
+                self.blurLevel_2 = sender.value ; // 精细磨皮
             }
             break;
         }
@@ -737,73 +817,87 @@
     }
 }
 
--(void)setHeavyBlur:(NSInteger)heavyBlur {
-    _heavyBlur = heavyBlur ;
+-(void)setBlurType:(NSInteger)blurType {
+    _blurType = blurType ;
     
-    if (_heavyBlur == 0) {
-        
-        _blurLevel_0 = self.blurLevel ;
-        
-        BOOL current = _blurLevel > 0.0 ;
-        BOOL selected = [[self.openedDict objectForKey:@"blurLevel_0"] boolValue];
-        
-        if (current != selected) {
-            
-            [_openedDict setObject:@(current) forKey:@"blurLevel_0"];
-            self.skinView.openedDict = _openedDict ;
-        }
-        
-    }else if (_heavyBlur == 1){
-        
-        _blurLevel_1 = self.blurLevel ;
-        
-        BOOL current = _blurLevel > 0.0 ;
-        BOOL selected = [[self.openedDict objectForKey:@"blurLevel_1"] boolValue];
-        
-        if (current != selected) {
-            
-            [_openedDict setObject:@(current) forKey:@"blurLevel_1"];
-            self.skinView.openedDict = _openedDict ;
-        }
+    if (_blurType == 0) {
+
+        BOOL current = _blurLevel_0 > 0.0 ;
+ 
+        [_openedDict setObject:@(current) forKey:@"blurLevel_0"];
+        self.skinView.openedDict = _openedDict ;
+    }else if (_blurType == 1){
+
+        BOOL current = _blurLevel_1 > 0.0 ;
+        [_openedDict setObject:@(current) forKey:@"blurLevel_1"];
+        self.skinView.openedDict = _openedDict ;
+    }else if (_blurType == 2){
+    
+        BOOL current = _blurLevel_2 > 0.0 ;
+        [_openedDict setObject:@(current) forKey:@"blurLevel_2"];
+        self.skinView.openedDict = _openedDict ;
     }
     
-    self.skinView.heavyBlur = heavyBlur ;
+    self.skinView.blurType = blurType ;
+    [self demoBarChangeBlurType:blurType];
 }
 
--(void)setBlurLevel:(double)blurLevel {
-    _blurLevel = blurLevel ;
-    
-    
-    if (self.heavyBlur == 0) {
-        
-        _blurLevel_0 = blurLevel ;
-        
-        BOOL current = blurLevel > 0.0 ;
-        BOOL selected = [[self.openedDict objectForKey:@"blurLevel_0"] boolValue];
-        
-        if (current != selected) {
-            
-            [_openedDict setObject:@(current) forKey:@"blurLevel_0"];
-            self.skinView.openedDict = _openedDict ;
-        }
-        
-    }else if (self.heavyBlur == 1){
-        
-        _blurLevel_1 = blurLevel ;
-        
-        BOOL current = blurLevel > 0.0 ;
-        BOOL selected = [[self.openedDict objectForKey:@"blurLevel_1"] boolValue];
-        
-        if (current != selected) {
-            
-            [_openedDict setObject:@(current) forKey:@"blurLevel_1"];
-            self.skinView.openedDict = _openedDict ;
-        }
-    }
-}
+//-(void)setBlurLevel:(double)blurLevel {
+//    _blurLevel = blurLevel ;
+//    
+//    
+//    if (self.blurType == 0) {
+//        
+//        _blurLevel_0 = blurLevel ;
+//        
+//        BOOL current = blurLevel > 0.0 ;
+//        BOOL selected = [[self.openedDict objectForKey:@"blurLevel_0"] boolValue];
+//        
+//        if (current != selected) {
+//            
+//            [_openedDict setObject:@(current) forKey:@"blurLevel_0"];
+//            self.skinView.openedDict = _openedDict ;
+//        }
+//        
+//    }else if (self.blurType == 1){
+//        
+//        _blurLevel_1 = blurLevel ;
+//        
+//        BOOL current = blurLevel > 0.0 ;
+//        BOOL selected = [[self.openedDict objectForKey:@"blurLevel_1"] boolValue];
+//        
+//        if (current != selected) {
+//            
+//            [_openedDict setObject:@(current) forKey:@"blurLevel_1"];
+//            self.skinView.openedDict = _openedDict ;
+//        }
+//    }else if (self.blurType == 2){
+//        
+//        _blurLevel_2 = blurLevel ;
+//        
+//        BOOL current = blurLevel > 0.0 ;
+//        BOOL selected = [[self.openedDict objectForKey:@"blurLevel_2"] boolValue];
+//        
+//        if (current != selected) {
+//            
+//            [_openedDict setObject:@(current) forKey:@"blurLevel_2"];
+//            self.skinView.openedDict = _openedDict ;
+//        }
+//    }
+//}
 
 -(double)blurLevel {
-    return self.heavyBlur == 0 ? _blurLevel_0 : _blurLevel_1 ;
+    double typeValue = 0;
+    if (_blurType == 0) {
+        typeValue = self.blurLevel_0;
+    }
+    if (_blurType == 1) {
+        typeValue = self.blurLevel_1;
+    }
+    if (_blurType == 2) {
+        typeValue = self.blurLevel_2;
+    }
+    return typeValue ;
 }
 
 
@@ -838,6 +932,19 @@
 //        if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(showMessage:)]) {
 //            [self.mDelegate showMessage:current ? @"朦胧磨皮开启" : @"朦胧磨皮关闭"];
 //        }
+    }
+}
+
+-(void)setBlurLevel_2:(double)blurLevel_2 {
+    _blurLevel_2 = blurLevel_2 ;
+    
+    BOOL current = blurLevel_2 > 0.0 ;
+    BOOL selected = [[self.openedDict objectForKey:@"blurLevel_2"] boolValue];
+    
+    if (current != selected) {
+        
+        [_openedDict setObject:@(current) forKey:@"blurLevel_2"];
+        self.skinView.openedDict = _openedDict ;
     }
 }
 

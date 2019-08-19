@@ -207,6 +207,8 @@
 		E3706F5E216C4AAA004BFC7F /* FUItemsViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3706F5D216C4AAA004BFC7F /* FUItemsViewCell.xib */; };
 		E3706F68216DD3FA004BFC7F /* FURenderer+header.m in Sources */ = {isa = PBXBuildFile; fileRef = E3706F66216DD3F9004BFC7F /* FURenderer+header.m */; };
 		E3706F6E216ED9E1004BFC7F /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = E3706F6D216ED9E1004BFC7F /* loading.gif */; };
+		E3728B912303F05B00B1B9BF /* qgirl_Animoji.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3728B8F2303F05B00B1B9BF /* qgirl_Animoji.bundle */; };
+		E3728B922303F05B00B1B9BF /* qgirl_Animoji.png in Resources */ = {isa = PBXBuildFile; fileRef = E3728B902303F05B00B1B9BF /* qgirl_Animoji.png */; };
 		E37916502264A7850011215B /* manhuanan_point.json in Resources */ = {isa = PBXBuildFile; fileRef = E379164F2264A7850011215B /* manhuanan_point.json */; };
 		E37916522264A78F0011215B /* manhuanv_point.json in Resources */ = {isa = PBXBuildFile; fileRef = E37916512264A78F0011215B /* manhuanv_point.json */; };
 		E37916542264A7970011215B /* mengban_point.json in Resources */ = {isa = PBXBuildFile; fileRef = E37916532264A7970011215B /* mengban_point.json */; };
@@ -249,6 +251,7 @@
 		E37CBDBA2202F311000C9C42 /* FUMusicFilterController.m in Sources */ = {isa = PBXBuildFile; fileRef = E37CBDB92202F311000C9C42 /* FUMusicFilterController.m */; };
 		E37CBDBD2203F7F7000C9C42 /* FUGanController.m in Sources */ = {isa = PBXBuildFile; fileRef = E37CBDBC2203F7F7000C9C42 /* FUGanController.m */; };
 		E37CBDC22213BC2E000C9C42 /* FURecordEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = E37CBDC12213BC2E000C9C42 /* FURecordEncoder.m */; };
+		E38E663422FC0FC6000F8D59 /* FUBlurTypeSelView.m in Sources */ = {isa = PBXBuildFile; fileRef = E38E663322FC0FC6000F8D59 /* FUBlurTypeSelView.m */; };
 		E390BCA8226DD79F00FACC0F /* FUAvatarsController.m in Sources */ = {isa = PBXBuildFile; fileRef = E390BCA5226DD79F00FACC0F /* FUAvatarsController.m */; };
 		E390BCA9226DD79F00FACC0F /* FUAvatarsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E390BCA6226DD79F00FACC0F /* FUAvatarsController.xib */; };
 		E39E1B13222D0F49008F76A4 /* makeup.json in Resources */ = {isa = PBXBuildFile; fileRef = E39E1B12222D0F49008F76A4 /* makeup.json */; };
@@ -590,17 +593,17 @@
 		CD4D6EA521796EA400E02F39 /* change_face.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = change_face.bundle; sourceTree = "<group>"; };
 		CDA60854216F436D00A3DA93 /* kuloutou_Animoji.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kuloutou_Animoji.png; sourceTree = "<group>"; };
 		CDA60855216F436D00A3DA93 /* baimao_Animoji.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = baimao_Animoji.bundle; sourceTree = "<group>"; };
-		CDA60858216F436E00A3DA93 /* hetun_Animoji.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = hetun_Animoji.bundle; sourceTree = "<group>"; };
+		CDA60858216F436E00A3DA93 /* hetun_Animoji.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = hetun_Animoji.bundle; sourceTree = "<group>"; };
 		CDA60859216F436E00A3DA93 /* baimao_Animoji.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = baimao_Animoji.png; sourceTree = "<group>"; };
-		CDA6085A216F436E00A3DA93 /* hashiqi_Animoji.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = hashiqi_Animoji.bundle; sourceTree = "<group>"; };
+		CDA6085A216F436E00A3DA93 /* hashiqi_Animoji.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = hashiqi_Animoji.bundle; sourceTree = "<group>"; };
 		CDA6085B216F436E00A3DA93 /* frog_Animoji.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frog_Animoji.png; sourceTree = "<group>"; };
 		CDA6085C216F436E00A3DA93 /* kuloutou_Animoji.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = kuloutou_Animoji.bundle; sourceTree = "<group>"; };
 		CDA6085D216F436E00A3DA93 /* hashiqi_Animoji.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hashiqi_Animoji.png; sourceTree = "<group>"; };
 		CDA6085E216F436E00A3DA93 /* huangya_Animoji.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = huangya_Animoji.png; sourceTree = "<group>"; };
 		CDA6085F216F436E00A3DA93 /* hetun_Animoji.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hetun_Animoji.png; sourceTree = "<group>"; };
-		CDA60860216F436E00A3DA93 /* douniuquan_Animoji.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = douniuquan_Animoji.bundle; sourceTree = "<group>"; };
+		CDA60860216F436E00A3DA93 /* douniuquan_Animoji.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = douniuquan_Animoji.bundle; sourceTree = "<group>"; };
 		CDA60861216F436E00A3DA93 /* douniuquan_Animoji.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = douniuquan_Animoji.png; sourceTree = "<group>"; };
-		CDA60863216F436E00A3DA93 /* huangya_Animoji.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = huangya_Animoji.bundle; sourceTree = "<group>"; };
+		CDA60863216F436E00A3DA93 /* huangya_Animoji.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = huangya_Animoji.bundle; sourceTree = "<group>"; };
 		CDA60864216F436E00A3DA93 /* frog_Animoji.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = frog_Animoji.bundle; sourceTree = "<group>"; };
 		D595CE4A595DEF848B6EF7B3 /* Pods-FULiveDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FULiveDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-FULiveDemo/Pods-FULiveDemo.release.xcconfig"; sourceTree = "<group>"; };
 		E3060B8A217D5BA60004DC1C /* FUVolumeObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUVolumeObserver.h; sourceTree = "<group>"; };
@@ -728,6 +731,8 @@
 		E3706F66216DD3F9004BFC7F /* FURenderer+header.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FURenderer+header.m"; sourceTree = "<group>"; };
 		E3706F67216DD3F9004BFC7F /* FURenderer+header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FURenderer+header.h"; sourceTree = "<group>"; };
 		E3706F6D216ED9E1004BFC7F /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
+		E3728B8F2303F05B00B1B9BF /* qgirl_Animoji.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = qgirl_Animoji.bundle; sourceTree = "<group>"; };
+		E3728B902303F05B00B1B9BF /* qgirl_Animoji.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qgirl_Animoji.png; sourceTree = "<group>"; };
 		E379164F2264A7850011215B /* manhuanan_point.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = manhuanan_point.json; sourceTree = "<group>"; };
 		E37916512264A78F0011215B /* manhuanv_point.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = manhuanv_point.json; sourceTree = "<group>"; };
 		E37916532264A7970011215B /* mengban_point.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mengban_point.json; sourceTree = "<group>"; };
@@ -786,6 +791,8 @@
 		E37CBDBB2203F7F7000C9C42 /* FUGanController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUGanController.h; sourceTree = "<group>"; };
 		E37CBDBC2203F7F7000C9C42 /* FUGanController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUGanController.m; sourceTree = "<group>"; };
 		E37CBDC12213BC2E000C9C42 /* FURecordEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FURecordEncoder.m; sourceTree = "<group>"; };
+		E38E663222FC0FC6000F8D59 /* FUBlurTypeSelView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUBlurTypeSelView.h; sourceTree = "<group>"; };
+		E38E663322FC0FC6000F8D59 /* FUBlurTypeSelView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUBlurTypeSelView.m; sourceTree = "<group>"; };
 		E390BCA5226DD79F00FACC0F /* FUAvatarsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUAvatarsController.m; sourceTree = "<group>"; };
 		E390BCA6226DD79F00FACC0F /* FUAvatarsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FUAvatarsController.xib; sourceTree = "<group>"; };
 		E390BCA7226DD79F00FACC0F /* FUAvatarsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUAvatarsController.h; sourceTree = "<group>"; };
@@ -1235,6 +1242,8 @@
 		0BE1004C2150F9ED00098F1B /* Animoji */ = {
 			isa = PBXGroup;
 			children = (
+				E3728B8F2303F05B00B1B9BF /* qgirl_Animoji.bundle */,
+				E3728B902303F05B00B1B9BF /* qgirl_Animoji.png */,
 				CDA60855216F436D00A3DA93 /* baimao_Animoji.bundle */,
 				CDA60859216F436E00A3DA93 /* baimao_Animoji.png */,
 				CDA60860216F436E00A3DA93 /* douniuquan_Animoji.bundle */,
@@ -1498,6 +1507,8 @@
 				E35AE6572226709C0076C375 /* UIColor+FUDemoBar.m */,
 				E35AE6582226709C0076C375 /* UIImage+demobar.h */,
 				E35AE6592226709C0076C375 /* UIImage+demobar.m */,
+				E38E663222FC0FC6000F8D59 /* FUBlurTypeSelView.h */,
+				E38E663322FC0FC6000F8D59 /* FUBlurTypeSelView.m */,
 			);
 			path = FUAPIDemoBar;
 			sourceTree = "<group>";
@@ -2527,6 +2538,7 @@
 				E3D5781522B33DEA00D08E5D /* mu_style_blush_03.png in Resources */,
 				E3226474225F0B8C003A6182 /* ssd_thread_korheart.png in Resources */,
 				E322648D225F0CCB003A6182 /* xiongmao.bundle in Resources */,
+				E3728B922303F05B00B1B9BF /* qgirl_Animoji.png in Resources */,
 				E3226495225F0CCB003A6182 /* fenhudie.bundle in Resources */,
 				E3D578A122B77A3F00D08E5D /* mu_eyebrow_01.png in Resources */,
 				E3226489225F0CCB003A6182 /* baozi.png in Resources */,
@@ -2653,6 +2665,7 @@
 				E3F825DD22BA41B2006349E5 /* zhuti04_eyebrow.png in Resources */,
 				E3CB5D80226D6C32004EE355 /* female_hair_04.bundle in Resources */,
 				E3502E172297D5A600C7447F /* yitu_huli_target.json in Resources */,
+				E3728B912303F05B00B1B9BF /* qgirl_Animoji.bundle in Resources */,
 				E3D5787322B77A2E00D08E5D /* mu_blush_23.png in Resources */,
 				E3D5783022B33DEA00D08E5D /* mu_style_eyeshadow2_05.png in Resources */,
 				E3791BD7219C1FE40071D066 /* fuzzytoonfilter.bundle in Resources */,
@@ -2854,6 +2867,7 @@
 				E3CB026821C8968300105B00 /* FUMiniAdjustViewController.m in Sources */,
 				E390BCA8226DD79F00FACC0F /* FUAvatarsController.m in Sources */,
 				E37CBDA722029EF0000C9C42 /* FUPosterController.m in Sources */,
+				E38E663422FC0FC6000F8D59 /* FUBlurTypeSelView.m in Sources */,
 				E3D13CCF224316FD00B5229D /* FUAvatarContentColletionView.m in Sources */,
 				E34810362243799B00D6C941 /* FUAvatarModel.m in Sources */,
 				E362549621D1E164004A5FD7 /* FUGanButton.m in Sources */,

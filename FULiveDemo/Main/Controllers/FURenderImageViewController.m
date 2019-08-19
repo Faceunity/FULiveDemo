@@ -17,10 +17,12 @@
 #import "FUItemsView.h"
 #import <Masonry.h>
 #import "FUImageHelper.h"
+#import "FUBlurTypeSelView.h"
+#import "FUBaseViewController.h"
 
 #define finalPath   [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:@"finalVideo.mp4"]
 
-@interface FURenderImageViewController ()<UINavigationControllerDelegate, UIImagePickerControllerDelegate, FUVideoReaderDelegate, FUAPIDemoBarDelegate, FUItemsViewDelegate,FUMakeUpViewDelegate>
+@interface FURenderImageViewController ()<UINavigationControllerDelegate, UIImagePickerControllerDelegate, FUVideoReaderDelegate, FUAPIDemoBarDelegate, FUItemsViewDelegate,FUMakeUpViewDelegate,FUBlurTypeSelViewDelegate>
 {
     __block BOOL takePic ;
     
@@ -41,12 +43,15 @@
 
 @property (strong, nonatomic) UIButton *downloadBtn;
 @property (strong, nonatomic)  UILabel *tipLabel;
+@property (strong, nonatomic) UILabel *noTrackLabel;
 @property (nonatomic, strong) AVPlayer *avPlayer;
 
 // 定时器
 @property (nonatomic, strong) CADisplayLink *displayLink;
 
 @property (nonatomic,assign) NSInteger  degress;
+
+@property (strong, nonatomic) FUBlurTypeSelView *mBlurTypeSelView;
 @end
 
 @implementation FURenderImageViewController
@@ -90,6 +95,20 @@
     
     takePic = NO ;
     videHasRendered = NO ;
+    
+    [self setBlurSelView];
+}
+
+-(void)setBlurSelView{
+    if (iPhoneXStyle) {
+        _mBlurTypeSelView = [[FUBlurTypeSelView alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 15 - 60, self.view.frame.size.height - 200 - 182 - 34, 60, 200)];
+    }else{
+        _mBlurTypeSelView = [[FUBlurTypeSelView alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 15 - 60, self.view.frame.size.height - 200 - 182, 60, 200)];
+    }
+    _mBlurTypeSelView.hidden = YES;
+    _mBlurTypeSelView.delegate = self;
+    [_mBlurTypeSelView setSelblurType:(int)[FUManager  shareManager].blurType];
+    [self.view addSubview:_mBlurTypeSelView];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -132,18 +151,34 @@
         make.width.mas_equalTo(44);
         make.height.mas_equalTo(44);
     }];
-    /* 提示 */
+
+    /* 未检测到人脸提示 */
+    _noTrackLabel = [[UILabel alloc] init];
+    _noTrackLabel = [[UILabel alloc] init];
+    _noTrackLabel.textColor = [UIColor whiteColor];
+    _noTrackLabel.font = [UIFont systemFontOfSize:17];
+    _noTrackLabel.textAlignment = NSTextAlignmentCenter;
+    _noTrackLabel.text = NSLocalizedString(@"No_Face_Tracking", @"未检测到人脸");
+    [self.view addSubview:_noTrackLabel];
+    [_noTrackLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.view);
+        make.width.mas_equalTo(140);
+        make.height.mas_equalTo(22);
+    }];
+    
+    /* 额外操作提示 */
     _tipLabel = [[UILabel alloc] init];
     _tipLabel.textColor = [UIColor whiteColor];
-    _tipLabel.font = [UIFont systemFontOfSize:17];
+    _tipLabel.font = [UIFont systemFontOfSize:32];
     _tipLabel.textAlignment = NSTextAlignmentCenter;
+    _tipLabel.text = @"张张嘴";
     _tipLabel.hidden = YES;
     [self.view addSubview:_tipLabel];
     [_tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.centerX.equalTo(self.view);
+        make.top.equalTo(self.noTrackLabel.mas_bottom);
         make.centerX.equalTo(self.view);
-        make.width.mas_equalTo(160);
-        make.height.mas_equalTo(22);
+        make.width.mas_equalTo(300);
+        make.height.mas_equalTo(32);
     }];
     
     /* 美颜调节 */
@@ -243,7 +278,7 @@
 
 - (void)addObserver{
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willResignActive) name:UIApplicationWillResignActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
@@ -261,21 +296,24 @@
     }
 }
 
-- (void)willEnterForeground {
-    if (self.navigationController.visibleViewController == self) {
-        [self startRendering];
-    }
-}
+//- (void)willEnterForeground {
+//    if (self.navigationController.visibleViewController == self) {
+//        [self.videoReader continueReading];
+//    }
+//}
 
 - (void)didBecomeActive {
     
-    if (self.navigationController.visibleViewController == self) {
-        [self startRendering];
+    if (self.navigationController.visibleViewController == self && self.downloadBtn.hidden == YES) {//播放过程中
+        [self.videoReader startReadWithDestinationPath:finalPath];
     }
 }
 
 -(void)setImage:(UIImage *)image {
-    _image = image;
+    NSData *imageData0 = UIImageJPEGRepresentation(image, 1.0);
+    UIImage *newImage = [UIImage imageWithData:imageData0];
+
+    _image = newImage;
 }
 
 -(void)setVideoURL:(NSURL *)videoURL {
@@ -343,6 +381,8 @@
     [[FUManager shareManager] renderItemsToPixelBuffer:pixelBuffer];
     
     [self.glView displayPixelBuffer:pixelBuffer];
+    
+    self.noTrackLabel.hidden = [[FUManager shareManager] isTracking];
 }
 
 // 读取结束
@@ -379,49 +419,47 @@
     __weak typeof(self)weakSelf  = self ;
     
     dispatch_async(renderQueue, ^{
-        NSData *imageData0 = UIImageJPEGRepresentation(self.image, 1.0);
-        UIImage *mPhotoImage = [UIImage imageWithData:imageData0];
-        [[FUManager shareManager] resetAllBeautyParams];
-        UIImage *newImage = [[FUManager shareManager] renderItemsToImage:mPhotoImage];
-        int postersWidth = (int)CGImageGetWidth(newImage.CGImage);
-        int postersHeight = (int)CGImageGetHeight(newImage.CGImage);
-        CFDataRef dataFromImageDataProvider = CGDataProviderCopyData(CGImageGetDataProvider(newImage.CGImage));
-        GLubyte *imageData = (GLubyte *)CFDataGetBytePtr(dataFromImageDataProvider);
-        //        void *data =
+        @autoreleasepool {//防止大图片，内存峰值过高
+            [[FUManager shareManager] resetAllBeautyParams];
+            UIImage *newImage = [[FUManager shareManager] renderItemsToImage:_image];
+            int postersWidth = (int)CGImageGetWidth(newImage.CGImage);
+            int postersHeight = (int)CGImageGetHeight(newImage.CGImage);
+            CFDataRef dataFromImageDataProvider = CGDataProviderCopyData(CGImageGetDataProvider(newImage.CGImage));
+            GLubyte *imageData = (GLubyte *)CFDataGetBytePtr(dataFromImageDataProvider);
+            //        void *data =
+            
+            [weakSelf.glView displayImageData:imageData Size:CGSizeMake(postersWidth, postersHeight) Landmarks:NULL count:0 zoomScale:1];
+            CFRelease(dataFromImageDataProvider);
+            
+            if (takePic) {
+                takePic = NO ;
+                dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                    if (newImage) {
+                        UIImageWriteToSavedPhotosAlbum(newImage, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+                    }
+                });
+            }
+        }
         
-        [weakSelf.glView displayImageData:imageData Size:CGSizeMake(postersWidth, postersHeight) Landmarks:NULL count:0 zoomScale:1];
-        CFRelease(dataFromImageDataProvider);
         BOOL isTrack = [[FUManager shareManager] isTracking] ;
         
         if (!isTrack) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 
-                self.tipLabel.text = NSLocalizedString(@"未识别到人脸", nil) ;
-                if (self.tipLabel.hidden) {
-                    self.tipLabel.hidden = NO ;
+                self.noTrackLabel.text = NSLocalizedString(@"未识别到人脸", nil) ;
+                if (self.noTrackLabel.hidden) {
+                    self.noTrackLabel.hidden = NO ;
                 }
             });
         }else {
             dispatch_async(dispatch_get_main_queue(), ^{
                 
-                if (!self.tipLabel.hidden) {
-                    self.tipLabel.hidden = YES ;
+                if (!self.noTrackLabel.hidden) {
+                    self.noTrackLabel.hidden = YES ;
                 }
             });
         }
-        
-        if (takePic) {
-            takePic = NO ;
-            dispatch_async(dispatch_get_global_queue(0, 0), ^{
-                if (newImage) {
-                    UIImageWriteToSavedPhotosAlbum(newImage, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
-                }
-            });
-        }
-
     });
-    
-    
 }
 
 -(void)setDemoBar:(FUAPIDemoBar *)demoBar {
@@ -432,8 +470,12 @@
 - (void)demoBarSetBeautyDefultParams {
     _demoBar.delegate = nil ;
     _demoBar.skinDetect = [FUManager shareManager].skinDetectEnable;
-    _demoBar.heavyBlur = [FUManager shareManager].blurShape ;
-    _demoBar.blurLevel = [FUManager shareManager].blurLevel ;
+    _demoBar.blurType = [FUManager shareManager].blurType ;
+//    _demoBar.blurLevel = [FUManager shareManager].blurLevel ;
+    _demoBar.blurLevel_0 = [FUManager shareManager].blurLevel_0;
+    _demoBar.blurLevel_1 = [FUManager shareManager].blurLevel_1;
+    _demoBar.blurLevel_2 = [FUManager shareManager].blurLevel_2;
+    
     _demoBar.colorLevel = [FUManager shareManager].whiteLevel ;
     _demoBar.redLevel = [FUManager shareManager].redLevel;
     _demoBar.eyeBrightLevel = [FUManager shareManager].eyelightingLevel ;
@@ -469,9 +511,14 @@
     [[FUManager shareManager] resetAllBeautyParams];
 }
 
+-(void)blurDidSelect:(BOOL)isSel{
+    _mBlurTypeSelView.hidden = !isSel;
+}
+
 -(void)restDefaultValue:(int)type{
     if (type == 1) {//美肤
         [[FUManager shareManager] setBeautyDefaultParameters:FUBeautyModuleTypeSkin];
+        [self.mBlurTypeSelView setSelblurType:0];
     }
     if (type == 2) {
         [[FUManager shareManager] setBeautyDefaultParameters:FUBeautyModuleTypeShape];
@@ -482,8 +529,11 @@
 - (void)syncBeautyParams    {
     
     [FUManager shareManager].skinDetectEnable = _demoBar.skinDetect;
-    [FUManager shareManager].blurShape = _demoBar.heavyBlur;
-    [FUManager shareManager].blurLevel = _demoBar.blurLevel ;
+    [FUManager shareManager].blurType = _demoBar.blurType;
+//    [FUManager shareManager].blurLevel = _demoBar.blurLevel ;
+    [FUManager shareManager].blurLevel_0 = _demoBar.blurLevel_0;
+    [FUManager shareManager].blurLevel_1 = _demoBar.blurLevel_1;
+    [FUManager shareManager].blurLevel_2 = _demoBar.blurLevel_2;
     [FUManager shareManager].whiteLevel = _demoBar.colorLevel;
     [FUManager shareManager].redLevel = _demoBar.redLevel;
     [FUManager shareManager].eyelightingLevel = _demoBar.eyeBrightLevel;
@@ -580,6 +630,15 @@
     }
     return rgba;
 }
+
+#pragma  mark -  FUBlurTypeSelViewDelegate
+
+-(void)blurTypeSelViewDidSelIndex:(int)index{
+
+    [FUManager  shareManager].blurType = index;
+    _demoBar.blurType = index;
+}
+
 
 
 - (CVPixelBufferRef) pixelBufferFromImage:(UIImage *)image {

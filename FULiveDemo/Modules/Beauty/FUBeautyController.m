@@ -11,10 +11,12 @@
 #import "FUManager.h"
 #import <Masonry.h>
 #import "FUSelectedImageController.h"
+#import "FUBlurTypeSelView.h"
 
-@interface FUBeautyController ()<FUAPIDemoBarDelegate,FUMakeUpViewDelegate>
+@interface FUBeautyController ()<FUAPIDemoBarDelegate,FUMakeUpViewDelegate,FUBlurTypeSelViewDelegate>
 
 @property (strong, nonatomic) FUAPIDemoBar *demoBar;
+@property (strong, nonatomic) FUBlurTypeSelView *mBlurTypeSelView;
 @end
 
 @implementation FUBeautyController
@@ -40,8 +42,22 @@
 //    UISlider *slider1 = [[UISlider alloc] initWithFrame:CGRectMake(150, 100, 200, 20)];
 //    [slider1 addTarget:self action:@selector(sliderChange1:) forControlEvents:UIControlEventValueChanged];
 //    [self.view addSubview:slider1];
+    
+    [self setBlurSelView];
 }
 
+
+-(void)setBlurSelView{
+    if (iPhoneXStyle) {
+        _mBlurTypeSelView = [[FUBlurTypeSelView alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 15 - 60, self.view.frame.size.height - 200 - 182 - 34, 60, 200)];
+    }else{
+        _mBlurTypeSelView = [[FUBlurTypeSelView alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 15 - 60, self.view.frame.size.height - 200 - 182, 60, 200)];
+    }
+    _mBlurTypeSelView.hidden = YES;
+    _mBlurTypeSelView.delegate = self;
+    [_mBlurTypeSelView setSelblurType:(int)[FUManager shareManager].blurType];
+    [self.view addSubview:_mBlurTypeSelView];
+}
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -94,8 +110,10 @@
 - (void)demoBarSetBeautyDefultParams {
     _demoBar.delegate = nil ;
     _demoBar.skinDetect = [FUManager shareManager].skinDetectEnable;
-    _demoBar.heavyBlur = [FUManager shareManager].blurShape ;
-    _demoBar.blurLevel = [FUManager shareManager].blurLevel ;
+    _demoBar.blurType = [FUManager shareManager].blurType ;
+    _demoBar.blurLevel_0 = [FUManager shareManager].blurLevel_0;
+    _demoBar.blurLevel_1 = [FUManager shareManager].blurLevel_1;
+    _demoBar.blurLevel_2 = [FUManager shareManager].blurLevel_2;
     _demoBar.colorLevel = [FUManager shareManager].whiteLevel ;
     _demoBar.redLevel = [FUManager shareManager].redLevel;
     _demoBar.eyeBrightLevel = [FUManager shareManager].eyelightingLevel ;
@@ -141,6 +159,7 @@
 -(void)restDefaultValue:(int)type{
     if (type == 1) {//美肤
        [[FUManager shareManager] setBeautyDefaultParameters:FUBeautyModuleTypeSkin];
+       [self.mBlurTypeSelView setSelblurType:0];
     }
     
     if (type == 2) {
@@ -150,15 +169,20 @@
     [self demoBarSetBeautyDefultParams];
 }
 
+-(void)blurDidSelect:(BOOL)isSel{
+    _mBlurTypeSelView.hidden = !isSel;
+}
+
 - (void)syncBeautyParams{
     [FUManager shareManager].skinDetectEnable = _demoBar.skinDetect;
-    [FUManager shareManager].blurShape = _demoBar.heavyBlur;
-    [FUManager shareManager].blurLevel = _demoBar.blurLevel ;
+    [FUManager shareManager].blurType = _demoBar.blurType;
+    [FUManager shareManager].blurLevel_0 = _demoBar.blurLevel_0;
+    [FUManager shareManager].blurLevel_1 = _demoBar.blurLevel_1;
+    [FUManager shareManager].blurLevel_2 = _demoBar.blurLevel_2;
     [FUManager shareManager].whiteLevel = _demoBar.colorLevel;
     [FUManager shareManager].redLevel = _demoBar.redLevel;
     [FUManager shareManager].eyelightingLevel = _demoBar.eyeBrightLevel;
     [FUManager shareManager].beautyToothLevel = _demoBar.toothWhitenLevel;
-    //    [FUManager shareManager].faceShape = _demoBar.faceShape;
     [FUManager shareManager].vLevel = _demoBar.vLevel;
     [FUManager shareManager].eggLevel = _demoBar.eggLevel;
     [FUManager shareManager].narrowLevel = _demoBar.narrowLevel;
@@ -167,6 +191,7 @@
     [FUManager shareManager].thinningLevel = _demoBar.thinningLevel;
     //    [FUManager shareManager].enlargingLevel_new = _demoBar.enlargingLevel_new;
     //    [FUManager shareManager].thinningLevel_new = _demoBar.thinningLevel_new;
+    
     [FUManager shareManager].jewLevel = _demoBar.chinLevel;
     [FUManager shareManager].foreheadLevel = _demoBar.foreheadLevel;
     [FUManager shareManager].noseLevel = _demoBar.noseLevel;
@@ -220,6 +245,7 @@
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [self.demoBar hiddeTopView];
+    self.mBlurTypeSelView.hidden = YES;
 }
 
 #pragma mark -  FUMakeUpViewDelegate
@@ -257,6 +283,14 @@
         NSLog(@"颜色json不合法");
     }
     return rgba;
+}
+
+
+#pragma  mark -  FUBlurTypeSelViewDelegate
+
+-(void)blurTypeSelViewDidSelIndex:(int)index{
+    [FUManager  shareManager].blurType = index;
+    _demoBar.blurType = index;
 }
 
 -(void)dealloc{

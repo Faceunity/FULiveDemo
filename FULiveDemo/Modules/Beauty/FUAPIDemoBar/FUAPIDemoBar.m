@@ -17,8 +17,12 @@
 @implementation FUAPIDemoBar
 
 @synthesize skinDetect = _skinDetect ;
-@synthesize heavyBlur = _heavyBlur ;
-@synthesize blurLevel = _blurLevel ;
+@synthesize blurType = _blurType ;
+//@synthesize blurLevel = _blurLevel ;
+@synthesize blurLevel_0 = _blurLevel_0 ;
+@synthesize blurLevel_1 = _blurLevel_1 ;
+@synthesize blurLevel_2 = _blurLevel_2 ;
+
 @synthesize colorLevel = _colorLevel ;
 @synthesize redLevel = _redLevel ;
 @synthesize eyeBrightLevel = _eyeBrightLevel ;
@@ -58,8 +62,11 @@
         [self addSubview:self.demoBar];
         
         _demoBar.skinDetect = self.skinDetect;
-        _demoBar.heavyBlur = self.heavyBlur ;
-        _demoBar.blurLevel = self.blurLevel ;
+        _demoBar.blurType = self.blurType ;
+//        _demoBar.blurLevel = self.blurLevel ;
+        _demoBar.blurLevel_0 = self.blurLevel_0;
+        _demoBar.blurLevel_1 = self.blurLevel_1;
+        _demoBar.blurLevel_2 = self.blurLevel_2;
         _demoBar.colorLevel = self.colorLevel ;
         _demoBar.redLevel = self.redLevel;
         _demoBar.eyeBrightLevel = self.eyeBrightLevel;
@@ -98,8 +105,10 @@
         [self addSubview:self.demoBar];
         
         _demoBar.skinDetect = self.skinDetect;
-        _demoBar.heavyBlur = self.heavyBlur ;
-        _demoBar.blurLevel = self.blurLevel ;
+        _demoBar.blurType = self.blurType ;
+        _demoBar.blurLevel_0 = self.blurLevel_0;
+        _demoBar.blurLevel_1 = self.blurLevel_1;
+        _demoBar.blurLevel_2 = self.blurLevel_2;
         _demoBar.colorLevel = self.colorLevel ;
         _demoBar.redLevel = self.redLevel;
         _demoBar.eyeBrightLevel = self.eyeBrightLevel;
@@ -158,21 +167,45 @@
 }
 
 // 美肤类型
--(void)setHeavyBlur:(NSInteger)heavyBlur {
-    _heavyBlur = heavyBlur ;
-    self.demoBar.heavyBlur = heavyBlur ;
+-(void)setBlurType:(NSInteger)blurType {
+    _blurType = blurType ;
+    self.demoBar.blurType = blurType ;
 }
--(NSInteger)heavyBlur {
-    return self.demoBar.heavyBlur ;
+-(NSInteger)blurType {
+    return self.demoBar.blurType ;
 }
 
 // 磨皮
--(void)setBlurLevel:(double)blurLevel {
-    _blurLevel = blurLevel ;
-    self.demoBar.blurLevel = blurLevel ;
+//-(void)setBlurLevel:(double)blurLevel {
+//    _blurLevel = blurLevel ;
+//    self.demoBar.blurLevel = blurLevel ;
+//}
+//-(double)blurLevel {
+//    return self.demoBar.blurLevel ;
+//}
+
+-(void)setBlurLevel_0:(double)blurLevel_0{
+    _blurLevel_0 = blurLevel_0 ;
+    self.demoBar.blurLevel_0 = blurLevel_0 ;
 }
--(double)blurLevel {
-    return self.demoBar.blurLevel ;
+-(double)blurLevel_0{
+    return self.demoBar.blurLevel_0;
+}
+
+-(void)setBlurLevel_1:(double)blurLevel_1{
+    _blurLevel_1 = blurLevel_1 ;
+    self.demoBar.blurLevel_1 = blurLevel_1 ;
+}
+-(double)blurLevel_1{
+    return self.demoBar.blurLevel_1;
+}
+
+-(void)setBlurLevel_2:(double)blurLevel_2{
+    _blurLevel_2 = blurLevel_2 ;
+    self.demoBar.blurLevel_2 = blurLevel_2 ;
+}
+-(double)blurLevel_2{
+    return self.demoBar.blurLevel_2;
 }
 
 // 美白
@@ -342,6 +375,12 @@
     _selectedFilterLevel = value ;
     if (self.delegate && [self.delegate respondsToSelector:@selector(demoBarFilterValueChange:)]) {
         [self.delegate demoBarFilterValueChange:value];
+    }
+}
+
+-(void)blurDidSelect:(BOOL)isSel{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(blurDidSelect:)]) {
+        [self.delegate blurDidSelect:isSel];
     }
 }
 

@@ -106,13 +106,26 @@
                 }
                 
                 if (indexPath.row == 1) {
+                     NSString *cellName = nil;
+                     title = @"磨皮";
+                    if (self.blurType == 0) {
+//                        title = @"清晰磨皮";
+                        cellName = @"blurLevel_0";
+                    }
                     
-                    title = self.heavyBlur == 0 ? @"清晰磨皮" : @"朦胧磨皮" ;
+                    if (self.blurType == 1) {
+//                        title = @"朦胧磨皮";
+                        cellName = @"blurLevel_1";
+                    }
+                    
+                    if (self.blurType == 2) {
+//                        title = @"精细磨皮";
+                        cellName = @"blurLevel_2";
+                    }
+                    
                     
                     BOOL selected = _selectedIndex == 1 ;
-                    
-                    NSString *cellName = self.heavyBlur == 0 ? @"blurLevel_0" : @"blurLevel_1" ;
-                    
+
                     BOOL opened = [[_openedDict objectForKey:cellName] boolValue];
                     
                     if (selected) {
@@ -233,31 +246,26 @@
             if (_selectedIndex == indexPath.row && indexPath.row > 1) {
                 return ;
             }
-
+            _selectedIndex = indexPath.row ;
             if (indexPath.row == 0) {
-                
-                _selectedIndex = indexPath.row ;
-                [self reloadData];
+        
+//                [self reloadData];
                 
                 self.skinDetect = !self.skinDetect ;
-                if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(skinDetectChanged:)]) {
-                    [self.mDelegate skinDetectChanged:self.skinDetect];
-                }
-                return ;
+//                if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(skinDetectChanged:)]) {
+//                    [self.mDelegate skinDetectChanged:self.skinDetect];
+//                }
+//                return ;
             }
             
             if (indexPath.row == 1) {
                 
                 if (_selectedIndex == 1) {
-                    self.heavyBlur ++ ;
-                    self.heavyBlur = self.heavyBlur % 2 ;
-                    if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(heavyBlurChange:)]) {
-                        [self.mDelegate heavyBlurChange:self.heavyBlur];
+                    if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(blurTypeChange:)]) {
+                        [self.mDelegate blurTypeChange:self.blurType];
                     }
                 }
             }
-            
-            _selectedIndex = indexPath.row ;
             [self reloadData];
             
             if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(skinViewDidSelectedIndex:)]) {

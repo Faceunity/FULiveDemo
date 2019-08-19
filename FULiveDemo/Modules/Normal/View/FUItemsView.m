@@ -47,7 +47,7 @@
     _collection.backgroundColor = [UIColor clearColor];
     _collection.delegate = self;
     _collection.dataSource = self;
-//    _collection.showsHorizontalScrollIndicator = NO;
+    _collection.showsHorizontalScrollIndicator = NO;
     
     [self addSubview:_collection];
 }

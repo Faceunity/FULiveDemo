@@ -45,8 +45,12 @@ typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
 @property (nonatomic, assign)               BOOL enableMaxFaces;        /**设置人脸识别个数，默认为单人模式*/
 
 @property (nonatomic, assign) BOOL skinDetectEnable ;   // 精准美肤
-@property (nonatomic, assign) NSInteger blurShape;      // 美肤类型 (0、1、) 清晰：0，朦胧：1
-@property (nonatomic, assign) double blurLevel;         // 磨皮(0.0 - 6.0)
+@property (nonatomic, assign) NSInteger blurType;      // 0清晰磨皮 1重度磨皮 2精细磨皮
+//@property (nonatomic, assign) double blurLevel;         // 磨皮(0.0 - 6.0)
+/* 0清晰磨皮  1重度磨皮   2精细磨皮 */
+@property (nonatomic, assign) double blurLevel_0;
+@property (nonatomic, assign) double blurLevel_1;
+@property (nonatomic, assign) double blurLevel_2;
 @property (nonatomic, assign) double whiteLevel;        // 美白
 @property (nonatomic, assign) double redLevel;          // 红润
 @property (nonatomic, assign) double eyelightingLevel;  // 亮眼
@@ -105,6 +109,8 @@ typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
  判断是不是默认美型参数
  */
 -(BOOL)isDefaultShapeValue;
+/* 判断是不是默认美肤 */
+-(BOOL)isDefaultSkinValue;
 - (void)resetAllBeautyParams;
 /**初始化Faceunity,加载道具*/
 - (void)loadItems;

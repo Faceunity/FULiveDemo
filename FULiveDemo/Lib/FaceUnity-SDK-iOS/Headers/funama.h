@@ -613,6 +613,13 @@ FUNAMA_API void fuSetStrictTracking(int i);
 */
 FUNAMA_API void fuSetDefaultRotationMode(int rotationMode);
 
+
+/**
+\brief Get the current rotationMode.
+\return the current rotationMode, one of 0..3 should work.
+*/
+FUNAMA_API int fuGetCurrentRotationMode();
+
 /**
 \brief Get certificate permission code for modules
 \param i - get i-th code, currently available for 0 and 1
@@ -664,6 +671,17 @@ FUNAMA_API int fuClearPhysics();
 	dde_facedet_set(ctx, "size_min", &size_min);
 */
 FUNAMA_API int fuSetFaceDetParam(char* name, float* pvalue);
+
+/**
+\brief Set the global face tracker parameter.
+\param name is the parameter name, it can be:
+	"mouth_expression_more_flexible": \in [0, 1], default=0; additionally make mouth expression more flexible.
+	"expression_calibration_strength": \in [0, 1], default=0.2; strenght of expression soft calibration.
+\param value points to the new parameter value, e.g., 
+	float mouth_expression_more_flexible=0.6f;
+	dde_facetrack_set("mouth_expression_more_flexible", &mouth_expression_more_flexible);
+*/
+FUNAMA_API int fuSetFaceTrackParam(char* name, float* pvalue);
 
 /**
 \brief if one face is detected, we may want to detect other faces at lower frequency

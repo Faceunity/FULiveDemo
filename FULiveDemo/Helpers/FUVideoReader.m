@@ -353,7 +353,6 @@ static BOOL isVideoFirst = YES ;
 - (void)readVideoFinished {
     
     dispatch_semaphore_signal(self.finishSemaphore) ;
-    [self stopReading];
     self.finishSemaphore = nil ;
     
     if (self.assetWriter.status == AVAssetWriterStatusWriting) {
@@ -375,6 +374,10 @@ static BOOL isVideoFirst = YES ;
             }
         }];
     }
+    isReadFirstFrame = NO ;
+    isReadLastFrame = NO ;
+    _displayLink.paused = YES;
+
 }
 
 // 只读 第一帧
@@ -406,6 +409,18 @@ static BOOL isVideoFirst = YES ;
     isReadFirstFrame = NO ;
     isReadLastFrame = NO ;
     _displayLink.paused = YES;
+    
+    [self.assetReader cancelReading];
+    [self.assetWriter cancelWriting];
+    self.assetWriter = nil;
+    self.assetReader = nil;
+}
+
+-(void)continueReading{
+    if (_displayLink.paused) {
+        _displayLink.paused = NO;
+    }
+    
 }
 
 - (void)destory {
