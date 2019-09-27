@@ -23,6 +23,7 @@ typedef enum : NSUInteger {
 {
     RunMode runMode;
     BOOL hasStarted;
+    BOOL videoHDREnabled;
 }
 @property (nonatomic, strong) AVCaptureSession *captureSession;
 @property (strong, nonatomic) AVCaptureDeviceInput       *backCameraInput;//后置摄像头输入
@@ -37,8 +38,6 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, strong) AVCaptureDeviceInput      *audioMicInput;//麦克风输入
 @property (nonatomic, strong) AVCaptureAudioDataOutput  *audioOutput;//音频输出
-
-
 @property (copy, nonatomic) void(^recordVidepCompleted) (NSString *videoPath);
 @end
 
@@ -58,6 +57,7 @@ typedef enum : NSUInteger {
     if (self = [super init]) {
         self.cameraPosition = AVCaptureDevicePositionFront;
         self.captureFormat = kCVPixelFormatType_32BGRA;
+        videoHDREnabled = YES;
     }
     return self;
 }
@@ -79,6 +79,7 @@ typedef enum : NSUInteger {
     if ([self.captureSession isRunning]) {
         [self.captureSession stopRunning];
     }
+    NSLog(@"视频采集关闭");
 }
 
 - (void)addAudio{
@@ -138,6 +139,12 @@ typedef enum : NSUInteger {
         }
     }
     self.camera = _backCameraInput.device;
+//    if ( [self.camera lockForConfiguration:NULL] ) {
+//        self.camera.automaticallyAdjustsVideoHDREnabled = NO;
+//        self.camera.videoHDREnabled = videoHDREnabled;
+//        [self.camera unlockForConfiguration];
+//    }
+    
     return _backCameraInput;
 }
 
@@ -151,6 +158,14 @@ typedef enum : NSUInteger {
         }
     }
     self.camera = _frontCameraInput.device;
+    
+//    if ([self.camera lockForConfiguration:NULL] ) {
+//        self.camera.automaticallyAdjustsVideoHDREnabled = NO;
+//        self.camera.videoHDREnabled = videoHDREnabled;
+//        [self.camera unlockForConfiguration];
+//    }
+
+
     return _frontCameraInput;
 }
 
@@ -309,42 +324,60 @@ typedef enum : NSUInteger {
     
 }
 
-
+/* AVCaptureFocusModeAutoFocus 会锁定对焦 */
 - (void)setFocusPoint:(CGPoint)focusPoint{
     // NSLog(@"camera----对焦点----%@",NSStringFromCGPoint(focusPoint));
     _focusPoint = focusPoint;
     if (!self.focusPointSupported) {
         return;
     }
-    
+
     NSError *error = nil;
     if (![self.camera lockForConfiguration:&error]) {
-        NSLog(@"XBFilteredCameraView: Failed to set focus point: %@", [error localizedDescription]);
+        NSLog(@"Failed to set focus point: %@", [error localizedDescription]);
         return;
     }
-    
+
     self.camera.focusPointOfInterest = focusPoint;
-    self.camera.focusMode = AVCaptureFocusModeAutoFocus;
+    self.camera.focusMode = AVCaptureFocusModeContinuousAutoFocus;
     [self.camera unlockForConfiguration];
 }
 
+/* 这里使用持续调整曝光模式，可以通过KVO “adjustingExposure” 监视摄像头*/
 - (void)setExposurePoint:(CGPoint)exposurePoint{
     _exposurePoint = exposurePoint;
    // NSLog(@"camera----曝光点----%@",NSStringFromCGPoint(exposurePoint));
     if (!self.exposurePointSupported) {
         return;
     }
-    
+
     NSError *error = nil;
     if (![self.camera lockForConfiguration:&error]) {
-        NSLog(@"XBFilteredCameraView: Failed to set exposure point: %@", [error localizedDescription]);
+        NSLog(@"Failed to set exposure point: %@", [error localizedDescription]);
         return;
     }
-    self.camera.exposureMode = AVCaptureExposureModeLocked;
     self.camera.exposurePointOfInterest = exposurePoint;
     self.camera.exposureMode = AVCaptureExposureModeContinuousAutoExposure;
-    
     [self.camera unlockForConfiguration];
+}
+
+/**
+ 设置白平衡模式
+ 
+ @param whiteBalanceMode modle
+ */
+- (void)setWhiteBalanceMode:(AVCaptureWhiteBalanceMode)whiteBalanceMode{
+    if ([self.camera isWhiteBalanceModeSupported:whiteBalanceMode]) {
+        NSError *error;
+        if (![self.camera lockForConfiguration:&error]) {
+            [self.camera setWhiteBalanceMode:whiteBalanceMode];
+            [self.camera unlockForConfiguration];
+            NSLog(@"Failed to set whiteBalanceMode: %@", error);
+            return;
+        }
+        [self.camera setWhiteBalanceMode:whiteBalanceMode];
+        [self.camera unlockForConfiguration];
+    }
 }
 
 /**
@@ -376,6 +409,81 @@ typedef enum : NSUInteger {
     }
     
 }
+
+
+-(void)cameraChangeISO:(CGFloat)iso{
+    
+    AVCaptureDevice *captureDevice = self.camera;
+    NSError *error;
+    if ([captureDevice lockForConfiguration:&error]) {
+        
+        //        CGFloat minISO = captureDevice.activeFormat.minISO;
+        //        CGFloat maxISO = captureDevice.activeFormat.maxISO;
+        [captureDevice setExposureModeCustomWithDuration:AVCaptureExposureDurationCurrent  ISO:iso completionHandler:nil];
+        [captureDevice unlockForConfiguration];
+    }else{
+        NSLog(@"handle the error appropriately");
+    }
+}
+
+
+#pragma  mark -  分辨率
+-(void)changeSessionPreset:(AVCaptureSessionPreset)sessionPreset{
+    if ([self.captureSession canSetSessionPreset:sessionPreset]) {
+        _captureSession.sessionPreset = sessionPreset;
+    }
+}
+
+#pragma  mark -  镜像
+-(void)changeVideoMirrored:(BOOL)videoMirrored{
+    if (self.videoConnection.supportsVideoMirroring) {
+        self.videoConnection.videoMirrored = videoMirrored;
+    }
+}
+
+#pragma  mark -  帧率
+-(void)changeVideoFrameRate:(int)frameRate{
+    if (frameRate <= 30) {//此方法可以设置相机帧率,仅支持帧率小于等于30帧.
+        AVCaptureDevice *videoDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+        [videoDevice lockForConfiguration:NULL];
+        [videoDevice setActiveVideoMinFrameDuration:CMTimeMake(10, frameRate * 10)];
+        [videoDevice setActiveVideoMaxFrameDuration:CMTimeMake(10, frameRate * 10)];
+        [videoDevice unlockForConfiguration];
+        return;
+    }
+    
+    AVCaptureDevice *videoDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    for(AVCaptureDeviceFormat *vFormat in [videoDevice formats] ) {
+        CMFormatDescriptionRef description= vFormat.formatDescription;
+        float maxRate = ((AVFrameRateRange*) [vFormat.videoSupportedFrameRateRanges objectAtIndex:0]).maxFrameRate;
+        if (maxRate > frameRate - 1 &&
+            CMFormatDescriptionGetMediaSubType(description)==kCVPixelFormatType_420YpCbCr8BiPlanarFullRange) {
+            if ([videoDevice lockForConfiguration:nil]) {
+                /* 设置分辨率的方法activeFormat与sessionPreset是互斥的 */
+                videoDevice.activeFormat = vFormat;
+                [videoDevice setActiveVideoMinFrameDuration:CMTimeMake(10, frameRate * 10)];
+                [videoDevice setActiveVideoMaxFrameDuration:CMTimeMake(10, frameRate * 10)];
+                [videoDevice unlockForConfiguration];
+                break;
+            }
+        }
+    }
+}
+
+#pragma  mark -  HDR
+
+-(void)cameraVideoHDREnabled:(BOOL)videoHDREnabled{
+    AVCaptureDevice *captureDevice = self.camera;
+    NSError *error;
+    if ([captureDevice lockForConfiguration:&error]) {
+        //NSLog(@"automaticallyAdjustsVideoHDREnabled >>>>>==%d",captureDevice.automaticallyAdjustsVideoHDREnabled);
+        captureDevice.automaticallyAdjustsVideoHDREnabled = videoHDREnabled;
+        [captureDevice unlockForConfiguration];
+        
+    }else{
+    }
+}
+
 
 - (BOOL)focusPointSupported
 {

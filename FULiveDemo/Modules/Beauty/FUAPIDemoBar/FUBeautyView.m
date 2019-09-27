@@ -250,7 +250,6 @@
             if (indexPath.row == 0) {
         
 //                [self reloadData];
-                
                 self.skinDetect = !self.skinDetect ;
 //                if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(skinDetectChanged:)]) {
 //                    [self.mDelegate skinDetectChanged:self.skinDetect];

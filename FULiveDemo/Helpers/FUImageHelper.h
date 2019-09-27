@@ -21,4 +21,6 @@
 
 +(UIImage *)imageFromPixelBuffer:(CVPixelBufferRef)pixelBufferRef;
 + (unsigned char *)getRGBAWithImage:(UIImage *)image;
+
++ (unsigned char *)getRGBAWithImageName:(NSString *)imageName width:(int *)width height:(int *)height;
 @end

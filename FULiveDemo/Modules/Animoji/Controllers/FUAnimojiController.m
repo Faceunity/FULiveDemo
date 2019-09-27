@@ -96,7 +96,7 @@
         [[FUManager shareManager] loadFilterAnimoji:_selComic style:[self comicStyleIndex:type]];
     }else{//anmoji
         _selAnmoji = item;
-        [[FUManager shareManager] loadItem:item];
+        [[FUManager shareManager] loadItem:item completion:nil];
         NSArray *array = [_selComic componentsSeparatedByString:@"toonfilter"];
         int type = [array.lastObject intValue];
         [[FUManager shareManager] loadFilterAnimoji:_selComic style:[self comicStyleIndex:type]];

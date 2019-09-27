@@ -30,8 +30,9 @@ typedef NS_ENUM(NSUInteger, FUNamaHandleType) {
     FUNamaHandleTypeAvtarHead = 9,  /* items[9] ------ Avtar头*/
     FUNamaHandleTypeAvtarHiar = 10,  /* items[10] ------ Avtar头发 */
     FUNamaHandleTypeAvtarbg = 11,  /* items[11] ------ Avtar背景 */
-    
-    FUNamaHandleTotal = 12
+    FUNamaHandleTypeBodySlim = 12,  /* items[12] ------ 美体道具 */
+    FUNamaHandleTypeHairModel = 13,  /* items[13] ------ 美发的模型 */
+    FUNamaHandleTotal = 14
 };
 
 typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
@@ -116,6 +117,8 @@ typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
 - (void)loadItems;
 /* 加载美颜bundle */
 - (void)loadMakeupBundleWithName:(NSString *)name;
+/* 加载bundle 到指定items位置 */
+- (void)loadBundleWithName:(NSString *)name aboutType:(FUNamaHandleType)type;
 /**加载美颜道具*/
 - (void)loadFilter ;
 /**销毁全部道具*/
@@ -129,7 +132,7 @@ typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
 - (int)getHandleAboutType:(FUNamaHandleType)type;
 
 /**加载普通道具*/
-- (void)loadItem:(NSString *)itemName;
+- (void)loadItem:(NSString *)itemName completion:(void (^)(BOOL finished))completion;
 
 /* 点位模式 */
 -(void)loadMakeupType:(NSString *)itemName;
@@ -161,7 +164,7 @@ typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
  @param image 贴纸图片
  @param paramStr 美妆部位参数
  */
--(void)setMakeupItemParamImage:(UIImage *)image param:(NSString *)paramStr;
+-(void)setMakeupItemParamImageName:(NSString *)image param:(NSString *)paramStr;
 /**
  美妆程度值
 

@@ -109,7 +109,10 @@
 }
 
 -(void)makeupViewDidSelectedNamaStr:(NSString *)namaStr imageName:(NSString *)imageName{
-    [[FUManager shareManager] setMakeupItemParamImage:[UIImage imageNamed:imageName]  param:namaStr];
+    if (!namaStr || !imageName) {
+        return;
+    }
+    [[FUManager shareManager] setMakeupItemParamImageName:imageName  param:namaStr];
 }
 
 

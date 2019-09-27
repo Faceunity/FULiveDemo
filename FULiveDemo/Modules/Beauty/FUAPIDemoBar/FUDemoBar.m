@@ -165,7 +165,9 @@
     self.faceCollection.hidden = YES ;
     [self setRestBtnHidden:YES];
     if (self.shapeBtn.selected) {
+        /* 修改当前UI */
         [self setRestBtnHidden:NO];
+        [self sliderChangeEnd:nil];
         NSInteger selectedIndex = self.shapeView.selectedIndex;
         _currentSel.topIndex = (int)selectedIndex;
 //        if (selectedIndex < 0) {
@@ -233,6 +235,7 @@
         NSInteger selectedIndex = self.skinView.selectedIndex;
         _currentSel.topIndex = (int)selectedIndex;
         [self setRestBtnHidden:NO];
+        [self sliderChangeEnd:nil];
         self.beautySlider.hidden = selectedIndex < 1 ;
         switch (selectedIndex) {
             case 1:{        //  磨皮
@@ -405,6 +408,7 @@
     [cancleAction setValue:[UIColor colorWithRed:44/255.0 green:46/255.0 blue:48/255.0 alpha:1.0] forKey:@"titleTextColor"];
     
     UIAlertAction *certainAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"确定",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        self.mRestBtn.alpha = 0.7;
         if ([self.mDelegate respondsToSelector:@selector(restDefaultValue:)]) {
             if (self.skinBtn.selected) {
                 [self.mDelegate restDefaultValue:1];
@@ -554,6 +558,8 @@
                 NSString *message = self.skinDetect ? [@"精准美肤 开启" LocalizableString] : [@"精准美肤 关闭" LocalizableString] ;
                 [self.mDelegate showMessage:message];
             }
+            
+            [self sliderChangeEnd:nil];
         }
             break;
         case 1:{        // 清晰磨皮
@@ -753,6 +759,24 @@
     }
 }
 
+- (IBAction)sliderChangeEnd:(FUSlider *)sender {
+
+    if (self.shapeBtn.selected) {
+        if ([[FUManager shareManager] isDefaultShapeValue]) {
+            self.mRestBtn.alpha = 0.7;
+        }else{
+            self.mRestBtn.alpha = 1.0;
+        }
+    }
+    
+    if (self.skinBtn.selected) {
+        if ([[FUManager shareManager] isDefaultSkinValue]) {
+            self.mRestBtn.alpha = 0.7;
+        }else{
+            self.mRestBtn.alpha = 1.0;
+        }
+    }
+}
 #pragma mark --- FUFaceCollectionDelegate
 
 //-(void)didSelectedFaceType:(NSInteger)index {

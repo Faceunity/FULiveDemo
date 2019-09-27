@@ -38,7 +38,8 @@
 @property (nonatomic,copy) NSString *currentBoudleName;
 /* 需提示item */
 @property (nonatomic, strong) NSDictionary *hintDic;
-
+/* 带屏幕方向的道具 */
+@property (nonatomic, strong)NSArray *deviceOrientationItems;
 @end
 
 static FUManager *shareManager = NULL;
@@ -92,6 +93,9 @@ static FUManager *shareManager = NULL;
         /* 设置嘴巴灵活度 默认= 0*/
         float flexible = 0.5;
         fuSetFaceTrackParam((char *)[@"mouth_expression_more_flexible" UTF8String], &flexible);
+
+        /* 带屏幕方向的道具 */
+        self.deviceOrientationItems = @[@"ctrl_rain",@"ctrl_snow",@"ctrl_flower",@"ssd_thread_six"];
         
         NSLog(@"faceunitySDK version:%@",[FURenderer getVersion]);
     }
@@ -132,7 +136,7 @@ static FUManager *shareManager = NULL;
 - (void)loadItems
 {
     /**加载普通道具*/
-    [self loadItem:self.selectedItem];
+    [self loadItem:self.selectedItem completion:nil];
     
     /**加载美颜道具*/
     [self loadFilter];
@@ -243,9 +247,11 @@ static FUManager *shareManager = NULL;
 
 
 -(void)setParamItemAboutType:(FUNamaHandleType)type name:(NSString *)paramName value:(float)value{
-    if(items[type]){
-       [FURenderer itemSetParam:items[type] withName:paramName value:@(value)];
-    }
+    dispatch_async(asyncLoadQueue, ^{
+       if(items[type]){
+        [FURenderer itemSetParam:items[type] withName:paramName value:@(value)];
+       }
+    });
 }
 
 #pragma mark -  加载bundle
@@ -297,7 +303,7 @@ static FUManager *shareManager = NULL;
 }
 
 -(BOOL)isDefaultSkinValue{
-    if(self.skinDetectEnable == YES && self.blurType == 0 && self.blurLevel_1 == 0.7 && self.whiteLevel == 0.3
+    if(self.skinDetectEnable == YES && self.blurType == 0 && self.blurLevel_1 == 0.7 && self.blurLevel_0 == 0.7 && self.blurLevel_2 == 0.7 && self.whiteLevel == 0.3
        &&self.redLevel == 0.3 && self.eyelightingLevel == 0 && self.beautyToothLevel == 0){
         return YES;
     }
@@ -348,7 +354,7 @@ static FUManager *shareManager = NULL;
  加载普通道具
  - 先创建再释放可以有效缓解切换道具卡顿问题
  */
-- (void)loadItem:(NSString *)itemName{
+- (void)loadItem:(NSString *)itemName completion:(void (^)(BOOL finished))completion{
     dispatch_async(asyncLoadQueue, ^{
         self.selectedItem = itemName ;
         
@@ -376,7 +382,7 @@ static FUManager *shareManager = NULL;
                 [FURenderer itemSetParam:itemHandle withName:@"flip_action" value:@(1)];
             }
             
-            if ([itemName isEqualToString:@"ctrl_rain"] || [itemName isEqualToString:@"ctrl_snow"] || [itemName isEqualToString:@"ctrl_flower"]) {//带重力感应道具
+            if ([self.deviceOrientationItems containsObject:itemName]) {//带重力感应道具
                 [FURenderer itemSetParam:itemHandle withName:@"rotMode" value:@(self.deviceOrientation)];
                 self.isMotionItem = YES;
             }else{
@@ -388,8 +394,13 @@ static FUManager *shareManager = NULL;
             }
             /**将刚刚创建的句柄存放在items[FUNamaHandleTypeItem]中*/
             items[FUNamaHandleTypeItem] = itemHandle;
-            
-        }else{
+            if(completion){
+                completion(YES);
+            }
+            }else{
+                if(completion){
+                    completion(NO);
+                }
             /**为避免道具句柄被销毁会后仍被使用导致程序出错，这里需要将存放道具句柄的items[FUNamaHandleTypeItem]设为0*/
             items[FUNamaHandleTypeItem] = 0;
         }
@@ -403,6 +414,21 @@ static FUManager *shareManager = NULL;
         }
     });
  
+}
+
+- (void)loadBundleWithName:(NSString *)name aboutType:(FUNamaHandleType)type{
+    dispatch_async(asyncLoadQueue, ^{
+        if (items[type] != 0) {
+            NSLog(@"faceunity: destroy item");
+            [FURenderer destroyItem:items[type]];
+            items[type] = 0;
+        }
+        if ([name isEqualToString:@""] || !name) {
+            return ;
+        }
+        NSString *filePath = [[NSBundle mainBundle] pathForResource:name ofType:@"bundle"];
+        items[type] = [FURenderer itemWithContentsOfFile:filePath];
+    });
 }
 
 #pragma mark -  美妆
@@ -445,7 +471,7 @@ static FUManager *shareManager = NULL;
  tex_eyeLiner 眼线
  tex_blusher腮红
  */
--(void)setMakeupItemParamImage:(UIImage *)image param:(NSString *)paramStr{
+-(void)setMakeupItemParamImageName:(NSString *)image param:(NSString *)paramStr{
     dispatch_async(makeupQueue, ^{
         if (!image) {
             NSLog(@"美妆图片为空");
@@ -453,15 +479,13 @@ static FUManager *shareManager = NULL;
         }
         if (items[FUNamaHandleTypeMakeup]) {
             [[FUManager shareManager] setMakeupItemIntensity:1 param:@"is_makeup_on"];
-            int photoWidth = (int)CGImageGetWidth(image.CGImage);
-            int photoHeight = (int)CGImageGetHeight(image.CGImage);
-            
-            unsigned char *imageData = [FUImageHelper getRGBAWithImage:image];
+            int width,heigth = 0;
+            unsigned char *imageData = [FUImageHelper getRGBAWithImageName:image width:&width height:&heigth];
             
             // [[FURenderer shareRenderer] setUpCurrentContext];
             fuItemSetParamd(items[FUNamaHandleTypeMakeup], "reverse_alpha", 1.0);
             
-            fuCreateTexForItem(items[FUNamaHandleTypeMakeup], (char *)[paramStr UTF8String], imageData, photoWidth, photoHeight);
+            fuCreateTexForItem(items[FUNamaHandleTypeMakeup], (char *)[paramStr UTF8String], imageData, width, heigth);
             // [[FURenderer shareRenderer] setBackCurrentContext];
             free(imageData);
         }else{
@@ -541,14 +565,9 @@ static FUManager *shareManager = NULL;
         /* 解决旋转屏幕效果异常 onCameraChange*/
         [FURenderer onCameraChange];
     }
-    if (self.isMotionItem) {//针对带重力道具
-        [FURenderer itemSetParam:items[FUNamaHandleTypeItem] withName:@"rotMode" value:@(self.deviceOrientation)];
-    }
-    
 //    double *aaa = [self get4ElementsFormDeviceMotion];
 //    [FURenderer itemSetParamdv:items[FUNamaHandleTypeItem] withName:@"motion_rotation" value:aaa length:4];
-    
-    
+
     /**设置美颜参数*/
     [self resetAllBeautyParams];
 
@@ -832,8 +851,8 @@ static FUManager *shareManager = NULL;
       //  [FURenderer itemSetParam:items[FUNamaHandleTypeAvtarHead] withName:@"enter_facepup" value:@(1)];
     });
 }
+
 -(void)recomputeAvatar{
- 
     dispatch_async(asyncLoadQueue, ^{
         [FURenderer itemSetParam:items[FUNamaHandleTypeAvtarHead] withName:@"need_recompute_facepup" value:@(1)];
     });
@@ -906,13 +925,13 @@ static FUManager *shareManager = NULL;
     dispatch_async(asyncLoadQueue, ^{
         NSString *path = [[NSBundle mainBundle] pathForResource:bundleName ofType:@"bundle"];
         int itemHandle = [FURenderer itemWithContentsOfFile:path];
-        
+
         /* 头发镜像，通过这个4参数设置 */
         [FURenderer itemSetParam:itemHandle withName:@"is3DFlipH" value:@(1)];
 //        [FURenderer itemSetParam:itemHandle withName:@"isFlipExpr" value:@(1)];
         [FURenderer itemSetParam:itemHandle withName:@"isFlipTrack" value:@(1)];
         [FURenderer itemSetParam:itemHandle withName:@"isFlipLight" value:@(1)];
-        
+
         if (items[FUNamaHandleTypeAvtarHiar] != 0) {
             NSLog(@"faceunity: destroy old item");
             [FURenderer destroyItem:items[FUNamaHandleTypeAvtarHiar]];
@@ -1257,11 +1276,16 @@ static FUManager *shareManager = NULL;
             orientation = 2;
         }
     
-
-
-    
         if (self.deviceOrientation != orientation) {
             self.deviceOrientation = orientation ;
+            
+            if (self.isMotionItem) {
+                //针对带重力道具
+                [FURenderer itemSetParam:items[FUNamaHandleTypeItem] withName:@"rotMode" value:@(self.deviceOrientation)];
+                /* 手势识别里 666 道具，带有全屏元素 */
+                [FURenderer itemSetParam:items[FUNamaHandleTypeItem] withName:@"rotationMode" value:@(orientation)];
+            }
+
             return YES;
         }
 //    }

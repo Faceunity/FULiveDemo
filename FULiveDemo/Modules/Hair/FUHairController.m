@@ -8,6 +8,8 @@
 
 #import "FUHairController.h"
 #import "FUHairView.h"
+#import "FUSwitch.h"
+#import "SVProgressHUD.h"
 
 typedef NS_ENUM(NSUInteger, FUHairModel) {
     FUHairModelModelNormal,
@@ -49,10 +51,25 @@ typedef NS_ENUM(NSUInteger, FUHairModel) {
     }];
     
     /* 初始状态 */
-    [[FUManager shareManager] loadItem:@"hair_gradient"];
+    [[FUManager shareManager] loadItem:@"hair_gradient" completion:nil];
     [[FUManager shareManager] setHairColor:0];
     [[FUManager shareManager] setHairStrength:0.5];
     _currentModle = FUHairModelModelGradient;
+    [[FUManager shareManager] loadBundleWithName:@"hair_model_h" aboutType:FUNamaHandleTypeHairModel];
+    
+   /* 美发模式切换 */
+//    FUSwitch *swit = [[FUSwitch alloc] initWithFrame:CGRectMake(60, 150, 86, 32) onColor:[UIColor colorWithRed:31 / 255.0 green:178 / 255.0 blue:255 / 255.0 alpha:1.0] offColor:[UIColor colorWithRed:31 / 255.0 green:178 / 255.0 blue:255 / 255.0 alpha:1.0] font:[UIFont systemFontOfSize:13] ballSize:30];
+//    swit.onText = NSLocalizedString(@"高精版", nil);
+//    swit.offText = NSLocalizedString(@"极速版", nil);
+//    swit.on = YES;
+//    [swit addTarget:self action:@selector(switchSex:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:swit];
+//    [swit mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.bottom.equalTo(_hairView.mas_top).offset(-17);
+//        make.left.equalTo(self.view).offset(17);
+//        make.width.mas_equalTo(86);
+//        make.height.mas_equalTo(32);
+//    }];
     
     self.photoBtn.transform = CGAffineTransformMakeTranslation(0, -100) ;
 }
@@ -65,14 +82,14 @@ typedef NS_ENUM(NSUInteger, FUHairModel) {
     }else{
         if(index < 5) {//渐变色
             if (_currentModle != FUHairModelModelGradient) {
-                [[FUManager shareManager] loadItem:@"hair_gradient"];
+                [[FUManager shareManager] loadItem:@"hair_gradient" completion:nil];
                 _currentModle = FUHairModelModelGradient;
             }           
             [[FUManager shareManager] setHairColor:(int)index];
             [[FUManager shareManager] setHairStrength:self.hairView.slider.value];
         }else{
             if (_currentModle != FUHairModelModelNormal) {
-                [[FUManager shareManager] loadItem:@"hair_color"];
+                [[FUManager shareManager] loadItem:@"hair_color" completion:nil];
                 _currentModle = FUHairModelModelNormal;
             }
             [[FUManager shareManager] setHairColor:(int)index - 5];
@@ -85,6 +102,31 @@ typedef NS_ENUM(NSUInteger, FUHairModel) {
     [[FUManager shareManager] setHairStrength:strength];
 }
 
+
+#pragma  mark -  action
+
+/* 切换不同的hairModle */
+- (void)switchSex:(FUSwitch *)swit{
+    if (swit.isOn) {
+        [[FUManager shareManager] loadBundleWithName:@"hair_model_h" aboutType:FUNamaHandleTypeHairModel];
+        [self showMessage:NSLocalizedString(@"开启极速版", nil)];
+    }else{
+        [[FUManager shareManager] loadBundleWithName:@"hair_model_n" aboutType:FUNamaHandleTypeHairModel];
+         [self showMessage:NSLocalizedString(@"开启高精版", nil)];
+    }
+}
+
+- (void)showMessage:(NSString *)string{
+    //[SVProgressHUD showWithStatus:string]; //设置需要显示的文字
+    [SVProgressHUD showImage:[UIImage imageNamed:@"wrt424erte2342rx"] status:string];
+    [SVProgressHUD setDefaultAnimationType:SVProgressHUDAnimationTypeNative];
+    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeCustom]; //设置HUD背景图层的样式
+    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+    [SVProgressHUD setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.74]];
+    [SVProgressHUD setBackgroundLayerColor:[UIColor clearColor]];
+    [SVProgressHUD setCornerRadius:5];
+    [SVProgressHUD dismissWithDelay:1.5];
+}
 
 
 

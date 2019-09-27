@@ -51,7 +51,7 @@
 "赤茶妆"       =  "redtea";
 "冬日妆"       =  "winter";
 "奶油妆"       =  "cream";
-"恢复"         =  "recovery";
+"恢复"         =  "recover";
 "v脸"          =  "V face";
 "窄脸"          = "Narrow Face";
 "小脸"          = "Small Face";
@@ -267,4 +267,18 @@
 "取消"   =  "Cancel";
 "确定"   =  "OK";
 "返回后当前操作将不会保存？"  = "The current operation will not be saved after returning?";
+
+"高精版" = "High";
+"极速版" = "Extreme";
+"开启高精版" = "Open High-quality Edition";
+"开启极速版" = "Open Extreme Edition";
+
+//美体
+"美体" =  "Body Shape";
+"瘦身"  = "Body";
+"长腿"  = "Leg";
+"细腰"  = "Waist";
+"美肩"  = "Shoulder";
+"美臀"  = "Hip";
+"未检测到人体" = "No Body Tracking";
 

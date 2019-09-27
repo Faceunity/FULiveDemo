@@ -337,7 +337,7 @@ static BOOL isVideoFirst = YES ;
             }
             
             [self.videoInput appendSampleBuffer:nextSampleBuffer];
-            
+
             CMSampleBufferInvalidate(nextSampleBuffer);
             CFRelease(nextSampleBuffer);
         }else {
@@ -414,9 +414,12 @@ static BOOL isVideoFirst = YES ;
     [self.assetWriter cancelWriting];
     self.assetWriter = nil;
     self.assetReader = nil;
+    
+    [self destorySemaphore];
 }
 
 -(void)continueReading{
+
     if (_displayLink.paused) {
         _displayLink.paused = NO;
     }

@@ -296,6 +296,7 @@ FUNAMA_API int fuRenderItemsEx2(
 #define NAMA_RENDER_FEATURE_MASK 0xff0
 #define NAMA_RENDER_OPTION_FLIP_X 0x1000
 #define NAMA_RENDER_OPTION_FLIP_Y 0x2000
+#define NAMA_NOCLEAR_CURRENT_FRAMEBUFFER 0x4000
 #define NAMA_RENDER_OPTION_MASK 0xff000
 
 /**************************************************************

@@ -193,9 +193,7 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
 }
 
 #pragma  mark -  UI事件
-
 - (void)touchScreenAction:(UITapGestureRecognizer *)tap {
-    
     if (tap.view == self.renderView) {
         // 聚焦
         if (self.adjustImage.hidden) {
@@ -246,6 +244,7 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
     [[FUManager shareManager] destoryItems];
     [[FUManager shareManager] onCameraChange];
     [self.navigationController popViewControllerAnimated:YES];
+    
     dispatch_semaphore_signal(signal);
 }
 
@@ -366,8 +365,7 @@ static  NSTimeInterval oldTime = 0;
     [[FUManager shareManager] renderItemsToPixelBuffer:pixelBuffer];
     
     NSTimeInterval endTime = [[NSDate date] timeIntervalSince1970];
-    
-    /* 统计帧率，renderTime */
+    /* renderTime */
     totalRenderTime += endTime - startTime;
     rate ++;
     [self updateVideoParametersText:endTime bufferRef:pixelBuffer];
@@ -380,12 +378,11 @@ static  NSTimeInterval oldTime = 0;
     [self.renderView displayPixelBuffer:pixelBuffer];
     dispatch_async(dispatch_get_main_queue(), ^{
         /**判断是否检测到人脸*/
-        self.noTrackLabel.hidden = [[FUManager shareManager] isTracking];
+         [self displayPromptText];
+
     }) ;
 
 //    NSLog(@"-------%@-------%@",NSStringFromCGPoint(self.mCamera.focusPoint),NSStringFromCGPoint(self.mCamera.exposurePoint));
-    
-    
     
 }
 
@@ -414,6 +411,11 @@ static  NSTimeInterval oldTime = 0;
     
 }
 
+-(void)displayPromptText{
+    self.noTrackLabel.text = NSLocalizedString(@"No_Face_Tracking",nil);
+    self.noTrackLabel.hidden = [[FUManager shareManager] isTracking];
+}
+
 #pragma mark -  Observer
 
 - (void)addObserver{
@@ -424,7 +426,6 @@ static  NSTimeInterval oldTime = 0;
 - (void)willResignActive{
     if (self.navigationController.visibleViewController == self) {
         [self.mCamera stopCapture];
-        NSLog(@"--------------结束");
 //        self.mCamera = nil;
     }
 }

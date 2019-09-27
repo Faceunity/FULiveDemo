@@ -59,7 +59,7 @@
     if (!self.itemsView.selectedItem) {
         self.itemsView.selectedItem = [FUManager shareManager].selectedItem ;
     }else {
-        [[FUManager shareManager] loadItem:self.itemsView.selectedItem];
+        [[FUManager shareManager] loadItem:self.itemsView.selectedItem completion:nil];
     }
     
 }
@@ -73,7 +73,7 @@
 
 #pragma mark -  FUItemsViewDelegate
 - (void)itemsViewDidSelectedItem:(NSString *)item {
-    [[FUManager shareManager] loadItem:item];
+    [[FUManager shareManager] loadItem:item  completion:nil];
     [self.itemsView stopAnimation];
     
     dispatch_async(dispatch_get_main_queue(), ^{

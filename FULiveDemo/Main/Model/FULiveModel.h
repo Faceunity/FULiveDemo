@@ -13,6 +13,7 @@ typedef NS_ENUM(NSUInteger, FULiveModelType) {
     FULiveModelTypeMakeUp,
     FULiveModelTypeItems,
     FULiveModelTypeAnimoji,
+    FULiveModelTypeBody,
     FULiveModelTypeHair,
     FULiveModelTypeARMarsk,
     FULiveModelTypeFaceChange,
@@ -26,7 +27,7 @@ typedef NS_ENUM(NSUInteger, FULiveModelType) {
     FULiveModelTypePortraitDrive,
     FULiveModelTypeNieLian,
     FULiveModelTypeYiTu,
-    FULiveModelTypeGan,
+    FULiveModelTypeGan
 };
 
 @interface FULiveModel : NSObject
