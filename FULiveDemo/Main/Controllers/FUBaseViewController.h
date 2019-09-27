@@ -39,6 +39,9 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)didOutputVideoSampleBuffer:(CMSampleBufferRef)sampleBuffer;
 
 -(void)didClickSelPhoto;
+
+-(void)displayPromptText;
+
 @end
 
 NS_ASSUME_NONNULL_END

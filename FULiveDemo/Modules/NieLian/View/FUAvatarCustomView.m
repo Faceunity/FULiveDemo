@@ -237,9 +237,10 @@ static  NSString *cellID = @"avatarCustomCell";
         [[FUManager shareManager] setAvatarParam:param.paramB value:0];
         [[FUManager shareManager] setAvatarParam:param.paramS value:0];
     }
-    _selIndex = 0;
-    _slider.hidden = YES;
-    _explainLabel.hidden = YES;
+//    _selIndex = 0;
+//    _slider.hidden = YES;
+//    _explainLabel.hidden = YES;
+    _slider.value = 0.5;
     [_collection reloadData];
 }
 

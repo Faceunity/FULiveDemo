@@ -97,7 +97,7 @@ typedef enum {
  @param frameid 当前处理的视频帧序数，每次处理完对其进行加 1 操作，不加 1 将无法驱动道具中的特效动画
  @param items 包含多个道具句柄的 int 数组，包括普通道具、美颜道具、手势道具等
  @param itemCount 句柄数组中包含的句柄个数
- @return 被处理过的的图像数据，与传入的 pixelBuffer 为同一pixelBuffer
+ @return 被处理过的的图像数据，返回 nil 视频处理失败
  */
 - (CVPixelBufferRef)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer withFrameId:(int)frameid items:(int*)items itemCount:(int)itemCount;
 
@@ -111,7 +111,7 @@ typedef enum {
  @param items 包含多个道具句柄的 int 数组
  @param itemCount 句柄数组中包含的句柄个数
  @param flip 道具镜像使能，如果设置为 YES 可以将道具做镜像操作
- @return 被处理过的的图像数据，与传入的 pixelBuffer 为同一个 pixelBuffer
+ @return 被处理过的的图像数据，返回 nil 视频处理失败
  */
 - (CVPixelBufferRef)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer withFrameId:(int)frameid items:(int*)items itemCount:(int)itemCount flipx:(BOOL)flip;
 
@@ -126,8 +126,9 @@ typedef enum {
  @param itemCount 句柄数组中包含的句柄个数
  @param flip 道具镜像使能，如果设置为 YES 可以将道具做镜像操作
  @param customSize 自定义输出的分辨率，目前仅支持BGRA格式
- @return 被处理过的的图像数据，与传入的 pixelBuffer 为同一个 pixelBuffer
+ @return 被处理过的的图像数据，返回 nil 视频处理失败
  */
+
 - (CVPixelBufferRef)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer withFrameId:(int)frameid items:(int*)items itemCount:(int)itemCount flipx:(BOOL)flip customSize:(CGSize)customSize NS_AVAILABLE_IOS(8_0);
 
 /**
@@ -138,7 +139,7 @@ typedef enum {
  @param frameid 当前处理的视频帧序数，每次处理完对其进行加 1 操作，不加 1 将无法驱动道具中的特效动画
  @param items 包含多个道具句柄的 int 数组，包括普通道具、美颜道具、手势道具等
  @param itemCount 句柄数组中包含的句柄个数
- @return 被处理过的的图像数据，与传入的 pixelBuffer 不是同一个 pixelBuffer
+ @return 被处理过的的图像数据，返回 nil 视频处理失败
  */
 - (CVPixelBufferRef)renderToInternalPixelBuffer:(CVPixelBufferRef)pixelBuffer withFrameId:(int)frameid items:(int*)items itemCount:(int)itemCount NS_AVAILABLE_IOS(8_0);
 
@@ -193,7 +194,7 @@ typedef enum {
  
  @param pixelBuffer 图像数据，支持的格式为：BGRA、YUV420SP
  @param item 美颜道具句柄
- @return 被处理过的的图像数据
+ @return 被处理过的的图像数据 返回 nil 视频处理失败
  */
 - (CVPixelBufferRef)beautifyPixelBuffer:(CVPixelBufferRef)pixelBuffer withBeautyItem:(int)item;
 
@@ -249,7 +250,7 @@ typedef enum {
         masks中的每一位与items中的每一位道具一一对应。使用方法为：要使某一个道具画在检测到的第一张人脸上，
         对应的int值为 "2的0次方"，画在第二张人脸上对应的int值为 “2的1次方”，第三张人脸对应的int值为 “2的2次方”，
         以此类推。例：masks = {pow(2,0),pow(2,1),pow(2,2)....},值得注意的是美颜道具对应的int值为 0。
- @return 被处理过的的图像数据，与传入的 pixelBuffer 为同一个 pixelBuffer
+ @return 被处理过的的图像数据，返回 nil 视频处理失败
  */
 - (CVPixelBufferRef)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer withFrameId:(int)frameid items:(int*)items itemCount:(int)itemCount flipx:(BOOL)flip masks:(void*)masks;
 
@@ -507,26 +508,16 @@ typedef enum {
 + (void)setExpressionCalibration:(int)expressionCalibration;
 
 + (void)setFocalLengthScale:(float)scale;
-/**
-\warning: deprecated API
-*/
+
 + (int)loadExtendedARData:(void *)data size:(int)size;
-/**
-\warning: deprecated API
-*/
+
 + (int)loadExtendedARDataWithDataPath:(NSString *)dataPath;
-/**
-\warning: deprecated API
-*/
+
 + (int)loadAnimModel:(void *)model size:(int)size;
-/**
-\warning: deprecated API
-*/
+
 + (int)loadAnimModelWithModelPath:(NSString *)modelPath;
 
 + (void)setDefaultRotationMode:(float)mode;
-
-+ (int)getCurrentRotationMode;
 
 + (void)setAsyncTrackFaceEnable:(int)enable;
 

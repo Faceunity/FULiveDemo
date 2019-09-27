@@ -1,17 +1,20 @@
 # iOS Nama SDK 集成指导文档  
 级别：Public  
-更新日期：2019-08-14 
+更新日期：2019-09-25 
 
 ------
-**FaceUnity Nama SDK v6.3.0 (2019.08.14)**
+**FaceUnity Nama SDK v6.4.0 (2019.09.25)**
 
 更新内容
 
-- 优化人脸美妆功能，提高性能，降低功耗。
-
-- 新增fuSetFaceTrackParam接口，用于设置人脸表情跟踪参数。 
-
-- 新增人脸美颜精细磨皮效果。
+- 新增美体瘦身功能，支持瘦身、长腿、美臀、细腰、肩部调整，一键美体。
+- 优化美颜功能中精细磨皮，性能以及效果提升，提升皮肤细腻程度，更好保留边缘细节。
+- 优化美发功能，边缘稳定性及性能提升。
+- 优化美妆功能，性能提升，CPU占有率降低，Android中低端机表现明显。
+- 优化手势识别功能，性能提升，CPU占有率降低，在Android机型表现明显。
+- 修复人脸检测多人脸偶现crash问题。
+- 修复捏脸功能中模型截断问题。
+- 关闭美颜道具打印冗余log。
 
 ------
 ## 目录：
@@ -59,18 +62,18 @@ Xcode 8或更高版本
 ```
 
 ### 3.2 导入SDK 
- #### 3.2.1 通过cocoapods集成
+#### 3.2.1 通过cocoapods集成
 
 全功能版本：
 
 ```
-pod 'Nama', '6.3.0' 
+pod 'Nama', '6.4.0' 
 ```
 
 不含物理引擎的版本（lite版）：
 
 ```
-pod 'Nama-lite', '6.3.0' 
+pod 'Nama-lite', '6.4.0' 
 ```
 
 接下来执行：
@@ -85,11 +88,11 @@ pod install
 pod repo update 或 pod setup
 ```
 
-#### 3.2.1 通过 github 下载集成
+#### 3.2.2 通过 github 下载集成
 
-全功能版本：[FaceUnity-SDK-iOS-v6.3.0.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v6.3.0.zip)
+全功能版本：[FaceUnity-SDK-iOS-v6.4.0.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v6.4.0.zip)
 
-不含物理引擎的版本（lite版）：[FaceUnity-SDK-iOS-v6.3.0-lite.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v6.3.0-lite.zip)
+不含物理引擎的版本（lite版）：[FaceUnity-SDK-iOS-v6.4.0-lite.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v6.4.0-lite.zip)
 
 下载完成并解压后将库文件夹拖入到工程中，并勾选上 Copy items if needed，如图：
 
@@ -454,7 +457,7 @@ __face_shape参数详解__
 
     `eye_enlarging`:  默认0.5,           //大眼程度范围0.0-1.0
     `cheek_thinning`:	默认0.0,  		//瘦脸程度范围0.0-1.0
-
+   
     `cheek_v`:	默认0.0,  		//v脸程度范围0.0-1.0
 
     `cheek_narrow`:   默认0.0,          //窄脸程度范围0.0-1.0
@@ -472,7 +475,7 @@ __face_shape参数详解__
 /* 整体程度 */
 [FURenderer itemSetParam:items[1] withName:@"face_shape_level" value:@(1.0)];
 /* 大眼 */
-[FURenderer itemSetParam:items[1] withName:@"eye_enlarging" value: value:@(1.0)]
+[FURenderer itemSetParam:items[1] withName:@"eye_enlarging" value:@(1.0)]
 ```
 
 ------
@@ -751,6 +754,8 @@ int res = fuItemSetParamd(items[FUNamaHandleTypeMakeup], (char *)[paramStr UTF8S
 
 ### 4.12 美发功能
 
+[美发参数说明](美发道具功能文档.md)
+
 加载美发道具 `itemName`，并保存到句柄数组items
 
 ```objective-c
@@ -778,6 +783,12 @@ Nama SDK 从 6.0.0 开始支持质感美颜功能。
 
 首先加载 light_makeup.bundle，然后设置腮红、眼影、眼线、口红等参数，使用方法请参考[质感美颜道具说明](美妆道具功能文档.md)，同时参考 FULiveDemo 中的示例代码。
 
+### 4.14 美体功能
+
+Nama SDK 从 6.4.0 开始支持美体功能。
+
+使用方法请参考[美体功能文档](美体道具功能文档.md)
+
 ------
 
 ### 5. 常见问题  
@@ -790,7 +801,7 @@ Nama SDK 从 6.0.0 开始支持质感美颜功能。
 
 __普通2D道具镜像__
 
-视频处理接口，参数`flip`道具镜像使能，如果设置为YES可以将道具做镜像操作
+视频处理接口，参数`flip`控制道具镜像使能，如果设置为YES可以将道具做镜像操作
 
 __高级镜像__
 

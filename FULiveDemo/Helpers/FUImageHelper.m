@@ -144,11 +144,51 @@
     
     CGContextDrawImage(context, CGRectMake(0, 0, width, height), imageRef);
     
+    CFRelease(imageRef);
     CGColorSpaceRelease(colorSpace);
     CGContextRelease(context);
     return rawData;
 }
 
+
++ (unsigned char *)getRGBAWithImageName:(NSString *)imageName width:(int *)width height:(int *)height{
+    //获取图片文件路径
+    NSString * path = [[NSBundle mainBundle]pathForResource:imageName ofType:@"png"];
+    NSURL * url = [NSURL fileURLWithPath:path];
+    CGImageRef imageRef = NULL;
+    CGImageSourceRef myImageSource;
+    //通过文件路径创建CGImageSource对象
+    myImageSource = CGImageSourceCreateWithURL((CFURLRef)url, NULL);
+    //获取第一张图片
+    imageRef = CGImageSourceCreateImageAtIndex(myImageSource,
+                                              0,
+                                              NULL);
+    
+    size_t width0 = CGImageGetWidth(imageRef);
+    size_t height0 = CGImageGetHeight(imageRef);
+    *width = (int)width0;
+    *height = (int)height0;
+    
+    int RGBA = 4;
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    unsigned char *rawData = (unsigned char *) malloc(width0 * height0 * sizeof(unsigned char) * RGBA);
+    NSUInteger bytesPerPixel = RGBA;
+    NSUInteger bytesPerRow = bytesPerPixel * width0;
+    NSUInteger bitsPerComponent = 8;
+    CGContextRef context = CGBitmapContextCreate(rawData, width0, height0, bitsPerComponent, bytesPerRow, colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+    
+    CGContextDrawImage(context, CGRectMake(0, 0, width0, height0), imageRef);
+    
+    CFRelease(imageRef);
+    CGColorSpaceRelease(colorSpace);
+    CGContextRelease(context);
+    
+    CFRelease(myImageSource);
+    return rawData;
+    
+    
+
+}
 
 + (UIImage *) convertBitmapRGBA8ToUIImage:(unsigned char *) buffer
                                 withWidth:(int) width

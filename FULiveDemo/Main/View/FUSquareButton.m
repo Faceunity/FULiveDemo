@@ -8,13 +8,33 @@
 
 #import "FUSquareButton.h"
 
-
+@interface FUSquareButton()
+@property(nonatomic,assign) float interval;
+@end
 @implementation FUSquareButton
+
+- (instancetype)initWithFrame:(CGRect)frame interval:(float)interval{
+    if (self = [super initWithFrame:frame]) {
+        _interval = interval;
+        self.titleLabel.textAlignment = NSTextAlignmentCenter;
+        // 设置按钮颜色
+        // self.selected = NO;
+        //        [self setTitleColor:[FUDresserstyle colorForTitle] forState:UIControlStateNormal];
+        //        // self.selected = YES;
+        //        [self setTitleColor:[FUDresserstyle colorForTitle_sel] forState:UIControlStateSelected];
+        //        [self setTitleColor:[FUDresserstyle colorForTitle_sel] forState:UIControlStateHighlighted];
+        self.titleLabel.font = [UIFont systemFontOfSize:10];
+    }
+    return self;
+    
+
+}
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
+        _interval = 8;
         // 设置按钮颜色
         // self.selected = NO;
 //        [self setTitleColor:[FUDresserstyle colorForTitle] forState:UIControlStateNormal];
@@ -56,7 +76,7 @@
 
 
     frame1.origin.x = 0;
-    frame1.origin.y = CGRectGetMaxY(self.imageView.frame) + 8;
+    frame1.origin.y = CGRectGetMaxY(self.imageView.frame) + _interval;
     frame1.size.height = 11;
     frame1.size.width = self.bounds.size.width;;
     self.titleLabel.frame = frame1;

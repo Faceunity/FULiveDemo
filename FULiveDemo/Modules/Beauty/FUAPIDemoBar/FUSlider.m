@@ -43,12 +43,37 @@
     tipLabel.hidden = YES;
 }
 
+-(instancetype)initWithFrame:(CGRect)frame{
+    if (self = [super initWithFrame:frame]) {
+        [self setThumbImage:[UIImage imageWithName:@"expource_slider_dot"] forState:UIControlStateNormal];
+        
+        UIImage *bgImage = [UIImage imageWithName:@"slider_tip_bg"];
+        bgImgView = [[UIImageView alloc] initWithImage:bgImage];
+        bgImgView.frame = CGRectMake(0, -bgImage.size.height, bgImage.size.width, bgImage.size.height);
+        [self addSubview:bgImgView];
+        
+        tipLabel = [[UILabel alloc] initWithFrame:bgImgView.frame];
+        tipLabel.text = @"";
+        tipLabel.textColor = [UIColor darkGrayColor];
+        tipLabel.font = [UIFont systemFontOfSize:14];
+        tipLabel.textAlignment = NSTextAlignmentCenter;
+        tipLabel.backgroundColor = [UIColor clearColor];
+        [self addSubview:tipLabel];
+        
+        bgImgView.hidden = YES;
+        tipLabel.hidden = YES;
+        
+    }
+    return self;
+}
+
 -(void)layoutSubviews {
     [super layoutSubviews];
     
     if (!middleView) {
         middleView = [[UIView alloc] initWithFrame:CGRectMake(2, self.frame.size.height /2.0 - 1, 100, 2)];
         middleView.backgroundColor = [UIColor colorWithHexColorString:@"5EC7FE"];
+        middleView.hidden = YES;
         [self insertSubview:middleView atIndex: self.subviews.count - 1];
     }
     
@@ -57,6 +82,7 @@
         line.backgroundColor = [UIColor whiteColor];
         line.layer.masksToBounds = YES ;
         line.layer.cornerRadius = 1.0 ;
+        line.hidden = YES;
         [self insertSubview:line atIndex: self.subviews.count - 1];
     }
     

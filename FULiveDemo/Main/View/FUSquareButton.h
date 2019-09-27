@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface FUSquareButton : UIButton
-
+- (instancetype)initWithFrame:(CGRect)frame interval:(float)interval;
 @end

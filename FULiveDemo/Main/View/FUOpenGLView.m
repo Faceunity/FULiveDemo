@@ -243,20 +243,22 @@ enum
 
 - (void)dealloc
 {
+    
     dispatch_sync(_contextQueue, ^{
         [self destroyDisplayFramebuffer];
         [self destoryProgram];
-        
         if(self->videoTextureCache) {
             CVOpenGLESTextureCacheFlush(self->videoTextureCache, 0);
             CFRelease(self->videoTextureCache);
             self->videoTextureCache = NULL;
+            
         }
     });
 }
 
 - (void)createDisplayFramebuffer
 {
+    NSLog(@"createDisplayFramebuffer -----");
     [EAGLContext setCurrentContext:self.glContext];
     
     glDisable(GL_DEPTH_TEST);
@@ -364,8 +366,7 @@ enum
     if (pixelBuffer == NULL) return;
     
     CVPixelBufferRetain(pixelBuffer);
-    dispatch_sync(_contextQueue, ^{
-
+    dispatch_async(_contextQueue, ^{  //dispatch_sync  iphone8p 可能死锁
         self->frameWidth = (int)CVPixelBufferGetWidth(pixelBuffer);
         self->frameHeight = (int)CVPixelBufferGetHeight(pixelBuffer);
         
@@ -1006,9 +1007,6 @@ enum
         vertices[6] =   w;
         vertices[7] =   h;
     }
-    
-
-    
 }
 
 #pragma mark -  OpenGL ES 2 shader compilation

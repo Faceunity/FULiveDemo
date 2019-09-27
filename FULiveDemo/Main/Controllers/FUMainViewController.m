@@ -23,6 +23,8 @@
 #import "FUGanController.h"
 #import "FUFacepupController.h"
 #import "FUBGSegmentationController.h"
+#import "FUBodyBeautyController.h"
+
 
 @interface FUMainViewController ()
 
@@ -165,6 +167,14 @@
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;
+            
+        case FULiveModelTypeBody:{
+            FUBodyBeautyController *vc = [[FUBodyBeautyController alloc] init];
+            vc.model = model;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
+            
             
         default:{
             FUNormalItemController *vc = [[FUNormalItemController alloc] init];

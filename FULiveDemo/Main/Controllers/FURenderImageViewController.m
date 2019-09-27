@@ -17,6 +17,8 @@
 #import "FUItemsView.h"
 #import <Masonry.h>
 #import "FUImageHelper.h"
+#import "FUBodyBeautyView.h"
+#import "MJExtension.h"
 #import "FUBlurTypeSelView.h"
 #import "FUBaseViewController.h"
 
@@ -45,6 +47,7 @@
 @property (strong, nonatomic)  UILabel *tipLabel;
 @property (strong, nonatomic) UILabel *noTrackLabel;
 @property (nonatomic, strong) AVPlayer *avPlayer;
+@property(nonatomic,strong)FUBodyBeautyView *mBodyBeautyView;
 
 // 定时器
 @property (nonatomic, strong) CADisplayLink *displayLink;
@@ -81,7 +84,18 @@
         /* 轻美妆 */
         [[FUManager shareManager] loadMakeupBundleWithName:@"light_makeup"];
         
-    }else {
+    }else if(self.model.type == FULiveModelTypeBody){
+        self.demoBar.hidden = YES ;
+        [self.itemsView removeFromSuperview ];
+        
+        self.itemsView = nil ;
+        
+        self.downloadBtn.transform = CGAffineTransformMakeTranslation(0, 30) ;
+        
+        [self setupView1];
+    }
+    
+    else {
         self.demoBar.hidden = YES ;
         
         self.itemsView.delegate = self ;
@@ -90,7 +104,7 @@
         
         NSString *item = self.model.items[0];
         self.itemsView.selectedItem = item;
-        [[FUManager shareManager] loadItem:item];
+        [[FUManager shareManager] loadItem:item completion:nil];
     }
     
     takePic = NO ;
@@ -227,6 +241,18 @@
     }];
 }
 
+-(void)setupView1{
+    NSString *bodyBeautyPath=[[NSBundle mainBundle] pathForResource:@"BodyBeautyDefault" ofType:@"json"];
+    NSData *bodyData=[[NSData alloc] initWithContentsOfFile:bodyBeautyPath];
+    NSDictionary *bodyDic=[NSJSONSerialization JSONObjectWithData:bodyData options:NSJSONReadingMutableContainers error:nil];
+    NSArray *dataArray = [FUPosition mj_objectArrayWithKeyValuesArray:bodyDic];
+    
+    _mBodyBeautyView = [[FUBodyBeautyView alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height - 134, [UIScreen mainScreen].bounds.size.width, 134) dataArray:dataArray];
+    _mBodyBeautyView.delegate = self;
+    [self.view addSubview:_mBodyBeautyView];
+    
+}
+
 -(void)viewWillDisappear:(BOOL)animated {
     
     [_avPlayer pause];
@@ -278,7 +304,6 @@
 
 - (void)addObserver{
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willResignActive) name:UIApplicationWillResignActiveNotification object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
@@ -296,16 +321,14 @@
     }
 }
 
-//- (void)willEnterForeground {
-//    if (self.navigationController.visibleViewController == self) {
-//        [self.videoReader continueReading];
-//    }
-//}
 
 - (void)didBecomeActive {
-    
     if (self.navigationController.visibleViewController == self && self.downloadBtn.hidden == YES) {//播放过程中
         [self.videoReader startReadWithDestinationPath:finalPath];
+        self.playBtn.hidden = YES;
+    }
+    if (self.image) {
+         [self processImage];
     }
 }
 
@@ -322,7 +345,6 @@
     self.degress = [self degressFromVideoFileWithURL:videoURL];
     
     _glView.origintation = self.degress;
-//    degressFromVideoFileWithURL
 }
 
 #pragma  mark -  UI事件
@@ -504,6 +526,14 @@
     _demoBar.demoBar.makeupView.delegate = self;
 }
 
+#pragma  mark -  FUBodyBeautyViewDelegate
+-(void)bodyBeautyViewDidSelectPosition:(FUPosition *)position{
+    if (!position.bundleKey) {
+        return;
+    }
+    [[FUManager shareManager] setParamItemAboutType:FUNamaHandleTypeBodySlim name:position.bundleKey value:position.value];
+}
+
 #pragma mark - FUAPIDemoBarDelegate
 /**设置美颜参数*/
 - (void)demoBarBeautyParamChanged   {
@@ -587,9 +617,10 @@
 #pragma mark - FUItemsViewDelegate
 - (void)itemsViewDidSelectedItem:(NSString *)item {
     
-    [[FUManager shareManager] loadItem:item];
-    
-    [self.itemsView stopAnimation];
+    [[FUManager shareManager] loadItem:item completion:^(BOOL finished) {
+        [self.itemsView stopAnimation];
+    }];
+
 }
 
 #pragma mark -  FUMakeUpViewDelegate
@@ -598,7 +629,10 @@
 }
 
 -(void)makeupViewDidSelectedNamaStr:(NSString *)namaStr imageName:(NSString *)imageName{
-    [[FUManager shareManager] setMakeupItemParamImage:[UIImage imageNamed:imageName]  param:namaStr];
+    if (!namaStr || !imageName) {
+        return;
+    }
+    [[FUManager shareManager] setMakeupItemParamImageName:imageName param:namaStr];
 }
 
 

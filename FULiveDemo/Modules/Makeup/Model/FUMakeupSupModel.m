@@ -15,4 +15,5 @@
              @"makeups" : @"FUSingleMakeupModel"
              };
 }
+
 @end

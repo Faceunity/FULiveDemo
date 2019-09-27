@@ -108,6 +108,7 @@
             //开始写入
             [_writer startWriting];
             [_writer startSessionAtSourceTime:startTime];
+            NSLog(@"-------写----");
         }
         //写入失败
         if (_writer.status == AVAssetWriterStatusFailed) {

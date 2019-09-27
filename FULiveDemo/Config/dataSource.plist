@@ -87,6 +87,22 @@
 	</dict>
 	<dict>
 		<key>itemName</key>
+		<string>美体</string>
+		<key>maxFace</key>
+		<integer>4</integer>
+		<key>enble</key>
+		<false/>
+		<key>itemType</key>
+		<integer>17</integer>
+		<key>modules</key>
+		<array>
+			<integer>32</integer>
+		</array>
+		<key>items</key>
+		<array/>
+	</dict>
+	<dict>
+		<key>itemName</key>
 		<string>美发</string>
 		<key>maxFace</key>
 		<integer>4</integer>
@@ -277,7 +293,6 @@
 			<string>ssd_thread_korheart</string>
 			<string>ssd_thread_six</string>
 			<string>ssd_thread_cute</string>
-			<string>ssd_thread_thumb</string>
 		</array>
 	</dict>
 	<dict>

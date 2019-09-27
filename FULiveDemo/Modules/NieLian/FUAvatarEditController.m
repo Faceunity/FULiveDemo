@@ -79,8 +79,7 @@
     [self.view addSubview:savaBtn];
     [savaBtn setImage:[UIImage imageNamed:@"demo_icon_save"] forState:UIControlStateNormal];
     [self.view addSubview:savaBtn];
-    
-    
+
     /* 编辑视图 */
     NSMutableArray *newModel = [NSMutableArray array];
     for ( FUAvatarModel *model in self.avatarModel.avatarModels) {
@@ -173,28 +172,24 @@
     }];
     
 }
+
+/* 保存模型 */
 -(void)savaBtnBtnClick{
     if (_avatarEditView.isCustomState) {
         _avatarEditView.isCustomState = NO;
         return;
     }
+    /* 修改modle */
     if (self.state == FUAvatarEditStateNew) {
         UIImage *image = [self captureImage];
         [[FUAvatarPresenter shareManager] addWholeAvatar:self.avatarEditView.dataArray icon:image];
-        
-        if (self.returnBlock) {
-            self.returnBlock(YES);
-        }
     }else{
         UIImage *image = [self captureImage];
         _avatarModel.image = image;
         /* 修改缓存数据 */
         self.avatarModel.avatarModels = self.avatarEditView.dataArray;
-        
-        if (self.returnBlock) {
-            self.returnBlock(NO);
-        }
     }
+    
     /* 跟新本地存储 */
     [[FUAvatarPresenter shareManager] dataWriteToFile];
 
@@ -202,22 +197,27 @@
     [[FUManager shareManager] recomputeAvatar];
     /* 提示 */
     [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"道具保存成功",nil)];
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        /* 更新存储 */
-        [self.navigationController popViewControllerAnimated:YES];
-//    });
+    [self.navigationController popViewControllerAnimated:YES];
+
+    /* 更新一级界面 */
+    if (self.returnBlock) {
+        BOOL isAdd =  self.state == FUAvatarEditStateNew ? YES:NO;
+        self.returnBlock(isAdd);
+    }
 }
 
 -(void)didOutputVideoSampleBuffer:(CMSampleBufferRef)sampleBuffer{
     CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) ;
     [[FUManager shareManager] renderAvatarPixelBuffer:pixelBuffer];
     [self.renderView displayPixelBuffer:pixelBuffer];
-    
-    /* 获取当前图片，作为icon */
+
     if (!mCaptureImage && semaphore) {
+        CVPixelBufferRetain(pixelBuffer);
         mCaptureImage = [self imageFromPixelBuffer:pixelBuffer];
         dispatch_semaphore_signal(semaphore);
+        CVPixelBufferRelease(pixelBuffer);
     }
+
 }
 #pragma  mark -  FUAvatarEditViewDelegate
 -(void)avatarEditViewDidCustom:(BOOL)isCustomStata{

@@ -55,19 +55,20 @@
     [super viewWillAppear:animated];
     
     /* 返回当前界面的时候，重新加载 */
-    if (!self.itemsView.selectedItem) {
-        self.itemsView.selectedItem = [FUManager shareManager].selectedItem ;
-    }else {
-        [[FUManager shareManager] loadItem:self.itemsView.selectedItem];
-    }
+//    if (!self.itemsView.selectedItem) {
+//        self.itemsView.selectedItem = [FUManager shareManager].selectedItem ;
+//    }else {
+//        [[FUManager shareManager] loadItem:self.itemsView.selectedItem];
+//    }
 
 }
 
 #pragma mark -  FUItemsViewDelegate
 - (void)itemsViewDidSelectedItem:(NSString *)item {
-    [[FUManager shareManager] loadItem:item];
-    [self.itemsView stopAnimation];
-    
+    [[FUManager shareManager] loadItem:item completion:^(BOOL finished) {
+        
+        [self.itemsView stopAnimation];
+    }];
     dispatch_async(dispatch_get_main_queue(), ^{
         NSString *hint = [[FUManager shareManager] hintForItem:item];
         self.tipLabel.hidden = hint == nil;
@@ -92,6 +93,9 @@
     
 }
 
+-(void)dealloc{
+    NSLog(@"normalll dealloc");
+}
 
 
 @end
