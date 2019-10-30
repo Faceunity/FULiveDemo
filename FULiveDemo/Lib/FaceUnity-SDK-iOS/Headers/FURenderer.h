@@ -441,6 +441,13 @@ typedef enum {
 + (int)getFaceInfo:(int)faceId name:(NSString *)name pret:(float *)pret number:(int)number;
 
 /**
+ 获取正在跟踪人脸的标识符，用于在SDK外部对多人情况下的不同人脸进行区别。
+ @param faceId，人脸编号，表示识别到的第 x 张人脸，从0开始，到n-1,n为当前跟踪到的人脸数。
+ @return 人脸的标识符 [1,maxFaces]
+ */
++ (int)getFaceIdentifier:(int)faceId;
+
+/**
  将普通道具绑定到avatar道具：
      - 该接口主要应用于 P2A 项目中，将普通道具绑定到 avatar 道具上，从而实现道具间的数据共享；
      - 在视频处理时只需要传入 avatar 道具句柄，普通道具也会和 avatar 一起被绘制出来。
