@@ -35,7 +35,7 @@
     
     switch (type) {
         case FUBeautyViewTypeSkin:
-            self.dataArray = @[@"精准美肤", @"清晰磨皮", @"美白",@"红润", @"亮眼",@"美牙"];
+            self.dataArray = @[@"精细磨皮",@"美白",@"红润", @"亮眼",@"美牙"];//,@"锐化"
             break;
         case FUBeautyViewTypeShape:
             self.dataArray = @[@"瘦脸",@"v脸",@"窄脸",@"小脸", @"大眼", @"下巴",@"额头", @"瘦鼻",@"嘴型"];
@@ -57,13 +57,6 @@
     }
 }
 
-
--(void)setSkinDetect:(BOOL)skinDetect {
-    _skinDetect = skinDetect ;
-    if (self.type == FUBeautyViewTypeSkin) {
-        [self reloadData];
-    }
-}
 
 -(void)setOpenedDict:(NSDictionary *)openedDict {
     _openedDict = openedDict ;
@@ -87,44 +80,13 @@
                 
                 NSString *title = self.dataArray[indexPath.row] ;
                 NSString *imageName ;
-                
-                
+
                 if (indexPath.row == 0) {
-                    
-                    BOOL selected = _selectedIndex == 0 ;
-                    
-                    if (selected) {
-                        imageName = self.skinDetect ? [title stringByAppendingString:@"-3.png"] : [title stringByAppendingString:@"-2.png"] ;
-                    }else {
-                        imageName = self.skinDetect ? [title stringByAppendingString:@"-1.png"] : [title stringByAppendingString:@"-0.png"] ;
-                    }
-                    
-                    cell.imageView.image = [UIImage imageWithName:imageName];
-                    cell.titleLabel.text = [title LocalizableString] ;
-                    cell.titleLabel.textColor = _selectedIndex == indexPath.row ? [UIColor colorWithHexColorString:@"5EC7FE"] : [UIColor whiteColor];
-                    return cell ;
-                }
-                
-                if (indexPath.row == 1) {
                      NSString *cellName = nil;
                      title = @"磨皮";
-                    if (self.blurType == 0) {
-//                        title = @"清晰磨皮";
-                        cellName = @"blurLevel_0";
-                    }
-                    
-                    if (self.blurType == 1) {
-//                        title = @"朦胧磨皮";
-                        cellName = @"blurLevel_1";
-                    }
-                    
-                    if (self.blurType == 2) {
-//                        title = @"精细磨皮";
-                        cellName = @"blurLevel_2";
-                    }
-                    
-                    
-                    BOOL selected = _selectedIndex == 1 ;
+                    cellName = @"blurLevel_0";
+    
+                    BOOL selected = _selectedIndex == 0 ;
 
                     BOOL opened = [[_openedDict objectForKey:cellName] boolValue];
                     
@@ -142,16 +104,19 @@
                 
                 NSString *cellName ;
                 switch (indexPath.row) {
-                    case 2:
+//                    case 2:
+//                        cellName = @"sharpenLevel" ;
+//                        break;
+                    case 1:
                         cellName = @"colorLevel" ;
                         break;
-                    case 3:
+                    case 2:
                         cellName = @"redLevel" ;
                         break;
-                    case 4:
+                    case 3:
                         cellName = @"eyeBrightLevel" ;
                         break;
-                    case 5:
+                    case 4:
                         cellName = @"toothWhitenLevel" ;
                         break;
 
@@ -243,28 +208,11 @@
     switch (self.type) {
         case FUBeautyViewTypeSkin:{
             
-            if (_selectedIndex == indexPath.row && indexPath.row > 1) {
+            if (_selectedIndex == indexPath.row) {
                 return ;
             }
             _selectedIndex = indexPath.row ;
-            if (indexPath.row == 0) {
-        
-//                [self reloadData];
-                self.skinDetect = !self.skinDetect ;
-//                if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(skinDetectChanged:)]) {
-//                    [self.mDelegate skinDetectChanged:self.skinDetect];
-//                }
-//                return ;
-            }
             
-            if (indexPath.row == 1) {
-                
-                if (_selectedIndex == 1) {
-                    if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(blurTypeChange:)]) {
-                        [self.mDelegate blurTypeChange:self.blurType];
-                    }
-                }
-            }
             [self reloadData];
             
             if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(skinViewDidSelectedIndex:)]) {
@@ -332,7 +280,7 @@
         self.imageView.layer.cornerRadius = frame.size.width / 2.0 ;
         [self addSubview:self.imageView];
         
-        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(-5, frame.size.width + 2, frame.size.width + 10, frame.size.height - frame.size.width - 2)];
+        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(-10, frame.size.width + 2, frame.size.width + 20, frame.size.height - frame.size.width - 2)];
         self.titleLabel.textAlignment = NSTextAlignmentCenter ;
         self.titleLabel.textColor = [UIColor whiteColor];
         self.titleLabel.font = [UIFont systemFontOfSize:10];

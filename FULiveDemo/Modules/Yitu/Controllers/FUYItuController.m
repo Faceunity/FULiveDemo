@@ -262,7 +262,7 @@
     //[SVProgressHUD showWithStatus:string]; //设置需要显示的文字
     [SVProgressHUD showImage:[UIImage imageNamed:@"wrt424erte2342rx"] status:string];
     [SVProgressHUD setDefaultAnimationType:SVProgressHUDAnimationTypeNative];
-    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeCustom]; //设置HUD背景图层的样式
+//    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeCustom]; //设置HUD背景图层的样式
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [SVProgressHUD setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.74]];
     [SVProgressHUD setBackgroundLayerColor:[UIColor clearColor]];

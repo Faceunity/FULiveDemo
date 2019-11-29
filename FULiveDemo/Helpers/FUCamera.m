@@ -39,6 +39,8 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) AVCaptureDeviceInput      *audioMicInput;//麦克风输入
 @property (nonatomic, strong) AVCaptureAudioDataOutput  *audioOutput;//音频输出
 @property (copy, nonatomic) void(^recordVidepCompleted) (NSString *videoPath);
+
+@property (assign, nonatomic) AVCaptureSessionPreset mSessionPreset;
 @end
 
 @implementation FUCamera
@@ -206,9 +208,16 @@ typedef enum : NSUInteger {
     return [self cameraWithPosition:AVCaptureDevicePositionBack];
 }
 
+-(BOOL)supportsAVCaptureSessionPreset:(BOOL)isFront {
+    if (isFront) {
+        return [self.frontCameraInput.device supportsAVCaptureSessionPreset:_mSessionPreset];
+    }else {
+        return [self.backCameraInput.device supportsAVCaptureSessionPreset:_mSessionPreset];
+    }
+}
+
 //切换前后置摄像头
-- (void)changeCameraInputDeviceisFront:(BOOL)isFront {
-    
+-(void)changeCameraInputDeviceisFront:(BOOL)isFront {
     [self.captureSession stopRunning];
     if (isFront) {
         [self.captureSession removeInput:self.backCameraInput];
@@ -237,7 +246,10 @@ typedef enum : NSUInteger {
     if (self.videoConnection.supportsVideoMirroring) {
         self.videoConnection.videoMirrored = isFront;
     }
+    
     [self.captureSession startRunning];
+   
+    
 }
 
 //用来返回是前置摄像头还是后置摄像头
@@ -307,6 +319,7 @@ typedef enum : NSUInteger {
 //设置采集格式
 - (void)setCaptureFormat:(int)captureFormat
 {
+    
     if (_captureFormat == captureFormat) {
         return;
     }
@@ -428,10 +441,22 @@ typedef enum : NSUInteger {
 
 
 #pragma  mark -  分辨率
--(void)changeSessionPreset:(AVCaptureSessionPreset)sessionPreset{
+-(BOOL)changeSessionPreset:(AVCaptureSessionPreset)sessionPreset{
+    
     if ([self.captureSession canSetSessionPreset:sessionPreset]) {
+        
+        if ([self.captureSession isRunning]) {
+            [self.captureSession stopRunning];
+        }
         _captureSession.sessionPreset = sessionPreset;
+        _mSessionPreset = sessionPreset;
+
+        [self.captureSession startRunning];
+
+       
+        return YES;
     }
+    return NO;
 }
 
 #pragma  mark -  镜像

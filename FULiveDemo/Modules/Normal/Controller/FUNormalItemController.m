@@ -55,12 +55,11 @@
     [super viewWillAppear:animated];
     
     /* 返回当前界面的时候，重新加载 */
-//    if (!self.itemsView.selectedItem) {
-//        self.itemsView.selectedItem = [FUManager shareManager].selectedItem ;
-//    }else {
-//        [[FUManager shareManager] loadItem:self.itemsView.selectedItem];
-//    }
-
+    if (!self.itemsView.selectedItem) {
+        self.itemsView.selectedItem = [FUManager shareManager].selectedItem ;
+    }else {
+        [[FUManager shareManager] loadItem:self.itemsView.selectedItem completion:nil];
+    }
 }
 
 #pragma mark -  FUItemsViewDelegate

@@ -38,7 +38,7 @@ typedef NS_ENUM(NSUInteger, FUMakeupModelType) {
     FUMakeupModelTypeShadow,
 };
 
-@interface FUSingleMakeupModel : NSObject
+@interface FUSingleMakeupModel : NSObject<NSCopying,NSMutableCopying>
 
 /* 妆容类型 */
 @property (nonatomic, assign) FUMakeupModelType makeType;
@@ -60,8 +60,6 @@ typedef NS_ENUM(NSUInteger, FUMakeupModelType) {
 @property (nonatomic, copy) NSString *title;
 
 /* 口红相关 */
-@property (nonatomic, copy) NSString* colorStr2;
-@property (nonatomic, strong) NSArray* colorStr2V;
 @property (nonatomic, assign) int is_two_color;
 @property (nonatomic, assign) int lip_type;
 

@@ -548,7 +548,7 @@ enum
     const float h       = (height * dd / (float)bw) * 10/2;
     const float w       = (width  * dd / (float)bw) * 10/2;
     
-    for (int i = 0; i < count; i++)
+    for (int i = 0; i < count/2; i++)
     {
         if (self.disapplePointIndex == i) {
             continue ;

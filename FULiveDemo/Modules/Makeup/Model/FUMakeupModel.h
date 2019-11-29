@@ -12,13 +12,17 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface FUMakeupModel : NSObject
+/* 类别名称 */
 @property (nonatomic, copy) NSString* name;
-//@property (nonatomic, copy) NSString* namaTypeStr;
-//@property (nonatomic, copy) NSString* namaValueStr;
+/* 记录一份子妆容的所有集合
+  如口红: sgArr就包含 口红1，口红2，口红3......
+ */
 @property (nonatomic, copy) NSArray <FUSingleMakeupModel *>* sgArr;
+/* 被选中的索引 */
 @property (assign, nonatomic) int singleSelIndex;
-
+/* 颜色键值 */
 @property (nonatomic, copy) NSString* colorStr;
+/* 颜色值 */
 @property (nonatomic, strong) NSArray* colorStrV;
 
 

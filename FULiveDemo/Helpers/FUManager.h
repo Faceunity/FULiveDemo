@@ -11,11 +11,11 @@
 #import <AVFoundation/AVFoundation.h>
 #import "FURenderer.h"
 
-@class FULiveModel ;
+@class FULiveModel;
 
 /*
  items 保存加载到Nama中bundle的操作句柄集
- 为方便演示阅读，这里将
+ 注意：道具句柄数组位置可以调整，道具渲染顺序更具数组顺序渲染
  */
 typedef NS_ENUM(NSUInteger, FUNamaHandleType) {
     FUNamaHandleTypeBeauty = 0,   /* items[0] ------ 放置 美颜道具句柄 */
@@ -32,7 +32,8 @@ typedef NS_ENUM(NSUInteger, FUNamaHandleType) {
     FUNamaHandleTypeAvtarbg = 11,  /* items[11] ------ Avtar背景 */
     FUNamaHandleTypeBodySlim = 12,  /* items[12] ------ 美体道具 */
     FUNamaHandleTypeHairModel = 13,  /* items[13] ------ 美发的模型 */
-    FUNamaHandleTotal = 14
+    FUNamaHandleTypeBeautyType = 14,
+    FUNamaHandleTotal = 15
 };
 
 typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
@@ -45,13 +46,11 @@ typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
 @property (nonatomic, assign)               BOOL enableGesture;         /**设置是否开启手势识别，默认未开启*/
 @property (nonatomic, assign)               BOOL enableMaxFaces;        /**设置人脸识别个数，默认为单人模式*/
 
-@property (nonatomic, assign) BOOL skinDetectEnable ;   // 精准美肤
-@property (nonatomic, assign) NSInteger blurType;      // 0清晰磨皮 1重度磨皮 2精细磨皮
 //@property (nonatomic, assign) double blurLevel;         // 磨皮(0.0 - 6.0)
 /* 0清晰磨皮  1重度磨皮   2精细磨皮 */
 @property (nonatomic, assign) double blurLevel_0;
-@property (nonatomic, assign) double blurLevel_1;
-@property (nonatomic, assign) double blurLevel_2;
+/* 锐化 */
+//@property (nonatomic, assign) double sharpenLevel;
 @property (nonatomic, assign) double whiteLevel;        // 美白
 @property (nonatomic, assign) double redLevel;          // 红润
 @property (nonatomic, assign) double eyelightingLevel;  // 亮眼
@@ -87,14 +86,9 @@ typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
 @property (nonatomic, strong)               NSMutableArray<FULiveModel *> *dataSource;  /**道具分类数组*/
 @property (nonatomic, strong)               NSString *selectedItem;     /**选中的道具名称*/
 
-/****  美妆程度  ****/
-//@property (nonatomic, assign) double lipstick;          // 口红
-//@property (nonatomic, assign) double blush;             // 腮红
-//@property (nonatomic, assign) double eyebrow;           // 眉毛
-//@property (nonatomic, assign) double eyeShadow;         // 眼影
-//@property (nonatomic, assign) double eyeLiner;          // 眼线
-//@property (nonatomic, assign) double eyelash;           // 睫毛
-//@property (nonatomic, assign) double contactLens;       // 美瞳
+/* 美妆开独立线程 ：美妆和其他bundle串行加载，会照成上妆不连贯的感觉，所以*/
+@property (nonatomic, strong) dispatch_queue_t makeupQueue;
+@property (nonatomic, strong) dispatch_queue_t asyncLoadQueue;
 
 // 当前页面的 model
 @property (nonatomic, strong) FULiveModel *currentModel ;
@@ -121,6 +115,8 @@ typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
 - (void)loadBundleWithName:(NSString *)name aboutType:(FUNamaHandleType)type;
 /**加载美颜道具*/
 - (void)loadFilter ;
+/* 美颜点位模式 */
+-(void)loadBeautyType:(NSString *)itemName;
 /**销毁全部道具*/
 - (void)destoryItems;
 /*
@@ -190,6 +186,13 @@ typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
  */
 -(void)setEspeciallyItemParamImage:(UIImage *)image group_points:(NSArray *)g_points group_type:(NSArray *)g_type;
 
+/// 将道具句柄移除nama 渲染，注意：b该操作不会销毁道具
+/// @param type 句柄索引
+-(void)removeNamaRenderWithType:(FUNamaHandleType)type;
+
+/// 将移除的道具句柄，重新加入，渲染出效果
+/// @param type 句柄索引
+-(void)rejoinNamaRenderWithType:(FUNamaHandleType)type;
 
 #pragma  mark -  捏脸
 -(void)enterAvatar;
@@ -264,4 +267,7 @@ typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
 -(BOOL)isExaggeration:(int)index;
 
 -(void)setParamItemAboutType:(FUNamaHandleType)type name:(NSString *)paramName value:(float)value;
+
+/* 判断屏幕方向是否改变 */
+-(BOOL)isDeviceMotionChange;
 @end

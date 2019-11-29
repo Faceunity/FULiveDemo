@@ -1,0 +1,14 @@
+/* 
+  InfoPlist.strings
+  FULiveDemo
+
+  Created by 孙慕 on 2019/10/30.
+  Copyright © 2019 FaceUnity. All rights reserved.
+*/
+//{
+    
+    NSCameraUsageDescription =     "Please authorize access to your camera";
+    NSMicrophoneUsageDescription = "Please authorize access to your microphone";
+    NSPhotoLibraryAddUsageDescription ="Please authorize access to your photo album";
+    NSPhotoLibraryUsageDescription = "Please authorize access to your photo album";
+//}

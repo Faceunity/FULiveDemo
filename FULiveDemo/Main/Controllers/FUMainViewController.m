@@ -24,6 +24,7 @@
 #import "FUFacepupController.h"
 #import "FUBGSegmentationController.h"
 #import "FUBodyBeautyController.h"
+#import "FULightMakeupController.h"
 
 
 @interface FUMainViewController ()
@@ -174,7 +175,13 @@
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;
-            
+          
+        case FULiveModelTypeLightMakeup:{
+            FULightMakeupController *vc = [[FULightMakeupController alloc] init];
+            vc.model = model;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
             
         default:{
             FUNormalItemController *vc = [[FUNormalItemController alloc] init];

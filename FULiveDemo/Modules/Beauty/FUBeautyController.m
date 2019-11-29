@@ -11,12 +11,14 @@
 #import "FUManager.h"
 #import <Masonry.h>
 #import "FUSelectedImageController.h"
-#import "FUBlurTypeSelView.h"
+#import "SVProgressHUD.h"
+#import "FUMakeupSupModel.h"
 
-@interface FUBeautyController ()<FUAPIDemoBarDelegate,FUMakeUpViewDelegate,FUBlurTypeSelViewDelegate>
+@interface FUBeautyController ()<FUAPIDemoBarDelegate>
 
 @property (strong, nonatomic) FUAPIDemoBar *demoBar;
-@property (strong, nonatomic) FUBlurTypeSelView *mBlurTypeSelView;
+/* 比对按钮 */
+@property (strong, nonatomic) UIButton *compBtn;
 @end
 
 @implementation FUBeautyController
@@ -27,6 +29,7 @@
     
     /* 在基类控制器中，已经加载了美颜 */
    // [[FUManager shareManager] loadFilter];
+    [[FUManager shareManager] loadBeautyType:@"new_face_tracker_pose"];
     
     [self setupView];
 
@@ -42,22 +45,8 @@
 //    UISlider *slider1 = [[UISlider alloc] initWithFrame:CGRectMake(150, 100, 200, 20)];
 //    [slider1 addTarget:self action:@selector(sliderChange1:) forControlEvents:UIControlEventValueChanged];
 //    [self.view addSubview:slider1];
-    
-    [self setBlurSelView];
 }
 
-
--(void)setBlurSelView{
-    if (iPhoneXStyle) {
-        _mBlurTypeSelView = [[FUBlurTypeSelView alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 15 - 60, self.view.frame.size.height - 200 - 182 - 34, 60, 200)];
-    }else{
-        _mBlurTypeSelView = [[FUBlurTypeSelView alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 15 - 60, self.view.frame.size.height - 200 - 182, 60, 200)];
-    }
-    _mBlurTypeSelView.hidden = YES;
-    _mBlurTypeSelView.delegate = self;
-    [_mBlurTypeSelView setSelblurType:(int)[FUManager shareManager].blurType];
-    [self.view addSubview:_mBlurTypeSelView];
-}
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -66,12 +55,15 @@
     
     /* 轻美妆 */
     [[FUManager shareManager] loadMakeupBundleWithName:@"light_makeup"];
+    [[FUManager shareManager] removeNamaRenderWithType:FUNamaHandleTypeMakeup];
 }
 
 -(void)setupView{
     _demoBar = [[FUAPIDemoBar alloc] init];
     [self demoBarSetBeautyDefultParams];
-    [self.view addSubview:_demoBar];
+//    [self.view addSubview:_demoBar];
+    [self.view insertSubview:_demoBar atIndex:1];
+    
     [_demoBar mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(iOS 11.0, *)) {
             make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
@@ -97,6 +89,19 @@
 //        make.width.mas_equalTo(100);
 //        make.height.mas_equalTo(44);
 //    }];
+    
+    /* 比对按钮 */
+    _compBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_compBtn setImage:[UIImage imageNamed:@"demo_icon_contrast"] forState:UIControlStateNormal];
+    [_compBtn addTarget:self action:@selector(TouchDown) forControlEvents:UIControlEventTouchDown];
+    [_compBtn addTarget:self action:@selector(TouchUp) forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchUpOutside];
+    _compBtn.hidden = YES;
+    [self.view addSubview:_compBtn];
+    if (iPhoneXStyle) {
+        _compBtn.frame = CGRectMake(15 , self.view.frame.size.height - 70 - 182 - 34, 44, 44);
+    }else{
+        _compBtn.frame = CGRectMake(15 , self.view.frame.size.height - 70 - 182, 44, 44);
+    }
 }
 
 
@@ -109,11 +114,8 @@
 
 - (void)demoBarSetBeautyDefultParams {
     _demoBar.delegate = nil ;
-    _demoBar.skinDetect = [FUManager shareManager].skinDetectEnable;
-    _demoBar.blurType = [FUManager shareManager].blurType ;
     _demoBar.blurLevel_0 = [FUManager shareManager].blurLevel_0;
-    _demoBar.blurLevel_1 = [FUManager shareManager].blurLevel_1;
-    _demoBar.blurLevel_2 = [FUManager shareManager].blurLevel_2;
+//    _demoBar.sharpenLevel = [FUManager shareManager].sharpenLevel ;
     _demoBar.colorLevel = [FUManager shareManager].whiteLevel ;
     _demoBar.redLevel = [FUManager shareManager].redLevel;
     _demoBar.eyeBrightLevel = [FUManager shareManager].eyelightingLevel ;
@@ -139,8 +141,12 @@
     _demoBar.selectedFilter = [FUManager shareManager].selectedFilter ;
     _demoBar.selectedFilterLevel = [FUManager shareManager].selectedFilterLevel;
     _demoBar.delegate = self;
-    _demoBar.demoBar.makeupView.delegate = self;
-    _demoBar.demoBar.selMakeupIndex = _demoBar.demoBar.makeupView.supIndex;
+}
+
+
+-(void)setOrientation:(int)orientation{
+    [super setOrientation:orientation];
+    [[FUManager shareManager] setParamItemAboutType:FUNamaHandleTypeBeautyType name:@"orientation" value:orientation];
 }
 
 #pragma  mark -  按钮点击
@@ -148,6 +154,14 @@
     FUSelectedImageController *vc = [[FUSelectedImageController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
     
+}
+
+- (void)TouchDown{
+    self.openComp = YES;
+}
+
+- (void)TouchUp{
+    self.openComp = NO;
 }
 
 #pragma mark -  FUAPIDemoBarDelegate
@@ -159,7 +173,6 @@
 -(void)restDefaultValue:(int)type{
     if (type == 1) {//美肤
        [[FUManager shareManager] setBeautyDefaultParameters:FUBeautyModuleTypeSkin];
-       [self.mBlurTypeSelView setSelblurType:0];
     }
     
     if (type == 2) {
@@ -169,16 +182,9 @@
     [self demoBarSetBeautyDefultParams];
 }
 
--(void)blurDidSelect:(BOOL)isSel{
-    _mBlurTypeSelView.hidden = !isSel;
-}
-
 - (void)syncBeautyParams{
-    [FUManager shareManager].skinDetectEnable = _demoBar.skinDetect;
-    [FUManager shareManager].blurType = _demoBar.blurType;
     [FUManager shareManager].blurLevel_0 = _demoBar.blurLevel_0;
-    [FUManager shareManager].blurLevel_1 = _demoBar.blurLevel_1;
-    [FUManager shareManager].blurLevel_2 = _demoBar.blurLevel_2;
+//    [FUManager shareManager].sharpenLevel = _demoBar.sharpenLevel;
     [FUManager shareManager].whiteLevel = _demoBar.colorLevel;
     [FUManager shareManager].redLevel = _demoBar.redLevel;
     [FUManager shareManager].eyelightingLevel = _demoBar.eyeBrightLevel;
@@ -201,10 +207,30 @@
     if (![[FUManager shareManager].beautyFiltersDataSource containsObject:_demoBar.selectedFilter]) {
         return;
     }
-    [FUManager shareManager].selectedFilter = _demoBar.selectedFilter ;
+    if (![[FUManager shareManager].selectedFilter isEqualToString:_demoBar.selectedFilter]) {
+        [FUManager shareManager].selectedFilter = _demoBar.selectedFilter ;
+        NSString *tipName = [FUManager shareManager].filtersCHName[_demoBar.selectedFilter];
+        [self showMessage:NSLocalizedString(tipName,nil)];
+    }
+
     [FUManager shareManager].selectedFilterLevel = _demoBar.selectedFilterLevel;
     
 }
+
+
+#pragma  mark -  提示UI
+- (void)showMessage:(NSString *)string{
+    //[SVProgressHUD showWithStatus:string]; //设置需要显示的文字
+    [SVProgressHUD showImage:[UIImage imageNamed:@"wrt424erte2342rx"] status:string];
+    [SVProgressHUD setDefaultAnimationType:SVProgressHUDAnimationTypeNative];
+//    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeCustom]; //设置HUD背景图层的样式
+    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+    [SVProgressHUD setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.74]];
+    [SVProgressHUD setBackgroundLayerColor:[UIColor clearColor]];
+    [SVProgressHUD setCornerRadius:5];
+    [SVProgressHUD dismissWithDelay:1.5];
+}
+
 
 -(void)demoBarShouldShowMessage:(NSString *)message {
     
@@ -221,7 +247,7 @@
 - (void)setPhotoScaleWithHeight:(CGFloat)height show:(BOOL)shown {
     
     if (shown) {
-        
+        _compBtn.hidden = NO;
         CGAffineTransform photoTransform0 = CGAffineTransformMakeTranslation(0, height * -0.7) ;
         CGAffineTransform photoTransform1 = CGAffineTransformMakeScale(0.9, 0.9);
         
@@ -230,7 +256,7 @@
             self.photoBtn.transform = CGAffineTransformConcat(photoTransform0, photoTransform1) ;
         }];
     } else {
-        
+        _compBtn.hidden = YES;
         [UIView animateWithDuration:0.35 animations:^{
             
             self.photoBtn.transform = CGAffineTransformIdentity ;
@@ -245,7 +271,6 @@
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [self.demoBar hiddeTopView];
-    self.mBlurTypeSelView.hidden = YES;
 }
 
 #pragma mark -  FUMakeUpViewDelegate
@@ -288,13 +313,16 @@
     return rgba;
 }
 
-
-#pragma  mark -  FUBlurTypeSelViewDelegate
-
--(void)blurTypeSelViewDidSelIndex:(int)index{
-    [FUManager  shareManager].blurType = index;
-    _demoBar.blurType = index;
+-(void)makeupViewDidSelectedSupModle:(FUMakeupSupModel *)model{
+    dispatch_async([FUManager shareManager].makeupQueue, ^{
+        if ([model.makeupBundle isEqualToString:@""] || !model.makeupBundle) {
+             [[FUManager shareManager] removeNamaRenderWithType:FUNamaHandleTypeMakeup];
+        }else{
+            [[FUManager shareManager] rejoinNamaRenderWithType:FUNamaHandleTypeMakeup];
+        }
+    });
 }
+
 
 -(void)dealloc{
     if (![[FUManager shareManager].beautyFiltersDataSource containsObject:_demoBar.selectedFilter]) {

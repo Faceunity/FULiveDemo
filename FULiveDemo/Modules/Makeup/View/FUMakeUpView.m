@@ -37,6 +37,8 @@ struct FUMakeupIndexPath {
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *lineBottomConstraint;
 
+@property (nonatomic, strong) NSArray <FUSingleMakeupModel *>*makeups;
+
 @end
 
 static NSString *topCellID = @"FUMakeupTopCell";
@@ -47,7 +49,7 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
     if (self = [super initWithFrame:frame]) {
         self = [[[NSBundle mainBundle]loadNibNamed:@"FUMakeUpView" owner:self options:nil] firstObject];
         self.frame = frame;
-        
+        _supIndex = -1;
     }
     
     return self;
@@ -60,7 +62,7 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
     _currentSel.bottomIndex = 0;
     _currentSel.topIndex = 0;
     self.slider.hidden = YES;
-    
+
     [_noitemBtn setTitle:NSLocalizedString(@"自定义",nil)  forState:UIControlStateNormal];
     self.backgroundColor = [UIColor clearColor];
     [self setupData];
@@ -73,7 +75,7 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
     [self.bottomCollection reloadData];
     self.topCollection.dataSource = self ;
     self.topCollection.delegate = self ;
-    
+
     self.isOpen = NO;
 }
 
@@ -86,11 +88,12 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
     self.dataArray = [FUMakeupModel mj_objectArrayWithKeyValuesArray:dic[@"data"]];
     
     /* 整体妆容 */
+    /*注意： 子妆信息makeups，FUMakeupSupModel 设置bundleName会自动在mainBundle中对应的json信息配置，详情查看FUMakeupSupModel.m
+     makeups 信息做组合妆匹配单个子妆，选中icon高亮业务用*/
     NSString *wholePath=[[NSBundle mainBundle] pathForResource:@"makeup_whole" ofType:@"json"];
     NSData *wholeData=[[NSData alloc] initWithContentsOfFile:wholePath];
     NSDictionary *wholeDic=[NSJSONSerialization JSONObjectWithData:wholeData options:NSJSONReadingMutableContainers error:nil];
     _supArray = [FUMakeupSupModel mj_objectArrayWithKeyValuesArray:wholeDic[@"data"]];
-
 }
 
 
@@ -110,7 +113,6 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
             }else{
                  self.slider.hidden = YES ;
             }
-            
         }
     }
     
@@ -136,17 +138,14 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
         model.value = sender.value;
         model.selectedFilterLevel = sender.value;
         
-        for (int i = 0; i < model.makeups.count; i ++) {
-            [self.delegate makeupViewDidChangeValue:model.value * model.makeups[i].value namaValueStr:model.makeups[i].namaValueStr];
-        }
         
-        if ([self.delegate respondsToSelector:@selector(makeupFilter:value:)]){
-            [self.delegate makeupFilter:model.selectedFilter value:model.value];
+        if ([self.delegate respondsToSelector:@selector(makeupViewChangeValueSupModle:)]){
+            [self.delegate makeupViewChangeValueSupModle:model];
         }
     }
 }
 
-#pragma mark --- UICollectionViewDataSource, UICollectionViewDelegate
+#pragma mark - UICollectionViewDataSource, UICollectionViewDelegate
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if (collectionView == self.bottomCollection) {
@@ -233,9 +232,7 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
     _currentModel = nil;
-    
     if(_isOpen){
         if (collectionView == self.bottomCollection) {
             _currentSel.bottomIndex = (int)indexPath.row;
@@ -269,7 +266,7 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
             self.noitemBtn.selected = NO ;
             self.slider.value = model.value;
             
-            if (model.makeType == FUMakeupModelTypeFoundation ){
+            if (model.makeType == FUMakeupModelTypeFoundation ){//粉底Cell，就对颜色
                 if (indexPath.row != 0) {
                     model.colorStrV = model.colors[indexPath.row - 1];
                 }else{
@@ -292,7 +289,6 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
         if (_supIndex == indexPath.row) {
             return;
         }
-        
         [self setSelSupItem:(int)indexPath.row];
         
     }
@@ -439,9 +435,6 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
     
     /* 妆容颜色 */
     if (modle.colorStrV.count && [self.delegate respondsToSelector:@selector(makeupViewDidSelectedNamaStr:valueArr:)]) {
-        if (modle.makeType == FUMakeupModelTypeLip && modle.is_two_color) {
-           [self.delegate makeupViewDidSelectedNamaStr:modle.colorStr2 valueArr:modle.colorStr2V];
-        }
         [self.delegate makeupViewDidSelectedNamaStr:modle.colorStr valueArr:modle.colorStrV];
     }
     
@@ -469,26 +462,15 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
     if (index >= _supArray.count || index < 0) {
         return;
     }
-    
     /* 一些妆容进编辑 */
     [self setNoitemBtnSata:index];
-    
     FUMakeupSupModel *modle = _supArray[index];
     _supIndex = index;
-    /* 遍历所有子妆，上妆 */
-    for (int i = 0; i < _supArray[_supIndex].makeups.count; i ++) {
-        FUSingleMakeupModel *sModel = _supArray[_supIndex].makeups[i];
-        [self setSelSubItem:sModel];
-        if ([self.delegate respondsToSelector:@selector(makeupViewDidChangeValue:namaValueStr:)]){
-            [self.delegate makeupViewDidChangeValue:modle.value * sModel.value namaValueStr:sModel.namaValueStr];
-        }
+    if (self.delegate && [self.delegate respondsToSelector:@selector(makeupViewDidSelectedSupModle:)]) {
+        [self.delegate makeupViewDidSelectedSupModle:modle];
     }
     
-    /* 加上对应滤镜 */
-    if ([self.delegate respondsToSelector:@selector(makeupFilter:value:)]){
-        [self.delegate makeupFilter:modle.selectedFilter value:modle.selectedFilterLevel];
-    }
-    
+    /* 修改UI */
     float supValue = _supArray[_supIndex].value;
     if (index != 0) {
         self.slider.hidden = NO;
@@ -496,8 +478,6 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
     }else{
         self.slider.hidden = YES;
     }
-    
-   // [self setupCombinationMakeup:_supIndex supItemValue:supValue];
     [self changeSelModel:index];
     [_topCollection reloadData];
 }
@@ -541,7 +521,8 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
                         modle2.value = modle0.value * supModle.value;
                     }
                 }else{
-                    if([modle0.namaImgStr isEqualToString:modle2.namaImgStr]) {//样式一样
+                    NSString *str = [modle0.namaImgStr stringByReplacingOccurrencesOfString:@".png"withString:@""];
+                    if([str isEqualToString:modle2.namaImgStr]) {//样式一样
                         modle1.singleSelIndex = (int)[modle1.sgArr indexOfObject:modle2];
                         /* 值 */
                         modle2.value = modle0.value * supModle.value;
@@ -627,7 +608,8 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
                         isValueChange = fabs(modle2.value - modle0.value * supModle.value) > 0.01;
                     }
                 }else{
-                    if([modle0.namaImgStr isEqualToString:modle2.namaImgStr]) {//样式一样
+                    NSString *str = [modle0.namaImgStr stringByReplacingOccurrencesOfString:@".png"withString:@""];
+                    if([str isEqualToString:modle2.namaImgStr]) {//样式一样
                         isValueChange = fabs(modle2.value - modle0.value * supModle.value) > 0.01;
                         isSelChange   = modle1.singleSelIndex != (int)[modle1.sgArr indexOfObject:modle2];
                     }
@@ -658,7 +640,6 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
 
 
 #pragma  mark -  隐藏top
-
 -(void)hiddenTopCollectionView:(BOOL)isHidden{
     if (!_isOpen) {
         return;

@@ -1,13 +1,21 @@
 # iOS Nama SDK 集成指导文档  
-级别：Public  
-更新日期：2019-11-01 
+级别：Public   
+更新日期：2019-11-29   
 
 ------
-**FaceUnity Nama SDK v6.4.1 (2019.11.01)**
+
+**FaceUnity Nama SDK v6.5.0 (2019.11.29)**
 
 更新内容
 
-- nama对iOS13系统YUV数据，处理异常
+- 新增自然系列滤镜：滤镜效果自然真实，面部清透有气色，开放所有类型滤镜。
+- 新增MSAA抗锯齿接口，fuSetMultiSamples，解决虚拟形象（animoji与捏脸功能）边缘锯齿问题，详见接口文档。
+- 优化美颜，提高人脸关键点位精度，提高最大人脸偏转角度（左右70度）。
+- 优化美型，提高稳定性，优化美型抖动问题，对于脸出框、大角度、遮挡场景下的阈值上下抖动问题已基本解决。
+- 优化脸型效果，解决下颌角过窄的问题，调节V脸、窄脸、小脸效果，使脸型更加自然。
+- 优化美白红润强度，美白、红润功能开放2倍参数，详见美颜文档。
+- 优化美发道具CPU占有率，Android/iOS提升约30%。
+  __注__：6.5.0 FaceUnity Nama SDK，为了更新以及迭代更加方便，由原先一个nama.so拆分成两个库nama.so以及fuai.so，其中nama.so为轻量级渲染引擎，fuai.so为算法引擎。升级6.5.0时，需添加fuai库。
 
 ------
 ## 目录：
@@ -60,13 +68,13 @@ Xcode 8或更高版本
 全功能版本：
 
 ```
-pod 'Nama', '6.4.1' 
+pod 'Nama', '6.5.0' 
 ```
 
 不含物理引擎的版本（lite版）：
 
 ```
-pod 'Nama-lite', '6.4.1' 
+pod 'Nama-lite', '6.5.0' 
 ```
 
 接下来执行：
@@ -83,9 +91,9 @@ pod repo update 或 pod setup
 
 #### 3.2.2 通过 github 下载集成
 
-全功能版本：[FaceUnity-SDK-iOS-v6.4.1.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v6.4.1.zip)
+全功能版本：[FaceUnity-SDK-iOS-v6.5.0.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v6.5.0.zip)
 
-不含物理引擎的版本（lite版）：[FaceUnity-SDK-iOS-v6.4.1-lite.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v6.4.1-lite.zip)
+不含物理引擎的版本（lite版）：[FaceUnity-SDK-iOS-v6.5.0-lite.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v6.5.0-lite.zip)
 
 下载完成并解压后将库文件夹拖入到工程中，并勾选上 Copy items if needed，如图：
 

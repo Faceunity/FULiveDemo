@@ -12,18 +12,12 @@
 #import "FUMakeupSupModel.h"
 #import "MJExtension.h"
 #import "FUColourView.h"
-#import <CoreMotion/CoreMotion.h>
 
 @interface FUMakeupController ()<FUMakeUpViewDelegate,FUColourViewDelegate>
 /* 化妆视图 */
 @property (nonatomic, strong) FUMakeUpView *makeupView ;
 /* 颜色选择视图 */
 @property (nonatomic, strong) FUColourView *colourView;
-/* 监听屏幕方向 */
-@property (nonatomic, strong) CMMotionManager *motionManager;
-/* 当前 */
-@property (nonatomic, assign) int orientation;
-
 @end
 
 @implementation FUMakeupController
@@ -39,7 +33,7 @@
     /* 美妆道具 */
     [_makeupView setSelSupItem:1];
     
-    [self startListeningDirectionOfDevice];
+    self.canPushImageSelView = NO;
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -47,7 +41,6 @@
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    [self stopListeningDirectionOfDevice];
 }
 
 
@@ -91,7 +84,53 @@
 }
 
 
+-(void)setOrientation:(int)orientation{
+    [super setOrientation:orientation];
+    [[FUManager shareManager] setParamItemAboutType:FUNamaHandleTypeMakeupType name:@"orientation" value:orientation];
+}
+
 #pragma mark -  FUMakeUpViewDelegate
+
+static int oldHandle = 0;
+-(void)makeupViewDidSelectedSupModle:(FUMakeupSupModel *)model{
+    /* bing && unbind */
+    dispatch_async([FUManager shareManager].makeupQueue, ^{//在美妆加载线程，确保道具加载
+        /* 子妆容重设 0 */
+//        [self makeupAllValue:0];
+        
+        int makeupHandle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeMakeup];
+        NSString *path = [[NSBundle mainBundle] pathForResource:model.makeupBundle ofType:@"bundle"];
+        int subHandle = [FURenderer itemWithContentsOfFile:path];
+        
+        if (oldHandle) {//存在旧美妆道具，先销毁
+             [FURenderer unBindItems:makeupHandle items:&oldHandle itemsCount:1];
+             [FURenderer destroyItem:oldHandle];
+             oldHandle = 0;
+        }
+        [FURenderer bindItems:makeupHandle items:&subHandle itemsCount:1];
+        oldHandle = subHandle;
+    });
+    
+    /* 修改值 */
+    [self makeupAllValue:0];
+    [self makeupViewChangeValueSupModle:model];
+
+}
+
+-(void)makeupViewChangeValueSupModle:(FUMakeupSupModel *)model{
+    for (int i = 0; i < model.makeups.count; i ++) {
+        [self makeupViewDidChangeValue:model.value * model.makeups[i].value namaValueStr:model.makeups[i].namaValueStr];
+    }
+    /* 修改美颜的滤镜 */
+    if (!model.selectedFilter || [model.selectedFilter isEqualToString:@""]) {
+        [FUManager shareManager].selectedFilter = @"origin";
+    }else{
+        [FUManager shareManager].selectedFilter = model.selectedFilter;
+        [FUManager shareManager].selectedFilterLevel = model.selectedFilterLevel;
+    }
+}
+
+
 -(void)makeupCustomShow:(BOOL)isShow{
     if (isShow) {
         [UIView animateWithDuration:0.2 animations:^{
@@ -155,6 +194,21 @@
     [_makeupView changeSubItemColorIndex:index];
 }
 
+/* 所有子妆修改 */
+-(void)makeupAllValue:(float)value{
+    [[FUManager shareManager] setMakeupItemIntensity:value param:@"makeup_intensity_blusher"];
+    [[FUManager shareManager] setMakeupItemIntensity:value param:@"makeup_intensity_eyeBrow"];
+    [[FUManager shareManager] setMakeupItemIntensity:value param:@"makeup_intensity_eye"];
+    [[FUManager shareManager] setMakeupItemIntensity:value param:@"makeup_intensity_eyeLiner"];
+    [[FUManager shareManager] setMakeupItemIntensity:value param:@"makeup_intensity_eyelash"];
+    [[FUManager shareManager] setMakeupItemIntensity:value param:@"makeup_intensity_pupil"];
+    [[FUManager shareManager] setMakeupItemIntensity:value param:@"makeup_intensity_lip"];
+    [[FUManager shareManager] setMakeupItemIntensity:value param:@"makeup_intensity_foundation"];
+    [[FUManager shareManager] setMakeupItemIntensity:value param:@"makeup_intensity_highlight"];
+    [[FUManager shareManager] setMakeupItemIntensity:value param:@"makeup_intensity_shadow"];
+}
+
+
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     if (!_makeupView.topHidden) {
         [_makeupView hiddenTopCollectionView:YES];
@@ -162,72 +216,8 @@
     }
 }
 
-
-#pragma  mark -  方向监听
-
-/// 开启屏幕旋转的检测
-- (void)startListeningDirectionOfDevice {
-    if (self.motionManager == nil) {
-        self.motionManager = [[CMMotionManager alloc] init];
-    }
-    self.motionManager.deviceMotionUpdateInterval = 0.3;
-    
-    // 判断设备传感器是否可用
-    if (self.motionManager.deviceMotionAvailable) {
-        // 启动设备的运动更新，通过给定的队列向给定的处理程序提供数据。
-        [self.motionManager startDeviceMotionUpdatesToQueue:[NSOperationQueue mainQueue] withHandler:^(CMDeviceMotion *motion, NSError *error) {
-            [self performSelectorOnMainThread:@selector(handleDeviceMotion:) withObject:motion waitUntilDone:YES];
-        }];
-    } else {
-        [self setMotionManager:nil];
-    }
-}
-
-- (void)stopListeningDirectionOfDevice {
-    if (_motionManager) {
-        [_motionManager stopDeviceMotionUpdates];
-        _motionManager = nil;
-    }
-}
-
-- (void)handleDeviceMotion:(CMDeviceMotion *)deviceMotion {
-
-    double x = deviceMotion.gravity.x;
-    double y = deviceMotion.gravity.y;
-    int orientation = 0;
-    
-    if (fabs(y) >= fabs(x)) {// 竖屏
-        if (y < 0) {
-            orientation = 0;
-        }
-        else {
-            orientation = 2;
-        }
-    }
-    else { // 横屏
-        if (x < 0) {
-           orientation = 1;
-        }
-        else {
-           orientation = 3;
-        }
-    }
-    
-    if (orientation != _orientation) {
-        self.orientation = orientation;
-    }
-    
-}
-
--(void)setOrientation:(int)orientation{
-    _orientation = orientation;
-     [[FUManager shareManager] setParamItemAboutType:FUNamaHandleTypeMakeupType name:@"orientation" value:orientation];
-}
-
-
 -(void)dealloc{
 //    [[FUManager shareManager] setDefaultFilter];
-    [self stopListeningDirectionOfDevice];
 
 }
 

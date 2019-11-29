@@ -19,6 +19,7 @@ typedef NS_ENUM(NSInteger, FUBeautyViewType) {
 typedef NS_ENUM(NSInteger, FUSliderType) {
     FUFilterSliderTypeFilter            = 1,// 滤镜
     FUFilterSliderTypeBlur              = 2,// 磨皮
+//    FUFilterSliderTypesharpen           = 3,// 锐化
     FUFilterSliderTypeColor             = 3,// 美白
     FUFilterSliderTypeRed               = 4,// 红润
     FUFilterSliderTypeEyeLighting       = 5,// 亮眼

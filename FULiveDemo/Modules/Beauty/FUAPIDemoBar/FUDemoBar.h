@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FUMakeUpView.h"
 
 struct FUDemoBarIndexPath {
     int topIndex;
@@ -39,16 +38,13 @@ struct FUDemoBarIndexPath {
 @property (assign, nonatomic) struct FUDemoBarIndexPath currentSel;
 
 /**     美肤参数    **/
-/** 精准美肤 (0、1)    */
-@property (nonatomic, assign) BOOL skinDetect ;
-/** 美肤类型 (0、1、) 清晰：0，朦胧：1    */
-@property (nonatomic, assign) NSInteger blurType;
 /** 磨皮(0.0 - 6.0)    */
 //@property (nonatomic, assign) double blurLevel;
-/* 0清晰磨皮  1重度磨皮   2精细磨皮 */
 @property (nonatomic, assign) double blurLevel_0;
-@property (nonatomic, assign) double blurLevel_1;
-@property (nonatomic, assign) double blurLevel_2;
+
+
+/* 锐化 */
+//@property (nonatomic, assign) double sharpenLevel;
 /** 美白 (0~1)    */
 @property (nonatomic, assign) double colorLevel;
 /** 红润 (0~1)    */
@@ -110,7 +106,5 @@ struct FUDemoBarIndexPath {
 // 上半部是否显示
 @property (nonatomic, assign) BOOL isTopViewShow ;
 
--(void)demoBarChangeBlurType:(NSInteger)blurType;
 
-@property (nonatomic, strong) FUMakeUpView *makeupView;
 @end

@@ -6,10 +6,10 @@
   Copyright © 2018年 L. All rights reserved.
 */
 /* demobar  */
-"精准美肤" = "Skin Detect" ;
-"清晰磨皮" = "Light Blur" ;
-"朦胧磨皮" = "Heavy Blur" ;
-"磨皮" = "Blur" ;
+//"清晰磨皮" = "Light Blur" ;
+//"朦胧磨皮" = "Heavy Blur" ;
+"磨皮" = "Fine Blur" ;
+"锐化" = "sharpen";
 "美白" = "Whiten" ;
 "红润" = "Ruddy" ;
 "亮眼" = "Eye Brighten" ;
@@ -21,29 +21,94 @@
 "额头" = "Forehead" ;
 "瘦鼻" = "Nose" ;
 "嘴型" = "Mouth" ;
+
+//滤镜
 "原图" = "Origin" ;
-"自然" = "Nature" ;
-"淡雅" = "Elegant" ;
+"自然1" = "Nature1" ;
+"自然2" = "Nature2" ;
+"自然3" = "Nature3" ;
+"自然4" = "Nature4" ;
+"自然5" = "Nature5" ;
+"自然6" = "Nature6" ;
+"自然7" = "Nature7" ;
+"自然8" = "Nature8" ;
+"自然9" = "Nature9" ;
+"自然10" = "Nature10" ;
+"自然11" = "Nature11" ;
+"自然12" = "Nature12" ;
+
+"白亮1" = "Bright1";
+"白亮2" = "Bright2";
+"白亮3" = "Bright3";
+"白亮4" = "Bright4";
+"白亮5" = "Bright5";
+"白亮6" = "Bright6";
+"白亮7" = "Bright7";
+
 "粉嫩" = "Pink" ;
-"红润" = "Ruddy" ;
-"白亮" = "bright";
+"粉嫩1" = "Pink1" ;
+"粉嫩2" = "Pink2" ;
+"粉嫩3" = "Pink3" ;
+"粉嫩4" = "Pink4" ;
+"粉嫩5" = "Pink5" ;
+"粉嫩6" = "Pink6" ;
+"粉嫩7" = "Pink7" ;
+"粉嫩8" = "Pink8" ;
+
 "冷色调"= "Cold tone";
+"冷色调1"= "Cold tone1";
+"冷色调2"= "Cold tone2";
+"冷色调3"= "Cold tone3";
+"冷色调4"= "Cold tone4";
+"冷色调5"= "Cold tone5";
+"冷色调6"= "Cold tone6";
+"冷色调7"= "Cold tone7";
+"冷色调8"= "Cold tone8";
+"冷色调9"= "Cold tone9";
+"冷色调10"= "Cold tone10";
+"冷色调11"= "Cold tone11";
+
 "暖色调"= "Warm tone";
+"暖色调1"= "Warm tone1";
+"暖色调2"= "Warm tone2";
+
+"个性1"  = "personality1";
+"个性2"  = "personality2";
+"个性3"  = "personality3";
+"个性4"  = "personality4";
+"个性5"  = "personality5";
+"个性6"  = "personality6";
+"个性7"  = "personality7";
+"个性8"  = "personality8";
+"个性9"  = "personality9";
+"个性10"  = "personality10";
+
 "小清新"  = "fresh";
+"小清新1"  = "fresh1";
+"小清新2"  = "fresh2";
+"小清新3"  = "fresh3";
+"小清新4"  = "fresh4";
+"小清新5"  = "fresh5";
+"小清新6"  = "fresh6";
+"黑白1" = "Fade1" ;
+"黑白2" = "Fade2" ;
+"黑白3" = "Fade3" ;
+"黑白4" = "Fade4" ;
+"载入图片或视频" = "Load picture or video";
+
+"红润" = "Ruddy" ;
 "自定义" =  "Customize" ;
 "默认" =  "Default" ;
 "女神" =  "Fairy" ;
 "网红" =  "Belle" ;
 "自然" =  "Nature" ;
-"精准美肤 开启" = "Skin Detect ON" ;
-"精准美肤 关闭" = "Skin Detect OFF" ;
-"清晰磨皮" = "Light Blur mode" ;
-"朦胧磨皮" = "Heavy Blur mode" ;
-"精细磨皮" = "Fine Blur mode" ;
+//"清晰磨皮" = "Light Blur mode" ;
+//"朦胧磨皮" = "Heavy Blur mode" ;
+//"精细磨皮" = "Fine Blur mode" ;
 "美肤" = "Skin" ;
-"美型" = "Style" ;
+"美型" = "Reshape" ;
 "滤镜" = "Filter" ;
-"质感美颜" = "Makeup" ;
+"轻美妆" = "lightMakeup" ;
 "桃花"       =  "peach";
 "西柚"       =  "grapefruit";
 "清透"       =  "clear";
@@ -98,7 +163,7 @@
 "Performance_Preferred" = "Performance";
 "No_Face_Tracking"   = "No Face Tracking";
 "sel_Photo"         =    "Photo";
-"Choose_photo_or_video_from_your_album"  = "Choose photo or video from your album";
+"Choose_photo_or_video_from_your_album"  = "Choose from your album";
 "sel_Video"              =  "Video";
 
 //美妆

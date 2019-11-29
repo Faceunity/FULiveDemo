@@ -32,6 +32,12 @@ typedef enum {
 + (FURenderer *)shareRenderer;
 
 /**
+  context切换
+ */
+- (void)setBackCurrentContext;
+- (void)setUpCurrentContext;
+
+/**
  初始化接口1:
      - 初始化 SDK，并对 SDK 进行授权，在调用其他接口前必须要先进行初始化。
      - 使用该接口进行初始化的话，需要在代码中配置 EAGLContext 环境，并且保证我们的接口是在同一个 EAGLContext 下调用的
@@ -516,15 +522,11 @@ typedef enum {
 
 + (void)setFocalLengthScale:(float)scale;
 
-+ (int)loadExtendedARData:(void *)data size:(int)size;
-
-+ (int)loadExtendedARDataWithDataPath:(NSString *)dataPath;
-
-+ (int)loadAnimModel:(void *)model size:(int)size;
-
-+ (int)loadAnimModelWithModelPath:(NSString *)modelPath;
-
 + (void)setDefaultRotationMode:(float)mode;
+
++ (int)getCurrentRotationMode;
+
++ (int)setMultiSamples:(int)samples;
 
 + (void)setAsyncTrackFaceEnable:(int)enable;
 

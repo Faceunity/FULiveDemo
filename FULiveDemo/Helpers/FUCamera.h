@@ -57,6 +57,8 @@
 
 - (void)removeAudio;
 
+/* 当前分辨率是否支持前后置 */
+-(BOOL)supportsAVCaptureSessionPreset:(BOOL)isFront;
 
 /**
  设置采集方向
@@ -92,7 +94,7 @@
 
  @param sessionPreset string constants
  */
--(void)changeSessionPreset:(AVCaptureSessionPreset)sessionPreset;
+-(BOOL)changeSessionPreset:(AVCaptureSessionPreset)sessionPreset;
 
 
 /**

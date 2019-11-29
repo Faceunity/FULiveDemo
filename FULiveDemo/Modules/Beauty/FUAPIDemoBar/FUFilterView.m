@@ -101,7 +101,7 @@
         self.imageView.layer.borderColor = [UIColor clearColor].CGColor ;
         [self addSubview:self.imageView];
         
-        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 54, 54, frame.size.height - 54)];
+        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(-8, 54, 70, frame.size.height - 54)];
         self.titleLabel.textAlignment = NSTextAlignmentCenter ;
         self.titleLabel.font = [UIFont systemFontOfSize:10];
         [self addSubview:self.titleLabel];

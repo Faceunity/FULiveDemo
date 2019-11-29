@@ -170,6 +170,10 @@
     [[FUManager shareManager] recomputeAvatar];
 }
 
+#pragma  mark -  重载
+-(BOOL)needSetMultiSamples{
+    return YES;
+}
 
 -(void)dealloc{
     [[FUManager shareManager] destoryItems];
