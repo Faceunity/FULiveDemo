@@ -92,8 +92,9 @@
 
 //完成视频录制时调用
 - (void)finishWithCompletionHandler:(void (^)(void))handler {
+    NSLog(@"--------------%ld",(long)_writer.status);
     if (_writer.status == AVAssetWriterStatusWriting) {
-        [_writer finishWritingWithCompletionHandler: handler];
+        [_writer finishWritingWithCompletionHandler:handler];
     }
 }
 

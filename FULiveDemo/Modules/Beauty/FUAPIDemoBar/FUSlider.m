@@ -9,7 +9,7 @@
 #import "FUSlider.h"
 #import "FUDemoBarDefine.h"
 #import "UIImage+demobar.h"
-#import "UIColor+FUDemoBar.h"
+#import "UIColor+FUAPIDemoBar.h"
 
 @implementation FUSlider
 {
@@ -71,7 +71,7 @@
     [super layoutSubviews];
     
     if (!middleView) {
-        middleView = [[UIView alloc] initWithFrame:CGRectMake(2, self.frame.size.height /2.0 - 1, 100, 2)];
+        middleView = [[UIView alloc] initWithFrame:CGRectMake(2, self.frame.size.height /2.0 - 1, 100, 4)];
         middleView.backgroundColor = [UIColor colorWithHexColorString:@"5EC7FE"];
         middleView.hidden = YES;
         [self insertSubview:middleView atIndex: self.subviews.count - 1];
@@ -95,9 +95,7 @@
 -(void)setType:(FUSliderType)type {
     _type = type ;
     switch (_type) {
-        case FUFilterSliderTypeChin:
-        case FUFilterSliderTypeForehead:
-        case FUFilterSliderTypeMouth:{
+        case FUFilterSliderType101:{
             
             line.hidden = NO ;
             middleView.hidden = NO ;
@@ -122,9 +120,7 @@
     
     
     switch (_type) {
-        case FUFilterSliderTypeChin:
-        case FUFilterSliderTypeForehead:
-        case FUFilterSliderTypeMouth:{
+        case FUFilterSliderType101:{
             
             tipLabel.text = [NSString stringWithFormat:@"%d",(int)(value * 100 - 50)];
             

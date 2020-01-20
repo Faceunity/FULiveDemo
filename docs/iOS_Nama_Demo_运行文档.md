@@ -1,21 +1,27 @@
 # Demo运行说明文档-iOS  
 级别：Public   
-更新日期：2019-11-29   
+更新日期：2020-01-19   
 
 -------
 
-**FaceUnity Nama SDK v6.5.0 (2019.11.29)**
+**FaceUnity Nama SDK v6.6.0 (2020-01-19 )**
 
-更新内容
+注意: 更新SDK 6.6.0时，在fuSetup之后，需要马上调用 fuLoadAIModelFromPackage 加载ai_faceprocessor.bundle 到 FUAITYPE::FUAITYPE_FACEPROCESSOR!!!
 
-- 新增自然系列滤镜：滤镜效果自然真实，面部清透有气色，开放所有类型滤镜。
-- 新增MSAA抗锯齿接口，fuSetMultiSamples，解决虚拟形象（animoji与捏脸功能）边缘锯齿问题，详见接口文档。
-- 优化美颜，提高人脸关键点位精度，提高最大人脸偏转角度（左右70度）。
-- 优化美型，提高稳定性，优化美型抖动问题，对于脸出框、大角度、遮挡场景下的阈值上下抖动问题已基本解决。
-- 优化脸型效果，解决下颌角过窄的问题，调节V脸、窄脸、小脸效果，使脸型更加自然。
-- 优化美白红润强度，美白、红润功能开放2倍参数，详见美颜文档。
-- 优化美发道具CPU占有率，Android/iOS提升约30%。
-  __注__：6.5.0 FaceUnity Nama SDK，为了更新以及迭代更加方便，由原先一个nama.so拆分成两个库nama.so以及fuai.so，其中nama.so为轻量级渲染引擎，fuai.so为算法引擎。升级6.5.0时，需添加fuai库。
+在Nama 6.6.0及以上，AI能力的调用会按道具需求调用，避免同一帧多次调用；同时由Nama AI子系统管理推理，简化调用过程；将能力和产品功能进行拆分，避免在道具bundle内的冗余AI模型资源，方便维护升级，同时加快道具的加载；方便各新旧AI能力集成，后续的升级迭代。
+
+基本逻辑：Nama初始化后，可以预先加载一个或多个将来可能使用到的AI能力模块。调用实时render处理接口时，Nama主pipe会在最开始的时候，分析当前全部道具需要AI能力，然后由AI子系统执行相关能力推理，然后开始调用各个道具的‘生命周期’函数，各道具只需要按需在特定的‘生命周期’函数调用JS接口获取AI推理的结果即可，并用于相关逻辑处理或渲染。
+
+1. 新增加接口 fuLoadAIModelFromPackage 用于加载AI能力模型。
+2. 新增加接口 fuReleaseAIModel 用于释放AI能力模型。
+3. 新增加接口 fuIsAIModelLoaded 判断AI能力是否已经加载。
+
+例子1：背景分割
+	a. 加载AI能力模型，fuLoadAIModelFromPackage加载ai_bgseg.bundle 到 FUAITYPE::FUAITYPE_BACKGROUNDSEGMENTATION上。
+	b. 加载产品业务道具A，A道具使用了背景分割能力。
+	c. 切换产品业务道具B，B道具同样使用了背景分割能力，但这时AI能力不需要重新加载。
+
+__注__：6.6.0 FaceUnity Nama SDK，为了更新以及迭代更加方便，由原先一个 libnama.a 拆分成两个库 libnama.a 以及 libfuai.a，其中 libnama.a 为轻量级渲染引擎，libfuai.a 为算法引擎。当升级 6.6.0 时，需要添加 libfuai.a 库。
 
 ------
 ### 目录：
@@ -54,7 +60,8 @@
           -funama.h                //C 接口
           -FURenderer.h            //OC 接口
         +Resources               //SDK 重要功能资源
-        -libnama.a               //Nama库
+        -libnama.a               //Nama图形库
+        -libfuai.a               //Nama算法库
         +items                   //个个模块道具资源 
   +docs						//文档目录
   +Pods                     //三方库管理

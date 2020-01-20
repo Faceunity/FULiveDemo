@@ -18,6 +18,8 @@ typedef enum : NSUInteger {
     VideoRecordEndMode,
 } RunMode;
 
+typedef void(^FUCameraRecordVidepCompleted)(NSString *videoPath);
+
 
 @interface FUCamera()<AVCaptureVideoDataOutputSampleBufferDelegate,AVCaptureAudioDataOutputSampleBufferDelegate>
 {
@@ -38,7 +40,7 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, strong) AVCaptureDeviceInput      *audioMicInput;//麦克风输入
 @property (nonatomic, strong) AVCaptureAudioDataOutput  *audioOutput;//音频输出
-@property (copy, nonatomic) void(^recordVidepCompleted) (NSString *videoPath);
+@property (copy, nonatomic) FUCameraRecordVidepCompleted recordVidepCompleted;
 
 @property (assign, nonatomic) AVCaptureSessionPreset mSessionPreset;
 @end
@@ -568,7 +570,6 @@ typedef enum : NSUInteger {
         case VideoRecordMode:
 
             if (self.recordEncoder == nil) {
-
                 NSDate *currentDate = [NSDate date];//获取当前时间，日期
                 NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
                 [dateFormatter setDateFormat:@"YYYYMMddhhmmssSS"];
@@ -597,22 +598,27 @@ typedef enum : NSUInteger {
 //            if (self.recordEncoder.writer.status == AVAssetWriterStatusUnknown) {
 //                self.recordEncoder = nil;
 //            }else{
-            
-                [self.recordEncoder finishWithCompletionHandler:^{
-                    
-                    NSString *path = self.recordEncoder.path;
-                    self.recordEncoder = nil;
-                    if (self.recordVidepCompleted) {
-                        self.recordVidepCompleted(path);
-                    }
-                }];
- //           }
+              __weak typeof(self)weakSelf  = self ;
+            [self.recordEncoder finishWithCompletionHandler:^{
+                [weakSelf videpCompleted];
+            }];
         }
         break;
         default:
             break;
     }
 }
+
+
+-(void)videpCompleted{
+    NSLog(@"1111");
+    NSString *path = self.recordEncoder.path;
+    self.recordEncoder = nil;
+    if (self.recordVidepCompleted) {
+        self.recordVidepCompleted(path);
+    }
+}
+
 
 - (void)takePhotoAndSave
 {
@@ -628,8 +634,9 @@ typedef enum : NSUInteger {
 //停止录像
 - (void)stopRecordWithCompletionHandler:(void (^)(NSString *videoPath))handler
 {
-    runMode = VideoRecordEndMode;
     self.recordVidepCompleted =  handler;
+    runMode = VideoRecordEndMode;
+
 }
 
 - (UIImage *)imageFromPixelBuffer:(CVPixelBufferRef)pixelBufferRef {

@@ -176,7 +176,9 @@
 }
 
 -(void)dealloc{
-    [[FUManager shareManager] destoryItems];
+    [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeAvtarbg];
+    [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeAvtarHead];
+    [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeAvtarHiar];
     /* 退捏脸出 */
     [[FUManager shareManager] recomputeAvatar];
     [[FUManager shareManager] quitAvatar];

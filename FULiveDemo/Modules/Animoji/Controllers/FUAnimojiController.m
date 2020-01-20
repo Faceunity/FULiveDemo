@@ -25,6 +25,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self setupView];
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -124,6 +125,12 @@
             break;
     }
     return 0;
+}
+
+-(void)dealloc{
+    [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeItem];
+    [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeComic];
+    [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeFxaa];
 }
 
 @end

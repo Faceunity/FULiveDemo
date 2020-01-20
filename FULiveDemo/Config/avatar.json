@@ -7,11 +7,11 @@
         "bundles":
         [
         {"bundleName":"","iconName":"not_hair","color":"0x121212"},
-        {"bundleName":"female_hair_01","iconName":"male_hair_2","color":"0x121212"},
-        {"bundleName":"female_hair_03","iconName":"female_hair_9","color":"0x121212"},
-        {"bundleName":"female_hair_05","iconName":"female_hair_16","color":"0x121212"},
-        {"bundleName":"female_hair_04","iconName":"female_hair_12","color":"0x121212"},
-        {"bundleName":"female_hair_06","iconName":"female_hair_23","color":"0x121212"}],
+        {"bundleName":"avatarHair1","iconName":"male_hair_2","color":"0x121212"},
+        {"bundleName":"avatarHair3","iconName":"female_hair_9","color":"0x121212"},
+        {"bundleName":"avatarHair5","iconName":"female_hair_16","color":"0x121212"},
+        {"bundleName":"avatarHair4","iconName":"female_hair_12","color":"0x121212"},
+        {"bundleName":"avatarHair6","iconName":"female_hair_23","color":"0x121212"}],
         "colorsSelIndex":0,
         "colorsParam":"channel0",
         "colors":[

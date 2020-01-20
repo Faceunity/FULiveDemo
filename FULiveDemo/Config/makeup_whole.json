@@ -8,74 +8,147 @@
       "makeupBundle": ""
     },
     {
+      "name": "减龄",
+      "imageStr": "demo_combination_age",
+      "value": 0.7,
+      "isSel": false,
+      "makeupBundle": "jianling",
+      "selectedFilter":"zhiganhui1"
+    },
+    {
+      "name": "暖冬",
+      "imageStr": "demo_combination_warm_winter",
+      "value": 0.7,
+      "isSel": false,
+      "makeupBundle": "nuandong",
+      "selectedFilter":"zhiganhui2"
+    },
+    {
+      "name": "红枫",
+      "imageStr": "demo_combination_red_maple",
+      "value": 0.7,
+      "isSel": false,
+      "makeupBundle": "hongfeng",
+      "selectedFilter":"zhiganhui3"
+    },
+    {
+      "name": "少女",
+      "imageStr": "demo_combination_girl",
+      "value": 0.7,
+      "isSel": false,
+      "makeupBundle": "shaonv",
+      "selectedFilter":"zhiganhui4"
+    },
+    {
+      "name": "紫韵",
+      "imageStr": "demo_combination_purple_rhyme",
+      "value": 0.7,
+      "isSel": false,
+      "makeupBundle": "ziyun",
+      "selectedFilter":"zhiganhui5"
+    },
+    {
+      "name": "厌世猫",
+      "imageStr": "demo_combination_bored_cat",
+      "value": 0.7,
+      "isSel": false,
+      "makeupBundle": "yanshimao",
+      "selectedFilter":"zhiganhui5"
+    },
+    {
+      "name": "人鱼",
+      "imageStr": "demo_combination_mermaid",
+      "value": 0.7,
+      "isSel": false,
+      "makeupBundle": "renyu",
+      "selectedFilter":"zhiganhui1",
+      "is_flip_points":1
+    },
+    {
+      "name": "初秋",
+      "imageStr": "demo_combination_early_autumn",
+      "value": 0.7,
+      "isSel": false,
+      "makeupBundle": "chuqiu",
+      "selectedFilter":"zhiganhi6"
+    },
+    {
+      "name": "千纸鹤",
+      "imageStr": "demo_combination_paper_cranes",
+      "value": 0.7,
+      "isSel": false,
+      "makeupBundle": "qianzhihe",
+      "selectedFilter":"zhiganhui2"
+    },
+    {
+      "name": "超模",
+      "imageStr": "demo_combination_supermodel",
+      "value": 0.7,
+      "isSel": false,
+      "makeupBundle": "chaomo",
+      "selectedFilter":"zhiganhui7"
+    },
+    {
+      "name": "雏菊",
+      "imageStr": "demo_combination_daisy",
+      "value": 0.7,
+      "isSel": false,
+      "makeupBundle": "chuju",
+      "selectedFilter":"zhiganhui8"
+    },
+    {
+      "name": "港风",
+      "imageStr": "demo_combination_harbour_wind",
+      "value": 0.7,
+      "isSel": false,
+      "makeupBundle": "gangfeng",
+      "selectedFilter":"ziran8",
+      "is_flip_points":1
+    },
+    {
+      "name": "Rose",
+      "imageStr": "demo_combination_rose",
+      "value": 0.7,
+      "isSel": false,
+      "makeupBundle": "Rose",
+      "selectedFilter":"zhiganhui2",
+      "is_flip_points":1
+    },
+    {
       "name": "性感",
       "imageStr": "demo_combination_sexy",
-      "value": 1.0,
+      "value": 0.7,
       "isSel": false,
       "makeupBundle": "01_xinggan"
     },
     {
       "name": "甜美",
       "imageStr": "demo_combination_sweet",
-      "value": 1.0,
+      "value": 0.7,
       "isSel": false,
       "makeupBundle": "02_tianmei"
     },
     {
       "name": "邻家",
       "imageStr": "demo_combination_neighbor_girl",
-      "value": 1.0,
+      "value": 0.7,
       "isSel": false,
       "makeupBundle": "03_linjia"
     },
     {
       "name": "欧美",
       "imageStr": "demo_combination_occident",
-      "value": 1.0,
+      "value": 0.7,
       "isSel": false,
       "makeupBundle": "04_oumei"
     },
     {
       "name": "妩媚",
       "imageStr": "demo_combination_charming",
-      "value": 1.0,
+      "value": 0.7,
       "isSel": false,
       "makeupBundle": "05_wumei"
-    },
-    {
-      "name": "花花",
-      "imageStr": "demo_combination_flower",
-      "value": 1.0,
-      "isSel": true,
-      "makeupBundle": "zhuti01"
-    },
-    {
-      "name": "硬汉",
-      "imageStr": "demo_combination_tough_guy",
-      "value": 1.0,
-      "isSel": false,
-      "makeupBundle": "zhuti05"
-    },
-    {
-      "name": "星月",
-      "imageStr": "demo_combination_moon",
-      "value": 1.0,
-      "isSel": false,
-      "makeupBundle": "zhuti02"
-    },
-    {
-      "name": "珊瑚",
-      "imageStr": "demo_combination_coral",
-      "value": 1.0,
-      "isSel": false,
-      "makeupBundle": "zhuti04"
-    },
-    {
-      "name": "仕女",
-      "imageStr": "demo_combination_lady",
-      "value": 1.0,
-      "isSel": false,
-      "makeupBundle": "zhuti03"
     }
+    
   ]
 }

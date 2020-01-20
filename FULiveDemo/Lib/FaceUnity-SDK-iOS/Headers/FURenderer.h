@@ -22,6 +22,39 @@ typedef enum {
     FUFormatRGBATexture = FU_FORMAT_RGBA_TEXTURE,
 } FUFormat;
 
+typedef enum {
+    FURotationMode0 = FU_ROTATION_MODE_0,
+    FURotationMode90 = FU_ROTATION_MODE_90,
+    FURotationMode180 = FU_ROTATION_MODE_180,
+    FURotationMode270 = FU_ROTATION_MODE_270,
+} FURotationMode;
+
+@interface FURotatedImage : NSObject
+
+@property void* mData;
+@property int mWidth;
+@property int mHeight;
+
+-(instancetype)init;
+
+@end;
+
+@interface FUAvatarInfo : NSObject{
+@public
+    float landmarks[150];
+    float identity[75];
+    float expression[56];
+    float translation[3];
+    float rotation[4];
+    float rotationMode[1];
+    float pupilPos[2];
+    int isValid;
+    
+    TAvatarInfo info;
+}
+
+@end
+
 @interface FURenderer : NSObject
 
 /**
@@ -262,6 +295,19 @@ typedef enum {
 
 - (int)renderItems:(void *)inPtr inFormat:(FUFormat)inFormat outPtr:(void *)outPtr outFormat:(FUFormat)outFormat width:(int)width height:(int)height frameId:(int)frameid items:(int *)items itemCount:(int)itemCount flipx:(BOOL)flip;
 
+- (int)renderBundles:(void *)inPtr inFormat:(FUFormat)inFormat outPtr:(void *)outPtr outFormat:(FUFormat)outFormat width:(int)width height:(int)height frameId:(int)frameid items:(int *)items itemCount:(int)itemCount;
+
+- (int)renderBundlesSplitView:(void *)inPtr inFormat:(FUFormat)inFormat outPtr:(void *)outPtr outFormat:(FUFormat)outFormat width:(int)width height:(int)height frameId:(int)frameid items:(int *)items itemCount:(int)itemCount splitViewInfoPtr:(TSplitViewInfo*)splitViewInfoPtr;
+
+- (void)setInputCameraMatrix:(int)flip_x flip_y:(int)flip_y rotate_mode:(int)rotate_mode;
+
+- (void)setOutputResolution:(int)w h:(int)h;
+
+/*
+ @return 1代表成功，0代表失败
+*/
+- (int)rotateImage:(FURotatedImage*)outImage inPtr:(void *)inPtr inFormat:(FUFormat)inFormat width:(int)width height:(int)height rotationMode:(FURotationMode)rotationMode flipX:(BOOL)flipX flipY:(BOOL)flipY;
+
 /**
  resize视频图像，目前仅支持BGRA格式的pixelBuffer
 
@@ -330,6 +376,29 @@ typedef enum {
 + (void)destroyAllItems;
 
 /**
+ 加载AI能力模型bundle
+ @param data AI能力模型二进制文件
+ @param size 文件大小
+ @param type AI能力类型,定义在FUAITYPE中
+ @return 加载成功返回1，否则返回0
+ */
++ (int)loadAIModelFromPackage:(void*)data size:(int)size aitype:(FUAITYPE)type;
+
+/**
+ 在不需要的时候，释放AI能力模型bundle
+ @param type AI能力类型,定义在FUAITYPE中
+ @return 释放成功返回1，否则返回0
+ */
++ (int)releaseAIModel:(FUAITYPE)type;
+
+/**
+ 获取AI能力模型是否加载。
+ @param type AI能力类型,定义在FUAITYPE中
+ @return 已加载返回1，否则返回0
+ */
++ (int)isAIModelLoaded:(FUAITYPE)type;
+
+/**
  为道具设置参数：
  
  @param item 道具句柄
@@ -349,6 +418,27 @@ typedef enum {
  @return 执行结果：返回 0 代表设置失败，大于 0 表示设置成功
  */
 + (int)itemSetParamdv:(int)item withName:(NSString *)name value:(double *)value length:(int)length;
+
+/**
+ 从道具中获取 double 数组：
+ 
+ @param item 道具句柄
+ @param name 参数名
+ @param value 参数值：double 数组
+ @param length 参数值：double 数组长度
+ @return 执行结果：返回获取的数组长度
+ */
++ (int)itemGetParamdv:(int)item withName:(NSString *)name buffer:(double *)buffer length:(int)length;
+/**
+ 从道具中获取 float 数组：
+ 
+ @param item 道具句柄
+ @param name 参数名
+ @param value 参数值：float 数组
+ @param length 参数值：float 数组长度
+ @return 执行结果：返回获取的数组长度
+ */
++ (int)itemGetParamfv:(int)item withName:(NSString *)name buffer:(float *)buffer length:(int)length;
 
 /**
  从道具中获取 double 型参数值：
@@ -372,6 +462,7 @@ typedef enum {
 
 + (int)itemGetParamu8v:(int)item withName:(NSString *)name buffer:(void *)buffer size:(int)size;
 
++ (int)itemSetParamu64:(int)item withName:(NSString *)name value:(unsigned long long)value;
 /**
  判断是否检测到人脸：
  
@@ -522,7 +613,9 @@ typedef enum {
 
 + (void)setFocalLengthScale:(float)scale;
 
-+ (void)setDefaultRotationMode:(float)mode;
++ (void)setDefaultRotationMode:(int)mode;
+
++ (void)setDeviceOrientation:(int)orientation;
 
 + (int)getCurrentRotationMode;
 
@@ -533,6 +626,66 @@ typedef enum {
 + (void)setTongueTrackingEnable:(int)enable;
  
 + (int)loadTongueModel:(void*)model size:(int)size;
+
++ (void*)create3DBodyTracker:(void*)model size:(int)size;
+
++ (void)destroy3DBodyTracker:(void*)modelPtr;
+
++ (int)run3DBodyTracker:(void*)modelPtr humanHandle:(int)humanHandle inPtr:(void *)inPtr inFormat:(FUFormat)inFormat w:(int)w h:(int)h rotationMode:(int)rotationMode;
+
+/**
+new tracker
+**/
++ (void*)faceCaptureCreate:(void*)data size:(int)size;
+
++ (void)faceCaptureDestory:(void*)model;
+
++ (int)faceCaptureReset:(void*)model;
+
+/**
+ Run face capturing
+ 
+ @param manager_ptr_addr the pointer of the capture manager
+ @param img input image pointer, data type must be byte
+ @param w input image width
+ @param h input image height
+ @param fu_image_format FU_FORMAT_*_BUFFER
+ @param rotation_mode w.r.t to rotation the the camera view, 0=0^deg, 1=90^deg, 2=180^deg, 3=270^deg
+ @return whether the current frame is valid for tracking
+*/
++ (int)faceCaptureProcessFrame:(void*)model inPtr:(void *)inPtr inFormat:(FUFormat)inFormat w:(int)w h:(int)h rotationMode:(int)rotationMode;
+
+
+/*
+ @return 返回 1 代表获取成功，返回 0 代表获取失败
+*/
++ (int)faceCaptureGetResultLandmarks:(void*)model faceN:(int)faceN buffer:(float *)buffer length:(int)length;
+
++ (int)faceCaptureGetResultIdentity:(void*)model faceN:(int)faceN buffer:(float *)buffer length:(int)length;
+
++ (int)faceCaptureGetResultExpression:(void*)model faceN:(int)faceN buffer:(float *)buffer length:(int)length;
+
++ (int)faceCaptureGetResultRotation:(void*)model faceN:(int)faceN buffer:(float *)buffer length:(int)length;
+
++ (int)faceCaptureGetResultTranslation:(void*)model faceN:(int)faceN buffer:(float *)buffer length:(int)length;
+
++ (int)faceCapturGetResultTongueExp:(void*)model faceN:(int)faceN buffer:(float *)buffer length:(int)length;
+
+
+/*
+
+*/
++ (int)faceCaptureGetResultIsFace:(void*)model faceN:(int)faceN;
+
++ (int)faceCaptureGetResultFaceID:(void*)model faceN:(int)faceN;
+
++ (float)faceCaptureGetResultTongueScore:(void*)model faceN:(int)faceN;
+
++ (int)faceCaptureGetResultTongueClass:(void*)model faceN:(int)faceN;
+
++ (float)faceCaptureGetResultFocalLength:(void*)model;
+
++ (int)faceCaptureGetResultFaceNum:(void*)model;
 
 
 /**

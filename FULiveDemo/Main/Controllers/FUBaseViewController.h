@@ -47,6 +47,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(void)displayPromptText;
 
+-(BOOL)onlyJumpImage;
+
 /* 该模块，是否需要开启多重采样 */
 -(BOOL)needSetMultiSamples;
 

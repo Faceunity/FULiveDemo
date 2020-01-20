@@ -198,7 +198,12 @@
     
     /* 美颜调节 */
     _demoBar = [[FUAPIDemoBar alloc] init];
-    [self demoBarSetBeautyDefultParams];
+   [_demoBar reloadShapView:[FUManager shareManager].shapeParams];
+   [_demoBar reloadSkinView:[FUManager shareManager].skinParams];
+   [_demoBar reloadFilterView:[FUManager shareManager].filters];
+
+   _demoBar.mDelegate = self;
+   [_demoBar setDefaultFilter:[FUManager shareManager].seletedFliter];
     [self.view addSubview:_demoBar];
     [_demoBar mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(iOS 11.0, *)) {
@@ -272,7 +277,7 @@
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [super touchesBegan:touches withEvent:event];
     if (self.model.type == FULiveModelTypeBeautifyFace) {
-        [self.demoBar hiddeTopView];
+        [self.demoBar hiddenTopViewWithAnimation:YES];
     }
 }
 
@@ -297,7 +302,7 @@
                 self.videoReader.delegate = self ;
                 self.glView.origintation = (int)self.videoReader.videoOrientation ;
                 if (self.model.type == FULiveModelTypeBeautifyFace) {
-                     [[FUManager shareManager] setParamItemAboutType:FUNamaHandleTypeBeautyType name:@"orientation" value:[self setOrientationWithDegress:self.degress]];
+                    fuSetDefaultRotationMode([self setOrientationWithDegress:self.degress]);
                 }
             }
             
@@ -351,7 +356,7 @@
     _glView.origintation = self.degress;
     
     if (self.model.type == FULiveModelTypeBeautifyFace) {
-         [[FUManager shareManager] setParamItemAboutType:FUNamaHandleTypeBeautyType name:@"orientation" value:[self setOrientationWithDegress:self.degress]];
+        fuSetDefaultRotationMode([self setOrientationWithDegress:self.degress]);
     }
    
 }
@@ -416,7 +421,7 @@
     
     self.glView.origintation = (int)self.videoReader.videoOrientation ;
     if (self.model.type == FULiveModelTypeBeautifyFace) {
-         [[FUManager shareManager] setParamItemAboutType:FUNamaHandleTypeBeautyType name:@"orientation" value:[self setOrientationWithDegress:self.degress]];
+        fuSetDefaultRotationMode([self setOrientationWithDegress:self.degress]);
     }
 }
 
@@ -484,7 +489,6 @@
     
     dispatch_async(renderQueue, ^{
         @autoreleasepool {//防止大图片，内存峰值过高
-            [[FUManager shareManager] resetAllBeautyParams];
             UIImage *newImage = nil;
             if (!_openComp) {
                 newImage = [[FUManager shareManager] renderItemsToImage:_image];
@@ -531,42 +535,7 @@
     });
 }
 
--(void)setDemoBar:(FUAPIDemoBar *)demoBar {
-    _demoBar = demoBar;
-    [self demoBarSetBeautyDefultParams];
-}
 
-- (void)demoBarSetBeautyDefultParams {
-    _demoBar.delegate = nil ;
-//    _demoBar.blurLevel = [FUManager shareManager].blurLevel ;
-    _demoBar.blurLevel_0 = [FUManager shareManager].blurLevel_0;
-//     _demoBar.sharpenLevel = [FUManager shareManager].sharpenLevel ;
-    _demoBar.colorLevel = [FUManager shareManager].whiteLevel ;
-    _demoBar.redLevel = [FUManager shareManager].redLevel;
-    _demoBar.eyeBrightLevel = [FUManager shareManager].eyelightingLevel ;
-    _demoBar.toothWhitenLevel = [FUManager shareManager].beautyToothLevel ;
-
-    _demoBar.vLevel =  [FUManager shareManager].vLevel;
-    _demoBar.eggLevel = [FUManager shareManager].eggLevel;
-    _demoBar.narrowLevel = [FUManager shareManager].narrowLevel;
-    _demoBar.smallLevel = [FUManager shareManager].smallLevel;
-//    _demoBar.faceShape = [FUManager shareManager].faceShape ;
-    _demoBar.enlargingLevel = [FUManager shareManager].enlargingLevel ;
-    _demoBar.thinningLevel = [FUManager shareManager].thinningLevel ;
-//    _demoBar.enlargingLevel_new = [FUManager shareManager].enlargingLevel_new ;
-//    _demoBar.thinningLevel_new = [FUManager shareManager].thinningLevel_new ;
-    _demoBar.chinLevel = [FUManager shareManager].jewLevel ;
-    _demoBar.foreheadLevel = [FUManager shareManager].foreheadLevel ;
-    _demoBar.noseLevel = [FUManager shareManager].noseLevel ;
-    _demoBar.mouthLevel = [FUManager shareManager].mouthLevel ;
-    
-    _demoBar.filtersDataSource = [FUManager shareManager].filtersDataSource ;
-    _demoBar.beautyFiltersDataSource = [FUManager shareManager].beautyFiltersDataSource ;
-    _demoBar.filtersCHName = [FUManager shareManager].filtersCHName ;
-    _demoBar.selectedFilter = [FUManager shareManager].selectedFilter ;
-    _demoBar.selectedFilterLevel = [FUManager shareManager].selectedFilterLevel;
-    _demoBar.delegate = self;
-}
 
 #pragma  mark -  FUBodyBeautyViewDelegate
 -(void)bodyBeautyViewDidSelectPosition:(FUPosition *)position{
@@ -578,10 +547,8 @@
 
 #pragma mark - FUAPIDemoBarDelegate
 /**设置美颜参数*/
-- (void)demoBarBeautyParamChanged   {
-    [self syncBeautyParams];
-    [[FUManager shareManager] resetAllBeautyParams];
-}
+#pragma mark -  FUAPIDemoBarDelegate
+
 -(void)restDefaultValue:(int)type{
     if (type == 1) {//美肤
        [[FUManager shareManager] setBeautyDefaultParameters:FUBeautyModuleTypeSkin];
@@ -591,51 +558,10 @@
        [[FUManager shareManager] setBeautyDefaultParameters:FUBeautyModuleTypeShape];
     }
     
-    [self demoBarSetBeautyDefultParams];
 }
 
-- (void)syncBeautyParams    {
-    
-//    [FUManager shareManager].blurLevel = _demoBar.blurLevel ;
-    [FUManager shareManager].blurLevel_0 = _demoBar.blurLevel_0;
-//    [FUManager shareManager].sharpenLevel = _demoBar.sharpenLevel;
-    [FUManager shareManager].whiteLevel = _demoBar.colorLevel;
-    [FUManager shareManager].redLevel = _demoBar.redLevel;
-    [FUManager shareManager].eyelightingLevel = _demoBar.eyeBrightLevel;
-    [FUManager shareManager].beautyToothLevel = _demoBar.toothWhitenLevel;
-//    [FUManager shareManager].faceShape = _demoBar.faceShape;
-    [FUManager shareManager].vLevel = _demoBar.vLevel;
-    [FUManager shareManager].eggLevel = _demoBar.eggLevel;
-    [FUManager shareManager].narrowLevel = _demoBar.narrowLevel;
-    [FUManager shareManager].smallLevel = _demoBar.smallLevel;
-    [FUManager shareManager].enlargingLevel = _demoBar.enlargingLevel;
-    [FUManager shareManager].thinningLevel = _demoBar.thinningLevel;
-//    [FUManager shareManager].enlargingLevel_new = _demoBar.enlargingLevel_new;
-//    [FUManager shareManager].thinningLevel_new = _demoBar.thinningLevel_new;
-    [FUManager shareManager].jewLevel = _demoBar.chinLevel;
-    [FUManager shareManager].foreheadLevel = _demoBar.foreheadLevel;
-    [FUManager shareManager].noseLevel = _demoBar.noseLevel;
-    [FUManager shareManager].mouthLevel = _demoBar.mouthLevel;
-    
-    /* 暂时解决展示表中，没有显示滤镜，引起bug */
-    if (![[FUManager shareManager].beautyFiltersDataSource containsObject:_demoBar.selectedFilter]) {
-        return;
-    }
-    [FUManager shareManager].selectedFilter = _demoBar.selectedFilter ;
-    [FUManager shareManager].selectedFilterLevel = _demoBar.selectedFilterLevel;
-}
-
--(void)demoBarShouldShowMessage:(NSString *)message {
-    
-    self.tipLabel.hidden = NO;
-    self.tipLabel.text = message;
-    [FURenderImageViewController cancelPreviousPerformRequestsWithTarget:self selector:@selector(dismissTipLabel) object:nil];
-    [self performSelector:@selector(dismissTipLabel) withObject:nil afterDelay:1];
-}
-
--(void)demoBarDidShowTopView:(BOOL)shown {
-    
-    if (shown) {
+-(void)showTopView:(BOOL)shown{
+     if (shown) {
                 _compBtn.hidden = NO;
         self.downloadBtn.hidden = YES ;
     }else {
@@ -647,6 +573,32 @@
         }
     }
 }
+
+//-(void)filterShowMessage:(NSString *)message{
+//    self.tipLabel.hidden = NO;
+//    self.tipLabel.text = message;
+//    [FURenderImageViewController cancelPreviousPerformRequestsWithTarget:self selector:@selector(dismissTipLabel) object:nil];
+//    [self performSelector:@selector(dismissTipLabel) withObject:nil afterDelay:1];
+//}
+
+-(void)filterValueChange:(FUBeautyParam *)param{
+    int handle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeBeauty];
+    [FURenderer itemSetParam:handle withName:@"filter_name" value:[param.mParam lowercaseString]];
+    [FURenderer itemSetParam:handle withName:@"filter_level" value:@(param.mValue)]; //滤镜程度
+    
+    [FUManager shareManager].seletedFliter = param;
+}
+
+-(void)beautyParamValueChange:(FUBeautyParam *)param{
+    if ([param.mParam isEqualToString:@"cheek_narrow"] || [param.mParam isEqualToString:@"cheek_small"]){//程度值 只去一半
+        [[FUManager shareManager] setParamItemAboutType:FUNamaHandleTypeBeauty name:param.mParam value:param.mValue * 0.5];
+    }else if([param.mParam isEqualToString:@"blur_level"]) {//磨皮 0~6
+        [[FUManager shareManager] setParamItemAboutType:FUNamaHandleTypeBeauty name:param.mParam value:param.mValue * 6];
+    }else{
+        [[FUManager shareManager] setParamItemAboutType:FUNamaHandleTypeBeauty name:param.mParam value:param.mValue];
+    }
+}
+
 
 - (void)dismissTipLabel {
     self.tipLabel.hidden = YES;

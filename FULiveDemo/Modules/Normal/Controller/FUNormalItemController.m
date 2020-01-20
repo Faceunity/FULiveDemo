@@ -23,6 +23,13 @@
     
 }
 
+
+/* 不需要进入分辨率选择 */
+-(BOOL)onlyJumpImage{
+    return YES;
+}
+
+
 -(void)setupView{
     _itemsView = [[FUItemsView alloc] init];
     _itemsView.delegate = self;
@@ -93,6 +100,8 @@
 }
 
 -(void)dealloc{
+    [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeItem];
+    
     NSLog(@"normalll dealloc");
 }
 

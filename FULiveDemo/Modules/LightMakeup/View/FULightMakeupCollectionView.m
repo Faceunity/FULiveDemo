@@ -55,7 +55,8 @@ static NSString *makeupCellID = @"FUMakeupTopCell";
     
     _slider = [[FUSlider alloc] initWithFrame:CGRectMake(56, 20, [UIScreen mainScreen].bounds.size.width  - 112, 20)];
     [_slider addTarget:self action:@selector(sliderChangeValue:) forControlEvents:UIControlEventValueChanged];
-    _slider.type = FUFilterSliderTypeFilter;
+    _slider.type = FUFilterSliderType01;
+    _slider.hidden = YES;
     [self addSubview:_slider];
 //    UIView *sqView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_btn.frame) + 12, CGRectGetMaxY(_slider.frame) + 8 + 20, 1/[UIScreen mainScreen].scale, 20)];
 //    sqView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.2];

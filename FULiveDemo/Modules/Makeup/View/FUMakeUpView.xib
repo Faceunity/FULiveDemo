@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina4_0" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -96,7 +94,7 @@
                             </constraints>
                         </view>
                         <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="pGX-zE-MLF" customClass="FUMakeupSlider">
-                            <rect key="frame" x="54" y="7" width="351" height="31"/>
+                            <rect key="frame" x="32" y="7" width="395" height="31"/>
                             <color key="minimumTrackTintColor" red="0.12156862745098039" green="0.69803921568627447" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="sliderValueChange:" destination="bh8-Nm-foI" eventType="valueChanged" id="F5G-Zs-Pqy"/>
@@ -107,12 +105,12 @@
                         <constraint firstAttribute="height" constant="140" id="CPH-sz-fok"/>
                         <constraint firstItem="33O-R7-s7k" firstAttribute="height" secondItem="cqU-3V-tEr" secondAttribute="height" id="GNr-sA-q9d"/>
                         <constraint firstItem="cqU-3V-tEr" firstAttribute="leading" secondItem="01v-fN-mN3" secondAttribute="leading" id="RwK-OU-7eT"/>
-                        <constraint firstItem="pGX-zE-MLF" firstAttribute="leading" secondItem="01v-fN-mN3" secondAttribute="leading" constant="56" id="UVS-5b-FCA"/>
+                        <constraint firstAttribute="trailing" secondItem="pGX-zE-MLF" secondAttribute="trailing" constant="34" id="WK4-NF-Cjn"/>
                         <constraint firstItem="33O-R7-s7k" firstAttribute="top" secondItem="pGX-zE-MLF" secondAttribute="bottom" constant="5" id="fWR-8x-vyX"/>
                         <constraint firstAttribute="trailing" secondItem="33O-R7-s7k" secondAttribute="trailing" id="hnb-xh-ueR"/>
                         <constraint firstItem="33O-R7-s7k" firstAttribute="leading" secondItem="01v-fN-mN3" secondAttribute="leading" constant="86" id="l5U-2K-sqt"/>
+                        <constraint firstItem="pGX-zE-MLF" firstAttribute="leading" secondItem="01v-fN-mN3" secondAttribute="leading" constant="34" id="r2k-Gb-JLf"/>
                         <constraint firstAttribute="bottom" secondItem="33O-R7-s7k" secondAttribute="bottom" id="sN7-rS-WvB"/>
-                        <constraint firstAttribute="trailing" secondItem="pGX-zE-MLF" secondAttribute="trailing" constant="56" id="tSO-c6-eXa"/>
                         <constraint firstItem="cqU-3V-tEr" firstAttribute="centerY" secondItem="33O-R7-s7k" secondAttribute="centerY" id="u9N-22-to3"/>
                         <constraint firstItem="33O-R7-s7k" firstAttribute="leading" secondItem="cqU-3V-tEr" secondAttribute="trailing" id="xMV-yW-Ghs"/>
                     </constraints>
@@ -145,7 +143,7 @@
                 <outlet property="topCollection" destination="33O-R7-s7k" id="UNo-ZX-iJC"/>
                 <outlet property="topView" destination="01v-fN-mN3" id="fvi-pg-OKj"/>
             </connections>
-            <point key="canvasLocation" x="-964" y="51.724137931034484"/>
+            <point key="canvasLocation" x="-964.6875" y="51.232394366197184"/>
         </view>
     </objects>
     <resources>

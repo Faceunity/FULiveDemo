@@ -62,9 +62,10 @@ FUPopupMenuDelegate
 
 -(void)viewDidLoad{
     [super viewDidLoad];
-    
     [self setupSubView];
 //    self.view.backgroundColor = [UIColor whiteColor];
+    /* 美颜道具 */
+    [[FUManager shareManager] loadFilter];
     
     //重置曝光值为0
     [self.mCamera setExposureValue:0];
@@ -91,9 +92,8 @@ FUPopupMenuDelegate
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    /* 美颜道具 */
-    [[FUManager shareManager] loadFilter];
     [self.mCamera startCapture];
+    [_mCamera changeSessionPreset:AVCaptureSessionPreset1280x720];
     /* 监听屏幕方向 */
     [self startListeningDirectionOfDevice];
 }
@@ -266,7 +266,6 @@ FUPopupMenuDelegate
 -(void)headButtonViewBackAction:(UIButton *)btn{
     dispatch_semaphore_wait(signal, DISPATCH_TIME_FOREVER);
     [self.mCamera stopCapture];
-    [[FUManager shareManager] destoryItems];
     [[FUManager shareManager] onCameraChange];
     [self.navigationController popViewControllerAnimated:YES];
     
@@ -279,6 +278,10 @@ FUPopupMenuDelegate
 
 -(void)headButtonViewSelImageAction:(UIButton *)btn{
     
+    if ([self onlyJumpImage]) {
+        [self fuPopupMenuDidSelectedImage];
+        return;
+    }
     if (self.canPushImageSelView) {
         [FUPopupMenu showRelyOnView:btn frame:CGRectMake(17, CGRectGetMaxY(self.headButtonView.frame) + 1 , 340, 132) defaultSelectedAtIndex:_selIndex onlyTop:NO delegate:self];
     }else{
@@ -362,9 +365,10 @@ static CFAbsoluteTime adjustTime = 0 ;
 
 /*  停止录像    */
 - (void)stopRecord {
+       __weak typeof(self)weakSelf  = self ;
     [self.mCamera stopRecordWithCompletionHandler:^(NSString *videoPath) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            UISaveVideoAtPathToSavedPhotosAlbum(videoPath, self, @selector(video:didFinishSavingWithError:contextInfo:), NULL);
+            UISaveVideoAtPathToSavedPhotosAlbum(videoPath, weakSelf, @selector(video:didFinishSavingWithError:contextInfo:), NULL);
         });
     }];
 }
@@ -393,6 +397,8 @@ static  NSTimeInterval oldTime = 0;
 -(void)didOutputVideoSampleBuffer:(CMSampleBufferRef)sampleBuffer {
     
     CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) ;
+    
+
     NSTimeInterval startTime =  [[NSDate date] timeIntervalSince1970];
     if(!_openComp){//按住对比，不处理
         [[FUManager shareManager] renderItemsToPixelBuffer:pixelBuffer];
@@ -408,15 +414,17 @@ static  NSTimeInterval oldTime = 0;
         dispatch_semaphore_signal(semaphore);
     }
 
-    [self.renderView displayPixelBuffer:pixelBuffer];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        /**判断是否检测到人脸*/
-         [self displayPromptText];
-
-    }) ;
-
-//    NSLog(@"-------%@-------%@",NSStringFromCGPoint(self.mCamera.focusPoint),NSStringFromCGPoint(self.mCamera.exposurePoint));
+//    static float posterLandmarks[239* 2];
+//    int ret = [FURenderer getFaceInfo:0 name:@"landmarks_new" pret:posterLandmarks number:239* 2];
+//     if (ret == 0) {
+//         memset(posterLandmarks, 0, sizeof(float)*239* 2);
+//     }
+        [self.renderView displayPixelBuffer:pixelBuffer];
+//    [self.renderView displayPixelBuffer:pixelBuffer withLandmarks:posterLandmarks count:239* 2 MAX:NO];
     
+    /**判断是否检测到人脸*/
+     [self displayPromptText];
+
 }
 
 
@@ -475,15 +483,22 @@ static  NSTimeInterval oldTime = 0;
 }
 
 -(void)displayPromptText{
-    self.noTrackLabel.text = NSLocalizedString(@"No_Face_Tracking",nil);
-    self.noTrackLabel.hidden = [[FUManager shareManager] isTracking];
+    BOOL isHaveFace = [[FUManager shareManager] isTracking];
+    dispatch_async(dispatch_get_main_queue(), ^{
+       self.noTrackLabel.text = NSLocalizedString(@"No_Face_Tracking",nil);
+       self.noTrackLabel.hidden = isHaveFace;
+    }) ;
 }
 
 /* 该功能，是否需要开启多重采样 */
 -(BOOL)needSetMultiSamples{
     return NO;
 }
-         
+     
+
+-(BOOL)onlyJumpImage{
+    return NO;
+}
 
 #pragma mark -  Observer
 
@@ -505,6 +520,7 @@ static  NSTimeInterval oldTime = 0;
         [self.mCamera startCapture];
     }
 }
+
 
 
 #pragma  mark -  方向监听

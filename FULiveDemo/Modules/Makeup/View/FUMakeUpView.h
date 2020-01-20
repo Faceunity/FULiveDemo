@@ -15,7 +15,7 @@
 @optional
 
 /* 美妆样式图 */
-- (void)makeupViewDidSelectedNamaStr:(NSString *)namaStr imageName:(NSString *)imageName;
+- (void)makeupViewDidSelectedNamaStr:(NSString *)namaStr bundleName:(NSString *)bundleName;
 /* 妆容颜色 */
 - (void)makeupViewDidSelectedNamaStr:(NSString *)namaStr valueArr:(NSArray *)valueArr;
 // 滑动事件

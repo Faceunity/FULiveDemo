@@ -1,5 +1,5 @@
 //
-//  FUAPIDemoBar.m
+//  FUDemoBar.m
 //  FUAPIDemoBar
 //
 //  Created by L on 2018/6/26.
@@ -7,380 +7,384 @@
 //
 
 #import "FUAPIDemoBar.h"
+#import "FUFilterView.h"
+#import "FUSlider.h"
+#import "FUBeautyView.h"
+#import "MJExtension.h"
+#import "FUMakeupSupModel.h"
+#import "FUSquareButton.h"
+#import "FUManager.h"
 
 
-@interface FUAPIDemoBar ()<FUDemoBarDelegate>
+@interface FUAPIDemoBar ()<FUFilterViewDelegate, FUBeautyViewDelegate>
+
+
+@property (weak, nonatomic) IBOutlet UIButton *skinBtn;
+@property (weak, nonatomic) IBOutlet UIButton *shapeBtn;
+@property (weak, nonatomic) IBOutlet UIButton *beautyFilterBtn;
+
+// 上半部分
+@property (weak, nonatomic) IBOutlet UIView *topView;
+// 滤镜页
+@property (weak, nonatomic) IBOutlet FUFilterView *filterView;
+// 美颜滤镜页
+@property (weak, nonatomic) IBOutlet FUFilterView *beautyFilterView;
+
+@property (weak, nonatomic) IBOutlet FUSlider *beautySlider;
+
+// 美型页
+@property (weak, nonatomic) IBOutlet FUBeautyView *shapeView;
+// 美肤页
+@property (weak, nonatomic) IBOutlet FUBeautyView *skinView;
+
+@property (weak, nonatomic) IBOutlet FUSquareButton *mRestBtn;
+
+@property (weak, nonatomic) IBOutlet UIView *sqLine;
+
+/* 当前选中参数 */
+@property (strong, nonatomic) FUBeautyParam *seletedParam;
+
 
 @end
 
-//
 @implementation FUAPIDemoBar
-
-//@synthesize blurLevel = _blurLevel ;
-@synthesize blurLevel_0 = _blurLevel_0 ;
-//@synthesize sharpenLevel = _sharpenLevel ;
-@synthesize colorLevel = _colorLevel ;
-@synthesize redLevel = _redLevel ;
-@synthesize eyeBrightLevel = _eyeBrightLevel ;
-@synthesize toothWhitenLevel = _toothWhitenLevel ;
-
-
-@synthesize vLevel = _vLevel ;
-@synthesize eggLevel = _eggLevel ;
-@synthesize narrowLevel = _narrowLevel ;
-@synthesize smallLevel = _smallLevel ;
-//@synthesize faceShape = _faceShape ;
-@synthesize enlargingLevel = _enlargingLevel ;
-@synthesize thinningLevel = _thinningLevel ;
-//@synthesize enlargingLevel_new = _enlargingLevel_new ;
-//@synthesize thinningLevel_new = _thinningLevel_new ;
-@synthesize chinLevel = _chinLevel ;
-@synthesize foreheadLevel = _foreheadLevel ;
-@synthesize noseLevel = _noseLevel ;
-@synthesize mouthLevel = _mouthLevel ;
-
-
-@synthesize filtersDataSource = _filtersDataSource ;
-@synthesize beautyFiltersDataSource = _beautyFiltersDataSource ;
-@synthesize filtersCHName = _filtersCHName ;
-@synthesize selectedFilter = _selectedFilter ;
-@synthesize selectedFilterLevel = _selectedFilterLevel ;
-
--(instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        self.backgroundColor = [UIColor clearColor];
-        
-        NSBundle *bundle = [NSBundle bundleForClass:[FUDemoBar class]];
-        self.demoBar = (FUDemoBar *)[bundle loadNibNamed:@"FUDemoBar" owner:self options:nil].firstObject;
-        self.demoBar.frame = self.bounds ;
-        self.demoBar.mDelegate = self ;
-        [self addSubview:self.demoBar];
-        
-//        _demoBar.blurLevel = self.blurLevel ;
-        _demoBar.blurLevel_0 = self.blurLevel_0;
-//        _demoBar.sharpenLevel = self.sharpenLevel;
-        _demoBar.colorLevel = self.colorLevel ;
-        _demoBar.redLevel = self.redLevel;
-        _demoBar.eyeBrightLevel = self.eyeBrightLevel;
-        _demoBar.toothWhitenLevel = self.toothWhitenLevel ;
-        
-        
-        _demoBar.vLevel = self.vLevel ;
-        _demoBar.eggLevel = self.eggLevel ;
-        _demoBar.narrowLevel = self.narrowLevel ;
-        _demoBar.smallLevel = self.smallLevel ;
-//        _demoBar.faceShape = self.faceShape ;
-        _demoBar.enlargingLevel = self.enlargingLevel ;
-        _demoBar.thinningLevel = self.thinningLevel ;
-//        _demoBar.enlargingLevel_new = self.enlargingLevel_new ;
-//        _demoBar.thinningLevel_new = self.thinningLevel_new ;
-        _demoBar.chinLevel = self.chinLevel ;
-        _demoBar.foreheadLevel = self.foreheadLevel ;
-        _demoBar.noseLevel = self.noseLevel ;
-        _demoBar.mouthLevel = self.mouthLevel ;
-        
-        _demoBar.filtersDataSource = _filtersDataSource ;
-        _demoBar.beautyFiltersDataSource = _beautyFiltersDataSource ;
-        _demoBar.filtersCHName = _filtersCHName ;
-    }
-    return self ;
-}
 
 -(instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {self.backgroundColor = [UIColor clearColor];
         
-        NSBundle *bundle = [NSBundle bundleForClass:[FUDemoBar class]];
-        self.demoBar = (FUDemoBar *)[bundle loadNibNamed:@"FUDemoBar" owner:self options:nil].firstObject;
-        self.demoBar.frame = self.bounds ;
-        self.demoBar.mDelegate = self ;
-        [self addSubview:self.demoBar];
-        
-        _demoBar.blurLevel_0 = self.blurLevel_0;
-//        _demoBar.sharpenLevel = self.sharpenLevel;
-        _demoBar.colorLevel = self.colorLevel ;
-        _demoBar.redLevel = self.redLevel;
-        _demoBar.eyeBrightLevel = self.eyeBrightLevel;
-        _demoBar.toothWhitenLevel = self.toothWhitenLevel ;
-        
-        
-        _demoBar.vLevel = self.vLevel ;
-        _demoBar.eggLevel = self.eggLevel ;
-        _demoBar.narrowLevel = self.narrowLevel ;
-        _demoBar.smallLevel = self.smallLevel ;
-        
-//        _demoBar.faceShape = self.faceShape ;
-        _demoBar.enlargingLevel = self.enlargingLevel ;
-        _demoBar.thinningLevel = self.thinningLevel ;
-//        _demoBar.enlargingLevel_new = self.enlargingLevel_new ;
-//        _demoBar.thinningLevel_new = self.thinningLevel_new ;
-        _demoBar.chinLevel = self.chinLevel ;
-        _demoBar.foreheadLevel = self.foreheadLevel ;
-        _demoBar.noseLevel = self.noseLevel ;
-        _demoBar.mouthLevel = self.mouthLevel ;
-        
-        _demoBar.filtersDataSource = _filtersDataSource ;
-        _demoBar.beautyFiltersDataSource = _beautyFiltersDataSource ;
-        _demoBar.filtersCHName = _filtersCHName ;
+        self.backgroundColor = [UIColor clearColor];
+        NSBundle *bundle = [NSBundle bundleForClass:[FUAPIDemoBar class]];
+        self = (FUAPIDemoBar *)[bundle loadNibNamed:@"FUAPIDemoBar" owner:self options:nil].firstObject;
     }
     return self ;
 }
 
-// 隐藏上半部分
-- (void)hiddeTopView {
-    [self.demoBar hiddenTopViewWithAnimation:YES];
+
+
+
+-(void)awakeFromNib {
+    [super awakeFromNib];
+    
+    self.filterView.type = FUFilterViewTypeFilter ;
+    self.filterView.mDelegate = self ;
+    
+    self.beautyFilterView.type = FUFilterViewTypeBeautyFilter ;
+    self.beautyFilterView.mDelegate = self ;
+    
+    self.shapeView.mDelegate = self ;
+    
+    self.skinView.mDelegate = self;
+    [self.skinBtn setTitle:NSLocalizedString(@"美肤", nil) forState:UIControlStateNormal];
+    [self.shapeBtn setTitle:NSLocalizedString(@"美型", nil) forState:UIControlStateNormal];
+    [self.beautyFilterBtn setTitle:NSLocalizedString(@"滤镜", nil) forState:UIControlStateNormal];
+    [self.mRestBtn setTitle:NSLocalizedString(@"恢复", nil) forState:UIControlStateNormal];
+    
+    self.skinBtn.tag = 101;
+    self.shapeBtn.tag = 102;
+    self.beautyFilterBtn.tag = 103 ;
+    
 }
 
-#pragma mark ---- FUDemoBarDelegate
+-(void)layoutSubviews{
+    [super layoutSubviews];
+}
 
--(void)showMessage:(NSString *)message {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(demoBarShouldShowMessage:)]) {
-        [self.delegate demoBarShouldShowMessage:message];
+
+- (IBAction)bottomBtnsSelected:(UIButton *)sender {
+    if (sender.selected) {
+        sender.selected = NO ;
+        [self hiddenTopViewWithAnimation:YES];
+        return ;
+    }
+    self.skinBtn.selected = NO;
+    self.shapeBtn.selected = NO;
+    self.beautyFilterBtn.selected = NO;
+    
+    sender.selected = YES;
+    
+    self.skinView.hidden = !self.skinBtn.selected ;
+    self.shapeView.hidden = !self.shapeBtn.selected ;
+    self.beautyFilterView.hidden = !self.beautyFilterBtn.selected ;
+//    self.filterView.hidden = !self.filterBtn.selected ;
+    
+     // 美型页面
+    [self setRestBtnHidden:YES];
+    if (self.shapeBtn.selected) {
+        /* 修改当前UI */
+        [self setRestBtnHidden:NO];
+        [self sliderChangeEnd:nil];
+        NSInteger selectedIndex = self.shapeView.selectedIndex;
+        self.beautySlider.hidden = selectedIndex < 0 ;
+        
+        if (selectedIndex >= 0) {
+            FUBeautyParam *modle = self.shapeView.dataArray[selectedIndex];
+            _seletedParam = modle;
+            self.beautySlider.value = modle.mValue;
+        }
+        }
+    
+    if (self.skinBtn.selected) {
+        NSInteger selectedIndex = self.skinView.selectedIndex;
+        [self setRestBtnHidden:NO];
+        [self sliderChangeEnd:nil];
+        self.beautySlider.hidden = selectedIndex < 0 ;
+        
+        if (selectedIndex >= 0) {
+            FUBeautyParam *modle = self.skinView.dataArray[selectedIndex];
+            _seletedParam = modle;
+            self.beautySlider.value = modle.mValue;
+        }
+    }
+    
+    // slider 是否显示
+    if (self.beautyFilterBtn.selected) {
+        
+        NSInteger selectedIndex = self.beautyFilterView.selectedIndex ;
+        self.beautySlider.type = FUFilterSliderType01 ;
+        self.beautySlider.hidden = selectedIndex <= 0;
+        if (selectedIndex >= 0) {
+            FUBeautyParam *modle = self.beautyFilterView.filters[selectedIndex];
+            _seletedParam = modle;
+            self.beautySlider.value = modle.mValue;
+        }
+    }
+
+    [self showTopViewWithAnimation:self.topView.isHidden];
+    [self setSliderTyep:_seletedParam];
+}
+
+-(void)setSliderTyep:(FUBeautyParam *)param{
+    if (param.iSStyle101) {
+        self.beautySlider.type = FUFilterSliderType101;
+    }else{
+        self.beautySlider.type = FUFilterSliderType01 ;
     }
 }
 
--(void)showTopView:(BOOL)shown {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(demoBarDidShowTopView:)]) {
-        [self.delegate demoBarDidShowTopView:shown];
+
+// 开启上半部分
+- (void)showTopViewWithAnimation:(BOOL)animation {
+    
+    if (animation) {
+        self.topView.alpha = 0.0 ;
+        self.topView.transform = CGAffineTransformMakeTranslation(0, self.topView.frame.size.height / 2.0) ;
+        self.topView.hidden = NO ;
+        [UIView animateWithDuration:0.35 animations:^{
+            self.topView.transform = CGAffineTransformIdentity ;
+            self.topView.alpha = 1.0 ;
+        }];
+        
+        if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(showTopView:)]) {
+            [self.mDelegate showTopView:YES];
+        }
+    }else {
+        self.topView.transform = CGAffineTransformIdentity ;
+        self.topView.alpha = 1.0 ;
     }
 }
 
-
--(void)setBlurLevel_0:(double)blurLevel_0{
-    _blurLevel_0 = blurLevel_0 ;
-    self.demoBar.blurLevel_0 = blurLevel_0 ;
-}
--(double)blurLevel_0{
-    return self.demoBar.blurLevel_0;
-}
-
-// 锐化
-//-(void)setSharpenLevel:(double)sharpenLevel {
-//    _sharpenLevel = sharpenLevel ;
-//    self.demoBar.sharpenLevel = sharpenLevel ;
-//}
-//-(double)sharpenLevel {
-//    return self.demoBar.sharpenLevel ;
-//}
-
-// 美白
--(void)setColorLevel:(double)colorLevel {
-    _colorLevel = colorLevel ;
-    self.demoBar.colorLevel = colorLevel ;
-}
--(double)colorLevel {
-    return self.demoBar.colorLevel ;
-}
-// 红润
--(void)setRedLevel:(double)redLevel {
-    _redLevel = redLevel ;
-    self.demoBar.redLevel = redLevel ;
-}
--(double)redLevel {
-    return self.demoBar.redLevel ;
-}
-
-// 亮眼
--(void)setEyeBrightLevel:(double)eyeBrightLevel {
-    _eyeBrightLevel = eyeBrightLevel ;
-    self.demoBar.eyeBrightLevel = eyeBrightLevel ;
-}
--(double)eyeBrightLevel {
-    return self.demoBar.eyeBrightLevel ;
-}
-
-// 没牙
--(void)setToothWhitenLevel:(double)toothWhitenLevel {
-    _toothWhitenLevel = toothWhitenLevel ;
-    self.demoBar.toothWhitenLevel = toothWhitenLevel ;
-}
--(double)toothWhitenLevel {
-    return self.demoBar.toothWhitenLevel ;
-}
-
--(void)setVLevel:(double)vLevel{
-    _vLevel = vLevel;
-    self.demoBar.vLevel = vLevel;
-}
--(double)vLevel{
-    return self.demoBar.vLevel
-    ;
-}
--(void)setEggLevel:(double)eggLevel{
-    _eggLevel = eggLevel;
-    self.demoBar.eggLevel = eggLevel;
-}
--(double)eggLevel{
-    return self.demoBar.eggLevel;
-}
-
--(void)setNarrowLevel:(double)narrowLevel{
-    _narrowLevel = narrowLevel;
-    self.demoBar.narrowLevel = narrowLevel;
-}
--(double)narrowLevel{
-    return self.demoBar.narrowLevel;
-}
-
--(void)setSmallLevel:(double)smallLevel{
-    _smallLevel = smallLevel;
-    self.demoBar.smallLevel = smallLevel;
-}
--(double)smallLevel{
-    return self.demoBar.smallLevel;
-}
-
-// 脸型
-//-(void)setFaceShape:(NSInteger)faceShape {
-//    _faceShape = faceShape ;
-//    self.demoBar.faceShape = faceShape ;
-//}
-//-(NSInteger)faceShape {
-//    return self.demoBar.faceShape ;
-//}
-
-// 大眼
--(void)setEnlargingLevel:(double)enlargingLevel {
-    _enlargingLevel = enlargingLevel ;
-    self.demoBar.enlargingLevel = enlargingLevel ;
-}
--(double)enlargingLevel {
-    return self.demoBar.enlargingLevel ;
-}
-
-// 瘦脸
--(void)setThinningLevel:(double)thinningLevel {
-    _thinningLevel = thinningLevel ;
-    self.demoBar.thinningLevel = thinningLevel ;
-}
--(double)thinningLevel {
-    return self.demoBar.thinningLevel ;
-}
-
-// 大眼新版
-//-(void)setEnlargingLevel_new:(double)enlargingLevel_new {
-//    _enlargingLevel_new = enlargingLevel_new ;
-//    self.demoBar.enlargingLevel_new = enlargingLevel_new ;
-//}
-//-(double)enlargingLevel_new {
-//    return self.demoBar.enlargingLevel_new ;
-//}
-
-// 瘦脸新版
-//-(void)setThinningLevel_new:(double)thinningLevel_new {
-//    _thinningLevel_new = thinningLevel_new ;
-//    self.demoBar.thinningLevel_new = thinningLevel_new ;
-//}
-//-(double)thinningLevel_new {
-//    return self.demoBar.thinningLevel_new ;
-//}
-
-// 下巴
--(void)setChinLevel:(double)chinLevel {
-    _chinLevel = chinLevel ;
-    self.demoBar.chinLevel = chinLevel ;
-}
--(double)chinLevel {
-    return self.demoBar.chinLevel ;
-}
-
-// 额头
--(void)setForeheadLevel:(double)foreheadLevel {
-    _foreheadLevel = foreheadLevel;
-    self.demoBar.foreheadLevel = foreheadLevel ;
-}
--(double)foreheadLevel {
-    return self.demoBar.foreheadLevel ;
-}
-
-// 鼻子
--(void)setNoseLevel:(double)noseLevel {
-    _noseLevel = noseLevel;
-    self.demoBar.noseLevel = noseLevel ;
-}
--(double)noseLevel {
-    return self.demoBar.noseLevel;
-}
-
-// 嘴型
--(void)setMouthLevel:(double)mouthLevel {
-    _mouthLevel = mouthLevel ;
-    self.demoBar.mouthLevel = mouthLevel ;
-}
--(double)mouthLevel {
-    return self.demoBar.mouthLevel ;
-}
-
-// 美颜参数改变
-- (void)beautyParamChanged {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(demoBarBeautyParamChanged)]) {
-        [self.delegate demoBarBeautyParamChanged];
+// 关闭上半部分
+-(void)hiddenTopViewWithAnimation:(BOOL)animation {
+    
+    if (self.topView.hidden) {
+        return ;
+    }
+    if (animation) {
+        self.topView.alpha = 1.0 ;
+        self.topView.transform = CGAffineTransformIdentity ;
+        self.topView.hidden = NO ;
+        [UIView animateWithDuration:0.35 animations:^{
+            self.topView.transform = CGAffineTransformMakeTranslation(0, self.topView.frame.size.height / 2.0) ;
+            self.topView.alpha = 0.0 ;
+        }completion:^(BOOL finished) {
+            self.topView.hidden = YES ;
+            self.topView.alpha = 1.0 ;
+            self.topView.transform = CGAffineTransformIdentity ;
+            
+            self.skinBtn.selected = NO ;
+            self.shapeBtn.selected = NO ;
+            self.beautyFilterBtn.selected = NO ;
+        }];
+        
+        if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(showTopView:)]) {
+            [self.mDelegate showTopView:NO];
+        }
+    }else {
+        
+        self.topView.hidden = YES ;
+        self.topView.alpha = 1.0 ;
+        self.topView.transform = CGAffineTransformIdentity ;
     }
 }
 
--(void)restDefaultValue:(int)type{
-    if (self.delegate && [self.delegate respondsToSelector:@selector(restDefaultValue:)]) {
-        [self.delegate restDefaultValue:type];
+#pragma  mark -  恢复默认参数逻辑
+
+- (IBAction)clickRestBtn:(id)sender {
+    if ([[FUManager shareManager] isDefaultShapeValue] && self.shapeBtn.selected) {
+        return;
+    }
+    if ([[FUManager shareManager] isDefaultSkinValue] && self.skinBtn.selected) {
+        return;
+    }
+    
+    [self restBeautyDefaultValue];
+}
+
+-(void)setRestBtnHidden:(BOOL)hiddle{
+    _mRestBtn.hidden = hiddle;
+    _sqLine.hidden = hiddle;
+}
+
+-(void)restBeautyDefaultValue{
+    UIAlertController *alertCon = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"是否将所有参数恢复到默认值",nil) preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"取消",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    [cancleAction setValue:[UIColor colorWithRed:44/255.0 green:46/255.0 blue:48/255.0 alpha:1.0] forKey:@"titleTextColor"];
+    
+    UIAlertAction *certainAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"确定",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        self.mRestBtn.alpha = 0.7;
+        if ([self.mDelegate respondsToSelector:@selector(restDefaultValue:)]) {
+            if (self.skinBtn.selected) {
+                [self.mDelegate restDefaultValue:1];
+                [self.skinView reloadData];
+                
+                if (!self.beautySlider.hidden && self.skinView.selectedIndex >= 0) {
+                    FUBeautyParam *param = self.skinView.dataArray[self.skinView.selectedIndex];
+                    self.beautySlider.value = param.mValue;
+                }
+            }
+            if (self.shapeBtn.selected) {
+                [self.mDelegate restDefaultValue:2];
+                [self.shapeView reloadData];
+                
+                if (!self.beautySlider.hidden && self.shapeView.selectedIndex >= 0) {
+                    FUBeautyParam *param = self.shapeView.dataArray[self.shapeView.selectedIndex];
+                    self.beautySlider.value = param.mValue;
+                }
+            }
+        }
+    }];
+    [certainAction setValue:[UIColor colorWithRed:31/255.0 green:178/255.0 blue:255/255.0 alpha:1.0] forKey:@"titleTextColor"];
+    
+    [alertCon addAction:cancleAction];
+    [alertCon addAction:certainAction];
+    
+    [[self viewControllerFromView:self]  presentViewController:alertCon animated:YES completion:^{
+    }];
+}
+
+
+- (UIViewController *)viewControllerFromView:(UIView *)view {
+    for (UIView *next = [view superview]; next; next = next.superview) {
+        UIResponder *nextResponder = [next nextResponder];
+        if ([nextResponder isKindOfClass:[UIViewController class]]) {
+            return (UIViewController *)nextResponder;
+        }
+    }
+    return nil;
+}
+
+
+#pragma mark ---- FUFilterViewDelegate
+// 开启滤镜
+-(void)filterViewDidSelectedFilter:(FUBeautyParam *)param{
+    _seletedParam = param;
+    if (_beautyFilterView.selectedIndex > 0) {
+        self.beautySlider.value = param.mValue;
+        self.beautySlider.hidden = NO;
+    }else{
+        self.beautySlider.hidden = YES;
+    }
+    
+    if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(filterShowMessage:)]) {
+        [self.mDelegate filterShowMessage:param.mTitle];
+    }
+     [self setSliderTyep:_seletedParam];
+    
+    if (_mDelegate && [_mDelegate respondsToSelector:@selector(filterValueChange:)]) {
+        [_mDelegate filterValueChange:_seletedParam];
     }
 }
 
-// 滤镜程度改变
-- (void)filterValueChange:(float)value {
-    _selectedFilterLevel = value ;
-    if (self.delegate && [self.delegate respondsToSelector:@selector(demoBarFilterValueChange:)]) {
-        [self.delegate demoBarFilterValueChange:value];
+-(void)beautyCollectionView:(FUBeautyView *)beautyView didSelectedParam:(FUBeautyParam *)param{
+    _seletedParam = param;
+    self.beautySlider.value = param.mValue;
+    self.beautySlider.hidden = NO;
+    
+     [self setSliderTyep:_seletedParam];
+}
+
+
+// 滑条滑动
+- (IBAction)filterSliderValueChange:(FUSlider *)sender {
+    _seletedParam.mValue = sender.value;
+    
+    if (_beautyFilterBtn.selected) {
+        if (_mDelegate && [_mDelegate respondsToSelector:@selector(filterValueChange:)]) {
+            [_mDelegate filterValueChange:_seletedParam];
+        }
+    }else{
+        if (_mDelegate && [_mDelegate respondsToSelector:@selector(beautyParamValueChange:)]) {
+            [_mDelegate beautyParamValueChange:_seletedParam];
+        }
     }
+
 }
 
--(void)blurDidSelect:(BOOL)isSel{
-    if (self.delegate && [self.delegate respondsToSelector:@selector(blurDidSelect:)]) {
-        [self.delegate blurDidSelect:isSel];
+- (IBAction)sliderChangeEnd:(FUSlider *)sender {
+
+    if (self.shapeBtn.selected) {
+        if ([[FUManager shareManager] isDefaultShapeValue]) {
+            self.mRestBtn.alpha = 0.7;
+        }else{
+            self.mRestBtn.alpha = 1.0;
+        }
+        [self.shapeView reloadData];
     }
+    
+    if (self.skinBtn.selected) {
+        if ([[FUManager shareManager] isDefaultSkinValue]) {
+            self.mRestBtn.alpha = 0.7;
+        }else{
+            self.mRestBtn.alpha = 1.0;
+        }
+         [self.skinView reloadData];
+    }
+    
+    [self.filterView reloadData];
+
 }
 
-#pragma mark ---- setter
-
-// 滤镜
--(void)setFiltersDataSource:(NSArray<NSString *> *)filtersDataSource {
-    _filtersDataSource = filtersDataSource ;
-    self.demoBar.filtersDataSource = filtersDataSource ;
+-(void)reloadSkinView:(NSArray<FUBeautyParam *> *)skinParams{
+    _skinView.dataArray = skinParams;
+    _skinView.selectedIndex = 0;
+    FUBeautyParam *modle = skinParams[0];
+    if (modle) {
+        _beautySlider.hidden = NO;
+        _beautySlider.value = modle.mValue;
+    }
+    [_skinView reloadData];
 }
 
-// 美颜滤镜
--(void)setBeautyFiltersDataSource:(NSArray<NSString *> *)beautyFiltersDataSource {
-    _beautyFiltersDataSource = beautyFiltersDataSource ;
-    self.demoBar.beautyFiltersDataSource = beautyFiltersDataSource ;
+-(void)reloadShapView:(NSArray<FUBeautyParam *> *)shapParams{
+    _shapeView.dataArray = shapParams;
+    _shapeView.selectedIndex = 1;
+    [_shapeView reloadData];
 }
 
-// 滤镜数组中文
--(void)setFiltersCHName:(NSDictionary<NSString *,NSString *> *)filtersCHName {
-    _filtersCHName = filtersCHName ;
-    self.demoBar.filtersCHName = filtersCHName ;
+-(void)reloadFilterView:(NSArray<FUBeautyParam *> *)filterParams{
+    _beautyFilterView.filters = filterParams;
+    [_beautyFilterView reloadData];
 }
 
-// 选中的滤镜
--(void)setSelectedFilter:(NSString *)selectedFilter {
-    _selectedFilter = selectedFilter ;
-    self.demoBar.selectedFilter = selectedFilter ;
+-(void)setDefaultFilter:(FUBeautyParam *)filter{
+    [self.beautyFilterView setDefaultFilter:filter];
 }
-
--(NSString *)selectedFilter {
-    return self.demoBar.selectedFilter ;
-}
-
--(double)selectedFilterLevel {
-    return self.demoBar.selectedFilterLevel ;
-}
--(void)setSelectedFilterLevel:(double)selectedFilterLevel {
-    _selectedFilterLevel = selectedFilterLevel ;
-    self.demoBar.selectedFilterLevel = selectedFilterLevel ;
-}
-
 
 -(BOOL)isTopViewShow {
-    return self.demoBar.isTopViewShow ;
+    return !self.topView.hidden ;
 }
-
 
 @end

@@ -303,4 +303,9 @@
     return color;
 }
 
+
+-(void)dealloc{
+        [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypePhotolive];
+}
+
 @end

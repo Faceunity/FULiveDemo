@@ -1,21 +1,29 @@
 # iOS Nama SDK 集成指导文档  
 级别：Public   
-更新日期：2019-11-29   
+更新日期：2020-01-19   
 
 ------
 
-**FaceUnity Nama SDK v6.5.0 (2019.11.29)**
+**FaceUnity Nama SDK v6.6.0 (2020-01-19 )**
 
-更新内容
+注意: 更新SDK 6.6.0时，在fuSetup之后，需要马上调用 fuLoadAIModelFromPackage 加载ai_faceprocessor.bundle 到 FUAITYPE::FUAITYPE_FACEPROCESSOR!!!
 
-- 新增自然系列滤镜：滤镜效果自然真实，面部清透有气色，开放所有类型滤镜。
-- 新增MSAA抗锯齿接口，fuSetMultiSamples，解决虚拟形象（animoji与捏脸功能）边缘锯齿问题，详见接口文档。
-- 优化美颜，提高人脸关键点位精度，提高最大人脸偏转角度（左右70度）。
-- 优化美型，提高稳定性，优化美型抖动问题，对于脸出框、大角度、遮挡场景下的阈值上下抖动问题已基本解决。
-- 优化脸型效果，解决下颌角过窄的问题，调节V脸、窄脸、小脸效果，使脸型更加自然。
-- 优化美白红润强度，美白、红润功能开放2倍参数，详见美颜文档。
-- 优化美发道具CPU占有率，Android/iOS提升约30%。
-  __注__：6.5.0 FaceUnity Nama SDK，为了更新以及迭代更加方便，由原先一个nama.so拆分成两个库nama.so以及fuai.so，其中nama.so为轻量级渲染引擎，fuai.so为算法引擎。升级6.5.0时，需添加fuai库。
+在Nama 6.6.0及以上，AI能力的调用会按道具需求调用，避免同一帧多次调用；同时由Nama AI子系统管理推理，简化调用过程；将能力和产品功能进行拆分，避免在道具bundle内的冗余AI模型资源，方便维护升级，同时加快道具的加载；方便各新旧AI能力集成，后续的升级迭代。
+
+基本逻辑：Nama初始化后，可以预先加载一个或多个将来可能使用到的AI能力模块。调用实时render处理接口时，Nama主pipe会在最开始的时候，分析当前全部道具需要AI能力，然后由AI子系统执行相关能力推理，然后开始调用各个道具的‘生命周期’函数，各道具只需要按需在特定的‘生命周期’函数调用JS接口获取AI推理的结果即可，并用于相关逻辑处理或渲染。
+
+1. 新增加接口 fuLoadAIModelFromPackage 用于加载AI能力模型。
+2. 新增加接口 fuReleaseAIModel 用于释放AI能力模型。
+3. 新增加接口 fuIsAIModelLoaded 判断AI能力是否已经加载。
+
+例子1：背景分割
+	a. 加载AI能力模型，fuLoadAIModelFromPackage加载ai_bgseg.bundle 到 FUAITYPE::FUAITYPE_BACKGROUNDSEGMENTATION上。
+	b. 加载产品业务道具A，A道具使用了背景分割能力。
+	c. 切换产品业务道具B，B道具同样使用了背景分割能力，但这时AI能力不需要重新加载。
+
+
+
+__注__：6.6.0 FaceUnity Nama SDK，为了更新以及迭代更加方便，由原先一个 libnama.a 拆分成两个库 libnama.a 以及 libfuai.a，其中 libnama.a 为轻量级渲染引擎，libfuai.a 为算法引擎。当升级 6.6.0 时，需要添加 libfuai.a 库。
 
 ------
 ## 目录：
@@ -39,7 +47,8 @@
   +Headers		       	//库接口头文件
     -funama.h				//C接口
     -FURender.h			    //OC接口
-    -libnama.a				//静态库
+    -libnama.a				//图形静态库
+    -libfuai.a              //算法静态库
   -release_note.txt     //更新日志    
   +Resources
     -face_beautification.bundle     //美颜资源
@@ -68,13 +77,13 @@ Xcode 8或更高版本
 全功能版本：
 
 ```
-pod 'Nama', '6.5.0' 
+pod 'Nama', '6.6.0' 
 ```
 
 不含物理引擎的版本（lite版）：
 
 ```
-pod 'Nama-lite', '6.5.0' 
+pod 'Nama-lite', '6.6.0' 
 ```
 
 接下来执行：
@@ -91,9 +100,9 @@ pod repo update 或 pod setup
 
 #### 3.2.2 通过 github 下载集成
 
-全功能版本：[FaceUnity-SDK-iOS-v6.5.0.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v6.5.0.zip)
+全功能版本：[FaceUnity-SDK-iOS-v6.6.0.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v6.6.0.zip)
 
-不含物理引擎的版本（lite版）：[FaceUnity-SDK-iOS-v6.5.0-lite.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v6.5.0-lite.zip)
+不含物理引擎的版本（lite版）：[FaceUnity-SDK-iOS-v6.6.0-lite.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v6.6.0-lite.zip)
 
 下载完成并解压后将库文件夹拖入到工程中，并勾选上 Copy items if needed，如图：
 
@@ -101,7 +110,7 @@ pod repo update 或 pod setup
 
 ![](imgs/picture1.png)
 
-然后在Build Phases → Link Binary With Libraries 中添加依赖库，这里需要添加 OpenGLES.framework、Accelerate.framework、CoreMedia.framework、AVFoundation.framework、stdc++.tbd 这几个依赖库，如果你使用的是lite版可以不添加 stdc++.tbd 依赖，如图：
+然后在Build Phases → Link Binary With Libraries 中添加依赖库，这里需要添加 OpenGLES.framework、Accelerate.framework、CoreMedia.framework、AVFoundation.framework、libc++.tbd 这几个依赖库，如果你使用的是lite版可以不添加 libc++.tbd 依赖，如图：
 
 ------
 
@@ -122,6 +131,8 @@ authpack.h 证书文件，一般由我司通过邮箱发送给使用者
 iOS端发放的证书为包含在authpack.h中的g_auth_package数组，如果您已经获取到鉴权证书，将authpack.h导入工程中即可。根据应用需求，鉴权数据也可以在运行时提供(如网络下载)，不过要注意证书泄露风险，防止证书被滥用。
 
 ### 3.4 初始化
+
+#### 3.4.1 初始化SDk
 
 首先在代码中引入 FURenderer.h 头文件
 
@@ -161,6 +172,26 @@ NSString *v3Path = [[NSBundle mainBundle] pathForResource:@"v3" ofType:@"bundle"
 这里可写作 sizeof(g_auth_package)
 
 `create` 如果设置为YES，我们会在内部创建并持有一个context，这种情况下工程中必须要使用OC层接口
+
+
+
+#### 3.4.2 加载AI道具
+
+例：加载美颜 75点AI道具
+
+1. 加载二级制bundle
+
+```objective-c
+    NSData *ai_facelandmarks75 = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ai_facelandmarks75.bundle" ofType:nil]];
+    
+```
+
+
+2. 通过 **loadAIModelFromPackage** 设置到SDK
+```objective-c
+[FURenderer loadAIModelFromPackage:(void *)ai_facelandmarks75.bytes size:(int)ai_facelandmarks75.length aitype:FUAITYPE_FACELANDMARKS75];
+
+```
 
 ### 3.5 道具创建、销毁、切换
 
@@ -359,7 +390,7 @@ __美白__
 美白功能主要通过参数color_level来控制
 
 ```objective-c
-color_level 取值范围 0.0-1.0,0.0为无效果，1.0为最大效果，默认值0.2
+color_level 取值范围 0.0-2.0,0.0为无效果，2.0为最大效果，默认值0.2
 ```
 
 设置参数的例子代码如下：
@@ -374,7 +405,7 @@ __红润__
 红润功能主要通过参数red_level 来控制
 
 ```objective-c
-red_level 取值范围 0.0-1.0,0.0为无效果，1.0为最大效果，默认值0.5
+red_level 取值范围 0.0-2.0,0.0为无效果，2.0为最大效果，默认值0.5
 ```
 
 设置参数的例子代码如下：
@@ -458,7 +489,7 @@ __face_shape参数详解__
 
     `eye_enlarging`:  默认0.5,           //大眼程度范围0.0-1.0
     `cheek_thinning`:	默认0.0,  		//瘦脸程度范围0.0-1.0
-   
+
     `cheek_v`:	默认0.0,  		//v脸程度范围0.0-1.0
 
     `cheek_narrow`:   默认0.0,          //窄脸程度范围0.0-1.0
@@ -488,8 +519,6 @@ __face_shape参数详解__
 线上例子中 heart_v2.bundle 为爱心手势演示道具。将其作为道具加载进行绘制即可启用手势识别功能。手势识别道具可以和普通道具及美颜共存，类似美颜将手势道具句柄保存在items句柄数组即可。
 
 自定义手势道具的流程和2D道具制作一致，具体打包的细节可以联系我司技术支持。
-
-注：新版手势道具中部分道具需要使用非lite版SDK才能正常使用
 
 __使用方法__
 

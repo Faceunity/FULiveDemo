@@ -18,14 +18,18 @@
 @property (nonatomic, strong) FUMakeUpView *makeupView ;
 /* 颜色选择视图 */
 @property (nonatomic, strong) FUColourView *colourView;
+/* 自定义调节需要保存，现有部位句柄，用户切换对道具销毁 */
+@property (nonatomic,strong) NSMutableDictionary *oldHandleDic;
+
 @end
 
 @implementation FUMakeupController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[FUManager shareManager] loadMakeupType:@"new_face_tracker"];
+//    [[FUManager shareManager] loadMakeupType:@"new_face_tracker"];
     [[FUManager shareManager] loadMakeupBundleWithName:@"face_makeup"];
+    [[FUManager shareManager] setMakeupItemIntensity:1 param:@"is_makeup_on"];
     
     [self setupView];
     [self setupColourView];
@@ -34,10 +38,20 @@
     [_makeupView setSelSupItem:1];
     
     self.canPushImageSelView = NO;
+    
+    
+    NSDictionary* dic = @{@"tex_brow":@0,@"tex_eye":@0,@"tex_eye2":@0,@"tex_eye3":@0,@"tex_pupil":@0,@"tex_eyeLash":@0,@"tex_eyeLiner":@0,@"tex_blusher":@0,@"tex_foundation":@0,@"tex_highlight":@0,@"tex_shadow":@0};
+    _oldHandleDic = [dic mutableCopy];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
+    dispatch_async([FUManager shareManager].asyncLoadQueue, ^{
+        int handle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeBeauty];
+        /* 美妆用239点位，包含美颜点位，切换到他的点位，避免加载两套点位*/
+        [FURenderer itemSetParam:handle withName:@"landmarks_type" value:@(FUAITYPE_FACELANDMARKS239)];
+    });
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
@@ -86,15 +100,18 @@
 
 -(void)setOrientation:(int)orientation{
     [super setOrientation:orientation];
-    [[FUManager shareManager] setParamItemAboutType:FUNamaHandleTypeMakeupType name:@"orientation" value:orientation];
+    fuSetDefaultRotationMode(orientation);
 }
 
 #pragma mark -  FUMakeUpViewDelegate
 
 static int oldHandle = 0;
 -(void)makeupViewDidSelectedSupModle:(FUMakeupSupModel *)model{
+    /* 修改值 */
+    [self makeupAllValue:0];
+    
     /* bing && unbind */
-    dispatch_async([FUManager shareManager].makeupQueue, ^{//在美妆加载线程，确保道具加载
+    dispatch_async([FUManager shareManager].asyncLoadQueue, ^{//在美妆加载线程，确保道具加载
         /* 子妆容重设 0 */
 //        [self makeupAllValue:0];
         
@@ -108,13 +125,15 @@ static int oldHandle = 0;
              oldHandle = 0;
         }
         [FURenderer bindItems:makeupHandle items:&subHandle itemsCount:1];
+        
+        /* 镜像设置 */
+        [FURenderer itemSetParam:makeupHandle withName:@"is_flip_points" value:@(model.is_flip_points)];
+        
         oldHandle = subHandle;
+        
+        [self makeupViewChangeValueSupModle:model];
     });
     
-    /* 修改值 */
-    [self makeupAllValue:0];
-    [self makeupViewChangeValueSupModle:model];
-
 }
 
 -(void)makeupViewChangeValueSupModle:(FUMakeupSupModel *)model{
@@ -122,12 +141,18 @@ static int oldHandle = 0;
         [self makeupViewDidChangeValue:model.value * model.makeups[i].value namaValueStr:model.makeups[i].namaValueStr];
     }
     /* 修改美颜的滤镜 */
+    
+    int handle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeBeauty];
     if (!model.selectedFilter || [model.selectedFilter isEqualToString:@""]) {
-        [FUManager shareManager].selectedFilter = @"origin";
+        
+        FUBeautyParam *param = [FUManager shareManager].seletedFliter;
+        [FURenderer itemSetParam:handle withName:@"filter_name" value:[param.mParam lowercaseString]];
+        [FURenderer itemSetParam:handle withName:@"filter_level" value:@(param.mValue)]; //滤镜程度
     }else{
-        [FUManager shareManager].selectedFilter = model.selectedFilter;
-        [FUManager shareManager].selectedFilterLevel = model.selectedFilterLevel;
+        [FURenderer itemSetParam:handle withName:@"filter_name" value:[model.selectedFilter lowercaseString]];
+        [FURenderer itemSetParam:handle withName:@"filter_level" value:@(model.value)]; //滤镜程度
     }
+
 }
 
 
@@ -147,11 +172,28 @@ static int oldHandle = 0;
     [[FUManager shareManager] setMakeupItemStr:namaStr valueArr:valueArr];
 }
 
--(void)makeupViewDidSelectedNamaStr:(NSString *)namaStr imageName:(NSString *)imageName{
-    if (!namaStr || !imageName) {
+-(void)makeupViewDidSelectedNamaStr:(NSString *)namaStr bundleName:(NSString *)bundleName{
+    if (!namaStr || !bundleName) {
         return;
     }
-    [[FUManager shareManager] setMakeupItemParamImageName:imageName  param:namaStr];
+    
+   dispatch_async([FUManager shareManager].asyncLoadQueue, ^{//在美妆加载线程，确保道具加载
+  
+    
+    int makeupHandle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeMakeup];
+    NSString *path = [[NSBundle mainBundle] pathForResource:bundleName ofType:@"bundle"];
+    int subHandle = [FURenderer itemWithContentsOfFile:path];
+       NSLog(@"makeup-----subhandle(%d)",subHandle);
+    int oldSubHandle = [[_oldHandleDic valueForKey:namaStr] intValue];
+    if (oldSubHandle) {//存在旧美妆道具，先销毁
+         [FURenderer unBindItems:makeupHandle items:&oldSubHandle itemsCount:1];
+         [FURenderer destroyItem:oldSubHandle];
+        [_oldHandleDic setValue:@(0) forKey:namaStr];;
+    }
+    [FURenderer bindItems:makeupHandle items:&subHandle itemsCount:1];
+    [_oldHandleDic setValue:@(subHandle) forKey:namaStr];;
+    
+   });
 }
 
 
@@ -165,13 +207,13 @@ static int oldHandle = 0;
     [_colourView setSelCell:index];
 }
 
--(void)makeupFilter:(NSString *)filterStr value:(float)filterValue{
-    if (!filterStr) {
-        return;
-    }
-    [FUManager shareManager].selectedFilter = filterStr ;
-    [FUManager shareManager].selectedFilterLevel = filterValue;
-}
+//-(void)makeupFilter:(NSString *)filterStr value:(float)filterValue{
+//    if (!filterStr) {
+//        return;
+//    }
+//    [FUManager shareManager].selectedFilter = filterStr ;
+//    [FUManager shareManager].selectedFilterLevel = filterValue;
+//}
 
 -(void)makeupSelColorStata:(BOOL)stata{
     _colourView.hidden = stata ? NO :YES;
@@ -217,6 +259,8 @@ static int oldHandle = 0;
 }
 
 -(void)dealloc{
+    [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeMakeup];
+    
 //    [[FUManager shareManager] setDefaultFilter];
 
 }

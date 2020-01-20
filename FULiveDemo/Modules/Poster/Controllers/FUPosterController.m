@@ -22,6 +22,8 @@
     // Do any additional setup after loading the view.
     
     [self setupView];
+    
+    self.headButtonView.selectedImageBtn.hidden = NO;
 }
 
 -(void)setupView{

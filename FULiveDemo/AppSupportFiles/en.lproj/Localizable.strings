@@ -8,6 +8,7 @@
 /* demobar  */
 //"清晰磨皮" = "Light Blur" ;
 //"朦胧磨皮" = "Heavy Blur" ;
+"精细磨皮" = "Fine Blur" ;
 "磨皮" = "Fine Blur" ;
 "锐化" = "sharpen";
 "美白" = "Whiten" ;
@@ -21,6 +22,14 @@
 "额头" = "Forehead" ;
 "瘦鼻" = "Nose" ;
 "嘴型" = "Mouth" ;
+
+"开眼角" = "Open eyes";
+"眼距"  =  "Eye distance";
+"眼睛角度"     =  "Eye angle";
+"长鼻"     =  "Long nose";
+"缩人中"     =  "Among people";
+"微笑嘴角"     =  "Smiling mouth";
+
 
 //滤镜
 "原图" = "Origin" ;
@@ -82,7 +91,7 @@
 "个性8"  = "personality8";
 "个性9"  = "personality9";
 "个性10"  = "personality10";
-
+"个性11"  = "personality11";
 "小清新"  = "fresh";
 "小清新1"  = "fresh1";
 "小清新2"  = "fresh2";
@@ -94,6 +103,16 @@
 "黑白2" = "Fade2" ;
 "黑白3" = "Fade3" ;
 "黑白4" = "Fade4" ;
+
+"质感灰1" = "Texture grey1";
+"质感灰2" = "Texture grey2";
+"质感灰3" = "Texture grey3";
+"质感灰4" = "Texture grey4";
+"质感灰5" = "Texture grey5";
+"质感灰6" = "Texture grey6";
+"质感灰7" = "Texture grey7";
+"质感灰8" = "Texture grey8";
+
 "载入图片或视频" = "Load picture or video";
 
 "红润" = "Ruddy" ;

@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import "FURenderer.h"
+#import "FUBeautyParam.h"
 
 @class FULiveModel;
 
@@ -25,15 +26,12 @@ typedef NS_ENUM(NSUInteger, FUNamaHandleType) {
     FUNamaHandleTypeChangeface = 4, /* items[4] ------ 海报换脸道具句柄 */
     FUNamaHandleTypeComic = 5,      /* items[5] ------ 动漫道具句柄 */
     FUNamaHandleTypeMakeup = 6,     /* items[6] ------ 美妆道具句柄 */
-    FUNamaHandleTypeMakeupType = 7,  /* items[7] ------ 美妆类型 ---- 由类型bundle 控制*/
-    FUNamaHandleTypePhotolive = 8,  /* items[8] ------ 异图道具句柄 */
-    FUNamaHandleTypeAvtarHead = 9,  /* items[9] ------ Avtar头*/
-    FUNamaHandleTypeAvtarHiar = 10,  /* items[10] ------ Avtar头发 */
-    FUNamaHandleTypeAvtarbg = 11,  /* items[11] ------ Avtar背景 */
-    FUNamaHandleTypeBodySlim = 12,  /* items[12] ------ 美体道具 */
-    FUNamaHandleTypeHairModel = 13,  /* items[13] ------ 美发的模型 */
-    FUNamaHandleTypeBeautyType = 14,
-    FUNamaHandleTotal = 15
+    FUNamaHandleTypePhotolive = 7,  /* items[7] ------ 异图道具句柄 */
+    FUNamaHandleTypeAvtarHead = 8,  /* items[8] ------ Avtar头*/
+    FUNamaHandleTypeAvtarHiar = 9,  /* items[9] ------ Avtar头发 */
+    FUNamaHandleTypeAvtarbg = 10,  /* items[10] ------ Avtar背景 */
+    FUNamaHandleTypeBodySlim = 11,  /* items[11] ------ 美体道具 */
+    FUNamaHandleTotal = 12
 };
 
 typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
@@ -46,48 +44,17 @@ typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
 @property (nonatomic, assign)               BOOL enableGesture;         /**设置是否开启手势识别，默认未开启*/
 @property (nonatomic, assign)               BOOL enableMaxFaces;        /**设置人脸识别个数，默认为单人模式*/
 
-//@property (nonatomic, assign) double blurLevel;         // 磨皮(0.0 - 6.0)
-/* 0清晰磨皮  1重度磨皮   2精细磨皮 */
-@property (nonatomic, assign) double blurLevel_0;
-/* 锐化 */
-//@property (nonatomic, assign) double sharpenLevel;
-@property (nonatomic, assign) double whiteLevel;        // 美白
-@property (nonatomic, assign) double redLevel;          // 红润
-@property (nonatomic, assign) double eyelightingLevel;  // 亮眼
-@property (nonatomic, assign) double beautyToothLevel;  // 美牙
-
-
-@property (nonatomic, assign) NSInteger faceShape;        //脸型 (0、1、2、3、4)女神：0，网红：1，自然：2，默认：3，自定义：4
-/* v脸 (0~1) */
-@property (nonatomic, assign) double vLevel;
-/* 鹅蛋 (0~1) */
-@property (nonatomic, assign) double eggLevel;
-/* 窄脸(0~1) */
-@property (nonatomic, assign) double narrowLevel;
-/* 小脸 (0~1) */
-@property (nonatomic, assign) double smallLevel;
-
-@property (nonatomic, assign) double enlargingLevel;      /**大眼 (0~1)*/
-@property (nonatomic, assign) double thinningLevel;       /**瘦脸 (0~1)*/
-//@property (nonatomic, assign) double enlargingLevel_new;  /**大眼 (0~1) --  新版美颜*/
-//@property (nonatomic, assign) double thinningLevel_new;   /**瘦脸 (0~1) --  新版美颜*/
-
-@property (nonatomic, assign) double jewLevel;            /**下巴 (0~1)*/
-@property (nonatomic, assign) double foreheadLevel;       /**额头 (0~1)*/
-@property (nonatomic, assign) double noseLevel;           /**鼻子 (0~1)*/
-@property (nonatomic, assign) double mouthLevel;          /**嘴型 (0~1)*/
-
-@property (nonatomic, strong) NSArray<NSString *> *filtersDataSource;     /**滤镜名称数组*/
-@property (nonatomic, strong) NSArray<NSString *> *beautyFiltersDataSource;     /**美颜滤镜名称数组*/
-@property (nonatomic, strong) NSDictionary<NSString *,NSString *> *filtersCHName;       /**滤镜中文名称数组*/
-@property (nonatomic, strong) NSString *selectedFilter; /* 选中的滤镜 */
-@property (nonatomic, assign) double selectedFilterLevel; /* 选中滤镜的 level*/
-
+/* 滤镜参数 */
+@property (nonatomic, strong) NSMutableArray<FUBeautyParam *> *filters;
+/* 美肤参数 */
+@property (nonatomic, strong) NSMutableArray<FUBeautyParam *> *skinParams;
+/* 美型参数 */
+@property (nonatomic, strong) NSMutableArray<FUBeautyParam *> *shapeParams;
 @property (nonatomic, strong)               NSMutableArray<FULiveModel *> *dataSource;  /**道具分类数组*/
 @property (nonatomic, strong)               NSString *selectedItem;     /**选中的道具名称*/
 
-/* 美妆开独立线程 ：美妆和其他bundle串行加载，会照成上妆不连贯的感觉，所以*/
-@property (nonatomic, strong) dispatch_queue_t makeupQueue;
+@property (nonatomic, strong)               FUBeautyParam *seletedFliter;
+
 @property (nonatomic, strong) dispatch_queue_t asyncLoadQueue;
 
 // 当前页面的 model
@@ -96,8 +63,6 @@ typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
 + (FUManager *)shareManager;
 
 - (void)setAsyncTrackFaceEnable:(BOOL)enable;
-/* 默认滤镜 */
--(void)setDefaultFilter;
 // 默认美颜参数
 - (void)setBeautyDefaultParameters:(FUBeautyModuleType)type;
 /**
@@ -115,8 +80,6 @@ typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
 - (void)loadBundleWithName:(NSString *)name aboutType:(FUNamaHandleType)type;
 /**加载美颜道具*/
 - (void)loadFilter ;
-/* 美颜点位模式 */
--(void)loadBeautyType:(NSString *)itemName;
 /**销毁全部道具*/
 - (void)destoryItems;
 /*
@@ -129,9 +92,6 @@ typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
 
 /**加载普通道具*/
 - (void)loadItem:(NSString *)itemName completion:(void (^)(BOOL finished))completion;
-
-/* 点位模式 */
--(void)loadMakeupType:(NSString *)itemName;
 
 /* 添加动漫滤镜 */
 - (void)loadFilterAnimoji:(NSString *)itemName style:(int)style;
@@ -221,9 +181,6 @@ typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
 -(void)loadBgAvatar;
 
 -(void)loadAvatarBundel;
-
-/* 销毁海报道具 */
-- (void)destroyItemPoster;
 
 - (void)loadAnimojiFaxxBundle;
 - (void)musicFilterSetMusicTime;

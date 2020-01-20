@@ -25,7 +25,9 @@
     // Do any additional setup after loading the view.
     [self setupView];
     /* 加载妆容道具 */
-    [[FUManager shareManager] loadBundleWithName:@"light_makeup" aboutType:FUNamaHandleTypeMakeup];
+    [[FUManager shareManager] loadMakeupBundleWithName:@"light_makeup"];
+    [[FUManager shareManager] setMakeupItemIntensity:1 param:@"is_makeup_on"];
+    [[FUManager shareManager] setMakeupItemIntensity:1 param:@"reverse_alpha"];
 }
 
 -(void)setupView{
@@ -54,8 +56,10 @@
         [self setSelSubItem:modle];
     }
     /* 设置滤镜*/
-    [FUManager shareManager].selectedFilter = model.selectedFilter ;
-    [FUManager shareManager].selectedFilterLevel = model.selectedFilterLevel;
+    int handle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeBeauty];
+    [FURenderer itemSetParam:handle withName:@"filter_name" value:[model.selectedFilter lowercaseString]];
+    [FURenderer itemSetParam:handle withName:@"filter_level" value:@(model.selectedFilterLevel)]; //滤镜程度
+
 }
 
 -(void)lightMakeupModleValue:(FULightModel *)model{
@@ -63,13 +67,26 @@
             /* 子妆容程度值 这里程度值设置为 子程度值*滑杆值 */
         [[FUManager shareManager] setMakeupItemIntensity:modle.value *_mCollectionView.currentLightModel.value param:modle.namaValueStr];
     }
-    [FUManager shareManager].selectedFilterLevel = model.selectedFilterLevel;
+    int handle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeBeauty];
+    [FURenderer itemSetParam:handle withName:@"filter_level" value:@(model.selectedFilterLevel)]; //滤镜程度
 }
 
 /* 子妆容相关参数 */
 -(void)setSelSubItem:(FUSingleLightMakeupModel *)modle{
     if (modle.namaImgStr) {//贴妆容图片
-         [[FUManager shareManager] setMakeupItemParamImageName:modle.namaImgStr param:modle.namaTypeStr];
+        dispatch_async([FUManager shareManager].asyncLoadQueue, ^{
+            UIImage *mImage = [UIImage imageNamed:modle.namaImgStr];
+            int imageWidth = (int)CGImageGetWidth(mImage.CGImage);
+            int imageHeight = (int)CGImageGetHeight(mImage.CGImage);
+            CFDataRef posterDataFromImageDataProvider = CGDataProviderCopyData(CGImageGetDataProvider(mImage.CGImage));
+            GLubyte *imageData = (GLubyte *)CFDataGetBytePtr(posterDataFromImageDataProvider);
+            
+            int handle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeMakeup];
+            
+            fuCreateTexForItem(handle, (char *)[modle.namaTypeStr  UTF8String], imageData, imageWidth, imageHeight);
+            free(imageData);
+        });
+        
     }
      /* 子妆容程度值 这里程度值设置为 子程度值*滑杆值 */
     [[FUManager shareManager] setMakeupItemIntensity:modle.value *_mCollectionView.currentLightModel.value param:modle.namaValueStr];
@@ -82,11 +99,8 @@
 }
 
 
-
-
-
 -(void)dealloc{
-    [[FUManager shareManager] destoryItems];
+    [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeMakeup];
 }
 
 
