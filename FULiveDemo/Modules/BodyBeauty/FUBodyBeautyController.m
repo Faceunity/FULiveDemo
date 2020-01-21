@@ -31,7 +31,7 @@
     [self setupView];
  
     self.photoBtn.transform = CGAffineTransformMakeTranslation(0, -100);
-    [[FUManager shareManager] loadBundleWithName:@"BodySlim" aboutType:FUNamaHandleTypeBodySlim];
+    [[FUManager shareManager] loadBundleWithName:@"body_slim" aboutType:FUNamaHandleTypeBodySlim];
     [[FUManager shareManager] setParamItemAboutType:FUNamaHandleTypeBodySlim name:@"Debug" value:0];
     
 //    self.headButtonView.selectedImageBtn.hidden = NO;
