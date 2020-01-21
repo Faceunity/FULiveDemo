@@ -393,7 +393,7 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
 }
 
 -(void)setNoitemBtnSata:(int)supSelIndex{
-    if (supSelIndex < 14 && supSelIndex != 0) {
+    if (supSelIndex < 13 && supSelIndex != 0) {
         self.noitemBtn.enabled = NO;
         self.noitemBtn.titleLabel.alpha = 0.7;
     }else{

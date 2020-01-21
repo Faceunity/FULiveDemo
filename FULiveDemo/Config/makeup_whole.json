@@ -106,15 +106,6 @@
       "is_flip_points":1
     },
     {
-      "name": "Rose",
-      "imageStr": "demo_combination_rose",
-      "value": 0.7,
-      "isSel": false,
-      "makeupBundle": "Rose",
-      "selectedFilter":"zhiganhui2",
-      "is_flip_points":1
-    },
-    {
       "name": "性感",
       "imageStr": "demo_combination_sexy",
       "value": 0.7,

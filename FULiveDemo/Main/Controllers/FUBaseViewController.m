@@ -96,6 +96,12 @@ FUPopupMenuDelegate
     [_mCamera changeSessionPreset:AVCaptureSessionPreset1280x720];
     /* 监听屏幕方向 */
     [self startListeningDirectionOfDevice];
+    
+    dispatch_async([FUManager shareManager].asyncLoadQueue, ^{
+        int handle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeBeauty];
+        /* 单独美颜点位点位*/
+        [FURenderer itemSetParam:handle withName:@"landmarks_type" value:@(FUAITYPE_FACEPROCESSOR)];
+    });
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
