@@ -14,7 +14,6 @@
 @interface FUBGSegmentationController ()<FUItemsViewDelegate>
 @property (strong, nonatomic) FUItemsView *itemsView;
 
-@property (nonatomic, strong) CMMotionManager *motionManager;
 @end
 
 @implementation FUBGSegmentationController
@@ -23,8 +22,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self setupView];
-    
-    [self setupDeviceMotion];
     
 }
 
@@ -107,31 +104,20 @@
 }
 
 
-#pragma  mark -  全景道具 四元素
--(void)setupDeviceMotion{
-    
-    // 初始化陀螺仪
-    self.motionManager = [[CMMotionManager alloc] init];
-    self.motionManager.accelerometerUpdateInterval = 0.5;// 1s刷新一次
-    
-    if ([self.motionManager isDeviceMotionAvailable]) {
-        [self.motionManager startAccelerometerUpdates];
-//        [self.motionManager startDeviceMotionUpdates];
-        [self.motionManager startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXMagneticNorthZVertical];
-    }
-}
-
-
 /* 获取方向四元素 */
--(double *)get4ElementsFormDeviceMotion{
-    double *quaternion = (double *)malloc(4 * sizeof(double));
-    
-    quaternion[3] = self.motionManager.deviceMotion.attitude.quaternion.w;
-    quaternion[0] = self.motionManager.deviceMotion.attitude.quaternion.x;
-    quaternion[1] = self.motionManager.deviceMotion.attitude.quaternion.y;
-    quaternion[2] = self.motionManager.deviceMotion.attitude.quaternion.z;
-    return quaternion;
-}
+//-(double *)get4ElementsFormDeviceMotion{
+//    double *quaternion = (double *)malloc(4 * sizeof(double));
+//    
+//    quaternion[3] = self.motionManager.deviceMotion.attitude.quaternion.w;
+//    quaternion[0] = self.motionManager.deviceMotion.attitude.quaternion.x;
+//    quaternion[1] = self.motionManager.deviceMotion.attitude.quaternion.y;
+//    quaternion[2] = self.motionManager.deviceMotion.attitude.quaternion.z;
+//    return quaternion;
+//}
 
+-(void)dealloc{
+    NSLog(@"dealloc--------");
+        [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeItem];
+}
 
 @end

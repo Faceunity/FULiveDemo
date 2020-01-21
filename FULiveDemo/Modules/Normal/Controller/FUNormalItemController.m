@@ -23,6 +23,13 @@
     
 }
 
+
+/* 不需要进入分辨率选择 */
+-(BOOL)onlyJumpImage{
+    return YES;
+}
+
+
 -(void)setupView{
     _itemsView = [[FUItemsView alloc] init];
     _itemsView.delegate = self;
@@ -55,12 +62,11 @@
     [super viewWillAppear:animated];
     
     /* 返回当前界面的时候，重新加载 */
-//    if (!self.itemsView.selectedItem) {
-//        self.itemsView.selectedItem = [FUManager shareManager].selectedItem ;
-//    }else {
-//        [[FUManager shareManager] loadItem:self.itemsView.selectedItem];
-//    }
-
+    if (!self.itemsView.selectedItem) {
+        self.itemsView.selectedItem = [FUManager shareManager].selectedItem ;
+    }else {
+        [[FUManager shareManager] loadItem:self.itemsView.selectedItem completion:nil];
+    }
 }
 
 #pragma mark -  FUItemsViewDelegate
@@ -94,6 +100,8 @@
 }
 
 -(void)dealloc{
+    [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeItem];
+    
     NSLog(@"normalll dealloc");
 }
 

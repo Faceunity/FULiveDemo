@@ -29,7 +29,7 @@
     [self addSubview:_mHomeBtn];
     
     _selectedImageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_selectedImageBtn setImage:[UIImage imageNamed:@"相册icon"] forState:UIControlStateNormal];
+    [_selectedImageBtn setImage:[UIImage imageNamed:@"demo_icon_more"] forState:UIControlStateNormal];
     [_selectedImageBtn addTarget:self action:@selector(selImageAction:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_selectedImageBtn];
     

@@ -101,6 +101,7 @@
             time = 0;
             _circleProgress.percent = 0;
             self.selected = NO;
+            NSLog(@"time invalidate");
         }
     }
 }
@@ -171,26 +172,8 @@
     }
 }
 
-#pragma  mark ----  pulic  -----
-- (void)startObserveVolumeChangeEvents{
-    [[FUVolumeObserver sharedInstance] startObserveVolumeChangeEvents];
+-(void)dealloc{
+    NSLog(@"FUPhotoButton dealloc-----");
 }
-- (void)stopObserveVolumeChangeEvents{
-    [[FUVolumeObserver sharedInstance] stopObserveVolumeChangeEvents];
-}
-
-#pragma  mark ----  FUVolumeObserver delagatale  -----
-- (void)volumeButtonDidUp:(FUVolumeObserver *) button{
-    NSLog(@"change up");
-    [self takePhoto];
-}
-
-- (void)volumeButtonDidDown:(FUVolumeObserver *) button{
-    NSLog(@"change down");
-     [self takePhoto];
-
-}
-
-
 
 @end

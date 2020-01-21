@@ -12,17 +12,14 @@
 #import "FUMakeupSupModel.h"
 #import "MJExtension.h"
 #import "FUColourView.h"
-#import <CoreMotion/CoreMotion.h>
 
 @interface FUMakeupController ()<FUMakeUpViewDelegate,FUColourViewDelegate>
 /* 化妆视图 */
 @property (nonatomic, strong) FUMakeUpView *makeupView ;
 /* 颜色选择视图 */
 @property (nonatomic, strong) FUColourView *colourView;
-/* 监听屏幕方向 */
-@property (nonatomic, strong) CMMotionManager *motionManager;
-/* 当前 */
-@property (nonatomic, assign) int orientation;
+/* 自定义调节需要保存，现有部位句柄，用户切换对道具销毁 */
+@property (nonatomic,strong) NSMutableDictionary *oldHandleDic;
 
 @end
 
@@ -30,8 +27,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[FUManager shareManager] loadMakeupType:@"new_face_tracker"];
+//    [[FUManager shareManager] loadMakeupType:@"new_face_tracker"];
     [[FUManager shareManager] loadMakeupBundleWithName:@"face_makeup"];
+    [[FUManager shareManager] setMakeupItemIntensity:1 param:@"is_makeup_on"];
     
     [self setupView];
     [self setupColourView];
@@ -39,15 +37,24 @@
     /* 美妆道具 */
     [_makeupView setSelSupItem:1];
     
-    [self startListeningDirectionOfDevice];
+    self.canPushImageSelView = NO;
+    
+    
+    NSDictionary* dic = @{@"tex_brow":@0,@"tex_eye":@0,@"tex_eye2":@0,@"tex_eye3":@0,@"tex_pupil":@0,@"tex_eyeLash":@0,@"tex_eyeLiner":@0,@"tex_blusher":@0,@"tex_foundation":@0,@"tex_highlight":@0,@"tex_shadow":@0};
+    _oldHandleDic = [dic mutableCopy];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
+    dispatch_async([FUManager shareManager].asyncLoadQueue, ^{
+        int handle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeBeauty];
+        /* 美妆用239点位，包含美颜点位，切换到他的点位，避免加载两套点位*/
+        [FURenderer itemSetParam:handle withName:@"landmarks_type" value:@(FUAITYPE_FACELANDMARKS239)];
+    });
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    [self stopListeningDirectionOfDevice];
 }
 
 
@@ -91,7 +98,64 @@
 }
 
 
+-(void)setOrientation:(int)orientation{
+    [super setOrientation:orientation];
+    fuSetDefaultRotationMode(orientation);
+}
+
 #pragma mark -  FUMakeUpViewDelegate
+
+static int oldHandle = 0;
+-(void)makeupViewDidSelectedSupModle:(FUMakeupSupModel *)model{
+    /* 修改值 */
+    [self makeupAllValue:0];
+    
+    /* bing && unbind */
+    dispatch_async([FUManager shareManager].asyncLoadQueue, ^{//在美妆加载线程，确保道具加载
+        /* 子妆容重设 0 */
+//        [self makeupAllValue:0];
+        
+        int makeupHandle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeMakeup];
+        NSString *path = [[NSBundle mainBundle] pathForResource:model.makeupBundle ofType:@"bundle"];
+        int subHandle = [FURenderer itemWithContentsOfFile:path];
+        
+        if (oldHandle) {//存在旧美妆道具，先销毁
+             [FURenderer unBindItems:makeupHandle items:&oldHandle itemsCount:1];
+             [FURenderer destroyItem:oldHandle];
+             oldHandle = 0;
+        }
+        [FURenderer bindItems:makeupHandle items:&subHandle itemsCount:1];
+        
+        /* 镜像设置 */
+        [FURenderer itemSetParam:makeupHandle withName:@"is_flip_points" value:@(model.is_flip_points)];
+        
+        oldHandle = subHandle;
+        
+        [self makeupViewChangeValueSupModle:model];
+    });
+    
+}
+
+-(void)makeupViewChangeValueSupModle:(FUMakeupSupModel *)model{
+    for (int i = 0; i < model.makeups.count; i ++) {
+        [self makeupViewDidChangeValue:model.value * model.makeups[i].value namaValueStr:model.makeups[i].namaValueStr];
+    }
+    /* 修改美颜的滤镜 */
+    
+    int handle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeBeauty];
+    if (!model.selectedFilter || [model.selectedFilter isEqualToString:@""]) {
+        
+        FUBeautyParam *param = [FUManager shareManager].seletedFliter;
+        [FURenderer itemSetParam:handle withName:@"filter_name" value:[param.mParam lowercaseString]];
+        [FURenderer itemSetParam:handle withName:@"filter_level" value:@(param.mValue)]; //滤镜程度
+    }else{
+        [FURenderer itemSetParam:handle withName:@"filter_name" value:[model.selectedFilter lowercaseString]];
+        [FURenderer itemSetParam:handle withName:@"filter_level" value:@(model.value)]; //滤镜程度
+    }
+
+}
+
+
 -(void)makeupCustomShow:(BOOL)isShow{
     if (isShow) {
         [UIView animateWithDuration:0.2 animations:^{
@@ -108,11 +172,28 @@
     [[FUManager shareManager] setMakeupItemStr:namaStr valueArr:valueArr];
 }
 
--(void)makeupViewDidSelectedNamaStr:(NSString *)namaStr imageName:(NSString *)imageName{
-    if (!namaStr || !imageName) {
+-(void)makeupViewDidSelectedNamaStr:(NSString *)namaStr bundleName:(NSString *)bundleName{
+    if (!namaStr || !bundleName) {
         return;
     }
-    [[FUManager shareManager] setMakeupItemParamImageName:imageName  param:namaStr];
+    
+   dispatch_async([FUManager shareManager].asyncLoadQueue, ^{//在美妆加载线程，确保道具加载
+  
+    
+    int makeupHandle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeMakeup];
+    NSString *path = [[NSBundle mainBundle] pathForResource:bundleName ofType:@"bundle"];
+    int subHandle = [FURenderer itemWithContentsOfFile:path];
+       NSLog(@"makeup-----subhandle(%d)",subHandle);
+    int oldSubHandle = [[_oldHandleDic valueForKey:namaStr] intValue];
+    if (oldSubHandle) {//存在旧美妆道具，先销毁
+         [FURenderer unBindItems:makeupHandle items:&oldSubHandle itemsCount:1];
+         [FURenderer destroyItem:oldSubHandle];
+        [_oldHandleDic setValue:@(0) forKey:namaStr];;
+    }
+    [FURenderer bindItems:makeupHandle items:&subHandle itemsCount:1];
+    [_oldHandleDic setValue:@(subHandle) forKey:namaStr];;
+    
+   });
 }
 
 
@@ -126,13 +207,13 @@
     [_colourView setSelCell:index];
 }
 
--(void)makeupFilter:(NSString *)filterStr value:(float)filterValue{
-    if (!filterStr) {
-        return;
-    }
-    [FUManager shareManager].selectedFilter = filterStr ;
-    [FUManager shareManager].selectedFilterLevel = filterValue;
-}
+//-(void)makeupFilter:(NSString *)filterStr value:(float)filterValue{
+//    if (!filterStr) {
+//        return;
+//    }
+//    [FUManager shareManager].selectedFilter = filterStr ;
+//    [FUManager shareManager].selectedFilterLevel = filterValue;
+//}
 
 -(void)makeupSelColorStata:(BOOL)stata{
     _colourView.hidden = stata ? NO :YES;
@@ -155,6 +236,21 @@
     [_makeupView changeSubItemColorIndex:index];
 }
 
+/* 所有子妆修改 */
+-(void)makeupAllValue:(float)value{
+    [[FUManager shareManager] setMakeupItemIntensity:value param:@"makeup_intensity_blusher"];
+    [[FUManager shareManager] setMakeupItemIntensity:value param:@"makeup_intensity_eyeBrow"];
+    [[FUManager shareManager] setMakeupItemIntensity:value param:@"makeup_intensity_eye"];
+    [[FUManager shareManager] setMakeupItemIntensity:value param:@"makeup_intensity_eyeLiner"];
+    [[FUManager shareManager] setMakeupItemIntensity:value param:@"makeup_intensity_eyelash"];
+    [[FUManager shareManager] setMakeupItemIntensity:value param:@"makeup_intensity_pupil"];
+    [[FUManager shareManager] setMakeupItemIntensity:value param:@"makeup_intensity_lip"];
+    [[FUManager shareManager] setMakeupItemIntensity:value param:@"makeup_intensity_foundation"];
+    [[FUManager shareManager] setMakeupItemIntensity:value param:@"makeup_intensity_highlight"];
+    [[FUManager shareManager] setMakeupItemIntensity:value param:@"makeup_intensity_shadow"];
+}
+
+
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     if (!_makeupView.topHidden) {
         [_makeupView hiddenTopCollectionView:YES];
@@ -162,72 +258,10 @@
     }
 }
 
-
-#pragma  mark -  方向监听
-
-/// 开启屏幕旋转的检测
-- (void)startListeningDirectionOfDevice {
-    if (self.motionManager == nil) {
-        self.motionManager = [[CMMotionManager alloc] init];
-    }
-    self.motionManager.deviceMotionUpdateInterval = 0.3;
-    
-    // 判断设备传感器是否可用
-    if (self.motionManager.deviceMotionAvailable) {
-        // 启动设备的运动更新，通过给定的队列向给定的处理程序提供数据。
-        [self.motionManager startDeviceMotionUpdatesToQueue:[NSOperationQueue mainQueue] withHandler:^(CMDeviceMotion *motion, NSError *error) {
-            [self performSelectorOnMainThread:@selector(handleDeviceMotion:) withObject:motion waitUntilDone:YES];
-        }];
-    } else {
-        [self setMotionManager:nil];
-    }
-}
-
-- (void)stopListeningDirectionOfDevice {
-    if (_motionManager) {
-        [_motionManager stopDeviceMotionUpdates];
-        _motionManager = nil;
-    }
-}
-
-- (void)handleDeviceMotion:(CMDeviceMotion *)deviceMotion {
-
-    double x = deviceMotion.gravity.x;
-    double y = deviceMotion.gravity.y;
-    int orientation = 0;
-    
-    if (fabs(y) >= fabs(x)) {// 竖屏
-        if (y < 0) {
-            orientation = 0;
-        }
-        else {
-            orientation = 2;
-        }
-    }
-    else { // 横屏
-        if (x < 0) {
-           orientation = 1;
-        }
-        else {
-           orientation = 3;
-        }
-    }
-    
-    if (orientation != _orientation) {
-        self.orientation = orientation;
-    }
-    
-}
-
--(void)setOrientation:(int)orientation{
-    _orientation = orientation;
-     [[FUManager shareManager] setParamItemAboutType:FUNamaHandleTypeMakeupType name:@"orientation" value:orientation];
-}
-
-
 -(void)dealloc{
+    [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeMakeup];
+    
 //    [[FUManager shareManager] setDefaultFilter];
-    [self stopListeningDirectionOfDevice];
 
 }
 

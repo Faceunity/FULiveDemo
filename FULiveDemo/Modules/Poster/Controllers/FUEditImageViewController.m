@@ -42,9 +42,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
+    [[FUManager shareManager] loadBundleWithName:@"change_face" aboutType:FUNamaHandleTypeChangeface];
     [self initializationView];
-
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -180,7 +180,11 @@
             return ;
         }
         [[FUManager shareManager] setPosterItemParamImage:posterImage photo:photoImage photoLandmarks:photoLandmarks warpValue:warpValue];
+        
+        /* 融合的时候不加 美颜 */
+        [[FUManager shareManager] removeNamaRenderWithType:FUNamaHandleTypeBeauty];
         posterImagen = [[FUManager shareManager] renderItemsToImage:posterImagen];
+        [[FUManager shareManager] rejoinNamaRenderWithType:FUNamaHandleTypeBeauty];
         
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -314,7 +318,7 @@
 
 - (IBAction)backAction:(id)sender {
     [self.navigationController popToViewController:self.navigationController.viewControllers[1] animated:YES];
-    [[FUManager shareManager] destroyItemPoster];
+    [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeChangeface];
     
 }
 

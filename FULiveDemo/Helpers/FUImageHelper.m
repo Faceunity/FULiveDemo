@@ -172,6 +172,7 @@
     int RGBA = 4;
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     unsigned char *rawData = (unsigned char *) malloc(width0 * height0 * sizeof(unsigned char) * RGBA);
+    memset(rawData, 0, width0 * height0 * sizeof(unsigned char) * RGBA);
     NSUInteger bytesPerPixel = RGBA;
     NSUInteger bytesPerRow = bytesPerPixel * width0;
     NSUInteger bitsPerComponent = 8;
@@ -186,8 +187,6 @@
     CFRelease(myImageSource);
     return rawData;
     
-    
-
 }
 
 + (UIImage *) convertBitmapRGBA8ToUIImage:(unsigned char *) buffer

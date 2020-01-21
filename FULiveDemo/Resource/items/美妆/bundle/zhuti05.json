@@ -1,0 +1,36 @@
+{
+    "tex_brow": "zhuti5_eyebrow.png",
+    "brow_warp": 1.0,
+    "brow_warp_type": 1,
+    "makeup_eyeBrow_color": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    ],
+    "makeup_intensity_eyeBrow": 1.0,
+    "tex_shadow": "zhuti5_contour.png",
+    "makeup_shadow_color": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    ],
+    "makeup_intensity_shadow": 1.0
+}

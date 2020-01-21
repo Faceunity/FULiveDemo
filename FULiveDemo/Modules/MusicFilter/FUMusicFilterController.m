@@ -40,8 +40,6 @@
     /* 初始状态 */
     NSString *selectItem = self.model.items.count > 0 ? self.model.items[0] : @"noitem" ;
     self.itemsView.selectedItem = selectItem ;
-    [self itemsViewDidSelectedItem:selectItem];
-    [[FUMusicPlayer sharePlayer] playMusic:@"douyin.mp3"];
     
     self.photoBtn.transform = CGAffineTransformMakeTranslation(0, -36) ;
 }
@@ -55,6 +53,7 @@
     }else {
         [[FUManager shareManager] loadItem:self.itemsView.selectedItem completion:nil];
     }
+     [[FUMusicPlayer sharePlayer] playMusic:@"douyin.mp3"];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -80,6 +79,17 @@
     [[FUManager shareManager] musicFilterSetMusicTime];
 }
 
+
+-(void)headButtonViewSegmentedChange:(UIButton *)btn{
+    [super headButtonViewSwitchAction:btn];
+    [[FUMusicPlayer sharePlayer] playMusic:@"douyin.mp3"];
+}
+
+-(void)headButtonViewSwitchAction:(UIButton *)btn{
+    [super headButtonViewSwitchAction:btn];
+    [[FUMusicPlayer sharePlayer] playMusic:@"douyin.mp3"];
+}
+
 #pragma mark --- Observer
 
 - (void)addObserver{
@@ -89,7 +99,7 @@
 
 - (void)willResignActive{
     if (self.navigationController.visibleViewController == self) {
-        [[FUMusicPlayer sharePlayer] pause] ;
+        [[FUMusicPlayer sharePlayer] stop] ;
     }
 }
 
@@ -100,6 +110,10 @@
             [[FUMusicPlayer sharePlayer] playMusic:@"douyin.mp3"] ;
         }
     }
+}
+
+-(void)dealloc{
+    [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeItem];
 }
 
 @end

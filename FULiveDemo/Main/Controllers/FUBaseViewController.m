@@ -16,14 +16,18 @@
 #import "FUEditImageViewController.h"
 #import "FUImageHelper.h"
 #import "FURenderer.h"
+#import "FUSelectedImageController.h"
+#import <CoreMotion/CoreMotion.h>
 
+#import "FUPopupMenu.h"
 @interface FUBaseViewController ()<
 FUCameraDelegate,
 FUPhotoButtonDelegate,
 FUItemsViewDelegate,
 FULightingViewDelegate,
 UINavigationControllerDelegate,
-UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate
+UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate,
+FUPopupMenuDelegate
 >
 {
     dispatch_semaphore_t signal;
@@ -37,6 +41,15 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
 @property (strong, nonatomic) UILabel *buglyLabel;
 @property (strong, nonatomic) FULightingView *lightingView ;
 @property (strong, nonatomic) UIImageView *adjustImage;
+/* 分辨率 选中第几个项 */
+@property (assign, nonatomic) int selIndex;
+/* 当前 */
+@property (nonatomic, assign) int orientation;
+
+/* 监听屏幕方向 */
+@property (nonatomic, strong) CMMotionManager *motionManager;
+
+
 @end
 
 @implementation FUBaseViewController
@@ -49,9 +62,10 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
 
 -(void)viewDidLoad{
     [super viewDidLoad];
-    
     [self setupSubView];
 //    self.view.backgroundColor = [UIColor whiteColor];
+    /* 美颜道具 */
+    [[FUManager shareManager] loadFilter];
     
     //重置曝光值为0
     [self.mCamera setExposureValue:0];
@@ -67,13 +81,27 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchScreenAction:)];
     [self.renderView addGestureRecognizer:tap];
+    self.canPushImageSelView = YES;
+   
+    if ([self needSetMultiSamples]) {
+        fuSetMultiSamples(4);
+    }else{
+        fuSetMultiSamples(0);
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    /* 美颜道具 */
-    [[FUManager shareManager] loadFilter];
     [self.mCamera startCapture];
+    [_mCamera changeSessionPreset:AVCaptureSessionPreset1280x720];
+    /* 监听屏幕方向 */
+    [self startListeningDirectionOfDevice];
+    
+    dispatch_async([FUManager shareManager].asyncLoadQueue, ^{
+        int handle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeBeauty];
+        /* 单独美颜点位点位*/
+        [FURenderer itemSetParam:handle withName:@"landmarks_type" value:@(FUAITYPE_FACEPROCESSOR)];
+    });
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -84,6 +112,9 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
     
     /* 清一下信息，防止快速切换有人脸信息缓存 */
     [FURenderer onCameraChange];
+    
+    /* 监听屏幕方向 */
+    [self stopListeningDirectionOfDevice];
 }
 
 #pragma  mark -  UI
@@ -182,6 +213,8 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
     _photoBtn.delegate = self;
     [self.view addSubview:_photoBtn];
     
+    /* 默认选中720P index = 1 */
+    _selIndex = 1;
 }
 
 
@@ -205,8 +238,6 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
         // 聚焦 + 曝光
         self.mCamera.focusPoint = CGPointMake(center.y/self.view.bounds.size.height, self.mCamera.isFrontCamera ? center.x/self.view.bounds.size.width : 1 - center.x/self.view.bounds.size.width);
         self.mCamera.exposurePoint = CGPointMake(center.y/self.view.bounds.size.height, self.mCamera.isFrontCamera ? center.x/self.view.bounds.size.width : 1 - center.x/self.view.bounds.size.width);
-        
-    
         // UI
         adjustTime = CFAbsoluteTimeGetCurrent() ;
         self.adjustImage.center = center ;
@@ -241,7 +272,6 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
 -(void)headButtonViewBackAction:(UIButton *)btn{
     dispatch_semaphore_wait(signal, DISPATCH_TIME_FOREVER);
     [self.mCamera stopCapture];
-    [[FUManager shareManager] destoryItems];
     [[FUManager shareManager] onCameraChange];
     [self.navigationController popViewControllerAnimated:YES];
     
@@ -253,7 +283,16 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
 }
 
 -(void)headButtonViewSelImageAction:(UIButton *)btn{
-    [self didClickSelPhoto];
+    
+    if ([self onlyJumpImage]) {
+        [self fuPopupMenuDidSelectedImage];
+        return;
+    }
+    if (self.canPushImageSelView) {
+        [FUPopupMenu showRelyOnView:btn frame:CGRectMake(17, CGRectGetMaxY(self.headButtonView.frame) + 1 , 340, 132) defaultSelectedAtIndex:_selIndex onlyTop:NO delegate:self];
+    }else{
+        [FUPopupMenu showRelyOnView:btn frame:CGRectMake(17, CGRectGetMaxY(self.headButtonView.frame) + 1 , 340, 80) defaultSelectedAtIndex:_selIndex onlyTop:YES delegate:self];
+    }
 }
 
 -(void)headButtonViewBuglyAction:(UIButton *)btn{
@@ -266,9 +305,11 @@ UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerCon
     dispatch_after(delayTime, dispatch_get_main_queue(), ^(void){
         sender.userInteractionEnabled = YES ;
     });
-    
-    [self.mCamera changeCameraInputDeviceisFront:sender.selected];
-    
+    if (![self.mCamera supportsAVCaptureSessionPreset:sender.selected]) {//硬件不支持 降低一个分辨率
+        _selIndex = _selIndex - 1;
+        [self fuPopupMenuDidSelectedAtIndex:_selIndex];
+    }
+     [self.mCamera changeCameraInputDeviceisFront:sender.selected];
     /**切换摄像头要调用此函数*/
     [[FUManager shareManager] onCameraChange];
     sender.selected = !sender.selected ;
@@ -330,9 +371,10 @@ static CFAbsoluteTime adjustTime = 0 ;
 
 /*  停止录像    */
 - (void)stopRecord {
+       __weak typeof(self)weakSelf  = self ;
     [self.mCamera stopRecordWithCompletionHandler:^(NSString *videoPath) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            UISaveVideoAtPathToSavedPhotosAlbum(videoPath, self, @selector(video:didFinishSavingWithError:contextInfo:), NULL);
+            UISaveVideoAtPathToSavedPhotosAlbum(videoPath, weakSelf, @selector(video:didFinishSavingWithError:contextInfo:), NULL);
         });
     }];
 }
@@ -361,9 +403,12 @@ static  NSTimeInterval oldTime = 0;
 -(void)didOutputVideoSampleBuffer:(CMSampleBufferRef)sampleBuffer {
     
     CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) ;
-    NSTimeInterval startTime =  [[NSDate date] timeIntervalSince1970];
-    [[FUManager shareManager] renderItemsToPixelBuffer:pixelBuffer];
     
+
+    NSTimeInterval startTime =  [[NSDate date] timeIntervalSince1970];
+    if(!_openComp){//按住对比，不处理
+        [[FUManager shareManager] renderItemsToPixelBuffer:pixelBuffer];
+    }
     NSTimeInterval endTime = [[NSDate date] timeIntervalSince1970];
     /* renderTime */
     totalRenderTime += endTime - startTime;
@@ -374,16 +419,18 @@ static  NSTimeInterval oldTime = 0;
         mCaptureImage = [FUImageHelper imageFromPixelBuffer:pixelBuffer];
         dispatch_semaphore_signal(semaphore);
     }
-    
-    [self.renderView displayPixelBuffer:pixelBuffer];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        /**判断是否检测到人脸*/
-         [self displayPromptText];
 
-    }) ;
-
-//    NSLog(@"-------%@-------%@",NSStringFromCGPoint(self.mCamera.focusPoint),NSStringFromCGPoint(self.mCamera.exposurePoint));
+//    static float posterLandmarks[239* 2];
+//    int ret = [FURenderer getFaceInfo:0 name:@"landmarks_new" pret:posterLandmarks number:239* 2];
+//     if (ret == 0) {
+//         memset(posterLandmarks, 0, sizeof(float)*239* 2);
+//     }
+        [self.renderView displayPixelBuffer:pixelBuffer];
+//    [self.renderView displayPixelBuffer:pixelBuffer withLandmarks:posterLandmarks count:239* 2 MAX:NO];
     
+    /**判断是否检测到人脸*/
+     [self displayPromptText];
+
 }
 
 
@@ -405,15 +452,58 @@ static  NSTimeInterval oldTime = 0;
     }
 }
 
+#pragma  mark -  FUPopupMenuDelegate
+
+-(void)fuPopupMenuDidSelectedAtIndex:(NSInteger)index{
+    [FURenderer onCameraChange];
+    BOOL ret = NO;
+    _selIndex = (int)index;
+    switch (index) {
+        case 0:
+            ret = [self.mCamera changeSessionPreset:AVCaptureSessionPreset640x480];
+            break;
+        case 1:
+            ret = [self.mCamera changeSessionPreset:AVCaptureSessionPreset1280x720];
+            break;
+        case 2:
+            ret = [self.mCamera changeSessionPreset:AVCaptureSessionPreset1920x1080];
+            break;
+        default:
+            break;
+    }
+    
+    if (!ret) {
+        [SVProgressHUD showInfoWithStatus:@"摄像机不支持"];
+    }
+}
+
+-(void)fuPopupMenuDidSelectedImage{
+    [self didClickSelPhoto];
+}
+
 #pragma  mark -  子类差异实现
 
 -(void)didClickSelPhoto{
-    
+    FUSelectedImageController *vc = [[FUSelectedImageController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 -(void)displayPromptText{
-    self.noTrackLabel.text = NSLocalizedString(@"No_Face_Tracking",nil);
-    self.noTrackLabel.hidden = [[FUManager shareManager] isTracking];
+    BOOL isHaveFace = [[FUManager shareManager] isTracking];
+    dispatch_async(dispatch_get_main_queue(), ^{
+       self.noTrackLabel.text = NSLocalizedString(@"No_Face_Tracking",nil);
+       self.noTrackLabel.hidden = isHaveFace;
+    }) ;
+}
+
+/* 该功能，是否需要开启多重采样 */
+-(BOOL)needSetMultiSamples{
+    return NO;
+}
+     
+
+-(BOOL)onlyJumpImage{
+    return NO;
 }
 
 #pragma mark -  Observer
@@ -438,7 +528,71 @@ static  NSTimeInterval oldTime = 0;
 }
 
 
+
+#pragma  mark -  方向监听
+
+/// 开启屏幕旋转的检测
+- (void)startListeningDirectionOfDevice {
+    if (self.motionManager == nil) {
+        self.motionManager = [[CMMotionManager alloc] init];
+    }
+    self.motionManager.deviceMotionUpdateInterval = 0.3;
+    
+    // 判断设备传感器是否可用
+    if (self.motionManager.deviceMotionAvailable) {
+        // 启动设备的运动更新，通过给定的队列向给定的处理程序提供数据。
+        [self.motionManager startDeviceMotionUpdatesToQueue:[NSOperationQueue mainQueue] withHandler:^(CMDeviceMotion *motion, NSError *error) {
+            [self performSelectorOnMainThread:@selector(handleDeviceMotion:) withObject:motion waitUntilDone:YES];
+        }];
+    } else {
+        [self setMotionManager:nil];
+    }
+}
+
+- (void)stopListeningDirectionOfDevice {
+    if (_motionManager) {
+        [_motionManager stopDeviceMotionUpdates];
+        _motionManager = nil;
+    }
+}
+
+- (void)handleDeviceMotion:(CMDeviceMotion *)deviceMotion {
+
+    double x = deviceMotion.gravity.x;
+    double y = deviceMotion.gravity.y;
+    int orientation = 0;
+    
+    if (fabs(y) >= fabs(x)) {// 竖屏
+        if (y < 0) {
+            orientation = 0;
+        }
+        else {
+            orientation = 2;
+        }
+    }
+    else { // 横屏
+        if (x < 0) {
+           orientation = 1;
+        }
+        else {
+           orientation = 3;
+        }
+    }
+    
+    if (orientation != _orientation) {
+        self.orientation = orientation;
+    }
+    
+}
+
+-(void)setOrientation:(int)orientation{
+    _orientation = orientation;
+}
+
+
+
 -(void)dealloc{
+    [self stopListeningDirectionOfDevice];
     NSLog(@"----界面销毁");
 }
 

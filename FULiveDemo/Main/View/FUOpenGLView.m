@@ -548,7 +548,7 @@ enum
     const float h       = (height * dd / (float)bw) * 10/2;
     const float w       = (width  * dd / (float)bw) * 10/2;
     
-    for (int i = 0; i < count; i++)
+    for (int i = 0; i < count/2; i++)
     {
         if (self.disapplePointIndex == i) {
             continue ;
@@ -937,6 +937,50 @@ enum
         0.0f,  0.0f,
         1.0f,  0.0f,
     };
+    
+    if (_origintation == FUOpenGLViewOrientationPortrait) {
+        float quadTextureData0[] =  {
+                0.0f, 1.0f,
+                1.0f, 1.0f,
+                0.0f,  0.0f,
+                1.0f,  0.0f,
+        };
+        memcpy(quadTextureData, quadTextureData0, sizeof(quadTextureData));
+    }
+    
+    if (_origintation == FUOpenGLViewOrientationLandscapeRight) {
+        float quadTextureData0[] =  {
+            1.0f, 1.0f,
+            1.0f, 0.0f,
+            0.0f,  1.0f,
+            0.0f,  0.0f,
+        };
+        
+        memcpy(quadTextureData, quadTextureData0, sizeof(quadTextureData));
+    }
+    
+    if (_origintation == FUOpenGLViewOrientationPortraitUpsideDown) {
+        float quadTextureData0[] =  {
+            1.0f, 0.0f,
+            0.0f, 0.0f,
+            1.0f,  1.0f,
+            0.0f,  1.0f,
+        };
+        
+        memcpy(quadTextureData, quadTextureData0, sizeof(quadTextureData));
+    }
+    
+    if (_origintation == FUOpenGLViewOrientationLandscapeLeft) {
+        float quadTextureData0[] =  {
+            0.0f, 0.0f,
+            0.0f, 1.0f,
+            1.0f,  0.0f,
+            1.0f,  1.0f,
+        };
+        memcpy(quadTextureData, quadTextureData0, sizeof(quadTextureData));
+    }
+
+    
     
     glVertexAttribPointer(fuyuvConversionTextureCoordinateAttribute, 2, GL_FLOAT, 0, 0, quadTextureData);
     glEnableVertexAttribArray(fuyuvConversionTextureCoordinateAttribute);

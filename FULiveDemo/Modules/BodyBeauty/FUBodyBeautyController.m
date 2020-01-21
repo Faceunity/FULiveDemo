@@ -53,11 +53,15 @@
 
 
 -(void)displayPromptText{
-    self.noTrackLabel.text = NSLocalizedString(@"未检测到人体",nil);
     int handle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeBodySlim];
     int res    = [FURenderer getDoubleParamFromItem:handle withName:@"HasHuman"];
     
-    self.noTrackLabel.hidden = res > 0 ? YES : NO;
+    dispatch_async(dispatch_get_main_queue(), ^{
+            self.noTrackLabel.text = NSLocalizedString(@"未检测到人体",nil);
+           self.noTrackLabel.hidden = res > 0 ? YES : NO;
+    }) ;
+
+
 }
 
 #pragma  mark -  按钮点击
@@ -77,6 +81,8 @@
 }
 
 -(void)dealloc{
+     [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeBodySlim];
+    
     [self stopListeningDirectionOfDevice];
 }
 

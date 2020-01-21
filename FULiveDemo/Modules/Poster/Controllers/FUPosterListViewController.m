@@ -28,6 +28,8 @@ static NSString *registerID = @"PosterCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+
+
     _titleLabel.text = NSLocalizedString(@"海报换脸", nil);
     
     self.view.backgroundColor = [UIColor colorWithRed:9/255 green:0 blue:23/255 alpha:1.0];
@@ -120,6 +122,6 @@ static NSString *registerID = @"PosterCell";
 
 
 -(void)dealloc{
-    [[FUManager shareManager] destoryItems];
+    [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeChangeface];
 }
 @end

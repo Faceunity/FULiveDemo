@@ -49,6 +49,7 @@
 -(instancetype)initWithCoder:(NSCoder *)aDecoder{
     if (self = [super initWithCoder:aDecoder]) {
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
+        _interval = 8;
         // 设置按钮颜色
         // self.selected = NO;
         [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];

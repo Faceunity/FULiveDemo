@@ -8,13 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "FUSingleMakeupModel.h"
+#import "FUMakeupSupModel.h"
 
 @protocol FUMakeUpViewDelegate <NSObject>
 
 @optional
 
 /* 美妆样式图 */
-- (void)makeupViewDidSelectedNamaStr:(NSString *)namaStr imageName:(NSString *)imageName;
+- (void)makeupViewDidSelectedNamaStr:(NSString *)namaStr bundleName:(NSString *)bundleName;
 /* 妆容颜色 */
 - (void)makeupViewDidSelectedNamaStr:(NSString *)namaStr valueArr:(NSArray *)valueArr;
 // 滑动事件
@@ -31,11 +32,17 @@
 
 - (void)makeupSelColorStata:(BOOL)stata;
 
+/* 整体妆容模型数据 */
+-(void)makeupViewDidSelectedSupModle:(FUMakeupSupModel *)model;
+/* 修改参数 */
+-(void)makeupViewChangeValueSupModle:(FUMakeupSupModel *)model;
+
+
 @end
 
 @class FUMakeupSupModel;
 @interface FUMakeUpView : UIView
-@property (nonatomic, assign,readonly) int supIndex;
+@property (nonatomic, assign) int supIndex;
 @property (weak, nonatomic) IBOutlet UICollectionView *bottomCollection;
 @property (weak, nonatomic) IBOutlet UIView *topView;
 @property (weak, nonatomic) IBOutlet UIButton *noitemBtn;

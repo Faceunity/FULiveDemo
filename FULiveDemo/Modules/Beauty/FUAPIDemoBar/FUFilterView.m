@@ -7,9 +7,8 @@
 //
 
 #import "FUFilterView.h"
-#import "UIColor+FUDemoBar.h"
+#import "UIColor+FUAPIDemoBar.h"
 #import "UIImage+demobar.h"
-#import "NSString+DemoBar.h"
 
 @interface FUFilterView ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
@@ -17,17 +16,13 @@
 
 @implementation FUFilterView
 
--(instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        self.backgroundColor = [UIColor clearColor];
-        self.delegate = self;
-        self.dataSource = self ;
-        [self registerClass:[FUFilterCell class] forCellWithReuseIdentifier:@"FUFilterCell"];
-        
-        _selectedIndex = -1 ;
-    }
-    return self ;
+-(void)awakeFromNib{
+    self.backgroundColor = [UIColor clearColor];
+    self.delegate = self;
+    self.dataSource = self ;
+    [self registerClass:[FUFilterCell class] forCellWithReuseIdentifier:@"FUFilterCell"];
+    
+    _selectedIndex = 2 ;
 }
 
 -(void)setType:(FUFilterViewType)type {
@@ -40,21 +35,32 @@
     [self reloadData];
 }
 
+-(void)setDefaultFilter:(FUBeautyParam *)filter{
+    for (int i = 0; i < _filters.count; i ++) {
+        FUBeautyParam *model = _filters[i];
+        if (model == filter) {
+            self.selectedIndex = i;
+            return;
+        }
+    }
+}
+
+
 #pragma mark ---- UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.filterDataSource.count ;
+    return self.filters.count;
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     FUFilterCell *cell = (FUFilterCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"FUFilterCell" forIndexPath:indexPath];
     
-    NSString *filter = self.filterDataSource[indexPath.row];
-    NSString *text = _filtersCHName[filter] ? _filtersCHName[filter]:filter;
-    cell.titleLabel.text = [text LocalizableString] ;
+    FUBeautyParam *model = _filters[indexPath.row];
+    
+    cell.titleLabel.text = NSLocalizedString(model.mTitle,nil);
     cell.titleLabel.textColor = [UIColor whiteColor];
-    cell.imageView.image = [UIImage imageWithName:[filter lowercaseString]];
+    cell.imageView.image = [UIImage imageWithName:model.mParam];
     
     cell.imageView.layer.borderWidth = 0.0 ;
     cell.imageView.layer.borderColor = [UIColor clearColor].CGColor;
@@ -76,10 +82,10 @@
     _selectedIndex = indexPath.row ;
     [self reloadData];
     
-    NSString *filter = self.filterDataSource[indexPath.row] ;
+    FUBeautyParam *model = _filters[indexPath.row];
     
-    if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(filterViewDidSelectedFilter:Type:)]) {
-        [self.mDelegate filterViewDidSelectedFilter:filter Type:self.type];
+    if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(filterViewDidSelectedFilter:)]) {
+        [self.mDelegate filterViewDidSelectedFilter:model];
     }
 }
 
@@ -101,7 +107,7 @@
         self.imageView.layer.borderColor = [UIColor clearColor].CGColor ;
         [self addSubview:self.imageView];
         
-        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 54, 54, frame.size.height - 54)];
+        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(-8, 54, 70, frame.size.height - 54)];
         self.titleLabel.textAlignment = NSTextAlignmentCenter ;
         self.titleLabel.font = [UIFont systemFontOfSize:10];
         [self addSubview:self.titleLabel];

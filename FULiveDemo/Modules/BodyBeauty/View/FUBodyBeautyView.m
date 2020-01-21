@@ -56,7 +56,7 @@ static NSString *positionCellID = @"positionCell";
     _slider = [[FUSlider alloc] initWithFrame:CGRectMake(56, 20, [UIScreen mainScreen].bounds.size.width  - 112, 20)];
     [_slider addTarget:self action:@selector(sliderChangeValue:) forControlEvents:UIControlEventValueChanged];
     [_slider addTarget:self action:@selector(sliderChangeEnd:) forControlEvents:UIControlEventTouchUpInside];
-    _slider.type = FUFilterSliderTypeFilter;
+    _slider.type = FUFilterSliderType01;
     [self addSubview:_slider];
     
     _btn = [[FUSquareButton alloc] initWithFrame:CGRectMake(17, CGRectGetMaxY(_slider.frame) + 18, 50, 60) interval:6];
@@ -189,9 +189,9 @@ static NSString *positionCellID = @"positionCell";
 -(void)setSliderState:(FUPosition *)position{
     _slider.hidden = NO;
     if (position.type == FUPositionTypeshoulder) {//不同的样式
-        _slider.type = FUFilterSliderTypeMouth;
+        _slider.type = FUFilterSliderType101;
     }else{
-        _slider.type = FUFilterSliderTypeFilter;
+        _slider.type = FUFilterSliderType01;
     }
     
     _slider.value = position.value;

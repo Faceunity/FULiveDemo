@@ -7,12 +7,12 @@
 //
 
 #import "UIImage+demobar.h"
-#import "FUDemoBar.h"
+#import "FUAPIDemoBar.h"
 
 @implementation UIImage (demobar)
 
 + (UIImage *)imageWithName:(NSString *)name {
-    UIImage *image = [UIImage imageNamed:name inBundle:[NSBundle bundleForClass:FUDemoBar.class] compatibleWithTraitCollection:nil];
+    UIImage *image = [UIImage imageNamed:name inBundle:[NSBundle bundleForClass:FUAPIDemoBar.class] compatibleWithTraitCollection:nil];
     if (image == nil) {
         image = [UIImage imageNamed:name];
     }

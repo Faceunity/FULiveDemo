@@ -33,6 +33,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) FUOpenGLView *renderView;
 @property (strong, nonatomic) UILabel *noTrackLabel;
 @property (strong, nonatomic) UILabel *tipLabel;
+/* 是否开启比对 */
+@property (assign, nonatomic) BOOL openComp;
+
+/* 可以跳转到导入图片 */
+@property (assign, nonatomic) BOOL canPushImageSelView;
 
 /* 子类重载，实现差异逻辑 */
 -(void)takePhotoToSave:(UIImage *)image;//拍照保存
@@ -41,6 +46,15 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)didClickSelPhoto;
 
 -(void)displayPromptText;
+
+-(BOOL)onlyJumpImage;
+
+/* 该模块，是否需要开启多重采样 */
+-(BOOL)needSetMultiSamples;
+
+///  屏幕方向改变
+/// @param orientation 方向
+-(void)setOrientation:(int)orientation;
 
 @end
 

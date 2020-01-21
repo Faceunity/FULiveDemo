@@ -27,6 +27,30 @@
     return _sharePlayer;
 }
 
+-(instancetype)init{
+     if (self = [super init]) {
+         [self setupAudioSession];
+     }
+    return self;
+}
+
+- (void)setupAudioSession {
+
+        static BOOL audioSessionSetup = NO;
+        if (audioSessionSetup) {
+                return;
+        }
+        [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayAndRecord error: nil];
+        UInt32 doSetProperty = 1;
+
+        AudioSessionSetProperty (kAudioSessionProperty_OverrideCategoryMixWithOthers, sizeof(doSetProperty), &doSetProperty);
+
+        [[AVAudioSession sharedInstance] setActive: YES error: nil];
+
+         audioSessionSetup = YES;
+
+}
+
 - (void)setEnable:(BOOL)enable{
     if (_enable == enable) {
         return;

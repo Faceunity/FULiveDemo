@@ -10,13 +10,13 @@
 
 typedef NS_ENUM(NSUInteger, FULiveModelType) {
     FULiveModelTypeBeautifyFace             = 0,
+    FULiveModelTypeBody,
     FULiveModelTypeMakeUp,
     FULiveModelTypeItems,
     FULiveModelTypeAnimoji,
-    FULiveModelTypeBody,
+    FULiveModelTypeLightMakeup,
     FULiveModelTypeHair,
     FULiveModelTypeARMarsk,
-    FULiveModelTypeFaceChange,
     FULiveModelTypePoster,//海报换脸
     FULiveModelTypeExpressionRecognition,
     FULiveModelTypeMusicFilter,

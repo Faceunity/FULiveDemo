@@ -22,10 +22,11 @@
     // Do any additional setup after loading the view.
     
     [self setupView];
+    
+    self.headButtonView.selectedImageBtn.hidden = NO;
 }
 
 -(void)setupView{
-    self.headButtonView.selectedImageBtn.hidden = NO;
     [self.headButtonView.mHomeBtn setImage:[UIImage imageNamed:@"save_nav_back_n"] forState:UIControlStateNormal];
     
     [self.photoBtn setType:FUPhotoButtonTypeTakePhoto];

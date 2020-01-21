@@ -55,7 +55,7 @@ typedef NS_ENUM(NSUInteger, FUHairModel) {
     [[FUManager shareManager] setHairColor:0];
     [[FUManager shareManager] setHairStrength:0.5];
     _currentModle = FUHairModelModelGradient;
-    [[FUManager shareManager] loadBundleWithName:@"hair_model_h" aboutType:FUNamaHandleTypeHairModel];
+
     
    /* 美发模式切换 */
 //    FUSwitch *swit = [[FUSwitch alloc] initWithFrame:CGRectMake(60, 150, 86, 32) onColor:[UIColor colorWithRed:31 / 255.0 green:178 / 255.0 blue:255 / 255.0 alpha:1.0] offColor:[UIColor colorWithRed:31 / 255.0 green:178 / 255.0 blue:255 / 255.0 alpha:1.0] font:[UIFont systemFontOfSize:13] ballSize:30];
@@ -89,7 +89,7 @@ typedef NS_ENUM(NSUInteger, FUHairModel) {
             [[FUManager shareManager] setHairStrength:self.hairView.slider.value];
         }else{
             if (_currentModle != FUHairModelModelNormal) {
-                [[FUManager shareManager] loadItem:@"hair_color" completion:nil];
+                [[FUManager shareManager] loadItem:@"hair_normal" completion:nil];
                 _currentModle = FUHairModelModelNormal;
             }
             [[FUManager shareManager] setHairColor:(int)index - 5];
@@ -105,27 +105,20 @@ typedef NS_ENUM(NSUInteger, FUHairModel) {
 
 #pragma  mark -  action
 
-/* 切换不同的hairModle */
-- (void)switchSex:(FUSwitch *)swit{
-    if (swit.isOn) {
-        [[FUManager shareManager] loadBundleWithName:@"hair_model_h" aboutType:FUNamaHandleTypeHairModel];
-        [self showMessage:NSLocalizedString(@"开启极速版", nil)];
-    }else{
-        [[FUManager shareManager] loadBundleWithName:@"hair_model_n" aboutType:FUNamaHandleTypeHairModel];
-         [self showMessage:NSLocalizedString(@"开启高精版", nil)];
-    }
-}
-
 - (void)showMessage:(NSString *)string{
     //[SVProgressHUD showWithStatus:string]; //设置需要显示的文字
     [SVProgressHUD showImage:[UIImage imageNamed:@"wrt424erte2342rx"] status:string];
     [SVProgressHUD setDefaultAnimationType:SVProgressHUDAnimationTypeNative];
-    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeCustom]; //设置HUD背景图层的样式
+//    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeCustom]; //设置HUD背景图层的样式
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [SVProgressHUD setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.74]];
     [SVProgressHUD setBackgroundLayerColor:[UIColor clearColor]];
     [SVProgressHUD setCornerRadius:5];
     [SVProgressHUD dismissWithDelay:1.5];
+}
+
+-(void)dealloc{
+        [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeItem];
 }
 
 
