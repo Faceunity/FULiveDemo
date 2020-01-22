@@ -79,9 +79,8 @@
     [[FUManager shareManager] musicFilterSetMusicTime];
 }
 
-
--(void)headButtonViewSegmentedChange:(UIButton *)btn{
-    [super headButtonViewSwitchAction:btn];
+-(void)headButtonViewSegmentedChange:(UISegmentedControl *)sender{
+    [super headButtonViewSegmentedChange:sender];
     [[FUMusicPlayer sharePlayer] playMusic:@"douyin.mp3"];
 }
 
