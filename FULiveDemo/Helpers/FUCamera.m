@@ -72,8 +72,10 @@ typedef void(^FUCameraRecordVidepCompleted)(NSString *videoPath);
         hasStarted = YES;
 //        [self addAudio];
         [self.captureSession startRunning];
-//        self.exposurePoint = CGPointMake(0.49, 0.5);
-//        self.focusPoint = CGPointMake(0.49, 0.5);
+        /* 设置曝光中点 */
+        [self focusWithMode:AVCaptureFocusModeContinuousAutoFocus exposeWithMode:AVCaptureExposureModeContinuousAutoExposure atDevicePoint:CGPointMake(0.5, 0.5) monitorSubjectAreaChange:YES];
+
+    
     }
 }
 
@@ -225,15 +227,23 @@ typedef void(^FUCameraRecordVidepCompleted)(NSString *videoPath);
         [self.captureSession removeInput:self.backCameraInput];
         if ([self.captureSession canAddInput:self.frontCameraInput]) {
             [self.captureSession addInput:self.frontCameraInput];
+            
+            [[NSNotificationCenter defaultCenter] removeObserver:self name:AVCaptureDeviceSubjectAreaDidChangeNotification object:self.backCameraInput];
+            
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(subjectAreaDidChange:) name:AVCaptureDeviceSubjectAreaDidChangeNotification object:_frontCameraInput];
         }
         self.cameraPosition = AVCaptureDevicePositionFront;
     }else {
         [self.captureSession removeInput:self.frontCameraInput];
         if ([self.captureSession canAddInput:self.backCameraInput]) {
             [self.captureSession addInput:self.backCameraInput];
+            [[NSNotificationCenter defaultCenter] removeObserver:self name:AVCaptureDeviceSubjectAreaDidChangeNotification object:self.frontCameraInput];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(subjectAreaDidChange:) name:AVCaptureDeviceSubjectAreaDidChangeNotification object:_backCameraInput];
         }
         self.cameraPosition = AVCaptureDevicePositionBack;
     }
+    
+
     
     AVCaptureDeviceInput *deviceInput = isFront ? self.frontCameraInput:self.backCameraInput;
     
@@ -275,6 +285,8 @@ typedef void(^FUCameraRecordVidepCompleted)(NSString *videoPath);
             if ([device position] == self.cameraPosition)
             {
                 _camera = device;
+                
+                [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(subjectAreaDidChange:) name:AVCaptureDeviceSubjectAreaDidChangeNotification object:_camera];
             }
         }
     }
@@ -339,62 +351,6 @@ typedef void(^FUCameraRecordVidepCompleted)(NSString *videoPath);
     
 }
 
-/* AVCaptureFocusModeAutoFocus 会锁定对焦 */
-- (void)setFocusPoint:(CGPoint)focusPoint{
-    // NSLog(@"camera----对焦点----%@",NSStringFromCGPoint(focusPoint));
-    _focusPoint = focusPoint;
-    if (!self.focusPointSupported) {
-        return;
-    }
-
-    NSError *error = nil;
-    if (![self.camera lockForConfiguration:&error]) {
-        NSLog(@"Failed to set focus point: %@", [error localizedDescription]);
-        return;
-    }
-
-    self.camera.focusPointOfInterest = focusPoint;
-    self.camera.focusMode = AVCaptureFocusModeContinuousAutoFocus;
-    [self.camera unlockForConfiguration];
-}
-
-/* 这里使用持续调整曝光模式，可以通过KVO “adjustingExposure” 监视摄像头*/
-- (void)setExposurePoint:(CGPoint)exposurePoint{
-    _exposurePoint = exposurePoint;
-   // NSLog(@"camera----曝光点----%@",NSStringFromCGPoint(exposurePoint));
-    if (!self.exposurePointSupported) {
-        return;
-    }
-
-    NSError *error = nil;
-    if (![self.camera lockForConfiguration:&error]) {
-        NSLog(@"Failed to set exposure point: %@", [error localizedDescription]);
-        return;
-    }
-    self.camera.exposurePointOfInterest = exposurePoint;
-    self.camera.exposureMode = AVCaptureExposureModeContinuousAutoExposure;
-    [self.camera unlockForConfiguration];
-}
-
-/**
- 设置白平衡模式
- 
- @param whiteBalanceMode modle
- */
-- (void)setWhiteBalanceMode:(AVCaptureWhiteBalanceMode)whiteBalanceMode{
-    if ([self.camera isWhiteBalanceModeSupported:whiteBalanceMode]) {
-        NSError *error;
-        if (![self.camera lockForConfiguration:&error]) {
-            [self.camera setWhiteBalanceMode:whiteBalanceMode];
-            [self.camera unlockForConfiguration];
-            NSLog(@"Failed to set whiteBalanceMode: %@", error);
-            return;
-        }
-        [self.camera setWhiteBalanceMode:whiteBalanceMode];
-        [self.camera unlockForConfiguration];
-    }
-}
-
 /**
  * 切换回连续对焦和曝光模式
  * 中心店对焦和曝光(centerPoint)
@@ -426,18 +382,29 @@ typedef void(^FUCameraRecordVidepCompleted)(NSString *videoPath);
 }
 
 
--(void)cameraChangeISO:(CGFloat)iso{
-    
-    AVCaptureDevice *captureDevice = self.camera;
+- (void)subjectAreaDidChange:(NSNotification *)notification
+{
+    dispatch_async(self.videoCaptureQueue, ^{
+        CGPoint devicePoint = CGPointMake(0.5, 0.5);
+        [self focusWithMode:AVCaptureFocusModeContinuousAutoFocus exposeWithMode:AVCaptureExposureModeContinuousAutoExposure atDevicePoint:devicePoint monitorSubjectAreaChange:YES];
+
+        if ([self.delegate respondsToSelector:@selector(cameraSubjectAreaDidChange)]) {
+            [self.delegate cameraSubjectAreaDidChange];
+        }
+    });
+
+}
+
+
+#pragma  mark -  曝光补偿
+- (void)setExposureValue:(float)value {
+//    NSLog(@"camera----曝光值----%lf",value);
     NSError *error;
-    if ([captureDevice lockForConfiguration:&error]) {
-        
-        //        CGFloat minISO = captureDevice.activeFormat.minISO;
-        //        CGFloat maxISO = captureDevice.activeFormat.maxISO;
-        [captureDevice setExposureModeCustomWithDuration:AVCaptureExposureDurationCurrent  ISO:iso completionHandler:nil];
-        [captureDevice unlockForConfiguration];
+    if ([self.camera lockForConfiguration:&error]){
+        [self.camera setExposureMode:AVCaptureExposureModeContinuousAutoExposure];
+        [self.camera setExposureTargetBias:value completionHandler:nil];
+        [self.camera unlockForConfiguration];
     }else{
-        NSLog(@"handle the error appropriately");
     }
 }
 
@@ -496,21 +463,6 @@ typedef void(^FUCameraRecordVidepCompleted)(NSString *videoPath);
         }
     }
 }
-
-#pragma  mark -  HDR
-
--(void)cameraVideoHDREnabled:(BOOL)videoHDREnabled{
-    AVCaptureDevice *captureDevice = self.camera;
-    NSError *error;
-    if ([captureDevice lockForConfiguration:&error]) {
-        //NSLog(@"automaticallyAdjustsVideoHDREnabled >>>>>==%d",captureDevice.automaticallyAdjustsVideoHDREnabled);
-        captureDevice.automaticallyAdjustsVideoHDREnabled = videoHDREnabled;
-        [captureDevice unlockForConfiguration];
-        
-    }else{
-    }
-}
-
 
 - (BOOL)focusPointSupported
 {
@@ -712,18 +664,42 @@ typedef void(^FUCameraRecordVidepCompleted)(NSString *videoPath);
 
 }
 
-- (void)setExposureValue:(float)value {
-//    NSLog(@"camera----曝光值----%lf",value);
-    NSError *error;
-    if ([self.camera lockForConfiguration:&error]){
-        [self.camera setExposureMode:AVCaptureExposureModeContinuousAutoExposure];
-        [self.camera setExposureTargetBias:value completionHandler:nil];
-        [self.camera unlockForConfiguration];
-    }else{
-    }
+
+
+- (void)focusWithMode:(AVCaptureFocusMode)focusMode exposeWithMode:(AVCaptureExposureMode)exposureMode atDevicePoint:(CGPoint)point monitorSubjectAreaChange:(BOOL)monitorSubjectAreaChange
+{
+    dispatch_async(self.videoCaptureQueue, ^{
+        AVCaptureDevice *device = self.camera;
+
+        NSError *error = nil;
+        if ( [device lockForConfiguration:&error] ) {
+            // Setting (focus/exposure)PointOfInterest alone does not initiate a (focus/exposure) operation.
+            // Call -set(Focus/Exposure)Mode: to apply the new point of interest.
+            if ( device.isFocusPointOfInterestSupported && [device isFocusModeSupported:focusMode] ) {
+                device.focusPointOfInterest = point;
+                device.focusMode = focusMode;
+            }
+
+            if ( device.isExposurePointOfInterestSupported && [device isExposureModeSupported:exposureMode] ) {
+                device.exposurePointOfInterest = point;
+                device.exposureMode = exposureMode;
+            }
+        
+            NSLog(@"---point --%@",NSStringFromCGPoint(point));
+            
+            device.subjectAreaChangeMonitoringEnabled = monitorSubjectAreaChange;
+            [device unlockForConfiguration];
+        }
+        else {
+            NSLog( @"Could not lock device for configuration: %@", error );
+        }
+    });
 }
 
+
 - (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
     NSLog(@"camera dealloc");
 }
 @end

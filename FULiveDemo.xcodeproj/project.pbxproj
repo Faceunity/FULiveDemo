@@ -3373,7 +3373,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 23;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3404,7 +3404,7 @@
 					"\"QuartzCore\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.fu.fulivedemo;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = FULiveDemo;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64e armv7 armv7s arm64";
@@ -3423,6 +3423,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 23;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3453,7 +3454,7 @@
 					"\"QuartzCore\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.fu.fulivedemo;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = FULiveDemo;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64e armv7 armv7s arm64";
