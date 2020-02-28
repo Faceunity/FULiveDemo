@@ -20,6 +20,12 @@
 #import <CoreMotion/CoreMotion.h>
 
 #import "FUPopupMenu.h"
+
+typedef NS_ENUM( NSInteger, FUCameraFocusModel) {
+    FUCameraModelAutoFace,
+    FUCameraModelChangeless
+};
+
 @interface FUBaseViewController ()<
 FUCameraDelegate,
 FUPhotoButtonDelegate,
@@ -27,12 +33,15 @@ FUItemsViewDelegate,
 FULightingViewDelegate,
 UINavigationControllerDelegate,
 UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate,
-FUPopupMenuDelegate
+FUPopupMenuDelegate,
+UIGestureRecognizerDelegate
 >
 {
     dispatch_semaphore_t signal;
     dispatch_semaphore_t semaphore;
     UIImage *mCaptureImage;
+    float imageW ;
+    float imageH;
 }
 @property (strong, nonatomic) FUCamera *mCamera ;
 //@property (strong, nonatomic) FUOpenGLView *renderView;
@@ -49,7 +58,7 @@ FUPopupMenuDelegate
 /* 监听屏幕方向 */
 @property (nonatomic, strong) CMMotionManager *motionManager;
 
-
+@property (nonatomic) FUCameraFocusModel cameraFocusModel;
 @end
 
 @implementation FUBaseViewController
@@ -69,6 +78,7 @@ FUPopupMenuDelegate
     
     //重置曝光值为0
     [self.mCamera setExposureValue:0];
+    _cameraFocusModel = FUCameraModelAutoFace;
     [self setupLightingValue];
     /* 道具切信号 */
     signal = dispatch_semaphore_create(1);
@@ -80,8 +90,10 @@ FUPopupMenuDelegate
     [FUManager shareManager].enableMaxFaces = self.model.maxFace == 4;
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchScreenAction:)];
+    tap.delegate = self;
     [self.renderView addGestureRecognizer:tap];
     self.canPushImageSelView = YES;
+//    self.renderView.contentMode = FUOpenGLViewContentModeScaleAspectFit;
    
     if ([self needSetMultiSamples]) {
         fuSetMultiSamples(4);
@@ -112,7 +124,6 @@ FUPopupMenuDelegate
     
     /* 清一下信息，防止快速切换有人脸信息缓存 */
     [FURenderer onCameraChange];
-    
     /* 监听屏幕方向 */
     [self stopListeningDirectionOfDevice];
 }
@@ -234,10 +245,9 @@ FUPopupMenuDelegate
             self.lightingView.hidden = NO ;
         }
         
+        _cameraFocusModel = FUCameraModelChangeless;
         CGPoint center = [tap locationInView:self.renderView];
-        // 聚焦 + 曝光
-        self.mCamera.focusPoint = CGPointMake(center.y/self.view.bounds.size.height, self.mCamera.isFrontCamera ? center.x/self.view.bounds.size.width : 1 - center.x/self.view.bounds.size.width);
-        self.mCamera.exposurePoint = CGPointMake(center.y/self.view.bounds.size.height, self.mCamera.isFrontCamera ? center.x/self.view.bounds.size.width : 1 - center.x/self.view.bounds.size.width);
+        
         // UI
         adjustTime = CFAbsoluteTimeGetCurrent() ;
         self.adjustImage.center = center ;
@@ -247,6 +257,37 @@ FUPopupMenuDelegate
         }completion:^(BOOL finished) {
             [self hiddenAdjustViewWithTime:1.0];
         }];
+
+        if (self.renderView.contentMode == FUOpenGLViewContentModeScaleToFill) {
+                float scal2 = imageH/imageW;
+                
+                float apaceLead = (self.view.bounds.size.height / scal2 - self.view.bounds.size.width )/2;
+                float imagecW = self.view.bounds.size.width + 2 * apaceLead;
+                center.x = center.x + apaceLead;
+            
+            if (center.y > 0) {
+                CGPoint point = CGPointMake(center.y/self.view.bounds.size.height, self.mCamera.isFrontCamera ? center.x/imagecW : 1 - center.x/imagecW);
+                [self.mCamera focusWithMode:AVCaptureFocusModeContinuousAutoFocus exposeWithMode:AVCaptureExposureModeContinuousAutoExposure atDevicePoint:point monitorSubjectAreaChange:YES];
+            }
+        }else if(self.renderView.contentMode == FUOpenGLViewContentModeScaleAspectFit){
+
+            float scal2 = imageH/imageW;
+            
+            float apaceTOP = (self.view.bounds.size.height - self.view.bounds.size.width * scal2)/2;
+            float imagecH = self.view.bounds.size.height - 2 * apaceTOP;
+            center.y = center.y - apaceTOP;
+        
+            if (center.y > 0) {
+                CGPoint point = CGPointMake(center.y/imagecH, self.mCamera.isFrontCamera ? center.x/self.view.bounds.size.width : 1 - center.x/self.view.bounds.size.width);
+                [self.mCamera focusWithMode:AVCaptureFocusModeContinuousAutoFocus exposeWithMode:AVCaptureExposureModeContinuousAutoExposure atDevicePoint:point monitorSubjectAreaChange:YES];
+            }
+
+
+        }else{
+            CGPoint point = CGPointMake(center.y/self.view.bounds.size.height, self.mCamera.isFrontCamera ? center.x/self.view.bounds.size.width : 1 - center.x/self.view.bounds.size.width);
+            [self.mCamera focusWithMode:AVCaptureFocusModeContinuousAutoFocus exposeWithMode:AVCaptureExposureModeContinuousAutoExposure atDevicePoint:point monitorSubjectAreaChange:YES];
+        }
+
     }
 }
 
@@ -400,11 +441,12 @@ static CFAbsoluteTime adjustTime = 0 ;
 static int rate = 0;
 static NSTimeInterval totalRenderTime = 0;
 static  NSTimeInterval oldTime = 0;
+static int faceframe = 60;
 -(void)didOutputVideoSampleBuffer:(CMSampleBufferRef)sampleBuffer {
     
     CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) ;
-    
-
+    imageW = CVPixelBufferGetWidth(pixelBuffer);
+    imageH = CVPixelBufferGetHeight(pixelBuffer);
     NSTimeInterval startTime =  [[NSDate date] timeIntervalSince1970];
     if(!_openComp){//按住对比，不处理
         [[FUManager shareManager] renderItemsToPixelBuffer:pixelBuffer];
@@ -419,20 +461,70 @@ static  NSTimeInterval oldTime = 0;
         mCaptureImage = [FUImageHelper imageFromPixelBuffer:pixelBuffer];
         dispatch_semaphore_signal(semaphore);
     }
-
-//    static float posterLandmarks[239* 2];
-//    int ret = [FURenderer getFaceInfo:0 name:@"landmarks_new" pret:posterLandmarks number:239* 2];
-//     if (ret == 0) {
-//         memset(posterLandmarks, 0, sizeof(float)*239* 2);
-//     }
-        [self.renderView displayPixelBuffer:pixelBuffer];
-//    [self.renderView displayPixelBuffer:pixelBuffer withLandmarks:posterLandmarks count:239* 2 MAX:NO];
+ 
+    [self cameraFocusAndExpose];
     
+    [self.renderView displayPixelBuffer:pixelBuffer];
+//    [self.renderView displayPixelBuffer:pixelBuffer withLandmarks:cetera count:2 MAX:NO];
     /**判断是否检测到人脸*/
      [self displayPromptText];
-
 }
 
+-(void)cameraSubjectAreaDidChange{
+    _cameraFocusModel = FUCameraModelAutoFace;
+}
+
+#pragma  mark -  人脸曝光逻辑
+//主题区域发生了变化，60帧人脸检测对焦人脸
+-(void)cameraFocusAndExpose{
+    if (_cameraFocusModel == FUCameraModelAutoFace) {
+        BOOL isHaveFace = [[FUManager shareManager] isTracking];
+        if (isHaveFace) {
+            [self cameraFocusAndExposeFace];
+        }
+        faceframe --;
+        if (faceframe == 0) {
+            faceframe = 60;
+            _cameraFocusModel = FUCameraModelChangeless;
+            NSLog(@"------取消人脸对焦----");
+        }
+    }
+}
+
+-(void)cameraFocusAndExposeFace{
+    NSLog(@"------人脸对焦----");
+    static float posterLandmarks[239* 2];
+    int ret = [FURenderer getFaceInfo:0 name:@"landmarks" pret:posterLandmarks number:75* 2];
+     if (ret == 0) {
+        ret = [FURenderer getFaceInfo:0 name:@"landmarks_new" pret:posterLandmarks number:239* 2];
+         if (ret == 0) {
+             memset(posterLandmarks, 0, sizeof(float)*239* 2);
+         }
+     }
+    
+    CGPoint center = [self getCenterFromeLandmarks:posterLandmarks];
+    
+    if (center.y > 0) {
+        CGPoint point = CGPointMake(center.y/imageH, self.mCamera.isFrontCamera ? center.x/imageW : 1 - center.x/imageW);
+        [self.mCamera focusWithMode:AVCaptureFocusModeContinuousAutoFocus exposeWithMode:AVCaptureExposureModeContinuousAutoExposure atDevicePoint:point monitorSubjectAreaChange:YES];
+    }
+    
+}
+
+
+-(CGPoint)getCenterFromeLandmarks:(float *)Landmarks{
+    float min_x = 10000,min_y =10000,max_x =0 ,max_y=0;
+    for(int i = 0;i<75;i++){
+        min_x = MIN(min_x,Landmarks[i*2+0]);
+        min_y = MIN(min_y,Landmarks[i*2+1]);
+        max_x = MAX(max_x,Landmarks[i*2+0]);
+        max_y = MAX(max_y,Landmarks[i*2+1]);
+    }
+    CGPoint center=CGPointMake((min_x + max_x)/2.0, (min_y + max_y)/2.0);
+    return center;
+}
+
+#pragma  mark -  刷新bugly text
 
 // 更新视频参数栏
 -(void)updateVideoParametersText:(NSTimeInterval)startTime bufferRef:(CVPixelBufferRef)pixelBuffer{
@@ -524,6 +616,7 @@ static  NSTimeInterval oldTime = 0;
 - (void)didBecomeActive{
     if (self.navigationController.visibleViewController == self) {
         [self.mCamera startCapture];
+        _cameraFocusModel = FUCameraModelAutoFace;
     }
 }
 

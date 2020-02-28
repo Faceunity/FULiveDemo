@@ -67,7 +67,7 @@
             make.bottom.equalTo(self.view.mas_bottom);
         }
         make.left.right.equalTo(self.view);
-        make.height.mas_equalTo(231);
+        make.height.mas_equalTo(49);
     }];
     
     /* 比对按钮 */
@@ -121,7 +121,18 @@
 }
 
 -(void)showTopView:(BOOL)shown{
-    [self setPhotoScaleWithHeight:self.demoBar.frame.size.height show:shown];
+    float h = shown?231:49;
+     [_demoBar mas_updateConstraints:^(MASConstraintMaker *make) {
+        if (@available(iOS 11.0, *)) {
+            make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
+        } else {
+            make.bottom.equalTo(self.view.mas_bottom);
+        }
+        make.left.right.equalTo(self.view);
+        make.height.mas_equalTo(h);
+    }];
+
+    [self setPhotoScaleWithHeight:h show:shown];
 }
 
 -(void)filterShowMessage:(NSString *)message{

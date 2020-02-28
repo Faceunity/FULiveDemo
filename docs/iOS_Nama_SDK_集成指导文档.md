@@ -859,3 +859,27 @@ __高级镜像__
 
 
 
+#### 5.3 相机曝光异常问题
+
+曝光问题主要相机采集问题和SDK无关，FULivemo主要策略是：__相机主题区域发生了变化，对焦图片中点，并且进入人脸对焦，人脸对焦只在进行变化后60帧内检测，检测到人脸设置人脸中点为曝光点，无人脸不需要设置__
+
+ 场景1：使用我们提供的__FUCamera__采集。
+
+- 需要在实现 相机主题区域发生了变化代理函数，
+- 视频处理函数中，添加人脸对焦逻辑代码，源码参考：__FULivemo__
+
+ 场景2：使用第三方采集,或者自己采集
+
+- 需要提供 相机主题区域发生了变化代理函数，
+- 视频处理函数中，添加人脸对焦逻辑代码
+
+主要对焦点曝光点设置，参考接口
+```
+/// 设置曝光模式和兴趣点
+/// @param focusMode 对焦模式
+/// @param exposureMode 曝光模式
+/// @param point 兴趣点
+/// @param monitorSubjectAreaChange   是否监听主题变化
+- (void)focusWithMode:(AVCaptureFocusMode)focusMode exposeWithMode:(AVCaptureExposureMode)exposureMode atDevicePoint:(CGPoint)point monitorSubjectAreaChange:(BOOL)monitorSubjectAreaChange;
+  
+```
