@@ -1,5 +1,8 @@
 .DS_Store
 
+FULiveDemo/Lib/FaceUnity-SDK-iOS/libnama.a
+FULiveDemo/Lib/FaceUnity-SDK-iOS/libfuai.a
+
 ## Xcode Various settings
 *.pbxuser
 !default.pbxuser
