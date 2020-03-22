@@ -1,19 +1,27 @@
+.DS_Store
 
-FULiveDemo/.DS_Store
+## Xcode Various settings
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
 
-*/xcuserdata/*
+## Other
+*.moved-aside
+*.xccheckout
+*.xcscmblueprint
 
-*.xcuserstate
-*.DS_Store
-FULiveDemo/DemoCode/.DS_Store
+## Obj-C/Swift specific
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
 
-FULiveDemo/DemoCode/.DS_Store
-
-FULiveDemo/Faceunity/.DS_Store
-
-FULiveDemo/Faceunity/FaceUnity-SDK-iOS/.DS_Store
-fastlane/*
+fastlane/
 Gemfile
 Gemfile.lock
-FULiveDemo.ipa
-FULiveDemo.app.dSYM.zip
