@@ -186,7 +186,6 @@
 		E3706F59216C304C004BFC7F /* FUEditImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3706F57216C304C004BFC7F /* FUEditImageViewController.xib */; };
 		E3706F5C216C3388004BFC7F /* FUNoNullItemsView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3706F5B216C3388004BFC7F /* FUNoNullItemsView.m */; };
 		E3706F5E216C4AAA004BFC7F /* FUItemsViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3706F5D216C4AAA004BFC7F /* FUItemsViewCell.xib */; };
-		E3706F68216DD3FA004BFC7F /* FURenderer+header.m in Sources */ = {isa = PBXBuildFile; fileRef = E3706F66216DD3F9004BFC7F /* FURenderer+header.m */; };
 		E3706F6E216ED9E1004BFC7F /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = E3706F6D216ED9E1004BFC7F /* loading.gif */; };
 		E3728B912303F05B00B1B9BF /* qgirl_Animoji.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3728B8F2303F05B00B1B9BF /* qgirl_Animoji.bundle */; };
 		E3728B922303F05B00B1B9BF /* qgirl_Animoji.png in Resources */ = {isa = PBXBuildFile; fileRef = E3728B902303F05B00B1B9BF /* qgirl_Animoji.png */; };
@@ -767,8 +766,6 @@
 		E3706F5A216C3388004BFC7F /* FUNoNullItemsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUNoNullItemsView.h; sourceTree = "<group>"; };
 		E3706F5B216C3388004BFC7F /* FUNoNullItemsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUNoNullItemsView.m; sourceTree = "<group>"; };
 		E3706F5D216C4AAA004BFC7F /* FUItemsViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FUItemsViewCell.xib; sourceTree = "<group>"; };
-		E3706F66216DD3F9004BFC7F /* FURenderer+header.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FURenderer+header.m"; sourceTree = "<group>"; };
-		E3706F67216DD3F9004BFC7F /* FURenderer+header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FURenderer+header.h"; sourceTree = "<group>"; };
 		E3706F6D216ED9E1004BFC7F /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
 		E3728B8F2303F05B00B1B9BF /* qgirl_Animoji.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = qgirl_Animoji.bundle; sourceTree = "<group>"; };
 		E3728B902303F05B00B1B9BF /* qgirl_Animoji.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qgirl_Animoji.png; sourceTree = "<group>"; };
@@ -1245,8 +1242,6 @@
 				0B55D2E72069EFE000D17895 /* FUMusicPlayer.m */,
 				E3FB0A5E2213CB0C00B41E21 /* FURecordEncoder.h */,
 				E37CBDC12213BC2E000C9C42 /* FURecordEncoder.m */,
-				E3706F67216DD3F9004BFC7F /* FURenderer+header.h */,
-				E3706F66216DD3F9004BFC7F /* FURenderer+header.m */,
 				E3060B8A217D5BA60004DC1C /* FUVolumeObserver.h */,
 				E3060B8B217D5BA60004DC1C /* FUVolumeObserver.m */,
 				E348102E224369D200D6C941 /* FUColor.h */,
@@ -3134,7 +3129,6 @@
 				E362549621D1E164004A5FD7 /* FUGanButton.m in Sources */,
 				0B5A0CBA2021913900AAD47D /* AppDelegate.m in Sources */,
 				E37CBD9221FED922000C9C42 /* FUBeautyController.m in Sources */,
-				E3706F68216DD3FA004BFC7F /* FURenderer+header.m in Sources */,
 				E3CB025F21C7ACBA00105B00 /* FUYituItemModel.m in Sources */,
 				E37FF64122F404820014821C /* FUPositionCell.m in Sources */,
 				0BC0D26121538BA300324D7D /* FULightingView.m in Sources */,
