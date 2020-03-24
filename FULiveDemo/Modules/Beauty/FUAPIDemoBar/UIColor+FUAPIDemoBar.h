@@ -13,10 +13,10 @@
 /**
  *  十六进制颜色
  */
-+ (UIColor *)colorWithHexColorString:(NSString *)hexColorString;
++ (UIColor *)fu_colorWithHexColorString:(NSString *)hexColorString;
 
 /**
  *  十六进制颜色:含alpha
  */
-+ (UIColor *)colorWithHexColorString:(NSString *)hexColorString alpha:(float)alpha;
++ (UIColor *)fu_colorWithHexColorString:(NSString *)hexColorString alpha:(float)alpha;
 @end

@@ -11,7 +11,7 @@
 
 @implementation UIImage (demobar)
 
-+ (UIImage *)imageWithName:(NSString *)name {
++ (UIImage *)fu_imageWithName:(NSString *)name {
     UIImage *image = [UIImage imageNamed:name inBundle:[NSBundle bundleForClass:FUAPIDemoBar.class] compatibleWithTraitCollection:nil];
     if (image == nil) {
         image = [UIImage imageNamed:name];

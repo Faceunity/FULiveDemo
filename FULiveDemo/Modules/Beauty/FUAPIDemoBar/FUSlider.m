@@ -24,9 +24,9 @@
 {
     [super awakeFromNib];
     
-    [self setThumbImage:[UIImage imageWithName:@"expource_slider_dot"] forState:UIControlStateNormal];
+    [self setThumbImage:[UIImage fu_imageWithName:@"expource_slider_dot"] forState:UIControlStateNormal];
     
-    UIImage *bgImage = [UIImage imageWithName:@"slider_tip_bg"];
+    UIImage *bgImage = [UIImage fu_imageWithName:@"slider_tip_bg"];
     bgImgView = [[UIImageView alloc] initWithImage:bgImage];
     bgImgView.frame = CGRectMake(0, -bgImage.size.height, bgImage.size.width, bgImage.size.height);
     [self addSubview:bgImgView];
@@ -45,9 +45,9 @@
 
 -(instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
-        [self setThumbImage:[UIImage imageWithName:@"expource_slider_dot"] forState:UIControlStateNormal];
+        [self setThumbImage:[UIImage fu_imageWithName:@"expource_slider_dot"] forState:UIControlStateNormal];
         
-        UIImage *bgImage = [UIImage imageWithName:@"slider_tip_bg"];
+        UIImage *bgImage = [UIImage fu_imageWithName:@"slider_tip_bg"];
         bgImgView = [[UIImageView alloc] initWithImage:bgImage];
         bgImgView.frame = CGRectMake(0, -bgImage.size.height, bgImage.size.width, bgImage.size.height);
         [self addSubview:bgImgView];
@@ -72,7 +72,7 @@
     
     if (!middleView) {
         middleView = [[UIView alloc] initWithFrame:CGRectMake(2, self.frame.size.height /2.0 - 1, 100, 4)];
-        middleView.backgroundColor = [UIColor colorWithHexColorString:@"5EC7FE"];
+        middleView.backgroundColor = [UIColor fu_colorWithHexColorString:@"5EC7FE"];
         middleView.hidden = YES;
         [self insertSubview:middleView atIndex: self.subviews.count - 1];
     }
@@ -107,7 +107,7 @@
             
             line.hidden = YES ;
             middleView.hidden = YES ;
-            [self setMinimumTrackTintColor:[UIColor colorWithHexColorString:@"5EC7FE"]];
+            [self setMinimumTrackTintColor:[UIColor fu_colorWithHexColorString:@"5EC7FE"]];
         }
             break;
     }

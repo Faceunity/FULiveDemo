@@ -10,5 +10,5 @@
 
 
 @interface UIImage (demobar)
-+ (UIImage *)imageWithName:(NSString *)name;
++ (UIImage *)fu_imageWithName:(NSString *)name;
 @end
