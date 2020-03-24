@@ -58,9 +58,9 @@
                 imageName = opened ? [modle.mTitle stringByAppendingString:@"-1.png"] : [modle.mTitle stringByAppendingString:@"-0.png"] ;
             }
 
-        cell.imageView.image = [UIImage imageWithName:imageName];
+        cell.imageView.image = [UIImage fu_imageWithName:imageName];
         cell.titleLabel.text = NSLocalizedString(modle.mTitle,nil);
-        cell.titleLabel.textColor = _selectedIndex == indexPath.row ? [UIColor colorWithHexColorString:@"5EC7FE"] : [UIColor whiteColor];
+        cell.titleLabel.textColor = _selectedIndex == indexPath.row ? [UIColor fu_colorWithHexColorString:@"5EC7FE"] : [UIColor whiteColor];
     }
     return cell ;
 }

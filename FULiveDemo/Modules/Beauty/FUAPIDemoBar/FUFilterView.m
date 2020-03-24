@@ -60,7 +60,7 @@
     
     cell.titleLabel.text = NSLocalizedString(model.mTitle,nil);
     cell.titleLabel.textColor = [UIColor whiteColor];
-    cell.imageView.image = [UIImage imageWithName:model.mParam];
+    cell.imageView.image = [UIImage fu_imageWithName:model.mParam];
     
     cell.imageView.layer.borderWidth = 0.0 ;
     cell.imageView.layer.borderColor = [UIColor clearColor].CGColor;
@@ -68,8 +68,8 @@
     if (_selectedIndex == indexPath.row) {
         
         cell.imageView.layer.borderWidth = 2.0 ;
-        cell.imageView.layer.borderColor = [UIColor colorWithHexColorString:@"5EC7FE"].CGColor;
-        cell.titleLabel.textColor = [UIColor colorWithHexColorString:@"5EC7FE"];
+        cell.imageView.layer.borderColor = [UIColor fu_colorWithHexColorString:@"5EC7FE"].CGColor;
+        cell.titleLabel.textColor = [UIColor fu_colorWithHexColorString:@"5EC7FE"];
     }
     
     return cell ;

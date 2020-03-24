@@ -11,12 +11,12 @@
 @implementation UIColor (FUAPIDemoBar)
 
 #pragma mark  十六进制颜色
-+ (UIColor *)colorWithHexColorString:(NSString *)hexColorString{
-    return [self colorWithHexColorString:hexColorString alpha:1.0f];
++ (UIColor *)fu_colorWithHexColorString:(NSString *)hexColorString{
+    return [self fu_colorWithHexColorString:hexColorString alpha:1.0f];
 }
 
 #pragma mark  十六进制颜色
-+ (UIColor *)colorWithHexColorString:(NSString *)hexColorString alpha:(float)alpha{
++ (UIColor *)fu_colorWithHexColorString:(NSString *)hexColorString alpha:(float)alpha{
     
     unsigned int red, green, blue;
     
