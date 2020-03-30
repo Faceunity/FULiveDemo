@@ -269,6 +269,7 @@
     [_displayLink invalidate];
     _displayLink.paused = YES ;
     _displayLink = nil ;
+    
     [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeMakeup];
     [super viewWillDisappear:animated];
 }
@@ -301,8 +302,8 @@
                 self.videoReader = [[FUVideoReader alloc] initWithVideoURL:self.videoURL];
                 self.videoReader.delegate = self ;
                 self.glView.origintation = (int)self.videoReader.videoOrientation ;
-                if (self.model.type == FULiveModelTypeBeautifyFace) {
-                    fuSetDefaultRotationMode([self setOrientationWithDegress:self.degress]);
+                if (self.videoReader.videoOrientation == FUVideoReaderOrientationLandscapeRight || self.videoReader.videoOrientation == FUVideoReaderOrientationLandscapeLeft) {
+//                    fuSetDefaultRotationMode([self setOrientationWithDegress:self.degress]);
                 }
             }
             
@@ -350,19 +351,11 @@
 
 -(void)setVideoURL:(NSURL *)videoURL {
     _videoURL = videoURL ;
-    
-    self.degress = [self degressFromVideoFileWithURL:videoURL];
-    
-    _glView.origintation = self.degress;
-    
-    if (self.model.type == FULiveModelTypeBeautifyFace) {
-        fuSetDefaultRotationMode([self setOrientationWithDegress:self.degress]);
-    }
    
 }
 
 
--(NSInteger)setOrientationWithDegress:(NSInteger)degress{
+-(int)setOrientationWithDegress:(NSInteger)degress{
     switch (degress) {
         case 0:
             return 0;
@@ -420,8 +413,8 @@
     [self.videoReader startReadWithDestinationPath:finalPath];
     
     self.glView.origintation = (int)self.videoReader.videoOrientation ;
-    if (self.model.type == FULiveModelTypeBeautifyFace) {
-        fuSetDefaultRotationMode([self setOrientationWithDegress:self.degress]);
+    if (self.videoReader.videoOrientation == FUVideoReaderOrientationLandscapeRight || self.videoReader.videoOrientation == FUVideoReaderOrientationLandscapeLeft) {
+//        fuSetDefaultRotationMode([self setOrientationWithDegress:self.degress]);
     }
 }
 
@@ -453,6 +446,7 @@
     
     self.noTrackLabel.hidden = [[FUManager shareManager] isTracking];
 }
+
 
 // 读取结束
 -(void)videoReaderDidFinishReadSuccess:(BOOL)success {
@@ -605,8 +599,11 @@
 }
 #pragma mark - FUItemsViewDelegate
 - (void)itemsViewDidSelectedItem:(NSString *)item {
-    
     [[FUManager shareManager] loadItem:item completion:^(BOOL finished) {
+        /* 设置成默认检测方向 */
+        int handle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeItem];
+        int sdkOrientation = [self setOrientationWithDegress:(int)self.videoReader.videoOrientation];
+        [FURenderer itemSetParam:handle withName:@"rotationMode" value:@(sdkOrientation)];
         [self.itemsView stopAnimation];
     }];
 
@@ -754,16 +751,16 @@
         
         if(t.a == 0 && t.b == 1.0 && t.c == -1.0 && t.d == 0){
             // Portrait
-            degress = 1;
+            degress = 0;
         }else if(t.a == 0 && t.b == -1.0 && t.c == 1.0 && t.d == 0){
             // PortraitUpsideDown
-            degress = 3;
+            degress = 2;
         }else if(t.a == 1.0 && t.b == 0 && t.c == 0 && t.d == 1.0){
             // LandscapeRight
-            degress = 0;
+            degress = 1;
         }else if(t.a == -1.0 && t.b == 0 && t.c == 0 && t.d == -1.0){
             // LandscapeLeft
-            degress = 2;
+            degress = 3;
         }
     }
     

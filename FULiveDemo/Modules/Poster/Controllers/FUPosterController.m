@@ -56,6 +56,11 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+/* 不需要进入分辨率选择 */
+-(BOOL)onlyJumpImage{
+    return YES;
+}
+
 #pragma  mark - 选择照片
 -(void)didClickSelPhoto{
     

@@ -39,6 +39,8 @@ typedef NS_ENUM(NSUInteger, FULiveModelType) {
 @property (nonatomic, assign) BOOL enble ;
 
 @property (nonatomic, assign) FULiveModelType type ;
+/* 对比 */
+@property (nonatomic, assign) int conpareCode ;
 
 @property (nonatomic, assign) NSArray *modules ;
 

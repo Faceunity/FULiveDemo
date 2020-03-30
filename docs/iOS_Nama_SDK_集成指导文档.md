@@ -1,40 +1,29 @@
 # iOS Nama SDK 集成指导文档  
 级别：Public   
-更新日期：2020-01-19   
+更新日期：2020-03-19   
+SDK版本: 6.7.0  
 
 ------
 
-**FaceUnity Nama SDK v6.6.0 (2020-01-19 )**
+**FaceUnity Nama SDK v6.7.0 (2020-03-19 )**
 
-更新内容
-__版本整体说明:__ SDK 6.6.0 主要针对美颜、美妆进行效果优化，性能优化，稳定性优化，同时新增部分特性，使得美颜、美妆效果进入行业顶尖水平。建议对美颜、美妆需求较高的B端用户更新SDK。  
-__注意!!!__：此版本由于底层替换原因，表情识别跟踪能力稍有降低，特别是Animoji、表情触发道具的整体表情表现力稍有减弱。Animoji的皱眉、鼓嘴、嘟嘴等动作表现效果比之较差，表情触发道具的发怒（皱眉）、鼓嘴、嘟嘴的表情触发道具较难驱动。其余ARMesh、明星换脸、动态人像（活照片）的面部跟踪整体稍有10%的效果减弱。故用到表情驱动的功能重度B端用户，仍建议使用SDK6.4.0版，使用其余功能（美颜叠加贴纸等其余功能）的场景不受影响，表情识别跟踪能力将在下一版进行优化更新。   
+1. 美颜效果
+      -新增去黑眼圈、去法令纹功能
+      -优化磨皮效果，新增只磨皮人脸区域接口功能
+      -优化原有美型效果
 
-- 美颜优化：  
-  1). 新增美型6款功能，包括开眼角、眼距、眼睛角度、长鼻、缩人中、微笑嘴角。
-   2). 新增17款滤镜，其中包含8款自然系列滤镜、8款质感灰系列滤镜、1款个性滤镜。
-   3). 优化美颜中亮眼、美牙效果。
-   4). 优化美颜中3个脸型，调整优化使得V脸、窄脸、小脸效果更自然。
-   5). 优化美白红润强度，美白、红润功能开放2倍参数，详见美颜文档。
-- 美妆优化：  
-  1). 新增13套自然系组合妆，13套组合妆是滤镜+美妆的整体效果，可自定义。
-   2). 新增3款口红质地：润泽、珠光、咬唇。
-   3). 提升美妆点位准确度 ，人脸点位由209点增加至 239点。
-   4). 优化美妆素材叠加方式，使得妆容效果更加服帖自然。
-   5). 优化粉底效果，更加贴合人脸轮廓。
-- 提升人脸点位跟踪灵敏度，快速移动时跟踪良好，使美颜美妆效果跟随更紧密。
-- 提升人脸点位的稳定性，解决了半张脸屏幕、大角度、遮挡等场景的阈值抖动问题，点位抖动问题也明显优化。
-- 提升人脸跟踪角度，人脸最大左右偏转角提升至70度，低抬头检测偏转角也明显提升。
-- 优化美发道具CPU占有率，Android/iOS提升约30%
-- 新增MSAA抗锯齿接口，fuSetMultiSamples，解决虚拟形象（animoji与捏脸功能）边缘锯齿问题，详见接口文档。
-- 架构升级，支持底层AI算法能力和业务逻辑拆分，优化性能，使得系统更加容易扩展和更新迭代：  
-  1). 新增加接口 fuLoadAIModelFromPackage 用于加载AI能力模型。
-   2). 新增加接口 fuReleaseAIModel 用于释放AI能力模型。
-   3). 新增加接口 fuIsAIModelLoaded 用于判断AI能力是否已经加载。
+2. 优化表情跟踪效果，解决了6.6.0版表情系数表情灵活度问题——FaceProcessor模块优化
+   -解决Animoji表情灵活度问题，基本与原有SDK v6.4.0效果相近
+   -解决优化了表情动图的鼻子跟踪效果问题
 
-__注__1：6.6.0 FaceUnity Nama SDK，为了更新以及迭代更加方便，由原先一个 libnama.a 拆分成两个库 libnama.a 以及 libfuai.a，其中 libnama.a 为轻量级渲染引擎，libfuai.a 为算法引擎。当升级 6.6.0 时，需要添加 libfuai.a 库。
-__注2__: 更新SDK 6.6.0时，在fuSetup之后，需要马上调用 fuLoadAIModelFromPackage 加载 ai_faceprocessor.bundle !!!  
-__注3__: SDK 6.6.0 进行较大的架构调整 , 架构上拆分底层算法能力和业务场景，使得SDK更能够按需复用算法模块，节省内存开销，算法能力模块后期更容易维护升级，使用方式详见新增加的一组接口定义fuLoadAIModelFromPackage / fuReleaseAIModel / fuIsAIModelLoaded 。
+3. 优化美妆效果，人脸点位优化，提高准确性
+   -优化口红点位与效果，解决张嘴、正脸、低抬头、左右转头、抿嘴动作的口红溢色
+   -优化美瞳点位效果，是美瞳效果稳定
+   -腮红效果优化，解决了仰头角度下腮红强拉扯问题
+
+4. 新增接口支持图像裁剪，解决瘦脸边缘变形问题（边缘变形剪裁）
+5. 新增接口判断初始化完成状态
+6. 移动端Demo优化曝光聚焦效果，效果达到市面上最优对标抖音效果
 
 ------
 ## 目录：
@@ -58,13 +47,16 @@ __注3__: SDK 6.6.0 进行较大的架构调整 , 架构上拆分底层算法能
   +Headers		       	//库接口头文件
     -funama.h				//C接口
     -FURender.h			    //OC接口
-    -libnama.a				//图形静态库
-    -libfuai.a              //算法静态库
+  -libnama.a				//图形静态库
+  -libfuai.a              //算法静态库
   -release_note.txt     //更新日志    
   +Resources
+    +Ai_modle               //所有AI模型
+    -body_slim.bundle         //美体道具
+    -face_makeup.bundle       //美妆道具
     -face_beautification.bundle     //美颜资源
     -fxaa.bundle                    //抗锯齿
-    -v3.bundle                      //SDK的数据文件，缺少该文件会导致初始化失败
+    ...
     
 ```
 
@@ -88,13 +80,13 @@ Xcode 8或更高版本
 全功能版本：
 
 ```
-pod 'Nama', '6.6.0' 
+pod 'Nama', '6.7.0' 
 ```
 
 不含物理引擎的版本（lite版）：
 
 ```
-pod 'Nama-lite', '6.6.0' 
+pod 'Nama-lite', '6.7.0' 
 ```
 
 接下来执行：
@@ -111,9 +103,9 @@ pod repo update 或 pod setup
 
 #### 3.2.2 通过 github 下载集成
 
-全功能版本：[FaceUnity-SDK-iOS-v6.6.0.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v6.6.0.zip)
+全功能版本：[FaceUnity-SDK-iOS-v6.7.0.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v6.7.0.zip)
 
-不含物理引擎的版本（lite版）：[FaceUnity-SDK-iOS-v6.6.0-lite.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v6.6.0-lite.zip)
+不含物理引擎的版本（lite版）：[FaceUnity-SDK-iOS-v6.7.0-lite.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v6.7.0-lite.zip)
 
 下载完成并解压后将库文件夹拖入到工程中，并勾选上 Copy items if needed，如图：
 
@@ -154,9 +146,7 @@ iOS端发放的证书为包含在authpack.h中的g_auth_package数组，如果�
 然后执行初始化
 
 ```c
-NSString *v3Path = [[NSBundle mainBundle] pathForResource:@"v3" ofType:@"bundle"];
-    
-[[FURenderer shareRenderer] setupWithDataPath:v3Path authPackage:g_auth_package authSize:sizeof(g_auth_package) shouldCreateContext:YES];
+[[FURenderer shareRenderer] setupWithData:nil dataSize:0 ardata:nil authPackage:&g_auth_package authSize:sizeof(g_auth_package) shouldCreateContext:YES];
 ```
 
 注：app启动后只需要setup一次FURenderer即可，其中 `g_auth_package` 密钥数组声明在 authpack.h 中。
@@ -166,15 +156,16 @@ NSString *v3Path = [[NSBundle mainBundle] pathForResource:@"v3" ofType:@"bundle"
 接口说明：
 
 ```
-- (void)setupWithDataPath:(NSString *)v3path 
-              authPackage:(void *)package 
-                 authSize:(int)size 
-      shouldCreateContext:(BOOL)create;
+- (int)setupWithData:(void *)data dataSize:(int)dataSize ardata:(void *)ardata authPackage:(void *)package authSize:(int)size shouldCreateContext:(BOOL)shouldCreate;
 ```
 
 参数说明：
 
-`v3path`  v3.bundle 文件路径
+`data`  v3.bundle 文件  v6.6.0 后 传 NULL 即可
+
+`dataSize` v3.bundle 数据的字节数
+
+`ardata` 该参数已废弃，传 NULL 即可
 
 `package` 内存指针，指向鉴权数据的内容。如果是用包含 authpack.h 的方法在编译时提供鉴权数据，则这
 里可以写为 g_auth_package 
@@ -816,13 +807,13 @@ int itemHandle = [FURenderer itemWithContentsOfFile:path];
  [FURenderer itemSetParam:items[FUNamaHandleTypeItem] withName:@"Strength" value: @(strength)]; 
 ```
 
-### 4.13 质感美颜功能
+### 4.13 轻美妆功能
 
 Nama SDK 从 6.0.0 开始支持质感美颜功能。
 
 质感美颜方案是一套更为精致高效的美颜解决方案，包含磨皮、美型、滤镜、美妆4大模块，提供60+套丰富素材库，支持客户任意切换风格与效果变化。
 
-首先加载 light_makeup.bundle，然后设置腮红、眼影、眼线、口红等参数，使用方法请参考[质感美颜道具说明](美妆道具功能文档.md)，同时参考 FULiveDemo 中的示例代码。
+首先加载 light_makeup.bundle，然后设置腮红、眼影、眼线、口红等参数，使用方法请参考[轻美妆道具说明](轻美妆功能文档.md)，同时参考 FULiveDemo 中的示例代码。
 
 ### 4.14 美体功能
 
@@ -861,17 +852,19 @@ __高级镜像__
 
 #### 5.3 相机曝光异常问题
 
-曝光问题主要相机采集问题和SDK无关，FULivemo主要策略是：__相机主题区域发生了变化，对焦图片中点，并且进入人脸对焦，人脸对焦只在进行变化后60帧内检测，检测到人脸设置人脸中点为曝光点，无人脸不需要设置__
+曝光问题主要相机采集问题和SDK无关，FULivemo主要策略是：
+
+- __手动设置了曝光点，曝光手动位置；非手动点击对焦，进入人脸对焦逻辑;相机主题区域发生了变化，进入人脸对焦逻辑。__
+- __人脸对焦逻辑：检测到人脸设置人脸中点为曝光点，无人脸设置曝光点位为 CGPointMake(0.5, 0.5)__
 
  场景1：使用我们提供的__FUCamera__采集。
 
-- 需要在实现 相机主题区域发生了变化代理函数，
-- 视频处理函数中，添加人脸对焦逻辑代码，源码参考：__FULivemo__
+- 需要在实现FUCameraDataSource，将人脸中心点传入FUCamera，源码参考：__FULivemo__
 
  场景2：使用第三方采集,或者自己采集
 
-- 需要提供 相机主题区域发生了变化代理函数，
-- 视频处理函数中，添加人脸对焦逻辑代码
+- 需要监听相机主题区域发生了变化通知，
+- 需要有曝光点和对焦点接口
 
 主要对焦点曝光点设置，参考接口
 ```

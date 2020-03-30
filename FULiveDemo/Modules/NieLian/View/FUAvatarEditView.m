@@ -109,7 +109,7 @@
     _avatarContentColletionView.avatarModel = self.dataArray[index];
     
     /* update UI */
-    if (index == 4 ) {//鼻子没有颜色
+    if (index == 4 || (index == 0 && _avatarContentColletionView.avatarModel.bundleSelIndex == 0 )) {//鼻子没有颜色 + 光头
         [UIView animateWithDuration:0.25 animations:^{
             CGRect frame =  _avatarContentColletionView.frame;
             _avatarContentColletionView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);

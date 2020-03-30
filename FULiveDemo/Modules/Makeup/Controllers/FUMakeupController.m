@@ -47,11 +47,6 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-    dispatch_async([FUManager shareManager].asyncLoadQueue, ^{
-        int handle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeBeauty];
-        /* 美妆用239点位，包含美颜点位，切换到他的点位，避免加载两套点位*/
-        [FURenderer itemSetParam:handle withName:@"landmarks_type" value:@(FUAITYPE_FACELANDMARKS239)];
-    });
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
@@ -107,15 +102,13 @@
 
 static int oldHandle = 0;
 -(void)makeupViewDidSelectedSupModle:(FUMakeupSupModel *)model{
-    /* 修改值 */
-    [self makeupAllValue:0];
-    
     /* bing && unbind */
     dispatch_async([FUManager shareManager].asyncLoadQueue, ^{//在美妆加载线程，确保道具加载
-        /* 子妆容重设 0 */
-//        [self makeupAllValue:0];
-        
+        /* 获取句柄 */
         int makeupHandle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeMakeup];
+        /* 切换bundle,清空当前bind道具 */
+        [FURenderer itemSetParam:makeupHandle withName:@"is_clear_makeup" value:@(1)];
+
         NSString *path = [[NSBundle mainBundle] pathForResource:model.makeupBundle ofType:@"bundle"];
         int subHandle = [FURenderer itemWithContentsOfFile:path];
         
@@ -125,12 +118,13 @@ static int oldHandle = 0;
              oldHandle = 0;
         }
         [FURenderer bindItems:makeupHandle items:&subHandle itemsCount:1];
+         oldHandle = subHandle;
         
         /* 镜像设置 */
         [FURenderer itemSetParam:makeupHandle withName:@"is_flip_points" value:@(model.is_flip_points)];
-        
-        oldHandle = subHandle;
-        
+        /* 切换bundle,不清空当前bind道具 */
+        [FURenderer itemSetParam:makeupHandle withName:@"is_clear_makeup" value:@(0)];
+        /* 设置妆容程度值 */
         [self makeupViewChangeValueSupModle:model];
     });
     

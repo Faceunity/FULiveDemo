@@ -8,17 +8,31 @@
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
+@class FUCamera;
+typedef NS_ENUM( NSInteger, FUCameraFocusModel) {
+    /* 先找人脸对焦模式 */
+    FUCameraModelAutoFace,
+    /* 固定点对焦模式 */
+    FUCameraModelChangeless
+};
+
 
 @protocol FUCameraDelegate <NSObject>
 
 - (void)didOutputVideoSampleBuffer:(CMSampleBufferRef)sampleBuffer;
 
-- (void)cameraSubjectAreaDidChange;
+@end
+
+@protocol FUCameraDataSource <NSObject>
+
+- (CGPoint)faceCenterInImage:(FUCamera *)camera ;
 
 @end
 
+
 @interface FUCamera : NSObject
 @property (nonatomic, weak) id<FUCameraDelegate> delegate;
+@property (nonatomic, weak) id<FUCameraDataSource> dataSource;
 @property (nonatomic, assign, readonly) BOOL isFrontCamera;
 @property (assign, nonatomic) int captureFormat; //采集格式
 @property (copy  , nonatomic) dispatch_queue_t  videoCaptureQueue;//视频采集的队列
@@ -101,5 +115,9 @@
 /// @param monitorSubjectAreaChange   是否监听主题变化
 - (void)focusWithMode:(AVCaptureFocusMode)focusMode exposeWithMode:(AVCaptureExposureMode)exposureMode atDevicePoint:(CGPoint)point monitorSubjectAreaChange:(BOOL)monitorSubjectAreaChange;
 
+
+///  修改对焦模式
+/// @param modle 对焦模式
+-(void)cameraChangeModle:(FUCameraFocusModel)modle;
 
 @end

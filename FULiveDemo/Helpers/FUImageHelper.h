@@ -18,8 +18,9 @@
 
 +(CVPixelBufferRef) pixelBufferFromImage:(UIImage *)image;
 
-
 +(UIImage *)imageFromPixelBuffer:(CVPixelBufferRef)pixelBufferRef;
+
++ (UIImage *)imageFromPixelBuffer2:(CVPixelBufferRef)pixelBufferRef;
 + (unsigned char *)getRGBAWithImage:(UIImage *)image;
 
 + (unsigned char *)getRGBAWithImageName:(NSString *)imageName width:(int *)width height:(int *)height;

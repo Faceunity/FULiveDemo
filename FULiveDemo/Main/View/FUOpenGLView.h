@@ -10,8 +10,8 @@
 
 typedef NS_ENUM(NSInteger, FUOpenGLViewOrientation) {
     FUOpenGLViewOrientationPortrait              = 0,
-    FUOpenGLViewOrientationPortraitUpsideDown    = 1,
-    FUOpenGLViewOrientationLandscapeRight        = 2,
+    FUOpenGLViewOrientationLandscapeRight        = 1,
+    FUOpenGLViewOrientationPortraitUpsideDown    = 2,
     FUOpenGLViewOrientationLandscapeLeft         = 3,
 };
 
