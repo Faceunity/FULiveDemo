@@ -89,22 +89,27 @@
         
     }else if(gestureRecognizer.state == 3)
     {
-        if (timer) {
-            if (time <= 3) {
-                [self takePhoto];
-            }else
-            {
-                [self stopRecord];
-            }
-            [timer invalidate];
-            timer = nil;
-            time = 0;
-            _circleProgress.percent = 0;
-            self.selected = NO;
-            NSLog(@"time invalidate");
-        }
+        [self photoButtonFinishRecord];
     }
 }
+
+-(void)photoButtonFinishRecord{
+    if (timer) {
+        if (time <= 3) {
+            [self takePhoto];
+        }else
+        {
+            [self stopRecord];
+        }
+        [timer invalidate];
+        timer = nil;
+        time = 0;
+        _circleProgress.percent = 0;
+        self.selected = NO;
+        NSLog(@"time invalidate");
+    }
+}
+
 
 - (void)updateTime
 {

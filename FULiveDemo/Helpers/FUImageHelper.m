@@ -389,4 +389,26 @@
     return image;
 }
 
+
++ (UIImage *)imageFromPixelBuffer2:(CVPixelBufferRef)pixelBufferRef {
+    CVPixelBufferLockBaseAddress(pixelBufferRef, 0);
+     
+    float width = CVPixelBufferGetWidth(pixelBufferRef);
+    float height = CVPixelBufferGetHeight(pixelBufferRef);
+     CIImage *ciImage = [CIImage imageWithCVPixelBuffer:pixelBufferRef];
+     
+     CIContext *temporaryContext = [CIContext contextWithOptions:nil];
+     CGImageRef videoImage = [temporaryContext
+                              createCGImage:ciImage
+                              fromRect:CGRectMake(0, 0,
+                                                  width,
+                                                  height)];
+     
+     UIImage *image = [UIImage imageWithCGImage:videoImage];
+     CGImageRelease(videoImage);
+     CVPixelBufferUnlockBaseAddress(pixelBufferRef, 0);
+     
+     return image;
+}
+
 @end

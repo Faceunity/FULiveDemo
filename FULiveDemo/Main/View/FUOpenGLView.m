@@ -708,7 +708,7 @@ enum
     for (int i = 0; i < count / 2; i++)
     {
         //点的大小
-        sizeData[i] = [UIScreen mainScreen].scale * 5 / zoomScale;
+        sizeData[i] = [UIScreen mainScreen].scale * 2 / zoomScale;
   
         colorData[4 * i ] = 1.0;
         colorData[4 * i + 1] = 0.0;
@@ -722,17 +722,16 @@ enum
     
     for (int i = count/2; i < count; i++)
     {
-        sizeData[i] = [UIScreen mainScreen].scale * 2 / zoomScale;
+        sizeData[i] = [UIScreen mainScreen].scale  / zoomScale;
 
         colorData[4 * i ] = 1.0;
         colorData[4 * i + 1] = 1.0;
         colorData[4 * i + 2] = 1.0;
         colorData[4 * i + 3] = 1.0;
-        
+
         newLandmarks[2 * i] = (float)((2 * landmarks[2 * i - count] / frameWidth - 1))*w;
         newLandmarks[2 * i + 1] = (float)(1 - 2 * landmarks[2 * i + 1 - count] / frameHeight)*h;
     }
-    
     
     glEnableVertexAttribArray(fuPointSize);
     glVertexAttribPointer(fuPointSize, 1, GL_FLOAT, GL_FALSE, 0, sizeData);

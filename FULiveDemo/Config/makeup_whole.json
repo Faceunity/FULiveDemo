@@ -5,7 +5,7 @@
       "imageStr": "makeup_noitem",
       "isSel": true,
       "value": 0.0,
-      "makeupBundle": ""
+      "makeupBundle": "xiezhuan"
     },
     {
       "name": "减龄",
@@ -30,6 +30,15 @@
       "isSel": false,
       "makeupBundle": "hongfeng",
       "selectedFilter":"zhiganhui3"
+    },
+    {
+      "name": "Rose",
+      "imageStr": "demo_combination_rose",
+      "value": 0.7,
+      "isSel": false,
+      "makeupBundle": "Rose",
+      "selectedFilter":"zhiganhui2",
+      "is_flip_points":1
     },
     {
       "name": "少女",
@@ -110,35 +119,35 @@
       "imageStr": "demo_combination_sexy",
       "value": 0.7,
       "isSel": false,
-      "makeupBundle": "01_xinggan"
+      "makeupBundle": "xinggan"
     },
     {
       "name": "甜美",
       "imageStr": "demo_combination_sweet",
       "value": 0.7,
       "isSel": false,
-      "makeupBundle": "02_tianmei"
+      "makeupBundle": "tianmei"
     },
     {
       "name": "邻家",
       "imageStr": "demo_combination_neighbor_girl",
       "value": 0.7,
       "isSel": false,
-      "makeupBundle": "03_linjia"
+      "makeupBundle": "linjia"
     },
     {
       "name": "欧美",
       "imageStr": "demo_combination_occident",
       "value": 0.7,
       "isSel": false,
-      "makeupBundle": "04_oumei"
+      "makeupBundle": "oumei"
     },
     {
       "name": "妩媚",
       "imageStr": "demo_combination_charming",
       "value": 0.7,
       "isSel": false,
-      "makeupBundle": "05_wumei"
+      "makeupBundle": "wumei"
     }
     
   ]

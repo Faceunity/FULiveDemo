@@ -11,8 +11,8 @@
 
 typedef NS_ENUM(NSInteger, FUVideoReaderOrientation) {
         FUVideoReaderOrientationPortrait           = 0,
-        FUVideoReaderOrientationUpsideDown         = 1,
-        FUVideoReaderOrientationLandscapeRight     = 2,
+        FUVideoReaderOrientationLandscapeRight     = 1,
+        FUVideoReaderOrientationUpsideDown         = 2,
         FUVideoReaderOrientationLandscapeLeft      = 3,
 };
 

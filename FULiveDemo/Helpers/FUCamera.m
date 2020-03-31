@@ -20,7 +20,6 @@ typedef enum : NSUInteger {
 
 typedef void(^FUCameraRecordVidepCompleted)(NSString *videoPath);
 
-
 @interface FUCamera()<AVCaptureVideoDataOutputSampleBufferDelegate,AVCaptureAudioDataOutputSampleBufferDelegate>
 {
     RunMode runMode;
@@ -43,6 +42,8 @@ typedef void(^FUCameraRecordVidepCompleted)(NSString *videoPath);
 @property (copy, nonatomic) FUCameraRecordVidepCompleted recordVidepCompleted;
 
 @property (assign, nonatomic) AVCaptureSessionPreset mSessionPreset;
+
+@property (nonatomic) FUCameraFocusModel cameraFocusModel;
 @end
 
 @implementation FUCamera
@@ -67,15 +68,14 @@ typedef void(^FUCameraRecordVidepCompleted)(NSString *videoPath);
 }
 
 - (void)startCapture{
-
+    _cameraFocusModel = FUCameraModelAutoFace;
+    
     if (![self.captureSession isRunning] && !hasStarted) {
         hasStarted = YES;
 //        [self addAudio];
         [self.captureSession startRunning];
         /* 设置曝光中点 */
         [self focusWithMode:AVCaptureFocusModeContinuousAutoFocus exposeWithMode:AVCaptureExposureModeContinuousAutoExposure atDevicePoint:CGPointMake(0.5, 0.5) monitorSubjectAreaChange:YES];
-
-    
     }
 }
 
@@ -228,22 +228,25 @@ typedef void(^FUCameraRecordVidepCompleted)(NSString *videoPath);
         if ([self.captureSession canAddInput:self.frontCameraInput]) {
             [self.captureSession addInput:self.frontCameraInput];
             
-            [[NSNotificationCenter defaultCenter] removeObserver:self name:AVCaptureDeviceSubjectAreaDidChangeNotification object:self.backCameraInput];
+            [[NSNotificationCenter defaultCenter] removeObserver:self name:AVCaptureDeviceSubjectAreaDidChangeNotification object:self.camera];
             
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(subjectAreaDidChange:) name:AVCaptureDeviceSubjectAreaDidChangeNotification object:_frontCameraInput];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(subjectAreaDidChange:) name:AVCaptureDeviceSubjectAreaDidChangeNotification object:_camera];
+            
+            NSLog(@"前置添加监听----");
         }
         self.cameraPosition = AVCaptureDevicePositionFront;
     }else {
         [self.captureSession removeInput:self.frontCameraInput];
         if ([self.captureSession canAddInput:self.backCameraInput]) {
             [self.captureSession addInput:self.backCameraInput];
-            [[NSNotificationCenter defaultCenter] removeObserver:self name:AVCaptureDeviceSubjectAreaDidChangeNotification object:self.frontCameraInput];
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(subjectAreaDidChange:) name:AVCaptureDeviceSubjectAreaDidChangeNotification object:_backCameraInput];
+            [[NSNotificationCenter defaultCenter] removeObserver:self name:AVCaptureDeviceSubjectAreaDidChangeNotification object:self.camera];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(subjectAreaDidChange:) name:AVCaptureDeviceSubjectAreaDidChangeNotification object:_camera];
+            NSLog(@"后置添加监听----");
         }
         self.cameraPosition = AVCaptureDevicePositionBack;
     }
     
-
+  
     
     AVCaptureDeviceInput *deviceInput = isFront ? self.frontCameraInput:self.backCameraInput;
     
@@ -261,7 +264,6 @@ typedef void(^FUCameraRecordVidepCompleted)(NSString *videoPath);
     
     [self.captureSession startRunning];
    
-    
 }
 
 //用来返回是前置摄像头还是后置摄像头
@@ -388,9 +390,7 @@ typedef void(^FUCameraRecordVidepCompleted)(NSString *videoPath);
         CGPoint devicePoint = CGPointMake(0.5, 0.5);
         [self focusWithMode:AVCaptureFocusModeContinuousAutoFocus exposeWithMode:AVCaptureExposureModeContinuousAutoExposure atDevicePoint:devicePoint monitorSubjectAreaChange:YES];
 
-        if ([self.delegate respondsToSelector:@selector(cameraSubjectAreaDidChange)]) {
-            [self.delegate cameraSubjectAreaDidChange];
-        }
+        [self cameraChangeModle:FUCameraModelAutoFace];
     });
 
 }
@@ -502,6 +502,8 @@ typedef void(^FUCameraRecordVidepCompleted)(NSString *videoPath);
     {
         [self.delegate didOutputVideoSampleBuffer:sampleBuffer];
     }
+    /* 人脸对焦判断 */
+    [self cameraFocusAndExpose];
     
     switch (runMode) {
         case CommonMode:
@@ -560,6 +562,22 @@ typedef void(^FUCameraRecordVidepCompleted)(NSString *videoPath);
             break;
     }
 }
+
+#pragma  mark -  人脸曝光逻辑
+-(void)cameraFocusAndExpose{
+    if (_cameraFocusModel == FUCameraModelAutoFace) {
+        
+         if ([self.dataSource respondsToSelector:@selector(faceCenterInImage:)]) {
+           CGPoint center =  [self.dataSource faceCenterInImage:self];
+            if (center.y >= 0) {
+                [self focusWithMode:AVCaptureFocusModeContinuousAutoFocus exposeWithMode:AVCaptureExposureModeContinuousAutoExposure atDevicePoint:center monitorSubjectAreaChange:YES];
+            }else{
+                [self focusWithMode:AVCaptureFocusModeContinuousAutoFocus exposeWithMode:AVCaptureExposureModeContinuousAutoExposure atDevicePoint:CGPointMake(0.5, 0.5) monitorSubjectAreaChange:YES];
+            }
+        }
+    }
+}
+
 
 
 -(void)videpCompleted{
@@ -685,7 +703,7 @@ typedef void(^FUCameraRecordVidepCompleted)(NSString *videoPath);
                 device.exposureMode = exposureMode;
             }
         
-            NSLog(@"---point --%@",NSStringFromCGPoint(point));
+//            NSLog(@"---point --%@",NSStringFromCGPoint(point));  
             
             device.subjectAreaChangeMonitoringEnabled = monitorSubjectAreaChange;
             [device unlockForConfiguration];
@@ -694,6 +712,12 @@ typedef void(^FUCameraRecordVidepCompleted)(NSString *videoPath);
             NSLog( @"Could not lock device for configuration: %@", error );
         }
     });
+}
+
+
+-(void)cameraChangeModle:(FUCameraFocusModel)modle
+{
+    _cameraFocusModel = modle;
 }
 
 

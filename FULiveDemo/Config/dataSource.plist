@@ -11,6 +11,8 @@
 		<false/>
 		<key>itemType</key>
 		<integer>0</integer>
+		<key>conpareCode</key>
+		<integer>0</integer>
 		<key>modules</key>
 		<array>
 			<integer>1</integer>
@@ -27,6 +29,8 @@
 		<false/>
 		<key>itemType</key>
 		<integer>17</integer>
+		<key>conpareCode</key>
+		<integer>1</integer>
 		<key>modules</key>
 		<array>
 			<integer>32</integer>
@@ -43,6 +47,8 @@
 		<false/>
 		<key>itemType</key>
 		<integer>1</integer>
+		<key>conpareCode</key>
+		<integer>0</integer>
 		<key>modules</key>
 		<array>
 			<integer>524288</integer>
@@ -59,6 +65,8 @@
 		<false/>
 		<key>itemType</key>
 		<integer>2</integer>
+		<key>conpareCode</key>
+		<integer>0</integer>
 		<key>modules</key>
 		<array>
 			<integer>2</integer>
@@ -84,6 +92,8 @@
 		<false/>
 		<key>itemType</key>
 		<integer>3</integer>
+		<key>conpareCode</key>
+		<integer>0</integer>
 		<key>modules</key>
 		<array>
 			<integer>16</integer>
@@ -109,6 +119,8 @@
 		<false/>
 		<key>itemType</key>
 		<integer>1</integer>
+		<key>conpareCode</key>
+		<integer>0</integer>
 		<key>modules</key>
 		<array>
 			<integer>524288</integer>
@@ -125,6 +137,8 @@
 		<false/>
 		<key>itemType</key>
 		<integer>4</integer>
+		<key>conpareCode</key>
+		<integer>0</integer>
 		<key>modules</key>
 		<array>
 			<integer>524288</integer>
@@ -155,6 +169,8 @@
 		<false/>
 		<key>itemType</key>
 		<integer>5</integer>
+		<key>conpareCode</key>
+		<integer>0</integer>
 		<key>modules</key>
 		<array>
 			<integer>32</integer>
@@ -167,7 +183,6 @@
 			<string>fenhudie</string>
 			<string>tiger_huang</string>
 			<string>tiger_bai</string>
-			<string>afd</string>
 			<string>baozi</string>
 			<string>tiger</string>
 			<string>xiongmao</string>
@@ -182,6 +197,8 @@
 		<false/>
 		<key>itemType</key>
 		<integer>7</integer>
+		<key>conpareCode</key>
+		<integer>0</integer>
 		<key>modules</key>
 		<array>
 			<integer>8388608</integer>
@@ -207,6 +224,8 @@
 		<false/>
 		<key>itemType</key>
 		<integer>8</integer>
+		<key>conpareCode</key>
+		<integer>0</integer>
 		<key>modules</key>
 		<array>
 			<integer>2048</integer>
@@ -231,6 +250,8 @@
 		<false/>
 		<key>itemType</key>
 		<integer>9</integer>
+		<key>conpareCode</key>
+		<integer>0</integer>
 		<key>modules</key>
 		<array>
 			<integer>131072</integer>
@@ -250,6 +271,8 @@
 		<false/>
 		<key>itemType</key>
 		<integer>10</integer>
+		<key>conpareCode</key>
+		<integer>0</integer>
 		<key>modules</key>
 		<array>
 			<integer>256</integer>
@@ -272,6 +295,8 @@
 		<false/>
 		<key>itemType</key>
 		<integer>11</integer>
+		<key>conpareCode</key>
+		<integer>0</integer>
 		<key>modules</key>
 		<array>
 			<integer>512</integer>
@@ -295,6 +320,8 @@
 		<false/>
 		<key>itemType</key>
 		<integer>12</integer>
+		<key>conpareCode</key>
+		<integer>0</integer>
 		<key>modules</key>
 		<array>
 			<integer>65536</integer>
@@ -317,6 +344,8 @@
 		<false/>
 		<key>itemType</key>
 		<integer>13</integer>
+		<key>conpareCode</key>
+		<integer>0</integer>
 		<key>modules</key>
 		<array>
 			<real>32768</real>
@@ -337,6 +366,8 @@
 		<false/>
 		<key>itemType</key>
 		<integer>14</integer>
+		<key>conpareCode</key>
+		<integer>1</integer>
 		<key>modules</key>
 		<array>
 			<integer>16</integer>
@@ -353,6 +384,8 @@
 		<false/>
 		<key>itemType</key>
 		<integer>15</integer>
+		<key>conpareCode</key>
+		<integer>0</integer>
 		<key>modules</key>
 		<array>
 			<integer>16777216</integer>
@@ -369,6 +402,8 @@
 		<false/>
 		<key>itemType</key>
 		<integer>16</integer>
+		<key>conpareCode</key>
+		<integer>0</integer>
 		<key>modules</key>
 		<array>
 			<integer>16777216</integer>

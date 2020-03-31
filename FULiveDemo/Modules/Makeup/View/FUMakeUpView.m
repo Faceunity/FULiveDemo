@@ -541,7 +541,8 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
                         modle2.value = modle0.value * supModle.value;
                     }
                 }else{
-                    NSString *str = [modle0.namaImgStr stringByReplacingOccurrencesOfString:@".bundle"withString:@""];
+//                    NSString *str = [modle0.namaImgStr stringByReplacingOccurrencesOfString:@".bundle"withString:@""];
+                    NSString *str = [modle0.namaImgStr stringByReplacingOccurrencesOfString:@".png"withString:@""];
                     if([str isEqualToString:modle2.namaImgStr]) {//样式一样
                         modle1.singleSelIndex = (int)[modle1.sgArr indexOfObject:modle2];
                         /* 值 */
@@ -629,7 +630,8 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
                         isValueChange = fabs(modle2.value - modle0.value * supModle.value) > 0.01;
                     }
                 }else{
-                    NSString *str = [modle0.namaImgStr stringByReplacingOccurrencesOfString:@".bundle"withString:@""];
+//                    NSString *str = [modle0.namaImgStr stringByReplacingOccurrencesOfString:@".bundle"withString:@""];
+                    NSString *str = [modle0.namaImgStr stringByReplacingOccurrencesOfString:@".png"withString:@""];
                     if([str isEqualToString:modle2.namaImgStr]) {//样式一样
                         isValueChange = fabs(modle2.value - modle0.value * supModle.value) > 0.01;
                         isSelChange   = modle1.singleSelIndex != (int)[modle1.sgArr indexOfObject:modle2];

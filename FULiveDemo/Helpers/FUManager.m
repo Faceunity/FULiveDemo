@@ -60,11 +60,9 @@ static FUManager *shareManager = NULL;
     if (self = [super init]) {
         [self setupDeviceMotion];
         _asyncLoadQueue = dispatch_queue_create("com.faceLoadItem", DISPATCH_QUEUE_SERIAL);
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"v3.bundle" ofType:nil];
-        
         /**这里新增了一个参数shouldCreateContext，设为YES的话，不用在外部设置context操作，我们会在内部创建并持有一个context。
          还有设置为YES,则需要调用FURenderer.h中的接口，不能再调用funama.h中的接口。*/
-        [[FURenderer shareRenderer] setupWithDataPath:path authPackage:&g_auth_package authSize:sizeof(g_auth_package) shouldCreateContext:YES];
+        [[FURenderer shareRenderer] setupWithData:nil dataSize:0 ardata:nil authPackage:&g_auth_package authSize:sizeof(g_auth_package) shouldCreateContext:YES];
         
         /* 加载AI模型 */
         [self loadAIModle];
@@ -99,7 +97,7 @@ static FUManager *shareManager = NULL;
         fuSetFaceTrackParam((char *)[@"mouth_expression_more_flexible" UTF8String], &flexible);
 
         /* 带屏幕方向的道具 */
-        self.deviceOrientationItems = @[@"ctrl_rain",@"ctrl_snow",@"ctrl_flower",@"ssd_thread_six",@"wobushi",@"gaoshiqing"];
+        self.deviceOrientationItems = @[@"ctrl_rain",@"ctrl_snow",@"ctrl_flower",@"ssd_thread_six"];
         
         NSLog(@"faceunitySDK version:%@",[FURenderer getVersion]);
     }
@@ -125,10 +123,9 @@ static FUManager *shareManager = NULL;
     [FURenderer loadAIModelFromPackage:(void *)ai_hairseg.bytes size:(int)ai_hairseg.length aitype:FUAITYPE_HAIRSEGMENTATION];
     NSData *ai_humanpose = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ai_humanpose.bundle" ofType:nil]];
     [FURenderer loadAIModelFromPackage:(void *)ai_humanpose.bytes size:(int)ai_humanpose.length aitype:FUAITYPE_HUMANPOSE2D];
-
     NSData *ai_face_processor = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ai_face_processor.bundle" ofType:nil]];
     [FURenderer loadAIModelFromPackage:(void *)ai_face_processor.bytes size:(int)ai_face_processor.length aitype:FUAITYPE_FACEPROCESSOR];
-    
+//
 }
 
 -(void)setupItmeHintData{
@@ -186,10 +183,12 @@ static FUManager *shareManager = NULL;
 
         [_filters addObject:modle];
     }
+    
+    self.seletedFliter = _filters[2];
 }
 
 -(void)setupSkinData{
-    NSArray *prams = @[@"blur_level",@"color_level",@"red_level",@"eye_bright",@"tooth_whiten"];//,@"remove_pouch_strength",@"remove_nasolabial_folds_strength"
+    NSArray *prams = @[@"blur_level",@"color_level",@"red_level",@"eye_bright",@"tooth_whiten",@"remove_pouch_strength",@"remove_nasolabial_folds_strength"];//
     NSDictionary *titelDic = @{@"blur_level":@"精细磨皮",@"color_level":@"美白",@"red_level":@"红润",@"remove_pouch_strength":@"去黑眼圈",@"remove_nasolabial_folds_strength":@"去法令纹",@"eye_bright":@"亮眼",@"tooth_whiten":@"美牙"};
     NSDictionary *defaultValueDic = @{@"blur_level":@(0.7),@"color_level":@(0.3),@"red_level":@(0.3),@"remove_pouch_strength":@(0),@"remove_nasolabial_folds_strength":@(0),@"eye_bright":@(0),@"tooth_whiten":@(0)};
     
@@ -401,10 +400,6 @@ static FUManager *shareManager = NULL;
             [FURenderer itemSetParam:items[FUNamaHandleTypeBeauty] withName:@"face_shape" value:@(4)];
             [self setBeautyParameters];
             
-            /* 点位共存模式*/
-            [FURenderer itemSetParam:items[FUNamaHandleTypeBeauty] withName:@"landmarks_type" value:@(FUAITYPE_FACEPROCESSOR)];
-            
-            
             CFAbsoluteTime endTime = (CFAbsoluteTimeGetCurrent() - startTime);
 
             NSLog(@"加载美颜道具耗时: %f ms", endTime * 1000.0);
@@ -430,7 +425,7 @@ static FUManager *shareManager = NULL;
     
     
     /* 设置默认状态 */
-    if (!self.seletedFliter) {
+    if (self.seletedFliter) {
         [FURenderer itemSetParam:items[FUNamaHandleTypeBeauty] withName:@"filter_name" value:[self.seletedFliter.mParam lowercaseString]];
         [FURenderer itemSetParam:items[FUNamaHandleTypeBeauty] withName:@"filter_level" value:@(self.seletedFliter.mValue)];
     }
@@ -780,11 +775,13 @@ static FUManager *shareManager = NULL;
 
     [FURenderer onCameraChange];
     /* 获取海报的人脸点位 */
-    float posterLandmarks[150];
+    float posterLandmarks[239*2];
     int endI = 0;
+    int is_tracking = 0;
     for (int i = 0; i< 50; i++) {//校验出人脸再trsckFace 5次
         [FURenderer trackFace:FU_FORMAT_RGBA_BUFFER inputData:posterData width:postersWidth height:postersHeight];
         if ([FURenderer isTracking] > 0) {
+            is_tracking = 1;
             if (endI == 0) {
                 endI = i;
             }
@@ -1283,6 +1280,7 @@ static FUManager *shareManager = NULL;
         model.type = i;
         model.modules = dict[@"modules"] ;
         model.items = dict[@"items"] ;
+        model.conpareCode = [dict[@"conpareCode"] intValue];
         [modesArray addObject:model];
     }
     
@@ -1314,13 +1312,14 @@ static FUManager *shareManager = NULL;
         }
         
         for (NSNumber *num in model.modules) {
-            
-            BOOL isEable = module & [num intValue] ;
-            /* 捏脸的后32位 暂时特殊判断 */
-            if (model.type == FULiveModelTypeNieLian) {
+            BOOL isEable = NO;
+            /* 权限码：分前32位和后32位 不同t功能需要区别判断下*/
+            if (model.conpareCode == 0) {
+                isEable = module & [num intValue] ;
+            }else{
                 isEable = module1 & [num intValue];
             }
-            
+                        
             if (isEable) {
                 
                 [_dataSource removeObject:model];

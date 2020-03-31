@@ -17,7 +17,7 @@
 #import <Masonry.h>
 
 @interface FUEditImageViewController ()<FUItemsViewDelegate>{
-    float photoLandmarks[150];
+    float photoLandmarks[239*2];
 }
 @property (strong, nonatomic) FUNoNullItemsView *mItemView;
 @property (weak, nonatomic) IBOutlet FLAnimatedImageView *loadingImage;

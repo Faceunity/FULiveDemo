@@ -47,11 +47,6 @@
     
     [_demoBar setDefaultFilter:[FUManager shareManager].seletedFliter];
     
-    dispatch_async([FUManager shareManager].asyncLoadQueue, ^{
-        int handle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeBeauty];
-        /* 单独美颜点位点位*/
-        [FURenderer itemSetParam:handle withName:@"landmarks_type" value:@(FUAITYPE_FACELANDMARKS75)];
-    });
 
 }
 
@@ -83,8 +78,6 @@
         _compBtn.frame = CGRectMake(15 , self.view.frame.size.height - 70 - 182, 44, 44);
     }
 }
-
-
 
 -(void)setOrientation:(int)orientation{
     [super setOrientation:orientation];
@@ -180,6 +173,8 @@
         }];
     }
 }
+
+
 
 - (void)dismissTipLabel{
     self.tipLabel.hidden = YES;
