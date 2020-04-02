@@ -471,32 +471,23 @@ static  NSTimeInterval oldTime = 0;
 
 
 -(CGPoint)cameraFocusAndExposeFace{
-    static float posterLandmarks[239* 2];
-    int ret = [FURenderer getFaceInfo:0 name:@"landmarks" pret:posterLandmarks number:75* 2];
-     if (ret == 0) {
-        ret = [FURenderer getFaceInfo:0 name:@"landmarks_new" pret:posterLandmarks number:239* 2];
-         if (ret == 0) {
-             memset(posterLandmarks, 0, sizeof(float)*239* 2);
-         }
-     }
-    
-    CGPoint center = [self getCenterFromeLandmarks:posterLandmarks];
-    
-   return  CGPointMake(center.y/imageH, self.mCamera.isFrontCamera ? center.x/imageW : 1 - center.x/imageW);
+    CGPoint center = [[FUManager shareManager] getFaceCenterInFrameSize:CGSizeMake(imageW, imageH)];
+   return  CGPointMake(center.y, self.mCamera.isFrontCamera ? center.x : 1 - center.x);
 }
 
 
--(CGPoint)getCenterFromeLandmarks:(float *)Landmarks{
-    float min_x = 10000,min_y =10000,max_x =0 ,max_y=0;
-    for(int i = 0;i<75;i++){
-        min_x = MIN(min_x,Landmarks[i*2+0]);
-        min_y = MIN(min_y,Landmarks[i*2+1]);
-        max_x = MAX(max_x,Landmarks[i*2+0]);
-        max_y = MAX(max_y,Landmarks[i*2+1]);
-    }
-    CGPoint center=CGPointMake((min_x + max_x)/2.0, (min_y + max_y)/2.0);
-    return center;
-}
+//-(CGPoint)getCenterFromeLandmarks:(float *)Landmarks{
+//    float min_x = 10000,min_y =10000,max_x =0 ,max_y=0;
+//    for(int i = 0;i<75;i++){
+//        min_x = MIN(min_x,Landmarks[i*2+0]);
+//        min_y = MIN(min_y,Landmarks[i*2+1]);
+//        max_x = MAX(max_x,Landmarks[i*2+0]);
+//        max_y = MAX(max_y,Landmarks[i*2+1]);
+//    }
+//    CGPoint center=CGPointMake((min_x + max_x)/2.0, (min_y + max_y)/2.0);
+//    NSLog(@"LandmarksC--(%f,%f)",center.x,center.y);
+//    return center;
+//}
 
 #pragma  mark -  刷新bugly text
 // 更新视频参数栏
