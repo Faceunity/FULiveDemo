@@ -110,13 +110,9 @@ static FUManager *shareManager = NULL;
     NSData *ai_bgseg = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ai_bgseg.bundle" ofType:nil]];
     [FURenderer loadAIModelFromPackage:(void *)ai_bgseg.bytes size:(int)ai_bgseg.length aitype:FUAITYPE_BACKGROUNDSEGMENTATION];
     
-    NSData *ai_facelandmarks75 = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ai_facelandmarks75.bundle" ofType:nil]];
-    [FURenderer loadAIModelFromPackage:(void *)ai_facelandmarks75.bytes size:(int)ai_facelandmarks75.length aitype:FUAITYPE_FACELANDMARKS75];
-
     NSData *ai_facelandmarks209 = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ai_facelandmarks209.bundle" ofType:nil]];
          [FURenderer loadAIModelFromPackage:(void *)ai_facelandmarks209.bytes size:(int)ai_facelandmarks209.length aitype:FUAITYPE_FACELANDMARKS209];
-    NSData *ai_facelandmarks239 = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ai_facelandmarks239.bundle" ofType:nil]];
-    [FURenderer loadAIModelFromPackage:(void *)ai_facelandmarks239.bytes size:(int)ai_facelandmarks239.length aitype:FUAITYPE_FACELANDMARKS239];
+    
     NSData *ai_gesture = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ai_gesture.bundle" ofType:nil]];
     [FURenderer loadAIModelFromPackage:(void *)ai_gesture.bytes size:(int)ai_gesture.length aitype:FUAITYPE_HANDGESTURE];
     NSData *ai_hairseg = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ai_hairseg.bundle" ofType:nil]];
@@ -1124,10 +1120,7 @@ static FUManager *shareManager = NULL;
     CGFloat centerY = (faceRect[1] + faceRect[3]) * 0.5;
     
     // 将坐标系转换成以左上角为原点的坐标系
-    centerX = frameSize.width - centerX;
     centerX = centerX / frameSize.width;
-    
-    centerY = frameSize.height - centerY;
     centerY = centerY / frameSize.height;
     
     CGPoint center = CGPointMake(centerX, centerY);

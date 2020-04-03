@@ -566,8 +566,8 @@
 		E31D91442429BE3D0054AFFA /* oumei.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = oumei.bundle; sourceTree = "<group>"; };
 		E31D91452429BE3D0054AFFA /* linjia.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = linjia.bundle; sourceTree = "<group>"; };
 		E31D91462429BE3D0054AFFA /* tianmei.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = tianmei.bundle; sourceTree = "<group>"; };
-		E31D91472429BE3D0054AFFA /* wumei.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = wumei.bundle; sourceTree = "<group>"; };
-		E31D91482429BE3D0054AFFA /* xinggan.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = xinggan.bundle; sourceTree = "<group>"; };
+		E31D91472429BE3D0054AFFA /* wumei.bundle */ = {isa = PBXFileReference; lastKnownFileType = text; path = wumei.bundle; sourceTree = "<group>"; };
+		E31D91482429BE3D0054AFFA /* xinggan.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = xinggan.bundle; sourceTree = "<group>"; };
 		E31D914A2429BE3D0054AFFA /* wumei.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = wumei.json; sourceTree = "<group>"; };
 		E31D914B2429BE3D0054AFFA /* oumei.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = oumei.json; sourceTree = "<group>"; };
 		E31D914C2429BE3D0054AFFA /* tianmei.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tianmei.json; sourceTree = "<group>"; };
@@ -2994,7 +2994,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 28;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3044,7 +3044,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 28;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
 				FRAMEWORK_SEARCH_PATHS = (
