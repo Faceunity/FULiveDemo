@@ -14,9 +14,6 @@
 #import <CoreMotion/CoreMotion.h>
 #import "FUMusicPlayer.h"
 #import "FUImageHelper.h"
-#import "FURenderer+header.h"
-
-
 
 @interface FUManager ()
 {
