@@ -303,7 +303,7 @@
                 self.videoReader.delegate = self ;
                 self.glView.origintation = (int)self.videoReader.videoOrientation ;
                 if (self.videoReader.videoOrientation == FUVideoReaderOrientationLandscapeRight || self.videoReader.videoOrientation == FUVideoReaderOrientationLandscapeLeft) {
-//                    fuSetDefaultRotationMode([self setOrientationWithDegress:self.degress]);
+                    fuSetDefaultRotationMode([self setOrientationWithDegress:self.glView.origintation]);
                 }
             }
             
@@ -414,7 +414,7 @@
     
     self.glView.origintation = (int)self.videoReader.videoOrientation ;
     if (self.videoReader.videoOrientation == FUVideoReaderOrientationLandscapeRight || self.videoReader.videoOrientation == FUVideoReaderOrientationLandscapeLeft) {
-//        fuSetDefaultRotationMode([self setOrientationWithDegress:self.degress]);
+        fuSetDefaultRotationMode([self setOrientationWithDegress:self.glView.origintation]);
     }
 }
 

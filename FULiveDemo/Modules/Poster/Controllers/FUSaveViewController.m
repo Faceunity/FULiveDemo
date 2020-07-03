@@ -59,18 +59,18 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (IBAction)doneAction:(id)sender {
-    if (_type ==  FULiveModelTypeGan) {
-        if ([self setupPhotoMake]) {
-            FUGanEditController *vc = [[FUGanEditController alloc] init];
-            vc.pushFrom = FUGanEditImagePushFromPhoto;
-            vc.view.backgroundColor = [UIColor blackColor];
-            vc.originalImage = self.mImageView.image;
-            [self.navigationController pushViewController:vc animated:YES];
-            if (self.mImageView.image) {
-                UIImageWriteToSavedPhotosAlbum(self.mImageView.image, self, nil, NULL);
-            }
-        };
-    }else{
+//    if (_type ==  FULiveModelTypeGan) {
+//        if ([self setupPhotoMake]) {
+//            FUGanEditController *vc = [[FUGanEditController alloc] init];
+//            vc.pushFrom = FUGanEditImagePushFromPhoto;
+//            vc.view.backgroundColor = [UIColor blackColor];
+//            vc.originalImage = self.mImageView.image;
+//            [self.navigationController pushViewController:vc animated:YES];
+//            if (self.mImageView.image) {
+//                UIImageWriteToSavedPhotosAlbum(self.mImageView.image, self, nil, NULL);
+//            }
+//        };
+//    }else{
         FUEditImageViewController *vc = [[FUEditImageViewController alloc] initWithNibName:@"FUEditImageViewController" bundle:nil];
         vc.view.backgroundColor = [UIColor blackColor];
         vc.PushFrom = FUEditImagePushFromPhoto;
@@ -79,7 +79,7 @@
         if (self.mImageView.image) {
             UIImageWriteToSavedPhotosAlbum(self.mImageView.image, self, nil, NULL);
         }
-    }
+//    }
 }
 
 

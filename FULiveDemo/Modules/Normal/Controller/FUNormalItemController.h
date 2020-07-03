@@ -8,11 +8,11 @@
 /* 加道具切换 */
 
 #import "FUBaseViewController.h"
-
+#import "FUItemsView.h"
 NS_ASSUME_NONNULL_BEGIN
 
-@interface FUNormalItemController : FUBaseViewController
-
+@interface FUNormalItemController : FUBaseViewController<FUItemsViewDelegate>
+@property (strong, nonatomic) FUItemsView *itemsView;
 @end
 
 NS_ASSUME_NONNULL_END

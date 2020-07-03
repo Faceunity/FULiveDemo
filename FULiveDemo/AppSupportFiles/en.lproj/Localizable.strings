@@ -8,7 +8,7 @@
 /* demobar  */
 //"清晰磨皮" = "Light Blur" ;
 //"朦胧磨皮" = "Heavy Blur" ;
-"精细磨皮" = "Fine Blur" ;
+"精细磨皮" = "Fine Smooth" ;
 "磨皮" = "Fine Blur" ;
 "锐化" = "sharpen";
 "美白" = "Whiten" ;
@@ -29,7 +29,16 @@
 "长鼻"     =  "Long nose";
 "缩人中"     =  "Among people";
 "微笑嘴角"     =  "Smiling mouth";
+"去黑眼圈"   = "Circles";
+"去法令纹"   = "Wrinkles";
+"开眼角"   = "Canthus";
+"眼距"   = "Eye distance";
+"眼睛角度"   = "Eye tilt";
 
+"长鼻"   = " Length";
+"缩人中"   = "Philtrum";
+"眼距"   = "Eye distance";
+"微笑嘴角"   = "Smile";
 
 //滤镜
 "原图" = "Origin" ;
@@ -113,6 +122,15 @@
 "质感灰7" = "Texture grey7";
 "质感灰8" = "Texture grey8";
 
+"蜜桃1" = "Peach1";
+"蜜桃2" = "Peach2";
+"蜜桃3" = "Peach3";
+"蜜桃4" = "Peach4";
+"蜜桃5" = "Peach5";
+"蜜桃6" = "Peach6";
+"蜜桃7" = "Peach7";
+"蜜桃8" = "Peach8";
+
 "载入图片或视频" = "Load picture or video";
 
 "红润" = "Ruddy" ;
@@ -148,7 +166,7 @@
 "换脸" = "Face Transfer" ;
 "表情识别" = "Expression" ;
 "音乐滤镜" = "Music Filter" ;
-"背景分割" = "Background" ;
+"人像分割" = "Background" ;
 "手势识别" = "Gesture" ;
 "哈哈镜" = "FaceWarp" ;
 "人像驱动" = "Dynamic Portrait" ;
@@ -365,4 +383,30 @@
 "美肩"  = "Shoulder";
 "美臀"  = "Hip";
 "未检测到人体" = "No Body Tracking";
+"小头" =  "Head";
+"瘦腿"    =   "Thin leg";
 
+//主模块
+"人脸特效" =  "Face effects";
+"人体特效"  = "Body effects";
+"搞笑大头"  = "Funny big head";
+"全身Avatar"  = "body Avatar";
+"动作识别"  = "Action rec.";
+
+//美妆模块
+"减龄"  = "Tender";
+"暖冬"  = "Warm";
+"红枫"  = "Maple";
+"少女"  = "Maiden";
+"紫韵"  = "Purple";
+"厌世猫"  = "Cat";
+"人鱼"  = "Mermaid";
+"初秋"  = "Autumn";
+"千纸鹤"  = "Crane";
+"超模"  = "Model";
+"雏菊"  = "Daisy";
+"港风"  = "HK Style";
+
+//其他
+"半身驱动" = "Half";
+"全身驱动" = "whole";

@@ -1,29 +1,68 @@
 # iOS Nama Objective-C API 参考文档
-级别：Public   
-更新日期：2020-03-19   
-SDK版本: 6.7.0  
+1. 级别：Public   
+   更新日期：2020-06-30   
+   SDK版本: 7.0.0  
 
-------
+   ------
 
-**FaceUnity Nama SDK v6.7.0 (2020-03-19 )**
+   **FaceUnity Nama SDK v7.0.0 (2020.6.30)**
 
-1. 美颜效果
-      -新增去黑眼圈、去法令纹功能
-      -优化磨皮效果，新增只磨皮人脸区域接口功能
-      -优化原有美型效果
+   更新内容
 
-2. 优化表情跟踪效果，解决了6.6.0版表情系数表情灵活度问题——FaceProcessor模块优化
-   -解决Animoji表情灵活度问题，基本与原有SDK v6.4.0效果相近
-   -解决优化了表情动图的鼻子跟踪效果问题
+   - 新增人体算法能力，包括人体检测、2D人体关键点（全身、半身）、人体3D骨骼（全身、半身）、手势识别、人像mask、头发mask、头部mask、动作识别等能力。
+   - 性能优化，优化美颜整体性能，中低端机尤为明显，相较于上一版本6.7.0平均提升30%。
+   - 性能优化，优化美颜初始化耗时，解决中低端机进入长时间卡顿问题。
+   - 美颜效果提升
+     - 修复嘴型功能抬头时上嘴唇失效问题。
+     - 修复口罩遮挡时，单输入亮眼会飘问题。
+     - 修复口罩遮挡时，白牙会有亮片。
+     - 修复去黑眼圈/去法令纹，近距离有分割线问题。
+     - 修复长鼻功能特殊机型上问题。
+     - 支持仅使用美颜滤镜时,关闭人脸检测功能。
+     - 优化人脸跟踪点位的稳定性。
+   - 美妆效果提升
+     - 优化低头、侧脸时口红会飘问题。
+     - 优化正常睁眼时美瞳溢出问题。
+     - 修复闭眼仍然美瞳效果，美瞳溢出问题。
+     - 优化鼻子高光晃动问题。
+     - 优化眉毛抖动问题。
+   - 优化表情跟踪稳定性，解决手机轻微晃动的时候抖动较严重问题，提升Animoji等表情跟踪效果。
+   - 优化美发效果，使用新的人体算法能力中的头发mask。
+   - 修复单纹理输入时画面模糊问题。
+   - 修复Android单输入存在内存泄漏问题。
+   - 修复多道具同时加载问题。
+   - 新增接口，详见接口文档
+     - fuGetLogLevel,获取当前日志级别。
+     - fuSetLogLevel,设置当前日志级别。
+     - fuOpenFileLog,打开文件日志，默认使用console日志。
+     - fuFaceProcessorSetMinFaceRatio，设置人脸检测距离的接口。
+     - fuSetTrackFaceAIType，设置fuTrackFace算法运行类型接口。
+     - fuSetCropState，设置裁剪状态。
+     - fuSetCropFreePixel，设置自由裁剪参数。
+     - fuSetFaceProcessorFov，设置FaceProcessor人脸算法模块跟踪fov。
+     - fuGetFaceProcessorFov，获取FaceProcessor人脸算法模块跟踪fov。
+     - fuHumanProcessorReset，重置HumanProcessor人体算法模块状态。
+     - fuHumanProcessorSetMaxHumans，设置HumanProcessor人体算法模块跟踪人体数。
+     - fuHumanProcessorGetNumResults，获取HumanProcessor人体算法模块跟踪人体数。
+     - fuHumanProcessorGetResultTrackId，获取HumanProcessor人体算法模块跟踪Id。
+     - fuHumanProcessorGetResultRect，获取HumanProcessor人体算法模块跟踪人体框。
+     - fuHumanProcessorGetResultJoint2ds，获取HumanProcessor人体算法模块跟踪人体2D关键点。
+     - fuHumanProcessorGetResultJoint3ds，获取HumanProcessor人体算法模块跟踪人体3D骨骼信息。
+     - fuHumanProcessorGetResultHumanMask，获取HumanProcessor人体算法模块全身mask。
+     - fuHumanProcessorGetResultActionType，获取HumanProcessor人体算法模块跟踪人体动作类型。
+     - fuHumanProcessorGetResultActionScore，获取HumanProcessor人体算法模块跟踪人体动作置信度。
+     - fuFaceProcessorGetResultHairMask，获取HumanProcessor人体算法模块头发mask。
+     - fuFaceProcessorGetResultHeadMask，获取HumanProcessor人体算法模块头部mask。
+     - fuHandDetectorGetResultNumHands，获取HandGesture手势算法模块跟踪手势数量。
+     - fuHandDetectorGetResultHandRect，获取HandGesture手势算法模块跟踪手势框。
+     - fuHandDetectorGetResultGestureType，获取HandGesture手势算法模块跟踪手势类别。
+     - fuHandDetectorGetResultHandScore，获取HandGesture手势算法模块跟踪手势置信度。
+   - 废弃接口
+     - fuSetStrictTracking
+     - fuSetASYNCTrackFace
+     - fuSetFaceTrackParam
 
-3. 优化美妆效果，人脸点位优化，提高准确性
-   -优化口红点位与效果，解决张嘴、正脸、低抬头、左右转头、抿嘴动作的口红溢色
-   -优化美瞳点位效果，是美瞳效果稳定
-   -腮红效果优化，解决了仰头角度下腮红强拉扯问题
-
-4. 新增接口支持图像裁剪，解决瘦脸边缘变形问题（边缘变形剪裁）
-5. 新增接口判断初始化完成状态
-6. 移动端Demo优化曝光聚焦效果，效果达到市面上最优效果
+**注意：**一些高级接口没有OC封装，详情参考C的接口
 
 ------
 ### 目录：
@@ -39,6 +78,8 @@ SDK相关的所有调用要求在同一个线程中顺序执行，不支持多�
 
 底层接口根据作用逻辑归为五类：初始化、加载道具、主运行接口、销毁、功能接口、P2A相关接口。
 
+**注意：**OC API 是对底层C API的封装，OC未包含的高级设置，参考C API文档
+
 ------
 ### 2. APIs
 #### 2.1 初始化
@@ -52,9 +93,9 @@ SDK相关的所有调用要求在同一个线程中顺序执行，不支持多�
 
 __参数说明:__
 
-*data*： 内存指针，v3.bundle 对应的二进制数据地址
+*data*： 内存指针，v3.bundle 对应的二进制数据地址，nama 版本6.7.0后，初始化可以为__nil__
 
-*dataSize*： v3.bundle文件字节数
+*dataSize*： v3.bundle文件字节数，不使用v3初始化时设置为0
 
 *ardata*： 已废弃
 
@@ -78,9 +119,9 @@ __返回值:__
 
 __参数:__
 
-*data*： 内存指针，v3.bundle 对应的二进制数据地址
+*data*： 内存指针，v3.bundle 对应的二进制数据地址，nama 版本6.7.0后，初始化可以为__nil__
 
-*dataSize：v3.bundle文件字节数
+*dataSize：v3.bundle文件字节数，不使用v3初始化时设置为0
 
 *ardata*： 已废弃
 
@@ -107,7 +148,7 @@ __返回值:__
 
 __参数说明:__
 
-*v3path*：  v3.bundle 对应的文件路径
+*v3path*：  v3.bundle 对应的文件路径，nama 版本6.7.0后，初始化可以为__nil__
 
 *package*： 内存指针，指向鉴权数据的内容。如果是用包含 authpack.h 的方法在编译时提供鉴权数据，则这里可以写为 ```g_auth_package``` 。
 
@@ -453,6 +494,36 @@ __参数说明:__
 *flip*:  道具镜像使能，如果设置为YES可以将道具做镜像操作
 
 *customSize*: 自定义输出的分辨率，目前仅支持BGRA格式 
+
+__返回值:__
+
+被处理过的的图像数据，与传入的 pixelBuffer 为同一pixelBuffer。
+
+------
+
+##### renderPixelBuffer: withFrameId: items: itemCount: flipx: customSize: useAlpha:;
+
+可以自定义输出分辨率
+
+```objective-c
+- (CVPixelBufferRef)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer withFrameId:(int)frameid items:(int*)items itemCount:(int)itemCount flipx:(BOOL)flip customSize:(CGSize)customSize useAlpha:(BOOL)useAlpha;;
+```
+
+__参数说明:__
+
+*pixelBuffer*:  图像数据，支持的格式为：BGRA、YUV420SP
+
+*frameid*:  当前处理的视频帧序数，每次处理完对其进行加1操作，不加1将无法驱动道具中的特效动画
+
+*items* : 包含多个道具句柄的int数组
+
+*itemCount*:  句柄数组中包含的句柄个数
+
+*flip*:  道具镜像使能，如果设置为YES可以将道具做镜像操作
+
+*customSize*: 自定义输出的分辨率，目前仅支持BGRA格式 
+
+*useAlpha*: 是否带道具透明通道，if  useAlpha = NO,RGBA 数据alpha 会被强制设置为1，其他视频处理接口皆为该模式
 
 __返回值:__
 
@@ -994,7 +1065,8 @@ __参数说明:__
 
 ------
 
-##### fuSetASYNCTrackFace
+##### ~~fuSetASYNCTrackFace~~
+已弃用。
 
 设置人脸跟踪异步接口。默认处于关闭状态。
 

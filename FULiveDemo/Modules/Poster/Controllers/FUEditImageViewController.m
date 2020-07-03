@@ -273,8 +273,8 @@
     CGFloat centerX = (faceRect[0] + faceRect[2]) * 0.5;
     CGFloat centerY = (faceRect[1] + faceRect[3]) * 0.5;
 
-    centerX =  photoWidth - centerX;
-    centerY = photoHeight - centerY;
+//    centerX =  photoWidth - centerX;
+//    centerY = photoHeight - centerY;
 
     CGFloat width = faceRect[2] - faceRect[0] ;
     CGFloat height = faceRect[3] - faceRect[1] ;

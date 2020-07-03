@@ -108,7 +108,11 @@ static int oldHandle = 0;
         int makeupHandle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeMakeup];
         /* 切换bundle,清空当前bind道具 */
         [FURenderer itemSetParam:makeupHandle withName:@"is_clear_makeup" value:@(1)];
-
+        
+        /* 防止子妆调节，把口红调乱了，注意：不需要自定义 */
+        [FURenderer itemSetParam:makeupHandle withName:@"lip_type" value:@(0)];
+        [FURenderer itemSetParam:makeupHandle withName:@"is_two_color" value:@(0)];
+        
         NSString *path = [[NSBundle mainBundle] pathForResource:model.makeupBundle ofType:@"bundle"];
         int subHandle = [FURenderer itemWithContentsOfFile:path];
         

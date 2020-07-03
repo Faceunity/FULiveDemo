@@ -26,6 +26,7 @@
     self.title.text = NSLocalizedString( _model.title, nil) ;
     self.image.image = [UIImage imageNamed:_model.title] ;
     self.bottomImage.image = _model.enble ? [UIImage imageNamed:@"bottomImage"] : [UIImage imageNamed:@"bottomImage_gray"] ;
+    NSLog(@"----------%d",_model.enble);
 }
 
 @end

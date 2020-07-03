@@ -69,6 +69,10 @@ FUPopupMenuDelegate
 //    self.view.backgroundColor = [UIColor whiteColor];
     /* 美颜道具 */
     [[FUManager shareManager] loadFilter];
+    /*
+    抗锯齿
+    */
+    [[FUManager shareManager] loadBundleWithName:@"fxaa" aboutType:FUNamaHandleTypeFxaa];
     
     //重置曝光值为0
     [self.mCamera setExposureValue:0];
@@ -86,12 +90,7 @@ FUPopupMenuDelegate
     [self.renderView addGestureRecognizer:tap];
     self.canPushImageSelView = YES;
 //    self.renderView.contentMode = FUOpenGLViewContentModeScaleAspectFit;
-   
-    if ([self needSetMultiSamples]) {
-        fuSetMultiSamples(4);
-    }else{
-        fuSetMultiSamples(0);
-    }
+
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -256,6 +255,7 @@ FUPopupMenuDelegate
             if (center.y > 0) {
                 CGPoint point = CGPointMake(center.y/self.view.bounds.size.height, self.mCamera.isFrontCamera ? center.x/imagecW : 1 - center.x/imagecW);
                 [self.mCamera focusWithMode:AVCaptureFocusModeContinuousAutoFocus exposeWithMode:AVCaptureExposureModeContinuousAutoExposure atDevicePoint:point monitorSubjectAreaChange:YES];
+                    NSLog(@"手动曝光点-----%@",NSStringFromCGPoint(point));
             }
         }else if(self.renderView.contentMode == FUOpenGLViewContentModeScaleAspectFit){
 
@@ -268,12 +268,14 @@ FUPopupMenuDelegate
             if (center.y > 0) {
                 CGPoint point = CGPointMake(center.y/imagecH, self.mCamera.isFrontCamera ? center.x/self.view.bounds.size.width : 1 - center.x/self.view.bounds.size.width);
                 [self.mCamera focusWithMode:AVCaptureFocusModeContinuousAutoFocus exposeWithMode:AVCaptureExposureModeContinuousAutoExposure atDevicePoint:point monitorSubjectAreaChange:YES];
+                NSLog(@"手动曝光点-----%@",NSStringFromCGPoint(point));
             }
-
+            
 
         }else{
             CGPoint point = CGPointMake(center.y/self.view.bounds.size.height, self.mCamera.isFrontCamera ? center.x/self.view.bounds.size.width : 1 - center.x/self.view.bounds.size.width);
             [self.mCamera focusWithMode:AVCaptureFocusModeContinuousAutoFocus exposeWithMode:AVCaptureExposureModeContinuousAutoExposure atDevicePoint:point monitorSubjectAreaChange:YES];
+            NSLog(@"手动曝光点-----%@",NSStringFromCGPoint(point));
         }
 
     }
@@ -302,9 +304,9 @@ FUPopupMenuDelegate
 -(void)headButtonViewBackAction:(UIButton *)btn{
     dispatch_semaphore_wait(signal, DISPATCH_TIME_FOREVER);
     [self.mCamera stopCapture];
-    [[FUManager shareManager] onCameraChange];
-    [self.navigationController popViewControllerAnimated:YES];
     
+    [[FUManager shareManager] destoryItems];
+    [self.navigationController popViewControllerAnimated:YES];
     dispatch_semaphore_signal(signal);
 }
 
@@ -436,8 +438,14 @@ static  NSTimeInterval oldTime = 0;
     imageW = CVPixelBufferGetWidth(pixelBuffer);
     imageH = CVPixelBufferGetHeight(pixelBuffer);
     NSTimeInterval startTime =  [[NSDate date] timeIntervalSince1970];
+    
+    fuSetDefaultRotationMode([FUManager shareManager].deviceOrientation);
     if(!_openComp){//按住对比，不处理
-        [[FUManager shareManager] renderItemsToPixelBuffer:pixelBuffer];
+        if ([self getNamaRenderType] == FUNamaHandleTypeBodyAvtar) {//全身avtar为3d渲染，这里暂时特殊处理
+            [[FUManager shareManager] renderItemsWithPtaPixelBuffer:pixelBuffer];
+        }else{
+             [[FUManager shareManager] renderItemsToPixelBuffer:pixelBuffer];
+        }
     }
     NSTimeInterval endTime = [[NSDate date] timeIntervalSince1970];
     /* renderTime */
@@ -452,6 +460,8 @@ static  NSTimeInterval oldTime = 0;
  
     [self.renderView displayPixelBuffer:pixelBuffer];
 //    static float posterLandmarks[239* 2];
+//    memset(posterLandmarks, 0, 239* 2 * sizeof(float));
+//    NSLog(@"-----istrack--%d",[FURenderer isTracking]);
 //    [FURenderer getFaceInfo:0 name:@"landmarks" pret:posterLandmarks number:239* 2];
 //    [self.renderView displayPixelBuffer:pixelBuffer withLandmarks:posterLandmarks count:239* 2 MAX:NO];
     /**判断是否检测到人脸*/
@@ -466,6 +476,7 @@ static  NSTimeInterval oldTime = 0;
     if (isHaveFace) {
         center = [self cameraFocusAndExposeFace];
     }
+//    NSLog(@"人脸曝光点-----%@",NSStringFromCGPoint(center));
     return center;
 }
 
@@ -552,14 +563,12 @@ static  NSTimeInterval oldTime = 0;
     }) ;
 }
 
-/* 该功能，是否需要开启多重采样 */
--(BOOL)needSetMultiSamples{
-    return NO;
-}
-     
-
 -(BOOL)onlyJumpImage{
     return NO;
+}
+
+-(FUNamaHandleType)getNamaRenderType{
+    return 0;
 }
 
 #pragma mark -  Observer
