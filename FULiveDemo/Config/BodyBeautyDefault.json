@@ -37,5 +37,21 @@
     "iconName":"demo_icon_hip",
     "isSel":false,
     "bundleKey":"HipSlimStrength"
+  },
+  {
+    "name":"小头",
+    "type":5,
+    "value":0,
+    "iconName":"demo_icon_little_head",
+    "isSel":false,
+    "bundleKey":"HeadSlim"
+  },
+  {
+    "name":"瘦腿",
+    "type":6,
+    "value":0,
+    "iconName":"demo_icon_thin_leg",
+    "isSel":false,
+    "bundleKey":"LegSlim"
   }
 ]

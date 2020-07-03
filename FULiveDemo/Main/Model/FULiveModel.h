@@ -10,24 +10,23 @@
 
 typedef NS_ENUM(NSUInteger, FULiveModelType) {
     FULiveModelTypeBeautifyFace             = 0,
-    FULiveModelTypeBody,
     FULiveModelTypeMakeUp,
     FULiveModelTypeItems,
     FULiveModelTypeAnimoji,
-    FULiveModelTypeLightMakeup,
     FULiveModelTypeHair,
+    FULiveModelTypeLightMakeup,
     FULiveModelTypeARMarsk,
+    FULiveModelTypeHilarious,
     FULiveModelTypePoster,//海报换脸
     FULiveModelTypeExpressionRecognition,
     FULiveModelTypeMusicFilter,
+    FULiveModelTypeHahaMirror,
+    FULiveModelTypeBody,
+    FULiveModelTypeWholeAvatar,
+    FULiveModelTypeActionRecognition,
     FULiveModelTypeBGSegmentation,
     FULiveModelTypeGestureRecognition,
-    FULiveModelTypeHahaMirror,
-//    FULiveModelTypePortraitLighting,
-    FULiveModelTypePortraitDrive,
-    FULiveModelTypeNieLian,
-    FULiveModelTypeYiTu,
-    FULiveModelTypeGan
+    
 };
 
 @interface FULiveModel : NSObject
@@ -44,7 +43,7 @@ typedef NS_ENUM(NSUInteger, FULiveModelType) {
 
 @property (nonatomic, assign) NSArray *modules ;
 
-@property (nonatomic, strong) NSArray *items ;
+@property (nonatomic, strong) NSArray <NSString *>*items ;
 
 @property (nonatomic, assign) int selIndex;
 @end

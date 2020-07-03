@@ -54,7 +54,7 @@
     
     /* 返回当前界面的时候，重新加载 */
     if (!self.itemsView.selectedItem) {
-        self.itemsView.selectedItem = [FUManager shareManager].selectedItem ;
+        self.itemsView.selectedItem = [FUManager shareManager].selectedItem;
     }else {
         [[FUManager shareManager] loadItem:self.itemsView.selectedItem completion:nil];
     }
@@ -101,6 +101,14 @@
     FUSelectedImageController *vc = [[FUSelectedImageController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
     
+}
+
+-(void)displayPromptText{
+    int res    = fuHumanProcessorGetNumResults();
+    dispatch_async(dispatch_get_main_queue(), ^{
+            self.noTrackLabel.text = NSLocalizedString(@"未检测到人体",nil);
+           self.noTrackLabel.hidden = res > 0 ? YES : NO;
+    }) ;
 }
 
 

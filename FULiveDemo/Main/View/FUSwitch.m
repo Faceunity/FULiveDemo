@@ -23,7 +23,6 @@
 @property (nonatomic, strong) UIColor *offColor;
 @property (nonatomic, strong) UIView *knobView;
 @property (nonatomic, strong) UILabel *onLabel;
-@property (nonatomic, strong) UILabel *offLabel;
 
 - (void)commonInit;
 
@@ -304,6 +303,9 @@
     _knobView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.ballSize, self.ballSize)];
     _knobView.backgroundColor = _thumbTintColor;
     _knobView.layer.cornerRadius = self.ballSize / 2.0;
+    _knobView.layer.shadowOffset = CGSizeMake(0,0.5);
+    _knobView.layer.shadowColor = [UIColor blackColor].CGColor;
+    _knobView.layer.shadowOpacity = 0.3f;
     [_containerView addSubview:_knobView];
     
     _onLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -331,6 +333,7 @@
                                                                                  action:@selector(handlePanGestureRecognizerEvent:)];
     [self addGestureRecognizer:panGesture];
 }
+
 
 - (CGRect)roundRect:(CGRect)frameOrBounds
 {

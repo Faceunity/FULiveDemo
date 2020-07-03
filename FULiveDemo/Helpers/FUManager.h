@@ -31,7 +31,8 @@ typedef NS_ENUM(NSUInteger, FUNamaHandleType) {
     FUNamaHandleTypeAvtarHiar = 9,  /* items[9] ------ Avtar头发 */
     FUNamaHandleTypeAvtarbg = 10,  /* items[10] ------ Avtar背景 */
     FUNamaHandleTypeBodySlim = 11,  /* items[11] ------ 美体道具 */
-    FUNamaHandleTotal = 12
+    FUNamaHandleTypeBodyAvtar = 12,  /* 全身avtar */
+    FUNamaHandleTotal = 13,
 };
 
 typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
@@ -50,7 +51,7 @@ typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
 @property (nonatomic, strong) NSMutableArray<FUBeautyParam *> *skinParams;
 /* 美型参数 */
 @property (nonatomic, strong) NSMutableArray<FUBeautyParam *> *shapeParams;
-@property (nonatomic, strong)               NSMutableArray<FULiveModel *> *dataSource;  /**道具分类数组*/
+@property (nonatomic, strong)               NSMutableArray<NSMutableArray<FULiveModel *>*> *dataSource;  /**道具分类数组*/
 @property (nonatomic, strong)               NSString *selectedItem;     /**选中的道具名称*/
 
 @property (nonatomic, strong)               FUBeautyParam *seletedFliter;
@@ -59,6 +60,8 @@ typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
 
 // 当前页面的 model
 @property (nonatomic, strong) FULiveModel *currentModel ;
+
+@property (nonatomic) int deviceOrientation;
 
 + (FUManager *)shareManager;
 
@@ -102,6 +105,9 @@ typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
 - (CVPixelBufferRef)renderItemsToPixelBuffer:(CVPixelBufferRef)pixelBuffer;
 
 - (CVPixelBufferRef)renderAvatarPixelBuffer:(CVPixelBufferRef)pixelBuffer;
+
+/* 3D 渲染接口 */
+-(void)renderItemsWithPtaPixelBuffer:(CVPixelBufferRef)pixelBuffer;
 
 /* 加载海报道具 */
 - (void)loadPoster;
@@ -154,33 +160,6 @@ typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
 /// @param type 句柄索引
 -(void)rejoinNamaRenderWithType:(FUNamaHandleType)type;
 
-#pragma  mark -  捏脸
--(void)enterAvatar;
--(void)recomputeAvatar;
--(void)clearAvatar;
--(void)quitAvatar;
--(void)lazyAvatar;
-
-/* 暂时 */
--(void)avatarBundleAddRender:(BOOL)isAdd;
--(BOOL)avatarBundleIsload;
-
-/* 扭脸维度 */
--(void)setAvatarParam:(NSString *)paramStr value:(float )value;
-/* 部位颜色 */
--(void)setAvatarItemParam:(NSString *)paramStr colorWithRed:(float )r green:(int)g blue:(int)b;
-/* 捏脸模型缩放 */
--(void)setAvatarItemScale:(float)scaleValue;
-/* 头平移 */
--(void)setAvatarItemTranslateX:(int)x y:(int)y z:(int)z;
-
--(void)avatarBindHairItem:(NSString *)bundleName;
-    
--(void)setAvatarHairColorParam:(NSString *)paramStr colorWithRed:(float )r green:(int)g blue:(int)b intensity:(int)i;
-
--(void)loadBgAvatar;
-
--(void)loadAvatarBundel;
 
 - (void)loadAnimojiFaxxBundle;
 - (void)musicFilterSetMusicTime;

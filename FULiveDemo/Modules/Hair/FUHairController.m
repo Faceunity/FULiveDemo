@@ -28,12 +28,10 @@ typedef NS_ENUM(NSUInteger, FUHairModel) {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self setupView];
+    
+    
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-
-}
 
 -(void)setupView{
      _hairView = [[FUHairView alloc] init];

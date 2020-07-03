@@ -15,7 +15,9 @@ typedef NS_ENUM(NSUInteger, FUPositionType) {
     FUPositionTypeLegged = 1,
     FUPositionTypeWaist = 2,
     FUPositionTypeshoulder = 3,
-    FUPositionTypeHip = 4
+    FUPositionTypeHip = 4,
+    FUPositionTypeHeadSlim = 5,
+    FUPositionTypeLegSlim = 6
 };
 
 @interface FUPosition : NSObject

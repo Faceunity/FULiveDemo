@@ -350,10 +350,10 @@ enum
 
 - (void)presentFramebuffer;
 {
+
     glBindRenderbuffer(GL_RENDERBUFFER, renderBufferHandle);
     [self.glContext presentRenderbuffer:GL_RENDERBUFFER];
-    
-    glFinish() ;
+//    glFinish();
 }
 
 - (void)displayPixelBuffer:(CVPixelBufferRef)pixelBuffer
@@ -366,6 +366,7 @@ enum
     if (pixelBuffer == NULL) return;
     
     CVPixelBufferRetain(pixelBuffer);
+    CVPixelBufferLockBaseAddress(pixelBuffer, 0);
     dispatch_async(_contextQueue, ^{  //dispatch_sync  iphone8p 可能死锁
         self->frameWidth = (int)CVPixelBufferGetWidth(pixelBuffer);
         self->frameHeight = (int)CVPixelBufferGetHeight(pixelBuffer);
@@ -387,13 +388,14 @@ enum
             [self prepareToDrawYUVPixelBuffer:pixelBuffer];
         }
         
-        CVPixelBufferRelease(pixelBuffer);
-        
         if (landmarks) {
             [self prepareToDrawLandmarks:landmarks count:count MAX:max zoomScale:1];
         }
         
         [self presentFramebuffer];
+        
+        CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
+        CVPixelBufferRelease(pixelBuffer);
     });
     
 }

@@ -102,7 +102,7 @@ typedef void(^FUCameraRecordVidepCompleted)(NSString *videoPath);
 {
     if (!_captureSession) {
         _captureSession = [[AVCaptureSession alloc] init];
-        _captureSession.sessionPreset = AVCaptureSessionPresetHigh;
+        _captureSession.sessionPreset = AVCaptureSessionPreset1280x720;
         
         AVCaptureDeviceInput *deviceInput = self.isFrontCamera ? self.frontCameraInput:self.backCameraInput;
         

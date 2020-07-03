@@ -7,11 +7,10 @@
 //
 
 #import "FUNormalItemController.h"
-#import "FUItemsView.h"
 #import "FUSelectedImageController.h"
 
-@interface FUNormalItemController ()<FUItemsViewDelegate>
-@property (strong, nonatomic) FUItemsView *itemsView;
+@interface FUNormalItemController ()
+
 @end
 
 @implementation FUNormalItemController
@@ -20,7 +19,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self setupView];
-    
 }
 
 
@@ -45,11 +43,7 @@
         make.height.mas_equalTo(84);
     }];
     
-    /* 初始状态 */
-    NSString *selectItem = self.model.items.count > 0 ? self.model.items[0] : @"noitem" ;
-    self.itemsView.selectedItem = selectItem ;
-    [self itemsViewDidSelectedItem:selectItem];
-    
+
     self.photoBtn.transform = CGAffineTransformMakeTranslation(0, -36) ;
     
     /* 贴纸界面打开图片选择 */
@@ -63,7 +57,10 @@
     
     /* 返回当前界面的时候，重新加载 */
     if (!self.itemsView.selectedItem) {
-        self.itemsView.selectedItem = [FUManager shareManager].selectedItem ;
+            /* 初始状态 */
+        NSString *selectItem = self.model.items.count > 0 ? self.model.items[0] : @"noitem" ;
+        self.itemsView.selectedItem = selectItem ;
+        [self itemsViewDidSelectedItem:selectItem];
     }else {
         [[FUManager shareManager] loadItem:self.itemsView.selectedItem completion:nil];
     }
@@ -92,6 +89,10 @@
 }
 
 
+-(void)displayPromptText{
+    [super displayPromptText];
+}
+
 #pragma  mark -  按钮点击
 -(void)didClickSelPhoto{
     FUSelectedImageController *vc = [[FUSelectedImageController alloc] init];
@@ -104,6 +105,7 @@
     
     NSLog(@"normalll dealloc");
 }
+
 
 
 @end

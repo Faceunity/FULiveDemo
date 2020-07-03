@@ -1,0 +1,1 @@
+#define SDK_GIT_VERSION 8b882f6

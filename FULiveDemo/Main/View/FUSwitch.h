@@ -21,6 +21,8 @@
 @property (nonatomic, strong) NSString *onText;
 @property (nonatomic, strong) NSString *offText;
 
+@property (nonatomic, strong) UILabel *offLabel;
+
 - (void)setOn:(BOOL)on animated:(BOOL)animated;
 - (id)initWithFrame:(CGRect)frame onColor:(UIColor *)onColor offColor:(UIColor *)offColor font:(UIFont *)font ballSize:(NSInteger )ballSize;
 

@@ -53,8 +53,7 @@
 
 
 -(void)displayPromptText{
-    int handle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeBodySlim];
-    int res    = [FURenderer getDoubleParamFromItem:handle withName:@"HasHuman"];
+    int res    = fuHumanProcessorGetNumResults();
     
     dispatch_async(dispatch_get_main_queue(), ^{
             self.noTrackLabel.text = NSLocalizedString(@"未检测到人体",nil);

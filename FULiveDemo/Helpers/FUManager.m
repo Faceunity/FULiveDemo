@@ -30,7 +30,6 @@
 }
 
 @property (nonatomic, strong) CMMotionManager *motionManager;
-@property (nonatomic) int deviceOrientation;
 /* 重力感应道具 */
 @property (nonatomic,assign) BOOL isMotionItem;
 /* 当前加载的道具资源 */
@@ -39,6 +38,8 @@
 @property (nonatomic, strong) NSDictionary *hintDic;
 /* 带屏幕方向的道具 */
 @property (nonatomic, strong)NSArray *deviceOrientationItems;
+/* 3d 渲染后图片转正 */
+@property (nonatomic, strong) FURotatedImage *mRotatedImage;
 @end
 
 static FUManager *shareManager = NULL;
@@ -90,7 +91,7 @@ static FUManager *shareManager = NULL;
         
         // 默认竖屏
         self.deviceOrientation = 0 ;
-        fuSetDefaultOrientation(self.deviceOrientation);
+//        fuSetDefaultOrientation(self.deviceOrientation);
         
         /* 设置嘴巴灵活度 默认= 0*/
         float flexible = 0.5;
@@ -98,6 +99,10 @@ static FUManager *shareManager = NULL;
 
         /* 带屏幕方向的道具 */
         self.deviceOrientationItems = @[@"ctrl_rain",@"ctrl_snow",@"ctrl_flower",@"ssd_thread_six"];
+        
+        _mRotatedImage = [[FURotatedImage alloc] init];
+        
+        [self loadAnimojiFaxxBundle];
         
         NSLog(@"faceunitySDK version:%@",[FURenderer getVersion]);
     }
@@ -107,18 +112,8 @@ static FUManager *shareManager = NULL;
 
 
 -(void)loadAIModle{
-    NSData *ai_bgseg = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ai_bgseg.bundle" ofType:nil]];
-    [FURenderer loadAIModelFromPackage:(void *)ai_bgseg.bytes size:(int)ai_bgseg.length aitype:FUAITYPE_BACKGROUNDSEGMENTATION];
-    
-    NSData *ai_facelandmarks209 = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ai_facelandmarks209.bundle" ofType:nil]];
-         [FURenderer loadAIModelFromPackage:(void *)ai_facelandmarks209.bytes size:(int)ai_facelandmarks209.length aitype:FUAITYPE_FACELANDMARKS209];
-    
-    NSData *ai_gesture = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ai_gesture.bundle" ofType:nil]];
-    [FURenderer loadAIModelFromPackage:(void *)ai_gesture.bytes size:(int)ai_gesture.length aitype:FUAITYPE_HANDGESTURE];
-    NSData *ai_hairseg = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ai_hairseg.bundle" ofType:nil]];
-    [FURenderer loadAIModelFromPackage:(void *)ai_hairseg.bytes size:(int)ai_hairseg.length aitype:FUAITYPE_HAIRSEGMENTATION];
-    NSData *ai_humanpose = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ai_humanpose.bundle" ofType:nil]];
-    [FURenderer loadAIModelFromPackage:(void *)ai_humanpose.bytes size:(int)ai_humanpose.length aitype:FUAITYPE_HUMANPOSE2D];
+    NSData *ai_human_processor = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ai_human_processor.bundle" ofType:nil]];
+    [FURenderer loadAIModelFromPackage:(void *)ai_human_processor.bytes size:(int)ai_human_processor.length aitype:FUAITYPE_HUMAN_PROCESSOR];
     NSData *ai_face_processor = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ai_face_processor.bundle" ofType:nil]];
     [FURenderer loadAIModelFromPackage:(void *)ai_face_processor.bytes size:(int)ai_face_processor.length aitype:FUAITYPE_FACEPROCESSOR];
 //
@@ -145,12 +140,15 @@ static FUManager *shareManager = NULL;
                 @"ctrl_rain":@"推出手掌",
                 @"ctrl_snow":@"推出手掌",
                 @"ctrl_flower":@"推出手掌",
+                @"big_head_facewarp3":@"微笑触发"
     };
 }
 
 -(void)setupFilterData{
     NSArray *beautyFiltersDataSource = @[@"origin",@"ziran1",@"ziran2",@"ziran3",@"ziran4",@"ziran5",@"ziran6",@"ziran7",@"ziran8",
-    @"zhiganhui1",@"zhiganhui2",@"zhiganhui3",@"zhiganhui4",@"zhiganhui5",@"zhiganhui6",@"zhiganhui7",@"zhiganhui8",@"bailiang1",@"bailiang2",@"bailiang3",@"bailiang4",@"bailiang5",@"bailiang6",@"bailiang7"
+    @"zhiganhui1",@"zhiganhui2",@"zhiganhui3",@"zhiganhui4",@"zhiganhui5",@"zhiganhui6",@"zhiganhui7",@"zhiganhui8",
+                                          @"mitao1",@"mitao2",@"mitao3",@"mitao4",@"mitao5",@"mitao6",@"mitao7",@"mitao8",
+                                         @"bailiang1",@"bailiang2",@"bailiang3",@"bailiang4",@"bailiang5",@"bailiang6",@"bailiang7"
                                          ,@"fennen1",@"fennen2",@"fennen3",@"fennen5",@"fennen6",@"fennen7",@"fennen8",
                                          @"lengsediao1",@"lengsediao2",@"lengsediao3",@"lengsediao4",@"lengsediao7",@"lengsediao8",@"lengsediao11",
                                          @"nuansediao1",@"nuansediao2",
@@ -165,6 +163,7 @@ static FUManager *shareManager = NULL;
                                     @"lengsediao1":@"冷色调1",@"lengsediao2":@"冷色调2",@"lengsediao3":@"冷色调3",@"lengsediao4":@"冷色调4",@"lengsediao5":@"冷色调5",@"lengsediao6":@"冷色调6",@"lengsediao7":@"冷色调7",@"lengsediao8":@"冷色调8",@"lengsediao9":@"冷色调9",@"lengsediao10":@"冷色调10",@"lengsediao11":@"冷色调11",
                                     @"nuansediao1":@"暖色调1",@"nuansediao2":@"暖色调2",@"nuansediao3":@"暖色调3",@"xiaoqingxin1":@"小清新1",@"xiaoqingxin2":@"小清新2",@"xiaoqingxin3":@"小清新3",@"xiaoqingxin4":@"小清新4",@"xiaoqingxin5":@"小清新5",@"xiaoqingxin6":@"小清新6",
                                     @"ziran1":@"自然1",@"ziran2":@"自然2",@"ziran3":@"自然3",@"ziran4":@"自然4",@"ziran5":@"自然5",@"ziran6":@"自然6",@"ziran7":@"自然7",@"ziran8":@"自然8",
+                                    @"mitao1":@"蜜桃1",@"mitao2":@"蜜桃2",@"mitao3":@"蜜桃3",@"mitao4":@"蜜桃4",@"mitao5":@"蜜桃5",@"mitao6":@"蜜桃6",@"mitao7":@"蜜桃7",@"mitao8":@"蜜桃8",
                                     @"zhiganhui1":@"质感灰1",@"zhiganhui2":@"质感灰2",@"zhiganhui3":@"质感灰3",@"zhiganhui4":@"质感灰4",@"zhiganhui5":@"质感灰5",@"zhiganhui6":@"质感灰6",@"zhiganhui7":@"质感灰7",@"zhiganhui8":@"质感灰8"
     };
     if (!_filters) {
@@ -254,11 +253,9 @@ static FUManager *shareManager = NULL;
             items[i] = 0;
             oldItems[i] = 0;
         }
+        [FURenderer onCameraChange];
         /**销毁道具后，清除context缓存*/
         [FURenderer OnDeviceLost];
-
-        /**销毁道具后，重置默认参数*/
-        //[self setBeautyDefaultParameters];
     });
 }
 
@@ -547,6 +544,8 @@ static FUManager *shareManager = NULL;
         }
         NSString *filePath = [[NSBundle mainBundle] pathForResource:name ofType:@"bundle"];
         items[type] = [FURenderer itemWithContentsOfFile:filePath];
+        
+        NSLog(@"load handle = %d,type = %lu;  美颜handle = %d,",items[type],(unsigned long)type,items[0]);
     });
 }
 
@@ -671,16 +670,14 @@ static FUManager *shareManager = NULL;
             /* 手势识别里 666 道具，带有全屏元素 */
             [FURenderer itemSetParam:items[FUNamaHandleTypeItem] withName:@"rotationMode" value:@(self.deviceOrientation)];
         }
-        fuSetDefaultOrientation(self.deviceOrientation);
+//        fuSetDefaultOrientation(self.deviceOrientation);
         
-        fuSetDefaultRotationMode(self.deviceOrientation);
         /* 解决旋转屏幕效果异常 onCameraChange*/
         [FURenderer onCameraChange];
     }
 //    double *aaa = [self get4ElementsFormDeviceMotion];
 //    [FURenderer itemSetParamdv:items[FUNamaHandleTypeItem] withName:@"motion_rotation" value:aaa length:4];
     /**设置美颜参数*/
-
 
     /*Faceunity核心接口，将道具及美颜效果绘制到pixelBuffer中，执行完此函数后pixelBuffer即包含美颜及贴纸效果*/
 
@@ -689,6 +686,39 @@ static FUManager *shareManager = NULL;
     
     return buffer;
 }
+
+-(void)renderItemsWithPtaPixelBuffer:(CVPixelBufferRef)pixelBuffer{
+    CVPixelBufferLockBaseAddress(pixelBuffer, 0);
+    int h = (int)CVPixelBufferGetHeight(pixelBuffer);
+    int stride = (int)CVPixelBufferGetBytesPerRow(pixelBuffer);
+    int w = stride/4;
+    void* pixelBuffer_pod  = (void *)CVPixelBufferGetBaseAddress(pixelBuffer);
+    /* 核心控制器道具 */
+    int controlHandle = items[FUNamaHandleTypeBodyAvtar];
+    /* 抗锯齿道具 */
+    int faxxhandle  = items[FUNamaHandleTypeFxaa];
+    if (controlHandle == 0) {
+        CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
+        NSLog(@"error no load control");
+        return;
+    }
+    if(faxxhandle == 0){
+        NSLog(@"info no load faxx,锯齿明显");
+    }
+    static int itemHandes[2] = {0};
+    itemHandes[0] = controlHandle;
+    itemHandes[1] = faxxhandle;
+    
+    [[FURenderer shareRenderer] renderBundles:pixelBuffer_pod inFormat:FU_FORMAT_BGRA_BUFFER outPtr:pixelBuffer_pod  outFormat:FU_FORMAT_BGRA_BUFFER width:w height:h frameId:frameID++ items:itemHandes itemCount:2];
+    
+    _mRotatedImage.mData = pixelBuffer_pod;
+    _mRotatedImage.mWidth = w;
+    _mRotatedImage.mHeight = h;
+    [[FURenderer shareRenderer] rotateImage:_mRotatedImage inPtr:pixelBuffer_pod inFormat:FU_FORMAT_BGRA_BUFFER width:w height:h rotationMode:FURotationMode180 flipX:YES flipY:NO];
+    memcpy(pixelBuffer_pod ,_mRotatedImage.mData, w*h*4);
+    CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
+}
+
 
 
 /* 静态图片 */
@@ -906,158 +936,6 @@ static FUManager *shareManager = NULL;
 }
 
 
-#pragma  mark -  捏脸
--(void)loadAvatarBundel{
-    dispatch_async(_asyncLoadQueue, ^{
-        if (items[FUNamaHandleTypeAvtarHead] == 0) {
-            NSString *filePath = [[NSBundle mainBundle] pathForResource:@"avatar_male" ofType:@"bundle"];
-            items[FUNamaHandleTypeAvtarHead] = [FURenderer itemWithContentsOfFile:filePath];
-        }
-    });
-}
-
-/* 避免头部道具，销毁创建带来一系列问题，暂时.... */
--(void)avatarBundleAddRender:(BOOL)isAdd{
-    if (isAdd && items[FUNamaHandleTypeAvtarHead] == 0) {
-        items[FUNamaHandleTypeAvtarHead] = avtarStrongHandle;
-    }
-        
-    if (!isAdd && items[FUNamaHandleTypeAvtarHead]) {
-        avtarStrongHandle = items[FUNamaHandleTypeAvtarHead];
-        items[FUNamaHandleTypeAvtarHead] = 0;
-    }
-
-}
-
--(BOOL)avatarBundleIsload{
-    return items[FUNamaHandleTypeAvtarHead] != 0;
-}
--(void)enterAvatar{
-    dispatch_async(_asyncLoadQueue, ^{
-//        [FURenderer itemSetParam:items[FUNamaHandleTypeAvtarHead] withName:@"setLazyBundle" value:@(1)];
-        [FURenderer itemSetParam:items[FUNamaHandleTypeAvtarHead] withName:@"enter_facepup" value:@(1)];
-         [FURenderer itemSetParam:items[FUNamaHandleTypeAvtarHiar] withName:@"enter_facepup" value:@(1)];
-        NSLog(@"1------------------------%d",items[FUNamaHandleTypeAvtarHiar]);
-    });
-}
-
--(void)lazyAvatar{
-    dispatch_async(_asyncLoadQueue, ^{
-        [FURenderer itemSetParam:items[FUNamaHandleTypeAvtarHead] withName:@"setLazyBundle" value:@(1)];
-      //  [FURenderer itemSetParam:items[FUNamaHandleTypeAvtarHead] withName:@"enter_facepup" value:@(1)];
-    });
-}
-
--(void)recomputeAvatar{
-    dispatch_async(_asyncLoadQueue, ^{
-        [FURenderer itemSetParam:items[FUNamaHandleTypeAvtarHead] withName:@"need_recompute_facepup" value:@(1)];
-    });
-}
-
--(void)clearAvatar{
-    dispatch_async(_asyncLoadQueue, ^{
-        [FURenderer itemSetParam:items[FUNamaHandleTypeAvtarHead] withName:@"clear_facepup" value:@(1)];
-    });
-}
-
--(void)quitAvatar{
-    dispatch_async(_asyncLoadQueue, ^{
-        [FURenderer itemSetParam:items[FUNamaHandleTypeAvtarHead] withName:@"quit_facepup" value:@(1)];
-         [FURenderer itemSetParam:items[FUNamaHandleTypeAvtarHiar] withName:@"quit_facepup" value:@(1)];
-        NSLog(@"2------------------------%d",items[FUNamaHandleTypeAvtarHiar]);
-
-    });
-}
-
--(void)setAvatarParam:(NSString *)paramStr value:(float )value{
-    dispatch_async(_asyncLoadQueue, ^{
-        NSString *str = [NSString stringWithFormat:@"{\"name\":\"facepup\",\"param\":\"%@\"}",paramStr];
-        [FURenderer itemSetParam:items[FUNamaHandleTypeAvtarHead] withName:str value:@(value)];
-        NSLog(@"--------%@----------%lf",str,value);
-    });
-}
-
--(void)setAvatarItemParam:(NSString *)paramStr colorWithRed:(float )r green:(int)g blue:(int)b{
-    if (!paramStr) {
-        return;
-    }
-    dispatch_async(_asyncLoadQueue, ^{
-        double rgb[3] = {r,g,b};
-        [FURenderer itemSetParamdv:items[FUNamaHandleTypeAvtarHead] withName:paramStr value:rgb length:3];
-    });
-}
-    
--(void)setAvatarItemScale:(float)scaleValue{
-    dispatch_async(_asyncLoadQueue, ^{
-
-//        fuItemSetParamd(items[FUNamaHandleTypeAvtarHead],"is_fix_x",1);
-//        fuItemSetParamd(items[FUNamaHandleTypeAvtarHead],"is_fix_y",1);
-//        fuItemSetParamd(items[FUNamaHandleTypeAvtarHead],"is_fix_z",1);
-//        fuItemSetParamd(items[FUNamaHandleTypeAvtarHead],"fixed_x",0);
-//        fuItemSetParamd(items[FUNamaHandleTypeAvtarHead],"fixed_y",0);
-        //double rgb[3] = {scaleValue,0,0};
-       // [FURenderer itemSetParamdv:items[FUNamaHandleTypeAvtarHead] withName:@"localTranslate" value:rgb length:3];
-        
-        fuItemSetParamd(items[FUNamaHandleTypeAvtarHead],"absoluteScale",scaleValue);
-//        [FURenderer itemSetParam:items[FUNamaHandleTypeAvtarHead] withName:@"scale_delta" value:@(scaleValue)];
-    });
-}
-
-
--(void)setAvatarItemTranslateX:(int)x y:(int)y z:(int)z{
-    dispatch_async(_asyncLoadQueue, ^{
-        double translate[3] = {x,y,z};
-        [FURenderer itemSetParamdv:items[FUNamaHandleTypeAvtarHead] withName:@"localTranslate" value:translate length:3];
-    });
-}
-
--(void)avatarBindHairItem:(NSString *)bundleName{
-    if (!bundleName || [bundleName isEqualToString:@""]) {
-        /**销毁老的道具句柄*/
-        if (items[FUNamaHandleTypeAvtarHiar] != 0) {
-            NSLog(@"faceunity: destroy old item");
-            [FURenderer destroyItem:items[FUNamaHandleTypeAvtarHiar]];
-            items[FUNamaHandleTypeAvtarHiar] = 0;
-        }
-        return;
-    }
-    dispatch_async(_asyncLoadQueue, ^{
-        NSString *path = [[NSBundle mainBundle] pathForResource:bundleName ofType:@"bundle"];
-        int itemHandle = [FURenderer itemWithContentsOfFile:path];
-
-        /* 头发镜像，通过这个4参数设置 */
-        [FURenderer itemSetParam:itemHandle withName:@"is3DFlipH" value:@(1)];
-//        [FURenderer itemSetParam:itemHandle withName:@"isFlipExpr" value:@(1)];
-        [FURenderer itemSetParam:itemHandle withName:@"isFlipTrack" value:@(1)];
-        [FURenderer itemSetParam:itemHandle withName:@"isFlipLight" value:@(1)];
-
-        if (items[FUNamaHandleTypeAvtarHiar] != 0) {
-            NSLog(@"faceunity: destroy old item");
-            [FURenderer destroyItem:items[FUNamaHandleTypeAvtarHiar]];
-        }
-        items[FUNamaHandleTypeAvtarHiar] = itemHandle;
-    });
-}
-
--(void)setAvatarHairColorParam:(NSString *)paramStr colorWithRed:(float )r green:(int)g blue:(int)b intensity:(int)i{
-    if (!paramStr) {
-        return;
-    }
-    dispatch_async(_asyncLoadQueue, ^{
-        double rgb[4] = {r,g,b,i};
-        [FURenderer itemSetParamdv:items[FUNamaHandleTypeAvtarHiar] withName:paramStr value:rgb length:4];
-    });
-}
-    
--(void)loadBgAvatar{
-    dispatch_async(_asyncLoadQueue, ^{
-        if (items[FUNamaHandleTypeAvtarbg] == 0) {
-            NSString *filePath = [[NSBundle mainBundle] pathForResource:@"avatar_bg" ofType:@"bundle"];
-            items[FUNamaHandleTypeAvtarbg] = [FURenderer itemWithContentsOfFile:filePath];
-        }
-    });
-}
-
 #pragma mark -  nama查询&设置
 - (void)setAsyncTrackFaceEnable:(BOOL)enable{
     [FURenderer setAsyncTrackFaceEnable:enable];
@@ -1256,80 +1134,74 @@ static FUManager *shareManager = NULL;
 - (void)setupItemDataSource
 {
     
-    NSMutableArray *modesArray = [NSMutableArray arrayWithCapacity:1];
+    NSMutableArray *totalArray = [NSMutableArray arrayWithCapacity:1];
     NSArray *dataArray = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"dataSource.plist" ofType:nil]];
     
     NSInteger count = dataArray.count;
     for (int i = 0 ; i < count; i ++) {
-        NSDictionary *dict = dataArray[i] ;
-        if(i == FULiveModelTypeGan){
-            continue;
+        NSMutableArray *modesArray = [NSMutableArray array];
+        NSArray *tempArray = (NSArray *)dataArray[i];
+        for (int j = 0; j < tempArray.count; j ++) {
+             NSDictionary *dict = tempArray[j] ;
+             FULiveModel *model = [[FULiveModel alloc] init];
+             NSString *itemName = dict[@"itemName"] ;
+             model.title = itemName ;
+            model.maxFace = [dict[@"maxFace"] integerValue] ;
+             model.enble = NO;
+            model.type = [dict[@"itemType"] intValue];
+            model.modules = dict[@"modules"] ;
+            model.items = dict[@"items"] ;
+            model.conpareCode = [dict[@"conpareCode"] intValue];
+            [modesArray addObject:model];
         }
-        FULiveModel *model = [[FULiveModel alloc] init];
-        NSString *itemName = dict[@"itemName"] ;
-        model.title = itemName ;
-        model.maxFace = [dict[@"maxFace"] integerValue] ;
-        model.enble = NO;
-        model.type = i;
-        model.modules = dict[@"modules"] ;
-        model.items = dict[@"items"] ;
-        model.conpareCode = [dict[@"conpareCode"] intValue];
-        [modesArray addObject:model];
+        [totalArray addObject:modesArray];
+        
     }
     
     int module = fuGetModuleCode(0);
     int module1 = fuGetModuleCode(1);
     
-    if (!module) {
+    
+    _dataSource = [NSMutableArray arrayWithCapacity:1];
+    for (NSMutableArray *array in totalArray) {
+        NSMutableArray *mutArray = [NSMutableArray array];
         
-        _dataSource = [NSMutableArray arrayWithCapacity:1];
+        NSMutableArray *eablMutArray = [NSMutableArray array];
         
-        for (FULiveModel *model in modesArray) {
+        NSMutableArray *unEablmutArray = [NSMutableArray array];
+        for (FULiveModel *model in array) {
             
             model.enble = YES ;
-            [_dataSource addObject:model] ;
-        }
-        
-        return ;
-    }
-    
-    int insertIndex = 0;
-    _dataSource = [modesArray mutableCopy];
-    
-    for (FULiveModel *model in modesArray) {
-        
-        if ([model.title isEqualToString:@"背景分割"] || [model.title isEqualToString:@"手势识别"]) {
-            if ([self isLiteSDK]) {
-                continue ;
+            BOOL isEable = YES;
+            for (NSNumber *num in model.modules) {
+                
+                /* 权限码：分前32位和后32位 不同功能需要区别判断下*/
+                if (model.conpareCode == 0) {
+                    isEable = (module & [num intValue]) > 0 ? YES:NO;
+                }else{
+                    isEable = (module1 & [num intValue]) > 0 ? YES:NO;
+                }
+                model.enble = model.enble && isEable;
             }
-        }
-        
-        for (NSNumber *num in model.modules) {
-            BOOL isEable = NO;
-            /* 权限码：分前32位和后32位 不同t功能需要区别判断下*/
-            if (model.conpareCode == 0) {
-                isEable = module & [num intValue] ;
+            
+            if (model.enble) {
+                [eablMutArray addObject:model];
             }else{
-                isEable = module1 & [num intValue];
+                [unEablmutArray addObject:model];
             }
-                        
-            if (isEable) {
-                
-                [_dataSource removeObject:model];
-                
-                model.enble = YES ;
-                
-                [_dataSource insertObject:model atIndex:insertIndex] ;
-                insertIndex ++ ;
-                
-                break ;
-            }
+
         }
+        
+        [mutArray addObjectsFromArray:eablMutArray];
+        [mutArray addObjectsFromArray:unEablmutArray];
+        
+        [_dataSource addObject:mutArray];
     }
+    return ;
 }
 
 
--(NSArray<FULiveModel *> *)dataSource {
+-(NSMutableArray<NSMutableArray<FULiveModel *>*> *)dataSource {
     
     return _dataSource ;
 }
