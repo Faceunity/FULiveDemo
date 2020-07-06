@@ -114,6 +114,7 @@ iOS端发放的证书为包含在authpack.h中的g_auth_package数组，如果�
 
 #### 4.2 工程找不到libnama.a
 
-1. 由于最新的含有深度学习的libnama.a大小已超过100M，我们没有上传libnama.a的原文件，只是上传了一个libnama.zip的文件，在你第一次编译工程的时候我们会解压libnama.zip。如果你想从工程目录中获取含有深度学习的libnama.a，并且你没有编译过工程的话，则需要先解压libnama.zip获得libnama.a才行。
-2. v7.0.0 后，由于静态库进一步变大，sdk不会提交到github。运行demo前，在demo路径下，运行loadNama.sh脚本，将会从我们服务器下载SDK到Demo。
+由于最新的含有深度学习的libnama.a大小已超过100M，我们没有上传libnama.a的原文件，只是上传了一个libnama.zip的文件，在你第一次编译工程的时候我们会解压libnama.zip。如果你想从工程目录中获取含有深度学习的libnama.a，并且你没有编译过工程的话，则需要先解压libnama.zip获得libnama.a才行。
+
+
 

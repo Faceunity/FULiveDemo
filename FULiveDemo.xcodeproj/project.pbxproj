@@ -164,7 +164,6 @@
 		E322649C225F6CB7003A6182 /* jet_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = E322649A225F6CB7003A6182 /* jet_mask.png */; };
 		E322649D225F6CB7003A6182 /* jet_mask.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E322649B225F6CB7003A6182 /* jet_mask.bundle */; };
 		E32948992418AA350016E369 /* FURenderRotate.m in Sources */ = {isa = PBXBuildFile; fileRef = E32948972418AA350016E369 /* FURenderRotate.m */; };
-		E332E6B324AFBA3900232C4A /* libCNamaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E332E6B224AFBA3900232C4A /* libCNamaSDK.framework */; };
 		E332E6FF24AFC95800232C4A /* ai_gesture.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E332E6F324AFC95800232C4A /* ai_gesture.bundle */; };
 		E332E70024AFC95800232C4A /* ai_face_processor.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E332E6F424AFC95800232C4A /* ai_face_processor.bundle */; };
 		E332E70124AFC95800232C4A /* ai_face_processor_lite.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E332E6F524AFC95800232C4A /* ai_face_processor_lite.bundle */; };
@@ -427,6 +426,8 @@
 		E3DD0F792484DA6E0064CF7E /* CoreML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3DD0F782484DA6E0064CF7E /* CoreML.framework */; };
 		E3DF96BC2369403D00DB49B2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3DF96BE2369403D00DB49B2 /* InfoPlist.strings */; };
 		E3E6DE3622BB54C10040CBEE /* FUMakeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E3E6DE3522BB54C10040CBEE /* FUMakeButton.m */; };
+		E3E9C6BA24B2D113005142FD /* libCNamaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E332E6B224AFBA3900232C4A /* libCNamaSDK.framework */; };
+		E3E9C6BB24B2D113005142FD /* libCNamaSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E332E6B224AFBA3900232C4A /* libCNamaSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E3EFB836249B0CEE00E2903E /* big_head_facewarp1.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3EFB834249B0CED00E2903E /* big_head_facewarp1.bundle */; };
 		E3EFB837249B0CEE00E2903E /* big_head_facewarp3.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3EFB835249B0CEE00E2903E /* big_head_facewarp3.bundle */; };
 		E3F0EF2222C1FBEC0018FF13 /* FUBGSegmentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F0EF2122C1FBEC0018FF13 /* FUBGSegmentationController.m */; };
@@ -452,6 +453,20 @@
 			remoteInfo = FULiveDemo;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E3E9C6BC24B2D113005142FD /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E3E9C6BB24B2D113005142FD /* libCNamaSDK.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0B2DDBA52112B0150086E8C0 /* FUMakeUpView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUMakeUpView.h; sourceTree = "<group>"; };
@@ -997,7 +1012,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E3C8253F2223EBC900494DE4 /* libc++.tbd in Frameworks */,
-				E332E6B324AFBA3900232C4A /* libCNamaSDK.framework in Frameworks */,
+				E3E9C6BA24B2D113005142FD /* libCNamaSDK.framework in Frameworks */,
 				E3DD0F792484DA6E0064CF7E /* CoreML.framework in Frameworks */,
 				0B5A0D82202191B600AAD47D /* Accelerate.framework in Frameworks */,
 				1489B052F80EF752AAACF444 /* libPods-FULiveDemo.a in Frameworks */,
@@ -2355,6 +2370,7 @@
 				0B5A0CB32021913900AAD47D /* Resources */,
 				4508CC438BF9C69090871A75 /* [CP] Copy Pods Resources */,
 				CD11A34D20CE7C580005C58C /* ShellScript */,
+				E3E9C6BC24B2D113005142FD /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -3163,7 +3179,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 36;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
 				ENABLE_BITCODE = NO;
@@ -3226,7 +3242,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 36;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
 				ENABLE_BITCODE = NO;
