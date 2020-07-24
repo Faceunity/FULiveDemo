@@ -48,6 +48,26 @@
     _mBodyBeautyView = [[FUBodyBeautyView alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height - 134, [UIScreen mainScreen].bounds.size.width, 134) dataArray:dataArray];
     _mBodyBeautyView.delegate = self;
     [self.view addSubview:_mBodyBeautyView];
+    
+    [_mBodyBeautyView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view.mas_bottom);
+        make.left.right.equalTo(self.view);
+        if (iPhoneXStyle) {
+            make.height.mas_equalTo(134 + 34);
+        }else{
+            make.height.mas_equalTo(134);
+        }
+        
+    }];
+    
+    _mBodyBeautyView.backgroundColor = [UIColor clearColor];
+    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    UIVisualEffectView *effectview = [[UIVisualEffectView alloc] initWithEffect:blur];
+    [_mBodyBeautyView insertSubview:effectview atIndex:0];
+    /* 磨玻璃 */
+    [effectview mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(_mBodyBeautyView);
+    }];
 
 }
 

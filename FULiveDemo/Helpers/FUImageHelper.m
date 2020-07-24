@@ -351,36 +351,17 @@
     
     CVPixelBufferLockBaseAddress(pixelBufferRef, 0);
     
-    CGFloat SW = [UIScreen mainScreen].bounds.size.width;
-    CGFloat SH = [UIScreen mainScreen].bounds.size.height;
-    
     float width = CVPixelBufferGetWidth(pixelBufferRef);
     float height = CVPixelBufferGetHeight(pixelBufferRef);
-    
-    float dw = width / SW;
-    float dh = height / SH;
-    
-    float cropW = width;
-    float cropH = height;
-    
-    if (dw > dh) {
-        cropW = SW * dh;
-    }else
-    {
-        cropH = SH * dw;
-    }
-    
-    CGFloat cropX = (width - cropW) * 0.5;
-    CGFloat cropY = (height - cropH) * 0.5;
     
     CIImage *ciImage = [CIImage imageWithCVPixelBuffer:pixelBufferRef];
     
     CIContext *temporaryContext = [CIContext contextWithOptions:nil];
     CGImageRef videoImage = [temporaryContext
                              createCGImage:ciImage
-                             fromRect:CGRectMake(cropX, cropY,
-                                                 cropW,
-                                                 cropH)];
+                             fromRect:CGRectMake(0, 0,
+                                                 width,
+                                                 height)];
     
     UIImage *image = [UIImage imageWithCGImage:videoImage];
     CGImageRelease(videoImage);

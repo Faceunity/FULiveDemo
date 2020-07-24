@@ -32,6 +32,9 @@
 
 - (void)makeupSelColorStata:(BOOL)stata;
 
+// 显示上半部分View
+-(void)showTopView:(BOOL)shown;
+
 /* 整体妆容模型数据 */
 -(void)makeupViewDidSelectedSupModle:(FUMakeupSupModel *)model;
 /* 修改参数 */

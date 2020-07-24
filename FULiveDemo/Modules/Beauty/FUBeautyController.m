@@ -34,7 +34,7 @@
 
     self.headButtonView.selectedImageBtn.hidden = NO;
     [self.view bringSubviewToFront:self.photoBtn];
-
+    
 }
 
 
@@ -46,10 +46,7 @@
     [_demoBar reloadShapView:[FUManager shareManager].shapeParams];
     [_demoBar reloadSkinView:[FUManager shareManager].skinParams];
     [_demoBar reloadFilterView:[FUManager shareManager].filters];
-    
     [_demoBar setDefaultFilter:[FUManager shareManager].seletedFliter];
-    
-
 }
 
 -(void)setupView{
@@ -64,7 +61,7 @@
             make.bottom.equalTo(self.view.mas_bottom);
         }
         make.left.right.equalTo(self.view);
-        make.height.mas_equalTo(49);
+        make.height.mas_equalTo(50);
     }];
     
     /* 比对按钮 */
@@ -75,10 +72,46 @@
     _compBtn.hidden = YES;
     [self.view addSubview:_compBtn];
     if (iPhoneXStyle) {
-        _compBtn.frame = CGRectMake(15 , self.view.frame.size.height - 70 - 182 - 34, 44, 44);
+        _compBtn.frame = CGRectMake(15 , self.view.frame.size.height - 60 - 182 - 34, 44, 44);
     }else{
-        _compBtn.frame = CGRectMake(15 , self.view.frame.size.height - 70 - 182, 44, 44);
+        _compBtn.frame = CGRectMake(15 , self.view.frame.size.height - 60 - 182, 44, 44);
     }
+    
+    _demoBar.backgroundColor = [UIColor clearColor];
+    _demoBar.bottomView.backgroundColor = [UIColor clearColor];
+    _demoBar.topView.backgroundColor = [UIColor clearColor];
+    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    UIVisualEffectView *effectview = [[UIVisualEffectView alloc] initWithEffect:blur];
+    [_demoBar addSubview:effectview];
+    [_demoBar sendSubviewToBack:effectview];
+    /* 磨玻璃 */
+    [effectview mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(_demoBar);
+    }];
+    
+//    UIBlurEffect *blur1 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+//    UIVisualEffectView *effectview1 = [[UIVisualEffectView alloc] initWithEffect:blur1];
+//    [_demoBar.bottomView addSubview:effectview1];
+//    [_demoBar.bottomView sendSubviewToBack:effectview1];
+//
+//    /* 磨玻璃 */
+//    [effectview1 mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.right.bottom.equalTo(_demoBar);
+//        make.height.mas_equalTo(_demoBar.bottomView.bounds.size.height);
+//    }];
+    
+    if(iPhoneXStyle){
+        UIBlurEffect *blur2 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+        UIVisualEffectView *effectview2 = [[UIVisualEffectView alloc] initWithEffect:blur2];
+        [self.view addSubview:effectview2];
+        [self.view sendSubviewToBack:effectview2];
+        [effectview2 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view.mas_bottom);
+            make.left.right.equalTo(self.view);
+            make.height.mas_equalTo(34);
+        }];
+    }
+    
 }
 
 -(void)setOrientation:(int)orientation{
@@ -116,7 +149,7 @@
 }
 
 -(void)showTopView:(BOOL)shown{
-    float h = shown?231:49;
+    float h = shown?190:49;
      [_demoBar mas_updateConstraints:^(MASConstraintMaker *make) {
         if (@available(iOS 11.0, *)) {
             make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
@@ -157,10 +190,9 @@
 
 
 - (void)setPhotoScaleWithHeight:(CGFloat)height show:(BOOL)shown {
-    
     if (shown) {
         _compBtn.hidden = NO;
-        CGAffineTransform photoTransform0 = CGAffineTransformMakeTranslation(0, height * -0.7) ;
+        CGAffineTransform photoTransform0 = CGAffineTransformMakeTranslation(0, height * -0.8) ;
         CGAffineTransform photoTransform1 = CGAffineTransformMakeScale(0.9, 0.9);
         
         [UIView animateWithDuration:0.35 animations:^{

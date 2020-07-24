@@ -23,8 +23,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *shapeBtn;
 @property (weak, nonatomic) IBOutlet UIButton *beautyFilterBtn;
 
-// 上半部分
-@property (weak, nonatomic) IBOutlet UIView *topView;
 // 滤镜页
 @property (weak, nonatomic) IBOutlet FUFilterView *filterView;
 // 美颜滤镜页
@@ -51,9 +49,8 @@
 
 -(instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
-    if (self) {self.backgroundColor = [UIColor clearColor];
-        
-        self.backgroundColor = [UIColor clearColor];
+    if (self) {
+        self.backgroundColor = [UIColor colorWithRed:5/255.0 green:15/255.0 blue:20/255.0 alpha:0.74];
         NSBundle *bundle = [NSBundle bundleForClass:[FUAPIDemoBar class]];
         self = (FUAPIDemoBar *)[bundle loadNibNamed:@"FUAPIDemoBar" owner:self options:nil].firstObject;
     }

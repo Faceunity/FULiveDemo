@@ -8,6 +8,7 @@
 
 #import "FUBodCollectionView.h"
 #import "FUItemsViewCell.h"
+#import <Masonry.h>
 
 @interface FUBodCollectionView ()<UICollectionViewDelegate,UICollectionViewDataSource>
 
@@ -25,7 +26,6 @@
 -(instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        self.backgroundColor = [UIColor colorWithRed:5/255.0 green:15/255.0 blue:20/255.0 alpha:0.6];
         loading = NO ;
     }
     return self ;
@@ -49,9 +49,8 @@
 }
 
 -(void)setupView{
-    self.backgroundColor = [UIColor colorWithRed:5/255.0 green:15/255.0 blue:20/255.0 alpha:0.6];
     loading = NO ;
-    
+        
     self.itemsArray = @[@"icon_yitu_add"];//,@"icon_yitu_delete"
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.minimumInteritemSpacing = 0;

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -17,8 +17,8 @@
                     <rect key="frame" x="0.0" y="145" width="375" height="49"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cgd-Ki-Kx1" userLabel="line">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="1"/>
-                            <color key="backgroundColor" red="0.89803921568627454" green="0.89803921568627454" blue="0.89803921568627454" alpha="0.20360659246575341" colorSpace="calibratedRGB"/>
+                            <rect key="frame" x="0.0" y="-0.5" width="375" height="1"/>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.20360659246575341" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="OBC-YE-Xaw"/>
                             </constraints>
@@ -63,14 +63,14 @@
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.59773651541095896" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.60191835972515328" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="cgd-Ki-Kx1" secondAttribute="trailing" id="2sT-p5-TOc"/>
                         <constraint firstItem="0jq-Oa-c5T" firstAttribute="centerY" secondItem="Eeq-TV-ISu" secondAttribute="centerY" id="4DA-QM-H22"/>
                         <constraint firstItem="Pt2-fx-Wpc" firstAttribute="leading" secondItem="Eeq-TV-ISu" secondAttribute="leading" id="4MN-6O-eWc"/>
                         <constraint firstItem="UdX-KP-ajT" firstAttribute="width" secondItem="Pt2-fx-Wpc" secondAttribute="width" id="5Ag-Cs-9xZ"/>
                         <constraint firstItem="UdX-KP-ajT" firstAttribute="leading" secondItem="Pt2-fx-Wpc" secondAttribute="trailing" id="6Br-9A-Ssq"/>
-                        <constraint firstItem="cgd-Ki-Kx1" firstAttribute="top" secondItem="Eeq-TV-ISu" secondAttribute="top" id="7gF-vc-mVC"/>
+                        <constraint firstItem="cgd-Ki-Kx1" firstAttribute="top" secondItem="Eeq-TV-ISu" secondAttribute="top" constant="-0.5" id="7gF-vc-mVC"/>
                         <constraint firstItem="cgd-Ki-Kx1" firstAttribute="leading" secondItem="Eeq-TV-ISu" secondAttribute="leading" id="LDH-OH-Jlu"/>
                         <constraint firstItem="0jq-Oa-c5T" firstAttribute="leading" secondItem="UdX-KP-ajT" secondAttribute="trailing" id="NxB-gu-dMZ"/>
                         <constraint firstItem="0jq-Oa-c5T" firstAttribute="width" secondItem="UdX-KP-ajT" secondAttribute="width" id="PzF-xQ-OoN"/>
@@ -94,7 +94,7 @@
                                 <action selector="clickRestBtn:" destination="iN0-l3-epB" eventType="touchUpInside" id="hb9-bh-JPw"/>
                             </connections>
                         </button>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="keK-XP-1fD">
+                        <view alpha="0.20000000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="keK-XP-1fD">
                             <rect key="frame" x="75" y="77" width="1" height="24"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
@@ -129,8 +129,8 @@
                             </collectionViewFlowLayout>
                         </collectionView>
                         <slider hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="yzS-kB-xDl" customClass="FUSlider">
-                            <rect key="frame" x="54" y="16" width="267" height="31"/>
-                            <color key="minimumTrackTintColor" red="0.36862745098039218" green="0.7803921568627451" blue="0.99607843137254903" alpha="1" colorSpace="calibratedRGB"/>
+                            <rect key="frame" x="54" y="19" width="267" height="31"/>
+                            <color key="minimumTrackTintColor" red="0.12156862745098039" green="0.69803921568627447" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <color key="maximumTrackTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <action selector="filterSliderValueChange:" destination="iN0-l3-epB" eventType="valueChanged" id="hJz-1N-asp"/>
@@ -176,6 +176,7 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.59773651539999995" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
+                        <constraint firstItem="yzS-kB-xDl" firstAttribute="centerY" secondItem="HbK-4s-bX2" secondAttribute="centerY" constant="10" id="29d-xs-BVJ"/>
                         <constraint firstAttribute="trailing" secondItem="HbK-4s-bX2" secondAttribute="trailing" id="3Eu-JI-DXN"/>
                         <constraint firstAttribute="trailing" secondItem="yzS-kB-xDl" secondAttribute="trailing" constant="56" id="3rH-56-rgP"/>
                         <constraint firstItem="nic-eP-luj" firstAttribute="centerY" secondItem="uvW-i0-quc" secondAttribute="centerY" id="6RG-T2-O3o"/>
@@ -191,7 +192,6 @@
                         <constraint firstAttribute="bottom" secondItem="Oz7-LF-H3c" secondAttribute="bottom" id="gZz-vl-w13"/>
                         <constraint firstAttribute="bottom" secondItem="VKT-X8-6nB" secondAttribute="bottom" id="ga3-bn-VYs"/>
                         <constraint firstAttribute="trailing" secondItem="VSF-ei-fYl" secondAttribute="trailing" id="hWz-RE-iLU"/>
-                        <constraint firstItem="yzS-kB-xDl" firstAttribute="top" secondItem="EDc-v0-QNc" secondAttribute="top" constant="16" id="iMA-RI-b3j"/>
                         <constraint firstAttribute="bottom" secondItem="uvW-i0-quc" secondAttribute="bottom" id="jTn-NJ-idr"/>
                         <constraint firstItem="keK-XP-1fD" firstAttribute="top" secondItem="nic-eP-luj" secondAttribute="top" constant="10" id="l1H-Tv-MoK"/>
                         <constraint firstAttribute="bottom" secondItem="VSF-ei-fYl" secondAttribute="bottom" id="ls2-kr-8Ea"/>
@@ -217,6 +217,7 @@
                 <outlet property="beautyFilterBtn" destination="0jq-Oa-c5T" id="UXZ-nf-n3x"/>
                 <outlet property="beautyFilterView" destination="VKT-X8-6nB" id="iVl-4J-XbS"/>
                 <outlet property="beautySlider" destination="yzS-kB-xDl" id="Avt-f9-G9E"/>
+                <outlet property="bottomView" destination="Eeq-TV-ISu" id="8rV-1d-zkv"/>
                 <outlet property="filterView" destination="VSF-ei-fYl" id="zTh-Sj-cos"/>
                 <outlet property="mRestBtn" destination="nic-eP-luj" id="6zx-il-038"/>
                 <outlet property="shapeBtn" destination="UdX-KP-ajT" id="Gpr-kc-Vde"/>

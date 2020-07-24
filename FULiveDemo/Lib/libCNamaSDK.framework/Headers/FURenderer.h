@@ -39,6 +39,7 @@ __attribute__((visibility("default"))) @interface FURotatedImage : NSObject
 
 @end
 ;
+
 __attribute__((visibility("default"))) @interface FUAvatarInfo : NSObject {
  @public
   float landmarks[150];
@@ -54,6 +55,7 @@ __attribute__((visibility("default"))) @interface FUAvatarInfo : NSObject {
 }
 
 @end
+
 __attribute__((visibility("default"))) @interface FURenderer : NSObject
 
 /**
@@ -854,6 +856,7 @@ __attribute__((visibility("default"))) @interface FURenderer : NSObject
 
 + (int)loadTongueModel:(void*)model size:(int)size;
 
++ (int)SetLoadQuality:(int)quality;
 /**
  统计接口调用次数
  @param 接口名称
@@ -958,4 +961,6 @@ new tracker
  释放nama资源
  */
 + (void)namaLibDestroy;
+
++ (void)humanProcessorReset;
 @end

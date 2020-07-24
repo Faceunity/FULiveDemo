@@ -123,7 +123,7 @@
            
             FUYituModel *model = [FUYItuSaveManager shareManager].dataDataArray[index];
             UIImage *image = [FUYItuSaveManager loadImageWithVideoMid:model.imagePathMid];
-            [[FUManager shareManager] setEspeciallyItemParamImage:image group_points:model.group_points group_type:model.group_type];
+//            [[FUManager shareManager] setEspeciallyItemParamImage:image group_points:model.group_points group_type:model.group_type];
             
             weakSelf.photoImage = image;
             weakSelf.currentIndex = index;

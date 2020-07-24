@@ -61,7 +61,11 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
 
 -(void)awakeFromNib {
     [super awakeFromNib];
-
+    _mSepLine.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.2];
+    CGRect seqFrame = self.mSepLine.frame;
+    seqFrame.size.width = 1/[UIScreen mainScreen].scale;
+    self.mSepLine.frame = seqFrame;
+    
     _currentSel.bottomIndex = 0;
     _currentSel.topIndex = 0;
     self.slider.hidden = YES;

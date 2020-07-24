@@ -48,7 +48,10 @@
     /* 句柄缓存对象 */
     _itemsHache = [NSMutableDictionary dictionary];
     
-
+    /*
+      抗锯齿
+    */
+    [[FUManager shareManager] loadBundleWithName:@"fxaa" aboutType:FUNamaHandleTypeFxaa];
     
     /*
        全身avtar 初始化加载的道具
@@ -95,7 +98,7 @@
     self.photoBtn.transform = CGAffineTransformMakeTranslation(0, -36) ;
     self.photoBtn.hidden = YES;
     
-     _mPerView = [[FUOpenGLView alloc] initWithFrame:CGRectMake(KScreenWidth - 90 - 5, KScreenHeight - 146 - 5 - 90, 90, 146)];
+     _mPerView = [[FUOpenGLView alloc] initWithFrame:CGRectMake(KScreenWidth - 90 - 5, KScreenHeight - 146 - 5 - 90 - 34, 90, 146)];
      UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanAction:)];
      [_mPerView addGestureRecognizer:panGestureRecognizer];
      [self.view addSubview:_mPerView];
@@ -105,15 +108,27 @@
     [_bodyItemsView updateCollectionAndSel:0];
     [self.view addSubview:_bodyItemsView];
     [_bodyItemsView setItemsArray:self.mItmsArray];
+    _bodyItemsView.backgroundColor = [UIColor clearColor];
     [_bodyItemsView mas_makeConstraints:^(MASConstraintMaker *make) {
-        if (@available(iOS 11.0, *)) {
-            make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
-        } else {
-            make.bottom.equalTo(self.view.mas_bottom);
-        }
+        make.bottom.equalTo(self.view.mas_bottom);
         make.left.right.equalTo(self.view);
-        make.height.mas_equalTo(80);
+        if (iPhoneXStyle) {
+            make.height.mas_equalTo(80 + 34);
+        }else{
+            make.height.mas_equalTo(80);
+        }
     }];
+    
+    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    UIVisualEffectView *effectview = [[UIVisualEffectView alloc] initWithEffect:blur];
+    effectview.alpha = 1.0;
+    [_bodyItemsView addSubview:effectview];
+    [_bodyItemsView sendSubviewToBack:effectview];
+    /* 磨玻璃 */
+    [effectview mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(_bodyItemsView);
+    }];
+    
     
     _mSwitch = [[FUSwitch alloc] initWithFrame:CGRectMake(60, 150, 86, 32) onColor:[UIColor colorWithRed:31 / 255.0 green:178 / 255.0 blue:255 / 255.0 alpha:1.0] offColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:12] ballSize:30];
     _mSwitch.onText = NSLocalizedString(@"全身驱动", nil);
@@ -129,7 +144,12 @@
         make.height.mas_equalTo(32);
     }];
     
-    
+    [_mPerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.bodyItemsView.mas_top).offset(-17);
+        make.right.equalTo(self.view).offset(-5);
+        make.width.mas_equalTo(90);
+        make.height.mas_equalTo(144);
+    }];
 }
 
 
@@ -334,8 +354,8 @@
             if ((sender.view.center.y + point.y - senderHalfViewHeight) <= 75) {
                 viewCenter.y = senderHalfViewHeight + 75;
             }
-            if ((sender.view.center.y + point.y + senderHalfViewHeight) >= (KScreenHeight -90)) {
-                viewCenter.y = KScreenHeight - senderHalfViewHeight - 90;
+            if ((sender.view.center.y + point.y + senderHalfViewHeight) >= (KScreenHeight -90 -  34)) {
+                viewCenter.y = KScreenHeight - senderHalfViewHeight - 90 - 34;
             }
             sender.view.center = viewCenter;
         } completion:^(BOOL finished) {

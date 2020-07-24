@@ -80,13 +80,13 @@ Xcode 8或更高版本
 全功能版本：
 
 ```
-pod 'Nama', '7.0.0' 
+pod 'Nama', '7.0.1' 
 ```
 
 不含物理引擎的版本（lite版）：
 
 ```
-pod 'Nama-lite', '7.0.0' 
+pod 'Nama-lite', '7.0.1' 
 ```
 
 接下来执行：
@@ -103,9 +103,11 @@ pod repo update 或 pod setup
 
 #### 3.2.2 通过 github 下载集成
 
-全功能版本：[FaceUnity-SDK-iOS-v7.0.0.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v7.0.0.zip)
+全功能版本：[FaceUnity-SDK-iOS-v7.0.1.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v7.0.1.zip)
 
-不含物理引擎的版本（lite版）：[FaceUnity-SDK-iOS-v7.0.0-lite.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v7.0.0-lite.zip)
+不含物理引擎的版本（lite版）：[FaceUnity-SDK-iOS-v7.0.1-lite.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v7.0.1-lite.zip)
+
+
 
 下载完成并解压后将库文件夹拖入到工程中，并勾选上 Copy items if needed，如图：
 
@@ -779,9 +781,15 @@ Nama SDK 从 6.0.0 开始支持质感美颜功能。
 
 ### 4.14 美体功能
 
-Nama SDK 从 6.4.0 开始支持美体功能。
+Nama SDK 从 6.4.0 开始支持美体功能，仅支持单人。
 
 使用方法请参考[美体功能文档](美体道具功能文档.md)
+
+### 4.15 全身Avatar功能
+
+Nama SDK 从 7.0.0 开始支持全身Avatar功能。
+
+使用方法请参考[全身Avatar功能文档](controller功能文档.md)
 
 ------
 

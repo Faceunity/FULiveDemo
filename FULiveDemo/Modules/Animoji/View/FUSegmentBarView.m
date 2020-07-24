@@ -30,8 +30,8 @@ typedef void(^FUSegmentDidSelBtnIndex)(int index);
 }
 
 -(void)setupView{
-    UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 1)];
-    topView.backgroundColor = [UIColor colorWithRed:229/255.0f green:229/255.0f blue:229/255.0f alpha:1];
+    UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 1/[UIScreen mainScreen].scale)];
+    topView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.2];
     [self addSubview:topView];
     
     float btnW = (self.frame.size.width - _titlArray.count + 1)/_titlArray.count;
@@ -47,13 +47,12 @@ typedef void(^FUSegmentDidSelBtnIndex)(int index);
         [self addSubview:titleBtn];
         
         if (i > 0) {
-            UIView *sepView = [[UIView alloc] initWithFrame:CGRectMake(btnW * i, 13, 1, 20)];
-            sepView.backgroundColor = [UIColor colorWithRed:229/255.0f green:229/255.0f blue:229/255.0f alpha:1];
+            UIView *sepView = [[UIView alloc] initWithFrame:CGRectMake(btnW * i, 13,  1/[UIScreen mainScreen].scale, 20)];
+            sepView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.2];
             [self addSubview:sepView];
         }else{
             titleBtn.selected = YES;
         }
-
     }
     
 }

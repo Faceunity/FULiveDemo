@@ -15,6 +15,7 @@
 #import <FLAnimatedImage/FLAnimatedImage.h>
 #import <math.h>
 #import <Masonry.h>
+#import "FUBaseViewController.h"
 
 @interface FUEditImageViewController ()<FUItemsViewDelegate>{
     float photoLandmarks[239*2];
@@ -77,15 +78,27 @@
     _mItemView.delegate = self;
     _mItemView.selectedItem = [NSString stringWithFormat:@"%@_icon",model.items[model.selIndex]];
     [self.view addSubview:_mItemView];
+    _mItemView.backgroundColor = [UIColor clearColor];
     [_mItemView updateCollectionArray:array];
     [_mItemView mas_makeConstraints:^(MASConstraintMaker *make) {
-        if (@available(iOS 11.0, *)) {
-            make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
-        } else {
-            make.bottom.equalTo(self.view.mas_bottom);
-        }
+        make.bottom.equalTo(self.view.mas_bottom);
         make.left.right.equalTo(self.view);
-        make.height.mas_equalTo(84);
+        if (iPhoneXStyle) {
+            make.height.mas_equalTo(84 + 34);
+        }else{
+            make.height.mas_equalTo(84);
+        }
+    }];
+    
+    
+    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    UIVisualEffectView *effectview = [[UIVisualEffectView alloc] initWithEffect:blur];
+    effectview.alpha = 1.0;
+    [_mItemView addSubview:effectview];
+    [_mItemView sendSubviewToBack:effectview];
+    /* 磨玻璃 */
+    [effectview mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(_mItemView);
     }];
     
 }
