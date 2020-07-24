@@ -66,14 +66,9 @@ FUPopupMenuDelegate
 -(void)viewDidLoad{
     [super viewDidLoad];
     [self setupSubView];
-//    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor colorWithRed:17/255.0 green:18/255.0 blue:38/255.0 alpha:1.0];
     /* 美颜道具 */
     [[FUManager shareManager] loadFilter];
-    /*
-    抗锯齿
-    */
-    [[FUManager shareManager] loadBundleWithName:@"fxaa" aboutType:FUNamaHandleTypeFxaa];
-    
     //重置曝光值为0
     [self.mCamera setExposureValue:0];
     [self setupLightingValue];
@@ -120,7 +115,25 @@ FUPopupMenuDelegate
 -(void)setupSubView{
     /* opengl */
     _renderView = [[FUOpenGLView alloc] initWithFrame:self.view.bounds];
+    _renderView.layer.masksToBounds = YES;
     [self.view addSubview:_renderView];
+    [_renderView mas_makeConstraints:^(MASConstraintMaker *make) {
+         make.left.right.equalTo(self.view);
+         if (@available(iOS 11.0, *)) {
+             make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop);
+             if(iPhoneXStyle){
+                make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom).mas_offset(-50);
+             }else{
+                 make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
+             }
+         } else {
+             // Fallback on earlier versions
+             make.top.equalTo(self.view.mas_top);
+             make.bottom.equalTo(self.view.mas_bottom);
+         }
+        
+        make.left.right.equalTo(self.view);
+     }];
     
     /* 顶部按钮 */
     _headButtonView = [[FUHeadButtonView alloc] init];
@@ -129,7 +142,7 @@ FUPopupMenuDelegate
     [self.view addSubview:_headButtonView];
     [_headButtonView mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(iOS 11.0, *)) {
-            make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(20);
+            make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(15);
         } else {
             make.top.equalTo(self.view.mas_top).offset(30);
         }
@@ -168,7 +181,7 @@ FUPopupMenuDelegate
     _adjustImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"camera_校准"]];
     _adjustImage.center = self.view.center;
     _adjustImage.hidden = YES;
-    [self.view addSubview:_adjustImage];
+    [self.renderView addSubview:_adjustImage];
     
     /* 未检测到人脸提示 */
     _noTrackLabel = [[UILabel alloc] init];
@@ -234,7 +247,7 @@ FUPopupMenuDelegate
         
         [self.mCamera cameraChangeModle:FUCameraModelChangeless];
         CGPoint center = [tap locationInView:self.renderView];
-        
+  
         // UI
         adjustTime = CFAbsoluteTimeGetCurrent() ;
         self.adjustImage.center = center ;
@@ -245,35 +258,30 @@ FUPopupMenuDelegate
             [self hiddenAdjustViewWithTime:1.0];
         }];
 
-        if (self.renderView.contentMode == FUOpenGLViewContentModeScaleToFill) {
+        if (self.renderView.contentMode == FUOpenGLViewContentModeScaleAspectFill) {
                 float scal2 = imageH/imageW;
-                
-                float apaceLead = (self.view.bounds.size.height / scal2 - self.view.bounds.size.width )/2;
-                float imagecW = self.view.bounds.size.width + 2 * apaceLead;
+                float apaceLead = (self.renderView.bounds.size.height / scal2 - self.renderView.bounds.size.width )/2;
+                float imagecW = self.renderView.bounds.size.width + 2 * apaceLead;
                 center.x = center.x + apaceLead;
             
             if (center.y > 0) {
-                CGPoint point = CGPointMake(center.y/self.view.bounds.size.height, self.mCamera.isFrontCamera ? center.x/imagecW : 1 - center.x/imagecW);
+                CGPoint point = CGPointMake(center.y/self.renderView.bounds.size.height, self.mCamera.isFrontCamera ? center.x/imagecW : 1 - center.x/imagecW);
                 [self.mCamera focusWithMode:AVCaptureFocusModeContinuousAutoFocus exposeWithMode:AVCaptureExposureModeContinuousAutoExposure atDevicePoint:point monitorSubjectAreaChange:YES];
                     NSLog(@"手动曝光点-----%@",NSStringFromCGPoint(point));
             }
         }else if(self.renderView.contentMode == FUOpenGLViewContentModeScaleAspectFit){
-
             float scal2 = imageH/imageW;
-            
-            float apaceTOP = (self.view.bounds.size.height - self.view.bounds.size.width * scal2)/2;
-            float imagecH = self.view.bounds.size.height - 2 * apaceTOP;
+            float apaceTOP = (self.renderView.bounds.size.height - self.renderView.bounds.size.width * scal2)/2;
+            float imagecH = self.renderView.bounds.size.height - 2 * apaceTOP;
             center.y = center.y - apaceTOP;
         
             if (center.y > 0) {
-                CGPoint point = CGPointMake(center.y/imagecH, self.mCamera.isFrontCamera ? center.x/self.view.bounds.size.width : 1 - center.x/self.view.bounds.size.width);
+                CGPoint point = CGPointMake(center.y/imagecH, self.mCamera.isFrontCamera ? center.x/self.renderView.bounds.size.width : 1 - center.x/self.renderView.bounds.size.width);
                 [self.mCamera focusWithMode:AVCaptureFocusModeContinuousAutoFocus exposeWithMode:AVCaptureExposureModeContinuousAutoExposure atDevicePoint:point monitorSubjectAreaChange:YES];
                 NSLog(@"手动曝光点-----%@",NSStringFromCGPoint(point));
             }
-            
-
         }else{
-            CGPoint point = CGPointMake(center.y/self.view.bounds.size.height, self.mCamera.isFrontCamera ? center.x/self.view.bounds.size.width : 1 - center.x/self.view.bounds.size.width);
+            CGPoint point = CGPointMake(center.y/self.renderView.bounds.size.height, self.mCamera.isFrontCamera ? center.x/self.renderView.bounds.size.width : 1 - center.x/self.renderView.bounds.size.width);
             [self.mCamera focusWithMode:AVCaptureFocusModeContinuousAutoFocus exposeWithMode:AVCaptureExposureModeContinuousAutoExposure atDevicePoint:point monitorSubjectAreaChange:YES];
             NSLog(@"手动曝光点-----%@",NSStringFromCGPoint(point));
         }
@@ -370,20 +378,24 @@ static CFAbsoluteTime adjustTime = 0 ;
 - (void)takePhoto{
     //拍照效果
     self.photoBtn.enabled = NO;
-    UIView *whiteView = [[UIView alloc] initWithFrame:self.view.bounds];
-    whiteView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:whiteView];
-    whiteView.alpha = 0.3;
-    [UIView animateWithDuration:0.1 animations:^{
-        whiteView.alpha = 0.8;
-    } completion:^(BOOL finished) {
-        [UIView animateWithDuration:0.1 animations:^{
-            whiteView.alpha = 0;
-        } completion:^(BOOL finished) {
-            self.photoBtn.enabled = YES;
-            [whiteView removeFromSuperview];
-        }];
-    }];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.photoBtn.enabled = YES;
+    });
+//    UIView *whiteView = [[UIView alloc] initWithFrame:self.view.bounds];
+//    whiteView.backgroundColor = [UIColor whiteColor];
+//    [self.view addSubview:whiteView];
+//    whiteView.alpha = 0.3;
+//    [UIView animateWithDuration:0.1 animations:^{
+//        whiteView.alpha = 0.8;
+//    } completion:^(BOOL finished) {
+//        [UIView animateWithDuration:0.1 animations:^{
+//            whiteView.alpha = 0;
+//        } completion:^(BOOL finished) {
+//            self.photoBtn.enabled = YES;
+//            [whiteView removeFromSuperview];
+//        }];
+//    }];
     
     
     UIImage *image = [self captureImage];

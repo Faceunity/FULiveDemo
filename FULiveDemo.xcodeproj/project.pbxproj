@@ -27,7 +27,6 @@
 		0B5A0D762021918000AAD47D /* FULiveCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B5A0D3F2021918000AAD47D /* FULiveCell.m */; };
 		0B5A0D772021918000AAD47D /* FULiveModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B5A0D412021918000AAD47D /* FULiveModel.m */; };
 		0B5A0D7C2021919700AAD47D /* dataSource.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0B5A0D7B2021919600AAD47D /* dataSource.plist */; };
-		0B5A0D82202191B600AAD47D /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B5A0D81202191B600AAD47D /* Accelerate.framework */; };
 		0B6B00FE20F49C0F0079118B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0B6B010020F49C0F0079118B /* Localizable.strings */; };
 		0B9A273C20D0C85F00677F82 /* FUVideoReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9A273A20D0C85F00677F82 /* FUVideoReader.m */; };
 		0BC0D25E2153891300324D7D /* FULightingSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BC0D25D2153891300324D7D /* FULightingSlider.m */; };
@@ -213,6 +212,8 @@
 		E3706F6E216ED9E1004BFC7F /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = E3706F6D216ED9E1004BFC7F /* loading.gif */; };
 		E3728B912303F05B00B1B9BF /* qgirl_Animoji.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3728B8F2303F05B00B1B9BF /* qgirl_Animoji.bundle */; };
 		E3728B922303F05B00B1B9BF /* qgirl_Animoji.png in Resources */ = {isa = PBXBuildFile; fileRef = E3728B902303F05B00B1B9BF /* qgirl_Animoji.png */; };
+		E375844724C5414000188D68 /* libCNamaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E332E6B224AFBA3900232C4A /* libCNamaSDK.framework */; };
+		E375844824C5414000188D68 /* libCNamaSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E332E6B224AFBA3900232C4A /* libCNamaSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E37916502264A7850011215B /* manhuanan_point.json in Resources */ = {isa = PBXBuildFile; fileRef = E379164F2264A7850011215B /* manhuanan_point.json */; };
 		E37916522264A78F0011215B /* manhuanv_point.json in Resources */ = {isa = PBXBuildFile; fileRef = E37916512264A78F0011215B /* manhuanv_point.json */; };
 		E37916542264A7970011215B /* mengban_point.json in Resources */ = {isa = PBXBuildFile; fileRef = E37916532264A7970011215B /* mengban_point.json */; };
@@ -374,7 +375,6 @@
 		E3C4889F2485EB050070D88E /* FUHeadReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C4889D2485EB050070D88E /* FUHeadReusableView.m */; };
 		E3C488A32485F12F0070D88E /* FUActionRecognitionController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C488A22485F12F0070D88E /* FUActionRecognitionController.m */; };
 		E3C488A62485F2160070D88E /* actiongame_ai.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3C488A52485F2160070D88E /* actiongame_ai.bundle */; };
-		E3C8253F2223EBC900494DE4 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E3C8253E2223EBC900494DE4 /* libc++.tbd */; };
 		E3C8875423C4771E00CA732C /* FUSelectedImageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B5B9F3920E9C17F00FF7789 /* FUSelectedImageController.m */; };
 		E3C8875523C4772000CA732C /* FURenderImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B60B6D820DCE3D5004F801F /* FURenderImageViewController.m */; };
 		E3C8875823C479EA00CA732C /* FUBeautyParam.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C8875723C479EA00CA732C /* FUBeautyParam.m */; };
@@ -423,11 +423,8 @@
 		E3D5783B22B3A1AB00D08E5D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E3D5783A22B3A1AB00D08E5D /* Assets.xcassets */; };
 		E3DD0F6F2484D7FC0064CF7E /* hair_gradient.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3DD0F5B2484D7FC0064CF7E /* hair_gradient.bundle */; };
 		E3DD0F712484D7FC0064CF7E /* hair_normal.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3DD0F5D2484D7FC0064CF7E /* hair_normal.bundle */; };
-		E3DD0F792484DA6E0064CF7E /* CoreML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3DD0F782484DA6E0064CF7E /* CoreML.framework */; };
 		E3DF96BC2369403D00DB49B2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3DF96BE2369403D00DB49B2 /* InfoPlist.strings */; };
 		E3E6DE3622BB54C10040CBEE /* FUMakeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E3E6DE3522BB54C10040CBEE /* FUMakeButton.m */; };
-		E3E9C6BA24B2D113005142FD /* libCNamaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E332E6B224AFBA3900232C4A /* libCNamaSDK.framework */; };
-		E3E9C6BB24B2D113005142FD /* libCNamaSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E332E6B224AFBA3900232C4A /* libCNamaSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E3EFB836249B0CEE00E2903E /* big_head_facewarp1.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3EFB834249B0CED00E2903E /* big_head_facewarp1.bundle */; };
 		E3EFB837249B0CEE00E2903E /* big_head_facewarp3.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3EFB835249B0CEE00E2903E /* big_head_facewarp3.bundle */; };
 		E3F0EF2222C1FBEC0018FF13 /* FUBGSegmentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F0EF2122C1FBEC0018FF13 /* FUBGSegmentationController.m */; };
@@ -455,13 +452,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		E3E9C6BC24B2D113005142FD /* Embed Frameworks */ = {
+		E375844924C5414000188D68 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				E3E9C6BB24B2D113005142FD /* libCNamaSDK.framework in Embed Frameworks */,
+				E375844824C5414000188D68 /* libCNamaSDK.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1011,10 +1008,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E3C8253F2223EBC900494DE4 /* libc++.tbd in Frameworks */,
-				E3E9C6BA24B2D113005142FD /* libCNamaSDK.framework in Frameworks */,
-				E3DD0F792484DA6E0064CF7E /* CoreML.framework in Frameworks */,
-				0B5A0D82202191B600AAD47D /* Accelerate.framework in Frameworks */,
+				E375844724C5414000188D68 /* libCNamaSDK.framework in Frameworks */,
 				1489B052F80EF752AAACF444 /* libPods-FULiveDemo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2367,10 +2361,10 @@
 				CD0B4B85211613BB0019F9FA /* unzip */,
 				0B5A0CB12021913900AAD47D /* Sources */,
 				0B5A0CB22021913900AAD47D /* Frameworks */,
+				CD11A34D20CE7C580005C58C /* ShellScript */,
 				0B5A0CB32021913900AAD47D /* Resources */,
 				4508CC438BF9C69090871A75 /* [CP] Copy Pods Resources */,
-				CD11A34D20CE7C580005C58C /* ShellScript */,
-				E3E9C6BC24B2D113005142FD /* Embed Frameworks */,
+				E375844924C5414000188D68 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -3179,7 +3173,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 36;
+				CURRENT_PROJECT_VERSION = 38;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
 				ENABLE_BITCODE = NO;
@@ -3242,7 +3236,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 36;
+				CURRENT_PROJECT_VERSION = 38;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
 				ENABLE_BITCODE = NO;

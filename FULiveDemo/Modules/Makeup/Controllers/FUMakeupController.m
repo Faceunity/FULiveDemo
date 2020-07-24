@@ -75,8 +75,24 @@
     _makeupView.delegate = self;
     [_makeupView setWholeArray:supArray];
     _makeupView.backgroundColor = [UIColor clearColor];
-    _makeupView.topView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6];
-    _makeupView.bottomCollection.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6];
+    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    UIVisualEffectView *effectview = [[UIVisualEffectView alloc] initWithEffect:blur];
+    [_makeupView.topView addSubview:effectview];
+    [_makeupView.topView sendSubviewToBack:effectview];
+    /* 磨玻璃 */
+    [effectview mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(_makeupView.topView);
+    }];
+    
+    UIBlurEffect *blur1 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    UIVisualEffectView *effectview1 = [[UIVisualEffectView alloc] initWithEffect:blur1];
+    _makeupView.bottomCollection.backgroundView = effectview1;
+    /* 磨玻璃 */
+    [effectview1 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.equalTo(_makeupView);
+        make.height.mas_equalTo(_makeupView.bottomCollection.bounds.size.height);
+    }];
+    
     [self.view addSubview:_makeupView];
     
     [_makeupView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -90,6 +106,20 @@
     }];
     
     self.photoBtn.transform = CGAffineTransformConcat(CGAffineTransformMakeTranslation(0, -100), CGAffineTransformMakeScale(0.8, 0.8));
+    
+    if(iPhoneXStyle){
+        UIBlurEffect *blur2 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+        UIVisualEffectView *effectview2 = [[UIVisualEffectView alloc] initWithEffect:blur2];
+        [self.view addSubview:effectview2];
+        [self.view sendSubviewToBack:effectview2];
+        [effectview2 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view.mas_bottom);
+            make.left.right.equalTo(self.view);
+            make.height.mas_equalTo(34);
+        }];
+    }
+    
+    
 }
 
 

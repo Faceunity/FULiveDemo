@@ -34,13 +34,24 @@
     [self.view addSubview:_itemsView];
     [self.itemsView updateCollectionArray:self.model.items];
     [_itemsView mas_makeConstraints:^(MASConstraintMaker *make) {
-        if (@available(iOS 11.0, *)) {
-            make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
-        } else {
-            make.bottom.equalTo(self.view.mas_bottom);
-        }
+        make.bottom.equalTo(self.view.mas_bottom);
         make.left.right.equalTo(self.view);
-        make.height.mas_equalTo(84);
+        if (iPhoneXStyle) {
+            make.height.mas_equalTo(84 + 34);
+        }else{
+            make.height.mas_equalTo(84);
+        }
+    }];
+    
+    
+    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    UIVisualEffectView *effectview = [[UIVisualEffectView alloc] initWithEffect:blur];
+    effectview.alpha = 1.0;
+    [self.itemsView addSubview:effectview];
+    [self.itemsView sendSubviewToBack:effectview];
+    /* 磨玻璃 */
+    [effectview mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(_itemsView);
     }];
     
 

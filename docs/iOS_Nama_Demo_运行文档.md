@@ -63,7 +63,6 @@ SDK版本: 7.0.0
        +itmes                 //个个模块道具资源 
     +Lib                    //nama SDK  
       -authpack.h             //权限文件
-      +Resources               //资本的资源
       +libCNamaSDK.framework      
         +Headers
           -funama.h                //C 接口
@@ -112,13 +111,8 @@ iOS端发放的证书为包含在authpack.h中的g_auth_package数组，如果�
 
 第一次运行Demo会报缺少证书的 error ,如果您已拥有我司颁发的证书，将证书替换到工程中重新运行即可。
 
-#### 4.2 工程找不到libnama.a（7.0.0 之前）
+#### 4.2 工程找不到libnama.a
 
-由于最新的含有深度学习的libnama.a大小已超过100M，我们没有上传libnama.a的原文件，只是上传了一个libnama.zip的文件，在你第一次编译工程的时候我们会解压libnama.zip。如果你想从工程目录中获取含有深度学习的libnama.a，并且你没有编译过工程的话，则需要先解压libnama.zip获得libnama.a才行。
-
-#### 4.3 v7.0.0动态库资源
-
-nama动态库发布的资源bundle，不会包含在动态库中。demo路径 FULiveDemo/Lib/Resources 包含SDK资源必要资源 ，集成是自行添加您想要的资源
-
-
+1. 由于最新的含有深度学习的libnama.a大小已超过100M，我们没有上传libnama.a的原文件，只是上传了一个libnama.zip的文件，在你第一次编译工程的时候我们会解压libnama.zip。如果你想从工程目录中获取含有深度学习的libnama.a，并且你没有编译过工程的话，则需要先解压libnama.zip获得libnama.a才行。
+2. v7.0.0 后，由于静态库进一步变大，sdk不会提交到github。运行demo前，在demo路径下，运行loadNama.sh脚本，将会从我们服务器下载SDK到Demo。
 

@@ -1,68 +1,22 @@
 # iOS Nama Objective-C API 参考文档
-1. 级别：Public   
-   更新日期：2020-06-30   
-   SDK版本: 7.0.0  
+级别：Public   
+更新日期：2020-07-24   
+SDK版本: 7.0.1  
 
-   ------
+------
 
-   **FaceUnity Nama SDK v7.0.0 (2020.6.30)**
+### 最新更新内容：
 
-   更新内容
+**2020-7-24 v7.0.1:**
 
-   - 新增人体算法能力，包括人体检测、2D人体关键点（全身、半身）、人体3D骨骼（全身、半身）、手势识别、人像mask、头发mask、头部mask、动作识别等能力。
-   - 性能优化，优化美颜整体性能，中低端机尤为明显，相较于上一版本6.7.0平均提升30%。
-   - 性能优化，优化美颜初始化耗时，解决中低端机进入长时间卡顿问题。
-   - 美颜效果提升
-     - 修复嘴型功能抬头时上嘴唇失效问题。
-     - 修复口罩遮挡时，单输入亮眼会飘问题。
-     - 修复口罩遮挡时，白牙会有亮片。
-     - 修复去黑眼圈/去法令纹，近距离有分割线问题。
-     - 修复长鼻功能特殊机型上问题。
-     - 支持仅使用美颜滤镜时,关闭人脸检测功能。
-     - 优化人脸跟踪点位的稳定性。
-   - 美妆效果提升
-     - 优化低头、侧脸时口红会飘问题。
-     - 优化正常睁眼时美瞳溢出问题。
-     - 修复闭眼仍然美瞳效果，美瞳溢出问题。
-     - 优化鼻子高光晃动问题。
-     - 优化眉毛抖动问题。
-   - 优化表情跟踪稳定性，解决手机轻微晃动的时候抖动较严重问题，提升Animoji等表情跟踪效果。
-   - 优化美发效果，使用新的人体算法能力中的头发mask。
-   - 修复单纹理输入时画面模糊问题。
-   - 修复Android单输入存在内存泄漏问题。
-   - 修复多道具同时加载问题。
-   - 新增接口，详见接口文档
-     - fuGetLogLevel,获取当前日志级别。
-     - fuSetLogLevel,设置当前日志级别。
-     - fuOpenFileLog,打开文件日志，默认使用console日志。
-     - fuFaceProcessorSetMinFaceRatio，设置人脸检测距离的接口。
-     - fuSetTrackFaceAIType，设置fuTrackFace算法运行类型接口。
-     - fuSetCropState，设置裁剪状态。
-     - fuSetCropFreePixel，设置自由裁剪参数。
-     - fuSetFaceProcessorFov，设置FaceProcessor人脸算法模块跟踪fov。
-     - fuGetFaceProcessorFov，获取FaceProcessor人脸算法模块跟踪fov。
-     - fuHumanProcessorReset，重置HumanProcessor人体算法模块状态。
-     - fuHumanProcessorSetMaxHumans，设置HumanProcessor人体算法模块跟踪人体数。
-     - fuHumanProcessorGetNumResults，获取HumanProcessor人体算法模块跟踪人体数。
-     - fuHumanProcessorGetResultTrackId，获取HumanProcessor人体算法模块跟踪Id。
-     - fuHumanProcessorGetResultRect，获取HumanProcessor人体算法模块跟踪人体框。
-     - fuHumanProcessorGetResultJoint2ds，获取HumanProcessor人体算法模块跟踪人体2D关键点。
-     - fuHumanProcessorGetResultJoint3ds，获取HumanProcessor人体算法模块跟踪人体3D骨骼信息。
-     - fuHumanProcessorGetResultHumanMask，获取HumanProcessor人体算法模块全身mask。
-     - fuHumanProcessorGetResultActionType，获取HumanProcessor人体算法模块跟踪人体动作类型。
-     - fuHumanProcessorGetResultActionScore，获取HumanProcessor人体算法模块跟踪人体动作置信度。
-     - fuFaceProcessorGetResultHairMask，获取HumanProcessor人体算法模块头发mask。
-     - fuFaceProcessorGetResultHeadMask，获取HumanProcessor人体算法模块头部mask。
-     - fuHandDetectorGetResultNumHands，获取HandGesture手势算法模块跟踪手势数量。
-     - fuHandDetectorGetResultHandRect，获取HandGesture手势算法模块跟踪手势框。
-     - fuHandDetectorGetResultGestureType，获取HandGesture手势算法模块跟踪手势类别。
-     - fuHandDetectorGetResultHandScore，获取HandGesture手势算法模块跟踪手势置信度。
-   - 废弃接口
-     - fuSetStrictTracking
-     - fuSetASYNCTrackFace
-     - fuSetFaceTrackParam
-
-**注意：**一些高级接口没有OC封装，详情参考C的接口
+1. 新增接口fuHumanProcessorSetBonemap
+2. 新增接口fuHumanProcessorGetResultTransformArray
+3. 新增接口fuHumanProcessorGetResultModelMatrix
+4. 修复fuGetSestemError问题。
+5. 修复fuSetMaxFaces，在释放AI模型后，设置失效问题。
+6. 修复Android非高通机型，OES输入问题。
+7. 修复美妆远距离嘴部黑框问题。
+8. 修复美体美颜共存不支持问题。
 
 ------
 ### 目录：

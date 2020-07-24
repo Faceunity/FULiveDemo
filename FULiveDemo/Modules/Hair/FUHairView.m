@@ -26,7 +26,6 @@ static NSString *cellID = @"FUHairCell";
     self.collection.delegate = self ;
     self.collection.dataSource = self ;
     
-    self.backgroundColor = [UIColor colorWithRed:5/255.0 green:15/255.0 blue:20/255.0 alpha:0.6];
     self.paramDic = [NSMutableDictionary dictionaryWithCapacity:1];
     
     selectedIndex = 1 ;

@@ -54,7 +54,7 @@
 
 -(void)addLayoutConstraint{
     [_mHomeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self);
+        make.bottom.equalTo(self);
         make.left.equalTo(self).offset(10);
         make.height.width.mas_equalTo(44);
     

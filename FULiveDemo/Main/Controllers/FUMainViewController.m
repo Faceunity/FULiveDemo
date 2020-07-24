@@ -18,7 +18,6 @@
 #import "FUPosterListViewController.h"
 #import "FUAnimojiController.h"
 #import "FUHairController.h"
-#import "FUYItuController.h"
 #import "FUMusicFilterController.h"
 #import "FUGanController.h"
 #import "FUBGSegmentationController.h"
@@ -45,7 +44,7 @@ static NSString *headerViewID = @"MGHeaderView";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+        self.view.backgroundColor = [UIColor colorWithRed:3/255.0 green:0/255.0 blue:16/255.0 alpha:1.0];
     self.dataArray = [FUManager shareManager].dataSource;
     float w = [UIScreen mainScreen].bounds.size.width;
     float h = w * 456/750;
@@ -137,7 +136,7 @@ static NSString *headerViewID = @"MGHeaderView";
         case FULiveModelTypeBeautifyFace:{
             FUBeautyController *vc = [[FUBeautyController alloc] init];
             vc.model = model;
-            vc.view.backgroundColor = [UIColor grayColor];
+//            vc.view.backgroundColor = [UIColor grayColor];
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;
@@ -179,7 +178,7 @@ static NSString *headerViewID = @"MGHeaderView";
         case FULiveModelTypeMusicFilter:{
             FUMusicFilterController *vc = [[FUMusicFilterController alloc] init];
             vc.model = model;
-             vc.view.backgroundColor = [UIColor grayColor];
+//             vc.view.backgroundColor = [UIColor grayColor];
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;
@@ -187,7 +186,7 @@ static NSString *headerViewID = @"MGHeaderView";
         case FULiveModelTypeHilarious:{
             FUNormalItemController *vc = [[FUNormalItemController alloc] init];
             vc.model = model;
-            vc.view.backgroundColor = [UIColor grayColor];
+//            vc.view.backgroundColor = [UIColor grayColor];
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;

@@ -120,4 +120,8 @@ typedef NS_ENUM( NSInteger, FUCameraFocusModel) {
 /// @param modle 对焦模式
 -(void)cameraChangeModle:(FUCameraFocusModel)modle;
 
+//  缩放
+//  可用于模拟对焦
+- (void)setZoomValue:(CGFloat)zoomValue;
+
 @end

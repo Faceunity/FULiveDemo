@@ -32,26 +32,37 @@ typedef NS_ENUM(NSUInteger, FUHairModel) {
     
 }
 
-
 -(void)setupView{
      _hairView = [[FUHairView alloc] init];
     _hairView.delegate = self;
     _hairView.itemsArray = self.model.items;
     [self.view addSubview:_hairView];
     [_hairView mas_makeConstraints:^(MASConstraintMaker *make) {
-        if (@available(iOS 11.0, *)) {
-            make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
-        } else {
-            make.bottom.equalTo(self.view.mas_bottom);
-        }
+        make.bottom.equalTo(self.view.mas_bottom);
         make.left.right.equalTo(self.view);
-        make.height.mas_equalTo(134);
+        if (iPhoneXStyle) {
+            make.height.mas_equalTo(134 + 34);
+        }else{
+            make.height.mas_equalTo(134);
+        }
+        
     }];
+    _hairView.backgroundColor = [UIColor clearColor];
+    
+    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    UIVisualEffectView *effectview = [[UIVisualEffectView alloc] initWithEffect:blur];
+    [_hairView insertSubview:effectview atIndex:0];
+    /* 磨玻璃 */
+    [effectview mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(_hairView);
+    }];
+
     
     /* 初始状态 */
     [[FUManager shareManager] loadItem:@"hair_gradient" completion:nil];
-    [[FUManager shareManager] setHairColor:0];
-    [[FUManager shareManager] setHairStrength:0.5];
+    
+    [[FUManager shareManager] setParamItemAboutType:FUNamaHandleTypeItem name:@"Index" value:0];
+    [[FUManager shareManager] setParamItemAboutType:FUNamaHandleTypeItem name:@"Strength" value:0.5];
     _currentModle = FUHairModelModelGradient;
 
     
@@ -75,29 +86,29 @@ typedef NS_ENUM(NSUInteger, FUHairModel) {
 #pragma mark - FUHairViewDelegate
 -(void)hairViewDidSelectedhairIndex:(NSInteger)index{
     if (index == -1) {
-        [[FUManager shareManager] setHairColor:0];
-        [[FUManager shareManager] setHairStrength:0.0];
+        [[FUManager shareManager] setParamItemAboutType:FUNamaHandleTypeItem name:@"Index" value:0];
+        [[FUManager shareManager] setParamItemAboutType:FUNamaHandleTypeItem name:@"Strength" value:0];
     }else{
         if(index < 5) {//渐变色
             if (_currentModle != FUHairModelModelGradient) {
                 [[FUManager shareManager] loadItem:@"hair_gradient" completion:nil];
                 _currentModle = FUHairModelModelGradient;
-            }           
-            [[FUManager shareManager] setHairColor:(int)index];
-            [[FUManager shareManager] setHairStrength:self.hairView.slider.value];
+            }
+            [[FUManager shareManager] setParamItemAboutType:FUNamaHandleTypeItem name:@"Index" value:(int)index];
+            [[FUManager shareManager] setParamItemAboutType:FUNamaHandleTypeItem name:@"Strength" value:self.hairView.slider.value];
         }else{
             if (_currentModle != FUHairModelModelNormal) {
                 [[FUManager shareManager] loadItem:@"hair_normal" completion:nil];
                 _currentModle = FUHairModelModelNormal;
             }
-            [[FUManager shareManager] setHairColor:(int)index - 5];
-            [[FUManager shareManager] setHairStrength:self.hairView.slider.value];
+            [[FUManager shareManager] setParamItemAboutType:FUNamaHandleTypeItem name:@"Index" value:(int)index - 5];
+            [[FUManager shareManager] setParamItemAboutType:FUNamaHandleTypeItem name:@"Strength" value:self.hairView.slider.value];
         }
     }
 }
 
 -(void)hairViewChanageStrength:(float)strength{
-    [[FUManager shareManager] setHairStrength:strength];
+    [[FUManager shareManager] setParamItemAboutType:FUNamaHandleTypeItem name:@"Strength" value:strength];
 }
 
 
