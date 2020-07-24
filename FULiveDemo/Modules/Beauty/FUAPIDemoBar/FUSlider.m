@@ -24,7 +24,7 @@
 {
     [super awakeFromNib];
     
-    [self setThumbImage:[UIImage imageWithName:@"expource_slider_dot"] forState:UIControlStateNormal];
+    [self setThumbImage:[UIImage imageWithName:@"makeup_dot"] forState:UIControlStateNormal];
     
     UIImage *bgImage = [UIImage imageWithName:@"slider_tip_bg"];
     bgImgView = [[UIImageView alloc] initWithImage:bgImage];
@@ -44,8 +44,8 @@
 }
 
 -(instancetype)initWithFrame:(CGRect)frame{
-    if (self = [super initWithFrame:frame]) {
-        [self setThumbImage:[UIImage imageWithName:@"expource_slider_dot"] forState:UIControlStateNormal];
+    if (self = [super initWithFrame:frame]) {//makeup_dot
+        [self setThumbImage:[UIImage imageWithName:@"makeup_dot"] forState:UIControlStateNormal];
         
         UIImage *bgImage = [UIImage imageWithName:@"slider_tip_bg"];
         bgImgView = [[UIImageView alloc] initWithImage:bgImage];
@@ -72,7 +72,7 @@
     
     if (!middleView) {
         middleView = [[UIView alloc] initWithFrame:CGRectMake(2, self.frame.size.height /2.0 - 1, 100, 4)];
-        middleView.backgroundColor = [UIColor colorWithHexColorString:@"5EC7FE"];
+        middleView.backgroundColor = [UIColor colorWithHexColorString:@"1FB2FF"];
         middleView.hidden = YES;
         [self insertSubview:middleView atIndex: self.subviews.count - 1];
     }

@@ -30,6 +30,10 @@
 
 @property (nonatomic, assign) id<FUAPIDemoBarDelegate>mDelegate ;
 
+// 上半部分
+@property (weak, nonatomic) IBOutlet UIView *topView;
+@property (weak, nonatomic) IBOutlet UIView *bottomView;
+
 
 -(void)reloadSkinView:(NSArray<FUBeautyParam *> *)skinParams;
 

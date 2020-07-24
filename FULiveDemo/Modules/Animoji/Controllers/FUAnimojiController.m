@@ -30,13 +30,11 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [[FUManager shareManager] loadAnimojiFaxxBundle];
     [[FUManager shareManager] set3DFlipH];
-}
-
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-     [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeFxaa];
+    /*
+    抗锯齿
+    */
+    [[FUManager shareManager] loadBundleWithName:@"fxaa" aboutType:FUNamaHandleTypeFxaa];
 }
 
 -(void)setupView{
@@ -47,6 +45,7 @@
     _itemsView = [[FUItemsView alloc] init];
     _itemsView.delegate = self;
     [self.view addSubview:_itemsView];
+//    _itemsView.backgroundColor = [UIColor colorWithRed:17/255.0 green:18/255.0 blue:38/255.0 alpha:0.95];
     [self.itemsView updateCollectionArray:self.model.items];
     
     self.photoBtn.transform = CGAffineTransformMakeTranslation(0, -90) ;
@@ -69,16 +68,18 @@
         }
         NSLog(@"选中---%d",index);
     }];
+    _segmentBarView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:_segmentBarView];
     
     [_segmentBarView mas_makeConstraints:^(MASConstraintMaker *make) {
-        if (@available(iOS 11.0, *)) {
-            make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
-        } else {
-            make.bottom.equalTo(self.view.mas_bottom);
-        }
+        make.bottom.equalTo(self.view.mas_bottom);
         make.left.right.equalTo(self.view);
-        make.height.mas_equalTo(49);
+        if (iPhoneXStyle) {
+            make.height.mas_equalTo(49 + 34);
+        }else{
+            make.height.mas_equalTo(49);
+        }
+        
     }];
     
     [_itemsView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -86,6 +87,25 @@
         make.left.right.equalTo(self.view);
         make.height.mas_equalTo(84);
     }];
+    
+    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    UIVisualEffectView *effectview = [[UIVisualEffectView alloc] initWithEffect:blur];
+    effectview.alpha = 1.0;
+    [self.view insertSubview:effectview atIndex:1];
+
+    /* 磨玻璃 */
+    [effectview mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.equalTo(self.view);
+        
+        if (iPhoneXStyle) {
+            make.height.mas_equalTo(84 + 49 + 34 + 1);
+        }else{
+            make.height.mas_equalTo(84 + 34 + 1);
+        }
+        
+    }];
+    
+    
 }
 
 #pragma mark - FUItemsViewDelegate
@@ -127,10 +147,5 @@
     return 0;
 }
 
--(void)dealloc{
-    [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeItem];
-    [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeComic];
-    [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeFxaa];
-}
 
 @end

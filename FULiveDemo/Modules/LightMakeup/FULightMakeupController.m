@@ -43,6 +43,27 @@
     _mCollectionView = [[FULightMakeupCollectionView alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height - 134, [UIScreen mainScreen].bounds.size.width, 134) dataArray:dataArray delegate:self];
     [self.view addSubview:_mCollectionView];
     
+    [_mCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view.mas_bottom);
+        make.left.right.equalTo(self.view);
+        if (iPhoneXStyle) {
+            make.height.mas_equalTo(134 + 34);
+        }else{
+            make.height.mas_equalTo(134);
+        }
+        
+    }];
+    
+    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    UIVisualEffectView *effectview = [[UIVisualEffectView alloc] initWithEffect:blur];
+    effectview.alpha = 1.0;
+    [_mCollectionView addSubview:effectview];
+    [_mCollectionView sendSubviewToBack:effectview];
+    /* 磨玻璃 */
+    [effectview mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(_mCollectionView);
+    }];
+
     self.photoBtn.transform = CGAffineTransformConcat(CGAffineTransformMakeTranslation(0, -100), CGAffineTransformMakeScale(0.8, 0.8));
 
 }

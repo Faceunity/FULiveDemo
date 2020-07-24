@@ -1278,14 +1278,39 @@ FUNAMA_API const float* fuHumanProcessorGetResultRect(int index);
 /**
  \brief get ai model HumanProcessor's tracking 2d joint with index.
  \param index, index of fuHumanProcessorGetNumResults
+ \param size,  size of return data.
  */
 FUNAMA_API const float* fuHumanProcessorGetResultJoint2ds(int index, int* size);
 
 /**
  \brief get ai model HumanProcessor's tracking 3d joint with index.
  \param index, index of fuHumanProcessorGetNumResults
+ \param size,  size of return data.
  */
 FUNAMA_API const float* fuHumanProcessorGetResultJoint3ds(int index, int* size);
+
+/**
+ \brief set ai model HumanProcessor's 3d skeleton hierarchy.
+ \param data, json file description of skeleton hierarchy. ref to boneMap.json.
+ \param size, size of data in bytes.
+ */
+FUNAMA_API void fuHumanProcessorSetBonemap(const char* data, const int size);
+
+/**
+ \brief get ai model HumanProcessor's 3d joint transform, rotation only.
+ \param index, index of fuHumanProcessorGetNumResults
+ \param size,  size of return data.
+ */
+FUNAMA_API const float* fuHumanProcessorGetResultTransformArray(int index,
+                                                                int* size);
+
+/**
+ \brief get ai model HumanProcessor's 3d root joint's transform.
+ \param index, index of fuHumanProcessorGetNumResults
+ \param size,  size of return data.
+ */
+FUNAMA_API const float* fuHumanProcessorGetResultModelMatrix(int index,
+                                                             int* size);
 
 /**
  \brief get ai model HumanProcessor's tracking full body mask with index.
@@ -1376,6 +1401,12 @@ FUNAMA_API float fuHandDetectorGetResultHandScore(int index);
  \param use,set use or not use.
 */
 FUNAMA_API int fuSetUsePbo(bool use);
+
+/**
+ \brief set Set texture loading quality
+ \param quality, 0:high 1:medium 2.low
+*/
+FUNAMA_API int fuSetLoadQuality(int quality);
 #ifdef __cplusplus
 }
 #endif

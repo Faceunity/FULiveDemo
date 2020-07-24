@@ -102,8 +102,6 @@ static FUManager *shareManager = NULL;
         
         _mRotatedImage = [[FURotatedImage alloc] init];
         
-        [self loadAnimojiFaxxBundle];
-        
         NSLog(@"faceunitySDK version:%@",[FURenderer getVersion]);
     }
     
@@ -276,34 +274,6 @@ static FUManager *shareManager = NULL;
     return items[type];
 }
 
-/* 抗锯齿 */
-- (void)loadAnimojiFaxxBundle
-{
-    dispatch_async(_asyncLoadQueue, ^{
-        /**先创建道具句柄*/
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"fxaa.bundle" ofType:nil];
-        int itemHandle = [FURenderer itemWithContentsOfFile:path];
-        
-        /**销毁老的道具句柄*/
-        if (items[FUNamaHandleTypeFxaa] != 0) {
-            NSLog(@"faceunity: destroy old item");
-            [FURenderer destroyItem:items[FUNamaHandleTypeFxaa]];
-        }
-        
-        /**将刚刚创建的句柄存放在items[FUNamaHandleTypeFxaa]中*/
-        items[FUNamaHandleTypeFxaa] = itemHandle;
-    });
-}
-
-- (void)destoryAnimojiFaxxBundle
-{
-    /**销毁老的道具句柄*/
-    if (items[FUNamaHandleTypeFxaa] != 0) {
-        NSLog(@"faceunity: destroy item");
-        [FURenderer destroyItem:items[FUNamaHandleTypeFxaa]];
-        items[FUNamaHandleTypeFxaa] = 0 ;
-    }
-}
 
 /**加载手势识别道具，默认未不加载*/
 - (void)loadGesture
@@ -645,19 +615,6 @@ static FUManager *shareManager = NULL;
 }
 
 
-#pragma mark -  美发
-/**设置美发参数**/
-- (void)setHairColor:(int)colorIndex {
-    dispatch_async(_asyncLoadQueue, ^{
-        [FURenderer itemSetParam:items[FUNamaHandleTypeItem] withName:@"Index" value:@(colorIndex)]; // 发色
-    });
-}
-- (void)setHairStrength:(float)strength {
-    dispatch_async(_asyncLoadQueue, ^{
-        [FURenderer itemSetParam:items[FUNamaHandleTypeItem] withName:@"Strength" value: @(strength)]; // 发色
-    });
-}
-
 #pragma mark -  render
 /**将道具绘制到pixelBuffer*/
 - (CVPixelBufferRef)renderItemsToPixelBuffer:(CVPixelBufferRef)pixelBuffer
@@ -696,18 +653,18 @@ static FUManager *shareManager = NULL;
     /* 核心控制器道具 */
     int controlHandle = items[FUNamaHandleTypeBodyAvtar];
     /* 抗锯齿道具 */
-    int faxxhandle  = items[FUNamaHandleTypeFxaa];
+    int fxaahandle  = items[FUNamaHandleTypeFxaa];
     if (controlHandle == 0) {
         CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
         NSLog(@"error no load control");
         return;
     }
-    if(faxxhandle == 0){
-        NSLog(@"info no load faxx,锯齿明显");
+    if(fxaahandle == 0){
+        NSLog(@"info no load fxaa,锯齿明显");
     }
     static int itemHandes[2] = {0};
     itemHandes[0] = controlHandle;
-    itemHandes[1] = faxxhandle;
+    itemHandes[1] = fxaahandle;
     
     [[FURenderer shareRenderer] renderBundles:pixelBuffer_pod inFormat:FU_FORMAT_BGRA_BUFFER outPtr:pixelBuffer_pod  outFormat:FU_FORMAT_BGRA_BUFFER width:w height:h frameId:frameID++ items:itemHandes itemCount:2];
     
@@ -879,62 +836,6 @@ static FUManager *shareManager = NULL;
         }
     });
 }
-
-#pragma mark -  异图
--(void)setEspeciallyItemParamImage:(UIImage *)image group_points:(NSArray *)g_points group_type:(NSArray *)g_type{
-    if (!image) {
-        NSLog(@"error -- 图片不为空");
-        return;
-    }
-    if (!g_points.count) {
-        NSLog(@"error -- 点位数组为空");
-        return;
-    }
-    if (!g_type.count) {
-        NSLog(@"error -- 类型参数空");
-        return;
-    }
-    int imageWidth = (int)CGImageGetWidth(image.CGImage);
-    int imageHeight = (int)CGImageGetHeight(image.CGImage);
-    CFDataRef photoDataFromImageDataProvider = CGDataProviderCopyData(CGImageGetDataProvider(image.CGImage));
-    GLubyte *imageData = (GLubyte *)CFDataGetBytePtr(photoDataFromImageDataProvider);
-    
-    int pointCount = (int)g_points.count;
-    int typeCount  = (int)g_type.count;
-
-    double *points = (double *)malloc(pointCount * sizeof(double));
-    double *types = (double *)malloc(typeCount * sizeof(double));
-    for (int i =0; i < pointCount; i ++) {
-        points[i] = [g_points[i] doubleValue];
-    }
-    for (int i =0; i < typeCount; i ++) {
-        types[i] = [g_type[i] doubleValue];
-    }
-    
-    if (items[FUNamaHandleTypePhotolive] == 0) {
-        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"photolive" ofType:@"bundle"];
-        items[FUNamaHandleTypePhotolive] = [FURenderer itemWithContentsOfFile:filePath];
-        /* 默认情况下，差值开关关闭 */
-        fuItemSetParamd(items[FUNamaHandleTypePhotolive], "use_interpolate2", 0);
-    }
-    
-    /* 移除意图纹理 */
-    fuDeleteTexForItem(items[FUNamaHandleTypePhotolive], "tex_input");
-    fuItemSetParamd(items[FUNamaHandleTypePhotolive], "target_width", imageWidth);
-    fuItemSetParamd(items[FUNamaHandleTypePhotolive], "target_height", imageHeight);
-    /* 五官类型数组 */
-    fuItemSetParamdv(items[FUNamaHandleTypePhotolive], "group_type", types, typeCount);
-    /* 类型对应的五官，在效果图片中的位置 */
-    fuItemSetParamdv(items[FUNamaHandleTypePhotolive], "group_points", points, pointCount);
-    /* 创建意图纹理 */
-    fuCreateTexForItem(items[FUNamaHandleTypePhotolive], "tex_input", imageData, imageWidth, imageHeight);
-    
-    free(points);
-    free(types);
-    CFRelease(photoDataFromImageDataProvider);
-    
-}
-
 
 #pragma mark -  nama查询&设置
 - (void)setAsyncTrackFaceEnable:(BOOL)enable{

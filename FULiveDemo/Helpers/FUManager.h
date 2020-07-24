@@ -143,14 +143,6 @@ typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
  */
 -(void)setMakeupItemStr:(NSString *)sdkStr valueArr:(NSArray *)valueArr;
 
-/**
- 意图道具参数设置
-
- @param image 图片数据
- @param g_points 点位数组
- @param g_type 五官类型
- */
--(void)setEspeciallyItemParamImage:(UIImage *)image group_points:(NSArray *)g_points group_type:(NSArray *)g_type;
 
 /// 将道具句柄移除nama 渲染，注意：b该操作不会销毁道具
 /// @param type 句柄索引
@@ -161,13 +153,8 @@ typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
 -(void)rejoinNamaRenderWithType:(FUNamaHandleType)type;
 
 
-- (void)loadAnimojiFaxxBundle;
 - (void)musicFilterSetMusicTime;
 
-/**设置美发参数**/
-- (void)setHairColor:(int)colorIndex ;
-/* 设置美发程度值 */
-- (void)setHairStrength:(float)strength;
 /**获取item的提示语*/
 - (NSString *)hintForItem:(NSString *)item;
 

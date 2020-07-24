@@ -11,6 +11,8 @@
 #import "FURecordEncoder.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 
+
+
 typedef enum : NSUInteger {
     CommonMode,
     PhotoTakeMode,
@@ -106,6 +108,7 @@ typedef void(^FUCameraRecordVidepCompleted)(NSString *videoPath);
         
         AVCaptureDeviceInput *deviceInput = self.isFrontCamera ? self.frontCameraInput:self.backCameraInput;
         
+        [_captureSession beginConfiguration]; // the session to which the receiver's AVCaptureDeviceInput is added.
         if ([_captureSession canAddInput: deviceInput]) {
             [_captureSession addInput: deviceInput];
         }
@@ -125,7 +128,7 @@ typedef void(^FUCameraRecordVidepCompleted)(NSString *videoPath);
             self.videoConnection.videoMirrored = YES;
         }
         
-        [_captureSession beginConfiguration]; // the session to which the receiver's AVCaptureDeviceInput is added.
+
         if ( [deviceInput.device lockForConfiguration:NULL] ) {
             [deviceInput.device setActiveVideoMinFrameDuration:CMTimeMake(1, 30)];
             [deviceInput.device unlockForConfiguration];
@@ -262,21 +265,49 @@ typedef void(^FUCameraRecordVidepCompleted)(NSString *videoPath);
         self.videoConnection.videoMirrored = isFront;
     }
     
+    /* 与标准视频稳定相比，这种稳定方法减少了摄像机的视野，在视频捕获管道中引入了更多的延迟，并消耗了更多的系统内存 */
+    if(self.videoConnection.supportsVideoStabilization && !isFront) {//前置保持大视野，关闭防抖
+        self.videoConnection.preferredVideoStabilizationMode = AVCaptureVideoStabilizationModeStandard;
+        NSLog(@"activeVideoStabilizationMode = %ld",(long)self.videoConnection.activeVideoStabilizationMode);
+    }else {
+        NSLog(@"connection don't support video stabilization");
+        self.videoConnection.preferredVideoStabilizationMode = AVCaptureVideoStabilizationModeOff;
+    }
+    
     [self.captureSession startRunning];
-   
 }
 
 //用来返回是前置摄像头还是后置摄像头
 - (AVCaptureDevice *)cameraWithPosition:(AVCaptureDevicePosition) position {
-    //返回和视频录制相关的所有默认设备
-    NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
-    //遍历这些设备返回跟position相关的设备
-    for (AVCaptureDevice *device in devices) {
-        if ([device position] == position) {
-            return device;
+
+    //    //返回和视频录制相关的所有默认设备
+    //    NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
+    //    //遍历这些设备返回跟position相关的设备
+    //    for (AVCaptureDevice *device in devices) {
+    //        if ([device position] == position) {
+    //            return device;
+    //        }
+    //    }
+    //    return nil;
+    
+    if (@available(iOS 10.2, *)) {
+
+        AVCaptureDevice* newDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInDualCamera mediaType:AVMediaTypeVideo position:position];
+        if(!newDevice){
+            newDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInWideAngleCamera mediaType:AVMediaTypeVideo position:position];
         }
+        return newDevice;
+    }else{
+        //返回和视频录制相关的所有默认设备
+        NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
+        //遍历这些设备返回跟position相关的设备
+        for (AVCaptureDevice *device in devices) {
+            if ([device position] == position) {
+                    return device;
+            }
+        }
+        return nil;
     }
-    return nil;
 }
 
 - (AVCaptureDevice *)camera
@@ -419,10 +450,8 @@ typedef void(^FUCameraRecordVidepCompleted)(NSString *videoPath);
         }
         _captureSession.sessionPreset = sessionPreset;
         _mSessionPreset = sessionPreset;
-
         [self.captureSession startRunning];
 
-       
         return YES;
     }
     return NO;
@@ -463,6 +492,9 @@ typedef void(^FUCameraRecordVidepCompleted)(NSString *videoPath);
         }
     }
 }
+
+
+
 
 - (BOOL)focusPointSupported
 {
@@ -718,6 +750,26 @@ typedef void(^FUCameraRecordVidepCompleted)(NSString *videoPath);
 -(void)cameraChangeModle:(FUCameraFocusModel)modle
 {
     _cameraFocusModel = modle;
+}
+
+
+//缩放
+- (CGFloat)maxZoomFactor
+{
+    return MIN(self.camera.activeFormat.videoMaxZoomFactor, 4.0f);
+}
+
+- (void)setZoomValue:(CGFloat)zoomValue
+{
+    if (!self.camera.isRampingVideoZoom) {
+        NSError *error;
+        if ([self.camera lockForConfiguration:&error]) {
+            CGFloat zoomFactor = pow([self maxZoomFactor], zoomValue);
+            self.camera.videoZoomFactor = zoomFactor;
+            [self.camera unlockForConfiguration];
+        }
+    }
+    
 }
 
 
