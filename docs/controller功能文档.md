@@ -363,6 +363,22 @@ fuItemSetParamdv(1, "set_background_color", [255, 255, 255, 255]);
 fuItemSetParamd(1, "enable_background_color", 0.0);
 ```
 ------
+
+## 阴影设置
+
+```C
+// 开启阴影，value = 1.0 代表开启，value = 0.0 代表关闭
+fuItemSetParamd(1, "enable_shadow", 1.0);
+
+// 设置shadow map的分辨率
+fuItemSetParamd(1, "shadow_map_size", 1024.0);
+// 设置shadow PCF level， value = 2.0 代表 Height， value = 1.0 代表 medium, value = 0.0 代表 low
+fuItemSetParamd(1, "shadow_pcf_level", 2.0);
+// 设置shadow bias， value[0] 代表 uniform bias， value[1] 代表 normal bias
+fuItemSetParamdv(1, "shadow_bias", [0.01, 0.1]);
+```
+------
+
 ## 特殊模式
 
 ### 动画混合的头部跟踪模式
@@ -385,7 +401,6 @@ fuItemSetParamd(1, "enable_animation_track", 0.0);
 ```
 
 ### AR模式
-
 ```C
 //开启AR模式
 fuItemSetParamd(1, "enter_ar_mode", 1.0);
@@ -396,12 +411,76 @@ fuItemSetParamd(1, "quit_ar_mode", 1.0);
 fuItemSetParamd(1, "screen_orientation", 0);
 ```
 ------
-### 身体追踪
+
+### Blendshape混合
+```C
+//开启或关闭Blendshape混合：value = 1.0表示开启，value = 0.0表示不开启
+fuItemSetParamd(1, "enable_expression_blend", value);
+//设置Blendshape混合参数：blend_expression、expression_weight0、expression_weight1，只在enable_expression_blend设置为1时有效
+//blend_expression是用户输入的bs系数数组，取值为0~1，序号0-45代表基表情bs，46-56代表口腔bs，57-66代表舌头bs
+var d = [];
+for(var i = 0; i<57; i++){
+	d[i] = 0;
+}
+fuItemSetParamdv(1, "blend_expression", d);
+//expression_weight0是blend_expression的权重，expression_weight1是算法检测返回的表情或者加载的动画表情系数数组的权重，取值为0~1
+var d = [];
+for(var i = 0; i<57; i++){
+	d[i] = 0;
+}
+fuItemSetParamdv(1, "expression_weight0", d);
+```
+------
+
+### 眼睛注视相机
+```C
+//开启眼镜注释功能，value = 1.0表示开启，value = 0.0表示不开启
+fuItemSetParamd(1, "enable_fouce_eye_to_camera", value);
+//设置眼睛注视相机参数：fouce_eye_to_camera_height_adjust、fouce_eye_to_camera_distance_adjust、fouce_eye_to_camera_weight
+fuItemSetParamd(1, "fouce_eye_to_camera_height_adjust", 30.0); //调整虚拟相机相对高度
+fuItemSetParamd(1, "fouce_eye_to_camera_distance_adjust", 30.0); //调整虚拟相机相对距离
+fuItemSetParamd(1, "fouce_eye_to_camera_weight", 1.0); //调整注视的影响权重，1.0表示完全启用，0.0表示无影响
+```
+------
+
+### Face Processor 面部追踪
+```C
+//1.使用Face Processor 面部追踪前，需要加载ai_face_processor.bundle
+vector<uint8_t> u8_ai_face_processor;
+loadbinary("ai_face_processor.bundle", u8_ai_face_processor);
+fuLoadAIModelFromPackage(u8_ai_face_processor.data(), (int)u8_ai_face_processor.size(), FUAITYPE::FUAITYPE_FACEPROCESSOR);
+
+//2.开启或关闭面部追踪, value = 1.0表示开启，value = 0.0表示关闭
+fuItemSetParamd(1, "enable_face_processor", 1.0);
+
+//3.为当前角色，并分配面部追踪检测到的人脸索引，默认为0
+fuItemSetParamd(1, "set_face_processor_face_id", 0.0);
+
+//4.退出程序前，需要销毁Face Processor相关资源
+fuReleaseAIModel(FUAITYPE::FUAITYPE_FACEPROCESSOR);
+```
+------
+
+### Human Processor 身体追踪
 ##### 开启或关闭身体追踪
 ```C
-//开启身体追踪，需要设置target_angle，target_scale，target_trans，reset_all参数决定角色在追踪失败时的默认位置
-fuItemSetParamd(1, "enter_human_pose_track_mode", 1.0);
-fuItemSetParamd(1, "quit_human_pose_track_mode", 1.0);
+//1.使用Human Processor身体追踪前，需要加载ai_human_processor.bundle
+vector<uint8_t> u8_ai_human_processor;
+loadbinary("ai_human_processor.bundle", u8_ai_human_processor);
+fuLoadAIModelFromPackage(u8_ai_human_processor.data(), (int)u8_ai_human_processor.size(), FUAITYPE::FUAITYPE_HUMAN_PROCESSOR);
+
+//2.开启或关闭身体追踪，value = 1.0表示开启，value = 0.0表示关闭
+//  enter_human_pose_track_mode 和 quit_human_pose_track_mode 参数接口已废弃
+fuItemSetParamd(1, "enable_human_processor", 1.0);
+
+//3.退出程序前，需要销毁Human Processor相关资源
+fuReleaseAIModel(FUAITYPE::FUAITYPE_HUMAN_PROCESSOR);
+
+```
+##### 身体追踪参数设置
+```C
+//开启身体追踪前需要设置target_angle，target_scale，target_trans，reset_all参数，来决定角色在追踪失败时的默认位置
+
 //设置是否开启跟随模式：value = 1.0表示跟随，value = 0.0表示不跟随
 fuItemSetParamd(1, "human_3d_track_is_follow", 1.0);
 //如果使用跟随模式，可以通过参数human_3d_track_render_fov设置渲染的fov大小，单位是度
@@ -436,37 +515,8 @@ fuItemGetParam(1, "human_status");
 fuItemGetParamdv(1, "human_track_gesture_id");
 ```
 ------
-### Blendshape混合
-```C
-//开启或关闭Blendshape混合：value = 1.0表示开启，value = 0.0表示不开启
-fuItemSetParamd(1, "enable_expression_blend", value);
-//设置Blendshape混合参数：blend_expression、expression_weight0、expression_weight1，只在enable_expression_blend设置为1时有效
-//blend_expression是用户输入的bs系数数组，取值为0~1，序号0-45代表基表情bs，46-56代表口腔bs，57-66代表舌头bs
-var d = [];
-for(var i = 0; i<57; i++){
-	d[i] = 0;
-}
-fuItemSetParamdv(1, "blend_expression", d);
-//expression_weight0是blend_expression的权重，expression_weight1是算法检测返回的表情或者加载的动画表情系数数组的权重，取值为0~1
-var d = [];
-for(var i = 0; i<57; i++){
-	d[i] = 0;
-}
-fuItemSetParamdv(1, "expression_weight0", d);
-```
-------
-### 眼睛注视相机
-```C
-//开启眼镜注释功能，value = 1.0表示开启，value = 0.0表示不开启
-fuItemSetParamd(1, "enable_fouce_eye_to_camera", value);
-//设置眼睛注视相机参数：fouce_eye_to_camera_height_adjust、fouce_eye_to_camera_distance_adjust、fouce_eye_to_camera_weight
-fuItemSetParamd(1, "fouce_eye_to_camera_height_adjust", 30.0); //调整虚拟相机相对高度
-fuItemSetParamd(1, "fouce_eye_to_camera_distance_adjust", 30.0); //调整虚拟相机相对距离
-fuItemSetParamd(1, "fouce_eye_to_camera_weight", 1.0); //调整注视的影响权重，1.0表示完全启用，0.0表示无影响
-```
 
-------
-### CNN 面部追踪
+### CNN 面部追踪（已废弃）
 ```C
 //1.使用CNN 面部追踪前，用户需要通过fuFaceCaptureCreate创建面部追踪模型
 var face_capture = fuFaceCaptureCreate(__pointer data, int sz);
@@ -483,6 +533,7 @@ fuFaceCaptureProcessFrame(face_capture, __pointer img_data, int image_w, int ima
 fuFaceCaptureDestory(face_capture)
 ```
 ------
+
 ### 捏脸
 ##### 进入或者退出捏脸模式 
 ```C

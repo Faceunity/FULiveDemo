@@ -1283,6 +1283,16 @@ FUNAMA_API const float* fuHumanProcessorGetResultRect(int index);
 FUNAMA_API const float* fuHumanProcessorGetResultJoint2ds(int index, int* size);
 
 /**
+ \brief get ai model HumanProcessor's tracking fov, use to 3d joint projection.
+ */
+FUNAMA_API float fuHumanProcessorGetFov();
+
+/**
+ \brief set ai model HumanProcessor's tracking fov, use to 3d joint projection.
+ */
+FUNAMA_API void fuHumanProcessorSetFov(float fov);
+
+/**
  \brief get ai model HumanProcessor's tracking 3d joint with index.
  \param index, index of fuHumanProcessorGetNumResults
  \param size,  size of return data.
