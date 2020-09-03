@@ -80,13 +80,13 @@ Xcode 8或更高版本
 全功能版本：
 
 ```
-pod 'Nama', '7.1.0' 
+pod 'Nama', '7.1.2' 
 ```
 
 不含物理引擎的版本（lite版）：
 
 ```
-pod 'Nama-lite', '7.1.0' 
+pod 'Nama-lite', '7.1.2' 
 ```
 
 接下来执行：
@@ -103,9 +103,9 @@ pod repo update 或 pod setup
 
 #### 3.2.2 通过 github 下载集成
 
-全功能版本：[FaceUnity-SDK-iOS-v7.1.0.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v7.1.0.zip)
+全功能版本：[FaceUnity-SDK-iOS-v7.1.2.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v7.1.2.zip)
 
-不含物理引擎的版本（lite版）：[FaceUnity-SDK-iOS-v7.1.0-lite.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v7.1.0-lite.zip)
+不含物理引擎的版本（lite版）：[FaceUnity-SDK-iOS-v7.1.2-lite.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v7.1.2-lite.zip)
 
 
 
