@@ -72,8 +72,7 @@
          NSArray <NSString *>*defaultBindItem = @[@"default_bg",@"anim_idle",@"anim_eight",@"anim_fist",@"anim_greet",@"anim_gun",@"anim_heart",@"anim_hold",@"anim_korheart",@"anim_merge",@"anim_ok",@"anim_one", @"anim_palm",@"anim_rock",@"anim_six",@"anim_thumb",@"anim_two"];
          [self bindItems:defaultBindItem];
          
-         [FURenderer itemSetParam:handle withName:@"use_human_processor" value:@(1)];
-         [FURenderer itemSetParam:handle withName:@"enter_human_pose_track_mode" value:@(1)];
+         [FURenderer itemSetParam:handle withName:@"enable_human_processor" value:@(1)];
          
          [FURenderer itemSetParamdv:handle withName:@"target_position" value:position length:3];
          [FURenderer itemSetParam:handle withName:@"target_angle" value:@(0)];

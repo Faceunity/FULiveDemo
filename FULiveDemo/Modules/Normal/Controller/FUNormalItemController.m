@@ -101,7 +101,12 @@
 
 
 -(void)displayPromptText{
-    [super displayPromptText];
+    if(self.model.type == FULiveModelTypeGestureRecognition){
+        self.noTrackLabel.hidden = YES;
+    }else{
+        [super displayPromptText];
+    }
+    
 }
 
 #pragma  mark -  按钮点击

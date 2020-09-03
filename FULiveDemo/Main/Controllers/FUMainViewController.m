@@ -26,6 +26,7 @@
 #import "FUHeadReusableView.h"
 #import "FUActionRecognitionController.h"
 #import "FUBodyAvtarController.h"
+#import "FULvMuViewController.h"
 
 static NSString *headerViewID = @"MGHeaderView";
 @interface FUMainViewController ()
@@ -218,6 +219,14 @@ static NSString *headerViewID = @"MGHeaderView";
                 [self.navigationController pushViewController:vc animated:YES];
             }
                 break;
+            
+        case FULiveModelTypeLvMu:{
+                FULvMuViewController *vc = [[FULvMuViewController alloc] init];
+                vc.model = model;
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+                break;
+            
         default:{
             FUNormalItemController *vc = [[FUNormalItemController alloc] init];
             vc.model = model;

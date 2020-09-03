@@ -210,92 +210,6 @@
     return image;
 }
 
-//+ (UIImage *) convertBitmapRGBA8ToUIImage:(unsigned char *) buffer
-//                                withWidth:(int) width
-//                               withHeight:(int) height {
-//    
-//    
-//    size_t bufferLength = width * height * 4;
-//    CGDataProviderRef provider = CGDataProviderCreateWithData(NULL, buffer, bufferLength, NULL);
-//    size_t bitsPerComponent = 8;
-//    size_t bitsPerPixel = 32;
-//    size_t bytesPerRow = 4 * width;
-//    
-//    CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
-//    if(colorSpaceRef == NULL) {
-//        NSLog(@"Error allocating color space");
-//        CGDataProviderRelease(provider);
-//        return nil;
-//    }
-//    
-//    CGBitmapInfo bitmapInfo = kCGBitmapByteOrderDefault;
-//    CGColorRenderingIntent renderingIntent = kCGRenderingIntentDefault;
-//    
-//    CGImageRef iref = CGImageCreate(width,
-//                                    height,
-//                                    bitsPerComponent,
-//                                    bitsPerPixel,
-//                                    bytesPerRow,
-//                                    colorSpaceRef,
-//                                    bitmapInfo,
-//                                    provider,    // data provider
-//                                    NULL,        // decode
-//                                    YES,            // should interpolate
-//                                    renderingIntent);
-//    
-//    uint32_t* pixels = (uint32_t*)malloc(bufferLength);
-//    
-//    if(pixels == NULL) {
-//        NSLog(@"Error: Memory not allocated for bitmap");
-//        CGDataProviderRelease(provider);
-//        CGColorSpaceRelease(colorSpaceRef);
-//        CGImageRelease(iref);
-//        return nil;
-//    }
-//    
-//    CGContextRef context = CGBitmapContextCreate(pixels,
-//                                                 width,
-//                                                 height,
-//                                                 bitsPerComponent,
-//                                                 bytesPerRow,
-//                                                 colorSpaceRef,
-//                                                 kCGImageAlphaPremultipliedLast);
-//    
-//    UIImage *image = nil;
-//    
-////    if(context == NULL) {
-////        NSLog(@"Error context not created");
-////        free(pixels);
-////        
-////        return nil ;
-////    }
-//    
-//    CGContextDrawImage(context, CGRectMake(0.0f, 0.0f, width, height), iref);
-//    
-//    CGImageRef imageRef = CGBitmapContextCreateImage(context);
-//    
-//    // Support both iPad 3.2 and iPhone 4 Retina displays with the correct scale
-//    if([UIImage respondsToSelector:@selector(imageWithCGImage:scale:orientation:)]) {
-//        float scale = [[UIScreen mainScreen] scale];
-//        image = [UIImage imageWithCGImage:imageRef scale:scale orientation:UIImageOrientationUp];
-//    } else {
-//        image = [UIImage imageWithCGImage:imageRef];
-//    }
-//    
-//    CGImageRelease(imageRef);
-//    CGContextRelease(context);
-//    
-//    CGColorSpaceRelease(colorSpaceRef);
-//    CGImageRelease(iref);
-//    CGDataProviderRelease(provider);
-//    
-//    if(pixels != nil) {
-//        free(pixels);
-//    }
-//    return image;
-//}
-
-
 
 +(CVPixelBufferRef) pixelBufferFromImage:(UIImage *)image {
     
@@ -391,5 +305,165 @@
      
      return image;
 }
+
+
+/**
+获取屏幕截图
+@return 返回屏幕截图
+*/
+ 
+//+(UIImage *)fullScreenshots{
+//    UIWindow *screenWindow = [[UIApplication sharedApplication] keyWindow];
+//    UIGraphicsBeginImageContext(screenWindow.frame.size);//全屏截图，包括window
+//    [screenWindow.layer renderInContext:UIGraphicsGetCurrentContext()];
+//    UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
+//    return viewImage;
+//}
+
++ (UIImage *)fullScreenshots
+{
+    CGSize imageSize = CGSizeZero;
+
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    if (UIInterfaceOrientationIsPortrait(orientation)) {
+        imageSize = [UIScreen mainScreen].bounds.size;
+    } else {
+        imageSize = CGSizeMake([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width);
+    }
+
+    UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    for (UIWindow *window in [[UIApplication sharedApplication] windows]) {
+        CGContextSaveGState(context);
+        CGContextTranslateCTM(context, window.center.x, window.center.y);
+        CGContextConcatCTM(context, window.transform);
+        CGContextTranslateCTM(context, -window.bounds.size.width * window.layer.anchorPoint.x, -window.bounds.size.height * window.layer.anchorPoint.y);
+        if (orientation == UIInterfaceOrientationLandscapeLeft) {
+            CGContextRotateCTM(context, M_PI_2);
+            CGContextTranslateCTM(context, 0, -imageSize.width);
+        } else if (orientation == UIInterfaceOrientationLandscapeRight) {
+            CGContextRotateCTM(context, -M_PI_2);
+            CGContextTranslateCTM(context, -imageSize.height, 0);
+        } else if (orientation == UIInterfaceOrientationPortraitUpsideDown) {
+            CGContextRotateCTM(context, M_PI);
+            CGContextTranslateCTM(context, -imageSize.width, -imageSize.height);
+        }
+        if ([window respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
+            [window drawViewHierarchyInRect:window.bounds afterScreenUpdates:YES];
+        } else {
+            [window.layer renderInContext:context];
+        }
+        CGContextRestoreGState(context);
+    }
+
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
+/**
+获取点击的颜色
+@param point 点击的位置
+@return 返回点击地方的颜色
+*/
++(UIColor*)getPixelColorScreenWindowAtLocation:(CGPoint)point{
+    UIColor* color = nil;
+    UIImage *image = [self fullScreenshots];
+    CGImageRef inImage = image.CGImage;
+    // Create off screen bitmap context to draw the image into. Format ARGB is 4 bytes for each pixel: Alpa, Red, Green, Blue
+    CGContextRef cgctx = [self createARGBBitmapContextFromImage:inImage];
+    if (cgctx == NULL) { return nil;  }
+    size_t w = CGImageGetWidth(inImage);
+    size_t h = CGImageGetHeight(inImage);
+    CGRect rect = {{0,0},{w,h}};
+    // Draw the image to the bitmap context. Once we draw, the memory
+    // allocated for the context for rendering will then contain the
+    // raw image data in the specified color space.
+    CGContextDrawImage(cgctx, rect, inImage);
+    // Now we can get a pointer to the image data associated with the bitmap
+    // context.
+    unsigned char* data = CGBitmapContextGetData (cgctx);
+    CGFloat scale = [UIScreen mainScreen].scale;
+    if (data != NULL) {
+        //offset locates the pixel in the data from x,y.
+        //4 for 4 bytes of data per pixel, w is width of one row of data.
+        @try {
+            int offset = 4*((w*round(point.y * scale))+round(point.x * scale));
+            int alpha =  (int)data[offset];
+            int red = (int)data[offset+1];
+            int green = (int)data[offset+2];
+            int blue = (int)data[offset+3];
+            color = [UIColor colorWithRed:(red/255.0f) green:(green/255.0f) blue:(blue/255.0f) alpha:(alpha/255.0f)];
+            
+            free(data);
+        }
+        @catch (NSException * e) {
+            NSLog(@"%@",[e reason]);
+        }
+        @finally {
+        }
+        
+
+    }
+    
+    
+    return color;
+}
+ 
++(CGContextRef) createARGBBitmapContextFromImage:(CGImageRef) inImage {
+    CGContextRef    context = NULL;
+    CGColorSpaceRef colorSpace;
+    void *          bitmapData;
+    int            bitmapByteCount;
+    int            bitmapBytesPerRow;
+    // Get image width, height. We'll use the entire image.
+    size_t pixelsWide = CGImageGetWidth(inImage);
+    size_t pixelsHigh = CGImageGetHeight(inImage);
+    // Declare the number of bytes per row. Each pixel in the bitmap in this
+    // example is represented by 4 bytes; 8 bits each of red, green, blue, and
+    // alpha.
+    bitmapBytesPerRow  = (pixelsWide * 4);
+    bitmapByteCount    = (bitmapBytesPerRow * pixelsHigh);
+    // Use the generic RGB color space.
+    colorSpace = CGColorSpaceCreateDeviceRGB();
+    if (colorSpace == NULL) {
+        fprintf(stderr, "Error allocating color spacen");
+        return NULL;
+    }
+    // Allocate memory for image data. This is the destination in memory
+    // where any drawing to the bitmap context will be rendered.
+    bitmapData = malloc( bitmapByteCount );
+    if (bitmapData == NULL) {
+        fprintf (stderr, "Memory not allocated!");
+        CGColorSpaceRelease( colorSpace );
+        return NULL;
+    }
+    // Create the bitmap context. We want pre-multiplied ARGB, 8-bits
+    // per component. Regardless of what the source image format is
+    // (CMYK, Grayscale, and so on) it will be converted over to the format
+    // specified here by CGBitmapContextCreate.
+    context = CGBitmapContextCreate (bitmapData,
+                                    pixelsWide,
+                                    pixelsHigh,
+                                    8,      // bits per component
+                                    bitmapBytesPerRow,
+                                    colorSpace,
+                                    kCGImageAlphaPremultipliedFirst);
+    if (context == NULL) {
+        free (bitmapData);
+        fprintf (stderr, "Context not created!");
+    }
+    // Make sure and release colorspace before returning
+    CGColorSpaceRelease( colorSpace );
+    return context;
+}
+
+
+
+////点击获取点击位置的颜色
+//-(IBAction)onClik:(UITapGestureRecognizer*)tap{
+//    CGPoint point = [tap locationInView:self];
+//    UIColor* color = [self getPixelColorAtLocation:point withImage:[self fullScreenshots]];
+//}
 
 @end

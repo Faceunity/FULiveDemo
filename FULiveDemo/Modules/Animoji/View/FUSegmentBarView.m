@@ -72,6 +72,14 @@ typedef void(^FUSegmentDidSelBtnIndex)(int index);
 }
 
 
+-(void)setUINormal{
+    for (UIView *view in self.subviews) {
+        if ([view isKindOfClass:[UIButton class]]) {
+            UIButton * btn = (UIButton *)view;
+            btn.selected = NO;
+        }
+    }
+}
 
 
 
