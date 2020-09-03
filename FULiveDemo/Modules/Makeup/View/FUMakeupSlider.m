@@ -36,6 +36,31 @@
     tipLabel.hidden = YES;
 }
 
+
+-(instancetype)init{
+    if (self = [super init]) {
+        [self setThumbImage:[UIImage imageNamed:@"makeup_dot"] forState:UIControlStateNormal];
+        self.minimumTrackTintColor = [UIColor colorWithRed:31/255.0 green:175/255.0 blue:1.0 alpha:1.0];
+        UIImage *bgImage = [UIImage imageNamed:@"makeup_tipbg"];
+        bgImgView = [[UIImageView alloc] initWithImage:bgImage];
+        bgImgView.frame = CGRectMake(0, -bgImage.size.height, bgImage.size.width, bgImage.size.height);
+        [self addSubview:bgImgView];
+        
+        tipLabel = [[UILabel alloc] initWithFrame:bgImgView.frame];
+        tipLabel.text = @"";
+        tipLabel.textColor = [UIColor darkGrayColor];
+        tipLabel.font = [UIFont systemFontOfSize:14];
+        tipLabel.textAlignment = NSTextAlignmentCenter;
+        tipLabel.backgroundColor = [UIColor clearColor];
+        [self addSubview:tipLabel];
+        
+        bgImgView.hidden = YES;
+        tipLabel.hidden = YES;
+    }
+    return self;
+}
+
+
 -(void)layoutSubviews{
     [super layoutSubviews];
     [self setValue:self.value animated:YES];

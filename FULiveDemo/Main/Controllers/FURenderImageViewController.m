@@ -20,10 +20,12 @@
 #import "FUBodyBeautyView.h"
 #import "MJExtension.h"
 #import "FUBaseViewController.h"
+#import "FULvMuView.h"
+#import "FUVideoDecoder.h"
 
 #define finalPath   [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:@"finalVideo.mp4"]
 
-@interface FURenderImageViewController ()<UINavigationControllerDelegate, UIImagePickerControllerDelegate, FUVideoReaderDelegate, FUAPIDemoBarDelegate, FUItemsViewDelegate>
+@interface FURenderImageViewController ()<UINavigationControllerDelegate, UIImagePickerControllerDelegate, FUVideoReaderDelegate, FUAPIDemoBarDelegate, FUItemsViewDelegate,FULvMuViewDelegate,UIGestureRecognizerDelegate>
 
 {
     __block BOOL takePic ;
@@ -31,6 +33,8 @@
     BOOL videHasRendered ;
     
     dispatch_queue_t renderQueue;
+    
+    float w,h;
 }
 
 @property (nonatomic, strong) FULiveModel *model ;
@@ -49,6 +53,8 @@
 @property (nonatomic, strong) AVPlayer *avPlayer;
 @property(nonatomic,strong)FUBodyBeautyView *mBodyBeautyView;
 
+@property(strong,nonatomic) FULvMuView *lvmuEditeView;
+
 // 定时器
 @property (nonatomic, strong) CADisplayLink *displayLink;
 
@@ -59,6 +65,12 @@
 /* 是否开启比对 */
 @property (assign, nonatomic) BOOL openComp;
 
+@property (strong, nonatomic) FUVideoDecoder *videoDecoder;
+
+@property (nonatomic, strong) UIGestureRecognizer *panGesture;
+@property (nonatomic, strong) UIGestureRecognizer *pinchGesture;
+
+@property (nonatomic, assign) CGRect lvRect;
 @end
 
 @implementation FURenderImageViewController
@@ -69,14 +81,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    self.model = [FUManager shareManager].currentModel;
     
-     renderQueue = dispatch_queue_create("com.faceUMakeup", DISPATCH_QUEUE_SERIAL);
+    renderQueue = dispatch_queue_create("com.faceUMakeup", DISPATCH_QUEUE_SERIAL);
     [self addObserver];
     
     [self setupView];
-    
-    self.model = [FUManager shareManager].currentModel;
     
     if (self.model.type == FULiveModelTypeBeautifyFace) {
         
@@ -85,7 +95,7 @@
         self.itemsView = nil ;
         
         self.downloadBtn.transform = CGAffineTransformMakeTranslation(0, 30) ;
-
+        
         /* 比对按钮 */
         _compBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_compBtn setImage:[UIImage imageNamed:@"demo_icon_contrast"] forState:UIControlStateNormal];
@@ -108,6 +118,9 @@
         self.downloadBtn.transform = CGAffineTransformMakeTranslation(0, 30) ;
         
         [self setupView1];
+    }else if(self.model.type == FULiveModelTypeLvMu){
+        [self setupLvMuSubView];
+        self.glView.contentMode = FUOpenGLViewContentModeScaleAspectFit;
     }
     
     else {
@@ -125,6 +138,54 @@
     takePic = NO ;
     videHasRendered = NO ;
 }
+
+-(void)setupLvMuSubView{
+    // Do any additional setup after loading the view.
+    _lvmuEditeView = [[FULvMuView alloc] initWithFrame:CGRectZero];
+    _lvmuEditeView.mDelegate = self;
+    [self.view addSubview:_lvmuEditeView];
+    [_lvmuEditeView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.equalTo(self.view);
+        if (iPhoneXStyle) {
+            make.height.mas_equalTo(184 + 34);
+        }else{
+            make.height.mas_equalTo(184);
+        }
+    }];
+    
+    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    UIVisualEffectView *effectview = [[UIVisualEffectView alloc] initWithEffect:blur];
+    [_lvmuEditeView addSubview:effectview];
+    [_lvmuEditeView sendSubviewToBack:effectview];
+    /* 磨玻璃 */
+    [effectview mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(_lvmuEditeView);
+    }];
+    
+    CGAffineTransform photoTransform0 = CGAffineTransformMakeTranslation(0, 180 * -0.6) ;
+    CGAffineTransform photoTransform1 = CGAffineTransformMakeScale(0.9, 0.9);
+    self.downloadBtn.transform = CGAffineTransformConcat(photoTransform0, photoTransform1) ;
+    
+    _lvRect = CGRectMake(0.1, 0.1, 0.2, 0.2);
+    [self setLvFrameRect:_lvRect];
+    
+    [self initMovementGestures];
+    
+}
+
+
+-(void)initMovementGestures
+{
+    
+    self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
+    self.panGesture.delegate = self;
+    [self.view addGestureRecognizer:self.panGesture];
+    //
+    self.pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchGesture:)];
+    self.pinchGesture.delegate = self;
+    [self.view addGestureRecognizer:self.pinchGesture];
+}
+
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -166,7 +227,7 @@
         make.width.mas_equalTo(44);
         make.height.mas_equalTo(44);
     }];
-
+    
     /* 未检测到人脸提示 */
     _noTrackLabel = [[UILabel alloc] init];
     _noTrackLabel = [[UILabel alloc] init];
@@ -198,12 +259,12 @@
     
     /* 美颜调节 */
     _demoBar = [[FUAPIDemoBar alloc] init];
-   [_demoBar reloadShapView:[FUManager shareManager].shapeParams];
-   [_demoBar reloadSkinView:[FUManager shareManager].skinParams];
-   [_demoBar reloadFilterView:[FUManager shareManager].filters];
-
-   _demoBar.mDelegate = self;
-   [_demoBar setDefaultFilter:[FUManager shareManager].seletedFliter];
+    [_demoBar reloadShapView:[FUManager shareManager].shapeParams];
+    [_demoBar reloadSkinView:[FUManager shareManager].skinParams];
+    [_demoBar reloadFilterView:[FUManager shareManager].filters];
+    
+    _demoBar.mDelegate = self;
+    [_demoBar setDefaultFilter:[FUManager shareManager].seletedFliter];
     [self.view addSubview:_demoBar];
     [_demoBar mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(iOS 11.0, *)) {
@@ -247,6 +308,9 @@
         }
     }];
     
+    if(self.model.type == FULiveModelTypeLvMu){
+        return;
+    }
     
     UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
     UIVisualEffectView *effectview = [[UIVisualEffectView alloc] initWithEffect:blur];
@@ -283,6 +347,9 @@
     _displayLink = nil ;
     
     [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeMakeup];
+    
+    [self.lvmuEditeView destoryLvMuView];
+    [_videoDecoder videoStopRending];
     [super viewWillDisappear:animated];
 }
 
@@ -291,6 +358,10 @@
     [super touchesBegan:touches withEvent:event];
     if (self.model.type == FULiveModelTypeBeautifyFace) {
         [self.demoBar hiddenTopViewWithAnimation:YES];
+    }
+    
+    if (self.model.type == FULiveModelTypeLvMu) {
+        [_lvmuEditeView hidenTop:YES];
     }
 }
 
@@ -350,20 +421,20 @@
         self.playBtn.hidden = YES;
     }
     if (self.image) {
-         [self processImage];
+        [self processImage];
     }
 }
 
 -(void)setImage:(UIImage *)image {
     NSData *imageData0 = UIImageJPEGRepresentation(image, 1.0);
     UIImage *newImage = [UIImage imageWithData:imageData0];
-
+    
     _image = newImage;
 }
 
 -(void)setVideoURL:(NSURL *)videoURL {
     _videoURL = videoURL ;
-   
+    
 }
 
 
@@ -378,7 +449,7 @@
         case 2:
             return 2;
             break;
-                
+            
         case 3:
             return 1;
             break;
@@ -428,6 +499,12 @@
     if (self.videoReader.videoOrientation == FUVideoReaderOrientationLandscapeRight || self.videoReader.videoOrientation == FUVideoReaderOrientationLandscapeLeft) {
         fuSetDefaultRotationMode([self setOrientationWithDegress:self.glView.origintation]);
     }
+    
+    if (self.model.type == FULiveModelTypeLvMu) {
+        int handle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeItem];
+        int sdkOrientation = [self setOrientationWithDegress:(int)self.videoReader.videoOrientation];
+        [FURenderer itemSetParam:handle withName:@"rotation_mode" value:@(sdkOrientation)];
+    }
 }
 
 
@@ -449,14 +526,22 @@
 #pragma mark -   FUVideoReaderDelegate
 
 -(void)videoReaderDidReadVideoBuffer:(CVPixelBufferRef)pixelBuffer {
-   
+    
     if (!_openComp) {
         [[FUManager shareManager] renderItemsToPixelBuffer:pixelBuffer];
     }
-        
+    
+    w = CVPixelBufferGetWidth(pixelBuffer);
+    h = CVPixelBufferGetHeight(pixelBuffer);
+    
     [self.glView displayPixelBuffer:pixelBuffer];
     
-    self.noTrackLabel.hidden = [[FUManager shareManager] isTracking];
+    if(self.model.type == FULiveModelTypeBeautifyFace){
+        self.noTrackLabel.hidden = [[FUManager shareManager] isTracking];
+    }else{
+        self.noTrackLabel.hidden = YES;
+    }
+    
 }
 
 
@@ -471,7 +556,7 @@
         }
     });
     
-//    [self.videoReader startReadForLastFrame];
+    //    [self.videoReader startReadForLastFrame];
     videHasRendered = YES ;
 }
 
@@ -551,27 +636,106 @@
     [[FUManager shareManager] setParamItemAboutType:FUNamaHandleTypeBodySlim name:position.bundleKey value:position.value];
 }
 
-#pragma mark - FUAPIDemoBarDelegate
+#pragma  mark -  FULvMuViewDelegate
+
+-(void)beautyCollectionView:(FULvMuView *)beautyView didSelectedParam:(FUBeautyParam *)param{
+    dispatch_async([FUManager shareManager].asyncLoadQueue, ^{
+        int lvmuHandle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeItem];
+        [FURenderer itemSetParam:lvmuHandle withName:param.mParam value:@(param.mValue)];
+        
+        NSLog(@"----%d---%@",lvmuHandle,param.mParam);
+    });
+}
+
+-(void)colorDidSelectedR:(float)r G:(float)g B:(float)b A:(float)a{
+    int lvmuHandle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeItem];
+    dispatch_async([FUManager shareManager].asyncLoadQueue, ^{
+        static double color[4];
+        color[0] = round(r * 255);
+        color[1] = round(g * 255);
+        color[2] = round(b * 255);
+        color[3] = round(a * 255);
+        
+        [FURenderer itemSetParamdv:lvmuHandle withName:@"key_color" value:color length:4];
+        NSLog(@"取色点位------rgba %f %f %f %f",r,g,b,a);
+    });
+}
+
+
+-(void)lvmuViewShowTopView:(BOOL)shown{
+    float h = shown?180:49;
+    [self setPhotoScaleWithHeight:h show:shown];
+}
+
+
+- (void)setPhotoScaleWithHeight:(CGFloat)height show:(BOOL)shown {
+    if (shown) {
+        
+        CGAffineTransform photoTransform0 = CGAffineTransformMakeTranslation(0, height * -0.6) ;
+        CGAffineTransform photoTransform1 = CGAffineTransformMakeScale(0.9, 0.9);
+        
+        [UIView animateWithDuration:0.35 animations:^{
+            
+            self.downloadBtn.transform = CGAffineTransformConcat(photoTransform0, photoTransform1) ;
+        }];
+    } else {
+        [UIView animateWithDuration:0.35 animations:^{
+            
+            self.downloadBtn.transform = CGAffineTransformIdentity ;
+        }];
+    }
+}
+
+-(void)didSelectedParam:(FUBeautyParam *)param{
+    NSString *urlStr = [[NSBundle mainBundle] pathForResource:param.mParam ofType:@"mp4"];
+    
+    NSURL *url = [NSURL fileURLWithPath:urlStr];
+    [self setupVideoDecoder:url];
+    
+}
+
+-(void)setupVideoDecoder:(NSURL *)url{
+    [_videoDecoder videoStopRending];
+    _videoDecoder = [[FUVideoDecoder alloc] initWithVideoDecodeUrl:url fps:30 repeat:YES callback:^(CVPixelBufferRef  _Nonnull pixelBuffer) {
+        if(pixelBuffer){
+            
+            int lvmuHandle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeItem];
+            CVPixelBufferLockBaseAddress(pixelBuffer, 0);
+            char *buffer = CVPixelBufferGetBaseAddress(pixelBuffer);
+            int w = (int)CVPixelBufferGetBytesPerRow(pixelBuffer) / 4;
+            int h = (int)CVPixelBufferGetHeight(pixelBuffer);
+            [FURenderer itemSetParam:lvmuHandle withName:@"is_bgra" value:@(1)];
+            /* 数据写入nama */
+            fuDeleteTexForItem(lvmuHandle, (char *)[@"tex_bg" UTF8String]);
+            fuCreateTexForItem(lvmuHandle, (char *)[@"tex_bg" UTF8String], buffer, w, h);
+            CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
+            NSLog(@"解码-----");
+        }
+    }];
+    [_videoDecoder videoStartReading];
+}
+
+
 /**设置美颜参数*/
 #pragma mark -  FUAPIDemoBarDelegate
 
 -(void)restDefaultValue:(int)type{
     if (type == 1) {//美肤
-       [[FUManager shareManager] setBeautyDefaultParameters:FUBeautyModuleTypeSkin];
+        [[FUManager shareManager] setBeautyDefaultParameters:FUBeautyModuleTypeSkin];
     }
     
     if (type == 2) {
-       [[FUManager shareManager] setBeautyDefaultParameters:FUBeautyModuleTypeShape];
+        [[FUManager shareManager] setBeautyDefaultParameters:FUBeautyModuleTypeShape];
     }
     
 }
 
 -(void)showTopView:(BOOL)shown{
-     if (shown) {
-                _compBtn.hidden = NO;
+    if (shown) {
+        _compBtn.hidden = NO;
         self.downloadBtn.hidden = YES ;
     }else {
-                _compBtn.hidden = YES;
+        _compBtn.hidden = YES;
         if (self.image) {
             self.downloadBtn.hidden = NO ;
         }else {
@@ -609,6 +773,79 @@
 - (void)dismissTipLabel {
     self.tipLabel.hidden = YES;
 }
+
+
+#pragma  mark ----  手势事件  -----
+-(void)handlePanGesture:(UIPanGestureRecognizer *) panGesture{
+    
+    UIView *view = panGesture.view;
+    if (panGesture.state == UIGestureRecognizerStateBegan || panGesture.state == UIGestureRecognizerStateChanged){
+        
+        CGPoint translation = [panGesture translationInView:view.superview];
+        
+        float x ,y;
+        
+        int sdkOrientation = [self setOrientationWithDegress:(int)self.videoReader.videoOrientation];
+        if (sdkOrientation == 0 || sdkOrientation == 2) {
+            x = _lvRect.origin.x + translation.x/[UIScreen mainScreen].bounds.size.width;
+            y = _lvRect.origin.y + translation.y/[UIScreen mainScreen].bounds.size.height;
+            _lvRect.origin = CGPointMake(x,y);
+        }else{
+            x = _lvRect.origin.x + translation.y/[UIScreen mainScreen].bounds.size.height;
+            y = _lvRect.origin.y - translation.x/[UIScreen mainScreen].bounds.size.width;
+            _lvRect.origin = CGPointMake(x,y);
+        }
+        
+        [self setLvFrameRect:_lvRect];
+        
+        [panGesture setTranslation:CGPointZero inView:view.superview];
+        
+    }
+}
+
+-(void)handlePinchGesture:(UIPinchGestureRecognizer *)pinchGesture{
+    if (pinchGesture.state == UIGestureRecognizerStateBegan || pinchGesture.state == UIGestureRecognizerStateChanged) {
+        float w ,h,x,y;
+        
+        w = _lvRect.size.width * pinchGesture.scale;
+        h = _lvRect.size.height * pinchGesture.scale;
+        y = _lvRect.origin.y - (h - _lvRect.size.width)/2;
+        x = _lvRect.origin.x - (w - _lvRect.size.width)/2;
+        
+        
+        if (w <= 0.2) {
+            w = 0.2;
+            h = 0.2;
+        }
+        if (w >= 1.0) {
+            x = 0;
+            y = 0;
+            w = 1.0;
+            h = 1.0;
+        }
+        
+        _lvRect = CGRectMake(x, y, w, h);
+        [self setLvFrameRect:_lvRect];
+        
+        pinchGesture.scale = 1;
+    }
+}
+
+
+-(void)setLvFrameRect:(CGRect)rect{
+    dispatch_async([FUManager shareManager].asyncLoadQueue, ^{
+        int lvmuHandle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeItem];
+        [FURenderer itemSetParam:lvmuHandle withName:@"start_x" value:@(rect.origin.x)];
+        [FURenderer itemSetParam:lvmuHandle withName:@"start_y" value:@(rect.origin.y)];
+        [FURenderer itemSetParam:lvmuHandle withName:@"end_x" value:@(rect.origin.x + rect.size.width)];
+        [FURenderer itemSetParam:lvmuHandle withName:@"end_y" value:@(rect.origin.y + rect.size.height)];
+        
+        NSLog(@"---%f---%f---%f---%f",rect.origin.x,rect.origin.y,rect.origin.x + rect.size.width,rect.origin.y + rect.size.height);
+    });
+}
+
+
+
 #pragma mark - FUItemsViewDelegate
 - (void)itemsViewDidSelectedItem:(NSString *)item {
     [[FUManager shareManager] loadItem:item completion:^(BOOL finished) {
@@ -618,7 +855,7 @@
         [FURenderer itemSetParam:handle withName:@"rotationMode" value:@(sdkOrientation)];
         [self.itemsView stopAnimation];
     }];
-
+    
 }
 
 -(NSArray *)jsonToLipRgbaArrayResName:(NSString *)resName{
@@ -639,10 +876,10 @@
 - (CVPixelBufferRef) pixelBufferFromImage:(UIImage *)image {
     
     NSDictionary *options = @{
-                              (NSString*)kCVPixelBufferCGImageCompatibilityKey : @YES,
-                              (NSString*)kCVPixelBufferCGBitmapContextCompatibilityKey : @YES,
-                              (NSString*)kCVPixelBufferIOSurfacePropertiesKey: [NSDictionary dictionary]
-                              };
+        (NSString*)kCVPixelBufferCGImageCompatibilityKey : @YES,
+        (NSString*)kCVPixelBufferCGBitmapContextCompatibilityKey : @YES,
+        (NSString*)kCVPixelBufferIOSurfacePropertiesKey: [NSDictionary dictionary]
+    };
     
     CVPixelBufferRef pxbuffer = NULL;
     CGFloat frameWidth = CGImageGetWidth(image.CGImage);
@@ -681,7 +918,7 @@
     CGColorSpaceRelease(rgbColorSpace);
     CGContextRelease(context);
     CVPixelBufferUnlockBaseAddress(pxbuffer, 0);
-//    CFRelease(rgbColorSpace) ;
+    //    CFRelease(rgbColorSpace) ;
     
     return pxbuffer;
 }

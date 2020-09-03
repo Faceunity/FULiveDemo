@@ -16,8 +16,6 @@
 #import "FUImageHelper.h"
 #import "FURenderer+header.h"
 
-
-
 @interface FUManager ()
 {
     int items[FUNamaHandleTotal];
@@ -63,11 +61,18 @@ static FUManager *shareManager = NULL;
         _asyncLoadQueue = dispatch_queue_create("com.faceLoadItem", DISPATCH_QUEUE_SERIAL);
         /**这里新增了一个参数shouldCreateContext，设为YES的话，不用在外部设置context操作，我们会在内部创建并持有一个context。
          还有设置为YES,则需要调用FURenderer.h中的接口，不能再调用funama.h中的接口。*/
+        
+        CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+
         [[FURenderer shareRenderer] setupWithData:nil dataSize:0 ardata:nil authPackage:&g_auth_package authSize:sizeof(g_auth_package) shouldCreateContext:YES];
+
+        CFAbsoluteTime endTime = (CFAbsoluteTimeGetCurrent() - startTime);
+        
+        NSLog(@"---%lf",endTime);
         
         /* 加载AI模型 */
         [self loadAIModle];
-        
+//        fuSetLogLevel(1);
         dispatch_async(_asyncLoadQueue, ^{
             
             NSData *tongueData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"tongue.bundle" ofType:nil]];
@@ -114,6 +119,9 @@ static FUManager *shareManager = NULL;
     [FURenderer loadAIModelFromPackage:(void *)ai_human_processor.bytes size:(int)ai_human_processor.length aitype:FUAITYPE_HUMAN_PROCESSOR];
     NSData *ai_face_processor = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ai_face_processor.bundle" ofType:nil]];
     [FURenderer loadAIModelFromPackage:(void *)ai_face_processor.bytes size:(int)ai_face_processor.length aitype:FUAITYPE_FACEPROCESSOR];
+    
+    NSData *ai_gesture = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ai_gesture.bundle" ofType:nil]];
+    [FURenderer loadAIModelFromPackage:(void *)ai_gesture.bytes size:(int)ai_gesture.length aitype:FUAITYPE_HANDGESTURE];
 //
 }
 

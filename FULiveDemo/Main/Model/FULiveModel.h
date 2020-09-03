@@ -26,6 +26,7 @@ typedef NS_ENUM(NSUInteger, FULiveModelType) {
     FULiveModelTypeActionRecognition,
     FULiveModelTypeBGSegmentation,
     FULiveModelTypeGestureRecognition,
+    FULiveModelTypeLvMu
     
 };
 

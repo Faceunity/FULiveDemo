@@ -14,4 +14,6 @@
 @property (nonatomic,assign,readonly) int currentBtnIndex;
 
 -(instancetype)initWithFrame:(CGRect)frame titleArray:(NSArray <NSString *>*)titlArray selBlock:(void(^)(int index))didSelBtnIndex;
+
+-(void)setUINormal;
 @end
