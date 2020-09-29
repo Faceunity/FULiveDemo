@@ -48,7 +48,7 @@ static NSString *bgCellId = @"FUBgCollectionView";
     _selectedIndex = selectedIndex ;
     [_mBgCollectionView reloadData];
     
-    FUBeautyParam *model = _filters[_selectedIndex];
+    FUBeautyParam *model = _filters[_selectedIndex];
     if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(bgCollectionViewDidSelectedFilter:)]) {
         [self.mDelegate bgCollectionViewDidSelectedFilter:model];
     }
@@ -70,12 +70,13 @@ static NSString *bgCellId = @"FUBgCollectionView";
     
     FUBeautyParam *model = _filters[indexPath.row];
     
-    cell.titleLabel.text = NSLocalizedString(model.mTitle,nil);
+    cell.titleLabel.text = FUNSLocalizedString(model.mTitle,nil);
     cell.titleLabel.textColor = [UIColor whiteColor];
     cell.imageView.image = [UIImage imageNamed:model.mImageStr];
     
     cell.imageView.layer.borderWidth = 0.0 ;
     cell.imageView.layer.borderColor = [UIColor clearColor].CGColor;
+    cell.imageView.backgroundColor = [UIColor clearColor];
     
     if (_selectedIndex == indexPath.row) {
         
@@ -90,8 +91,11 @@ static NSString *bgCellId = @"FUBgCollectionView";
 #pragma mark ---- UICollectionViewDelegate
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
+    if(_selectedIndex == indexPath.row ){
+        return;
+    }
     _selectedIndex = indexPath.row ;
+    
     [self.mBgCollectionView reloadData];
     
     FUBeautyParam *model = _filters[indexPath.row];
@@ -116,6 +120,7 @@ static NSString *bgCellId = @"FUBgCollectionView";
         self.imageView.layer.masksToBounds = YES ;
         self.imageView.layer.cornerRadius = 3.0 ;
         self.imageView.layer.borderWidth = 0.0 ;
+        self.imageView.layer.backgroundColor = [UIColor colorWithWhite:0.5 alpha:1.0].CGColor;
         self.imageView.layer.borderColor = [UIColor clearColor].CGColor ;
         [self addSubview:self.imageView];
         

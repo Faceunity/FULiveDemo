@@ -53,7 +53,7 @@
     _titleLabel.numberOfLines = 0;
     _titleLabel.textAlignment = NSTextAlignmentCenter;
     [self addSubview:_titleLabel];
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"请选择以下五官至上方调整",nil) attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:12],NSForegroundColorAttributeName: [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0]}];
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:FUNSLocalizedString(@"请选择以下五官至上方调整",nil) attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:12],NSForegroundColorAttributeName: [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0]}];
     _titleLabel.attributedText = string;
     
     _typeTitlesView = [[UIView alloc] init];
@@ -63,7 +63,7 @@
     spView.backgroundColor = [UIColor colorWithRed:229/255.0 green:229/255.0 blue:229/255.0 alpha:1.0];
     [_typeTitlesView addSubview:spView];
     // 添加标题
-    NSArray *titles = @[NSLocalizedString(@"写实", nil),NSLocalizedString(@"漫画男", nil),NSLocalizedString(@"漫画女", nil),NSLocalizedString(@"萌版", nil)];
+    NSArray *titles = @[FUNSLocalizedString(@"写实", nil),FUNSLocalizedString(@"漫画男", nil),FUNSLocalizedString(@"漫画女", nil),FUNSLocalizedString(@"萌版", nil)];
     NSUInteger count = titles.count;
     CGFloat titleButtonW = ([UIScreen mainScreen].bounds.size.width -34) / count;
     CGFloat titleButtonH = 49;
@@ -110,39 +110,39 @@
 
 -(void)InitializationData{
     /* 写实 */
-    FUYituItemModel *model0 = [FUYituItemModel getClassTitle:NSLocalizedString(@"左眼",nil) imageStr:@"icon_left_eye" faceType:FUFaceTypeRealism subType:FUFacialFeaturesLeye];
-    FUYituItemModel *model1 = [FUYituItemModel getClassTitle:NSLocalizedString(@"右眼",nil) imageStr:@"icon_right_eye" faceType:FUFaceTypeRealism subType:FUFacialFeaturesReye];
-    FUYituItemModel *model2 = [FUYituItemModel getClassTitle:NSLocalizedString(@"嘴巴",nil) imageStr:@"icon_yitu_mouth"  faceType:FUFaceTypeRealism subType:FUFacialFeaturesMouth];
-    FUYituItemModel *model3 = [FUYituItemModel getClassTitle:NSLocalizedString(@"鼻子",nil) imageStr:@"icon_yitu_nose" faceType:FUFaceTypeRealism subType:FUFacialFeaturesNose];
-    FUYituItemModel *model4 = [FUYituItemModel getClassTitle:NSLocalizedString(@"左眉毛",nil) imageStr:@"demo_icon_leyebrow"  faceType:FUFaceTypeRealism subType:FUFacialFeatureLbrow];
-    FUYituItemModel *model5 = [FUYituItemModel getClassTitle:NSLocalizedString(@"右眉毛",nil) imageStr:@"icon_right_eyebrow"  faceType:FUFaceTypeRealism subType:FUFacialFeaturesRbrow];
+    FUYituItemModel *model0 = [FUYituItemModel getClassTitle:FUNSLocalizedString(@"左眼",nil) imageStr:@"icon_left_eye" faceType:FUFaceTypeRealism subType:FUFacialFeaturesLeye];
+    FUYituItemModel *model1 = [FUYituItemModel getClassTitle:FUNSLocalizedString(@"右眼",nil) imageStr:@"icon_right_eye" faceType:FUFaceTypeRealism subType:FUFacialFeaturesReye];
+    FUYituItemModel *model2 = [FUYituItemModel getClassTitle:FUNSLocalizedString(@"嘴巴",nil) imageStr:@"icon_yitu_mouth"  faceType:FUFaceTypeRealism subType:FUFacialFeaturesMouth];
+    FUYituItemModel *model3 = [FUYituItemModel getClassTitle:FUNSLocalizedString(@"鼻子",nil) imageStr:@"icon_yitu_nose" faceType:FUFaceTypeRealism subType:FUFacialFeaturesNose];
+    FUYituItemModel *model4 = [FUYituItemModel getClassTitle:FUNSLocalizedString(@"左眉毛",nil) imageStr:@"demo_icon_leyebrow"  faceType:FUFaceTypeRealism subType:FUFacialFeatureLbrow];
+    FUYituItemModel *model5 = [FUYituItemModel getClassTitle:FUNSLocalizedString(@"右眉毛",nil) imageStr:@"icon_right_eyebrow"  faceType:FUFaceTypeRealism subType:FUFacialFeaturesRbrow];
     NSArray *array0 = @[model0,model1,model2,model3,model4,model5];
     
     /* 萌版 */
-    FUYituItemModel *mModel0 = [FUYituItemModel getClassTitle:NSLocalizedString(@"左眼",nil) imageStr:@"demo_icon_q_leyes" faceType:FUFaceTypeMengBan subType:FUFacialFeaturesLeye];
-    FUYituItemModel *mModel1 = [FUYituItemModel getClassTitle:NSLocalizedString(@"右眼",nil) imageStr:@"demo_icon_q_reyes" faceType:FUFaceTypeMengBan subType:FUFacialFeaturesReye];
-    FUYituItemModel *mModel2 = [FUYituItemModel getClassTitle:NSLocalizedString(@"嘴巴",nil) imageStr:@"demo_icon_mouth"  faceType:FUFaceTypeMengBan subType:FUFacialFeaturesMouth];
-    FUYituItemModel *mModel3 = [FUYituItemModel getClassTitle:NSLocalizedString(@"鼻子",nil) imageStr:@"demo_icon_nose" faceType:FUFaceTypeMengBan subType:FUFacialFeaturesNose];
-    FUYituItemModel *mModel4 = [FUYituItemModel getClassTitle:NSLocalizedString(@"左眉毛",nil) imageStr:@"demo_icon_leyebrow"  faceType:FUFaceTypeMengBan subType:FUFacialFeatureLbrow];
-    FUYituItemModel *mModel5 = [FUYituItemModel getClassTitle:NSLocalizedString(@"右眉毛",nil) imageStr:@"icon_right_eyebrow"  faceType:FUFaceTypeMengBan subType:FUFacialFeaturesRbrow];
+    FUYituItemModel *mModel0 = [FUYituItemModel getClassTitle:FUNSLocalizedString(@"左眼",nil) imageStr:@"demo_icon_q_leyes" faceType:FUFaceTypeMengBan subType:FUFacialFeaturesLeye];
+    FUYituItemModel *mModel1 = [FUYituItemModel getClassTitle:FUNSLocalizedString(@"右眼",nil) imageStr:@"demo_icon_q_reyes" faceType:FUFaceTypeMengBan subType:FUFacialFeaturesReye];
+    FUYituItemModel *mModel2 = [FUYituItemModel getClassTitle:FUNSLocalizedString(@"嘴巴",nil) imageStr:@"demo_icon_mouth"  faceType:FUFaceTypeMengBan subType:FUFacialFeaturesMouth];
+    FUYituItemModel *mModel3 = [FUYituItemModel getClassTitle:FUNSLocalizedString(@"鼻子",nil) imageStr:@"demo_icon_nose" faceType:FUFaceTypeMengBan subType:FUFacialFeaturesNose];
+    FUYituItemModel *mModel4 = [FUYituItemModel getClassTitle:FUNSLocalizedString(@"左眉毛",nil) imageStr:@"demo_icon_leyebrow"  faceType:FUFaceTypeMengBan subType:FUFacialFeatureLbrow];
+    FUYituItemModel *mModel5 = [FUYituItemModel getClassTitle:FUNSLocalizedString(@"右眉毛",nil) imageStr:@"icon_right_eyebrow"  faceType:FUFaceTypeMengBan subType:FUFacialFeaturesRbrow];
     NSArray *array1 = @[mModel0,mModel1,mModel2,mModel3,mModel4,mModel5];
     
     /* 动漫男 */
-    FUYituItemModel *bModel0 = [FUYituItemModel getClassTitle:NSLocalizedString(@"左眼",nil) imageStr:@"demo_icon_comic_boy_leyes" faceType:FUFaceTypeComicBoy subType:FUFacialFeaturesLeye];
-    FUYituItemModel *bModel1 = [FUYituItemModel getClassTitle:NSLocalizedString(@"右眼",nil) imageStr:@"demo_icon_comic_boy_reyes" faceType:FUFaceTypeComicBoy subType:FUFacialFeaturesReye];
-    FUYituItemModel *bModel2 = [FUYituItemModel getClassTitle:NSLocalizedString(@"嘴巴",nil) imageStr:@"demo_icon_mouth"  faceType:FUFaceTypeComicBoy subType:FUFacialFeaturesMouth];
-    FUYituItemModel *bModel3 = [FUYituItemModel getClassTitle:NSLocalizedString(@"鼻子",nil) imageStr:@"demo_icon_nose" faceType:FUFaceTypeComicBoy subType:FUFacialFeaturesNose];
-    FUYituItemModel *bModel4 = [FUYituItemModel getClassTitle:NSLocalizedString(@"左眉毛",nil) imageStr:@"demo_icon_leyebrow"  faceType:FUFaceTypeComicBoy subType:FUFacialFeatureLbrow];
-    FUYituItemModel *bModel5 = [FUYituItemModel getClassTitle:NSLocalizedString(@"右眉毛",nil) imageStr:@"icon_right_eyebrow"  faceType:FUFaceTypeComicBoy subType:FUFacialFeaturesRbrow];
+    FUYituItemModel *bModel0 = [FUYituItemModel getClassTitle:FUNSLocalizedString(@"左眼",nil) imageStr:@"demo_icon_comic_boy_leyes" faceType:FUFaceTypeComicBoy subType:FUFacialFeaturesLeye];
+    FUYituItemModel *bModel1 = [FUYituItemModel getClassTitle:FUNSLocalizedString(@"右眼",nil) imageStr:@"demo_icon_comic_boy_reyes" faceType:FUFaceTypeComicBoy subType:FUFacialFeaturesReye];
+    FUYituItemModel *bModel2 = [FUYituItemModel getClassTitle:FUNSLocalizedString(@"嘴巴",nil) imageStr:@"demo_icon_mouth"  faceType:FUFaceTypeComicBoy subType:FUFacialFeaturesMouth];
+    FUYituItemModel *bModel3 = [FUYituItemModel getClassTitle:FUNSLocalizedString(@"鼻子",nil) imageStr:@"demo_icon_nose" faceType:FUFaceTypeComicBoy subType:FUFacialFeaturesNose];
+    FUYituItemModel *bModel4 = [FUYituItemModel getClassTitle:FUNSLocalizedString(@"左眉毛",nil) imageStr:@"demo_icon_leyebrow"  faceType:FUFaceTypeComicBoy subType:FUFacialFeatureLbrow];
+    FUYituItemModel *bModel5 = [FUYituItemModel getClassTitle:FUNSLocalizedString(@"右眉毛",nil) imageStr:@"icon_right_eyebrow"  faceType:FUFaceTypeComicBoy subType:FUFacialFeaturesRbrow];
     NSArray *array2 = @[bModel0,bModel1,bModel2,bModel3,bModel4,bModel5];
     
     /* 动漫女 */
-    FUYituItemModel *gModel0 = [FUYituItemModel getClassTitle:NSLocalizedString(@"左眼",nil) imageStr:@"demo_icon_comic_girl_leyes" faceType:FUFaceTypeComicGirl subType:FUFacialFeaturesLeye];
-    FUYituItemModel *gModel1 = [FUYituItemModel getClassTitle:NSLocalizedString(@"右眼",nil) imageStr:@"demo_icon_comic_girl_reyes" faceType:FUFaceTypeComicGirl subType:FUFacialFeaturesReye];
-    FUYituItemModel *gModel2 = [FUYituItemModel getClassTitle:NSLocalizedString(@"嘴巴",nil) imageStr:@"demo_icon_mouth"  faceType:FUFaceTypeComicGirl subType:FUFacialFeaturesMouth];
-    FUYituItemModel *gModel3 = [FUYituItemModel getClassTitle:NSLocalizedString(@"鼻子",nil) imageStr:@"demo_icon_nose" faceType:FUFaceTypeComicGirl subType:FUFacialFeaturesNose];
-    FUYituItemModel *gModel4 = [FUYituItemModel getClassTitle:NSLocalizedString(@"左眉毛",nil) imageStr:@"demo_icon_leyebrow"  faceType:FUFaceTypeComicGirl subType:FUFacialFeatureLbrow];
-    FUYituItemModel *gModel5 = [FUYituItemModel getClassTitle:NSLocalizedString(@"右眉毛",nil) imageStr:@"icon_right_eyebrow"  faceType:FUFaceTypeComicGirl subType:FUFacialFeaturesRbrow];
+    FUYituItemModel *gModel0 = [FUYituItemModel getClassTitle:FUNSLocalizedString(@"左眼",nil) imageStr:@"demo_icon_comic_girl_leyes" faceType:FUFaceTypeComicGirl subType:FUFacialFeaturesLeye];
+    FUYituItemModel *gModel1 = [FUYituItemModel getClassTitle:FUNSLocalizedString(@"右眼",nil) imageStr:@"demo_icon_comic_girl_reyes" faceType:FUFaceTypeComicGirl subType:FUFacialFeaturesReye];
+    FUYituItemModel *gModel2 = [FUYituItemModel getClassTitle:FUNSLocalizedString(@"嘴巴",nil) imageStr:@"demo_icon_mouth"  faceType:FUFaceTypeComicGirl subType:FUFacialFeaturesMouth];
+    FUYituItemModel *gModel3 = [FUYituItemModel getClassTitle:FUNSLocalizedString(@"鼻子",nil) imageStr:@"demo_icon_nose" faceType:FUFaceTypeComicGirl subType:FUFacialFeaturesNose];
+    FUYituItemModel *gModel4 = [FUYituItemModel getClassTitle:FUNSLocalizedString(@"左眉毛",nil) imageStr:@"demo_icon_leyebrow"  faceType:FUFaceTypeComicGirl subType:FUFacialFeatureLbrow];
+    FUYituItemModel *gModel5 = [FUYituItemModel getClassTitle:FUNSLocalizedString(@"右眉毛",nil) imageStr:@"icon_right_eyebrow"  faceType:FUFaceTypeComicGirl subType:FUFacialFeaturesRbrow];
     NSArray *array3 = @[gModel0,gModel1,gModel2,gModel3,gModel4,gModel5];
     
     _allArray = @[array0,array2,array3,array1];

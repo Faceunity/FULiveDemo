@@ -52,7 +52,7 @@
     _mSelImageBtn = [[UIButton alloc] init];
     [_mSelImageBtn setImage:[UIImage imageNamed:@"选择相册icon"] forState:UIControlStateNormal];
     [_mSelImageBtn setBackgroundImage:[UIImage imageNamed:@"selectedBg"] forState:UIControlStateNormal];
-    [_mSelImageBtn setTitle:NSLocalizedString(@"sel_Photo",nil) forState:UIControlStateNormal];
+    [_mSelImageBtn setTitle:FUNSLocalizedString(@"sel_Photo",nil) forState:UIControlStateNormal];
     [_mSelImageBtn addTarget:self action:@selector(selectedImage:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_mSelImageBtn];
     [_mSelImageBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -64,7 +64,7 @@
     _mSelVideoBtn = [[UIButton alloc] init];
     [_mSelVideoBtn setImage:[UIImage imageNamed:@"视频icon"] forState:UIControlStateNormal];
     [_mSelVideoBtn setBackgroundImage:[UIImage imageNamed:@"selectedBg"] forState:UIControlStateNormal];
-    [_mSelVideoBtn setTitle:NSLocalizedString(@"sel_Video",nil) forState:UIControlStateNormal];
+    [_mSelVideoBtn setTitle:FUNSLocalizedString(@"sel_Video",nil) forState:UIControlStateNormal];
     [_mSelVideoBtn addTarget:self action:@selector(selectedVideo:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_mSelVideoBtn];
     [_mSelVideoBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -78,7 +78,7 @@
     _mLablel.textColor = [UIColor whiteColor];
     _mLablel.font = [UIFont systemFontOfSize:17];
     _mLablel.textAlignment = NSTextAlignmentCenter;
-    _mLablel.text = NSLocalizedString(@"Choose_photo_or_video_from_your_album",nil);
+    _mLablel.text = FUNSLocalizedString(@"Choose_photo_or_video_from_your_album",nil);
     [self.view addSubview:_mLablel];
     [_mLablel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(_mSelImageBtn.mas_top).offset(-44);

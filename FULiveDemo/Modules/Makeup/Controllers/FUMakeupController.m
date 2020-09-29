@@ -250,7 +250,7 @@ static int oldHandle = 0;
 
 -(void)makeupViewDidSelTitle:(NSString *)nama{
     self.tipLabel.hidden = NO;
-    self.tipLabel.text = NSLocalizedString(nama, nil);
+    self.tipLabel.text = FUNSLocalizedString(nama, nil);
     [FUMakeupController cancelPreviousPerformRequestsWithTarget:self selector:@selector(dismissTipLabel) object:nil];
     [self performSelector:@selector(dismissTipLabel) withObject:nil afterDelay:1 ];
 }

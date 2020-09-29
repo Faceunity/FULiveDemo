@@ -1,11 +1,27 @@
 # iOS Nama Objective-C API 参考文档
 级别：Public   
-更新日期：2020-07-29   
-SDK版本: 7.1.0  
+更新日期：2020-09-27   
+SDK版本: 7.2.0  
 
 ------
 
 ### 最新更新内容：
+
+**2020-9-24 v7.2.0:**
+
+1. 新增绿幕抠像功能，支持替换图片、视频背景等，详见绿幕抠像功能文档。
+2. 美颜模块新增瘦颧骨、瘦下颌骨功能。
+3. 优化美颜性能以及功耗，优化集成入第三方推流服务时易发热掉帧问题。
+4. 优化手势识别功能的效果以及性能，提升识别稳定性和手势跟随性效果，优化手势识别时cpu占有率。
+5. 优化PC版各个功能性能，帧率提升显著。美发、美体、背景分割帧率提升30%以上，美颜、Animoji、美妆、手势等功能也有10%以上的帧率提升。
+6. 优化包增量，SDK分为lite版，和全功能版本。lite版体积更小，包含人脸相关的功能(海报换脸除外)。
+7. 优化人脸跟踪稳定性，提升贴纸的稳定性。
+8. 提供独立核心算法SDK，接口文档详见算法SDK文档([FUAI_C_API_参考文档.md](./FUAI_C_API_参考文档.md))。
+9. fuGetFaceInfo接口新增三个参数，分别为：舌头方向(tongue_direction)，表情识别(expression_type)，头部旋转信息欧拉角参数(rotation_euler)。
+10. 新增fuOnDeviceLostSafe函数，详见接口文档。
+11. 新增fuSetFaceProcessorDetectMode函数，人脸识别跟踪区分图片模式和视频模式，详见接口文档。
+12. 新增人体动作识别动作定义文档([人体动作识别文档.md](../resource/docs/人体动作识别文档.md))。
+13. 新增ai_hand_processor.bundle，替代ai_gesture.bundle，提供手势识别跟踪能力。
 
 **2020-7-29 v7.1.0:**
 
@@ -54,7 +70,7 @@ SDK相关的所有调用要求在同一个线程中顺序执行，不支持多�
 
 __参数说明:__
 
-*data*： 内存指针，v3.bundle 对应的二进制数据地址，nama 版本6.7.0后，初始化可以为__nil__
+*data*： 内存指针，v3.bundle 对应的二进制数据地址，nama 版本6.6.0后，初始化可以为__nil__
 
 *dataSize*： v3.bundle文件字节数，不使用v3初始化时设置为0
 
@@ -80,9 +96,9 @@ __返回值:__
 
 __参数:__
 
-*data*： 内存指针，v3.bundle 对应的二进制数据地址，nama 版本6.7.0后，初始化可以为__nil__
+*data*： 内存指针，v3.bundle 对应的二进制数据地址，nama 版本6.6.0后，初始化可以为__nil__
 
-*dataSize：v3.bundle文件字节数，不使用v3初始化时设置为0
+*dataSize*：v3.bundle文件字节数，不使用v3初始化时设置为0
 
 *ardata*： 已废弃
 
@@ -109,7 +125,7 @@ __返回值:__
 
 __参数说明:__
 
-*v3path*：  v3.bundle 对应的文件路径，nama 版本6.7.0后，初始化可以为__nil__
+*v3path*：  v3.bundle 对应的文件路径，nama 版本6.6.0后，初始化可以为__nil__
 
 *package*： 内存指针，指向鉴权数据的内容。如果是用包含 authpack.h 的方法在编译时提供鉴权数据，则这里可以写为 ```g_auth_package``` 。
 
@@ -131,7 +147,7 @@ __返回值:__
 
 __参数说明:__
 
-*v3path*：  v3.bundle 对应的文件路径，nama 版本6.7.0后，初始化可以为__nil__
+*v3path*：  v3.bundle 对应的文件路径，nama 版本6.6.0后，初始化可以为__nil__
 
 *offLinePath*:  offLineBundle.bundle 离线鉴权包路径
 
@@ -233,9 +249,21 @@ __参数说明:__
 
 ------
 
+##### OnDeviceLostSafe
+
+特殊函数，当客户端调用代码存在逻辑BUG时，可能会导致OpenGL Context状态异常，此时OnDeviceLost无法成功释放GPU资源进而导致应用崩溃，若无法有效定位客户端BUG，可以使用本函数替代。本函数只负责释放CPU资源，对GPU资源不进行销毁操作，借由外部context的销毁统一维护。
+
+```objective-c
++ (void)OnDeviceLostSafe;
+```
+
+
+
+------
+
 ##### OnDeviceLost
 
-销毁所有道具时需要调用该接口，我们会在内部销毁每个指令中的OpenGL资源
+特殊函数，当程序退出或OpenGL context准备销毁时，调用该函数，会进行资源清理和回收，所有系统占用的内存资源会被释放，包括GL的GPU资源以及内存。
 
 ```objective-c
 + (void)OnDeviceLost;
@@ -381,6 +409,8 @@ __返回值:__
 #### 2.4 视频图像处理 
 
 视频图像处理接口，同时传入道具包和需要被处理的图像，即可为图像添加特效 
+
+注意：该接口返回的 pixelBuffer 格式为BGRA，且处理后的图像也会回写到输入的 pixelBuffer。如果输入 YUV420SP 格式的 pixelBuffer，且希望结果也是 YUV420SP 格式的 pixelBuffer的话，则不需要使用返回的pixelBuffer，直接使用输入的 pixelBuffer 即可。
 
 ##### renderPixelBuffer: withFrameId: items: itemCount:
 
@@ -914,41 +944,7 @@ __参数说明:__
 
 **接口说明：**
 
-- 在程序中需要先运行过视频处理接口( 视频处理接口8 除外)或 人脸信息跟踪接口 后才能使用该接口来获取人脸信息；
-- 该接口能获取到的人脸信息与我司颁发的证书有关，普通证书无法通过该接口获取到人脸信息；
-- 具体参数及证书要求如下：
-
-```properties
-	landmarks: 2D人脸特征点，返回值为75个二维坐标，长度75*2
-	证书要求: LANDMARK证书、AVATAR证书
-
-	landmarks_ar: 3D人脸特征点，返回值为75个三维坐标，长度75*3
-	证书要求: AVATAR证书
-
-	rotation: 人脸三维旋转，返回值为旋转四元数，长度4
-	证书要求: LANDMARK证书、AVATAR证书
-
-	translation: 人脸三维位移，返回值一个三维向量，长度3
-	证书要求: LANDMARK证书、AVATAR证书
-
-	eye_rotation: 眼球旋转，返回值为旋转四元数,长度4
-	证书要求: LANDMARK证书、AVATAR证书
-
-	rotation_raw: 人脸三维旋转（不考虑屏幕方向），返回值为旋转四元数，长度4
-	证书要求: LANDMARK证书、AVATAR证书
-
-	expression: 表情系数，长度46
-	证书要求: AVATAR证书
-
-	projection_matrix: 投影矩阵，长度16
-	证书要求: AVATAR证书
-
-	face_rect: 人脸矩形框，返回值为(xmin,ymin,xmax,ymax)，长度4
-	证书要求: LANDMARK证书
-
-	rotation_mode: 人脸朝向，0-3分别对应手机四种朝向，长度1
-	证书要求: LANDMARK证书
-```
+在主接口执行过人脸跟踪操作后，通过该接口获取人脸跟踪的结果信息。获取信息需要证书提供相关权限，目前人脸信息权限包括以下级别：默认、Landmark、Avatar。
 
 **参数说明：**
 
@@ -962,9 +958,64 @@ __参数说明:__
 
 **返回值**
 
- 返回 1 代表获取成功，返回 0 代表获取失败
+`int ` 返回 1 代表获取成功，返回 0 代表获取失败，具体错误信息通过`fuGetSystemError`获取。如果返回值为 0 且无控制台打印，说明所要求的人脸信息当前不可用。
 
-------
+__备注:__  
+
+所有支持获取的信息、含义、权限要求如下：
+
+| 信息名称       | 长度 | 类型|含义                                                         | 权限     |
+| -------------- | ---- | ------------------------------------------------------------ | -------- | -------- |
+| face_rect      | 4    | float |人脸矩形框，图像分辨率坐标，数据为 (x_min, y_min, x_max, y_max) | 默认     |
+| rotation_mode  | 1    | int |识别人脸相对于设备图像的旋转朝向，取值范围 0-3，分别代表旋转0度、90度、180度、270度 | 默认     |
+| failure_rate[已废弃] | 1    | float |人脸跟踪的失败率，表示人脸跟踪的质量。取值范围为 0-2，取值越低代表人脸跟踪的质量越高 | 默认     |
+| is_calibrating | 1    | int |表示是否SDK正在进行主动表情校准，取值为 0 或 1。             | 默认     |
+| focal_length   | 1    | float| SDK当前三维人脸跟踪所采用的焦距数值                          | 默认     |
+| landmarks      | 75*2 | float|人脸 75 个特征点，图像分辨率坐标                             | Landmark |
+| landmarks_ar | 75*3 | float |3D 人脸特征点 | Avatar |
+| rotation       | 4    | float|人脸三维旋转，数据为旋转四元数\*                              | Landmark |
+| translation    | 3    | float|人脸三维平移，数据为 (x, y, z)                               | Landmark |
+| eye_rotation   | 4    | float| 眼球旋转，数据为旋转四元数\*，上下22度，左右30度。                                  | Landmark |
+| eye_rotation_xy   | 2    | float| 眼球旋转，数据范围为[-1,1]，第一个通道表示水平方向转动，第二个通道表示垂直方向转动                                  | Landmark |
+| expression     | 46   | float| 人脸表情系数，表情系数含义可以参考《Expression Guide》       | Avatar   |
+| expression_with_tongue     | 56   | float | 1-46为人脸表情系数，同上expression，表情系数含义可以参考《Expression Guide》。47-56为舌头blendshape系数       | Avatar   |
+| armesh_vertex_num     | 1   |int| armesh三维网格顶点数量       | armesh   |
+| armesh_face_num     | 1   | int| armesh三维网格三角面片数量       | armesh   |
+| armesh_vertices     | armesh_vertex_num * 3   |float| armesh三维网格顶点位置数据       | armesh   |
+| armesh_uvs     | armesh_vertex_num * 2   |float| armesh三维网格顶点纹理数据       | armesh   |
+| armesh_faces     | armesh_face_num * 3   |int| armesh三维网格三角片数据       | armesh  |
+| armesh_trans_mat     | 4x4 |float| armesh 的transformation。 __注意:__ 1. 获取'armesh_trans_mat'前需要先获取对应脸的'armesh_vertices'。2. 该trans_mat,相比使用'position'和'rotation'重算的transform更加准确，配合armesh，更好贴合人脸。 | armesh  |
+| tongue_direction | 1 |int| 舌头方向，数值对应 FUAITONGUETYPE 定义，见下表。 | Avatar |
+| expression_type | 1 |int| 表情识别，数值对应 FUAIEXPRESSIONTYPE定义，见下表。 | Avatar |
+| rotation_euler | 3 |float| 返回头部旋转欧拉角，分别为roll、pitch、yaw | 默认 |
+
+*注：*旋转四元数转换为欧拉角可以参考 [该网页](https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles)。
+
+```C
+typedef enum FUAITONGUETYPE {
+  FUAITONGUE_UNKNOWN = 0,
+  FUAITONGUE_UP = 1 << 1,
+  FUAITONGUE_DOWN = 1 << 2,
+  FUAITONGUE_LEFT = 1 << 3,
+  FUAITONGUE_RIGHT = 1 << 4,
+  FUAITONGUE_LEFT_UP = 1 << 5,
+  FUAITONGUE_LEFT_DOWN = 1 << 6,
+  FUAITONGUE_RIGHT_UP = 1 << 7,
+  FUAITONGUE_RIGHT_DOWN = 1 << 8,
+} FUAITONGUETYPE;
+```
+
+```C
+typedef enum FUAIEXPRESSIONTYPE {
+  FUAIEXPRESSION_UNKNOWN = 0,
+  FUAIEXPRESSION_SMILE = 1 << 1,
+  FUAIEXPRESSION_MOUTH_OPEN = 1 << 2,
+  FUAIEXPRESSION_EYE_BLINK = 1 << 3,
+  FUAIEXPRESSION_POUT = 1 << 4,
+} FUAIEXPRESSIONTYPE;
+```
+
+-----
 
 ##### loadTongueModel: size:
 
@@ -1012,7 +1063,7 @@ __参数说明:__
 
 ------
 
-##### setExpressionCalibration:
+##### ~~setExpressionCalibration:~~
 
 开启表情校准功能
 

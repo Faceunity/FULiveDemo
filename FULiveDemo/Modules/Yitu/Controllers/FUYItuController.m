@@ -47,7 +47,7 @@
     _yituItemsView.delegate = self;
     [_yituItemsView updateCollectionAndSel:0];
     [self.view addSubview:_yituItemsView];
-    [self showMessage:NSLocalizedString(@"动动你的五官", nil)];
+    [self showMessage:FUNSLocalizedString(@"动动你的五官", nil)];
     [_yituItemsView mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(iOS 11.0, *)) {
             make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
@@ -67,7 +67,7 @@
     self.delBtn.layer.shadowOffset = CGSizeMake(0,0);
     self.delBtn.layer.shadowOpacity = 1;
     self.delBtn.layer.shadowRadius = 2;
-    [self.delBtn setTitle:NSLocalizedString(@"删除道具", nil)  forState:UIControlStateNormal];
+    [self.delBtn setTitle:FUNSLocalizedString(@"删除道具", nil)  forState:UIControlStateNormal];
     [self.delBtn addTarget:self action:@selector(delYituModel) forControlEvents:UIControlEventTouchUpInside];
     [self.delBtn setTitleColor:[UIColor colorWithRed:44/255.0 green:46/255.0 blue:48/255.0 alpha:1.0] forState:UIControlStateNormal];
 //    [delBtn setTitleColor:[UIColor colorWithRed:31/255.0 green:178/255.0 blue:255/255.0 alpha:1.0] forState:UIControlStateHighlighted];
@@ -85,7 +85,7 @@
     self.reEditBt = [[UIButton alloc] init];
     self.reEditBt.layer.backgroundColor = [UIColor colorWithRed:31/255.0 green:178/255.0 blue:255/255.0 alpha:1.0].CGColor;
     self.reEditBt.layer.cornerRadius = 16;
-    [self.reEditBt setTitle:NSLocalizedString(@"重新编辑", nil) forState:UIControlStateNormal];
+    [self.reEditBt setTitle:FUNSLocalizedString(@"重新编辑", nil) forState:UIControlStateNormal];
     [self.reEditBt addTarget:self action:@selector(reEditBtClick) forControlEvents:UIControlEventTouchUpInside];
     [self.reEditBt setTitleColor:[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0] forState:UIControlStateNormal];
     //    [delBtn setTitleColor:[UIColor colorWithRed:31/255.0 green:178/255.0 blue:255/255.0 alpha:1.0] forState:UIControlStateHighlighted];
@@ -154,14 +154,14 @@
         return;
     }
     
-    UIAlertController *alertCon = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"确定删除所选中的道具？",nil) preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertCon = [UIAlertController alertControllerWithTitle:nil message:FUNSLocalizedString(@"确定删除所选中的道具？",nil) preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"取消",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:FUNSLocalizedString(@"取消",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
     }];
     [cancleAction setValue:[self colorWithHexColorString:@"2C2E30"] forKey:@"titleTextColor"];
     
     __weak typeof(self)weakSelf = self ;
-    UIAlertAction *certainAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"确定",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *certainAction = [UIAlertAction actionWithTitle:FUNSLocalizedString(@"确定",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [[FUYItuSaveManager shareManager].dataDataArray removeObjectAtIndex:_yituItemsView.selIndex];
         /* 更新存储 */
         [FUYItuSaveManager dataWriteToFile];

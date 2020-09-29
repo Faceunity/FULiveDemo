@@ -70,7 +70,7 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
     _currentSel.topIndex = 0;
     self.slider.hidden = YES;
 
-    [_noitemBtn setTitle:NSLocalizedString(@"自定义",nil)  forState:UIControlStateNormal];
+    [_noitemBtn setTitle:FUNSLocalizedString(@"自定义",nil)  forState:UIControlStateNormal];
     self.backgroundColor = [UIColor clearColor];
     _noitemBtn.enabled = NO;
     _noitemBtn.titleLabel.alpha = 0.7;
@@ -190,7 +190,7 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
             cell.mImageView.hidden = imageHiddn ? YES :NO;
             cell.name.textColor = self.currentSel.bottomIndex == (int)indexPath.row ? [UIColor colorWithRed:94/255.0 green:199/255.0 blue:254/255.0 alpha:1.0] : [UIColor whiteColor];
         }
-        cell.name.text = NSLocalizedString(model.name, nil);
+        cell.name.text = FUNSLocalizedString(model.name, nil);
         
         return cell ;
     }
@@ -223,7 +223,7 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
         FUMakeupTopCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:topCellID forIndexPath:indexPath];
         cell.imageView.backgroundColor = [UIColor clearColor];
         cell.imageView.image = [UIImage imageNamed:_supArray[indexPath.row].imageStr];
-        cell.mLabel.text = NSLocalizedString(_supArray[indexPath.row].name, nil);;
+        cell.mLabel.text = FUNSLocalizedString(_supArray[indexPath.row].name, nil);;
         cell.mLabel.textColor = _supArray[indexPath.row].isSel ? [UIColor colorWithRed:94/255.0 green:199/255.0 blue:254/255.0 alpha:1.0] : [UIColor whiteColor];
         cell.imageView.layer.borderWidth = _supArray[indexPath.row].isSel ? 3.0 : 0.0 ;
         cell.imageView.layer.borderColor = _supArray[indexPath.row].isSel ? [UIColor colorWithRed:94/255.0 green:199/255.0 blue:254/255.0 alpha:1.0].CGColor : [UIColor clearColor].CGColor;
@@ -359,7 +359,7 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
         self.bottomCollection.hidden = YES;
         self.mNoitemH.constant = 70;
         [_noitemBtn setImage:[UIImage imageNamed:@"makeup_custom_nor"] forState:UIControlStateNormal];
-        [_noitemBtn setTitle:NSLocalizedString(@"自定义",nil)  forState:UIControlStateNormal];
+        [_noitemBtn setTitle:FUNSLocalizedString(@"自定义",nil)  forState:UIControlStateNormal];
         
         if([self.delegate respondsToSelector:@selector(makeupSelColorStata:)]){
             [self.delegate makeupSelColorStata:NO];

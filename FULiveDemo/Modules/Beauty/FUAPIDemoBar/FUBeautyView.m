@@ -59,7 +59,7 @@
             }
 
         cell.imageView.image = [UIImage imageWithName:imageName];
-        cell.titleLabel.text = NSLocalizedString(modle.mTitle,nil);
+        cell.titleLabel.text = FUNSLocalizedString(modle.mTitle,nil);
         cell.titleLabel.textColor = _selectedIndex == indexPath.row ? [UIColor colorWithHexColorString:@"5EC7FE"] : [UIColor whiteColor];
     }
     return cell ;

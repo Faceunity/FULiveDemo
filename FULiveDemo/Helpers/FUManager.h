@@ -99,6 +99,9 @@ typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
 /* 添加动漫滤镜 */
 - (void)loadFilterAnimoji:(NSString *)itemName style:(int)style;
 
+/* 跳过渲染的道具 */
+-(void)preventRenderingAarray:(NSArray <NSNumber *>*)array;
+
 /* 将道具绘制到imager */
 - (UIImage *)renderItemsToImage:(UIImage *)image;
 /**将道具绘制到pixelBuffer*/

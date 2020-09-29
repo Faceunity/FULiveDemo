@@ -72,10 +72,10 @@
     self.shapeView.mDelegate = self ;
     
     self.skinView.mDelegate = self;
-    [self.skinBtn setTitle:NSLocalizedString(@"美肤", nil) forState:UIControlStateNormal];
-    [self.shapeBtn setTitle:NSLocalizedString(@"美型", nil) forState:UIControlStateNormal];
-    [self.beautyFilterBtn setTitle:NSLocalizedString(@"滤镜", nil) forState:UIControlStateNormal];
-    [self.mRestBtn setTitle:NSLocalizedString(@"恢复", nil) forState:UIControlStateNormal];
+    [self.skinBtn setTitle:FUNSLocalizedString(@"美肤", nil) forState:UIControlStateNormal];
+    [self.shapeBtn setTitle:FUNSLocalizedString(@"美型", nil) forState:UIControlStateNormal];
+    [self.beautyFilterBtn setTitle:FUNSLocalizedString(@"滤镜", nil) forState:UIControlStateNormal];
+    [self.mRestBtn setTitle:FUNSLocalizedString(@"恢复", nil) forState:UIControlStateNormal];
     
     self.skinBtn.tag = 101;
     self.shapeBtn.tag = 102;
@@ -234,13 +234,13 @@
 }
 
 -(void)restBeautyDefaultValue{
-    UIAlertController *alertCon = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"是否将所有参数恢复到默认值",nil) preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertCon = [UIAlertController alertControllerWithTitle:nil message:FUNSLocalizedString(@"是否将所有参数恢复到默认值",nil) preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"取消",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:FUNSLocalizedString(@"取消",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
     }];
     [cancleAction setValue:[UIColor colorWithRed:44/255.0 green:46/255.0 blue:48/255.0 alpha:1.0] forKey:@"titleTextColor"];
     
-    UIAlertAction *certainAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"确定",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *certainAction = [UIAlertAction actionWithTitle:FUNSLocalizedString(@"确定",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         self.mRestBtn.alpha = 0.7;
         if ([self.mDelegate respondsToSelector:@selector(restDefaultValue:)]) {
             if (self.skinBtn.selected) {

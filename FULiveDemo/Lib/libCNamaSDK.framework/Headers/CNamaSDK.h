@@ -338,7 +338,7 @@ FUNAMA_API int fuSetupLocal(float* v3data, int sz_v3data, float* ardata,
                             void** offline_bundle_ptr, int* offline_bundle_sz);
 
 /**
- \brief if opengl is supported return 1, else return 0  
+ \brief if opengl is supported return 1, else return 0
         call after fuSetup
 */
 FUNAMA_API int fuGetOpenGLSupported();
@@ -492,6 +492,8 @@ FUNAMA_API int fuBeautifyImage(int out_format, void* out_ptr, int in_format,
 */
 FUNAMA_API int fuCreateItemFromPackage(void* data, int sz);
 
+FUNAMA_API int fuCreateLiteItemFromPackage(int handle, void* data, int sz);
+
 /**
  \brief Destroy an accessory item. This function no need to be called in the
  same GLES context / thread as the original fuCreateItemFromPackage.
@@ -509,6 +511,12 @@ FUNAMA_API void fuDestroyAllItems();
 \brief Destroy all internal data, resources, threads, etc.
 */
 FUNAMA_API void fuDestroyLibData();
+
+/**
+\brief Call this function when the GLES context has been lost, this function
+won't do gl resource release, it only reset cpu flags.
+*/
+FUNAMA_API void fuOnDeviceLostSafe();
 
 /**
 \brief Call this function when the GLES context has been lost and recreated.
@@ -1043,6 +1051,14 @@ FUNAMA_API int fuSetFaceProcessorFov(float fov);
 FUNAMA_API float fuGetFaceProcessorFov();
 
 /**
+ \brief set faceprocessor's face detect mode. when use 1 for video mode, face
+ detect strategy is opimized for no face scenario. In image process scenario,
+ you should set detect mode into 0 image mode.
+ \param mode, 0 for image, 1 for video, 1 by default
+ */
+FUNAMA_API int fuSetFaceProcessorDetectMode(int mode);
+
+/**
 \brief Count API calls.
 \param name is the API name
 */
@@ -1443,6 +1459,14 @@ FUNAMA_API int fuSetUsePbo(bool use);
  \param quality, 0:high 1:medium 2.low
 */
 FUNAMA_API int fuSetLoadQuality(int quality);
+
+/**
+ \brief set if use the output texture for async reading, when use spcified
+ framebuffer for output. \param use,set 1 for use or 0 for not use, not use by
+ default for performance.
+*/
+FUNAMA_API int fuSetUseTexAsync(bool use);
+
 #ifdef __cplusplus
 }
 #endif

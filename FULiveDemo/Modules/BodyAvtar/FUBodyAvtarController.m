@@ -79,7 +79,6 @@
          [FURenderer itemSetParam:handle withName:@"reset_all" value:@(3)];
          [FURenderer itemSetParam:handle withName:@"human_3d_track_set_scene" value:@(1)];
          
-
     });
     
     [self setupBodySubView];
@@ -130,8 +129,8 @@
     
     
     _mSwitch = [[FUSwitch alloc] initWithFrame:CGRectMake(60, 150, 86, 32) onColor:[UIColor colorWithRed:31 / 255.0 green:178 / 255.0 blue:255 / 255.0 alpha:1.0] offColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:12] ballSize:30];
-    _mSwitch.onText = NSLocalizedString(@"全身驱动", nil);
-    _mSwitch.offText = NSLocalizedString(@"半身驱动", nil);
+    _mSwitch.onText = FUNSLocalizedString(@"全身驱动", nil);
+    _mSwitch.offText = FUNSLocalizedString(@"半身驱动", nil);
     _mSwitch.offLabel.textColor = [UIColor colorWithRed:31 / 255.0 green:178 / 255.0 blue:255 / 255.0 alpha:1.0];
     _mSwitch.on = YES;
     [_mSwitch addTarget:self action:@selector(switchSex:) forControlEvents:UIControlEventTouchUpInside];
@@ -172,7 +171,7 @@
 -(void)displayPromptText{
     int res  = fuHumanProcessorGetNumResults();
     dispatch_async(dispatch_get_main_queue(), ^{
-            self.noTrackLabel.text = NSLocalizedString(@"未检测到人体",nil);
+            self.noTrackLabel.text = FUNSLocalizedString(@"未检测到人体",nil);
            self.noTrackLabel.hidden = res > 0 ? YES : NO;
     }) ;
 }

@@ -1,0 +1,14 @@
+//
+//  PrefixHeader.pch
+//  FULiveDemo
+//
+//  Created by 孙慕 on 2020/9/15.
+//  Copyright © 2020 FaceUnity. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+#define FUNSLocalizedString(Context,comment)  [NSString stringWithFormat:@"%@", [[NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"appLanguage"]] ofType:@"lproj"]] localizedStringForKey:(Context) value:nil table:nil]]
+
+#endif /* PrefixHeader_pch */

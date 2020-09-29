@@ -39,6 +39,9 @@
 "缩人中"   = "Philtrum";
 "眼距"   = "Eye distance";
 "微笑嘴角"   = "Smile";
+"锐化"   =   "Sharpen";
+"瘦颧骨"    =   "Cheekbone";
+"瘦下颌骨"    =   "Jawbone";
 
 //滤镜
 "原图" = "Origin" ;
@@ -275,6 +278,10 @@
 "Ⅱ号"    =   "highlight Ⅱ";
 "阴影" =  "shadow";
 
+"润泽"    =   "Moist";
+"珠光"    =   "Pearl";
+"咬唇" =  "Bite lip";
+
 
 /* 海报融合 */
 "对准线框 正脸拍摄"    =  "Please take photos by positive face.";
@@ -410,3 +417,18 @@
 //其他
 "半身驱动" = "Half";
 "全身驱动" = "whole";
+
+
+"绿幕抠像"    =   "Green Screen Key";
+"抠像"    =   "Keying";
+"关键颜色"    =   "Key Color";
+"相似度"    =   "Similarity";
+"平滑"    =   "Smoothness";
+"透明度"    =   "Transparency";
+"背景"    =   "Background";
+"科技"    =   "Technology";
+
+"沙滩"    =   "Sand";
+"教室"    =   "Classroom";
+"请使用纯色背景拍摄，推荐绿色幕布效果最佳"    =   "Please use a solid background, a green screen is recommended for the best effect.";
+"我知道了"    =   "I know.";

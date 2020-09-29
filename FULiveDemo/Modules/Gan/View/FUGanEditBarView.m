@@ -85,16 +85,16 @@
 }
 
 -(void)initializationData{
-    FUExpressionMode *model9 = [FUExpressionMode getClassTitle:NSLocalizedString(@"原图", nil)  imageStr:@"icon_gan_original"];
-    FUExpressionMode *model0 = [FUExpressionMode getClassTitle:NSLocalizedString(@"微笑", nil) imageStr:@"icon_gan_smile"];
-    FUExpressionMode *model1 = [FUExpressionMode getClassTitle:NSLocalizedString(@"露齿笑", nil) imageStr:@"icon_gan_laugh"];
-    FUExpressionMode *model2 = [FUExpressionMode getClassTitle:NSLocalizedString(@"大笑", nil) imageStr:@"icon_gan_grin"];
-    FUExpressionMode *model3 = [FUExpressionMode getClassTitle:NSLocalizedString(@"左闭眼", nil) imageStr:@"icon_gan_left_close_eyes"];
-    FUExpressionMode *model4 = [FUExpressionMode getClassTitle:NSLocalizedString(@"右闭眼", nil) imageStr:@"icon_gan_right_close_eyes"];
-    FUExpressionMode *model5 = [FUExpressionMode getClassTitle:NSLocalizedString(@"生气", nil) imageStr:@"icon_gan_angry"];
-    FUExpressionMode *model6 = [FUExpressionMode getClassTitle:NSLocalizedString(@"伤感", nil) imageStr:@"icon_gan_sad"];
-    FUExpressionMode *model7 = [FUExpressionMode getClassTitle:NSLocalizedString(@"左邪魅", nil) imageStr:@"icon_gan_left_demon"];
-    FUExpressionMode *model8 = [FUExpressionMode getClassTitle:NSLocalizedString(@"右邪魅", nil) imageStr:@"icon_gan_right_demon"];
+    FUExpressionMode *model9 = [FUExpressionMode getClassTitle:FUNSLocalizedString(@"原图", nil)  imageStr:@"icon_gan_original"];
+    FUExpressionMode *model0 = [FUExpressionMode getClassTitle:FUNSLocalizedString(@"微笑", nil) imageStr:@"icon_gan_smile"];
+    FUExpressionMode *model1 = [FUExpressionMode getClassTitle:FUNSLocalizedString(@"露齿笑", nil) imageStr:@"icon_gan_laugh"];
+    FUExpressionMode *model2 = [FUExpressionMode getClassTitle:FUNSLocalizedString(@"大笑", nil) imageStr:@"icon_gan_grin"];
+    FUExpressionMode *model3 = [FUExpressionMode getClassTitle:FUNSLocalizedString(@"左闭眼", nil) imageStr:@"icon_gan_left_close_eyes"];
+    FUExpressionMode *model4 = [FUExpressionMode getClassTitle:FUNSLocalizedString(@"右闭眼", nil) imageStr:@"icon_gan_right_close_eyes"];
+    FUExpressionMode *model5 = [FUExpressionMode getClassTitle:FUNSLocalizedString(@"生气", nil) imageStr:@"icon_gan_angry"];
+    FUExpressionMode *model6 = [FUExpressionMode getClassTitle:FUNSLocalizedString(@"伤感", nil) imageStr:@"icon_gan_sad"];
+    FUExpressionMode *model7 = [FUExpressionMode getClassTitle:FUNSLocalizedString(@"左邪魅", nil) imageStr:@"icon_gan_left_demon"];
+    FUExpressionMode *model8 = [FUExpressionMode getClassTitle:FUNSLocalizedString(@"右邪魅", nil) imageStr:@"icon_gan_right_demon"];
     
     _dataArray = @[model9,model0,model1,model2,model3,model4,model5,model6,model7,model8];
     

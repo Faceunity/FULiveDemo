@@ -75,7 +75,7 @@
     _miniAdjustBtn.layer.cornerRadius = 15;
     _miniAdjustBtn.hidden = YES;
     [_miniAdjustBtn setImage:[UIImage imageNamed:@"icon_yitu_adjustment"] forState:UIControlStateNormal];
-    [_miniAdjustBtn setTitle:NSLocalizedString(@"精细调整",nil) forState:UIControlStateNormal];
+    [_miniAdjustBtn setTitle:FUNSLocalizedString(@"精细调整",nil) forState:UIControlStateNormal];
     [_miniAdjustBtn setTitleColor:[UIColor colorWithWhite:0.05 alpha:1] forState:UIControlStateNormal];
     _miniAdjustBtn.titleLabel.font = [UIFont systemFontOfSize:12];
     [_miniAdjustBtn addTarget:self action:@selector(miniAdjusetBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -122,15 +122,15 @@
 }
 
 -(void)showAlert{
-    UIAlertController *alertCon = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"你还没有添加五官哦",nil) preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertCon = [UIAlertController alertControllerWithTitle:nil message:FUNSLocalizedString(@"你还没有添加五官哦",nil) preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"不添加",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:FUNSLocalizedString(@"不添加",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self.navigationController popViewControllerAnimated:YES];
     }];
     [cancleAction setValue:[UIColor colorWithRed:44/255.f green:46/255.f blue:48/255.f alpha:1] forKey:@"titleTextColor"];
     
     __weak typeof(self)weakSelf = self ;
-    UIAlertAction *certainAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"去添加",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *certainAction = [UIAlertAction actionWithTitle:FUNSLocalizedString(@"去添加",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
     }];
     [certainAction setValue:[UIColor colorWithRed:134/255.f green:157/255.f blue:255/255.f alpha:1] forKey:@"titleTextColor"];
@@ -156,14 +156,14 @@
         return;
     }
     
-    UIAlertController *alertCon = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"返回后当前操作将不会保存哦",nil) preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertCon = [UIAlertController alertControllerWithTitle:nil message:FUNSLocalizedString(@"返回后当前操作将不会保存哦",nil) preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"取消",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:FUNSLocalizedString(@"取消",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 
     }];
     [cancleAction setValue:[UIColor colorWithRed:44/255.f green:46/255.f blue:48/255.f alpha:1] forKey:@"titleTextColor"];
     
-    UIAlertAction *certainAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"继续",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *certainAction = [UIAlertAction actionWithTitle:FUNSLocalizedString(@"继续",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
        [self.navigationController popViewControllerAnimated:YES];
     }];
     [certainAction setValue:[UIColor colorWithRed:134/255.f green:157/255.f blue:255/255.f alpha:1] forKey:@"titleTextColor"];
@@ -235,7 +235,7 @@
         self.saveSuccessBlock(modle);
     }
     
-    [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"道具保存成功",nil)];
+    [SVProgressHUD showSuccessWithStatus:FUNSLocalizedString(@"道具保存成功",nil)];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         /* 更新存储 */
         [FUYItuSaveManager dataWriteToFile];
@@ -380,7 +380,7 @@
 
 -(void)yituAddItemView:(FUYituItemModel *)model{
     if ([self currentNumType:model.type] == 3) {
-        [self showMessage:NSLocalizedString(@"不能添加更多了哦~",nil)];
+        [self showMessage:FUNSLocalizedString(@"不能添加更多了哦~",nil)];
         return;
     }
     _curAdjustView.editing = NO;

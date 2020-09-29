@@ -58,7 +58,7 @@
     
     FUBeautyParam *model = _filters[indexPath.row];
     
-    cell.titleLabel.text = NSLocalizedString(model.mTitle,nil);
+    cell.titleLabel.text = FUNSLocalizedString(model.mTitle,nil);
     cell.titleLabel.textColor = [UIColor whiteColor];
     cell.imageView.image = [UIImage imageWithName:model.mParam];
     

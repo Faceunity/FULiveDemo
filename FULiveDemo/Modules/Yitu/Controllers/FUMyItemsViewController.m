@@ -34,10 +34,10 @@
     
 //    self.noItemImage.hidden = [FUManager shareManager].myStickers.count != 0;
 //    self.noItemLabel.hidden = [FUManager shareManager].myStickers.count != 0;
-    self.noItemLabel.text = NSLocalizedString(@"暂无制作道具哦~",nil);
-    self.mTitleLabel.text = NSLocalizedString(@"删除道具",nil);
-    [self.selectAllBtn setTitle:NSLocalizedString(@"全选",nil) forState:UIControlStateNormal];
-     [self.deleteBtn setTitle:NSLocalizedString(@"删除",nil) forState:UIControlStateNormal];
+    self.noItemLabel.text = FUNSLocalizedString(@"暂无制作道具哦~",nil);
+    self.mTitleLabel.text = FUNSLocalizedString(@"删除道具",nil);
+    [self.selectAllBtn setTitle:FUNSLocalizedString(@"全选",nil) forState:UIControlStateNormal];
+     [self.deleteBtn setTitle:FUNSLocalizedString(@"删除",nil) forState:UIControlStateNormal];
     self.selectedIndex = [NSMutableArray arrayWithCapacity:1];
     
     [self.collectionView registerClass:[FUYItuMeItemCell class] forCellWithReuseIdentifier:@"YItuMeItemCell"];
@@ -71,8 +71,8 @@
 
         [self.selectedIndex removeAllObjects];
 
-        self.selectAllBtn.titleLabel.text =NSLocalizedString(@"全选",nil);
-        [self.selectAllBtn setTitle:NSLocalizedString(@"全选",nil) forState:UIControlStateNormal ];
+        self.selectAllBtn.titleLabel.text =FUNSLocalizedString(@"全选",nil);
+        [self.selectAllBtn setTitle:FUNSLocalizedString(@"全选",nil) forState:UIControlStateNormal ];
     }else {
 
         [self.selectedIndex removeAllObjects];
@@ -80,8 +80,8 @@
             [self.selectedIndex addObject:@(i)];
         }
 
-        self.selectAllBtn.titleLabel.text = NSLocalizedString(@"取消",nil);
-        [self.selectAllBtn setTitle:NSLocalizedString(@"取消",nil) forState:UIControlStateNormal ];
+        self.selectAllBtn.titleLabel.text = FUNSLocalizedString(@"取消",nil);
+        [self.selectAllBtn setTitle:FUNSLocalizedString(@"取消",nil) forState:UIControlStateNormal ];
     }
     [self deleteBtnRefreshTitle];
     [self.collectionView reloadData ];
@@ -94,14 +94,14 @@
         return ;
     }
 
-    UIAlertController *alertCon = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"确定删除所选中的道具？",nil) preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertCon = [UIAlertController alertControllerWithTitle:nil message:FUNSLocalizedString(@"确定删除所选中的道具？",nil) preferredStyle:UIAlertControllerStyleAlert];
 
-    UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"取消",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:FUNSLocalizedString(@"取消",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
     }];
     [cancleAction setValue:[self colorWithHexColorString:@"2C2E30"] forKey:@"titleTextColor"];
 
     __weak typeof(self)weakSelf = self ;
-    UIAlertAction *certainAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"确定",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *certainAction = [UIAlertAction actionWithTitle:FUNSLocalizedString(@"确定",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [weakSelf certainDeleteAction];
     }];
     [certainAction setValue:[self colorWithHexColorString:@"869DFF"] forKey:@"titleTextColor"];
@@ -128,8 +128,8 @@
     [self.collectionView reloadData];
     [self.selectedIndex removeAllObjects];
 
-    self.selectAllBtn.titleLabel.text = NSLocalizedString(@"全选",nil) ;
-    [self.selectAllBtn setTitle:NSLocalizedString(@"全选",nil) forState:UIControlStateNormal ];
+    self.selectAllBtn.titleLabel.text = FUNSLocalizedString(@"全选",nil) ;
+    [self.selectAllBtn setTitle:FUNSLocalizedString(@"全选",nil) forState:UIControlStateNormal ];
 
     [self deleteBtnRefreshTitle];
    
@@ -151,12 +151,12 @@
 
     if (self.selectedIndex.count == 0) {
         self.bottomView.backgroundColor = [UIColor colorWithRed:198/255.0 green:198/255.0 blue:198/255.0 alpha:1.0];
-        self.deleteBtn.titleLabel.text = NSLocalizedString(@"删除",nil);
-        [self.deleteBtn setTitle:NSLocalizedString(@"删除",nil) forState:UIControlStateNormal];
+        self.deleteBtn.titleLabel.text = FUNSLocalizedString(@"删除",nil);
+        [self.deleteBtn setTitle:FUNSLocalizedString(@"删除",nil) forState:UIControlStateNormal];
     }else {
         self.bottomView.backgroundColor = [UIColor colorWithRed:94/255.0 green:199/255.0 blue:254/255.0 alpha:1.0];
-        self.deleteBtn.titleLabel.text = [NSString stringWithFormat:NSLocalizedString(@"删除(%ld)",nil), (unsigned long)self.selectedIndex.count];
-        [self.deleteBtn setTitle:[NSString stringWithFormat:NSLocalizedString(@"删除(%ld)",nil), (unsigned long)self.selectedIndex.count] forState:UIControlStateNormal];
+        self.deleteBtn.titleLabel.text = [NSString stringWithFormat:FUNSLocalizedString(@"删除(%ld)",nil), (unsigned long)self.selectedIndex.count];
+        [self.deleteBtn setTitle:[NSString stringWithFormat:FUNSLocalizedString(@"删除(%ld)",nil), (unsigned long)self.selectedIndex.count] forState:UIControlStateNormal];
     }
 }
 
@@ -199,17 +199,17 @@
 
     [collectionView reloadData];
 
-    self.deleteBtn.titleLabel.text = [NSString stringWithFormat:NSLocalizedString(@"删除(%ld)",nil), (unsigned long)self.selectedIndex.count];
-    [self.deleteBtn setTitle:[NSString stringWithFormat:NSLocalizedString(@"删除(%ld)",nil), (unsigned long)self.selectedIndex.count] forState:UIControlStateNormal];
+    self.deleteBtn.titleLabel.text = [NSString stringWithFormat:FUNSLocalizedString(@"删除(%ld)",nil), (unsigned long)self.selectedIndex.count];
+    [self.deleteBtn setTitle:[NSString stringWithFormat:FUNSLocalizedString(@"删除(%ld)",nil), (unsigned long)self.selectedIndex.count] forState:UIControlStateNormal];
 
     if (self.selectedIndex.count == _dataArray.count) {
 
-        self.selectAllBtn.titleLabel.text = NSLocalizedString(@"取消",nil) ;
-        [self.selectAllBtn setTitle:NSLocalizedString(@"取消",nil) forState:UIControlStateNormal ];
+        self.selectAllBtn.titleLabel.text = FUNSLocalizedString(@"取消",nil) ;
+        [self.selectAllBtn setTitle:FUNSLocalizedString(@"取消",nil) forState:UIControlStateNormal ];
     }else {
 
-        self.selectAllBtn.titleLabel.text = NSLocalizedString(@"全选",nil) ;
-        [self.selectAllBtn setTitle:NSLocalizedString(@"全选",nil) forState:UIControlStateNormal ];
+        self.selectAllBtn.titleLabel.text = FUNSLocalizedString(@"全选",nil) ;
+        [self.selectAllBtn setTitle:FUNSLocalizedString(@"全选",nil) forState:UIControlStateNormal ];
     }
 
     if (self.selectedIndex.count == 0) {

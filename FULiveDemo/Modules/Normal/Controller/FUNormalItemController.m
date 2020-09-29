@@ -19,6 +19,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self setupView];
+    
+    [self.headButtonView.selectedImageBtn setImage:[UIImage imageNamed:@"相册icon"] forState:UIControlStateNormal];
 }
 
 
@@ -87,7 +89,7 @@
         NSString *hint = [[FUManager shareManager] hintForItem:item];
         self.tipLabel.hidden = hint == nil;
         if (hint && hint.length != 0) {
-            self.tipLabel.text = NSLocalizedString(hint, nil);
+            self.tipLabel.text = FUNSLocalizedString(hint, nil);
         }
         [FUNormalItemController cancelPreviousPerformRequestsWithTarget:self selector:@selector(dismissTipLabel) object:nil];
         [self performSelector:@selector(dismissTipLabel) withObject:nil afterDelay:1];
