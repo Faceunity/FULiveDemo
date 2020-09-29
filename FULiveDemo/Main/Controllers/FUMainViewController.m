@@ -93,9 +93,9 @@ static NSString *headerViewID = @"MGHeaderView";
     if ([kind isEqualToString:UICollectionElementKindSectionHeader]){
     FUHeadReusableView *headerView= (FUHeadReusableView *)[collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:headerViewID forIndexPath:indexPath];
         if (indexPath.section == 0) {
-            headerView.titleLabel.text = NSLocalizedString(@"人脸特效", nil) ;
+            headerView.titleLabel.text = FUNSLocalizedString(@"人脸特效", nil) ;
         }else{
-            headerView.titleLabel.text = NSLocalizedString(@"人体特效", nil) ;
+            headerView.titleLabel.text = FUNSLocalizedString(@"人体特效", nil) ;
         }
    
     return headerView;

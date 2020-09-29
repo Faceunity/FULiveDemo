@@ -120,7 +120,9 @@
         [self setupView1];
     }else if(self.model.type == FULiveModelTypeLvMu){
         [self setupLvMuSubView];
+        self.downloadBtn.hidden = YES;
         self.glView.contentMode = FUOpenGLViewContentModeScaleAspectFit;
+        
     }
     
     else {
@@ -166,7 +168,7 @@
     CGAffineTransform photoTransform1 = CGAffineTransformMakeScale(0.9, 0.9);
     self.downloadBtn.transform = CGAffineTransformConcat(photoTransform0, photoTransform1) ;
     
-    _lvRect = CGRectMake(0.1, 0.1, 0.2, 0.2);
+    _lvRect = CGRectMake(0.0, 0.0, 1.0, 1.0);
     [self setLvFrameRect:_lvRect];
     
     [self initMovementGestures];
@@ -234,7 +236,7 @@
     _noTrackLabel.textColor = [UIColor whiteColor];
     _noTrackLabel.font = [UIFont systemFontOfSize:17];
     _noTrackLabel.textAlignment = NSTextAlignmentCenter;
-    _noTrackLabel.text = NSLocalizedString(@"No_Face_Tracking", @"未检测到人脸");
+    _noTrackLabel.text = FUNSLocalizedString(@"No_Face_Tracking", @"未检测到人脸");
     [self.view addSubview:_noTrackLabel];
     [_noTrackLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self.view);
@@ -278,7 +280,9 @@
     
     /* 下载 */
     _downloadBtn = [[UIButton alloc] init];
-    [_downloadBtn setBackgroundImage:[UIImage imageNamed:@"download"] forState:UIControlStateNormal];
+    _downloadBtn.backgroundColor = [UIColor whiteColor];
+    _downloadBtn.layer.cornerRadius = 85/2;
+    [_downloadBtn setBackgroundImage:[UIImage imageNamed:@"demo_icon_save1"] forState:UIControlStateNormal];
     [_downloadBtn addTarget:self action:@selector(downLoadAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_downloadBtn];
     [_downloadBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -341,15 +345,20 @@
     _avPlayer = nil ;
     [self.videoReader stopReading];
     [self.videoReader destory];
-    
     [_displayLink invalidate];
     _displayLink.paused = YES ;
     _displayLink = nil ;
     
     [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeMakeup];
     
+    /* 销毁背景 */
+    int lvmuHandle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeItem];
+    fuDeleteTexForItem(lvmuHandle, (char *)[@"tex_bg" UTF8String]);
+
+    
     [self.lvmuEditeView destoryLvMuView];
     [_videoDecoder videoStopRending];
+    _videoDecoder = nil;
     [super viewWillDisappear:animated];
 }
 
@@ -362,20 +371,25 @@
     
     if (self.model.type == FULiveModelTypeLvMu) {
         [_lvmuEditeView hidenTop:YES];
+        if(!self.playBtn.hidden){
+            self.downloadBtn.hidden = NO;
+        }
+        
     }
 }
 
 - (void)startRendering {
     [FURenderer onCameraChange];
     if (self.image ) {
-        
+        int handle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeItem];
+        [FURenderer itemSetParam:handle withName:@"rotation_mode" value:@(0)];
         [self processImage];
     }else {
         
         if (self.videoURL) {
             
             self.downloadBtn.hidden = YES ;
-            self.playBtn.hidden = NO ;
+            self.playBtn.hidden = YES ;
             
             if (self.videoReader) {
                 
@@ -403,7 +417,7 @@
 - (void)willResignActive    {
     
     if (self.navigationController.visibleViewController == self) {
-        
+        [_videoDecoder videoStopRending];
         if (self.image) {
             _displayLink.paused = YES ;
         }else {
@@ -416,6 +430,7 @@
 
 
 - (void)didBecomeActive {
+    [_videoDecoder videoStartReading];
     if (self.navigationController.visibleViewController == self && self.downloadBtn.hidden == YES) {//播放过程中
         [self.videoReader startReadWithDestinationPath:finalPath];
         self.playBtn.hidden = YES;
@@ -424,6 +439,8 @@
         [self processImage];
     }
 }
+
+
 
 -(void)setImage:(UIImage *)image {
     NSData *imageData0 = UIImageJPEGRepresentation(image, 1.0);
@@ -534,7 +551,7 @@
     w = CVPixelBufferGetWidth(pixelBuffer);
     h = CVPixelBufferGetHeight(pixelBuffer);
     
-    [self.glView displayPixelBuffer:pixelBuffer];
+    [self.glView displaySyncPixelBuffer:pixelBuffer];
     
     if(self.model.type == FULiveModelTypeBeautifyFace){
         self.noTrackLabel.hidden = [[FUManager shareManager] isTracking];
@@ -547,10 +564,21 @@
 
 // 读取结束
 -(void)videoReaderDidFinishReadSuccess:(BOOL)success {
+    [self.videoReader startReadForLastFrame];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         self.playBtn.hidden = NO ;
-        self.downloadBtn.hidden = NO ;
+        
+        if (self.model.type == FULiveModelTypeLvMu) {
+            if (self.lvmuEditeView.isHidenTop) {
+                self.downloadBtn.hidden = NO ;
+            }else{
+                self.downloadBtn.hidden = YES ;
+            }
+        }else{
+            self.downloadBtn.hidden = NO;
+        }
+        
         if (self.model.type == FULiveModelTypeBeautifyFace) {
             self.downloadBtn.hidden = self.demoBar.isTopViewShow ;
         }
@@ -605,12 +633,20 @@
             }
         }
         
+        if(self.model.type == FULiveModelTypeLvMu){
+            dispatch_async(dispatch_get_main_queue(), ^{ 
+              self.noTrackLabel.hidden = YES;
+            });
+
+            return ;
+        }
+        
         BOOL isTrack = [[FUManager shareManager] isTracking] ;
         
         if (!isTrack) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 
-                self.noTrackLabel.text = NSLocalizedString(@"未识别到人脸", nil) ;
+                self.noTrackLabel.text = FUNSLocalizedString(@"未识别到人脸", nil) ;
                 if (self.noTrackLabel.hidden) {
                     self.noTrackLabel.hidden = NO ;
                 }
@@ -625,7 +661,6 @@
         }
     });
 }
-
 
 
 #pragma  mark -  FUBodyBeautyViewDelegate
@@ -665,6 +700,12 @@
 -(void)lvmuViewShowTopView:(BOOL)shown{
     float h = shown?180:49;
     [self setPhotoScaleWithHeight:h show:shown];
+    
+    if(!self.playBtn.isHidden && !shown){
+        self.downloadBtn.hidden = NO;
+    }else{
+        self.downloadBtn.hidden = YES;
+    }
 }
 
 
@@ -673,29 +714,43 @@
         
         CGAffineTransform photoTransform0 = CGAffineTransformMakeTranslation(0, height * -0.6) ;
         CGAffineTransform photoTransform1 = CGAffineTransformMakeScale(0.9, 0.9);
-        
         [UIView animateWithDuration:0.35 animations:^{
             
             self.downloadBtn.transform = CGAffineTransformConcat(photoTransform0, photoTransform1) ;
+            
         }];
     } else {
         [UIView animateWithDuration:0.35 animations:^{
-            
             self.downloadBtn.transform = CGAffineTransformIdentity ;
         }];
     }
 }
 
 -(void)didSelectedParam:(FUBeautyParam *)param{
-    NSString *urlStr = [[NSBundle mainBundle] pathForResource:param.mParam ofType:@"mp4"];
-    
-    NSURL *url = [NSURL fileURLWithPath:urlStr];
-    [self setupVideoDecoder:url];
-    
+    if(param.mParam){
+        NSString *urlStr = [[NSBundle mainBundle] pathForResource:param.mParam ofType:@"mp4"];
+        NSURL *url = [NSURL fileURLWithPath:urlStr];
+        [self setupVideoDecoder:url];
+    }else{
+        [_videoDecoder videoStopRending];
+        int lvmuHandle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeItem];
+         fuDeleteTexForItem(lvmuHandle, (char *)[@"tex_bg" UTF8String]);
+    }
 }
+
+/* 取色的时候，不rendder */
+-(void)takeColorState:(FUTakeColorState)state{
+    if (state == FUTakeColorStateStop) {
+        [[FUManager shareManager] preventRenderingAarray:nil];
+    }else{
+        [[FUManager shareManager] preventRenderingAarray:@[@(FUNamaHandleTypeItem)]];
+    }
+}
+
 
 -(void)setupVideoDecoder:(NSURL *)url{
     [_videoDecoder videoStopRending];
+    _videoDecoder = nil;
     _videoDecoder = [[FUVideoDecoder alloc] initWithVideoDecodeUrl:url fps:30 repeat:YES callback:^(CVPixelBufferRef  _Nonnull pixelBuffer) {
         if(pixelBuffer){
             
@@ -706,11 +761,11 @@
             int h = (int)CVPixelBufferGetHeight(pixelBuffer);
             [FURenderer itemSetParam:lvmuHandle withName:@"is_bgra" value:@(1)];
             /* 数据写入nama */
-            fuDeleteTexForItem(lvmuHandle, (char *)[@"tex_bg" UTF8String]);
+            //            fuDeleteTexForItem(lvmuHandle, (char *)[@"tex_bg" UTF8String]);
             fuCreateTexForItem(lvmuHandle, (char *)[@"tex_bg" UTF8String], buffer, w, h);
             CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
-            NSLog(@"解码-----");
         }
+        
     }];
     [_videoDecoder videoStartReading];
 }
@@ -840,7 +895,7 @@
         [FURenderer itemSetParam:lvmuHandle withName:@"end_x" value:@(rect.origin.x + rect.size.width)];
         [FURenderer itemSetParam:lvmuHandle withName:@"end_y" value:@(rect.origin.y + rect.size.height)];
         
-        NSLog(@"---%f---%f---%f---%f",rect.origin.x,rect.origin.y,rect.origin.x + rect.size.width,rect.origin.y + rect.size.height);
+        NSLog(@"移动---%f---%f---%f---%f",rect.origin.x,rect.origin.y,rect.origin.x + rect.size.width,rect.origin.y + rect.size.height);
     });
 }
 
@@ -967,19 +1022,19 @@
 
 - (void)image: (UIImage *) image didFinishSavingWithError: (NSError *) error contextInfo: (void *) contextInfo  {
     if(error != NULL){
-        [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"保存图片失败", nil)];
+        [SVProgressHUD showErrorWithStatus:FUNSLocalizedString(@"保存图片失败", nil)];
     }else{
-        [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"图片已保存到相册", nil)];
+        [SVProgressHUD showSuccessWithStatus:FUNSLocalizedString(@"图片已保存到相册", nil)];
     }
 }
 
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
 {
     if(error != NULL){
-        [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"保存视频失败", nil)];
+        [SVProgressHUD showErrorWithStatus:FUNSLocalizedString(@"保存视频失败", nil)];
         
     }else{
-        [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"视频已保存到相册", nil)];
+        [SVProgressHUD showSuccessWithStatus:FUNSLocalizedString(@"视频已保存到相册", nil)];
     }
 }
 
@@ -1023,6 +1078,8 @@
     if ([[NSFileManager defaultManager] fileExistsAtPath:finalPath]) {
         [[NSFileManager defaultManager] removeItemAtPath:finalPath error:nil];
     }
+    
+    NSLog(@"render control dealloc");
 }
 
 @end

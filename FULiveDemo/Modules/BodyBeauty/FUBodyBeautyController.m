@@ -76,7 +76,7 @@
     int res    = fuHumanProcessorGetNumResults();
     
     dispatch_async(dispatch_get_main_queue(), ^{
-            self.noTrackLabel.text = NSLocalizedString(@"未检测到人体",nil);
+            self.noTrackLabel.text = FUNSLocalizedString(@"未检测到人体",nil);
            self.noTrackLabel.hidden = res > 0 ? YES : NO;
     }) ;
 

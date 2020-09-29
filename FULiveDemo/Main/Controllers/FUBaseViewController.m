@@ -11,7 +11,6 @@
 #import "FULiveModel.h"
 #import <SVProgressHUD.h>
 #import <MobileCoreServices/MobileCoreServices.h>
-#import "FULightingView.h"
 #import "FUSaveViewController.h"
 #import "FUEditImageViewController.h"
 #import "FUImageHelper.h"
@@ -43,7 +42,6 @@ FUPopupMenuDelegate
 //@property (strong, nonatomic) FUItemsView *itemsView;
 
 @property (strong, nonatomic) UILabel *buglyLabel;
-@property (strong, nonatomic) FULightingView *lightingView ;
 @property (strong, nonatomic) UIImageView *adjustImage;
 /* 分辨率 选中第几个项 */
 @property (assign, nonatomic) int selIndex;
@@ -66,6 +64,10 @@ FUPopupMenuDelegate
 -(void)viewDidLoad{
     [super viewDidLoad];
     [self setupSubView];
+    
+    /* 视频模式 */
+    fuSetFaceProcessorDetectMode(1);
+    
     self.view.backgroundColor = [UIColor colorWithRed:17/255.0 green:18/255.0 blue:38/255.0 alpha:1.0];
     /* 美颜道具 */
     [[FUManager shareManager] loadFilter];
@@ -189,7 +191,7 @@ FUPopupMenuDelegate
     _noTrackLabel.textColor = [UIColor whiteColor];
     _noTrackLabel.font = [UIFont systemFontOfSize:17];
     _noTrackLabel.textAlignment = NSTextAlignmentCenter;
-    _noTrackLabel.text = NSLocalizedString(@"No_Face_Tracking", @"未检测到人脸");
+    _noTrackLabel.text = FUNSLocalizedString(@"No_Face_Tracking", @"未检测到人脸");
     [self.view addSubview:_noTrackLabel];
     [_noTrackLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self.view);
@@ -425,18 +427,18 @@ static CFAbsoluteTime adjustTime = 0 ;
 
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
     if(error != NULL){
-        [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"保存视频失败", nil)];
+        [SVProgressHUD showErrorWithStatus:FUNSLocalizedString(@"保存视频失败", nil)];
         
     }else{
-        [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"视频已保存到相册", nil)];
+        [SVProgressHUD showSuccessWithStatus:FUNSLocalizedString(@"视频已保存到相册", nil)];
     }
 }
 
 - (void)image: (UIImage *) image didFinishSavingWithError: (NSError *) error contextInfo: (void *) contextInfo{
     if(error != NULL){
-        [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"保存图片失败", nil)];
+        [SVProgressHUD showErrorWithStatus:FUNSLocalizedString(@"保存图片失败", nil)];
     }else{
-        [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"图片已保存到相册", nil)];
+        [SVProgressHUD showSuccessWithStatus:FUNSLocalizedString(@"图片已保存到相册", nil)];
     }
 }
 
@@ -570,7 +572,7 @@ static  NSTimeInterval oldTime = 0;
 -(void)displayPromptText{
     BOOL isHaveFace = [[FUManager shareManager] isTracking];
     dispatch_async(dispatch_get_main_queue(), ^{
-       self.noTrackLabel.text = NSLocalizedString(@"No_Face_Tracking",nil);
+       self.noTrackLabel.text = FUNSLocalizedString(@"No_Face_Tracking",nil);
        self.noTrackLabel.hidden = isHaveFace;
     }) ;
 }

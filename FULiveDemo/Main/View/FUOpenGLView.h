@@ -44,4 +44,7 @@ typedef NS_ENUM(NSInteger, FUOpenGLViewContentMode) {
 
 - (void)displayImageData:(void *)imageData withSize:(CGSize)size Center:(CGPoint)center Landmarks:(float *)landmarks count:(int)count;
 
+/* 同步渲染 */
+- (void)displaySyncPixelBuffer:(CVPixelBufferRef)pixelBuffer;
+
 @end

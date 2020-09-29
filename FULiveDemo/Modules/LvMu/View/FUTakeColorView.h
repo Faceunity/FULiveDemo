@@ -12,12 +12,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef void(^FUTakeColorChange)(UIColor *color);
 
+typedef void(^FUTakeColorComplete)(void);
+
 @interface FUTakeColorView : UIView
 
--(instancetype)initWithFrame:(CGRect)frame didChangeBlock:(FUTakeColorChange)block;
+@property(nonatomic,strong)UIView *perView;
+
+
+
+-(instancetype)initWithFrame:(CGRect)frame didChangeBlock:(FUTakeColorChange)block complete:(FUTakeColorComplete)complete;
 
 -(void)actionRect:(CGRect )rect;
 
+-(void)toucheSetPoint:(CGPoint)point;
 @end
 
 NS_ASSUME_NONNULL_END

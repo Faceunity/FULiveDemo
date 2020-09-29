@@ -33,7 +33,7 @@
     [self.view addSubview:imageView];
     [self.view insertSubview:imageView atIndex:1];
     
-    self.tipLabel.text = NSLocalizedString(@"对准线框 正脸拍摄", nil);
+    self.tipLabel.text = FUNSLocalizedString(@"对准线框 正脸拍摄", nil);
     self.tipLabel.font = [UIFont systemFontOfSize:13];
     self.tipLabel.hidden = NO;
     
@@ -60,12 +60,12 @@
     
     dispatch_async(dispatch_get_main_queue(), ^{
         if (![[FUManager shareManager] isGoodFace:0] || ![[FUManager shareManager] isTracking]) {
-             self.tipLabel.text = NSLocalizedString(@"对准线框，正脸拍摄",nil);
+             self.tipLabel.text = FUNSLocalizedString(@"对准线框，正脸拍摄",nil);
         }else{
             if (![[FUManager shareManager] isExaggeration:0]) {
                 self.tipLabel.text = @"nice";
             }else{
-                self.tipLabel.text = NSLocalizedString(@"请保持面部无夸张表情",nil);
+                self.tipLabel.text = FUNSLocalizedString(@"请保持面部无夸张表情",nil);
             }
         }
     });

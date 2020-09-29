@@ -711,6 +711,11 @@ __身材__：
 | "short" |矮  |
 | "fat" |胖  |
 | "thin" |瘦  |
+
+__脸型__：
+
+| param          | 含义       |
+| -------------- | ---------- |
 | "eye_narrow" | 眼睛窄  |
 | "eye_wide" |  眼睛宽 |
 | "eye_down" | 眼睛下  |
@@ -752,28 +757,71 @@ __身材__：
 | "lidOuter_up" | 外眼角上  |
 | "nose_down" | 鼻子下  |
 | "nose_up" | 鼻子上  |
-| "lowerHead_down" | 脸长  |
-| "lowerHead_up" | 脸短 |
-| "lowerHead_backward" |  脸后 |
-| "lowerHead_forward" | 脸前  |
+| "nose_backward" | 鼻子后  |
+| "nose_forward" | 鼻子前  |
+| "noseTip_down" |  鼻尖下 |
+| "noseTip_up" | 鼻尖上  |
+| "noseTip_backward" |  鼻尖后 |
+| "noseTip_forward" |  鼻尖前 |
+| "upperHead_narrow" |  脸窄 |
+| "upperHead_wide" |  脸宽 |
+| "upperHead_down" |  上脸短 |
+| "upperHead_up" | 上脸长  |
+| "upperHead_backward" | 上脸后  |
+| "upperHead_forward" | 上脸前  |
+| "lowerHead_down" | 下脸长  |
+| "lowerHead_up" | 下脸短 |
+| "lowerHead_backward" |  下脸后 |
+| "lowerHead_forward" | 下脸前  |
 | "upperJaw_narrow" | 脸颊瘦  |
 | "upperJaw_wide" | 脸颊胖  |
+| "midJaw_narrow" | 下颚瘦 |
+| "midJaw_wide" | 下颚胖 |
 | "midJaw_down" | 下颚下 |
 | "midJaw_up" | 下颚上  |
 | "lowerJaw_narrow" | 腮帮瘦  |
 | "lowerJaw_wide" | 腮帮胖  |
+| "lowerJaw_down" | 腮帮下  |
+| "lowerJaw_up" | 腮帮上  |
+| "jawLine_narrow" |  下颌角窄 |
+| "jawLine_wide" |  下颌角宽 |
+| "jawLine_down" |  下颌角下 |
+| "jawLine_up" |  下颌角上 |
 | "jawTip_narrow" |  下巴瘦 |
 | "jawTip_wide" | 下巴胖  |
 | "jawTip_down" | 下巴下  |
 | "jawTip_up" |  下巴上 |
 | "jawTip_backward" | 下巴后  |
 | "jawTip_forward" | 下巴前  |
+| "jawTip_peak_narrow" | 下巴尖窄  |
+| "jawTip_peak_wide" |  下巴尖宽 |
+| "jawTip_peak_down" |  下巴尖长 |
+| "jawTip_peak_up" |  下巴尖短 |
+| "jawTip_peak_backward" |  下巴尖后 |
+| "jawTip_peak_forward" | 下巴尖前  |
+| "lowerChin_down" |  下巴内侧下 |
+| "lowerChin_up" | 下巴内侧上  |
 | "mouth_narrow" |  嘴巴小 |
 | "mouth_wide" | 嘴巴大  |
 | "mouth_down" | 嘴巴下  |
 | "mouth_up" |  嘴巴上 |
 | "mouth_backward" |  嘴巴后 |
 | "mouth_forward" |  嘴巴前 |
+| "globalBrow_down" |  眉毛下 |
+| "globalBrow_up" |  眉毛上 |
+| "InnerBrow_down" | 内眉毛下  |
+| "InnerBrow_up" | 内眉毛上  |
+| "middleBrow_down" |  中眉毛下 |
+| "middleBrow_up" |  中眉毛上 |
+| "outerBrow_down" |  外眉毛下 |
+| "outerBrow_up" | 外眉毛上  |
+| "ear_narrow" | 耳朵小  |
+| "ear_wide" | 耳朵大  |
+| "ear_down" | 耳朵下  |
+| "ear_up" | 耳朵上  |
+| "upperEar_down" |  上耳朵下 |
+| "upperEar_up" |  上耳朵上 |
+
 ------
 
 ## 其他
@@ -875,4 +923,15 @@ fuItemGetParams(1, "{\"name\":\"get_bundle_type\", \"bundle_id\":3}");
 ```C
 //设置是否开启低质量灯光的渲染，value = 1.0代表开启，value=0.0代表不开启
 fuItemSetParamd(1, "low_quality_lighting", 1.0);
+```
+##### 更新贴图（从RGBA Buffer创建贴图）
+```C
+//参数名为json结构
+{
+    "name":"update_tex_from_data", //字符串， 固定
+    "UUID":0, //整数，目标道具的handle id，如果设置UUID = 0，则表示目标道具是头
+    "dc_name":"eyeL", //字符串，目标mesh的名字
+}
+
+fuCreateTexForItem(1, "{\"name\":\"update_tex_from_data\", \"UUID\":0, \"dc_name\":\"eyel\"}", __pointer data, int width, int height);
 ```

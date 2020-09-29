@@ -69,7 +69,7 @@
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.frame = CGRectMake(25, 81, self.frame.size.width-50, 50);
         [btn setImage:[UIImage imageNamed:@"demo_icon_add_to"] forState:UIControlStateNormal];
-        [btn setTitle:NSLocalizedString(@"载入图片或视频", nil)  forState:UIControlStateNormal];
+        [btn setTitle:FUNSLocalizedString(@"载入图片或视频", nil)  forState:UIControlStateNormal];
         [btn addTarget:self action:@selector(didClickBtn) forControlEvents:UIControlEventTouchUpInside];
         btn.titleLabel.font = [UIFont systemFontOfSize:13];
         btn.titleLabel.textAlignment = NSTextAlignmentLeft;

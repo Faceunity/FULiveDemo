@@ -57,7 +57,7 @@
 /* 初始化 */
 -(void)initializationView{
 
-    [_OKBtn setTitle:NSLocalizedString(@"知道了", nil) forState:UIControlStateNormal];
+    [_OKBtn setTitle:FUNSLocalizedString(@"知道了", nil) forState:UIControlStateNormal];
     
     /* loading gif */
     NSData *loadingData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"loading.gif" ofType:nil]];
@@ -137,9 +137,9 @@
             if (![self isGoodFace:0]) {
                 self.mNoFaceView.hidden = NO;
                 if (_PushFrom == FUEditImagePushFromPhoto) {
-                    self.mTextLabel.text = NSLocalizedString(@"人脸偏转角度过大，请重新拍摄",nil);
+                    self.mTextLabel.text = FUNSLocalizedString(@"人脸偏转角度过大，请重新拍摄",nil);
                 }else{
-                    self.mTextLabel.text = NSLocalizedString(@"人脸偏转角度过大，请重新选择",nil);
+                    self.mTextLabel.text = FUNSLocalizedString(@"人脸偏转角度过大，请重新选择",nil);
                 }
                 CFRelease(photoDataFromImageDataProvider);
                 return;
@@ -195,9 +195,9 @@
         [[FUManager shareManager] setPosterItemParamImage:posterImage photo:photoImage photoLandmarks:photoLandmarks warpValue:warpValue];
         
         /* 融合的时候不加 美颜 */
-        [[FUManager shareManager] removeNamaRenderWithType:FUNamaHandleTypeBeauty];
+        [[FUManager shareManager] preventRenderingAarray:@[@(FUNamaHandleTypeBeauty)]];
         posterImagen = [[FUManager shareManager] renderItemsToImage:posterImagen];
-        [[FUManager shareManager] rejoinNamaRenderWithType:FUNamaHandleTypeBeauty];
+        [[FUManager shareManager] preventRenderingAarray:nil];
         
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -222,9 +222,9 @@
             if (![self isGoodFace:index]) {
                 self.mNoFaceView.hidden = NO;
                 if (_PushFrom == FUEditImagePushFromPhoto) {
-                    self.mTextLabel.text = NSLocalizedString(@"人脸偏转角度过大，请重新拍摄",nil);
+                    self.mTextLabel.text = FUNSLocalizedString(@"人脸偏转角度过大，请重新拍摄",nil);
                 }else{
-                    self.mTextLabel.text = NSLocalizedString(@"人脸偏转角度过大，请重新选择",nil);
+                    self.mTextLabel.text = FUNSLocalizedString(@"人脸偏转角度过大，请重新选择",nil);
                 }
                 return;
             }
@@ -250,7 +250,7 @@
     [self.maskView addGestureRecognizer:tap];
     
     UIButton *tipBtn = [[UIButton alloc] initWithFrame:CGRectMake((_maskView.frame.size.width - 200)/2, 0, 200, 40)];
-    [tipBtn setTitle:NSLocalizedString(@"检测到多人，请选择一人进行换脸", nil)  forState:UIControlStateNormal];
+    [tipBtn setTitle:FUNSLocalizedString(@"检测到多人，请选择一人进行换脸", nil)  forState:UIControlStateNormal];
     [tipBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     tipBtn.titleLabel.font = [UIFont systemFontOfSize:12];
     tipBtn.contentEdgeInsets = UIEdgeInsetsMake(6, 0, 0, 0);
@@ -319,9 +319,9 @@
     self.mImageView.image = mPhotoImage;
     
     if (_PushFrom == FUEditImagePushFromAlbum) {
-        _mTextLabel.text = NSLocalizedString(@"未检测出人脸，请重新上传",nil);
+        _mTextLabel.text = FUNSLocalizedString(@"未检测出人脸，请重新上传",nil);
     }else{
-        _mTextLabel.text = NSLocalizedString(@"未检测出人脸，请重新拍摄",nil); 
+        _mTextLabel.text = FUNSLocalizedString(@"未检测出人脸，请重新拍摄",nil); 
     }
 
 }
@@ -340,7 +340,7 @@
     
     if (_mImageView.image) {
         if (_isSave) {
-             [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"图片已保存到相册", nil)];
+             [SVProgressHUD showSuccessWithStatus:FUNSLocalizedString(@"图片已保存到相册", nil)];
             return;
         }
         UIImageWriteToSavedPhotosAlbum(_mImageView.image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
@@ -360,10 +360,10 @@
 - (void)image: (UIImage *) image didFinishSavingWithError: (NSError *) error contextInfo: (void *) contextInfo
 {
     if(error != NULL){
-        [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"保存图片失败", nil)];
+        [SVProgressHUD showErrorWithStatus:FUNSLocalizedString(@"保存图片失败", nil)];
     }else{
         _isSave = YES;
-        [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"图片已保存到相册", nil)];
+        [SVProgressHUD showSuccessWithStatus:FUNSLocalizedString(@"图片已保存到相册", nil)];
     }
 }
 

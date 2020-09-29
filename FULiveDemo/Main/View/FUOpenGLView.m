@@ -400,6 +400,40 @@ enum
     
 }
 
+- (void)displaySyncPixelBuffer:(CVPixelBufferRef)pixelBuffer
+{
+    if (pixelBuffer == NULL) return;
+    
+    CVPixelBufferRetain(pixelBuffer);
+    CVPixelBufferLockBaseAddress(pixelBuffer, 0);
+//    dispatch_async(_contextQueue, ^{  //dispatch_sync  iphone8p 可能死锁
+        self->frameWidth = (int)CVPixelBufferGetWidth(pixelBuffer);
+        self->frameHeight = (int)CVPixelBufferGetHeight(pixelBuffer);
+        
+        if ([EAGLContext currentContext] != self.glContext) {
+            if (![EAGLContext setCurrentContext:self.glContext]) {
+                NSLog(@"fail to setCurrentContext");
+            }
+        }
+        
+        [self setDisplayFramebuffer];
+        
+        OSType type = CVPixelBufferGetPixelFormatType(pixelBuffer);
+        if (type == kCVPixelFormatType_32BGRA)
+        {
+            [self prepareToDrawBGRAPixelBuffer:pixelBuffer];
+            
+        }else{
+            [self prepareToDrawYUVPixelBuffer:pixelBuffer];
+        }
+        
+        [self presentFramebuffer];
+        
+        CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
+        CVPixelBufferRelease(pixelBuffer);
+//    });
+}
+
 - (void)displayImageData:(void *)imageData withSize:(CGSize)size{
     
     frameWidth = (int)size.width;
@@ -431,7 +465,7 @@ enum
     
     glUseProgram(rgbaProgram);
     
-    glClearColor(248/255.0f, 248/255.0f, 248/255.0f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     
     glActiveTexture(GL_TEXTURE1);
@@ -490,7 +524,7 @@ enum
     
     glUseProgram(rgbaProgram);
     
-    glClearColor(248/255.0f, 248/255.0f, 248/255.0f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);;
     glClear(GL_COLOR_BUFFER_BIT);
     
     glActiveTexture(GL_TEXTURE1);
@@ -626,7 +660,7 @@ enum
     
     glUseProgram(rgbaProgram);
     
-    glClearColor(248/255.0f, 248/255.0f, 248/255.0f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);;
     glClear(GL_COLOR_BUFFER_BIT);
     
     glActiveTexture(GL_TEXTURE1);

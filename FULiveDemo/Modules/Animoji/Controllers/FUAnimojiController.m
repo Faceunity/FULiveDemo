@@ -58,7 +58,7 @@
    // [[FUManager shareManager] loadFilterAnimoji:@"fuzzytoonfilter" style:0];//默认开启动漫
     
     __weak typeof(self)weakSelf  = self ;
-    _segmentBarView = [[FUSegmentBarView alloc] initWithFrame:CGRectMake(0, 200,[UIScreen mainScreen].bounds.size.width, 49) titleArray:@[@"Animoji",NSLocalizedString(@"动漫滤镜",nil)] selBlock:^(int index) {
+    _segmentBarView = [[FUSegmentBarView alloc] initWithFrame:CGRectMake(0, 200,[UIScreen mainScreen].bounds.size.width, 49) titleArray:@[@"Animoji",FUNSLocalizedString(@"动漫滤镜",nil)] selBlock:^(int index) {
         if (index == 0) {
             weakSelf.itemsView.selectedItem = weakSelf.selAnmoji;
             [weakSelf.itemsView updateCollectionArray:weakSelf.model.items];

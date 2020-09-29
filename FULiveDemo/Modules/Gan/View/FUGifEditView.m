@@ -82,8 +82,8 @@
     [_playBtn setImage:[UIImage imageNamed:@"icon_gan_play_nor"] forState:UIControlStateNormal];
     [_playBtn setImage:[UIImage imageNamed:@"icon_gan_play_sel"] forState:UIControlStateHighlighted];
     [_playBtn setImage:[UIImage imageNamed:@"icon_gan_play_sel"] forState:UIControlStateSelected];
-    NSMutableAttributedString *string1 = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"播放",nil) attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:10],NSForegroundColorAttributeName: [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0]}];
-    [_playBtn setTitle:NSLocalizedString(@"播放",nil) forState:UIControlStateNormal];
+    NSMutableAttributedString *string1 = [[NSMutableAttributedString alloc] initWithString:FUNSLocalizedString(@"播放",nil) attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:10],NSForegroundColorAttributeName: [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0]}];
+    [_playBtn setTitle:FUNSLocalizedString(@"播放",nil) forState:UIControlStateNormal];
     [_playBtn addTarget:self action:@selector(play:) forControlEvents:UIControlEventTouchUpInside];
     _playBtn.titleLabel.attributedText = string1;
     [self addSubview:_playBtn];
@@ -92,10 +92,10 @@
     [_quickenBtn setImage:[UIImage imageNamed:@"icon_gan_accelerate"] forState:UIControlStateNormal];
      [_quickenBtn setImage:[UIImage imageNamed:@"icon_gan_accelerate_sel"] forState:UIControlStateHighlighted];
      [_quickenBtn setImage:[UIImage imageNamed:@"icon_gan_accelerate_sel"] forState:UIControlStateSelected];
-    NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"加速",nil)  attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:10],NSForegroundColorAttributeName: [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0]}];
+    NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:FUNSLocalizedString(@"加速",nil)  attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:10],NSForegroundColorAttributeName: [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0]}];
     _quickenBtn.titleLabel.attributedText = string2;
     [_quickenBtn addTarget:self action:@selector(quickenPlay:) forControlEvents:UIControlEventTouchUpInside];
-    [_quickenBtn setTitle:NSLocalizedString(@"加速",nil) forState:UIControlStateNormal];
+    [_quickenBtn setTitle:FUNSLocalizedString(@"加速",nil) forState:UIControlStateNormal];
     [self addSubview:_quickenBtn];
     
     _delBtn = [[UIButton alloc] init];
@@ -139,12 +139,12 @@
 -(void)delImage:(UIButton *)btn{
     UIAlertController *alertCon = [UIAlertController alertControllerWithTitle:nil message:@"确定删除所选中的图片？" preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"取消",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:FUNSLocalizedString(@"取消",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
     }];
     [cancleAction setValue:[UIColor colorWithRed:44/255.f green:46/255.f blue:48/255.f alpha:1] forKey:@"titleTextColor"];
     
-    UIAlertAction *certainAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"确定",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *certainAction = [UIAlertAction actionWithTitle:FUNSLocalizedString(@"确定",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         UIImageView *imageView = [self viewWithTag:tagType + _willDelIndex];
         [_imageArr removeObjectAtIndex:_willDelIndex];
         if (imageView == _selImageView || !_selImageView) {

@@ -68,8 +68,8 @@ typedef NS_ENUM(NSUInteger, FUHairModel) {
     
    /* 美发模式切换 */
 //    FUSwitch *swit = [[FUSwitch alloc] initWithFrame:CGRectMake(60, 150, 86, 32) onColor:[UIColor colorWithRed:31 / 255.0 green:178 / 255.0 blue:255 / 255.0 alpha:1.0] offColor:[UIColor colorWithRed:31 / 255.0 green:178 / 255.0 blue:255 / 255.0 alpha:1.0] font:[UIFont systemFontOfSize:13] ballSize:30];
-//    swit.onText = NSLocalizedString(@"高精版", nil);
-//    swit.offText = NSLocalizedString(@"极速版", nil);
+//    swit.onText = FUNSLocalizedString(@"高精版", nil);
+//    swit.offText = FUNSLocalizedString(@"极速版", nil);
 //    swit.on = YES;
 //    [swit addTarget:self action:@selector(switchSex:) forControlEvents:UIControlEventTouchUpInside];
 //    [self.view addSubview:swit];

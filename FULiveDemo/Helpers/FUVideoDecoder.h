@@ -30,6 +30,11 @@ typedef void(^videoDecoderCallBack)(CVPixelBufferRef pixelBuffer);
 /* 结束解码，注意 解码需要调用该函数，类对象才会销毁 */
 -(void)videoStopRending;
 
+-(void)setupVideoDecoder:(NSURL *)url;
+
+/* 继续 */
+-(void)continueReading;
+
 @end
 
 NS_ASSUME_NONNULL_END

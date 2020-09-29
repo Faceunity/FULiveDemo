@@ -60,7 +60,7 @@ static NSString *positionCellID = @"positionCell";
     [self addSubview:_slider];
     
     _btn = [[FUSquareButton alloc] initWithFrame:CGRectMake(17, CGRectGetMaxY(_slider.frame) + 18, 50, 60) interval:6];
-    [_btn setTitle:NSLocalizedString(@"恢复",nil)  forState:UIControlStateNormal];
+    [_btn setTitle:FUNSLocalizedString(@"恢复",nil)  forState:UIControlStateNormal];
     [_btn setImage:[UIImage imageNamed:@"恢复-0"] forState:UIControlStateNormal];
     [_btn addTarget:self action:@selector(restAcetion:) forControlEvents:UIControlEventTouchUpInside];
     self.btn.alpha = 0.5;
@@ -103,15 +103,15 @@ static NSString *positionCellID = @"positionCell";
         return;
     }
     
-    UIAlertController *alertCon = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"是否将所有参数恢复到默认值",nil) preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertCon = [UIAlertController alertControllerWithTitle:nil message:FUNSLocalizedString(@"是否将所有参数恢复到默认值",nil) preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"取消",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:FUNSLocalizedString(@"取消",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         self.btn.alpha = 1.0;
     }];
     [cancleAction setValue:[UIColor colorWithRed:44/255.0 green:46/255.0 blue:48/255.0 alpha:1.0] forKey:@"titleTextColor"];
     
     __weak typeof(self)weakSelf = self ;
-    UIAlertAction *certainAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"确定",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *certainAction = [UIAlertAction actionWithTitle:FUNSLocalizedString(@"确定",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         for (FUPosition *position in _dataArray) {
             if (position.type == FUPositionTypeshoulder) {//不同的样式
                 position.value = 0.5;
@@ -156,7 +156,7 @@ static NSString *positionCellID = @"positionCell";
     FUPositionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:positionCellID forIndexPath:indexPath];
     FUPosition *modle = _dataArray[indexPath.row];
     cell.topImage.image = [self getIconImage:modle];
-    cell.botlabel.text = NSLocalizedString(modle.name,nil);
+    cell.botlabel.text = FUNSLocalizedString(modle.name,nil);
 
     return cell;
 }

@@ -18,6 +18,19 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    NSArray  *languages = [NSLocale preferredLanguages];
+     //判断当前系统语言
+     NSString *language = [languages objectAtIndex:0];
+     if ([language hasPrefix:@"zh-Hans"]) {
+         //我这里的需求是，如果不是中文，则APP语言都显示成英文，
+         //先把它存在NSUserDefaults中
+         [[NSUserDefaults standardUserDefaults] setObject:@"zh-Hans" forKey:@"appLanguage"];
+     } else{
+         //en.lproj 是英文资源包的文件名字
+         [[NSUserDefaults standardUserDefaults] setObject:@"en" forKey:@"appLanguage"];
+     }
+    
     [UIApplication sharedApplication].idleTimerDisabled = YES;
     [SVProgressHUD setMinimumDismissTimeInterval:1.5];
     return YES;

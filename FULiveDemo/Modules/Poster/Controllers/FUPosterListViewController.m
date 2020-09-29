@@ -30,7 +30,7 @@ static NSString *registerID = @"PosterCell";
     // Do any additional setup after loading the view.
 
 
-    _titleLabel.text = NSLocalizedString(@"海报换脸", nil);
+    _titleLabel.text = FUNSLocalizedString(@"海报换脸", nil);
     
     self.view.backgroundColor = [UIColor colorWithRed:9/255 green:0 blue:23/255 alpha:1.0];
     _mPosterCollectionView.backgroundColor = [UIColor colorWithRed:9/255 green:0 blue:23/255 alpha:1.0];

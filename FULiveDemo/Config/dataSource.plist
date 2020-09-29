@@ -406,6 +406,22 @@
 				<string>ssd_thread_cute</string>
 			</array>
 		</dict>
+		<dict>
+			<key>itemName</key>
+			<string>绿幕抠像</string>
+			<key>maxFace</key>
+			<integer>4</integer>
+			<key>enble</key>
+			<false/>
+			<key>itemType</key>
+			<integer>17</integer>
+			<key>conpareCode</key>
+			<integer>0</integer>
+			<key>modules</key>
+			<array>
+				<integer>65536</integer>
+			</array>
+		</dict>
 	</array>
 </array>
 </plist>

@@ -103,7 +103,7 @@
     self.titleLabel.frame = CGRectMake(145.5,13.5,83.5,16.5);
     self.titleLabel.numberOfLines = 0;
     [self.view addSubview:self.titleLabel];
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"一键变表情", nil) attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:17],NSForegroundColorAttributeName: [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0]}];
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:FUNSLocalizedString(@"一键变表情", nil) attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:17],NSForegroundColorAttributeName: [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0]}];
     
     self.titleLabel.attributedText = string;
     
@@ -118,7 +118,7 @@
     _tipView.center = self.view.center;
     _tipView.hidden = YES;
     __weak typeof(self)weakSelf = self ;
-    [_tipView.OKBtn  setTitle:NSLocalizedString(@"知道了", nil) forState:UIControlStateNormal];
+    [_tipView.OKBtn  setTitle:FUNSLocalizedString(@"知道了", nil) forState:UIControlStateNormal];
     _tipView.didClick = ^(int index) {
         [weakSelf.navigationController popToViewController:weakSelf.navigationController.viewControllers[1] animated:YES];
     };
@@ -201,16 +201,16 @@
     if ([FURenderer isTracking] > 0) {
         if (![[FUManager shareManager] isGoodFace:0]) {
             if (_pushFrom == FUGanEditImagePushFromPhoto) {
-                _tipView.mTextLabel.text = NSLocalizedString(@"人脸偏转角度过大，请重新拍摄",nil);
+                _tipView.mTextLabel.text = FUNSLocalizedString(@"人脸偏转角度过大，请重新拍摄",nil);
             }else{
-                _tipView.mTextLabel.text = NSLocalizedString(@"人脸偏转角度过大，请重新选择",nil);
+                _tipView.mTextLabel.text = FUNSLocalizedString(@"人脸偏转角度过大，请重新选择",nil);
             }
             _tipView.hidden = NO;
             CFRelease(photoDataFromImageDataProvider);
             return;
         }
         if ([[FUManager shareManager] isExaggeration:0]) {
-            _tipView.mTextLabel.text = NSLocalizedString(@"人脸表情夸张，请正脸拍摄",nil);
+            _tipView.mTextLabel.text = FUNSLocalizedString(@"人脸表情夸张，请正脸拍摄",nil);
             _tipView.hidden = NO;
             CFRelease(photoDataFromImageDataProvider);
             return;
@@ -218,9 +218,9 @@
         
     }else{
         if (_pushFrom == FUGanEditImagePushFromPhoto) {
-            _tipView.mTextLabel.text = NSLocalizedString(@"未检测出人脸，请重新拍摄",nil);
+            _tipView.mTextLabel.text = FUNSLocalizedString(@"未检测出人脸，请重新拍摄",nil);
         }else{
-            _tipView.mTextLabel.text = NSLocalizedString(@"未检测出人脸，请重新选择",nil);
+            _tipView.mTextLabel.text = FUNSLocalizedString(@"未检测出人脸，请重新选择",nil);
         }
         _tipView.hidden = NO;
         CFRelease(photoDataFromImageDataProvider);
@@ -269,14 +269,14 @@
 #pragma  mark ----  UI事件  -----
 -(void)backBtnClick:(UIButton *)btn{
     
-    UIAlertController *alertCon = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"返回后当前操作将不会保存哦",nil) preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertCon = [UIAlertController alertControllerWithTitle:nil message:FUNSLocalizedString(@"返回后当前操作将不会保存哦",nil) preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"取消",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:FUNSLocalizedString(@"取消",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
     }];
     [cancleAction setValue:[UIColor colorWithRed:44/255.f green:46/255.f blue:48/255.f alpha:1] forKey:@"titleTextColor"];
     
-    UIAlertAction *certainAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"确定",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *certainAction = [UIAlertAction actionWithTitle:FUNSLocalizedString(@"确定",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self.navigationController popToViewController:self.navigationController.viewControllers[1] animated:YES];
     }];
     [certainAction setValue:[UIColor colorWithRed:134/255.f green:157/255.f blue:255/255.f alpha:1] forKey:@"titleTextColor"];
@@ -880,7 +880,7 @@
 #pragma  mark ----  合成表情  -----
 
 -(void)syntheticExpressionPhoto:(UIImage *)image expressionIndex:(int)index{
-    [SVProgressHUD showWithStatus:NSLocalizedString(@"正在处理图片", nil)];
+    [SVProgressHUD showWithStatus:FUNSLocalizedString(@"正在处理图片", nil)];
     //AFN3.0+基于封住HTPPSession的句柄
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer]; // 响应

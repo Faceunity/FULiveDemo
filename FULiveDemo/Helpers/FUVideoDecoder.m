@@ -34,6 +34,7 @@
         _isRepeat = repeat;
         _mUrl  = url;
         _fps = fps;
+        [self videoStartReading];
     }
     return self;
 }
@@ -67,6 +68,7 @@
         @autoreleasepool {
             if (_assetReader.status == AVAssetReaderStatusReading) {
                 
+                if(!_isRun) return;
                 // 读取video sample
                 CMSampleBufferRef videoBuffer = [_videoReaderOutput copyNextSampleBuffer];
                 
@@ -100,9 +102,9 @@
     if (_isRun) {
         return;
     }
+    _isRun = YES;
+    [self setupVideoDecoder:_mUrl];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        _isRun = YES;
-        [self setupVideoDecoder:_mUrl];
         [self runVideoDecoder];
     });
 }
@@ -111,13 +113,18 @@
     _isRun = NO;
     [_assetReader cancelReading];
     _assetReader = nil;
+}
 
+/* 继续 */
+-(void)continueReading
+{
+   [self setupVideoDecoder:_mUrl];
 }
 
 
 - (void)dealloc
 {
-    NSLog(@"video  dealloc");
+    NSLog(@"解码器销毁了video dealloc");
 }
 
 

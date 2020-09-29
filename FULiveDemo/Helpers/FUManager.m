@@ -38,6 +38,8 @@
 @property (nonatomic, strong)NSArray *deviceOrientationItems;
 /* 3d 渲染后图片转正 */
 @property (nonatomic, strong) FURotatedImage *mRotatedImage;
+
+@property (nonatomic, strong) NSArray <NSNumber *> *preventRenderingArray;
 @end
 
 static FUManager *shareManager = NULL;
@@ -103,11 +105,13 @@ static FUManager *shareManager = NULL;
         fuSetFaceTrackParam((char *)[@"mouth_expression_more_flexible" UTF8String], &flexible);
 
         /* 带屏幕方向的道具 */
-        self.deviceOrientationItems = @[@"ctrl_rain",@"ctrl_snow",@"ctrl_flower",@"ssd_thread_six"];
+        self.deviceOrientationItems = @[@"ctrl_rain",@"ctrl_snow",@"ctrl_flower",@"ssd_thread_six",@"ssd_thread_cute"];
         
         _mRotatedImage = [[FURotatedImage alloc] init];
         
         NSLog(@"faceunitySDK version:%@",[FURenderer getVersion]);
+        
+//        fuSetLogLevel(0);
     }
     
     return self;
@@ -120,7 +124,7 @@ static FUManager *shareManager = NULL;
     NSData *ai_face_processor = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ai_face_processor.bundle" ofType:nil]];
     [FURenderer loadAIModelFromPackage:(void *)ai_face_processor.bytes size:(int)ai_face_processor.length aitype:FUAITYPE_FACEPROCESSOR];
     
-    NSData *ai_gesture = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ai_gesture.bundle" ofType:nil]];
+    NSData *ai_gesture = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ai_hand_processor.bundle" ofType:nil]];
     [FURenderer loadAIModelFromPackage:(void *)ai_gesture.bytes size:(int)ai_gesture.length aitype:FUAITYPE_HANDGESTURE];
 //
 }
@@ -211,11 +215,11 @@ static FUManager *shareManager = NULL;
 }
 
 -(void)setupShapData{
-   NSArray *prams = @[@"cheek_thinning",@"cheek_v",@"cheek_narrow",@"cheek_small",@"eye_enlarging",@"intensity_chin",@"intensity_forehead",@"intensity_nose",@"intensity_mouth",@"intensity_canthus",@"intensity_eye_space",@"intensity_eye_rotate",@"intensity_long_nose",@"intensity_philtrum",@"intensity_smile"];
-    NSDictionary *titelDic = @{@"cheek_thinning":@"瘦脸",@"cheek_v":@"v脸",@"cheek_narrow":@"窄脸",@"cheek_small":@"小脸",@"eye_enlarging":@"大眼",@"intensity_chin":@"下巴",
+   NSArray *prams = @[@"cheek_thinning",@"cheek_v",@"cheek_narrow",@"cheek_small",@"intensity_cheekbones",@"intensity_lower_jaw",@"eye_enlarging",@"intensity_chin",@"intensity_forehead",@"intensity_nose",@"intensity_mouth",@"intensity_canthus",@"intensity_eye_space",@"intensity_eye_rotate",@"intensity_long_nose",@"intensity_philtrum",@"intensity_smile"];
+    NSDictionary *titelDic = @{@"cheek_thinning":@"瘦脸",@"cheek_v":@"v脸",@"cheek_narrow":@"窄脸",@"cheek_small":@"小脸",@"intensity_cheekbones":@"瘦颧骨",@"intensity_lower_jaw":@"瘦下颌骨",@"eye_enlarging":@"大眼",@"intensity_chin":@"下巴",
                                @"intensity_forehead":@"额头",@"intensity_nose":@"瘦鼻",@"intensity_mouth":@"嘴型",@"intensity_canthus":@"开眼角",@"intensity_eye_space":@"眼距",@"intensity_eye_rotate":@"眼睛角度",@"intensity_long_nose":@"长鼻",@"intensity_philtrum":@"缩人中",@"intensity_smile":@"微笑嘴角"
     };
-   NSDictionary *defaultValueDic = @{@"cheek_thinning":@(0),@"cheek_v":@(0.5),@"cheek_narrow":@(0),@"cheek_small":@(0),@"eye_enlarging":@(0.4),@"intensity_chin":@(0.3),
+   NSDictionary *defaultValueDic = @{@"cheek_thinning":@(0),@"cheek_v":@(0.5),@"cheek_narrow":@(0),@"cheek_small":@(0),@"intensity_cheekbones":@(0),@"intensity_lower_jaw":@(0),@"eye_enlarging":@(0.4),@"intensity_chin":@(0.3),
                               @"intensity_forehead":@(0.3),@"intensity_nose":@(0.5),@"intensity_mouth":@(0.4),@"intensity_canthus":@(0),@"intensity_eye_space":@(0.5),@"intensity_eye_rotate":@(0.5),@"intensity_long_nose":@(0.5),@"intensity_philtrum":@(0.5),@"intensity_smile":@(0)
    };
    
@@ -262,6 +266,7 @@ static FUManager *shareManager = NULL;
         [FURenderer onCameraChange];
         /**销毁道具后，清除context缓存*/
         [FURenderer OnDeviceLost];
+        
     });
 }
 
@@ -332,24 +337,9 @@ static FUManager *shareManager = NULL;
     });
 }
 
-/// 将道具句柄移除nama 渲染，注意：b该操作不会销毁道具
-/// @param type 句柄索引
--(void)removeNamaRenderWithType:(FUNamaHandleType)type{
-       if (items[type] == 0) {
-           return;
-       }
-       oldItems[type] = items[type];
-       items[type] = 0;
-}
-
-/// 将移除的道具句柄，重新加入，渲染出效果
-/// @param type 句柄索引
--(void)rejoinNamaRenderWithType:(FUNamaHandleType)type{
-    if (oldItems[type] == 0) {
-        return;
-    }
-    items[type] = oldItems[type];
-    oldItems[type] = 0;
+/* 跳过渲染的道具 */
+-(void)preventRenderingAarray:(NSArray <NSNumber *>*)array{
+    _preventRenderingArray = array;
 }
 
 
@@ -644,9 +634,25 @@ static FUManager *shareManager = NULL;
 //    [FURenderer itemSetParamdv:items[FUNamaHandleTypeItem] withName:@"motion_rotation" value:aaa length:4];
     /**设置美颜参数*/
 
-    /*Faceunity核心接口，将道具及美颜效果绘制到pixelBuffer中，执行完此函数后pixelBuffer即包含美颜及贴纸效果*/
-
-    CVPixelBufferRef buffer = [[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:sizeof(items)/sizeof(int) flipx:YES];//flipx 参数设为YES可以使道具做水平方向的镜像翻转
+    /**设置美颜参数*/
+     CVPixelBufferRef buffer = nil;
+     
+     if (_preventRenderingArray.count > 0) {
+         int tempItems[FUNamaHandleTotal] = {0};
+         for (int i = 0; i < FUNamaHandleTotal; i++) {
+             tempItems[i] = items[i];
+         }
+         for (NSNumber *number in _preventRenderingArray) {
+             int index = [number intValue];
+             tempItems[index] = 0;
+         }
+         /*Faceunity核心接口，将道具及美颜效果绘制到pixelBuffer中，执行完此函数后pixelBuffer即包含美颜及贴纸效果*/
+         buffer =  [[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:tempItems itemCount:sizeof(tempItems)/sizeof(int) flipx:YES];//flipx 参数设为YES可以使道具做水平方向的镜像翻转
+         
+     }else{
+         /*Faceunity核心接口，将道具及美颜效果绘制到pixelBuffer中，执行完此函数后pixelBuffer即包含美颜及贴纸效果*/
+         buffer = [[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:sizeof(items)/sizeof(int) flipx:YES];//flipx 参数设为YES可以使道具做水平方向的镜像翻转
+     }
     frameID += 1;
     
     return buffer;
@@ -693,7 +699,20 @@ static FUManager *shareManager = NULL;
     CFDataRef dataFromImageDataProvider = CGDataProviderCopyData(CGImageGetDataProvider(image.CGImage));
     GLubyte *imageData = (GLubyte *)CFDataGetBytePtr(dataFromImageDataProvider);
     
-    [[FURenderer shareRenderer] renderItems:imageData inFormat:FU_FORMAT_RGBA_BUFFER outPtr:imageData outFormat:FU_FORMAT_RGBA_BUFFER width:postersWidth height:postersHeight frameId:frameID items:items itemCount:sizeof(items)/sizeof(int) flipx:YES];
+    if (_preventRenderingArray.count > 0) {
+        int tempItems[FUNamaHandleTotal] = {0};
+        for (int i = 0; i < FUNamaHandleTotal; i++) {
+            tempItems[i] = items[i];
+        }
+        for (NSNumber *number in _preventRenderingArray) {
+            int index = [number intValue];
+            tempItems[index] = 0;
+        }
+        [[FURenderer shareRenderer] renderItems:imageData inFormat:FU_FORMAT_RGBA_BUFFER outPtr:imageData outFormat:FU_FORMAT_RGBA_BUFFER width:postersWidth height:postersHeight frameId:frameID items:tempItems itemCount:sizeof(tempItems)/sizeof(int) flipx:YES];
+        
+    }else{
+        [[FURenderer shareRenderer] renderItems:imageData inFormat:FU_FORMAT_RGBA_BUFFER outPtr:imageData outFormat:FU_FORMAT_RGBA_BUFFER width:postersWidth height:postersHeight frameId:frameID items:items itemCount:sizeof(items)/sizeof(int) flipx:YES];
+    }
     
     frameID++;
     /* 转回image */

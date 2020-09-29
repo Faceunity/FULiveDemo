@@ -9,9 +9,15 @@
 #import <UIKit/UIKit.h>
 #import <Masonry.h>
 #import "FUBeautyParam.h"
+#import "FUTakeColorView.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
+
+typedef NS_ENUM(NSUInteger, FUTakeColorState) {
+    FUTakeColorStateRunning,
+    FUTakeColorStateStop,
+};
 
 @class FULvMuView;
 @protocol FULvMuViewDelegate <NSObject>
@@ -24,6 +30,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)didSelectedParam:(FUBeautyParam *)param;
 
+
+-(void)takeColorState:(FUTakeColorState)state;
+
 @end
 
 
@@ -34,6 +43,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSInteger colorSelectedIndex ;
 
 @property (nonatomic, strong) NSMutableArray <FUBeautyParam *>*dataArray;
+
+@property (strong, nonatomic) FUTakeColorView *mTakeColorView;
+
+@property (assign, nonatomic) BOOL isHidenTop;
 
 -(void)destoryLvMuView;
 
@@ -51,7 +64,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 @interface FULvMuColorCell : UICollectionViewCell
-@property (nonatomic, strong) UIImageView *imageView ;
+@property (nonatomic, strong) UIImageView *imageView;
+@property (nonatomic, strong) UIImageView *bgImageView ;
 @property (nonatomic, strong) UILabel *titleLabel ;
 
 @property (nonatomic, strong) UIColor *color;

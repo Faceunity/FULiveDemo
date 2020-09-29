@@ -518,6 +518,12 @@ __attribute__((visibility("default"))) @interface FURenderer : NSObject
 + (void)OnDeviceLost;
 
 /**
+ 销毁所有道具时需调用的接口：
+ - 销毁所有道具时需要调用该接口，我们仅销毁Cpu资源
+ */
++ (void)OnDeviceLostSafe;
+
+/**
  通过道具二进制文件创建道具：
      - 通过道具二进制文件创建道具句柄
 

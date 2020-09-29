@@ -16,6 +16,11 @@
 @end
 
 @implementation FUPosterController
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    /* 视频模式 */
+    fuSetFaceProcessorDetectMode(1);
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -24,6 +29,8 @@
     [self setupView];
     
     self.headButtonView.selectedImageBtn.hidden = NO;
+    
+    [self.headButtonView.selectedImageBtn setImage:[UIImage imageNamed:@"相册icon"] forState:UIControlStateNormal];
 }
 
 -(void)setupView{
@@ -36,7 +43,7 @@
     [self.view addSubview:imageView];
     [self.view insertSubview:imageView atIndex:1];
     
-    self.tipLabel.text = NSLocalizedString(@"对准线框 正脸拍摄", nil);
+    self.tipLabel.text = FUNSLocalizedString(@"对准线框 正脸拍摄", nil);
     self.tipLabel.font = [UIFont systemFontOfSize:13];
     self.tipLabel.hidden = NO;
     [self.tipLabel mas_remakeConstraints:^(MASConstraintMaker *make) {

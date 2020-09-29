@@ -25,6 +25,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    /* 图片模式 */
+    fuSetFaceProcessorDetectMode(0);
     // Do any additional setup after loading the view from its nib.
     [self prefersStatusBarHidden];
     [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
@@ -109,14 +112,14 @@
     
     if ([FURenderer isTracking] > 0) {
         if (![self isGoodFace:0]) {
-            _tipView.mTextLabel.text = NSLocalizedString(@"人脸偏转角度过大，请重新拍摄",nil);
+            _tipView.mTextLabel.text = FUNSLocalizedString(@"人脸偏转角度过大，请重新拍摄",nil);
             _tipView.hidden = NO;
             CFRelease(photoDataFromImageDataProvider);
             return NO;
         }
     }else{
        
-        _tipView.mTextLabel.text = NSLocalizedString(@"未检测出人脸，请重新拍摄",nil);
+        _tipView.mTextLabel.text = FUNSLocalizedString(@"未检测出人脸，请重新拍摄",nil);
         _tipView.hidden = NO;
         CFRelease(photoDataFromImageDataProvider);
         return NO;
