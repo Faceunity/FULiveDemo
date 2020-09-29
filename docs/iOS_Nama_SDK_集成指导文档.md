@@ -418,22 +418,27 @@ red_level 取值范围 0.0-2.0,0.0为无效果，2.0为最大效果，默认值0
 
 #### 4.1.3 磨皮
 
-控制磨皮的参数有四个：blur_level，skin_detect，nonskin_blur_scale，heavy_blur
+控制磨皮的参数有四个：blur_level，heavy_blur，blur_type，blur_use_mask
 
-  `blur_level`:  磨皮程度，取值范围0.0-6.0，默认6.0 
-  `skin_detect`: 肤色检测开关，0为关，1为开
-  `nonskin_blur_scale`: 肤色检测之后非肤色区域的融合程度，取值范围0.0-1.0，默认0.45
-  `heavy_blur`:  重度磨皮开关，0为清晰磨皮，1为重度磨皮
+```
+blur_level: 磨皮程度，取值范围0.0-6.0，默认6.0
+heavy_blur: 朦胧磨皮开关，0为清晰磨皮，1为朦胧磨皮
+blur_type：此参数优先级比heavy_blur低，在使用时要将heavy_blur设为0，0 清晰磨皮  1 朦胧磨皮  2精细磨皮
+blur_use_mask: 默认为0，1为开启基于人脸的磨皮mask，0为不使用mask正常磨皮。只在blur_type为2时生效。开启此功能需要高级美颜权限。
+```
+
+**注意1：精细磨皮为建议使用的磨皮类型。**
+
+注意2：朦胧磨皮为高级美颜功能，需要相应证书权限才能使用  
 
 设置参数的例子代码如下：
 
 ```objective-c
 //  Set item parameters - blur
 [FURenderer itemSetParam:items[1] withName:@"heavy_blur" value:@(1)];
-[FURenderer itemSetParam:items[1] withName:@"skin_detect" value:@(1)];
+[FURenderer itemSetParam:items[1] withName:@"blur_type" value:@(0)];
 [FURenderer itemSetParam:items[1] withName:@"blur_level" value:@(6.0)];
-[FURenderer itemSetParam:items[1] withName:@"blur_blend_ratio" value:@(0.5)];
-[FURenderer itemSetParam:items[1] withName:@"nonshin_blur_scale" value:@(0.45)];
+[FURenderer itemSetParam:items[1] withName:@"blur_use_mask" value:@(0)];
 ```
 
 #### 4.1.4 亮眼
