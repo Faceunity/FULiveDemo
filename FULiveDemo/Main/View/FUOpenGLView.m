@@ -11,6 +11,13 @@
 #import <OpenGLES/ES3/gl.h>
 #import <OpenGLES/ES3/glext.h>
 
+//#define use_capture
+#ifdef use_capture
+#import <libCNamaSDK/FURenderer.h>
+#else
+
+#endif
+
 #define STRINGIZE(x)    #x
 #define STRINGIZE2(x)    STRINGIZE(x)
 #define SHADER_STRING(text) @ STRINGIZE2(text)
@@ -112,7 +119,9 @@ enum
     fuyuvConversionTextureCoordinateAttribute
 };
 
-@interface FUOpenGLView()
+@interface FUOpenGLView(){
+    dispatch_semaphore_t semaphore;
+}
 
 @property (nonatomic, strong) EAGLContext *glContext;
 
@@ -167,6 +176,11 @@ enum
         eaglLayer.drawableProperties = @{ kEAGLDrawablePropertyRetainedBacking :[NSNumber numberWithBool:NO],
                                           kEAGLDrawablePropertyColorFormat : kEAGLColorFormatRGBA8};
         
+        #ifdef use_capture
+        [[FURenderer shareRenderer] setUpCurrentContext];
+         _glContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
+         _glContext = [EAGLContext currentContext];
+        #else
         _glContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
         if (!_glContext) {
             NSLog(@"This devicde is not support OpenGLES3,try to create OpenGLES2");
@@ -175,6 +189,8 @@ enum
         if (!self.glContext) {
             NSLog(@"failed to create context");
         }
+        #endif
+        
         
         if (!videoTextureCache) {
             CVReturn err = CVOpenGLESTextureCacheCreate(kCFAllocatorDefault, NULL, self.glContext, NULL, &videoTextureCache);
@@ -202,6 +218,11 @@ enum
         eaglLayer.drawableProperties = @{ kEAGLDrawablePropertyRetainedBacking :[NSNumber numberWithBool:NO],
                                           kEAGLDrawablePropertyColorFormat : kEAGLColorFormatRGBA8};
         
+        #ifdef use_capture
+        [[FURenderer shareRenderer] setUpCurrentContext];
+         _glContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
+         _glContext = [EAGLContext currentContext];
+        #else
         _glContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
         if (!_glContext) {
             NSLog(@"This devicde is not support OpenGLES3,try to create OpenGLES2");
@@ -210,6 +231,7 @@ enum
         if (!self.glContext) {
             NSLog(@"failed to create context");
         }
+        #endif
         
         if (!videoTextureCache) {
             CVReturn err = CVOpenGLESTextureCacheCreate(kCFAllocatorDefault, NULL, self.glContext, NULL, &videoTextureCache);
@@ -363,40 +385,77 @@ enum
 
 - (void)displayPixelBuffer:(CVPixelBufferRef)pixelBuffer withLandmarks:(float *)landmarks count:(int)count MAX:(BOOL)max
 {
+    #ifdef use_capture
     if (pixelBuffer == NULL) return;
-    
-    CVPixelBufferRetain(pixelBuffer);
-    CVPixelBufferLockBaseAddress(pixelBuffer, 0);
-    dispatch_async(_contextQueue, ^{  //dispatch_sync  iphone8p 可能死锁
-        self->frameWidth = (int)CVPixelBufferGetWidth(pixelBuffer);
-        self->frameHeight = (int)CVPixelBufferGetHeight(pixelBuffer);
-        
-        if ([EAGLContext currentContext] != self.glContext) {
-            if (![EAGLContext setCurrentContext:self.glContext]) {
-                NSLog(@"fail to setCurrentContext");
-            }
-        }
-        
-        [self setDisplayFramebuffer];
-        
-        OSType type = CVPixelBufferGetPixelFormatType(pixelBuffer);
-        if (type == kCVPixelFormatType_32BGRA)
-        {
-            [self prepareToDrawBGRAPixelBuffer:pixelBuffer];
-            
-        }else{
-            [self prepareToDrawYUVPixelBuffer:pixelBuffer];
-        }
-        
-        if (landmarks) {
-            [self prepareToDrawLandmarks:landmarks count:count MAX:max zoomScale:1];
-        }
-        
-        [self presentFramebuffer];
-        
-        CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
-        CVPixelBufferRelease(pixelBuffer);
-    });
+       
+       CVPixelBufferRetain(pixelBuffer);
+       CVPixelBufferLockBaseAddress(pixelBuffer, 0);
+//       dispatch_async(_contextQueue, ^{  //dispatch_sync  iphone8p 可能死锁
+           self->frameWidth = (int)CVPixelBufferGetWidth(pixelBuffer);
+           self->frameHeight = (int)CVPixelBufferGetHeight(pixelBuffer);
+           
+           if ([EAGLContext currentContext] != self.glContext) {
+               if (![EAGLContext setCurrentContext:self.glContext]) {
+                   NSLog(@"fail to setCurrentContext");
+               }
+           }
+           
+           [self setDisplayFramebuffer];
+           
+           OSType type = CVPixelBufferGetPixelFormatType(pixelBuffer);
+           if (type == kCVPixelFormatType_32BGRA)
+           {
+               [self prepareToDrawBGRAPixelBuffer:pixelBuffer];
+               
+           }else{
+               [self prepareToDrawYUVPixelBuffer:pixelBuffer];
+           }
+           
+           if (landmarks) {
+               [self prepareToDrawLandmarks:landmarks count:count MAX:max zoomScale:1];
+           }
+           
+           [self presentFramebuffer];
+           
+           CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
+           CVPixelBufferRelease(pixelBuffer);
+//       });
+    #else
+    if (pixelBuffer == NULL) return;
+       
+       CVPixelBufferRetain(pixelBuffer);
+       CVPixelBufferLockBaseAddress(pixelBuffer, 0);
+       dispatch_async(_contextQueue, ^{  //dispatch_sync  iphone8p 可能死锁
+           self->frameWidth = (int)CVPixelBufferGetWidth(pixelBuffer);
+           self->frameHeight = (int)CVPixelBufferGetHeight(pixelBuffer);
+           
+           if ([EAGLContext currentContext] != self.glContext) {
+               if (![EAGLContext setCurrentContext:self.glContext]) {
+                   NSLog(@"fail to setCurrentContext");
+               }
+           }
+           
+           [self setDisplayFramebuffer];
+           
+           OSType type = CVPixelBufferGetPixelFormatType(pixelBuffer);
+           if (type == kCVPixelFormatType_32BGRA)
+           {
+               [self prepareToDrawBGRAPixelBuffer:pixelBuffer];
+               
+           }else{
+               [self prepareToDrawYUVPixelBuffer:pixelBuffer];
+           }
+           
+           if (landmarks) {
+               [self prepareToDrawLandmarks:landmarks count:count MAX:max zoomScale:1];
+           }
+           
+           [self presentFramebuffer];
+           
+           CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
+           CVPixelBufferRelease(pixelBuffer);
+       });
+    #endif
     
 }
 
@@ -1363,5 +1422,41 @@ enum
     
     return YES;
 }
+
+- (UIColor*)getColorWithPoint:(CGPoint)point{
+    __block UIColor *color = nil;
+    semaphore = dispatch_semaphore_create(0);
+
+    float imageW = frameWidth;
+    float imageH = frameHeight;
+       
+    point = CGPointMake(point.x/self.bounds.size.width,point.y/self.bounds.size.height);
+
+    point.x = point.x * backingWidth;
+    point.y = (1- point.y)* backingHeight;
+    dispatch_async(_contextQueue, ^{
+
+        if ([EAGLContext currentContext] != self.glContext) {
+            if (![EAGLContext setCurrentContext:self.glContext]) {
+                NSLog(@"fail to setCurrentContext");
+            }
+        }
+        
+        [self setDisplayFramebuffer];
+            
+        GLubyte aa[4] = {0};
+        GLint aaa = (GLint)point.x;
+        GLint bb = (GLint)point.y;
+        glReadPixels(aaa,bb,1, 1, GL_BGRA, GL_UNSIGNED_BYTE, aa);
+        color = [UIColor colorWithRed:(aa[2]/255.0f) green:(aa[1]/255.0f) blue:(aa[0]/255.0f) alpha:(aa[3]/255.0f)];
+    
+        dispatch_semaphore_signal(semaphore);
+    });
+    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+    return color;
+}
+
+
+
 
 @end

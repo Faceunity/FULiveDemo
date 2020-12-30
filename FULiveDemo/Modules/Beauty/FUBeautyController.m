@@ -46,6 +46,7 @@
     [_demoBar reloadShapView:[FUManager shareManager].shapeParams];
     [_demoBar reloadSkinView:[FUManager shareManager].skinParams];
     [_demoBar reloadFilterView:[FUManager shareManager].filters];
+    [_demoBar reloadStyleView:[FUManager shareManager].styleParams defaultStyle:[FUManager shareManager].currentStyle];
     [_demoBar setDefaultFilter:[FUManager shareManager].seletedFliter];
 }
 
@@ -179,6 +180,18 @@
 }
 
 -(void)beautyParamValueChange:(FUBeautyParam *)param{
+    if (_demoBar.selBottomIndex == 3) {//风格栏
+        if (param.beautyAllparams) {
+            [[FUManager shareManager] setStyleBeautyParams:param.beautyAllparams];
+            [FUManager shareManager].currentStyle = param;
+        }else{// 点击无
+            [FUManager shareManager].currentStyle = param;
+            [[FUManager shareManager] setBeautyParameters];
+        }
+
+        return;
+    }
+    
     if ([param.mParam isEqualToString:@"cheek_narrow"] || [param.mParam isEqualToString:@"cheek_small"]){//程度值 只去一半
         [[FUManager shareManager] setParamItemAboutType:FUNamaHandleTypeBeauty name:param.mParam value:param.mValue * 0.5];
     }else if([param.mParam isEqualToString:@"blur_level"]) {//磨皮 0~6

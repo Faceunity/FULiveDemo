@@ -12,7 +12,7 @@
 #import "FUVideoDecoder.h"
 #import "FUImageHelper.h"
 
-@interface FULvMuViewController ()<FULvMuViewDelegate,UIGestureRecognizerDelegate>{
+@interface FULvMuViewController ()<FULvMuViewDelegate,FULvMuViewDataSource,UIGestureRecognizerDelegate>{
     BOOL isRender;
 }
 @property(strong,nonatomic) FULvMuView *lvmuEditeView;
@@ -58,6 +58,7 @@
     // Do any additional setup after loading the view.
     _lvmuEditeView = [[FULvMuView alloc] initWithFrame:CGRectZero];
     _lvmuEditeView.mDelegate = self;
+    _lvmuEditeView.mDataSource = self;
     [self.view addSubview:_lvmuEditeView];
     [_lvmuEditeView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.bottom.equalTo(self.view);
@@ -137,7 +138,10 @@
 
 - (void)didBecomeActive{
     [super didBecomeActive];
-    [_videoDecoder videoStartReading];
+    if(_lvmuEditeView.mBgCollectionView.selectedIndex > 0){
+        [_videoDecoder videoStartReading];
+    }
+    
 }
 
 
@@ -155,6 +159,11 @@
 /* 不需要进入分辨率选择 */
 -(BOOL)onlyJumpImage{
     return YES;
+}
+#pragma  mark -  FULvMuViewDataSource
+-(UIColor *)lvMuViewTakeColorView:(CGPoint)screenP{
+    CGPoint point =  [self.renderView convertPoint:screenP fromView:self.view];
+    return [self.renderView getColorWithPoint:point];
 }
 
 
@@ -218,6 +227,7 @@
         [self setupVideoDecoder:url];
     }else{
         [_videoDecoder videoStopRending];
+        
         int lvmuHandle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeItem];
         fuDeleteTexForItem(lvmuHandle, (char *)[@"tex_bg" UTF8String]);
     }

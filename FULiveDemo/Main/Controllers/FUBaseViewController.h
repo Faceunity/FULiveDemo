@@ -63,6 +63,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param orientation 方向
 -(void)setOrientation:(int)orientation;
 
+/* 抓图 */
+-(UIImage *)captureImage;
+
 @end
 
 NS_ASSUME_NONNULL_END

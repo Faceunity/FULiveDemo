@@ -34,13 +34,15 @@
 @property (weak, nonatomic) IBOutlet UIView *topView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 
+@property (nonatomic, assign) int selBottomIndex;
 
 -(void)reloadSkinView:(NSArray<FUBeautyParam *> *)skinParams;
 
 -(void)reloadShapView:(NSArray<FUBeautyParam *> *)shapParams;
 
 -(void)reloadFilterView:(NSArray<FUBeautyParam *> *)filterParams;
-
+/* 风格 */
+-(void)reloadStyleView:(NSArray<FUBeautyParam *> *)styleParams defaultStyle:(FUBeautyParam *)selStyle;
 // 关闭上半部分
 -(void)hiddenTopViewWithAnimation:(BOOL)animation;
 
@@ -48,6 +50,8 @@
 @property (nonatomic, assign) BOOL isTopViewShow ;
 
 -(void)setDefaultFilter:(FUBeautyParam *)filter;
+
+-(void)setDefaultStyle:(int)index;
 
 
 @end

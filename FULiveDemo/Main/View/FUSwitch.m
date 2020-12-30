@@ -270,7 +270,6 @@
                              }];
         }
     }
-    
     [self sendActionsForControlEvents:UIControlEventValueChanged];
 }
 

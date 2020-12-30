@@ -1,45 +1,26 @@
 # iOS Nama Objective-C API 参考文档
 级别：Public   
-更新日期：2020-09-27   
-SDK版本: 7.2.0  
+更新日期：2020-12-29   
+SDK版本: 7.3.0  
 
 ------
 
 ### 最新更新内容：
 
-**2020-9-24 v7.2.0:**
+**2020-9-29 v7.3.0:  **
 
-1. 新增绿幕抠像功能，支持替换图片、视频背景等，详见绿幕抠像功能文档。
-2. 美颜模块新增瘦颧骨、瘦下颌骨功能。
-3. 优化美颜性能以及功耗，优化集成入第三方推流服务时易发热掉帧问题。
-4. 优化手势识别功能的效果以及性能，提升识别稳定性和手势跟随性效果，优化手势识别时cpu占有率。
-5. 优化PC版各个功能性能，帧率提升显著。美发、美体、背景分割帧率提升30%以上，美颜、Animoji、美妆、手势等功能也有10%以上的帧率提升。
-6. 优化包增量，SDK分为lite版，和全功能版本。lite版体积更小，包含人脸相关的功能(海报换脸除外)。
-7. 优化人脸跟踪稳定性，提升贴纸的稳定性。
-8. 提供独立核心算法SDK，接口文档详见算法SDK文档([FUAI_C_API_参考文档.md](./FUAI_C_API_参考文档.md))。
-9. fuGetFaceInfo接口新增三个参数，分别为：舌头方向(tongue_direction)，表情识别(expression_type)，头部旋转信息欧拉角参数(rotation_euler)。
-10. 新增fuOnDeviceLostSafe函数，详见接口文档。
-11. 新增fuSetFaceProcessorDetectMode函数，人脸识别跟踪区分图片模式和视频模式，详见接口文档。
-12. 新增人体动作识别动作定义文档([人体动作识别文档.md](../resource/docs/人体动作识别文档.md))。
-13. 新增ai_hand_processor.bundle，替代ai_gesture.bundle，提供手势识别跟踪能力。
-
-**2020-7-29 v7.1.0:**
-
-1. 新增美颜锐化功能，见美颜参数文档。
-2. 优化美颜磨皮效果，保留更多的高频细节。
-3. 添加fuHumanProcessorGetFov接口。
-4. 添加fuHumanProcessorSetFov接口。
-
-**2020-7-24 v7.0.1:**
-
-1. 新增接口fuHumanProcessorSetBonemap
-2. 新增接口fuHumanProcessorGetResultTransformArray
-3. 新增接口fuHumanProcessorGetResultModelMatrix
-4. 修复fuGetSestemError问题。
-5. 修复fuSetMaxFaces，在释放AI模型后，设置失效问题。
-6. 修复Android非高通机型，OES输入问题。
-7. 修复美妆远距离嘴部黑框问题。
-8. 修复美体美颜共存不支持问题。
+- 优化美妆性能，和V7.2比，标准美妆Android端帧率提升29%，iOS端帧率提升17%；标准美颜+标准美妆，集成入第三方推流1小时后，在低端机上帧率高于15fps，可流畅运行。
+- 优化美体性能，和V7.2比，性能显著提升，Android端帧率提升26%，CPU降低32%；iOS端帧率提升11%，CPU降低46%，内存降低45%。
+- 优化背景分割性能，和V7.2比，性能显著提升，Android端帧率提升64%，CPU降低25%；iOS端帧率提升41%，CPU降低47%，内存降低44%。请使用ai_human_processor_mb_fast.bundle。
+- 优化美体功能效果，优化大幅度运动时，头部和肩部位置附近物体变形幅度大的问题；人体在画面中出现消失时过渡更自然；遮挡情况美体效果更加稳定，不会有高频持续抖动情况。
+- 优化表情识别功能，提高识别准确性，共能识别17种表情动作，对应新增FUAITYPE_FACEPROCESSOR_EXPRESSION_RECOGNIZER。
+- 优化绿幕抠像效果，提高边缘准确度。
+- 优化人脸表情跟踪驱动效果，优化首帧检测模型显示较慢问题，加强细微表情跟踪，优化人脸转动时模型明显变小问题。
+- 优化全身Avatar跟踪驱动效果，针对做连续高频大幅度运动的情况，如跳舞等场景，整体模型稳定性，尤其手臂稳定性提升，抖动情况显著改善。
+- 优化美颜亮眼下眼睑溢色问题。
+- 新增人脸拖拽变形功能，可使用FUCreator 2.1.0进行变形效果编辑。
+- 新增美颜美型模块瘦圆眼功能，效果为使眼睛整体放大，尤其是纵向放大明显。
+- 新增支持手势回调接口fuSetHandGestureCallBack，详见接口文档。
 
 ------
 ### 目录：
@@ -106,7 +87,7 @@ __参数:__
 
 *size*：鉴权数据的长度，以字节为单位。如果鉴权数据提供的是 authpack.h 中的 ```g_auth_package```，这里可写作 ```sizeof(g_auth_package)```
 
-*shouldCreate*: 如果设置为 YES，我们会在内部创建并持有一个 EAGLContext，此时必须使用OC层接口
+*shouldCreate*: 如果设置为 YES，我们会在内部创建并持有一个 EAGLContext，OpenGL相关操作建议所用OC层接口 (**注：**OC接口会切换到内部创建的EAGLContext上执行，防止多EAGLContext异常问题)
 
 __返回值:__
 
@@ -658,8 +639,6 @@ __参数说明:__
 
 *pixelBuffer*:  图像数据，支持的格式为：BGRA、YUV420SP，用于人脸识别
 
-*textureHandle*:  用户当前 EAGLContext 下的 textureID，用于图像处理
-
 *frameid*:  当前处理的视频帧序数，每次处理完对其进行加1操作，不加1将无法驱动道具中的特效动画
 
 *items* : 包含多个道具句柄的int数组
@@ -748,7 +727,9 @@ __参数说明:__
 
 #### 2.5 P2A 相关接口
 
-##### avatarBindItems: items: itemsCount: t contracts: contractsCount: 
+##### ~~avatarBindItems: items: itemsCount: t contracts: contractsCount:~~ 
+
+注：版本更新使用替换 **bindItems: items: itemsCount:** 
 
 \- 该接口主要应用于 P2A 项目中，将普通道具绑定到 avatar 道具上，从而实现道具间的数据共享；
 
@@ -780,7 +761,9 @@ __参数说明:__
 
 ------
 
-##### avatarUnbindItems: items: itemsCount: 
+##### ~~avatarUnbindItems: items: itemsCount:~~
+
+注：版本更新使用替换 **unBindItems: items: itemsCount:**
 
 该接口可以将普通道具从 avatar 道具上解绑，主要应用场景为切换道具或去掉某个道具
 

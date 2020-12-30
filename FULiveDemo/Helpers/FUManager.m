@@ -16,6 +16,8 @@
 #import "FUImageHelper.h"
 #import "FURenderer+header.h"
 
+#import <objc/runtime.h>
+
 @interface FUManager ()
 {
     int items[FUNamaHandleTotal];
@@ -69,7 +71,6 @@ static FUManager *shareManager = NULL;
         [[FURenderer shareRenderer] setupWithData:nil dataSize:0 ardata:nil authPackage:&g_auth_package authSize:sizeof(g_auth_package) shouldCreateContext:YES];
 
         CFAbsoluteTime endTime = (CFAbsoluteTimeGetCurrent() - startTime);
-        
         NSLog(@"---%lf",endTime);
         
         /* 加载AI模型 */
@@ -87,6 +88,7 @@ static FUManager *shareManager = NULL;
         [self setupFilterData];
         [self setupShapData];
         [self setupSkinData];
+        [self setupStyleData];
         
         self.enableGesture = NO;
         self.enableMaxFaces = NO;
@@ -105,13 +107,13 @@ static FUManager *shareManager = NULL;
         fuSetFaceTrackParam((char *)[@"mouth_expression_more_flexible" UTF8String], &flexible);
 
         /* 带屏幕方向的道具 */
-        self.deviceOrientationItems = @[@"ctrl_rain",@"ctrl_snow",@"ctrl_flower",@"ssd_thread_six",@"ssd_thread_cute"];
+        self.deviceOrientationItems = @[@"ctrl_rain",@"ctrl_snow",@"ctrl_flower",@"ssd_thread_six",@"ssd_thread_cute",@"etye_zh_fu"];
         
         _mRotatedImage = [[FURotatedImage alloc] init];
         
         NSLog(@"faceunitySDK version:%@",[FURenderer getVersion]);
         
-//        fuSetLogLevel(0);
+//        fuSetLogLevel(FU_LOG_LEVEL_DEBUG);
     }
     
     return self;
@@ -215,11 +217,11 @@ static FUManager *shareManager = NULL;
 }
 
 -(void)setupShapData{
-   NSArray *prams = @[@"cheek_thinning",@"cheek_v",@"cheek_narrow",@"cheek_small",@"intensity_cheekbones",@"intensity_lower_jaw",@"eye_enlarging",@"intensity_chin",@"intensity_forehead",@"intensity_nose",@"intensity_mouth",@"intensity_canthus",@"intensity_eye_space",@"intensity_eye_rotate",@"intensity_long_nose",@"intensity_philtrum",@"intensity_smile"];
-    NSDictionary *titelDic = @{@"cheek_thinning":@"瘦脸",@"cheek_v":@"v脸",@"cheek_narrow":@"窄脸",@"cheek_small":@"小脸",@"intensity_cheekbones":@"瘦颧骨",@"intensity_lower_jaw":@"瘦下颌骨",@"eye_enlarging":@"大眼",@"intensity_chin":@"下巴",
+   NSArray *prams = @[@"cheek_thinning",@"cheek_v",@"cheek_narrow",@"cheek_small",@"intensity_cheekbones",@"intensity_lower_jaw",@"eye_enlarging",@"intensity_eye_circle",@"intensity_chin",@"intensity_forehead",@"intensity_nose",@"intensity_mouth",@"intensity_canthus",@"intensity_eye_space",@"intensity_eye_rotate",@"intensity_long_nose",@"intensity_philtrum",@"intensity_smile"];
+    NSDictionary *titelDic = @{@"cheek_thinning":@"瘦脸",@"cheek_v":@"v脸",@"cheek_narrow":@"窄脸",@"cheek_small":@"小脸",@"intensity_cheekbones":@"瘦颧骨",@"intensity_lower_jaw":@"瘦下颌骨",@"eye_enlarging":@"大眼",@"intensity_eye_circle":@"圆眼",@"intensity_chin":@"下巴",
                                @"intensity_forehead":@"额头",@"intensity_nose":@"瘦鼻",@"intensity_mouth":@"嘴型",@"intensity_canthus":@"开眼角",@"intensity_eye_space":@"眼距",@"intensity_eye_rotate":@"眼睛角度",@"intensity_long_nose":@"长鼻",@"intensity_philtrum":@"缩人中",@"intensity_smile":@"微笑嘴角"
     };
-   NSDictionary *defaultValueDic = @{@"cheek_thinning":@(0),@"cheek_v":@(0.5),@"cheek_narrow":@(0),@"cheek_small":@(0),@"intensity_cheekbones":@(0),@"intensity_lower_jaw":@(0),@"eye_enlarging":@(0.4),@"intensity_chin":@(0.3),
+    NSDictionary *defaultValueDic = @{@"cheek_thinning":@(0),@"cheek_v":@(0.5),@"cheek_narrow":@(0),@"cheek_small":@(0),@"intensity_cheekbones":@(0),@"intensity_lower_jaw":@(0),@"eye_enlarging":@(0.4),@"intensity_eye_circle":@(0.0),@"intensity_chin":@(0.3),
                               @"intensity_forehead":@(0.3),@"intensity_nose":@(0.5),@"intensity_mouth":@(0.4),@"intensity_canthus":@(0),@"intensity_eye_space":@(0.5),@"intensity_eye_rotate":@(0.5),@"intensity_long_nose":@(0.5),@"intensity_philtrum":@(0.5),@"intensity_smile":@(0)
    };
    
@@ -242,6 +244,28 @@ static FUManager *shareManager = NULL;
        [_shapeParams addObject:modle];
    }
 }
+
+-(void)setupStyleData{
+    NSArray *prams = @[@"无",@"style1",@"style2",@"style3",@"style4",@"style5",@"style6",@"style7"];//
+    NSDictionary *titelDic = @{@"无":@"无",@"style1":@"风格1",@"style2":@"风格2",@"style3":@"风格3",@"style4":@"风格4",@"style5":@"风格5",@"style6":@"风格6",@"style7":@"风格7"};
+
+    
+    if (!_styleParams) {
+        _styleParams = [[NSMutableArray alloc] init];
+    }
+    
+    for(int i = 0;i < prams.count;i++){
+        FUBeautyParam *modle = [[FUBeautyParam alloc] init];
+        modle.mParam = prams[i];
+        modle.mTitle = [titelDic valueForKey:modle.mParam];
+        if (i > 0) {
+            modle.beautyAllparams = [FUBeautyParams styleWithType:i-1];
+        }
+        [_styleParams addObject:modle];
+    }
+    
+}
+
 
 - (void)loadItems
 {
@@ -368,9 +392,29 @@ static FUManager *shareManager = NULL;
         }
     });
 }
+-(void)setStyleBeautyParams:(FUBeautyParams*)params{
+    if (!params || !items[FUNamaHandleTypeBeauty]) {
+        NSLog(@"美颜类型设置失败");
+    }
+     u_int count = 0;
+        //传递count的地址
+    objc_property_t *properties = class_copyPropertyList([FUBeautyParams class], &count);
+    for (int i = 0; i < count; i++) {
+        //propertyName 和 SDK 接口名称 一直的，所以....
+        NSString *propertyName = [NSString stringWithUTF8String:property_getName(properties[i])];
+        id value = [params valueForKey:propertyName];
+        [FURenderer itemSetParam:items[FUNamaHandleTypeBeauty] withName:propertyName value:value];
+        NSLog(@"设置美颜（%@)(%@)",propertyName,value);
+    }
+}
 
 
 - (void)setBeautyParameters{
+    /* 如果选中样式 */
+    if(self.currentStyle.beautyAllparams){
+        [self setStyleBeautyParams:self.currentStyle.beautyAllparams];
+        return;
+    }
     
     for (FUBeautyParam *modle in _skinParams){
         if ([modle.mParam isEqualToString:@"blur_level"]) {

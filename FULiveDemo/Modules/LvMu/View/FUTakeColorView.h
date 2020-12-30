@@ -14,9 +14,19 @@ typedef void(^FUTakeColorChange)(UIColor *color);
 
 typedef void(^FUTakeColorComplete)(void);
 
+
+@protocol FUTakeColorViewDataSource <NSObject>
+
+// 开启滤镜
+- (UIColor *)takeColorView:(CGPoint )screenP;
+@end
+
+
 @interface FUTakeColorView : UIView
 
 @property(nonatomic,strong)UIView *perView;
+
+@property(nonatomic,assign)id<FUTakeColorViewDataSource> dataSource;
 
 
 

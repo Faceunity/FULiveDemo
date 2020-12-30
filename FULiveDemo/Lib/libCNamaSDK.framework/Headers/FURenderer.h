@@ -102,8 +102,8 @@ __attribute__((visibility("default"))) @interface FURenderer : NSObject
  @param ardata 该参数已废弃，传 NULL 即可
  @param package 密钥数组，必须配置好密钥，SDK 才能正常工作
  @param size 密钥数组大小
- @param shouldCreate 如果设置为 YES，我们会在内部创建并持有一个
- EAGLContext，此时必须使用OC层接口
+ @param shouldCreate  如果设置为 YES，我们会在内部创建并持有一个
+ EAGLContext，OpenGL相关操作建议所用OC层接口 (注：OC接口会切换到内部创建的EAGLContext上执行，防止多EAGLContext异常问题)
  @return 初始化结果，为0则初始化失败，大于0则初始化成功
  */
 - (int)setupWithData:(void*)data
@@ -123,7 +123,7 @@ __attribute__((visibility("default"))) @interface FURenderer : NSObject
  @param package 密钥数组，必须配置好密钥，SDK 才能正常工作
  @param size 密钥数组大小
  @param shouldCreate  如果设置为 YES，我们会在内部创建并持有一个
- EAGLContext，此时必须使用OC层接口
+ EAGLContext，OpenGL相关操作建议所用OC层接口 (注：OC接口会切换到内部创建的EAGLContext上执行，防止多EAGLContext异常问题)
  @return 初始化结果，为0则初始化失败，大于0则初始化成功
  */
 - (int)setupWithDataPath:(NSString*)v3path
@@ -141,7 +141,7 @@ __attribute__((visibility("default"))) @interface FURenderer : NSObject
  @param package 密钥数组，必须配置好密钥，SDK 才能正常工作
  @param size 密钥数组大小
  @param shouldCreate  如果设置为 YES，我们会在内部创建并持有一个
- EAGLContext，此时必须使用OC层接口
+ EAGLContext，OpenGL相关操作建议所用OC层接口 (注：OC接口会切换到内部创建的EAGLContext上执行，防止多EAGLContext异常问题)
  @return 第一次鉴权成功后的文件
  */
 

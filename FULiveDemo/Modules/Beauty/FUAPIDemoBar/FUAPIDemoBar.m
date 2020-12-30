@@ -14,7 +14,7 @@
 #import "FUMakeupSupModel.h"
 #import "FUSquareButton.h"
 #import "FUManager.h"
-
+#import <SVProgressHUD.h>
 
 @interface FUAPIDemoBar ()<FUFilterViewDelegate, FUBeautyViewDelegate>
 
@@ -22,11 +22,14 @@
 @property (weak, nonatomic) IBOutlet UIButton *skinBtn;
 @property (weak, nonatomic) IBOutlet UIButton *shapeBtn;
 @property (weak, nonatomic) IBOutlet UIButton *beautyFilterBtn;
+@property (weak, nonatomic) IBOutlet UIButton *mStyleBtn;
 
 // 滤镜页
 @property (weak, nonatomic) IBOutlet FUFilterView *filterView;
 // 美颜滤镜页
 @property (weak, nonatomic) IBOutlet FUFilterView *beautyFilterView;
+/* 格式 */
+@property (weak, nonatomic) IBOutlet FUBeautyView *mStyleView;
 
 @property (weak, nonatomic) IBOutlet FUSlider *beautySlider;
 
@@ -42,7 +45,7 @@
 /* 当前选中参数 */
 @property (strong, nonatomic) FUBeautyParam *seletedParam;
 
-
+@property (assign, nonatomic) BOOL isEnble;
 @end
 
 @implementation FUAPIDemoBar
@@ -70,17 +73,21 @@
     self.beautyFilterView.mDelegate = self ;
     
     self.shapeView.mDelegate = self ;
-    
     self.skinView.mDelegate = self;
+    
+    self.mStyleView.mDelegate = self;
     [self.skinBtn setTitle:FUNSLocalizedString(@"美肤", nil) forState:UIControlStateNormal];
     [self.shapeBtn setTitle:FUNSLocalizedString(@"美型", nil) forState:UIControlStateNormal];
     [self.beautyFilterBtn setTitle:FUNSLocalizedString(@"滤镜", nil) forState:UIControlStateNormal];
+    [self.mStyleBtn setTitle:FUNSLocalizedString(@"风格推荐", nil) forState:UIControlStateNormal];
     [self.mRestBtn setTitle:FUNSLocalizedString(@"恢复", nil) forState:UIControlStateNormal];
     
-    self.skinBtn.tag = 101;
-    self.shapeBtn.tag = 102;
-    self.beautyFilterBtn.tag = 103 ;
+    self.skinBtn.tag = 100;
+    self.shapeBtn.tag = 101;
+    self.beautyFilterBtn.tag = 102 ;
+    self.mStyleBtn.tag = 103 ;
     
+    _isEnble = YES;
 }
 
 -(void)layoutSubviews{
@@ -89,20 +96,37 @@
 
 
 - (IBAction)bottomBtnsSelected:(UIButton *)sender {
+    if (!_isEnble && sender != self.mStyleBtn) {
+        if(sender == _skinBtn){
+            [self showMessage:[NSString stringWithFormat:FUNSLocalizedString(@"使用%@先取消“风格推荐”", nil),FUNSLocalizedString(@"美肤", nil)]];
+        }
+        if (sender == _shapeBtn) {
+            [self showMessage:[NSString stringWithFormat:FUNSLocalizedString(@"使用%@先取消“风格推荐”", nil),FUNSLocalizedString(@"美型", nil)]];
+        }
+        if (sender == _beautyFilterBtn) {
+            [self showMessage:[NSString stringWithFormat:FUNSLocalizedString(@"使用%@先取消“风格推荐”", nil),FUNSLocalizedString(@"滤镜", nil)]];
+        }
+        
+        return;
+    }
+    
+
     if (sender.selected) {
         sender.selected = NO ;
         [self hiddenTopViewWithAnimation:YES];
         return ;
     }
+    _selBottomIndex = (int)sender.tag - 100;
     self.skinBtn.selected = NO;
     self.shapeBtn.selected = NO;
     self.beautyFilterBtn.selected = NO;
-    
+    self.mStyleBtn.selected = NO;
     sender.selected = YES;
     
     self.skinView.hidden = !self.skinBtn.selected ;
     self.shapeView.hidden = !self.shapeBtn.selected ;
     self.beautyFilterView.hidden = !self.beautyFilterBtn.selected ;
+    self.mStyleView.hidden = !self.mStyleBtn.selected;
 //    self.filterView.hidden = !self.filterBtn.selected ;
     
      // 美型页面
@@ -147,6 +171,10 @@
         }
     }
 
+    if (self.mStyleBtn.selected) {
+        self.beautySlider.hidden = YES;
+    }
+    
     [self showTopViewWithAnimation:self.topView.isHidden];
     [self setSliderTyep:_seletedParam];
 }
@@ -159,6 +187,13 @@
     }
 }
 
+-(void)setSelBottomIndex:(int)selBottomIndex{
+    _selBottomIndex = selBottomIndex;
+    
+    if (selBottomIndex < 4 && selBottomIndex >= 0) {
+        [self bottomBtnsSelected:[self viewWithTag:100+selBottomIndex]];
+    }
+}
 
 // 开启上半部分
 - (void)showTopViewWithAnimation:(BOOL)animation {
@@ -202,6 +237,7 @@
             self.skinBtn.selected = NO ;
             self.shapeBtn.selected = NO ;
             self.beautyFilterBtn.selected = NO ;
+            self.mStyleBtn.selected = NO;
         }];
         
         if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(showTopView:)]) {
@@ -288,9 +324,10 @@
 // 开启滤镜
 -(void)filterViewDidSelectedFilter:(FUBeautyParam *)param{
     _seletedParam = param;
-    if (_beautyFilterView.selectedIndex > 0) {
+    if (_beautyFilterView.selectedIndex > 0 && _beautyFilterBtn.selected) {
         self.beautySlider.value = param.mValue;
         self.beautySlider.hidden = NO;
+        [self setSliderTyep:_seletedParam];
     }else{
         self.beautySlider.hidden = YES;
     }
@@ -298,14 +335,22 @@
     if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(filterShowMessage:)]) {
         [self.mDelegate filterShowMessage:param.mTitle];
     }
-     [self setSliderTyep:_seletedParam];
-    
+
     if (_mDelegate && [_mDelegate respondsToSelector:@selector(filterValueChange:)]) {
         [_mDelegate filterValueChange:_seletedParam];
     }
 }
 
 -(void)beautyCollectionView:(FUBeautyView *)beautyView didSelectedParam:(FUBeautyParam *)param{
+    if (beautyView == _mStyleView) {
+        self.beautySlider.hidden = YES;
+        if (_mDelegate && [_mDelegate respondsToSelector:@selector(beautyParamValueChange:)]) {
+            [_mDelegate beautyParamValueChange:param];
+        }
+        [self changeBottomView];
+
+        return;
+    }
     _seletedParam = param;
     self.beautySlider.value = param.mValue;
     self.beautySlider.hidden = NO;
@@ -313,6 +358,20 @@
      [self setSliderTyep:_seletedParam];
 }
 
+
+-(void)changeBottomView{
+    if (_mStyleView.selectedIndex == 0) {
+        self.shapeBtn.alpha = 1.0;
+        self.skinBtn.alpha = 1.0;
+        self.beautyFilterBtn.alpha = 1.0;
+        _isEnble = YES;
+    }else{
+        self.shapeBtn.alpha = 0.6;
+        self.skinBtn.alpha = 0.6;
+        self.beautyFilterBtn.alpha = 0.6;
+        _isEnble = NO;
+    }
+}
 
 // 滑条滑动
 - (IBAction)filterSliderValueChange:(FUSlider *)sender {
@@ -357,11 +416,11 @@
 -(void)reloadSkinView:(NSArray<FUBeautyParam *> *)skinParams{
     _skinView.dataArray = skinParams;
     _skinView.selectedIndex = 0;
-    FUBeautyParam *modle = skinParams[0];
-    if (modle) {
-        _beautySlider.hidden = NO;
-        _beautySlider.value = modle.mValue;
-    }
+//    FUBeautyParam *modle = skinParams[0];
+//    if (modle) {
+//        _beautySlider.hidden = NO;
+//        _beautySlider.value = modle.mValue;
+//    }
     [_skinView reloadData];
 }
 
@@ -376,14 +435,44 @@
     [_beautyFilterView reloadData];
 }
 
+-(void)reloadStyleView:(NSArray<FUBeautyParam *> *)styleParams defaultStyle:(FUBeautyParam *)selStyle{
+    _mStyleView.dataArray = styleParams;
+    if (selStyle) {
+        int indexa = (int)[styleParams indexOfObject:selStyle];
+        [self.mStyleView setSelectedIndex:indexa];
+        [self changeBottomView];
+    }else{
+        [self.mStyleView setSelectedIndex:0];
+    }
+    [_mStyleView reloadData];
+}
+
+
 -(void)setDefaultFilter:(FUBeautyParam *)filter{
     [self.beautyFilterView setDefaultFilter:filter];
 }
+
+
 
 -(BOOL)isTopViewShow {
     return !self.topView.hidden ;
 }
 
 
+- (void)showMessage:(NSString *)string{
+    //[SVProgressHUD showWithStatus:string]; //设置需要显示的文字
+    [SVProgressHUD showImage:[UIImage imageNamed:@"wrt424erte2342rx"] status:string];
+    [SVProgressHUD setDefaultAnimationType:SVProgressHUDAnimationTypeNative];
+//    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeCustom]; //设置HUD背景图层的样式
+    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+    [SVProgressHUD setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.74]];
+    [SVProgressHUD setBackgroundLayerColor:[UIColor clearColor]];
+    [SVProgressHUD setCornerRadius:5];
+    [SVProgressHUD dismissWithDelay:1.5];
+}
 
+
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    
+}
 @end

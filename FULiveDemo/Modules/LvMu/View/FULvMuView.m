@@ -12,7 +12,6 @@
 #import "FUBaseViewController.h"
 #import "FUSquareButton.h"
 #import "FUMakeupSlider.h"
-#import "FUBgCollectionView.h"
 
 
 
@@ -90,7 +89,7 @@ typedef NS_ENUM(NSUInteger, FULvMuState) {
 static NSString *LvMuCellID = @"FULvMuCellID";
 static NSString *colorCellID = @"FULvMuColorCellID";
 
-@interface FULvMuView()<UICollectionViewDelegate,UICollectionViewDataSource,FUBgCollectionViewDelegate>
+@interface FULvMuView()<UICollectionViewDelegate,UICollectionViewDataSource,FUBgCollectionViewDelegate,FUTakeColorViewDataSource>
 
 @property(nonatomic,strong) UICollectionView *mColorCollectionView;
 
@@ -103,12 +102,9 @@ static NSString *colorCellID = @"FULvMuColorCellID";
 
 @property (strong, nonatomic) FUSquareButton *restBtn;
 
-@property (assign, nonatomic) FULvMuState state;
+@property (assign, nonatomic) FULvMuState mState;
 
 @property (strong, nonatomic) NSMutableArray <UIColor *>* colors;
-
-@property (strong, nonatomic) FUBgCollectionView *mBgCollectionView;
-
 
 @property (assign, nonatomic) FUTakeColorState colorEditState;
 
@@ -120,7 +116,7 @@ static NSString *colorCellID = @"FULvMuColorCellID";
     if (!_mTakeColorView) {
         __weak typeof(self)weakSelf  = self ;
         _mTakeColorView = [[FUTakeColorView alloc] initWithFrame:CGRectMake(100, 100, 36, 60) didChangeBlock:^(UIColor * _Nonnull color) {
-            if (!weakSelf.mColorCollectionView) {
+            if (!weakSelf.mColorCollectionView || !color) {
                 return ;
             }
             
@@ -149,6 +145,7 @@ static NSString *colorCellID = @"FULvMuColorCellID";
         _mTakeColorView.center = CGPointMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/2);
         [_mTakeColorView actionRect:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 180)];
         UIWindow *window = [UIApplication sharedApplication].keyWindow;
+        _mTakeColorView.dataSource = self;
         [window addSubview:_mTakeColorView];
     }
     
@@ -285,12 +282,12 @@ static NSString *colorCellID = @"FULvMuColorCellID";
     __weak typeof(self)weakSelf  = self ;
     _segmentBarView = [[FUSegmentBarView alloc] initWithFrame:CGRectMake(0, 200,[UIScreen mainScreen].bounds.size.width, 49) titleArray:@[FUNSLocalizedString(@"抠像",nil),FUNSLocalizedString(@"背景",nil)] selBlock:^(int index) {
         FULvMuState tepState = index==0? FULvMukeying:FULvMubackground;
-        if (weakSelf.state == tepState) {
-            weakSelf.state = tepState;
+        if (weakSelf.mState == tepState) {
+            weakSelf.mState = tepState;
             [weakSelf hidenTop:YES];
         }else{
-            weakSelf.state = tepState;
-            [weakSelf segmentBarClickUpdateView:weakSelf.state];
+            weakSelf.mState = tepState;
+            [weakSelf segmentBarClickUpdateView:weakSelf.mState];
             [weakSelf hidenTop:NO];
         }
         
@@ -490,6 +487,14 @@ static NSString *colorCellID = @"FULvMuColorCellID";
     [self changRestBtnUI];
 }
 
+#pragma  mark -  <#string#>
+-(UIColor *)takeColorView:(CGPoint)imageCenter{
+    if (self.mDataSource && [self.mDataSource respondsToSelector:@selector(lvMuViewTakeColorView:)]) {
+        return  [self.mDataSource lvMuViewTakeColorView:imageCenter];
+    }
+    return nil;
+}
+
 #pragma  mark - update UI
 -(void)hiddenSlideer:(BOOL)hidden
 {
@@ -532,7 +537,10 @@ static NSString *colorCellID = @"FULvMuColorCellID";
     _colorSelectedIndex = 1;
     _selectedIndex = 0;
     _slider.hidden = YES;
-    _mColorCollectionView.hidden = NO;
+    
+    if(self.mState == FULvMukeying){
+        _mColorCollectionView.hidden = NO;
+    }
     
     [self setupDefault];
     
@@ -616,7 +624,7 @@ static NSString *colorCellID = @"FULvMuColorCellID";
     _isHidenTop = isHiden;
     if (isHiden) {
         [_segmentBarView setUINormal];
-        self.state = 3;
+        self.mState = 3;
         [self mas_updateConstraints:^(MASConstraintMaker *make) {
             if (iPhoneXStyle) {
                 make.height.mas_equalTo(49 + 34);

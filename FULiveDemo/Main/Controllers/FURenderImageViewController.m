@@ -25,9 +25,10 @@
 
 #define finalPath   [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:@"finalVideo.mp4"]
 
-@interface FURenderImageViewController ()<UINavigationControllerDelegate, UIImagePickerControllerDelegate, FUVideoReaderDelegate, FUAPIDemoBarDelegate, FUItemsViewDelegate,FULvMuViewDelegate,UIGestureRecognizerDelegate>
+@interface FURenderImageViewController ()<UINavigationControllerDelegate, UIImagePickerControllerDelegate, FUVideoReaderDelegate, FUAPIDemoBarDelegate, FUItemsViewDelegate,FULvMuViewDelegate,UIGestureRecognizerDelegate,FULvMuViewDataSource>
 
 {
+    CVPixelBufferRef mPixelBuffer;
     __block BOOL takePic ;
     
     BOOL videHasRendered ;
@@ -82,7 +83,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.model = [FUManager shareManager].currentModel;
-    
+    /* 道具切信号 */
     renderQueue = dispatch_queue_create("com.faceUMakeup", DISPATCH_QUEUE_SERIAL);
     [self addObserver];
     
@@ -130,9 +131,18 @@
         
         self.itemsView.delegate = self ;
         [self.view addSubview:self.itemsView];
-        [self.itemsView updateCollectionArray:self.model.items];
         
-        NSString *item = self.model.items[0];
+        NSMutableArray *array = [NSMutableArray  array];
+        
+        for (NSString *str in self.model.items) {
+            if ([str isEqualToString:@"zhenxinhua_damaoxian"] || [str isEqualToString:@"expression_shooting"]) {
+                continue;
+            }
+            [array addObject:str];
+        }
+        [self.itemsView updateCollectionArray:array];
+        
+        NSString *item = array[0];
         self.itemsView.selectedItem = item;
         [[FUManager shareManager] loadItem:item completion:nil];
     }
@@ -145,6 +155,7 @@
     // Do any additional setup after loading the view.
     _lvmuEditeView = [[FULvMuView alloc] initWithFrame:CGRectZero];
     _lvmuEditeView.mDelegate = self;
+    _lvmuEditeView.mDataSource = self;
     [self.view addSubview:_lvmuEditeView];
     [_lvmuEditeView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.bottom.equalTo(self.view);
@@ -264,6 +275,7 @@
     [_demoBar reloadShapView:[FUManager shareManager].shapeParams];
     [_demoBar reloadSkinView:[FUManager shareManager].skinParams];
     [_demoBar reloadFilterView:[FUManager shareManager].filters];
+    [_demoBar reloadStyleView:[FUManager shareManager].styleParams defaultStyle:[FUManager shareManager].currentStyle];
     
     _demoBar.mDelegate = self;
     [_demoBar setDefaultFilter:[FUManager shareManager].seletedFliter];
@@ -300,7 +312,7 @@
     _itemsView = [[FUItemsView alloc] init];
     _itemsView.delegate = self;
     [self.view addSubview:_itemsView];
-    [self.itemsView updateCollectionArray:self.model.items];
+//    [self.itemsView updateCollectionArray:self.model.items];
     
     [_itemsView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view.mas_bottom);
@@ -371,7 +383,7 @@
     
     if (self.model.type == FULiveModelTypeLvMu) {
         [_lvmuEditeView hidenTop:YES];
-        if(!self.playBtn.hidden){
+        if(self.playBtn.hidden){
             self.downloadBtn.hidden = NO;
         }
         
@@ -380,7 +392,8 @@
 
 - (void)startRendering {
     [FURenderer onCameraChange];
-    if (self.image ) {
+    if (self.image) {
+        fuSetDefaultRotationMode(0);
         int handle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeItem];
         [FURenderer itemSetParam:handle withName:@"rotation_mode" value:@(0)];
         [self processImage];
@@ -430,7 +443,9 @@
 
 
 - (void)didBecomeActive {
-    [_videoDecoder videoStartReading];
+    if(_lvmuEditeView.mBgCollectionView.selectedIndex > 0){
+        [_videoDecoder videoStartReading];
+    }
     if (self.navigationController.visibleViewController == self && self.downloadBtn.hidden == YES) {//播放过程中
         [self.videoReader startReadWithDestinationPath:finalPath];
         self.playBtn.hidden = YES;
@@ -544,6 +559,7 @@
 
 -(void)videoReaderDidReadVideoBuffer:(CVPixelBufferRef)pixelBuffer {
     
+    mPixelBuffer = pixelBuffer;
     if (!_openComp) {
         [[FUManager shareManager] renderItemsToPixelBuffer:pixelBuffer];
     }
@@ -553,7 +569,7 @@
     
     [self.glView displaySyncPixelBuffer:pixelBuffer];
     
-    if(self.model.type == FULiveModelTypeBeautifyFace){
+    if(self.model.type != FULiveModelTypeLvMu){
         self.noTrackLabel.hidden = [[FUManager shareManager] isTracking];
     }else{
         self.noTrackLabel.hidden = YES;
@@ -603,10 +619,12 @@
     }
 }
 
+
 - (void)displayLinkAction{
     __weak typeof(self)weakSelf  = self ;
-    
     dispatch_async(renderQueue, ^{
+        
+        if(_displayLink == nil) return;//防止任务还被执行
         @autoreleasepool {//防止大图片，内存峰值过高
             UIImage *newImage = nil;
             if (!_openComp) {
@@ -622,7 +640,6 @@
             
             [weakSelf.glView displayImageData:imageData Size:CGSizeMake(postersWidth, postersHeight) Landmarks:NULL count:0 zoomScale:1];
             CFRelease(dataFromImageDataProvider);
-            
             if (takePic) {
                 takePic = NO ;
                 dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -637,7 +654,6 @@
             dispatch_async(dispatch_get_main_queue(), ^{ 
               self.noTrackLabel.hidden = YES;
             });
-
             return ;
         }
         
@@ -671,6 +687,13 @@
     [[FUManager shareManager] setParamItemAboutType:FUNamaHandleTypeBodySlim name:position.bundleKey value:position.value];
 }
 
+
+#pragma  mark -  FULvMuViewDataSource
+-(UIColor *)lvMuViewTakeColorView:(CGPoint)screenP{
+    CGPoint point =  [self.glView convertPoint:screenP fromView:self.view];
+    return [self.glView getColorWithPoint:point];
+}
+
 #pragma  mark -  FULvMuViewDelegate
 
 -(void)beautyCollectionView:(FULvMuView *)beautyView didSelectedParam:(FUBeautyParam *)param{
@@ -701,7 +724,7 @@
     float h = shown?180:49;
     [self setPhotoScaleWithHeight:h show:shown];
     
-    if(!self.playBtn.isHidden && !shown){
+    if(self.playBtn.isHidden && !shown){
         self.downloadBtn.hidden = NO;
     }else{
         self.downloadBtn.hidden = YES;
@@ -784,7 +807,6 @@
     }
     
 }
-
 -(void)showTopView:(BOOL)shown{
     if (shown) {
         _compBtn.hidden = NO;
@@ -815,6 +837,18 @@
 }
 
 -(void)beautyParamValueChange:(FUBeautyParam *)param{
+    if (_demoBar.selBottomIndex == 3) {//风格栏
+        if (param.beautyAllparams) {
+            [[FUManager shareManager] setStyleBeautyParams:param.beautyAllparams];
+            [FUManager shareManager].currentStyle = param;
+        }else{// 点击无
+            [FUManager shareManager].currentStyle = param;
+            [[FUManager shareManager] setBeautyParameters];
+        }
+
+        return;
+    }
+    
     if ([param.mParam isEqualToString:@"cheek_narrow"] || [param.mParam isEqualToString:@"cheek_small"]){//程度值 只去一半
         [[FUManager shareManager] setParamItemAboutType:FUNamaHandleTypeBeauty name:param.mParam value:param.mValue * 0.5];
     }else if([param.mParam isEqualToString:@"blur_level"]) {//磨皮 0~6
@@ -908,6 +942,10 @@
         int handle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeItem];
         int sdkOrientation = [self setOrientationWithDegress:(int)self.videoReader.videoOrientation];
         [FURenderer itemSetParam:handle withName:@"rotationMode" value:@(sdkOrientation)];
+        [FURenderer itemSetParam:handle withName:@"rotMode" value:@(sdkOrientation)];
+        [FURenderer itemSetParam:handle withName:@"freeRotMode" value:@(sdkOrientation)];
+        [FURenderer itemSetParam:handle withName:@"rotationAngle" value:@(sdkOrientation * 90)];
+        
         [self.itemsView stopAnimation];
     }];
     
