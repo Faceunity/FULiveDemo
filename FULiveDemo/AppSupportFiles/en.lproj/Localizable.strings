@@ -432,3 +432,18 @@
 "教室"    =   "Classroom";
 "请使用纯色背景拍摄，推荐绿色幕布效果最佳"    =   "Please use a solid background, a green screen is recommended for the best effect.";
 "我知道了"    =   "I know.";
+
+"圆眼" =   "Eye Round";
+"风格推荐" =   "Presets";
+"无" =   "None";
+"风格1" =   "Style1";
+"风格2" =   "Style2";
+"风格3" =   "Style3";
+"风格4" =   "Style4";
+"风格5" =   "Style5";
+"风格6" =   "Style6";
+"风格7" =   "Style7";
+
+"使用%@先取消“风格推荐”" = "To use %@, cancel 'Presets' first.";
+
+

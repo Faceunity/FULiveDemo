@@ -200,7 +200,7 @@ static int oldHandle = 0;
     [[FUManager shareManager] setMakeupItemStr:namaStr valueArr:valueArr];
 }
 
--(void)makeupViewDidSelectedNamaStr:(NSString *)namaStr bundleName:(NSString *)bundleName{
+-(void)            makeupViewDidSelectedNamaStr:(NSString *)namaStr bundleName:(NSString *)bundleName{
     if (!namaStr || !bundleName) {
         return;
     }
@@ -288,7 +288,7 @@ static int oldHandle = 0;
 
 -(void)dealloc{
     [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeMakeup];
-    
+    oldHandle = 0;
 //    [[FUManager shareManager] setDefaultFilter];
 
 }

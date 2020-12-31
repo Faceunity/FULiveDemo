@@ -1,24 +1,26 @@
 # iOS Nama SDK 集成指导文档  
 级别：Public   
-更新日期：2020-09-27   
-SDK版本: 7.2.0  
+更新日期：2020-12-29   
+SDK版本: 7.3.0  
 
--------
+------
 
 ### 最新更新内容：
 
-**2020-9-27 v7.2.0:**
+**2020-9-29 v7.3.0:  **
 
-- 新增绿幕抠像功能，支持替换图片、视频背景等。
-- 美颜模块新增瘦颧骨、瘦下颌骨功能。
-- 优化美颜性能以及功耗，优化集成入第三方推流服务时易发热掉帧问题。
-- 优化手势识别功能的效果以及性能，提升识别稳定性和手势跟随性效果，优化手势识别时cpu占有率。
-- 优化PC版各个功能性能，帧率提升显著。美发、美体、背景分割帧率提升30%以上，美颜、Animoji、美妆、手势等功能也有10%以上的帧率提升。
-- 优化包增量，SDK分为lite版，和全功能版本。lite版体积更小，包含人脸相关的功能(海报换脸除外)。
-- 优化人脸跟踪稳定性，提升贴纸的稳定性。
-- 提供独立核心算法SDK，接口文档详见算法SDK文档(FUAI_C_API_参考文档.md)。
-- fuGetFaceInfo接口新增三个参数，分别为：舌头方向(tongue_direction)，表情识别(expression_type)，头部旋转信息欧拉角参数(rotation_euler)。
-- 新增人体动作识别动作定义文档(人体动作识别文档.md)。
+- 优化美妆性能，和V7.2比，标准美妆Android端帧率提升29%，iOS端帧率提升17%；标准美颜+标准美妆，集成入第三方推流1小时后，在低端机上帧率高于15fps，可流畅运行。
+- 优化美体性能，和V7.2比，性能显著提升，Android端帧率提升26%，CPU降低32%；iOS端帧率提升11%，CPU降低46%，内存降低45%。
+- 优化背景分割性能，和V7.2比，性能显著提升，Android端帧率提升64%，CPU降低25%；iOS端帧率提升41%，CPU降低47%，内存降低44%。请使用ai_human_processor_mb_fast.bundle。
+- 优化美体功能效果，优化大幅度运动时，头部和肩部位置附近物体变形幅度大的问题；人体在画面中出现消失时过渡更自然；遮挡情况美体效果更加稳定，不会有高频持续抖动情况。
+- 优化表情识别功能，提高识别准确性，共能识别17种表情动作，对应新增FUAITYPE_FACEPROCESSOR_EXPRESSION_RECOGNIZER。
+- 优化绿幕抠像效果，提高边缘准确度。
+- 优化人脸表情跟踪驱动效果，优化首帧检测模型显示较慢问题，加强细微表情跟踪，优化人脸转动时模型明显变小问题。
+- 优化全身Avatar跟踪驱动效果，针对做连续高频大幅度运动的情况，如跳舞等场景，整体模型稳定性，尤其手臂稳定性提升，抖动情况显著改善。
+- 优化美颜亮眼下眼睑溢色问题。
+- 新增人脸拖拽变形功能，可使用FUCreator 2.1.0进行变形效果编辑。
+- 新增美颜美型模块瘦圆眼功能，效果为使眼睛整体放大，尤其是纵向放大明显。
+- 新增支持手势回调接口fuSetHandGestureCallBack，详见接口文档。
 
 ------
 ## 目录：
@@ -86,13 +88,13 @@ Xcode 8或更高版本
 全功能版本（支持物理特效）：
 
 ```
-pod 'Nama', '7.2.0' 
+pod 'Nama', '7.3.0' 
 ```
 
 lite 版（体积更小，包含人脸相关的功能(海报换脸除外)）：
 
 ```
-pod 'Nama-lite', '7.2.0' 
+pod 'Nama-lite', '7.3.0' 
 ```
 
 接下来执行：
@@ -109,9 +111,9 @@ pod repo update 或 pod setup
 
 #### 3.2.2 通过 github 下载集成
 
-全功能版本（支持物理特效）：[FaceUnity-SDK-iOS-v7.2.0.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v7.2.0.zip)
+全功能版本（支持物理特效）：[FaceUnity-SDK-iOS-v7.3.0.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v7.3.0.zip)
 
-lite 版（体积更小，包含人脸相关的功能(海报换脸除外)）：[FaceUnity-SDK-iOS-v7.2.0-lite.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v7.2.0-lite.zip)
+lite 版（体积更小，包含人脸相关的功能(海报换脸除外)）：[FaceUnity-SDK-iOS-v7.3.0-lite.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v7.3.0-lite.zip)
 
 
 
@@ -121,7 +123,9 @@ lite 版（体积更小，包含人脸相关的功能(海报换脸除外)）：[
 
 ![](imgs/picture1.png)
 
-然后在Build Phases → Link Binary With Libraries 中添加依赖库，这里需要添加 OpenGLES.framework、Accelerate.framework、CoreMedia.framework、AVFoundation.framework、libc++.tbd、CoreML.framework  这几个依赖库，如果你使用的是lite版可以不添加 libc++.tbd 依赖（**注：**libCNamaSDK.framework是动态库，需要在General->Framworks，Libraries,and Embedded  Content 中添加依赖关系，并将Embed设置为Embed&Sign，否则会导致运行后因找不到库而崩溃），如图：
+libCNamaSDK.framework是动态库，需要在General->Framworks，Libraries,and Embedded  Content 中添加依赖关系，并将Embed设置为Embed&Sign，否则会导致运行后因找不到库而崩
+
+如图：
 
 ------
 
@@ -495,13 +499,13 @@ __face_shape参数详解__
 
     `eye_enlarging`:  默认0.5,           //大眼程度范围0.0-1.0
     `cheek_thinning`:	默认0.0,  		//瘦脸程度范围0.0-1.0
-
+    
     `cheek_v`:	默认0.0,  		//v脸程度范围0.0-1.0
-
+    
     `cheek_narrow`:   默认0.0,          //窄脸程度范围0.0-1.0
-
+    
     `cheek_small`:   默认0.0,          //小脸程度范围0.0-1.0
-
+    
      `intensity_nose`:  默认0.0,           //瘦鼻程度范围0.0-1.0
      `intensity_forehead`:  默认0.5,   //额头调整程度范围0.0-1.0
      `intensity_mouth`: 默认0.5,         //嘴巴调整程度范围0.0-1.0

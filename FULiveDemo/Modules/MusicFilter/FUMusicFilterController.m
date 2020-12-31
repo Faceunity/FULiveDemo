@@ -64,7 +64,10 @@
     }else {
         [[FUManager shareManager] loadItem:self.itemsView.selectedItem completion:nil];
     }
-     [[FUMusicPlayer sharePlayer] playMusic:@"douyin.mp3"];
+
+    if (![self.itemsView.selectedItem isEqualToString:@"noitem"]) {
+        [[FUMusicPlayer sharePlayer] playMusic:@"douyin.mp3"] ;
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -92,12 +95,18 @@
 
 -(void)headButtonViewSegmentedChange:(UISegmentedControl *)sender{
     [super headButtonViewSegmentedChange:sender];
-    [[FUMusicPlayer sharePlayer] playMusic:@"douyin.mp3"];
+    if (![self.itemsView.selectedItem isEqualToString:@"noitem"]) {
+        [[FUMusicPlayer sharePlayer] playMusic:@"douyin.mp3"] ;
+    }
+
 }
 
 -(void)headButtonViewSwitchAction:(UIButton *)btn{
     [super headButtonViewSwitchAction:btn];
-    [[FUMusicPlayer sharePlayer] playMusic:@"douyin.mp3"];
+    if (![self.itemsView.selectedItem isEqualToString:@"noitem"]) {
+        [[FUMusicPlayer sharePlayer] playMusic:@"douyin.mp3"] ;
+    }
+
 }
 
 #pragma mark --- Observer

@@ -59,6 +59,7 @@
      */
     [[FUManager shareManager] loadBundleWithName:@"controller" aboutType:FUNamaHandleTypeBodyAvtar];
      dispatch_async([FUManager shareManager].asyncLoadQueue, ^{
+         
         double position[3] = {0.0, 53.14, -537.94};
         int handle = [[FUManager shareManager] getHandleAboutType:FUNamaHandleTypeBodyAvtar];
          
@@ -78,6 +79,8 @@
          [FURenderer itemSetParam:handle withName:@"target_angle" value:@(0)];
          [FURenderer itemSetParam:handle withName:@"reset_all" value:@(3)];
          [FURenderer itemSetParam:handle withName:@"human_3d_track_set_scene" value:@(1)];
+         
+         
          
     });
     
@@ -133,7 +136,7 @@
     _mSwitch.offText = FUNSLocalizedString(@"半身驱动", nil);
     _mSwitch.offLabel.textColor = [UIColor colorWithRed:31 / 255.0 green:178 / 255.0 blue:255 / 255.0 alpha:1.0];
     _mSwitch.on = YES;
-    [_mSwitch addTarget:self action:@selector(switchSex:) forControlEvents:UIControlEventTouchUpInside];
+    [_mSwitch addTarget:self action:@selector(switchSex:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:_mSwitch];
     [_mSwitch mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.bodyItemsView.mas_top).offset(-17);
@@ -200,7 +203,7 @@
         NSLog(@"未加载道具---error");
         return;
     }
-    if (!mSwitch.on) {//全
+    if (mSwitch.on) {//全
         static double position[3] = {0.0, 53.14, -537.94};
         if (iPhoneXStyle) {
             position[0] = 0.0;

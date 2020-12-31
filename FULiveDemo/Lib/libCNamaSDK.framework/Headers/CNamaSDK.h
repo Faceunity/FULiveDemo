@@ -54,13 +54,15 @@ typedef enum FUAITYPE {
   FUAITYPE_FACEPROCESSOR_FACECAPTURE_TONGUETRACKING = 1 << 12,
   FUAITYPE_FACEPROCESSOR_HAIRSEGMENTATION = 1 << 13,
   FUAITYPE_FACEPROCESSOR_HEADSEGMENTATION = 1 << 14,
-  FUAITYPE_HUMAN_PROCESSOR = 1 << 15,
-  FUAITYPE_HUMAN_PROCESSOR_DETECT = 1 << 16,
-  FUAITYPE_HUMAN_PROCESSOR_2D_SELFIE = 1 << 17,
-  FUAITYPE_HUMAN_PROCESSOR_2D_DANCE = 1 << 18,
-  FUAITYPE_HUMAN_PROCESSOR_3D_SELFIE = 1 << 19,
-  FUAITYPE_HUMAN_PROCESSOR_3D_DANCE = 1 << 20,
-  FUAITYPE_HUMAN_PROCESSOR_SEGMENTATION = 1 << 21
+  FUAITYPE_FACEPROCESSOR_EXPRESSION_RECOGNIZER = 1 << 15,
+  FUAITYPE_HUMAN_PROCESSOR = 1 << 16,
+  FUAITYPE_HUMAN_PROCESSOR_DETECT = 1 << 17,
+  FUAITYPE_HUMAN_PROCESSOR_2D_SELFIE = 1 << 18,
+  FUAITYPE_HUMAN_PROCESSOR_2D_DANCE = 1 << 19,
+  FUAITYPE_HUMAN_PROCESSOR_2D_SLIM = 1 << 20,
+  FUAITYPE_HUMAN_PROCESSOR_3D_SELFIE = 1 << 21,
+  FUAITYPE_HUMAN_PROCESSOR_3D_DANCE = 1 << 22,
+  FUAITYPE_HUMAN_PROCESSOR_SEGMENTATION = 1 << 23
 } FUAITYPE;
 
 typedef enum FUAIGESTURETYPE {
@@ -98,10 +100,23 @@ typedef enum FULOGLEVEL {
 
 typedef enum FUAIEXPRESSIONTYPE {
   FUAIEXPRESSION_UNKNOWN = 0,
-  FUAIEXPRESSION_SMILE = 1 << 1,
-  FUAIEXPRESSION_MOUTH_OPEN = 1 << 2,
-  FUAIEXPRESSION_EYE_BLINK = 1 << 3,
-  FUAIEXPRESSION_POUT = 1 << 4,
+  FUAIEXPRESSION_BROW_UP = 1 << 1,
+  FUAIEXPRESSION_BROW_FROWN = 1 << 2,
+  FUAIEXPRESSION_LEFT_EYE_CLOSE = 1 << 3,
+  FUAIEXPRESSION_RIGHT_EYE_CLOSE = 1 << 4,
+  FUAIEXPRESSION_EYE_WIDE = 1 << 5,
+  FUAIEXPRESSION_MOUTH_SMILE_LEFT = 1 << 6,
+  FUAIEXPRESSION_MOUTH_SMILE_RIGHT = 1 << 7,
+  FUAIEXPRESSION_MOUTH_FUNNEL = 1 << 8,
+  FUAIEXPRESSION_MOUTH_OPEN = 1 << 9,
+  FUAIEXPRESSION_MOUTH_PUCKER = 1 << 10,
+  FUAIEXPRESSION_MOUTH_ROLL = 1 << 11,
+  FUAIEXPRESSION_MOUTH_PUFF = 1 << 12,
+  FUAIEXPRESSION_MOUTH_SMILE = 1 << 13,
+  FUAIEXPRESSION_MOUTH_FROWN = 1 << 14,
+  FUAIEXPRESSION_HEAD_LEFT = 1 << 15,
+  FUAIEXPRESSION_HEAD_RIGHT = 1 << 16,
+  FUAIEXPRESSION_HEAD_NOD = 1 << 17,
 } FUAIEXPRESSIONTYPE;
 
 typedef enum FUAITONGUETYPE {
@@ -295,6 +310,29 @@ FUNAMA_API int fuSetLogLevel(FULOGLEVEL level);
 FUNAMA_API FULOGLEVEL fuGetLogLevel();
 
 /**
+  \brief init gl context, which managed by SDK
+  \param sharedContext ptr of shared context, can be null.
+  \return non null for success.
+  \warning experimental API
+*/
+FUNAMA_API void* fuInitGLContext(void* sharedContext);
+
+/**
+  \brief destroy the managed gl context, created by fuInitGLContext.
+  \return true for success, vice versa.
+  \warning experimental API
+*/
+FUNAMA_API bool fuDestroyGLContext();
+
+/**
+  \brief make the managed gl context current, context that created by
+  fuInitGLContext.
+  \return true for success, vice versa.
+  \warning experimental API
+*/
+FUNAMA_API bool fuMakeGLContextCurrent();
+
+/**
  \brief Initialize and authenticate your SDK instance to the FaceUnity server,
  must be called exactly once before all other functions. The buffers should
  NEVER be freed while the other functions are still being called. You can call
@@ -336,6 +374,25 @@ FUNAMA_API int fuSetup(float* sdk_data, int sz_sdk_data, float* ardata,
 FUNAMA_API int fuSetupLocal(float* v3data, int sz_v3data, float* ardata,
                             void* authdata, int sz_authdata,
                             void** offline_bundle_ptr, int* offline_bundle_sz);
+/**
+ \brief Initialize and authenticate your SDK instance with internal check,
+ must be called exactly once before all other functions. The buffers should
+ NEVER be freed while the other functions are still being called. You can call
+ this function multiple times to "switch pointers".
+ \param v3data should point to contents of the "v3.bin" we provide
+ \param sz_v3data should point to num-of-bytes of the "v3.bin" we provide
+ \param ardata should be NULL
+ \param authdata is the pointer to the authentication data pack we provide. You
+ must avoid storing the data in a file. Normally you can just `#include
+ "authpack.h"` and put `g_auth_package` here.
+ \param sz_authdata is the authentication data size, we use plain int to avoid
+ cross-language compilation issues. Normally you can just `#include
+ "authpack.h"` and put `sizeof(g_auth_package)` here.
+ \return non-zero for success, zero for failure
+*/
+FUNAMA_API int fuSetupInternalCheck(float* sdk_data, int sz_sdk_data,
+                                    float* ardata, void* authdata,
+                                    int sz_authdata);
 
 /**
  \brief if opengl is supported return 1, else return 0
@@ -395,8 +452,8 @@ FUNAMA_API int fuRotateImage(void* in_ptr, int in_format, int in_w, int in_h,
  texture to portrait mode.
  \param flip_x, flip input texture horizontally
  \param flip_y, flip input texture vertically
- \param rotate_mode w.r.t to rotation the the input texture, 0=0^deg,
- 1=90^deg,2=180^deg, 3=270^deg
+ \param rotate_mode w.r.t to rotation the the input texture counterclockwise,
+ 0=0^deg, 1=90^deg,2=180^deg, 3=270^deg
  */
 FUNAMA_API void fuSetInputCameraMatrix(int flip_x, int flip_y, int rotate_mode);
 
@@ -1466,6 +1523,31 @@ FUNAMA_API int fuSetLoadQuality(int quality);
  default for performance.
 */
 FUNAMA_API int fuSetUseTexAsync(bool use);
+
+/**
+ \brief set if force use gl 2.
+ \param use,set 1 for use or 0 for not use.
+*/
+FUNAMA_API int fuSetForceUseGL2(int use);
+
+/**
+ * \brief HandGestureCallBack,callback with first handgesture type.
+ * \param type, ref to FUAIGESTURETYPE
+ */
+typedef void (*HandGestureCallBack)(int type);
+
+/**
+ * \brief set callback for handgesture detection.
+ * \param onHandGestureListener,
+ * callback. will override the older one, null for reset callback.
+ * \note this callback will be called with the first hand's type, you should
+ * use fuHandDetectorGetResultNumHands and fuHandDetectorGetResultGestureType
+ * for all info.
+ * \note this callback will be called when calling Render* interface. when use
+ * fuTrackFace*, you should use fuHandDetectorGetResultNumHands and
+ * fuHandDetectorGetResultGestureType for all info.
+ */
+FUNAMA_API void fuSetHandGestureCallBack(HandGestureCallBack cb);
 
 #ifdef __cplusplus
 }

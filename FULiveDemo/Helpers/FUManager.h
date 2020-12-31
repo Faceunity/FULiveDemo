@@ -51,10 +51,13 @@ typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
 @property (nonatomic, strong) NSMutableArray<FUBeautyParam *> *skinParams;
 /* 美型参数 */
 @property (nonatomic, strong) NSMutableArray<FUBeautyParam *> *shapeParams;
+/* 风格参数 */
+@property (nonatomic, strong) NSMutableArray<FUBeautyParam *> *styleParams;
 @property (nonatomic, strong)               NSMutableArray<NSMutableArray<FULiveModel *>*> *dataSource;  /**道具分类数组*/
 @property (nonatomic, strong)               NSString *selectedItem;     /**选中的道具名称*/
 
 @property (nonatomic, strong)               FUBeautyParam *seletedFliter;
+@property (nonatomic, strong)               FUBeautyParam *currentStyle;
 
 @property (nonatomic, strong) dispatch_queue_t asyncLoadQueue;
 
@@ -68,6 +71,12 @@ typedef NS_OPTIONS(NSUInteger, FUBeautyModuleType) {
 - (void)setAsyncTrackFaceEnable:(BOOL)enable;
 // 默认美颜参数
 - (void)setBeautyDefaultParameters:(FUBeautyModuleType)type;
+
+/* 设置所有美颜参数 */
+-(void)setStyleBeautyParams:(FUBeautyParams*)params;
+
+/* 设置fumanager 保存的美颜参数 */
+- (void)setBeautyParameters;
 /**
  判断是不是默认美型参数
  */

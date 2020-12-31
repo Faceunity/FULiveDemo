@@ -43,8 +43,9 @@
     CGPoint point = [touch locationInView:[touch view]];
     bool iSclickBack = CGRectContainsPoint(CGRectMake(0, 0, 100, 100), point);
     if (iSclickBack) {
-        [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeItem];
+//        [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypeItem];
         [FURenderer onCameraChange];
+        [[FUManager shareManager] destoryItems];
         [self.navigationController popViewControllerAnimated:YES];
     }
     return ;

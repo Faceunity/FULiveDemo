@@ -447,7 +447,6 @@ static int rate = 0;
 static NSTimeInterval totalRenderTime = 0;
 static  NSTimeInterval oldTime = 0;
 -(void)didOutputVideoSampleBuffer:(CMSampleBufferRef)sampleBuffer {
-    
     CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) ;
     imageW = CVPixelBufferGetWidth(pixelBuffer);
     imageH = CVPixelBufferGetHeight(pixelBuffer);

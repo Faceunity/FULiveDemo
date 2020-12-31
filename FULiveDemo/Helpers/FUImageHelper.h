@@ -26,4 +26,6 @@
 + (unsigned char *)getRGBAWithImageName:(NSString *)imageName width:(int *)width height:(int *)height;
 
 + (UIColor*)getPixelColorScreenWindowAtLocation:(CGPoint)point;
+
++ (UIColor*)getColorImage:(UIImage *)image withPoint:(CGPoint)point;
 @end

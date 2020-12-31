@@ -34,7 +34,7 @@ typedef NS_ENUM(NSInteger, FUOpenGLViewContentMode) {
 @property (nonatomic, assign) FUOpenGLViewOrientation origintation;
 @property (nonatomic, assign) NSInteger disapplePointIndex ;
 
-
+- (UIColor*)getColorWithPoint:(CGPoint)point;
 
 - (void)displayPixelBuffer:(CVPixelBufferRef)pixelBuffer;
 

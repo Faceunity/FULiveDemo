@@ -184,8 +184,10 @@
 
 
 -(void)setPosterItemParamImage:(UIImage *)posterImage warpValue:(id)warpValue{
-    self.loadingImage.hidden = NO;
-    self.view.userInteractionEnabled = NO;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.loadingImage.hidden = NO;
+        self.view.userInteractionEnabled = NO;
+    });
     __block UIImage * posterImagen = posterImage;
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         UIImage *photoImage = self.mPhotoImage;

@@ -73,9 +73,9 @@ static int cout = 0;
     
     CGPoint point = [sender translationInView:[sender.view superview]];
  
-    __block CGPoint viewCenter = CGPointMake(sender.view.center.x + point.x, sender.view.center.y + point.y);
+    CGPoint viewCenter = CGPointMake(sender.view.center.x + point.x, sender.view.center.y + point.y);
     
-    __block CGPoint imageCenter =  [self convertPoint:_imageView.center toView:[sender.view superview]];
+    CGPoint imageCenter =  [self convertPoint:_imageView.center toView:[sender.view superview]];
 
     // 拖拽状态结束
     if (sender.state == UIGestureRecognizerStateBegan) {
@@ -83,20 +83,22 @@ static int cout = 0;
         frame.origin = CGPointMake(frame.origin.x, frame.origin.y - 50);
         self.frame = frame;
     }else if (sender.state == UIGestureRecognizerStateEnded) {
+         [sender setTranslation:CGPointMake(0, 0) inView:[sender.view superview]];
         [self viweMovingEnd:imageCenter];
     } else {
         if (!CGRectContainsPoint(_actionRect, viewCenter)) {
             return;
         }
-
-        
-        [sender setTranslation:CGPointMake(0, 0) inView:[sender.view superview]];
-        sender.view.center = viewCenter;
         cout ++;
         if (cout % 4 != 0) {//减少触发频率
              return;
          }
-        self.perView.backgroundColor = [FUImageHelper getPixelColorScreenWindowAtLocation:imageCenter];
+
+        [sender setTranslation:CGPointMake(0, 0) inView:[sender.view superview]];
+        sender.view.center = viewCenter;
+        if (self.dataSource && [self.dataSource respondsToSelector:@selector(takeColorView:)]) {
+            self.perView.backgroundColor = [self.dataSource takeColorView:imageCenter];
+        }
         if (_didChange) {
             _didChange(self.perView.backgroundColor);
         }
@@ -107,7 +109,9 @@ static int cout = 0;
 
 -(void)viweMovingEnd:(CGPoint)center{
     
-    self.perView.backgroundColor = [FUImageHelper getPixelColorScreenWindowAtLocation:center];
+    if (self.dataSource && [self.dataSource respondsToSelector:@selector(takeColorView:)]) {
+        self.perView.backgroundColor = [self.dataSource takeColorView:center];
+    }
     if (_didChange) {
         _didChange(self.perView.backgroundColor);
     }

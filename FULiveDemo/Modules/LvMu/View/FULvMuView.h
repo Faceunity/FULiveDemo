@@ -10,7 +10,7 @@
 #import <Masonry.h>
 #import "FUBeautyParam.h"
 #import "FUTakeColorView.h"
-
+#import "FUBgCollectionView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,7 +19,7 @@ typedef NS_ENUM(NSUInteger, FUTakeColorState) {
     FUTakeColorStateStop,
 };
 
-@class FULvMuView;
+@class FULvMuView ;
 @protocol FULvMuViewDelegate <NSObject>
 
 - (void)beautyCollectionView:(FULvMuView *)beautyView didSelectedParam:(FUBeautyParam *)param;
@@ -35,9 +35,18 @@ typedef NS_ENUM(NSUInteger, FUTakeColorState) {
 
 @end
 
+@protocol FULvMuViewDataSource <NSObject>
+
+- (UIColor *)lvMuViewTakeColorView:(CGPoint )screenP;
+
+
+@end
+
+
 
 @interface FULvMuView : UIView
 @property (nonatomic, assign) id<FULvMuViewDelegate>mDelegate ;
+@property (nonatomic, assign) id<FULvMuViewDataSource>mDataSource ;
 
 @property (nonatomic, assign) NSInteger selectedIndex ;
 @property (nonatomic, assign) NSInteger colorSelectedIndex ;
@@ -45,6 +54,8 @@ typedef NS_ENUM(NSUInteger, FUTakeColorState) {
 @property (nonatomic, strong) NSMutableArray <FUBeautyParam *>*dataArray;
 
 @property (strong, nonatomic) FUTakeColorView *mTakeColorView;
+
+@property (strong, nonatomic) FUBgCollectionView *mBgCollectionView;
 
 @property (assign, nonatomic) BOOL isHidenTop;
 

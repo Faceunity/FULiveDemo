@@ -56,12 +56,19 @@
 			</array>
 			<key>items</key>
 			<array>
-				<string>sdlu</string>
+				<string>nihongdeng</string>
+				<string>CatSparks</string>
+				<string>face_half</string>
+				<string>fu_zh_fenshu</string>
+				<string>zhenxinhua_damaoxian</string>
+				<string>sdlr</string>
+				<string>xlong_zh_fu</string>
+				<string>expression_shooting</string>
+				<string>newy1</string>
+				<string>guangban</string>
+				<string>redribbt</string>
 				<string>DaisyPig</string>
-				<string>fashi</string>
-				<string>xueqiu_lm_fu</string>
-				<string>wobushi</string>
-				<string>gaoshiqing</string>
+				<string>sdlu</string>
 			</array>
 		</dict>
 		<dict>
@@ -233,7 +240,7 @@
 			<integer>0</integer>
 			<key>modules</key>
 			<array>
-				<integer>2048</integer>
+				<integer>2058</integer>
 			</array>
 			<key>items</key>
 			<array>
@@ -416,10 +423,10 @@
 			<key>itemType</key>
 			<integer>17</integer>
 			<key>conpareCode</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>modules</key>
 			<array>
-				<integer>65536</integer>
+				<integer>512</integer>
 			</array>
 		</dict>
 	</array>

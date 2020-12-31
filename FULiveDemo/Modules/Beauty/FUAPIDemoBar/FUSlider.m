@@ -62,6 +62,8 @@
         
         bgImgView.hidden = YES;
         tipLabel.hidden = YES;
+       
+        self.maximumTrackTintColor = [UIColor whiteColor];
         
     }
     return self;
@@ -72,9 +74,9 @@
     
     if (!middleView) {
         middleView = [[UIView alloc] initWithFrame:CGRectMake(2, self.frame.size.height /2.0 - 1, 100, 4)];
-        middleView.backgroundColor = [UIColor colorWithHexColorString:@"1FB2FF"];
+        middleView.backgroundColor = [UIColor colorWithHexColorString:@"5EC7FE"];
         middleView.hidden = YES;
-        [self insertSubview:middleView atIndex: self.subviews.count - 1];
+        
     }
     
     if (!line) {
@@ -85,6 +87,7 @@
         line.hidden = YES;
         [self insertSubview:line atIndex: self.subviews.count - 1];
     }
+    [self insertSubview:middleView atIndex: self.subviews.count - 2];
     
     line.frame = CGRectMake(self.frame.size.width / 2.0 - 1.0, 4.0, 2.0, self.frame.size.height - 8.0) ;
     
@@ -134,6 +137,8 @@
             CGRect frame = middleView.frame ;
             frame = CGRectMake(X, frame.origin.y, width, frame.size.height) ;
             middleView.frame = frame ;
+            
+            NSLog(@"----frame---%@",NSStringFromCGRect(frame));
         }
             break ;
             
