@@ -104,7 +104,12 @@
 
 -(void)displayPromptText{
     if(self.model.type == FULiveModelTypeGestureRecognition){
-        self.noTrackLabel.hidden = YES;
+        int res  = fuHandDetectorGetResultNumHands();
+        dispatch_async(dispatch_get_main_queue(), ^{
+                self.noTrackLabel.text = FUNSLocalizedString(@"未检测到手势",nil);
+               self.noTrackLabel.hidden = res > 0 ? YES : NO;
+        }) ;
+        
     }else{
         [super displayPromptText];
     }

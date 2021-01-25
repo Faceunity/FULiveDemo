@@ -390,6 +390,7 @@
 "美肩"  = "Shoulder";
 "美臀"  = "Hip";
 "未检测到人体" = "No Body Tracking";
+"未检测到手势" = "No gesture detected";
 "小头" =  "Head";
 "瘦腿"    =   "Thin leg";
 
