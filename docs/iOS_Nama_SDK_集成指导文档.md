@@ -88,13 +88,13 @@ Xcode 8或更高版本
 全功能版本（支持物理特效）：
 
 ```
-pod 'Nama', '7.3.0' 
+pod 'Nama', '7.3.2' 
 ```
 
 lite 版（体积更小，包含人脸相关的功能(海报换脸除外)）：
 
 ```
-pod 'Nama-lite', '7.3.0' 
+pod 'Nama-lite', '7.3.2' 
 ```
 
 接下来执行：
@@ -111,9 +111,9 @@ pod repo update 或 pod setup
 
 #### 3.2.2 通过 github 下载集成
 
-全功能版本（支持物理特效）：[FaceUnity-SDK-iOS-v7.3.0.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v7.3.0.zip)
+全功能版本（支持物理特效）：[FaceUnity-SDK-iOS-v7.3.2.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v7.3.2.zip)
 
-lite 版（体积更小，包含人脸相关的功能(海报换脸除外)）：[FaceUnity-SDK-iOS-v7.3.0-lite.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v7.3.0-lite.zip)
+lite 版（体积更小，包含人脸相关的功能(海报换脸除外)）：[FaceUnity-SDK-iOS-v7.3.2-lite.zip](https://www.faceunity.com/sdk/FaceUnity-SDK-iOS-v7.3.2-lite.zip)
 
 
 
