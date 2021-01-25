@@ -383,7 +383,11 @@
     
     if (self.model.type == FULiveModelTypeLvMu) {
         [_lvmuEditeView hidenTop:YES];
-        if(self.playBtn.hidden){
+        if(!self.videoURL){
+            self.downloadBtn.hidden = NO;
+            return;
+        }
+        if(!self.playBtn.hidden){
             self.downloadBtn.hidden = NO;
         }
         
@@ -724,7 +728,11 @@
     float h = shown?180:49;
     [self setPhotoScaleWithHeight:h show:shown];
     
-    if(self.playBtn.isHidden && !shown){
+    if(!self.videoURL){
+        self.downloadBtn.hidden = shown;
+        return;;
+    }
+    if(!self.playBtn.isHidden && !shown){
         self.downloadBtn.hidden = NO;
     }else{
         self.downloadBtn.hidden = YES;

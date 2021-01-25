@@ -74,7 +74,7 @@
          [self bindItems:defaultBindItem];
          
          [FURenderer itemSetParam:handle withName:@"enable_human_processor" value:@(1)];
-         
+         [FURenderer itemSetParam:handle withName:@"enable_face_processor" value:@(1)];
          [FURenderer itemSetParamdv:handle withName:@"target_position" value:position length:3];
          [FURenderer itemSetParam:handle withName:@"target_angle" value:@(0)];
          [FURenderer itemSetParam:handle withName:@"reset_all" value:@(3)];
