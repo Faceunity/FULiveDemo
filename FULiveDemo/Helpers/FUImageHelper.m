@@ -7,6 +7,7 @@
 //
 
 #import "FUImageHelper.h"
+//#import "libyuv.h"
 
 @implementation FUImageHelper
 
@@ -193,13 +194,6 @@
                                 withWidth:(int) width
                                withHeight:(int) height{
     
-    /* 一些到blend完,带上了素材alpha,导致保存效果不对，强行将alpha = 1.0 */
-    int length = height * width * 4;
-    for (int i=0; i<length; i+=4)
-    {
-        buffer[i+3] =  255;
-    }
-    
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     CGContextRef context = CGBitmapContextCreate(buffer,
                                                  width,
@@ -208,8 +202,6 @@
                                                  width * 4,
                                                  colorSpace,
                                                  kCGImageAlphaPremultipliedLast);
-    
-    CGContextSetAlpha(context, 1.0);
     CGImageRef imageRef = CGBitmapContextCreateImage(context);
     CGContextRelease(context);
     CGColorSpaceRelease(colorSpace);
@@ -370,7 +362,6 @@
     return image;
 }
 
-
 /**
 获取点击的颜色
 @param point 点击的位置
@@ -419,50 +410,6 @@
     
     return color;
 }
-
-+ (UIColor*) getColorImage:(UIImage *)image withPoint:(CGPoint)point{
-    UIColor *color = nil;
-    
-    CGImageRef inImage = image.CGImage;
-    // Create off screen bitmap context to draw the image into. Format ARGB is 4 bytes for each pixel: Alpa, Red, Green, Blue
-    CGContextRef cgctx = [self createARGBBitmapContextFromImage:inImage];
-    if (cgctx == NULL) { return nil;  }
-    size_t w = CGImageGetWidth(inImage);
-    size_t h = CGImageGetHeight(inImage);
-    CGRect rect = {{0,0},{w,h}};
-    // Draw the image to the bitmap context. Once we draw, the memory
-    // allocated for the context for rendering will then contain the
-    // raw image data in the specified color space.
-    CGContextDrawImage(cgctx, rect, inImage);
-    // Now we can get a pointer to the image data associated with the bitmap
-    // context.
-    unsigned char* data = CGBitmapContextGetData (cgctx);
-    CGFloat scale = [UIScreen mainScreen].scale;
-    if (data != NULL) {
-        //offset locates the pixel in the data from x,y.
-        //4 for 4 bytes of data per pixel, w is width of one row of data.
-        @try {
-            int offset = 4*((w*round(point.y))+round(point.x));
-            int alpha =  (int)data[offset];
-            int red = (int)data[offset+1];
-            int green = (int)data[offset+2];
-            int blue = (int)data[offset+3];
-            color = [UIColor colorWithRed:(red/255.0f) green:(green/255.0f) blue:(blue/255.0f) alpha:(alpha/255.0f)];
-        
-            free(data);
-        }
-        @catch (NSException * e) {
-            NSLog(@"%@",[e reason]);
-        }
-        @finally {
-        }
-        
-
-    }
-    return color;
-}
-
-
  
 +(CGContextRef) createARGBBitmapContextFromImage:(CGImageRef) inImage {
     CGContextRef    context = NULL;
@@ -513,11 +460,185 @@
 }
 
 
++ (UIColor *)getPixelColorWithPixelBuff:(CVPixelBufferRef)pixelBuffer point:(CGPoint)point {
+    UIColor *color = nil;
+    CVPixelBufferLockBaseAddress(pixelBuffer, 0);
+    size_t width = CVPixelBufferGetWidth(pixelBuffer);
+    unsigned char *baseAddress = (unsigned char *)CVPixelBufferGetBaseAddress(pixelBuffer);
+    if (baseAddress) {
+        int r, g, b, alpha;
+        //判断数据格式
+        OSType type = CVPixelBufferGetPixelFormatType(pixelBuffer);
+        
+        int scale = (int)[UIScreen mainScreen].scale;
+        if (type == kCVPixelFormatType_32BGRA) {
+            int offset = 4 * (width * round(point.y * scale) + round(point.x * scale));
+            //bgra
+            b =  (int)baseAddress[offset];
+            g = (int)baseAddress[offset+1];
+            r = (int)baseAddress[offset+2];
+            alpha = (int)baseAddress[offset+3];
+        } else {
+            alpha = 0xff;
+            [self NV12TransformToRGBWithBuffer:pixelBuffer offsetX:point.x * scale offsetY:point.y * scale r:&r g:&g b:&b];
+        }
+        color = [UIColor colorWithRed:(r/255.0f) green:(g/255.0f) blue:(b/255.0f) alpha:(alpha/255.0f)];
 
-////点击获取点击位置的颜色
-//-(IBAction)onClik:(UITapGestureRecognizer*)tap{
-//    CGPoint point = [tap locationInView:self];
-//    UIColor* color = [self getPixelColorAtLocation:point withImage:[self fullScreenshots]];
+    }
+    CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
+
+    return color;
+}
+
+
++ (void)NV12TransformToRGBWithBuffer:(CVPixelBufferRef)pixelBuffer offsetX:(int)offsetX offsetY:(int)offsetY r:(int *)r g:(int *)g b:(int *)b {
+    size_t width = CVPixelBufferGetWidth(pixelBuffer);
+    size_t height = CVPixelBufferGetHeight(pixelBuffer);
+    uint8_t *yBuffer = CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 0);
+    size_t yPitch = CVPixelBufferGetBytesPerRowOfPlane(pixelBuffer, 0); //y分量步长
+    uint8_t *cbCrBuffer = CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 1);
+    size_t cbCrPitch = CVPixelBufferGetBytesPerRowOfPlane(pixelBuffer, 1);//uv分量步长
+    
+    
+//    for(int y = 0; y < height; y++) {
+        uint8_t *yBufferLine = &yBuffer[offsetY * yPitch];
+        uint8_t *cbCrBufferLine = &cbCrBuffer[(offsetY >> 1) * cbCrPitch];
+        
+//        for(int x = 0; x < width; x++) {
+        int16_t y = yBufferLine[offsetX];
+        int16_t cb = cbCrBufferLine[offsetX & ~1] - 128;
+        int16_t cr = cbCrBufferLine[offsetX | 1] - 128;
+        
+//        uint8_t *rgbOutput = &rgbBufferLine[x*bytesPerPixel];
+        
+        *r = (int16_t)roundf( y + cr *  1.4 );
+        *g = (int16_t)roundf( y + cb * -0.343 + cr * -0.711 );
+        *b = (int16_t)roundf( y + cb *  1.765);
+        
+//        rgbOutput[0] = clamp(b);
+//        rgbOutput[1] = clamp(g);
+//        rgbOutput[2] = clamp(r);
+//        rgbOutput[3] = 0xff;
+//        }
+//    }
+}
+
+//NV12 转 bgra
+#define clamp(a) (a>255?255:(a<0?0:a))
++ (CVPixelBufferRef)NV12TransformRGBBuffer:(CVPixelBufferRef)pixelBuffer {
+    size_t width = CVPixelBufferGetWidth(pixelBuffer);
+    size_t height = CVPixelBufferGetHeight(pixelBuffer);
+    uint8_t *yBuffer = CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 0);
+    size_t yPitch = CVPixelBufferGetBytesPerRowOfPlane(pixelBuffer, 0); //y分量步长
+    uint8_t *cbCrBuffer = CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 1);
+    size_t cbCrPitch = CVPixelBufferGetBytesPerRowOfPlane(pixelBuffer, 1);//uv分量步长
+    
+    int bytesPerPixel = 4;
+    // 创建一个空的32BGRA格式的CVPixelBufferRef
+    NSDictionary *pixelAttributes = @{(id)kCVPixelBufferIOSurfacePropertiesKey : @{}};
+    CVPixelBufferRef rgbBuffer = NULL;
+    CVReturn result = CVPixelBufferCreate(kCFAllocatorDefault,
+                                          width,height,kCVPixelFormatType_32BGRA,
+                                          (__bridge CFDictionaryRef)pixelAttributes,&rgbBuffer);
+    if (result != kCVReturnSuccess) {
+        NSLog(@"Unable to create cvpixelbuffer %d", result);
+        return NULL;
+    }
+    CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
+
+    result = CVPixelBufferLockBaseAddress(rgbBuffer, 0);
+     if (result != kCVReturnSuccess) {
+         CFRelease(rgbBuffer);
+         NSLog(@"Failed to lock base address: %d", result);
+         return NULL;
+     }
+     
+    CVPixelBufferLockBaseAddress(rgbBuffer, 0);
+     // 得到新创建的CVPixelBufferRef中 rgb数据的首地址
+    uint8_t *rgbData = (uint8_t*)CVPixelBufferGetBaseAddress(rgbBuffer);
+
+    for(int y = 0; y < height; y++) {
+        uint8_t *rgbBufferLine = &rgbData[y * width * bytesPerPixel];
+        uint8_t *yBufferLine = &yBuffer[y * yPitch];
+        uint8_t *cbCrBufferLine = &cbCrBuffer[(y >> 1) * cbCrPitch];
+        
+        for(int x = 0; x < width; x++) {
+            int16_t y = yBufferLine[x];
+            int16_t cb = cbCrBufferLine[x & ~1] - 128;
+            int16_t cr = cbCrBufferLine[x | 1] - 128;
+            
+            uint8_t *rgbOutput = &rgbBufferLine[x*bytesPerPixel];
+            
+            int16_t r = (int16_t)roundf( y + cr *  1.4 );
+            int16_t g = (int16_t)roundf( y + cb * -0.343 + cr * -0.711 );
+            int16_t b = (int16_t)roundf( y + cb *  1.765);
+            
+            rgbOutput[0] = clamp(b);
+            rgbOutput[1] = clamp(g);
+            rgbOutput[2] = clamp(r);
+            rgbOutput[3] = 0xff;
+        }
+    }
+    CVPixelBufferLockBaseAddress(rgbBuffer, 0);
+    return rgbBuffer;
+}
+
+
+//+ (void)yuvLibWithPixelBuffer:(CVPixelBufferRef)pixelBuffer point:(CGPoint)point r:(int *)r g:(int *)g b:(int *)b alpha:(int *)alpha {
+//    unsigned char *baseAddress = (unsigned char *)CVPixelBufferGetBaseAddress(pixelBuffer);
+//    size_t width = CVPixelBufferGetWidth(pixelBuffer);
+//    size_t height = CVPixelBufferGetHeight(pixelBuffer);
+//    int scale = (int)[UIScreen mainScreen].scale;
+//
+//   //图像宽度（像素）
+//   size_t pixelWidth = CVPixelBufferGetWidth(pixelBuffer);
+//   //图像高度（像素）
+//   size_t pixelHeight = CVPixelBufferGetHeight(pixelBuffer);
+//   //获取CVImageBufferRef中的y数据
+//   uint8_t *y_frame = (unsigned char *)CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 0);
+//   //获取CMVImageBufferRef中的uv数据
+//   uint8_t *uv_frame =(unsigned char *) CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 1);
+//   
+//   
+//   // 创建一个空的32BGRA格式的CVPixelBufferRef
+//   NSDictionary *pixelAttributes = @{(id)kCVPixelBufferIOSurfacePropertiesKey : @{}};
+//   CVPixelBufferRef pixelBuffer1 = NULL;
+//   CVReturn result = CVPixelBufferCreate(kCFAllocatorDefault,
+//                                         pixelWidth,pixelHeight,kCVPixelFormatType_32BGRA,
+//                                         (__bridge CFDictionaryRef)pixelAttributes,&pixelBuffer1);
+//   if (result != kCVReturnSuccess) {
+//       NSLog(@"Unable to create cvpixelbuffer %d", result);
+//       return ;
+//   }
+//   CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
+//
+//   result = CVPixelBufferLockBaseAddress(pixelBuffer1, 0);
+//    if (result != kCVReturnSuccess) {
+//        CFRelease(pixelBuffer1);
+//        NSLog(@"Failed to lock base address: %d", result);
+//        return ;
+//    }
+//    
+//    // 得到新创建的CVPixelBufferRef中 rgb数据的首地址
+//    uint8_t *rgb_data = (uint8_t*)CVPixelBufferGetBaseAddress(pixelBuffer1);
+//    
+//    // 使用libyuv为rgb_data写入数据，将NV12转换为BGRA
+//    int ret = NV12ToARGB(y_frame, (int)width, uv_frame, (int)width, rgb_data, (int)width * 4, (int)width, (int)height);
+//    if (ret) {
+//        NSLog(@"Error converting NV12 VideoFrame to BGRA: %d", result);
+//        CFRelease(pixelBuffer1);
+//        return ;
+//    }
+//    baseAddress = (unsigned char *)CVPixelBufferGetBaseAddress(pixelBuffer1);
+//
+//    int offset = 4 * (width * round(point.y * scale) + round(point.x * scale));
+//    //iOS小端，倒着取BGR
+//    *b =  (int)baseAddress[offset];
+//    *g = (int)baseAddress[offset+1];
+//    *r = (int)baseAddress[offset+2];
+//    *alpha = (int)baseAddress[offset+3];
+//    CVPixelBufferUnlockBaseAddress(pixelBuffer1, 0);
+//    CFRelease(pixelBuffer1);
 //}
 
 @end

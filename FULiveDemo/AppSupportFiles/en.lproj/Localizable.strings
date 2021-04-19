@@ -145,6 +145,7 @@
 //"清晰磨皮" = "Light Blur mode" ;
 //"朦胧磨皮" = "Heavy Blur mode" ;
 //"精细磨皮" = "Fine Blur mode" ;
+
 "美肤" = "Skin" ;
 "美型" = "Reshape" ;
 "滤镜" = "Filter" ;
@@ -169,7 +170,7 @@
 "换脸" = "Face Transfer" ;
 "表情识别" = "Expression" ;
 "音乐滤镜" = "Music Filter" ;
-"人像分割" = "Background" ;
+"人像分割" = "Portrait segmentation" ;
 "手势识别" = "Gesture" ;
 "哈哈镜" = "FaceWarp" ;
 "人像驱动" = "Dynamic Portrait" ;
@@ -186,16 +187,16 @@
 "微笑触发" = "Have a Smile";
 "吹气触发" = "Whistle";
 
-"单手手指比心" = "Heart_a";
+"单手手指比心" = "Finger heart";
 "双手抱拳" = "Fist";
 "双手合十" = "Namaste";
 "双手比心" = "Heart_b";
 "竖个拇指" = "Thumb_up";
 "比个六" = "Shaka sign";
-"推出手掌" = "push hand";
+"推出手掌" = "High five";
 "动漫滤镜" = "cartoon filter";
 
-"双拳靠近脸颊卖萌" = "Be cute";
+"双拳靠近脸颊卖萌" = "Holding fist";
 "转头触发" = "Swivel";
 
 "未识别到人脸" = "No Face Tracking" ;
@@ -390,16 +391,15 @@
 "美肩"  = "Shoulder";
 "美臀"  = "Hip";
 "未检测到人体" = "No Body Tracking";
-"未检测到手势" = "No gesture detected";
-"小头" =  "Head";
+"小头" =  "Head shrink";
 "瘦腿"    =   "Thin leg";
 
 //主模块
 "人脸特效" =  "Face effects";
 "人体特效"  = "Body effects";
 "搞笑大头"  = "Funny big head";
-"全身Avatar"  = "body Avatar";
-"动作识别"  = "Action rec.";
+"全身Avatar"  = "Whole-body avatar";
+"动作识别"  = "Action recognition";
 
 //美妆模块
 "减龄"  = "Tender";
@@ -426,7 +426,7 @@
 "相似度"    =   "Similarity";
 "平滑"    =   "Smoothness";
 "透明度"    =   "Transparency";
-"背景"    =   "Background";
+"背景"    =   "Background segmentation";
 "科技"    =   "Technology";
 
 "沙滩"    =   "Sand";
@@ -434,17 +434,44 @@
 "请使用纯色背景拍摄，推荐绿色幕布效果最佳"    =   "Please use a solid background, a green screen is recommended for the best effect.";
 "我知道了"    =   "I know.";
 
-"圆眼" =   "Eye Round";
-"风格推荐" =   "Presets";
-"无" =   "None";
-"风格1" =   "Style1";
-"风格2" =   "Style2";
-"风格3" =   "Style3";
-"风格4" =   "Style4";
-"风格5" =   "Style5";
-"风格6" =   "Style6";
-"风格7" =   "Style7";
+/**
+ * 检测手势
+ */
+"未检测到手势" = "No gesture tracking";
 
-"使用%@先取消“风格推荐”" = "To use %@, cancel 'Presets' first.";
+/**
+ * 绿慕
+ */
+"水墨画" = "Ink";
+"森林" = "Forest";
+
+/**
+ * 精品贴纸
+ */
+"精品贴纸" = "Exquisite sticker";
+
+"下载失败" = "Download failed";
+
+"蜜糖" = "Honey";
+"奶茶" = "Milk tea";
+"水波" = "Ripple";
+"鎏金" = "Gilding";
+"孔雀" = "Peacock";
+"星河" = "Milky way";
+"落目" = "Curtain";
+"极光" = "Aurora";
 
 
+"To use, cancel Presets first." = "To use %@, cancel \'Presets\' first.";
+
+"None" = "无";
+"Style1" = "Style1";
+"Style2" = "Style2";
+"Style3" = "Style3";
+"Style4" = "Style4";
+"Style5" = "Style5";
+"Style6" = "Style6";
+"Style7" = "Style7";
+
+"presets" = "Presets";
+"Content service" = "Content service";

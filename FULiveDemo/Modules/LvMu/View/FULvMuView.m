@@ -12,6 +12,7 @@
 #import "FUBaseViewController.h"
 #import "FUSquareButton.h"
 #import "FUMakeupSlider.h"
+#import "FUBgCollectionView.h"
 
 
 
@@ -89,7 +90,7 @@ typedef NS_ENUM(NSUInteger, FULvMuState) {
 static NSString *LvMuCellID = @"FULvMuCellID";
 static NSString *colorCellID = @"FULvMuColorCellID";
 
-@interface FULvMuView()<UICollectionViewDelegate,UICollectionViewDataSource,FUBgCollectionViewDelegate,FUTakeColorViewDataSource>
+@interface FULvMuView()<UICollectionViewDelegate,UICollectionViewDataSource,FUBgCollectionViewDelegate>
 
 @property(nonatomic,strong) UICollectionView *mColorCollectionView;
 
@@ -102,21 +103,33 @@ static NSString *colorCellID = @"FULvMuColorCellID";
 
 @property (strong, nonatomic) FUSquareButton *restBtn;
 
-@property (assign, nonatomic) FULvMuState mState;
+@property (assign, nonatomic) FULvMuState state;
 
 @property (strong, nonatomic) NSMutableArray <UIColor *>* colors;
 
+@property (strong, nonatomic) FUBgCollectionView *mBgCollectionView;
+
+
 @property (assign, nonatomic) FUTakeColorState colorEditState;
+
+@property (nonatomic, strong) NSMutableArray <FUGreenScreenModel *>*dataArray;
 
 @end
 
 @implementation FULvMuView
+- (void)setTakeColor:(UIColor *)color {
+    self.mTakeColorView.perView.backgroundColor = color;
+    NSIndexPath *indexpath = [NSIndexPath indexPathForRow:0 inSection:0];
+    FULvMuColorCell *cell = (FULvMuColorCell *)[self.mColorCollectionView cellForItemAtIndexPath:indexpath];
+    cell.imageView.backgroundColor = color;
+    [self.colors replaceObjectAtIndex:0 withObject:color];
+}
 
 -(FUTakeColorView *)mTakeColorView{
     if (!_mTakeColorView) {
         __weak typeof(self)weakSelf  = self ;
         _mTakeColorView = [[FUTakeColorView alloc] initWithFrame:CGRectMake(100, 100, 36, 60) didChangeBlock:^(UIColor * _Nonnull color) {
-            if (!weakSelf.mColorCollectionView || !color) {
+            if (!weakSelf.mColorCollectionView) {
                 return ;
             }
             
@@ -127,15 +140,12 @@ static NSString *colorCellID = @"FULvMuColorCellID";
             
         }complete:^{
             UIColor *color = weakSelf.colors[0];
-            CGFloat r,g,b,a;
-            [color getRed:&r green:&g blue:&b alpha:&a];
-            
-            if ([weakSelf.mDelegate respondsToSelector:@selector(colorDidSelectedR:G:B:A:)]) {
-                [weakSelf.mDelegate colorDidSelectedR:r G:g B:b A:a];
+            if ([weakSelf.mDelegate respondsToSelector:@selector(colorDidSelected:)]) {
+                [weakSelf.mDelegate colorDidSelected:color];
             }
             
             /* 开始渲染 */
-            [self changeTakeColorState:FUTakeColorStateStop];
+            [weakSelf changeTakeColorState:FUTakeColorStateStop];
         }];
         NSIndexPath *indexpath = [NSIndexPath indexPathForRow:0 inSection:0];
         FULvMuColorCell *cell = (FULvMuColorCell *)[weakSelf.mColorCollectionView cellForItemAtIndexPath:indexpath];
@@ -143,14 +153,30 @@ static NSString *colorCellID = @"FULvMuColorCellID";
         _mTakeColorView.backgroundColor = [UIColor clearColor];
         _mTakeColorView.perView.backgroundColor = cell.imageView.backgroundColor;
         _mTakeColorView.center = CGPointMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/2);
-        [_mTakeColorView actionRect:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 180)];
-        UIWindow *window = [UIApplication sharedApplication].keyWindow;
-        _mTakeColorView.dataSource = self;
-        [window addSubview:_mTakeColorView];
+        
+        UIView *bgView = nil;
+        if ([self.mDelegate respondsToSelector:@selector(takeColorBgView)]) {
+            bgView = [self.mDelegate takeColorBgView];
+        } else {
+            [_mTakeColorView actionRect:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 180)];
+            UIWindow *window = [UIApplication sharedApplication].keyWindow;
+            bgView = window;
+        }
+
+        [bgView addSubview:_mTakeColorView];
+        
+        __weak typeof(self) weak = self;
+        _mTakeColorView.BlockPointer = ^(CGPoint point) {
+            if ([weak.mDelegate respondsToSelector:@selector(getPoint:)]) {
+                [weak.mDelegate getPoint:point];
+            }
+        };
     }
     
     return _mTakeColorView;
 }
+
+
 
 
 
@@ -173,16 +199,26 @@ static NSString *colorCellID = @"FULvMuColorCellID";
     [self setupDefault];
 }
 
+- (void)reloadDataSoure:(NSArray <FUGreenScreenModel *> *)dataSource {
+    _dataArray = [NSMutableArray arrayWithArray:dataSource];
+    [self.mColorCollectionView reloadData];
+}
+
+//刷新绿慕背景collection数据
+- (void)reloadBgDataSource:(NSArray <FUGreenScreenBgModel *> *)dataSource {
+    _mBgCollectionView.filters = dataSource;
+}
+
 -(void)setupDefault{
     /* 设置回调一遍默认 */
     [self bgCollectionViewDidSelectedFilter:_mBgCollectionView.filters[_mBgCollectionView.selectedIndex]];
     
-    if ([self.mDelegate respondsToSelector:@selector(colorDidSelectedR:G:B:A:)]) {
-        [self.mDelegate colorDidSelectedR:0 G:1.0 B:0.0 A:1.0];
+    if ([self.mDelegate respondsToSelector:@selector(colorDidSelected:)]) {
+        [self.mDelegate colorDidSelected:[UIColor colorWithRed:0.0 green:1.0 blue:0.0 alpha:1.0]];
     }
     
     for (int i = 1 ; i < _dataArray.count; i ++) {
-        FUBeautyParam *param = _dataArray[i];
+        FUGreenScreenModel *param = _dataArray[i];
         if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(beautyCollectionView:didSelectedParam:)]) {
             [self.mDelegate beautyCollectionView:self didSelectedParam:param];
         }
@@ -245,26 +281,6 @@ static NSString *colorCellID = @"FULvMuColorCellID";
         make.left.right.bottom.equalTo(self);
     }];
     
-    NSArray *prams = @[@"key_color",@"chroma_thres",@"chroma_thres_T",@"alpha_L"];
-    NSDictionary *titelDic = @{@"key_color":@"关键颜色",@"chroma_thres":@"相似度",@"chroma_thres_T":@"平滑",@"alpha_L":@"透明度"};
-    NSDictionary *imageDic = @{@"key_color":@"demo_icon_key_color",@"chroma_thres":@"demo_icon_similarityr",@"chroma_thres_T":@"demo_icon_smooth",@"alpha_L":@"demo_icon_transparency"};
-    
-    NSDictionary *defaultValueDic = @{@"key_color":@(0),@"chroma_thres":@(0.45),@"chroma_thres_T":@(0.30),@"alpha_L":@(0.20)};
-    
-    if (!_dataArray) {
-        _dataArray = [[NSMutableArray alloc] init];
-    }
-    
-    for (NSString *str in prams) {
-        FUBeautyParam *modle = [[FUBeautyParam alloc] init];
-        modle.mParam = str;
-        modle.mTitle = [titelDic valueForKey:str];
-        modle.mImageStr = [imageDic valueForKey:str];
-        modle.mValue = [[defaultValueDic valueForKey:str] floatValue];
-        modle.defaultValue = modle.mValue;
-        [_dataArray addObject:modle];
-    }
-    
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.minimumInteritemSpacing = 0;
     layout.minimumLineSpacing = 30;
@@ -282,12 +298,12 @@ static NSString *colorCellID = @"FULvMuColorCellID";
     __weak typeof(self)weakSelf  = self ;
     _segmentBarView = [[FUSegmentBarView alloc] initWithFrame:CGRectMake(0, 200,[UIScreen mainScreen].bounds.size.width, 49) titleArray:@[FUNSLocalizedString(@"抠像",nil),FUNSLocalizedString(@"背景",nil)] selBlock:^(int index) {
         FULvMuState tepState = index==0? FULvMukeying:FULvMubackground;
-        if (weakSelf.mState == tepState) {
-            weakSelf.mState = tepState;
+        if (weakSelf.state == tepState) {
+            weakSelf.state = tepState;
             [weakSelf hidenTop:YES];
         }else{
-            weakSelf.mState = tepState;
-            [weakSelf segmentBarClickUpdateView:weakSelf.mState];
+            weakSelf.state = tepState;
+            [weakSelf segmentBarClickUpdateView:weakSelf.state];
             [weakSelf hidenTop:NO];
         }
         
@@ -297,36 +313,6 @@ static NSString *colorCellID = @"FULvMuColorCellID";
     [self addSubview:_segmentBarView];
     
     _mBgCollectionView = [[FUBgCollectionView alloc] init];
-    FUBeautyParam *param0 = [[FUBeautyParam alloc] init];
-    param0.mTitle = @"取消";
-    param0.mImageStr = @"makeup_noitem";
-    
-    FUBeautyParam *param1 = [[FUBeautyParam alloc] init];
-    param1.mTitle = @"沙滩";
-    param1.mParam = @"beach";
-    param1.mImageStr = @"demo_bg_beach";
-    
-    FUBeautyParam *param2 = [[FUBeautyParam alloc] init];
-    param2.mTitle = @"教室";
-    param2.mParam = @"classroom";
-    param2.mImageStr = @"demo_bg_classroom";
-    FUBeautyParam *param3 = [[FUBeautyParam alloc] init];
-    param3.mTitle = @"春天森林";
-    param3.mParam = @"springForest";
-    param3.mImageStr = @"demo_bg_forest";
-    
-    FUBeautyParam *param4 = [[FUBeautyParam alloc] init];
-    param4.mTitle = @"水墨";
-    param4.mParam = @"inkPainting";
-    param4.mImageStr = @"demo_bg_ink painting";
-
-    FUBeautyParam *param5 = [[FUBeautyParam alloc] init];
-    param5.mTitle = @"科技";
-    param5.mParam = @"science";
-    param5.mImageStr = @"demo_bg_science";
-
-    NSArray *params = @[param0,param5,param1,param2,param4,param3];
-    _mBgCollectionView.filters = params;
     _mBgCollectionView.mDelegate = self;
     _mBgCollectionView.hidden = YES;
     [_mBgCollectionView setSelectedIndex:3];
@@ -404,25 +390,25 @@ static NSString *colorCellID = @"FULvMuColorCellID";
         FULvMuCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:LvMuCellID forIndexPath:indexPath];
         
         if (indexPath.row < self.dataArray.count){
-            FUBeautyParam *modle = self.dataArray[indexPath.row] ;
+            FUGreenScreenModel *modle = self.dataArray[indexPath.row] ;
             NSString *imageName ;
             
             BOOL opened = YES;
             if (modle.iSStyle101) {
-                opened = fabs(modle.mValue - 0.5) > 0.01 ? YES : NO;
+                opened = fabs([modle.value floatValue] - 0.5) > 0.01 ? YES : NO;
             }else{
-                opened = fabsf(modle.mValue - 0) > 0.01 ? YES : NO;
+                opened = fabsf([modle.value floatValue] - 0) > 0.01 ? YES : NO;
             }
             
             BOOL selected = _selectedIndex == indexPath.row ;
             if (selected) {
-                imageName = opened ? [modle.mImageStr stringByAppendingString:@"_sel_open.png"] : [modle.mImageStr stringByAppendingString:@"_sel.png"] ;
+                imageName = opened ? [modle.imageName stringByAppendingString:@"_sel_open.png"] : [modle.imageName stringByAppendingString:@"_sel.png"] ;
             }else {
-                imageName = opened ? [modle.mImageStr stringByAppendingString:@"_nor_open.png"] : [modle.mImageStr stringByAppendingString:@"_nor.png"] ;
+                imageName = opened ? [modle.imageName stringByAppendingString:@"_nor_open.png"] : [modle.imageName stringByAppendingString:@"_nor.png"] ;
             }
             
             cell.imageView.image = [UIImage imageNamed:imageName];
-            cell.titleLabel.text = FUNSLocalizedString(modle.mTitle,nil);
+            cell.titleLabel.text = FUNSLocalizedString(modle.title,nil);
             cell.titleLabel.textColor = _selectedIndex == indexPath.row ? [UIColor colorWithHexColorString:@"5EC7FE"] : [UIColor whiteColor];
         }
         return cell ;
@@ -437,15 +423,12 @@ static NSString *colorCellID = @"FULvMuColorCellID";
                 cell.imageView.image = [UIImage imageNamed:@"demo_icon_straw"];
                 
             }else{
-                cell.imageView.image = [UIImage imageNamed:@""];
+                cell.imageView.image = nil;
             }
             
         }else{
-            cell.imageView.image = [UIImage imageNamed:@""];
+            cell.imageView.image = nil;
         }
-        
-        
-        
         return cell;
     }
     
@@ -459,10 +442,10 @@ static NSString *colorCellID = @"FULvMuColorCellID";
         if (_selectedIndex == indexPath.row) {
             return ;
         }
-        FUBeautyParam *model = _dataArray[indexPath.row];
+        FUGreenScreenModel *model = _dataArray[indexPath.row];
         _selectedIndex = indexPath.row ;
         [self hiddenSlideer:_selectedIndex == 0?YES:NO];
-        _slider.value = model.mValue;
+        _slider.value = [model.value floatValue];
         
         [self.mItemCollectionView reloadData];
         
@@ -485,14 +468,6 @@ static NSString *colorCellID = @"FULvMuColorCellID";
         [self.mColorCollectionView reloadData];
     }
     [self changRestBtnUI];
-}
-
-#pragma  mark -  <#string#>
--(UIColor *)takeColorView:(CGPoint)imageCenter{
-    if (self.mDataSource && [self.mDataSource respondsToSelector:@selector(lvMuViewTakeColorView:)]) {
-        return  [self.mDataSource lvMuViewTakeColorView:imageCenter];
-    }
-    return nil;
 }
 
 #pragma  mark - update UI
@@ -525,11 +500,11 @@ static NSString *colorCellID = @"FULvMuColorCellID";
 }
 
 
--(void)restAllSate{
+-(void)restAllSate {
     [self changeTakeColorState:FUTakeColorStateStop];
     
-    for (FUBeautyParam *param in _dataArray) {
-        param.mValue = param.defaultValue;
+    for (FUGreenScreenModel *param in _dataArray) {
+        param.value = param.defaultValue;
     }
     
     [self.colors replaceObjectAtIndex:0 withObject:[UIColor clearColor]];
@@ -537,10 +512,7 @@ static NSString *colorCellID = @"FULvMuColorCellID";
     _colorSelectedIndex = 1;
     _selectedIndex = 0;
     _slider.hidden = YES;
-    
-    if(self.mState == FULvMukeying){
-        _mColorCollectionView.hidden = NO;
-    }
+    _mColorCollectionView.hidden = NO;
     
     [self setupDefault];
     
@@ -591,16 +563,14 @@ static NSString *colorCellID = @"FULvMuColorCellID";
 -(void)didSelColorWithIdnex:(int)index{
     NSIndexPath *indexpath = [NSIndexPath indexPathForRow:index inSection:0];
     FULvMuColorCell *cell = (FULvMuColorCell *)[_mColorCollectionView cellForItemAtIndexPath:indexpath];
-    CGFloat r,g,b,a;
-    [cell.imageView.backgroundColor getRed:&r green:&g blue:&b alpha:&a];
-    if ([self.mDelegate respondsToSelector:@selector(colorDidSelectedR:G:B:A:)]) {
-        [self.mDelegate colorDidSelectedR:r G:g B:b A:a];
+    if ([self.mDelegate respondsToSelector:@selector(colorDidSelected:)]) {
+        [self.mDelegate colorDidSelected:cell.imageView.backgroundColor];
     }
 }
 
 -(void)didChangeValue:(FUMakeupSlider *)slider{
-    FUBeautyParam *param = _dataArray[_selectedIndex];
-    param.mValue = slider.value;
+    FUGreenScreenModel *param = _dataArray[_selectedIndex];
+    param.value = [NSNumber numberWithFloat:slider.value];
     
     if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(beautyCollectionView:didSelectedParam:)]) {
         [self.mDelegate beautyCollectionView:self didSelectedParam:param];
@@ -612,7 +582,7 @@ static NSString *colorCellID = @"FULvMuColorCellID";
 }
 
 #pragma  mark -  bgdelegate
--(void)bgCollectionViewDidSelectedFilter:(FUBeautyParam *)param{
+-(void)bgCollectionViewDidSelectedFilter:(FUGreenScreenModel *)param{
     if ([self.mDelegate respondsToSelector:@selector(didSelectedParam:)]) {
         [self.mDelegate didSelectedParam:param];
     }
@@ -624,7 +594,7 @@ static NSString *colorCellID = @"FULvMuColorCellID";
     _isHidenTop = isHiden;
     if (isHiden) {
         [_segmentBarView setUINormal];
-        self.mState = 3;
+        self.state = 3;
         [self mas_updateConstraints:^(MASConstraintMaker *make) {
             if (iPhoneXStyle) {
                 make.height.mas_equalTo(49 + 34);
@@ -649,9 +619,13 @@ static NSString *colorCellID = @"FULvMuColorCellID";
     //    [self changeTakeColorState:FUTakeColorStateStop];
 }
 
--(void)destoryLvMuView{
-    [self.mTakeColorView removeFromSuperview];
-    _mTakeColorView  = nil;
+-(void)destoryLvMuView {
+    if ([_mTakeColorView.superview isKindOfClass:[UIWindow class]]) {
+        [_mTakeColorView removeFromSuperview];
+        _mTakeColorView  = nil;
+    } else {
+        //无需处理
+    }
 }
 
 
@@ -689,8 +663,8 @@ static NSString *colorCellID = @"FULvMuColorCellID";
 -(void)changRestBtnUI{
     
     BOOL isDefaultValue = YES;
-    for (FUBeautyParam *param in _dataArray) {
-        if (fabsf(param.mValue - param.defaultValue) > 0.01)  {
+    for (FUGreenScreenModel *param in _dataArray) {
+        if (fabs([(NSNumber *)param.value doubleValue] - [(NSNumber *)param.defaultValue doubleValue        ]) > 0.01)  {
             isDefaultValue = NO;
         }
         
@@ -707,8 +681,11 @@ static NSString *colorCellID = @"FULvMuColorCellID";
 }
 
 
--(void)dealloc{
+-(void)dealloc {
     NSLog(@"lv ---- dealloc");
+    if (_mTakeColorView) {
+        [self destoryLvMuView];
+    }
 }
 
 

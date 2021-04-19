@@ -21,7 +21,7 @@ typedef NS_ENUM(NSInteger, FUVideoReaderOrientation) {
 @optional
 
 // 每一帧视频数据
-- (void)videoReaderDidReadVideoBuffer:(CVPixelBufferRef)pixelBuffer;
+- (CVPixelBufferRef)videoReaderDidReadVideoBuffer:(CVPixelBufferRef)pixelBuffer;
 
 // 读写视频完成
 - (void)videoReaderDidFinishReadSuccess:(BOOL)success ;

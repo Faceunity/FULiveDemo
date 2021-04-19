@@ -25,7 +25,7 @@ typedef NS_ENUM( NSInteger, FUCameraFocusModel) {
 
 @protocol FUCameraDataSource <NSObject>
 
-- (CGPoint)faceCenterInImage:(FUCamera *)camera ;
+- (CGPoint)faceCenterInImage:(FUCamera *)camera;
 
 @end
 
@@ -99,7 +99,7 @@ typedef NS_ENUM( NSInteger, FUCameraFocusModel) {
 
 /**
  修改帧率
- 
+
  在iOS上，使用AvCaptureDevice的setActiveFormat:和AvCaptureSession的setSessionPreset:是互斥的。
  如果 frameRate <= 30 setActiveFormat 则该设备所连接的会话将其预设更改为avCaptureSessionPresetinputPriority
  */
@@ -124,4 +124,6 @@ typedef NS_ENUM( NSInteger, FUCameraFocusModel) {
 //  可用于模拟对焦
 - (void)setZoomValue:(CGFloat)zoomValue;
 
+//获取设置相机的图片帧方向
+- (AVCaptureVideoOrientation)videoOrientation;
 @end

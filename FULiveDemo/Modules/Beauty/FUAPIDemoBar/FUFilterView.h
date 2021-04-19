@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "FUDemoBarDefine.h"
-#import "FUBeautyParam.h"
+#import "FUBeautyModel.h"
 
 
 @protocol FUFilterViewDelegate <NSObject>
 
 // 开启滤镜
-- (void)filterViewDidSelectedFilter:(FUBeautyParam *)param;
+- (void)filterViewDidSelectedFilter:(FUBeautyModel *)param;
 @end
 
 
@@ -26,9 +26,9 @@
 
 @property (nonatomic, assign) NSInteger selectedIndex ;
 
-@property (nonatomic, strong) NSArray<FUBeautyParam *> *filters;
+@property (nonatomic, strong) NSArray<FUBeautyModel *> *filters;
 
--(void)setDefaultFilter:(FUBeautyParam *)filter;
+-(void)setDefaultFilter:(FUBeautyModel *)filter;
 
 @end
 

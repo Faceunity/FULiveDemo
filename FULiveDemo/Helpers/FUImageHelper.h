@@ -27,5 +27,6 @@
 
 + (UIColor*)getPixelColorScreenWindowAtLocation:(CGPoint)point;
 
-+ (UIColor*)getColorImage:(UIImage *)image withPoint:(CGPoint)point;
+//针对每一帧处理取色
++ (UIColor *)getPixelColorWithPixelBuff:(CVPixelBufferRef)pixelBuffer point:(CGPoint)point;
 @end

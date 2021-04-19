@@ -10,10 +10,14 @@
 
 @class FULiveModel ;
 @interface FULiveCell : UICollectionViewCell
+@property (weak, nonatomic) IBOutlet UIImageView *bgImageView;
 
 @property (nonatomic, strong) FULiveModel *model ;
 
 @property (weak, nonatomic) IBOutlet UIImageView *image;
 @property (weak, nonatomic) IBOutlet UILabel *title;
 @property (weak, nonatomic) IBOutlet UIImageView *bottomImage;
+
+@property (weak, nonatomic) IBOutlet UIView *animotionView;
+
 @end

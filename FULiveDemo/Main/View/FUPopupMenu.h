@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param delegate 代理
 + (FUPopupMenu *)showRelyOnView:(UIView *)view frame:(CGRect)frame defaultSelectedAtIndex:(int)index onlyTop:(BOOL)onlyTop delegate:(id<FUPopupMenuDelegate>)delegate;
 
-
+@property (nonatomic) int  selIndex;
 
 /// 不需要按钮
 -(void)dismissBtn;

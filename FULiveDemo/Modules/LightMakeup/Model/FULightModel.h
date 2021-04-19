@@ -7,33 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "FUMakeupProtocol.h"
 #import "FUSingleMakeupModel.h"//目的导入FUMakeupModelType枚举，这里简单写了
 
 NS_ASSUME_NONNULL_BEGIN
-
-/* 部位模型，如：口红数据，则对应一个FUSingleLightMakeupModel对象 */
-@interface FUSingleLightMakeupModel : NSObject
-
-/* 妆容类型 */
-@property (nonatomic, assign) FUMakeupModelType makeType;
-/* 妆容键值 sdk参数*/
-@property (nonatomic, copy) NSString* namaTypeStr;
-/* 加载到部位的图片 */
-@property (nonatomic, copy) NSString* namaImgStr;
-/* 妆容程度值键值 sdk参数*/
-@property (nonatomic, copy) NSString* namaValueStr;
-/* 妆容程度值 */
-@property (nonatomic, assign) float  value;
-/* 妆容颜色键值 sdk参数*/
-@property (nonatomic, copy) NSString* colorStr;
-/* 妆容颜色 */
-@property (nonatomic, strong) NSArray* colorStrV;
-
-/* 口红相关 */
-@property (nonatomic, assign) int is_two_color;
-@property (nonatomic, assign) int lip_type;
-
+@interface FUSingleLightMakeupModel : NSObject <FUMakeupProtocol>
+//轻美妆妆容图片键值
+@property (nonatomic, assign) LIGHTMAKEUPIMAGETYPE namaBundleKey;
 @end
 
 @interface FULightModel : NSObject

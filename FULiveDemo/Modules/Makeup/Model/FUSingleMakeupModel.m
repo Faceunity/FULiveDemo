@@ -9,7 +9,9 @@
 #import "FUSingleMakeupModel.h"
 #import <objc/runtime.h>
 
+
 @implementation FUSingleMakeupModel
+@synthesize makeType, namaBundle, namaValueType, value, colorStr, colorStrV, is_two_color, lip_type, realValue;
 
 -(id)copyWithZone:(NSZone *)zone{
     FUSingleMakeupModel *model = [[FUSingleMakeupModel allocWithZone:zone] init];

@@ -14,11 +14,13 @@
 #import "FUSaveViewController.h"
 #import "FUEditImageViewController.h"
 #import "FUImageHelper.h"
-#import "FURenderer.h"
+#import <FURenderKit/FURenderer.h>
 #import "FUSelectedImageController.h"
 #import <CoreMotion/CoreMotion.h>
-
 #import "FUPopupMenu.h"
+
+#import <FURenderKit/FURenderIO.h>
+#import <FURenderKit/FURenderKit.h>
 
 @interface FUBaseViewController ()<
 FUCameraDelegate,
@@ -63,14 +65,16 @@ FUPopupMenuDelegate
 
 -(void)viewDidLoad{
     [super viewDidLoad];
+    
+    self.baseManager = [[FUBaseViewControllerManager alloc] init];
+    
     [self setupSubView];
     
     /* 视频模式 */
     fuSetFaceProcessorDetectMode(1);
     
     self.view.backgroundColor = [UIColor colorWithRed:17/255.0 green:18/255.0 blue:38/255.0 alpha:1.0];
-    /* 美颜道具 */
-    [[FUManager shareManager] loadFilter];
+
     //重置曝光值为0
     [self.mCamera setExposureValue:0];
     [self setupLightingValue];
@@ -93,6 +97,8 @@ FUPopupMenuDelegate
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.mCamera startCapture];
+    
+    //不确定是不是小bug，每次重新回到页面分辨率都被设置成AVCaptureSessionPreset1280x720了，放到页面初始化地方去
     [_mCamera changeSessionPreset:AVCaptureSessionPreset1280x720];
     /* 监听屏幕方向 */
     [self startListeningDirectionOfDevice];
@@ -186,7 +192,6 @@ FUPopupMenuDelegate
     [self.renderView addSubview:_adjustImage];
     
     /* 未检测到人脸提示 */
-    _noTrackLabel = [[UILabel alloc] init];
     _noTrackLabel = [[UILabel alloc] init];
     _noTrackLabel.textColor = [UIColor whiteColor];
     _noTrackLabel.font = [UIFont systemFontOfSize:17];
@@ -314,7 +319,6 @@ FUPopupMenuDelegate
 -(void)headButtonViewBackAction:(UIButton *)btn{
     dispatch_semaphore_wait(signal, DISPATCH_TIME_FOREVER);
     [self.mCamera stopCapture];
-    
     [[FUManager shareManager] destoryItems];
     [self.navigationController popViewControllerAnimated:YES];
     dispatch_semaphore_signal(signal);
@@ -447,6 +451,7 @@ static int rate = 0;
 static NSTimeInterval totalRenderTime = 0;
 static  NSTimeInterval oldTime = 0;
 -(void)didOutputVideoSampleBuffer:(CMSampleBufferRef)sampleBuffer {
+    
     CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) ;
     imageW = CVPixelBufferGetWidth(pixelBuffer);
     imageH = CVPixelBufferGetHeight(pixelBuffer);
@@ -454,11 +459,15 @@ static  NSTimeInterval oldTime = 0;
     
     fuSetDefaultRotationMode([FUManager shareManager].deviceOrientation);
     if(!_openComp){//按住对比，不处理
-        if ([self getNamaRenderType] == FUNamaHandleTypeBodyAvtar) {//全身avtar为3d渲染，这里暂时特殊处理
-            [[FUManager shareManager] renderItemsWithPtaPixelBuffer:pixelBuffer];
-        }else{
-             [[FUManager shareManager] renderItemsToPixelBuffer:pixelBuffer];
-        }
+        FURenderInput *input = [[FURenderInput alloc] init];
+        input.pixelBuffer = pixelBuffer;
+        FURenderOutput *outPut = [[FURenderKit shareRenderKit] renderWithInput:input];
+        pixelBuffer = outPut.pixelBuffer;
+//        if ([self getNamaRenderType] == FUNamaHandleTypeBodyAvtar) {//全身avtar为3d渲染，这里暂时特殊处理
+//            [[FUManager shareManager] renderItemsWithPtaPixelBuffer:pixelBuffer];
+//        }else{
+//             [[FUManager shareManager] renderItemsToPixelBuffer:pixelBuffer];
+//        }
     }
     NSTimeInterval endTime = [[NSDate date] timeIntervalSince1970];
     /* renderTime */

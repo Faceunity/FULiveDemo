@@ -34,7 +34,6 @@ typedef void(^videoDecoderCallBack)(CVPixelBufferRef pixelBuffer);
 
 /* 继续 */
 -(void)continueReading;
-
 @end
 
 NS_ASSUME_NONNULL_END

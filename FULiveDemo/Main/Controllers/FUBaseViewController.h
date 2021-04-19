@@ -17,6 +17,9 @@
 #import "FUManager.h"
 #import "FUOpenGLView.h"
 #import "FULightingView.h"
+#import "FUBaseViewControllerManager.h"
+#import <FURenderKit/FURenderer.h>
+
 
 #define KScreenWidth ([UIScreen mainScreen].bounds.size.width)
 #define KScreenHeight ([UIScreen mainScreen].bounds.size.height)
@@ -25,6 +28,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface FUBaseViewController : UIViewController<FUHeadButtonViewDelegate>
+
+@property (nonatomic, strong) FUBaseViewControllerManager *baseManager;
+
 @property (nonatomic, strong) FULiveModel *model;
 
 @property (strong, nonatomic,readonly) FUCamera *mCamera;
@@ -55,16 +61,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)willResignActive;
 - (void)didBecomeActive;
 
--(FUNamaHandleType)getNamaRenderType;
-
 - (void)touchScreenAction:(UITapGestureRecognizer *)tap;
 
 ///  屏幕方向改变
 /// @param orientation 方向
 -(void)setOrientation:(int)orientation;
-
-/* 抓图 */
--(UIImage *)captureImage;
 
 @end
 

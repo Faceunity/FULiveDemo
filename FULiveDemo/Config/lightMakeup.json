@@ -43,17 +43,17 @@
         },
         
         {
-            "makeType": 7,
+            "makeType": 4,
             "namaValueStr": "makeup_intensity_eyeLiner",
             "value": 0.0
         },
         {
-            "makeType": 8,
+            "makeType": 5,
             "namaValueStr": "makeup_intensity_eyelash",
             "value": 0.0
         },
         {
-            "makeType": 9,
+            "makeType": 6,
             "namaValueStr": "makeup_intensity_pupil",
             "value": 0.0
         }
@@ -78,22 +78,22 @@
         },
         {
             "makeType": 1,
-            "namaTypeStr": "tex_blusher",
-            "namaImgStr": "mu_blush_01",
+            "namaBundleKey": 6,
+            "namaBundle": "mu_blush_01",
             "namaValueStr": "makeup_intensity_blusher",
             "value": 0.9
         },
         {
             "makeType": 2,
-            "namaTypeStr": "tex_brow",
-            "namaImgStr": "mu_eyebrow_01",
+            "namaBundleKey": 0,
+            "namaBundle": "mu_eyebrow_01",
             "namaValueStr": "makeup_intensity_eyeBrow",
             "value": 0.9
         },
         {
             "makeType": 3,
-            "namaTypeStr": "tex_eye",
-            "namaImgStr": "mu_eyeshadow_01",
+            "namaBundleKey": 1,
+            "namaBundle": "mu_eyeshadow_01",
             "namaValueStr": "makeup_intensity_eye",
             "value": 0.9
         }
@@ -118,22 +118,22 @@
         },
         {
             "makeType": 1,
-            "namaTypeStr": "tex_blusher",
-            "namaImgStr": "mu_blush_23",
+            "namaBundleKey": 6,
+            "namaBundle": "mu_blush_23",
             "namaValueStr": "makeup_intensity_blusher",
             "value": 0.7
         },
         {
             "makeType": 2,
-            "namaTypeStr": "tex_brow",
-            "namaImgStr": "mu_eyebrow_19",
+            "namaBundleKey": 0,
+            "namaBundle": "mu_eyebrow_19",
             "namaValueStr": "makeup_intensity_eyeBrow",
             "value": 0.5
         },
         {
             "makeType": 3,
-            "namaTypeStr": "tex_eye",
-            "namaImgStr": "mu_eyeshadow_21",
+            "namaBundleKey": 1,
+            "namaBundle": "mu_eyeshadow_21",
             "namaValueStr": "makeup_intensity_eye",
             "value": 0.7
         }
@@ -158,22 +158,22 @@
         },
         {
             "makeType": 1,
-            "namaTypeStr": "tex_blusher",
-            "namaImgStr": "mu_blush_20",
+            "namaBundleKey": 6,
+            "namaBundle": "mu_blush_20",
             "namaValueStr": "makeup_intensity_blusher",
             "value": 0.7
         },
         {
             "makeType": 2,
-            "namaTypeStr": "tex_brow",
-            "namaImgStr": "mu_eyebrow_16",
+            "namaBundleKey": 0,
+            "namaBundle": "mu_eyebrow_16",
             "namaValueStr": "makeup_intensity_eyeBrow",
             "value": 0.5
         },
         {
             "makeType": 3,
-            "namaTypeStr": "tex_eye",
-            "namaImgStr": "mu_eyeshadow_18",
+            "namaBundleKey": 1,
+            "namaBundle": "mu_eyeshadow_18",
             "namaValueStr": "makeup_intensity_eye",
             "value": 0.7
         }
@@ -199,22 +199,22 @@
         },
         {
             "makeType": 1,
-            "namaTypeStr": "tex_blusher",
-            "namaImgStr": "mu_blush_22",
+            "namaBundleKey": 6,
+            "namaBundle": "mu_blush_22",
             "namaValueStr": "makeup_intensity_blusher",
             "value": 0.7
         },
         {
             "makeType": 2,
-            "namaTypeStr": "tex_brow",
-            "namaImgStr": "mu_eyebrow_18",
+            "namaBundleKey": 0,
+            "namaBundle": "mu_eyebrow_18",
             "namaValueStr": "makeup_intensity_eyeBrow",
             "value": 0.5
         },
         {
             "makeType": 3,
-            "namaTypeStr": "tex_eye",
-            "namaImgStr": "mu_eyeshadow_20",
+            "namaBundleKey": 1,
+            "namaBundle": "mu_eyeshadow_20",
             "namaValueStr": "makeup_intensity_eye",
             "value": 0.7
         }

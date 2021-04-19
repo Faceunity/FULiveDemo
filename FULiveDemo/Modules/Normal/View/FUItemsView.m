@@ -53,10 +53,7 @@
 }
 
 -(void)updateCollectionArray:(NSArray *)itemArray{
-    NSMutableArray *array = [itemArray mutableCopy];
-    [array insertObject:@"noitem" atIndex:0];
-    _itemsArray = [array copy] ;
-    
+    _itemsArray = itemArray;
     [self.collection reloadData];
 }
 
@@ -64,6 +61,11 @@
     
     _selectedItem = selectedItem ;
     
+    [self.collection reloadData];
+}
+
+
+- (void)reloadData {
     [self.collection reloadData];
 }
 
@@ -78,7 +80,7 @@
     
     NSString *imageName = self.itemsArray[indexPath.row] ;
     
-    cell.imageView.image = [UIImage imageNamed:imageName] ;
+    cell.imageView.image = [self loadIcon:imageName];
     if(!self.selectedItem && indexPath.row == 0){
         cell.selected = YES ;
     }else{
@@ -121,21 +123,24 @@
     
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
     
-    collectionView.userInteractionEnabled = NO ;
     
     self.selectedItem = imageName ;
-    loading = YES ;
-    
-    [collectionView reloadData];
-    
+
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         
-        if (self.delegate && [self.delegate respondsToSelector:@selector(itemsViewDidSelectedItem:)]) {
-            [self.delegate itemsViewDidSelectedItem:imageName];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(itemsViewDidSelectedItem:indexPath:)]) {
+            [self.delegate itemsViewDidSelectedItem:imageName indexPath:indexPath];
         }
     });
 }
 
+- (void)startAnimation {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        loading = YES ;
+        [self.collection reloadData];
+        self.collection.userInteractionEnabled = NO;
+    });
+}
 
 - (void)stopAnimation {
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -143,6 +148,23 @@
         [self.collection reloadData];
         self.collection.userInteractionEnabled = YES ;
     });
+}
+
+
+-(UIImage *)loadIcon:(NSString *)imageName{
+    UIImage *image = [self loadImageWithName:imageName];
+    if (!image) {
+        image = [UIImage imageNamed:imageName];
+    }
+    return image;
+}
+
+
+-(UIImage *)loadImageWithName:(NSString *)imgName{
+    NSString *imagePath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imgName]];
+    
+    UIImage *img = [UIImage imageWithContentsOfFile:imagePath];
+    return img;
 }
 
 @end

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="4yd-fy-oue">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="4yd-fy-oue">
     <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -36,6 +36,20 @@
                                             <rect key="frame" x="0.0" y="0.0" width="72" height="92"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Hgo-VW-g0q" userLabel="Bg Image View">
+                                                    <rect key="frame" x="0.0" y="0.0" width="72" height="92"/>
+                                                </imageView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="美颜" translatesAutoresizingMaskIntoConstraints="NO" id="YTr-ed-8ju">
+                                                    <rect key="frame" x="12.666666666666664" y="12" width="47" height="40"/>
+                                                </imageView>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f0E-O3-XRx" userLabel="Animotion View">
+                                                    <rect key="frame" x="-14.666666666666664" y="-29" width="101.33333333333331" height="122"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="101" id="UgT-OI-j5g"/>
+                                                        <constraint firstAttribute="height" constant="122" id="leq-4K-JFV"/>
+                                                    </constraints>
+                                                </view>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YhB-tA-0Q9">
                                                     <rect key="frame" x="0.0" y="69" width="72" height="23"/>
                                                 </imageView>
@@ -45,24 +59,27 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="美颜" translatesAutoresizingMaskIntoConstraints="NO" id="YTr-ed-8ju">
-                                                    <rect key="frame" x="12.666666666666664" y="12" width="47" height="40"/>
-                                                </imageView>
                                             </subviews>
                                         </view>
                                         <color key="backgroundColor" red="0.12156862745098039" green="0.11372549019607843" blue="0.20784313725490194" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="Hgo-VW-g0q" secondAttribute="bottom" id="3TV-oC-T1v"/>
                                             <constraint firstItem="YhB-tA-0Q9" firstAttribute="height" secondItem="4VP-l3-I35" secondAttribute="height" multiplier="0.25" id="5MJ-cN-w7G"/>
+                                            <constraint firstItem="Hgo-VW-g0q" firstAttribute="leading" secondItem="4VP-l3-I35" secondAttribute="leading" id="KlA-f0-hBN"/>
+                                            <constraint firstAttribute="trailing" secondItem="Hgo-VW-g0q" secondAttribute="trailing" id="KuR-Ki-Me8"/>
                                             <constraint firstItem="YTr-ed-8ju" firstAttribute="centerX" secondItem="4VP-l3-I35" secondAttribute="centerX" id="Kw1-vc-ZJN"/>
                                             <constraint firstItem="IKc-Xp-TP9" firstAttribute="height" secondItem="YhB-tA-0Q9" secondAttribute="height" id="P0E-ss-u6H"/>
                                             <constraint firstItem="YTr-ed-8ju" firstAttribute="centerY" secondItem="4VP-l3-I35" secondAttribute="centerY" constant="-14" id="U0J-Fy-kIx"/>
+                                            <constraint firstItem="Hgo-VW-g0q" firstAttribute="top" secondItem="4VP-l3-I35" secondAttribute="top" id="WXW-d5-dZe"/>
                                             <constraint firstItem="YhB-tA-0Q9" firstAttribute="leading" secondItem="4VP-l3-I35" secondAttribute="leading" id="bjY-sq-59p"/>
+                                            <constraint firstItem="f0E-O3-XRx" firstAttribute="centerX" secondItem="4VP-l3-I35" secondAttribute="centerX" id="egu-q7-hxw"/>
                                             <constraint firstAttribute="bottom" secondItem="YhB-tA-0Q9" secondAttribute="bottom" id="g0B-CY-AhK"/>
                                             <constraint firstAttribute="bottom" secondItem="IKc-Xp-TP9" secondAttribute="bottom" id="gVI-wZ-PFM"/>
                                             <constraint firstAttribute="trailing" secondItem="IKc-Xp-TP9" secondAttribute="trailing" id="gpf-dJ-lm2"/>
                                             <constraint firstItem="IKc-Xp-TP9" firstAttribute="leading" secondItem="4VP-l3-I35" secondAttribute="leading" id="iXG-aq-fWM"/>
                                             <constraint firstAttribute="trailing" secondItem="YhB-tA-0Q9" secondAttribute="trailing" id="lX1-PB-n0B"/>
+                                            <constraint firstItem="f0E-O3-XRx" firstAttribute="centerY" secondItem="4VP-l3-I35" secondAttribute="centerY" constant="-14" id="oyD-1J-Qmi"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
@@ -71,6 +88,8 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
+                                            <outlet property="animotionView" destination="f0E-O3-XRx" id="LJW-7t-lJb"/>
+                                            <outlet property="bgImageView" destination="Hgo-VW-g0q" id="9qA-Ch-KBH"/>
                                             <outlet property="bottomImage" destination="YhB-tA-0Q9" id="ld5-GS-1Gd"/>
                                             <outlet property="image" destination="YTr-ed-8ju" id="7eu-ol-Mh9"/>
                                             <outlet property="title" destination="IKc-Xp-TP9" id="Ohq-l3-A4r"/>

@@ -26,7 +26,8 @@ typedef NS_ENUM(NSUInteger, FULiveModelType) {
     FULiveModelTypeActionRecognition,
     FULiveModelTypeBGSegmentation,
     FULiveModelTypeGestureRecognition,
-    FULiveModelTypeLvMu
+    FULiveModelTypeLvMu,
+    FULiveModelTypeQSTickers
     
 };
 
@@ -47,4 +48,7 @@ typedef NS_ENUM(NSUInteger, FULiveModelType) {
 @property (nonatomic, strong) NSArray <NSString *>*items ;
 
 @property (nonatomic, assign) int selIndex;
+
+@property (nonatomic, assign) BOOL animationIcon;
+@property (nonatomic, strong) NSString *animationNamed;
 @end

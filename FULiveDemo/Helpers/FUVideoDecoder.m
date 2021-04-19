@@ -105,6 +105,7 @@
     _isRun = YES;
     [self setupVideoDecoder:_mUrl];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSLog(@"全局线程 开始解码！！");
         [self runVideoDecoder];
     });
 }
@@ -113,6 +114,8 @@
     _isRun = NO;
     [_assetReader cancelReading];
     _assetReader = nil;
+    _mUrl = nil;
+    NSLog(@"退出后台取消！！");
 }
 
 /* 继续 */
@@ -126,6 +129,4 @@
 {
     NSLog(@"解码器销毁了video dealloc");
 }
-
-
 @end
