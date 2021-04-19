@@ -6,7 +6,7 @@
 //  Copyright © 2017年 刘洋. All rights reserved.
 //
 
-#import "FURenderer.h"
+#import <FURenderKit/FURenderer.h>
 
 @interface FURenderer (header)
 -(void)setUpCurrentContext;

@@ -88,7 +88,7 @@
     
     
     CGAffineTransform transform = self.videoTrack.preferredTransform ;
-    
+    //x' = ax + cy + tx; y' = bx + dy + ty; 手机左边原点在左上， a,b,c,d 四点取不同值需要做不同的旋转
     if(transform.a == 0 && transform.b == 1.0 && transform.c == -1.0 && transform.d == 0){
         
         self.videoOrientation = FUVideoReaderOrientationLandscapeRight ;
@@ -332,8 +332,25 @@ static BOOL isVideoFirst = YES ;
             CVPixelBufferUnlockBaseAddress(pixelBuffer, 0) ;
             
             if (self.delegate && [self.delegate respondsToSelector:@selector(videoReaderDidReadVideoBuffer:)] && !self.displayLink.paused) {
-                CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(nextSampleBuffer) ;
-                [self.delegate videoReaderDidReadVideoBuffer:pixelBuffer];
+                CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(nextSampleBuffer);
+                CVPixelBufferRef newPixelBuffer = [self.delegate videoReaderDidReadVideoBuffer:pixelBuffer];
+                
+                if (newPixelBuffer != pixelBuffer) {
+                    //数据回写操作
+                    CMVideoFormatDescriptionRef videoInfo = NULL;
+                    CMVideoFormatDescriptionCreateForImageBuffer(NULL, newPixelBuffer, &videoInfo);
+                    
+                    CMTime decodeTimeStamp =  CMSampleBufferGetOutputDecodeTimeStamp(nextSampleBuffer);
+                    CMTime presentationTimeStamp = CMSampleBufferGetOutputPresentationTimeStamp(nextSampleBuffer);
+                    CMTime duration = CMSampleBufferGetDuration(nextSampleBuffer);
+                    CMSampleTimingInfo timing = {duration, presentationTimeStamp, decodeTimeStamp};
+                    //原图片内存释放
+                    CFRelease(nextSampleBuffer);
+                    //写入新图片数据
+                    CMSampleBufferCreateForImageBuffer(kCFAllocatorDefault, newPixelBuffer, YES, NULL, NULL, videoInfo, &timing, &nextSampleBuffer);
+                } else {
+                    
+                }
             }
             
             [self.videoInput appendSampleBuffer:nextSampleBuffer];
@@ -356,9 +373,8 @@ static BOOL isVideoFirst = YES ;
     self.finishSemaphore = nil ;
     
     if (self.assetWriter.status == AVAssetWriterStatusWriting) {
-        
+        CFAbsoluteTime startTime =CFAbsoluteTimeGetCurrent();
         [self.assetWriter finishWritingWithCompletionHandler:^{
-            
             AVAssetWriterStatus status = self.assetWriter.status;
             BOOL success ;
             if (status == AVAssetWriterStatusCompleted) {
@@ -369,6 +385,9 @@ static BOOL isVideoFirst = YES ;
                 NSLog(@"failure %ld",(long)status);
             }
             self.displayLink.paused = YES ;
+            
+            CFAbsoluteTime linkTime = (CFAbsoluteTimeGetCurrent() - startTime);
+            NSLog(@"Linked in %f ms", linkTime *1000.0);
             if (self.delegate && [self.delegate respondsToSelector:@selector(videoReaderDidFinishReadSuccess:)]) {
                 [self.delegate videoReaderDidFinishReadSuccess:success];
             }

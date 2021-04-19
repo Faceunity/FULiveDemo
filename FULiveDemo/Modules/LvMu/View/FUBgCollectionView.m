@@ -43,12 +43,16 @@ static NSString *bgCellId = @"FUBgCollectionView";
     _selectedIndex = -1;
 }
 
+- (void)setFilters:(NSArray<FUGreenScreenBgModel *> *)filters {
+    _filters = filters;
+    [self.mBgCollectionView reloadData];
+}
 
 -(void)setSelectedIndex:(NSInteger)selectedIndex {
     _selectedIndex = selectedIndex ;
     [_mBgCollectionView reloadData];
     
-    FUBeautyParam *model = _filters[_selectedIndex];
+    FUGreenScreenBgModel *model = _filters[_selectedIndex];
     if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(bgCollectionViewDidSelectedFilter:)]) {
         [self.mDelegate bgCollectionViewDidSelectedFilter:model];
     }
@@ -68,11 +72,11 @@ static NSString *bgCellId = @"FUBgCollectionView";
     
     FUBgFilterCell *cell = (FUBgFilterCell *)[collectionView dequeueReusableCellWithReuseIdentifier:bgCellId forIndexPath:indexPath];
     
-    FUBeautyParam *model = _filters[indexPath.row];
+    FUGreenScreenBgModel *model = _filters[indexPath.row];
     
-    cell.titleLabel.text = FUNSLocalizedString(model.mTitle,nil);
+    cell.titleLabel.text = FUNSLocalizedString(model.title,nil);
     cell.titleLabel.textColor = [UIColor whiteColor];
-    cell.imageView.image = [UIImage imageNamed:model.mImageStr];
+    cell.imageView.image = [UIImage imageNamed:model.imageName];
     
     cell.imageView.layer.borderWidth = 0.0 ;
     cell.imageView.layer.borderColor = [UIColor clearColor].CGColor;
@@ -98,7 +102,7 @@ static NSString *bgCellId = @"FUBgCollectionView";
     
     [self.mBgCollectionView reloadData];
     
-    FUBeautyParam *model = _filters[indexPath.row];
+    FUGreenScreenBgModel *model = _filters[indexPath.row];
     
     if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(bgCollectionViewDidSelectedFilter:)]) {
         [self.mDelegate bgCollectionViewDidSelectedFilter:model];

@@ -14,7 +14,9 @@ PODS:
   - AFNetworking/Serialization (3.2.1)
   - AFNetworking/UIKit (3.2.1):
     - AFNetworking/NSURLSession
+  - Bugly (2.5.71)
   - FLAnimatedImage (1.0.12)
+  - lottie-ios (2.5.3)
   - Masonry (1.1.0)
   - MJExtension (3.0.15.1)
   - SDWebImage (4.4.3):
@@ -24,16 +26,20 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking
+  - Bugly (~> 2.5.71)
   - FLAnimatedImage
+  - lottie-ios (~> 2.5.3)
   - Masonry
   - MJExtension
   - SDWebImage
   - SVProgressHUD
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - AFNetworking
+    - Bugly
     - FLAnimatedImage
+    - lottie-ios
     - Masonry
     - MJExtension
     - SDWebImage
@@ -41,12 +47,14 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
+  Bugly: fd066c75c4a0eca1440f9b6a84bd37d51bfc85ac
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
+  lottie-ios: a50d5c0160425cd4b01b852bb9578963e6d92d31
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJExtension: 19bc33ce2eee2d319760f5622562cf581a6ff756
   SDWebImage: c5594f1a19c48d526d321e548902b56b479cd508
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: da2d1735ffd33ce588d9599a465a4c1da11412c7
+PODFILE CHECKSUM: b17608233473a88285a272bd55f53a0e9c73f1c7
 
-COCOAPODS: 1.6.0.beta.2
+COCOAPODS: 1.10.0

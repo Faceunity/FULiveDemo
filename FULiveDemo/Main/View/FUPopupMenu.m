@@ -18,8 +18,6 @@
 
 @property (nonatomic) CGPoint               point;
 
-@property (nonatomic) int               selIndex;
-
 @property (nonatomic,assign) int               onlyTop;
 @end
 @implementation FUPopupMenu

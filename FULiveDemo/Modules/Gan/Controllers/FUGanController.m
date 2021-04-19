@@ -55,23 +55,23 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
--(void)didOutputVideoSampleBuffer:(CMSampleBufferRef)sampleBuffer{
-    [super didOutputVideoSampleBuffer:sampleBuffer];
+//-(void)didOutputVideoSampleBuffer:(CMSampleBufferRef)sampleBuffer{
+//    [super didOutputVideoSampleBuffer:sampleBuffer];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (![[FUManager shareManager] isGoodFace:0] || ![[FUManager shareManager] isTracking]) {
-             self.tipLabel.text = FUNSLocalizedString(@"对准线框，正脸拍摄",nil);
-        }else{
-            if (![[FUManager shareManager] isExaggeration:0]) {
-                self.tipLabel.text = @"nice";
-            }else{
-                self.tipLabel.text = FUNSLocalizedString(@"请保持面部无夸张表情",nil);
-            }
-        }
-    });
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        if (![[FUManager shareManager] isGoodFace:0] || ![[FUManager shareManager] isTracking]) {
+//             self.tipLabel.text = FUNSLocalizedString(@"对准线框，正脸拍摄",nil);
+//        }else{
+//            if (![[FUManager shareManager] isExaggeration:0]) {
+//                self.tipLabel.text = @"nice";
+//            }else{
+//                self.tipLabel.text = FUNSLocalizedString(@"请保持面部无夸张表情",nil);
+//            }
+//        }
+//    });
  
 
-}
+//}
 
 
 

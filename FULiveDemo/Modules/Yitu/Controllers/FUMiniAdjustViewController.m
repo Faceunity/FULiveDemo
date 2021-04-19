@@ -241,7 +241,6 @@ typedef enum : NSUInteger {
             CFDataRef dataFromImageDataProvider = CGDataProviderCopyData(CGImageGetDataProvider(self.image.CGImage));
             GLubyte *imageData = (GLubyte *)CFDataGetBytePtr(dataFromImageDataProvider);
             CGSize size = self.image.size;
-//            [[FUManager shareManager] renderItemsToImage:self.image];
             
 //            float landmarks[count] = {0};
 //            float landmarks2[count] = {0};

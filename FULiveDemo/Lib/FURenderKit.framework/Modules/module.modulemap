@@ -1,0 +1,6 @@
+framework module FURenderKit {
+  umbrella header "FURenderKit.h"
+
+  export *
+  module * { export * }
+}

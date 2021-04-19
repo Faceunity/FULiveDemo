@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <Masonry.h>
-#import "FUBeautyParam.h"
+#import "FUGreenScreenModel.h"
 #import "FUTakeColorView.h"
-#import "FUBgCollectionView.h"
 
+@class FUGreenScreenModel, FUGreenScreenBgModel;
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, FUTakeColorState) {
@@ -19,45 +19,42 @@ typedef NS_ENUM(NSUInteger, FUTakeColorState) {
     FUTakeColorStateStop,
 };
 
-@class FULvMuView ;
+@class FULvMuView;
 @protocol FULvMuViewDelegate <NSObject>
 
-- (void)beautyCollectionView:(FULvMuView *)beautyView didSelectedParam:(FUBeautyParam *)param;
+- (void)beautyCollectionView:(FULvMuView *)beautyView didSelectedParam:(FUGreenScreenModel *)param;
 
 -(void)lvmuViewShowTopView:(BOOL)show;
 
-- (void)colorDidSelectedR:(float)r G:(float)g B:(float)b A:(float)a;
+- (void)colorDidSelected:(UIColor *)color;
 
-- (void)didSelectedParam:(FUBeautyParam *)param;
+- (void)didSelectedParam:(FUGreenScreenModel *)param;
 
 
--(void)takeColorState:(FUTakeColorState)state;
+- (void)takeColorState:(FUTakeColorState)state;
 
+- (void)getPoint:(CGPoint)point;
+
+//从外面获取全局的取点背景view，为了修复取点view加载Window上的系统兼容性问题
+- (UIView *)takeColorBgView;
 @end
-
-@protocol FULvMuViewDataSource <NSObject>
-
-- (UIColor *)lvMuViewTakeColorView:(CGPoint )screenP;
-
-
-@end
-
 
 
 @interface FULvMuView : UIView
 @property (nonatomic, assign) id<FULvMuViewDelegate>mDelegate ;
-@property (nonatomic, assign) id<FULvMuViewDataSource>mDataSource ;
 
 @property (nonatomic, assign) NSInteger selectedIndex ;
 @property (nonatomic, assign) NSInteger colorSelectedIndex ;
 
-@property (nonatomic, strong) NSMutableArray <FUBeautyParam *>*dataArray;
-
 @property (strong, nonatomic) FUTakeColorView *mTakeColorView;
 
-@property (strong, nonatomic) FUBgCollectionView *mBgCollectionView;
-
 @property (assign, nonatomic) BOOL isHidenTop;
+
+//刷新绿慕collection数据
+- (void)reloadDataSoure:(NSArray <FUGreenScreenModel *> *)dataSource;
+
+//刷新绿慕背景collection数据
+- (void)reloadBgDataSource:(NSArray <FUGreenScreenBgModel *> *)dataSource;
 
 -(void)destoryLvMuView;
 
@@ -65,6 +62,7 @@ typedef NS_ENUM(NSUInteger, FUTakeColorState) {
 
 -(void)restUI;
 
+- (void)setTakeColor:(UIColor *)color;
 
 @end
 

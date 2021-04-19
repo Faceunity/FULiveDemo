@@ -35,9 +35,9 @@
     [self reloadData];
 }
 
--(void)setDefaultFilter:(FUBeautyParam *)filter{
+-(void)setDefaultFilter:(FUBeautyModel *)filter{
     for (int i = 0; i < _filters.count; i ++) {
-        FUBeautyParam *model = _filters[i];
+        FUBeautyModel *model = _filters[i];
         if (model == filter) {
             self.selectedIndex = i;
             return;
@@ -56,11 +56,11 @@
     
     FUFilterCell *cell = (FUFilterCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"FUFilterCell" forIndexPath:indexPath];
     
-    FUBeautyParam *model = _filters[indexPath.row];
+    FUBeautyModel *model = _filters[indexPath.row];
     
     cell.titleLabel.text = FUNSLocalizedString(model.mTitle,nil);
     cell.titleLabel.textColor = [UIColor whiteColor];
-    cell.imageView.image = [UIImage imageWithName:model.mParam];
+    cell.imageView.image = [UIImage imageWithName:model.strValue];
     
     cell.imageView.layer.borderWidth = 0.0 ;
     cell.imageView.layer.borderColor = [UIColor clearColor].CGColor;
@@ -82,7 +82,7 @@
     _selectedIndex = indexPath.row ;
     [self reloadData];
     
-    FUBeautyParam *model = _filters[indexPath.row];
+    FUBeautyModel *model = _filters[indexPath.row];
     
     if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(filterViewDidSelectedFilter:)]) {
         [self.mDelegate filterViewDidSelectedFilter:model];

@@ -9,6 +9,17 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^FUImagePickerselCancel)(void);
+
+@protocol FUImagePickerDataDelegate <NSObject>
+
+- (void)imagePicker:(UIImagePickerController *)picker didFinishWithInfo:(NSDictionary<NSString *,id> *)info;
+@end
+
 @interface FUSelectedImageController : UIViewController
+
+@property (nonatomic, assign) id<FUImagePickerDataDelegate> delegate;
+
+@property(nonatomic,copy) FUImagePickerselCancel didCancel;
 
 @end

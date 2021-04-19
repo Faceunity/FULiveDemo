@@ -38,7 +38,7 @@
     FUBeautyCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FUBeautyCell" forIndexPath:indexPath];
     
     if (indexPath.row < self.dataArray.count){
-        FUBeautyParam *modle = self.dataArray[indexPath.row] ;
+        FUBeautyModel *modle = self.dataArray[indexPath.row] ;
         NSString *imageName ;
         
             BOOL opened = YES;
@@ -46,31 +46,19 @@
         if (modle.iSStyle101) {
             opened = fabs(modle.mValue - 0.5) > 0.01 ? YES : NO;
         }else{
-            opened = fabsf(modle.mValue - 0) > 0.01 ? YES : NO;
+            opened = fabs(modle.mValue - 0) > 0.01 ? YES : NO;
         }
         
         
             BOOL selected = _selectedIndex == indexPath.row ;
             
             if (selected) {
-                imageName = opened ? [FUNSLocalizedString(modle.mTitle, nil) stringByAppendingString:@"-3.png"] : [FUNSLocalizedString(modle.mTitle, nil) stringByAppendingString:@"-2.png"] ;
-            }else {
-                imageName = opened ? [FUNSLocalizedString(modle.mTitle, nil) stringByAppendingString:@"-1.png"] : [FUNSLocalizedString(modle.mTitle, nil) stringByAppendingString:@"-0.png"] ;
-            }
-        
-        /* 英文icon 未找到 */
-        UIImage *imageIcon = [UIImage imageWithName:imageName];
-        if (imageIcon == nil) {
-            if (selected) {
                 imageName = opened ? [modle.mTitle stringByAppendingString:@"-3.png"] : [modle.mTitle stringByAppendingString:@"-2.png"] ;
             }else {
                 imageName = opened ? [modle.mTitle stringByAppendingString:@"-1.png"] : [modle.mTitle stringByAppendingString:@"-0.png"] ;
             }
-            imageIcon = [UIImage imageWithName:imageName];
-        }
 
-
-        cell.imageView.image = imageIcon;
+        cell.imageView.image = [UIImage imageWithName:imageName];
         cell.titleLabel.text = FUNSLocalizedString(modle.mTitle,nil);
         cell.titleLabel.textColor = _selectedIndex == indexPath.row ? [UIColor colorWithHexColorString:@"5EC7FE"] : [UIColor whiteColor];
     }
@@ -83,7 +71,7 @@
     if (_selectedIndex == indexPath.row) {
         return ;
     }
-    FUBeautyParam *model = _dataArray[indexPath.row];
+    FUBeautyModel *model = _dataArray[indexPath.row];
     _selectedIndex = indexPath.row ;
     
     [self reloadData];

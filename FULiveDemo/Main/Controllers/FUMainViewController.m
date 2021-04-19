@@ -25,14 +25,18 @@
 #import "FULightMakeupController.h"
 #import "FUHeadReusableView.h"
 #import "FUActionRecognitionController.h"
-#import "FUBodyAvtarController.h"
+#import "FUBodyAvatarController.h"
 #import "FULvMuViewController.h"
+
+#import "FUMainViewControllerManager.h"
+#import "FUQSTickersViewController.h"
 
 static NSString *headerViewID = @"MGHeaderView";
 @interface FUMainViewController ()
 
-@property (nonatomic, strong) NSMutableArray<NSMutableArray<FULiveModel *>*> *dataArray ;
+@property (nonatomic, strong) NSArray<NSArray<FULiveModel *>*> *dataArray;
 @property (weak, nonatomic) IBOutlet UICollectionView *collection;
+@property (nonatomic, strong) FUMainViewControllerManager *manager;
 @end
 
 @implementation FUMainViewController
@@ -45,8 +49,13 @@ static NSString *headerViewID = @"MGHeaderView";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-        self.view.backgroundColor = [UIColor colorWithRed:3/255.0 green:0/255.0 blue:16/255.0 alpha:1.0];
-    self.dataArray = [FUManager shareManager].dataSource;
+    
+    //初始化FURenderKit 环境
+    [[FUManager shareManager] setupRenderKit];
+    self.manager = [[FUMainViewControllerManager alloc] init];
+    
+    self.view.backgroundColor = [UIColor colorWithRed:3/255.0 green:0/255.0 blue:16/255.0 alpha:1.0];
+    self.dataArray = self.manager.dataSource;
     float w = [UIScreen mainScreen].bounds.size.width;
     float h = w * 456/750;
 
@@ -94,8 +103,10 @@ static NSString *headerViewID = @"MGHeaderView";
     FUHeadReusableView *headerView= (FUHeadReusableView *)[collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:headerViewID forIndexPath:indexPath];
         if (indexPath.section == 0) {
             headerView.titleLabel.text = FUNSLocalizedString(@"人脸特效", nil) ;
-        }else{
+        }else if (indexPath.section == 1) {
             headerView.titleLabel.text = FUNSLocalizedString(@"人体特效", nil) ;
+        } else {
+            headerView.titleLabel.text = FUNSLocalizedString(@"Content service", nil) ;
         }
    
     return headerView;
@@ -110,8 +121,11 @@ static NSString *headerViewID = @"MGHeaderView";
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
 
     CGFloat width = (self.view.frame.size.width - 72 )/ 3.0 ;
-
-    return CGSizeMake(width, width / 101.0 * 122 ) ;
+    CGFloat height = width / 101.0 * 122;
+    if (indexPath.section == 2) {
+        width = self.view.frame.size.width - 32;
+    }
+    return CGSizeMake(width, height) ;
 }
 
 // 设置Header的尺寸
@@ -121,7 +135,7 @@ static NSString *headerViewID = @"MGHeaderView";
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
+    NSLog(@"%d",self.navigationController.navigationBar.isHidden);
     collectionView.userInteractionEnabled = NO ;
     
     FULiveModel *model = (FULiveModel *)self.dataArray[indexPath.section][indexPath.row];
@@ -162,6 +176,12 @@ static NSString *headerViewID = @"MGHeaderView";
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;
+        case FULiveModelTypeQSTickers:{
+            FUQSTickersViewController *vc = [[FUQSTickersViewController alloc] init];
+            vc.model = model;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
             
         case FULiveModelTypeHair:{
             FUHairController *vc = [[FUHairController alloc] init];
@@ -171,7 +191,7 @@ static NSString *headerViewID = @"MGHeaderView";
             break;
             
         case FULiveModelTypeWholeAvatar:{
-            FUBodyAvtarController *vc = [[FUBodyAvtarController alloc] init];
+            FUBodyAvatarController *vc = [[FUBodyAvatarController alloc] init];
             vc.model = model;
             [self.navigationController pushViewController:vc animated:YES];
         }
@@ -226,7 +246,13 @@ static NSString *headerViewID = @"MGHeaderView";
                 [self.navigationController pushViewController:vc animated:YES];
             }
                 break;
-            
+        case FULiveModelTypeGestureRecognition: {
+            FUNormalItemController *vc = [[FUNormalItemController alloc] init];
+            vc.type = FUGestureType;
+            vc.model = model;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
         default:{
             FUNormalItemController *vc = [[FUNormalItemController alloc] init];
             vc.model = model;
