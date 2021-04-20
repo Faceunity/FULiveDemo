@@ -1,45 +1,39 @@
-# iOS Nama Objective-C API 参考文档
+# Demo运行说明文档-iOS  
+
 级别：Public   
-更新日期：2020-09-27   
-SDK版本: 7.2.0  
+更新日期：2021-04-19 
+SDK版本: 7.4.0  
 
 ------
 
 ### 最新更新内容：
 
-**2020-9-24 v7.2.0:**
+2021-04-19  7.4.0更新说明
+1）【Demo层】重构特效Demo，将面向过程变成改为面向对象，整体结构逻辑更清晰，客户调用更便捷。同时具有节省内存、优化itemID自动销毁逻辑、精简用户传入信息过程，低耦合性提高架构灵活度等多方优势
+2）新增情绪识别功能，支持8种基本的饱满情绪检测
+3）新增内容服务模块，展示游戏道具及精品贴纸，主要包括游戏类、情节类、头饰类、氛围类等丰富的特效道具
+4）新增异步接口，改善用户在低端设备上帧率不足问题
+5）优化美体性能，Android端帧率上升24%，iOS端耗时下降13%
+6）优化人像分割性能，Andriod端帧率上升39%，iOS耗时下降39%
+7）优化人像分割效果，主要包括优化缝隙问题，使人像分割更加贴合人体，不会有明显空隙；提升人体分割准确性，减少背景误识别情况
+8）增加人像分割新玩法，开放用户自定义背景接口，便于用户快速换背景；支持人像描边玩法，可自定义描边的宽度、距离、颜色
+9）增加Animoji无尾熊模型；优化Animoji面部驱动效果，提升驱动后模型的稳定性和灵敏度
+10）优化美妆效果，主要包括唇部遮挡时口红不再显现；提升美瞳的贴合度；增加多款美瞳素材
 
-1. 新增绿幕抠像功能，支持替换图片、视频背景等，详见绿幕抠像功能文档。
-2. 美颜模块新增瘦颧骨、瘦下颌骨功能。
-3. 优化美颜性能以及功耗，优化集成入第三方推流服务时易发热掉帧问题。
-4. 优化手势识别功能的效果以及性能，提升识别稳定性和手势跟随性效果，优化手势识别时cpu占有率。
-5. 优化PC版各个功能性能，帧率提升显著。美发、美体、背景分割帧率提升30%以上，美颜、Animoji、美妆、手势等功能也有10%以上的帧率提升。
-6. 优化包增量，SDK分为lite版，和全功能版本。lite版体积更小，包含人脸相关的功能(海报换脸除外)。
-7. 优化人脸跟踪稳定性，提升贴纸的稳定性。
-8. 提供独立核心算法SDK，接口文档详见算法SDK文档([FUAI_C_API_参考文档.md](./FUAI_C_API_参考文档.md))。
-9. fuGetFaceInfo接口新增三个参数，分别为：舌头方向(tongue_direction)，表情识别(expression_type)，头部旋转信息欧拉角参数(rotation_euler)。
-10. 新增fuOnDeviceLostSafe函数，详见接口文档。
-11. 新增fuSetFaceProcessorDetectMode函数，人脸识别跟踪区分图片模式和视频模式，详见接口文档。
-12. 新增人体动作识别动作定义文档([人体动作识别文档.md](../resource/docs/人体动作识别文档.md))。
-13. 新增ai_hand_processor.bundle，替代ai_gesture.bundle，提供手势识别跟踪能力。
+------
 
-**2020-7-29 v7.1.0:**
+### 最新更新内容：
 
-1. 新增美颜锐化功能，见美颜参数文档。
-2. 优化美颜磨皮效果，保留更多的高频细节。
-3. 添加fuHumanProcessorGetFov接口。
-4. 添加fuHumanProcessorSetFov接口。
+**2021-1-25 v7.3.2:  **
 
-**2020-7-24 v7.0.1:**
+更新内容  
 
-1. 新增接口fuHumanProcessorSetBonemap
-2. 新增接口fuHumanProcessorGetResultTransformArray
-3. 新增接口fuHumanProcessorGetResultModelMatrix
-4. 修复fuGetSestemError问题。
-5. 修复fuSetMaxFaces，在释放AI模型后，设置失效问题。
-6. 修复Android非高通机型，OES输入问题。
-7. 修复美妆远距离嘴部黑框问题。
-8. 修复美体美颜共存不支持问题。
+- 优化人脸表情跟踪驱动性能。
+- fuSetup 函数改为线程安全。
+- fuSetUp 、fuCreateItemFromPackage、fuLoadAIModel函数增加异常处理，增强鲁棒性。
+- 修复自定义哈哈镜功能效果问题。
+- 修复SDK在Mac 10.11上crash问题。
+- 修复SDK在贴纸和Animoji混用时crash问题。
 
 ------
 ### 目录：
@@ -106,7 +100,7 @@ __参数:__
 
 *size*：鉴权数据的长度，以字节为单位。如果鉴权数据提供的是 authpack.h 中的 ```g_auth_package```，这里可写作 ```sizeof(g_auth_package)```
 
-*shouldCreate*: 如果设置为 YES，我们会在内部创建并持有一个 EAGLContext，此时必须使用OC层接口
+*shouldCreate*: 如果设置为 YES，我们会在内部创建并持有一个 EAGLContext，OpenGL相关操作建议所用OC层接口 (**注：**OC接口会切换到内部创建的EAGLContext上执行，防止多EAGLContext异常问题)
 
 __返回值:__
 
@@ -658,8 +652,6 @@ __参数说明:__
 
 *pixelBuffer*:  图像数据，支持的格式为：BGRA、YUV420SP，用于人脸识别
 
-*textureHandle*:  用户当前 EAGLContext 下的 textureID，用于图像处理
-
 *frameid*:  当前处理的视频帧序数，每次处理完对其进行加1操作，不加1将无法驱动道具中的特效动画
 
 *items* : 包含多个道具句柄的int数组
@@ -748,7 +740,9 @@ __参数说明:__
 
 #### 2.5 P2A 相关接口
 
-##### avatarBindItems: items: itemsCount: t contracts: contractsCount: 
+##### ~~avatarBindItems: items: itemsCount: t contracts: contractsCount:~~ 
+
+注：版本更新使用替换 **bindItems: items: itemsCount:** 
 
 \- 该接口主要应用于 P2A 项目中，将普通道具绑定到 avatar 道具上，从而实现道具间的数据共享；
 
@@ -780,7 +774,9 @@ __参数说明:__
 
 ------
 
-##### avatarUnbindItems: items: itemsCount: 
+##### ~~avatarUnbindItems: items: itemsCount:~~
+
+注：版本更新使用替换 **unBindItems: items: itemsCount:**
 
 该接口可以将普通道具从 avatar 道具上解绑，主要应用场景为切换道具或去掉某个道具
 
