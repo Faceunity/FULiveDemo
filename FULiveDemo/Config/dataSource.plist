@@ -40,6 +40,18 @@
 			<array/>
 		</dict>
 		<dict>
+			<key>items</key>
+			<array>
+				<string>resetItem</string>
+				<string>CatSparks</string>
+				<string>fu_zh_fenshu</string>
+				<string>sdlr</string>
+				<string>xlong_zh_fu</string>
+				<string>newy1</string>
+				<string>redribbt</string>
+				<string>DaisyPig</string>
+				<string>sdlu</string>
+			</array>
 			<key>itemName</key>
 			<string>道具贴纸</string>
 			<key>maxFace</key>
@@ -53,22 +65,6 @@
 			<key>modules</key>
 			<array>
 				<integer>110</integer>
-			</array>
-			<key>items</key>
-			<array>
-				<string>nihongdeng</string>
-				<string>CatSparks</string>
-				<string>face_half</string>
-				<string>fu_zh_fenshu</string>
-				<string>zhenxinhua_damaoxian</string>
-				<string>sdlr</string>
-				<string>xlong_zh_fu</string>
-				<string>expression_shooting</string>
-				<string>newy1</string>
-				<string>guangban</string>
-				<string>redribbt</string>
-				<string>DaisyPig</string>
-				<string>sdlu</string>
 			</array>
 		</dict>
 		<dict>
@@ -88,7 +84,9 @@
 			</array>
 			<key>items</key>
 			<array>
+				<string>resetItem</string>
 				<string>qgirl_Animoji</string>
+				<string>kaola_Animoji</string>
 				<string>frog_Animoji</string>
 				<string>huangya_Animoji</string>
 				<string>hetun_Animoji</string>
@@ -115,6 +113,7 @@
 			</array>
 			<key>items</key>
 			<array>
+				<string>resetItem</string>
 				<string>icon_gradualchangehair_01</string>
 				<string>icon_gradualchangehair_02</string>
 				<string>icon_gradualchangehair_03</string>
@@ -165,6 +164,7 @@
 			</array>
 			<key>items</key>
 			<array>
+				<string>resetItem</string>
 				<string>bluebird</string>
 				<string>lanhudie</string>
 				<string>fenhudie</string>
@@ -192,6 +192,7 @@
 			</array>
 			<key>items</key>
 			<array>
+				<string>resetItem</string>
 				<string>big_head_facewarp1</string>
 				<string>big_head_facewarp2</string>
 				<string>big_head_facewarp4</string>
@@ -244,6 +245,7 @@
 			</array>
 			<key>items</key>
 			<array>
+				<string>resetItem</string>
 				<string>future_warrior</string>
 				<string>jet_mask</string>
 				<string>sdx2</string>
@@ -270,6 +272,7 @@
 			</array>
 			<key>items</key>
 			<array>
+				<string>resetItem</string>
 				<string>douyin_01</string>
 				<string>douyin_02</string>
 			</array>
@@ -291,6 +294,7 @@
 			</array>
 			<key>items</key>
 			<array>
+				<string>resetItem</string>
 				<string>facewarp2</string>
 				<string>facewarp3</string>
 				<string>facewarp4</string>
@@ -378,14 +382,15 @@
 			</array>
 			<key>items</key>
 			<array>
+				<string>human_outline</string>
 				<string>boyfriend1</string>
 				<string>boyfriend3</string>
 				<string>boyfriend2</string>
-				<string>hez_ztt_fu_mp</string>
-				<string>gufeng_zh_fu_mp</string>
-				<string>xiandai_ztt_fu_mp</string>
-				<string>sea_lm_fu_mp</string>
-				<string>ice_lm_fu_mp</string>
+				<string>hez_ztt_fu</string>
+				<string>gufeng_zh_fu</string>
+				<string>xiandai_ztt_fu</string>
+				<string>sea_lm_fu</string>
+				<string>ice_lm_fu</string>
 			</array>
 		</dict>
 		<dict>
@@ -405,6 +410,7 @@
 			</array>
 			<key>items</key>
 			<array>
+				<string>resetItem</string>
 				<string>ctrl_rain</string>
 				<string>ctrl_snow</string>
 				<string>ctrl_flower</string>
@@ -428,6 +434,30 @@
 			<array>
 				<integer>512</integer>
 			</array>
+		</dict>
+	</array>
+	<array>
+		<dict>
+			<key>itemName</key>
+			<string>精品贴纸</string>
+			<key>maxFace</key>
+			<integer>4</integer>
+			<key>enble</key>
+			<false/>
+			<key>itemType</key>
+			<integer>18</integer>
+			<key>conpareCode</key>
+			<integer>0</integer>
+			<key>animationIcon</key>
+			<true/>
+			<key>animationNamed</key>
+			<string>tiezhi_data</string>
+			<key>modules</key>
+			<array>
+				<integer>110</integer>
+			</array>
+			<key>items</key>
+			<array/>
 		</dict>
 	</array>
 </array>

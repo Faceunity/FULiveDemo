@@ -1,6 +1,0 @@
-framework module libCNamaSDK {
-  umbrella header "FURenderer.h"
-
-  export *
-  module * { export * }
-}

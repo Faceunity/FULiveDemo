@@ -9,17 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "FUSingleMakeupModel.h"
 #import "FUMakeupSupModel.h"
+#import "FUMakeUpDefine.h"
+
+
+@class FUMakeupModel, FUMakeupSupModel;
 
 @protocol FUMakeUpViewDelegate <NSObject>
 
 @optional
 
-/* 美妆样式图 */
-- (void)makeupViewDidSelectedNamaStr:(NSString *)namaStr bundleName:(NSString *)bundleName;
-/* 妆容颜色 */
-- (void)makeupViewDidSelectedNamaStr:(NSString *)namaStr valueArr:(NSArray *)valueArr;
-// 滑动事件
-- (void)makeupViewDidChangeValue:(float)value namaValueStr:(NSString *)namaStr;
+- (void)makeupViewDidSelectedModel:(FUSingleMakeupModel *)model type:(UIMAKEUITYPE)type;
 /* 当前样式的所有可选颜色 */
 - (void)makeupViewSelectiveColorArray:(NSArray <NSArray *> *)colors selColorIndex:(int)index;
 /* 切换的妆容t类型标题 */
@@ -49,6 +48,7 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *bottomCollection;
 @property (weak, nonatomic) IBOutlet UIView *topView;
 @property (weak, nonatomic) IBOutlet UIButton *noitemBtn;
+//RAC 下 改weak 好点
 @property (nonatomic, assign) id<FUMakeUpViewDelegate>delegate ;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *collectionLeadingLayoutConstraint;
 
@@ -57,8 +57,15 @@
 @property (nonatomic, assign) BOOL topHidden;
 
 
-/* 组合妆数组 */
--(void)setWholeArray:(NSArray <FUMakeupSupModel *> *)dataArray;
+/**
+ * 刷新子妆装数据
+ */
+- (void)reloadDataArray:(NSArray <FUMakeupModel *>*)dataArray;
+
+/**
+ * 刷新组合装数据
+ */
+- (void)reloadSupArray:(NSArray <FUMakeupSupModel *>*)supArray;
 
 -(void)setSelSupItem:(int)index;
 /* 改变子妆容颜色 */

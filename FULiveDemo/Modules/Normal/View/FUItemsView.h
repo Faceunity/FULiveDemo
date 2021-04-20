@@ -13,7 +13,7 @@
 
 @optional
 
-- (void)itemsViewDidSelectedItem:(NSString *)item;
+- (void)itemsViewDidSelectedItem:(NSString *)item indexPath:(NSIndexPath *)indexPath;
 
 @end
 
@@ -30,5 +30,9 @@
 
 -(void)updateCollectionArray:(NSArray *)itemArray;
 
-- (void)stopAnimation ;
+- (void)startAnimation;
+
+- (void)stopAnimation;
+
+- (void)reloadData;
 @end

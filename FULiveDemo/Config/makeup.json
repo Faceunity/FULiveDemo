@@ -6,7 +6,7 @@
 				{
 					"makeType": 7,
 					"iconStr": "makeup_noitem",
-					"namaValueStr": "makeup_intensity_foundation",
+					"namaValueType": 0,
 					"value": 0.0,
 					"colorStr": "makeup_foundation_color",
 					"colorStrV": [
@@ -19,9 +19,9 @@
 				{
 					"makeType": 7,
 					"iconStr": "mu_style_foundation_01",
-					"namaTypeStr": "tex_foundation",
-					"namaValueStr": "makeup_intensity_foundation",
-					"namaImgStr": "mu_style_foundation_01",
+					"namaBundleType": 0,
+					"namaValueType": 0,
+					"namaBundle": "mu_style_foundation_01",
 					"colorStr": "makeup_foundation_color",
 					"value": 1.0,
 					"colors": [
@@ -61,9 +61,9 @@
 				{
 					"makeType": 7,
 					"iconStr": "mu_style_foundation_01",
-					"namaTypeStr": "tex_foundation",
-					"namaValueStr": "makeup_intensity_foundation",
-					"namaImgStr": "mu_style_foundation_01",
+					"namaBundleType": 0,
+					"namaValueType": 0,
+					"namaBundle": "mu_style_foundation_01",
 					"colorStr": "makeup_foundation_color",
 					"value": 1.0,
 					"colors": [
@@ -103,9 +103,9 @@
 				{
 					"makeType": 7,
 					"iconStr": "mu_style_foundation_01",
-					"namaTypeStr": "tex_foundation",
-					"namaValueStr": "makeup_intensity_foundation",
-					"namaImgStr": "mu_style_foundation_01",
+					"namaBundleType": 0,
+					"namaValueType": 0,
+					"namaBundle": "mu_style_foundation_01",
 					"colorStr": "makeup_foundation_color",
 					"value": 1.0,
 					"colors": [
@@ -145,9 +145,9 @@
 				{
 					"makeType": 7,
 					"iconStr": "mu_style_foundation_01",
-					"namaTypeStr": "tex_foundation",
-					"namaValueStr": "makeup_intensity_foundation",
-					"namaImgStr": "mu_style_foundation_01",
+					"namaBundleType": 0,
+					"namaValueType": 0,
+					"namaBundle": "mu_style_foundation_01",
 					"colorStr": "makeup_foundation_color",
 					"value": 1.0,
 					"colors": [
@@ -187,9 +187,9 @@
 				{
 					"makeType": 7,
 					"iconStr": "mu_style_foundation_01",
-					"namaTypeStr": "tex_foundation",
-					"namaValueStr": "makeup_intensity_foundation",
-					"namaImgStr": "mu_style_foundation_01",
+					"namaBundleType": 0,
+					"namaValueType": 0,
+					"namaBundle": "mu_style_foundation_01",
 					"colorStr": "makeup_foundation_color",
 					"value": 1.0,
 					"colors": [
@@ -234,13 +234,13 @@
 				{
 					"makeType": 0,
 					"iconStr": "makeup_noitem",
-					"namaValueStr": "makeup_intensity_lip",
+					"namaValueType": 1,
 					"value": 0.0
 				},
 				{
 					"makeType": 0,
 					"iconStr": "demo_style_lip_01",
-					"namaValueStr": "makeup_intensity_lip",
+					"namaValueType": 1,
 					"is_two_color": 0,
 					"lip_type": 0,
 					"value": 1.0,
@@ -283,7 +283,7 @@
 				{
 					"makeType": 0,
 					"iconStr": "demo_style_lip_04",
-					"namaValueStr": "makeup_intensity_lip",
+					"namaValueType": 1,
 					"lip_type": 2,
 					"value": 1.0,
 					"colorStr": "makeup_lip_color",
@@ -325,7 +325,7 @@
 				{
 					"makeType": 0,
 					"iconStr": "demo_style_lip_03",
-					"namaValueStr": "makeup_intensity_lip",
+					"namaValueType": 1,
 					"lip_type": 3,
 					"value": 1.0,
 					"colorStr": "makeup_lip_color",
@@ -367,7 +367,7 @@
 				{
 					"makeType": 0,
 					"iconStr": "demo_style_lip_05",
-					"namaValueStr": "makeup_intensity_lip",
+					"namaValueType": 1,
 					"lip_type": 0,
 					"is_two_color": 1,
 					"value": 1.0,
@@ -415,15 +415,15 @@
 				{
 					"makeType": 1,
 					"iconStr": "makeup_noitem",
-					"namaValueStr": "makeup_intensity_blusher",
+					"namaValueType": 2,
 					"value": 0.0
 				},
 				{
 					"makeType": 1,
 					"iconStr": "demo_style_blush_01",
-					"namaTypeStr": "tex_blusher",
-					"namaValueStr": "makeup_intensity_blusher",
-					"namaImgStr": "mu_style_blush_01",
+					"namaBundleType": 1,
+					"namaValueType": 2,
+					"namaBundle": "mu_style_blush_01",
 					"value": 1.0,
 					"colorStr": "makeup_blusher_color",
 					"colors": [
@@ -464,9 +464,9 @@
 				{
 					"makeType": 1,
 					"iconStr": "demo_style_blush_02",
-					"namaTypeStr": "tex_blusher",
-					"namaValueStr": "makeup_intensity_blusher",
-					"namaImgStr": "mu_style_blush_02",
+					"namaBundleType": 1,
+					"namaValueType": 2,
+					"namaBundle": "mu_style_blush_02",
 					"value": 1.0,
 					"colorStr": "makeup_blusher_color",
 					"colors": [
@@ -507,9 +507,9 @@
 				{
 					"makeType": 1,
 					"iconStr": "demo_style_blush_03",
-					"namaTypeStr": "tex_blusher",
-					"namaValueStr": "makeup_intensity_blusher",
-					"namaImgStr": "mu_style_blush_03",
+					"namaBundleType": 1,
+					"namaValueType": 2,
+					"namaBundle": "mu_style_blush_03",
 					"value": 1.0,
 					"colorStr": "makeup_blusher_color",
 					"colors": [
@@ -550,9 +550,9 @@
 				{
 					"makeType": 1,
 					"iconStr": "demo_style_blush_04",
-					"namaTypeStr": "tex_blusher",
-					"namaValueStr": "makeup_intensity_blusher",
-					"namaImgStr": "mu_style_blush_04",
+					"namaBundleType": 1,
+					"namaValueType": 2,
+					"namaBundle": "mu_style_blush_04",
 					"value": 1.0,
 					"colorStr": "makeup_blusher_color",
 					"colors": [
@@ -598,16 +598,16 @@
 				{
 					"makeType": 2,
 					"iconStr": "makeup_noitem",
-					"namaValueStr": "makeup_intensity_eyeBrow",
+					"namaValueType": 3,
 					"brow_warp": 0,
 					"value": 0.0
 				},
 				{
 					"makeType": 2,
 					"iconStr": "demo_style_eyebrow_01",
-					"namaTypeStr": "tex_brow",
-					"namaValueStr": "makeup_intensity_eyeBrow",
-					"namaImgStr": "mu_style_eyebrow_01",
+					"namaBundleType": 2,
+					"namaValueType": 3,
+					"namaBundle": "mu_style_eyebrow_01",
 					"brow_warp": 1,
 					"brow_warp_type": 0.0,
 					"value": 1.0,
@@ -650,9 +650,9 @@
 				{
 					"makeType": 2,
 					"iconStr": "demo_style_eyebrow_02",
-					"namaTypeStr": "tex_brow",
-					"namaValueStr": "makeup_intensity_eyeBrow",
-					"namaImgStr": "mu_style_eyebrow_01",
+					"namaBundleType": 2,
+					"namaValueType": 3,
+					"namaBundle": "mu_style_eyebrow_01",
 					"brow_warp": 1,
 					"brow_warp_type": 3.0,
 					"value": 1.0,
@@ -695,9 +695,9 @@
 				{
 					"makeType": 2,
 					"iconStr": "demo_style_eyebrow_03",
-					"namaTypeStr": "tex_brow",
-					"namaValueStr": "makeup_intensity_eyeBrow",
-					"namaImgStr": "mu_style_eyebrow_01",
+					"namaBundleType": 2,
+					"namaValueType": 3,
+					"namaBundle": "mu_style_eyebrow_01",
 					"brow_warp": 1,
 					"brow_warp_type": 2.0,
 					"value": 1.0,
@@ -740,9 +740,9 @@
 				{
 					"makeType": 2,
 					"iconStr": "demo_style_eyebrow_04",
-					"namaTypeStr": "tex_brow",
-					"namaValueStr": "makeup_intensity_eyeBrow",
-					"namaImgStr": "mu_style_eyebrow_01",
+					"namaBundleType": 2,
+					"namaValueType": 3,
+					"namaBundle": "mu_style_eyebrow_01",
 					"brow_warp": 1,
 					"brow_warp_type": 1.0,
 					"value": 1.0,
@@ -785,9 +785,9 @@
 				{
 					"makeType": 2,
 					"iconStr": "demo_style_eyebrow_05",
-					"namaTypeStr": "tex_brow",
-					"namaValueStr": "makeup_intensity_eyeBrow",
-					"namaImgStr": "mu_style_eyebrow_01",
+					"namaBundleType": 2,
+					"namaValueType": 3,
+					"namaBundle": "mu_style_eyebrow_01",
 					"brow_warp": 1,
 					"brow_warp_type": 4.0,
 					"value": 1.0,
@@ -830,9 +830,9 @@
 				{
 					"makeType": 2,
 					"iconStr": "demo_style_eyebrow_06",
-					"namaTypeStr": "tex_brow",
-					"namaValueStr": "makeup_intensity_eyeBrow",
-					"namaImgStr": "mu_style_eyebrow_01",
+					"namaBundleType": 2,
+					"namaValueType": 3,
+					"namaBundle": "mu_style_eyebrow_01",
 					"brow_warp": 1,
 					"brow_warp_type": 5.0,
 					"value": 1.0,
@@ -875,9 +875,9 @@
 				{
 					"makeType": 2,
 					"iconStr": "demo_style_eyebrow_07",
-					"namaTypeStr": "tex_brow",
-					"namaValueStr": "makeup_intensity_eyeBrow",
-					"namaImgStr": "mu_style_eyebrow_01",
+					"namaBundleType": 2,
+					"namaValueType": 3,
+					"namaBundle": "mu_style_eyebrow_01",
 					"brow_warp": 1,
 					"brow_warp_type": 6.0,
 					"value": 1.0,
@@ -925,15 +925,15 @@
 				{
 					"makeType": 3,
 					"iconStr": "makeup_noitem",
-					"namaValueStr": "makeup_intensity_eye",
+					"namaValueType": 4,
 					"value": 0.0
 				},
 				{
 					"makeType": 3,
 					"iconStr": "demo_style_eyeshadow_01",
-					"namaTypeStr": "tex_eye",
-					"namaValueStr": "makeup_intensity_eye",
-					"namaImgStr": "mu_style_eyeshadow_01",
+					"namaBundleType": 3,
+					"namaValueType": 4,
+					"namaBundle": "mu_style_eyeshadow_01",
 					"value": 1.0,
 					"colorStr": "makeup_eye_color",
 					"colors": [
@@ -1014,9 +1014,9 @@
 				{
 					"makeType": 3,
 					"iconStr": "demo_style_eyeshadow_02",
-					"namaTypeStr": "tex_eye",
-					"namaValueStr": "makeup_intensity_eye",
-					"namaImgStr": "mu_style_eyeshadow_02",
+					"namaBundleType": 3,
+					"namaValueType": 4,
+					"namaBundle": "mu_style_eyeshadow_02",
 					"value": 1.0,
 					"colorStr": "makeup_eye_color",
 					"colors": [
@@ -1097,9 +1097,9 @@
 				{
 					"makeType": 3,
 					"iconStr": "demo_style_eyeshadow_03",
-					"namaTypeStr": "tex_eye",
-					"namaValueStr": "makeup_intensity_eye",
-					"namaImgStr": "mu_style_eyeshadow_03",
+					"namaBundleType": 3,
+					"namaValueType": 4,
+					"namaBundle": "mu_style_eyeshadow_03",
 					"value": 1.0,
 					"colorStr": "makeup_eye_color",
 					"colors": [
@@ -1180,9 +1180,9 @@
 				{
 					"makeType": 3,
 					"iconStr": "demo_style_eyeshadow_04",
-					"namaTypeStr": "tex_eye",
-					"namaValueStr": "makeup_intensity_eye",
-					"namaImgStr": "mu_style_eyeshadow_04",
+					"namaBundleType": 3,
+					"namaValueType": 4,
+					"namaBundle": "mu_style_eyeshadow_04",
 					"value": 1.0,
 					"colorStr": "makeup_eye_color",
 					"colors": [
@@ -1263,9 +1263,9 @@
 				{
 					"makeType": 3,
 					"iconStr": "demo_style_eyeshadow_05",
-					"namaTypeStr": "tex_eye",
-					"namaValueStr": "makeup_intensity_eye",
-					"namaImgStr": "mu_style_eyeshadow_05",
+					"namaBundleType": 3,
+					"namaValueType": 4,
+					"namaBundle": "mu_style_eyeshadow_05",
 					"value": 1.0,
 					"colorStr": "makeup_eye_color",
 					"colors": [
@@ -1346,9 +1346,9 @@
 				{
 					"makeType": 3,
 					"iconStr": "demo_style_eyeshadow_06",
-					"namaTypeStr": "tex_eye",
-					"namaValueStr": "makeup_intensity_eye",
-					"namaImgStr": "mu_style_eyeshadow_06",
+					"namaBundleType": 3,
+					"namaValueType": 4,
+					"namaBundle": "mu_style_eyeshadow_06",
 					"value": 1.0,
 					"colorStr": "makeup_eye_color",
 					"colors": [
@@ -1434,15 +1434,15 @@
 				{
 					"makeType": 4,
 					"iconStr": "makeup_noitem",
-					"namaValueStr": "makeup_intensity_eyeLiner",
+					"namaValueType": 5,
 					"value": 0.0
 				},
 				{
 					"makeType": 4,
 					"iconStr": "demo_style_eyeliner_01",
-					"namaTypeStr": "tex_eyeLiner",
-					"namaValueStr": "makeup_intensity_eyeLiner",
-					"namaImgStr": "mu_style_eyeliner_01",
+					"namaBundleType": 4,
+					"namaValueType": 5,
+					"namaBundle": "mu_style_eyeliner_01",
 					"value": 1.0,
 					"colorStr": "makeup_eyeLiner_color",
 					"colors": [
@@ -1483,9 +1483,9 @@
 				{
 					"makeType": 4,
 					"iconStr": "demo_style_eyeliner_02",
-					"namaTypeStr": "tex_eyeLiner",
-					"namaValueStr": "makeup_intensity_eyeLiner",
-					"namaImgStr": "mu_style_eyeliner_02",
+					"namaBundleType": 4,
+					"namaValueType": 5,
+					"namaBundle": "mu_style_eyeliner_02",
 					"value": 1.0,
 					"colorStr": "makeup_eyeLiner_color",
 					"colors": [
@@ -1526,9 +1526,9 @@
 				{
 					"makeType": 4,
 					"iconStr": "demo_style_eyeliner_03",
-					"namaTypeStr": "tex_eyeLiner",
-					"namaValueStr": "makeup_intensity_eyeLiner",
-					"namaImgStr": "mu_style_eyeliner_03",
+					"namaBundleType": 4,
+					"namaValueType": 5,
+					"namaBundle": "mu_style_eyeliner_03",
 					"value": 1.0,
 					"colorStr": "makeup_eyeLiner_color",
 					"colors": [
@@ -1569,9 +1569,9 @@
 				{
 					"makeType": 4,
 					"iconStr": "demo_style_eyeliner_04",
-					"namaTypeStr": "tex_eyeLiner",
-					"namaValueStr": "makeup_intensity_eyeLiner",
-					"namaImgStr": "mu_style_eyeliner_04",
+					"namaBundleType": 4,
+					"namaValueType": 5,
+					"namaBundle": "mu_style_eyeliner_04",
 					"value": 1.0,
 					"colorStr": "makeup_eyeLiner_color",
 					"colors": [
@@ -1612,9 +1612,9 @@
 				{
 					"makeType": 4,
 					"iconStr": "demo_style_eyeliner_05",
-					"namaTypeStr": "tex_eyeLiner",
-					"namaValueStr": "makeup_intensity_eyeLiner",
-					"namaImgStr": "mu_style_eyeliner_05",
+					"namaBundleType": 4,
+					"namaValueType": 5,
+					"namaBundle": "mu_style_eyeliner_05",
 					"value": 1.0,
 					"colorStr": "makeup_eyeLiner_color",
 					"colors": [
@@ -1655,9 +1655,9 @@
 				{
 					"makeType": 4,
 					"iconStr": "demo_style_eyeliner_06",
-					"namaTypeStr": "tex_eyeLiner",
-					"namaValueStr": "makeup_intensity_eyeLiner",
-					"namaImgStr": "mu_style_eyeliner_06",
+					"namaBundleType": 4,
+					"namaValueType": 5,
+					"namaBundle": "mu_style_eyeliner_06",
 					"value": 1.0,
 					"colorStr": "makeup_eyeLiner_color",
 					"colors": [
@@ -1703,15 +1703,15 @@
 				{
 					"makeType": 5,
 					"iconStr": "makeup_noitem",
-					"namaValueStr": "makeup_intensity_eyelash",
+					"namaValueType": 6,
 					"value": 0.0
 				},
 				{
 					"makeType": 5,
 					"iconStr": "demo_style_eyelash_01",
-					"namaTypeStr": "tex_eyeLash",
-					"namaValueStr": "makeup_intensity_eyelash",
-					"namaImgStr": "mu_style_eyelash_01",
+					"namaBundleType": 5,
+					"namaValueType": 6,
+					"namaBundle": "mu_style_eyelash_01",
 					"value": 1.0,
 					"colorStr": "makeup_eyelash_color",
 					"colors": [
@@ -1752,9 +1752,9 @@
 				{
 					"makeType": 5,
 					"iconStr": "demo_style_eyelash_02",
-					"namaTypeStr": "tex_eyeLash",
-					"namaValueStr": "makeup_intensity_eyelash",
-					"namaImgStr": "mu_style_eyelash_02",
+					"namaBundleType": 5,
+					"namaValueType": 6,
+					"namaBundle": "mu_style_eyelash_02",
 					"value": 1.0,
 					"colorStr": "makeup_eyelash_color",
 					"colors": [
@@ -1795,9 +1795,9 @@
 				{
 					"makeType": 5,
 					"iconStr": "demo_style_eyelash_03",
-					"namaTypeStr": "tex_eyeLash",
-					"namaValueStr": "makeup_intensity_eyelash",
-					"namaImgStr": "mu_style_eyelash_03",
+					"namaBundleType": 5,
+					"namaValueType": 6,
+					"namaBundle": "mu_style_eyelash_03",
 					"value": 1.0,
 					"colorStr": "makeup_eyelash_color",
 					"colors": [
@@ -1838,9 +1838,9 @@
 				{
 					"makeType": 5,
 					"iconStr": "demo_style_eyelash_04",
-					"namaTypeStr": "tex_eyeLash",
-					"namaValueStr": "makeup_intensity_eyelash",
-					"namaImgStr": "mu_style_eyelash_04",
+					"namaBundleType": 5,
+					"namaValueType": 6,
+					"namaBundle": "mu_style_eyelash_04",
 					"value": 1.0,
 					"colorStr": "makeup_eyelash_color",
 					"colors": [
@@ -1881,9 +1881,9 @@
 				{
 					"makeType": 5,
 					"iconStr": "demo_style_eyelash_05",
-					"namaTypeStr": "tex_eyeLash",
-					"namaValueStr": "makeup_intensity_eyelash",
-					"namaImgStr": "mu_style_eyelash_05",
+					"namaBundleType": 5,
+					"namaValueType": 6,
+					"namaBundle": "mu_style_eyelash_05",
 					"value": 1.0,
 					"colorStr": "makeup_eyelash_color",
 					"colors": [
@@ -1924,9 +1924,9 @@
 				{
 					"makeType": 5,
 					"iconStr": "demo_style_eyelash_06",
-					"namaTypeStr": "tex_eyeLash",
-					"namaValueStr": "makeup_intensity_eyelash",
-					"namaImgStr": "mu_style_eyelash_06",
+					"namaBundleType": 5,
+					"namaValueType": 6,
+					"namaBundle": "mu_style_eyelash_06",
 					"value": 1.0,
 					"colorStr": "makeup_eyelash_color",
 					"colors": [
@@ -1971,16 +1971,16 @@
 			"sgArr": [
 				{
 					"makeType": 8,
-					"namaValueStr": "makeup_intensity_highlight",
+					"namaValueType": 7,
 					"iconStr": "makeup_noitem",
 					"value": 0.0
 				},
 				{
 					"makeType": 8,
 					"iconStr": "demo_style_highlight_01",
-					"namaTypeStr": "tex_highlight",
-					"namaValueStr": "makeup_intensity_highlight",
-					"namaImgStr": "mu_style_highlight_01",
+					"namaBundleType": 6,
+					"namaValueType": 7,
+					"namaBundle": "mu_style_highlight_01",
 					"value": 1.0,
 					"colorStr": "makeup_highlight_color",
 					"colors": [
@@ -2021,9 +2021,9 @@
 				{
 					"makeType": 8,
 					"iconStr": "demo_style_highlight_02",
-					"namaTypeStr": "tex_highlight",
-					"namaValueStr": "makeup_intensity_highlight",
-					"namaImgStr": "mu_style_highlight_02",
+					"namaBundleType": 6,
+					"namaValueType": 7,
+					"namaBundle": "mu_style_highlight_02",
 					"value": 1.0,
 					"colorStr": "makeup_highlight_color",
 					"colors": [
@@ -2069,15 +2069,15 @@
 				{
 					"makeType": 9,
 					"iconStr": "makeup_noitem",
-					"namaValueStr": "makeup_intensity_shadow",
+					"namaValueType": 8,
 					"value": 0.0
 				},
 				{
 					"makeType": 9,
 					"iconStr": "demo_style_contour_01",
-					"namaTypeStr": "tex_shadow",
-					"namaValueStr": "makeup_intensity_shadow",
-					"namaImgStr": "mu_style_contour_01",
+					"namaBundleType": 7,
+					"namaValueType": 8,
+					"namaBundle": "mu_style_contour_01",
 					"value": 1.0,
 					"colorStr": "makeup_shadow_color",
 					"colors": [
@@ -2122,15 +2122,15 @@
 				{
 					"makeType": 6,
 					"iconStr": "makeup_noitem",
-					"namaValueStr": "makeup_intensity_pupil",
+					"namaValueType": 9,
 					"value": 0.0
 				},
 				{
 					"makeType": 6,
 					"iconStr": "demo_style_eyepupil_01",
-					"namaTypeStr": "tex_pupil",
-					"namaValueStr": "makeup_intensity_pupil",
-					"namaImgStr": "mu_style_eyepupil_01",
+					"namaBundleType": 8,
+					"namaValueType": 9,
+					"namaBundle": "mu_style_eyepupil_01",
 					"value": 1.0,
 					"colorStr": "makeup_pupil_color",
 					"colors": [
@@ -2165,8 +2165,86 @@
 							1.0
 						]
 					],
-					"defaultColorIndex": 0
-				}
+					"defaultColorIndex": 0,
+                    "title": "蜜糖"
+				},{
+                    "makeType": 6,
+                    "iconStr": "demo_style_eyepupil_03",
+                    "namaBundleType": 8,
+                    "namaValueType": 9,
+                    "namaBundle": "mu_style_eyepupil_03",
+                    "value": 1.0,
+                    "colorStr": "makeup_pupil_color",
+                    "colors": [],
+                    "defaultColorIndex": 0,
+                    "title": "奶茶"
+                },{
+                    "makeType": 6,
+                    "iconStr": "demo_style_eyepupil_04",
+                    "namaBundleType": 8,
+                    "namaValueType": 9,
+                    "namaBundle": "mu_style_eyepupil_04",
+                    "value": 1.0,
+                    "colorStr": "makeup_pupil_color",
+                    "colors": [],
+                    "defaultColorIndex": 0,
+                    "title": "水波"
+                },{
+                    "makeType": 6,
+                    "iconStr": "demo_style_eyepupil_05",
+                    "namaBundleType": 8,
+                    "namaValueType": 9,
+                    "namaBundle": "mu_style_eyepupil_05",
+                    "value": 1.0,
+                    "colorStr": "makeup_pupil_color",
+                    "colors": [],
+                    "defaultColorIndex": 0,
+                    "title": "鎏金"
+                },{
+                    "makeType": 6,
+                    "iconStr": "demo_style_eyepupil_06",
+                    "namaBundleType": 8,
+                    "namaValueType": 9,
+                    "namaBundle": "mu_style_eyepupil_06",
+                    "value": 1.0,
+                    "colorStr": "makeup_pupil_color",
+                    "colors": [],
+                    "defaultColorIndex": 0,
+                    "title": "孔雀"
+                },{
+                    "makeType": 6,
+                    "iconStr": "demo_style_eyepupil_07",
+                    "namaBundleType": 8,
+                    "namaValueType": 9,
+                    "namaBundle": "mu_style_eyepupil_07",
+                    "value": 1.0,
+                    "colorStr": "makeup_pupil_color",
+                    "colors": [],
+                    "defaultColorIndex": 0,
+                    "title": "星河"
+                },{
+                    "makeType": 6,
+                    "iconStr": "demo_style_eyepupil_08",
+                    "namaBundleType": 8,
+                    "namaValueType": 9,
+                    "namaBundle": "mu_style_eyepupil_08",
+                    "value": 1.0,
+                    "colorStr": "makeup_pupil_color",
+                    "colors": [],
+                    "defaultColorIndex": 0,
+                    "title": "落目"
+                },{
+                    "makeType": 6,
+                    "iconStr": "demo_style_eyepupil_09",
+                    "namaBundleType": 8,
+                    "namaValueType": 9,
+                    "namaBundle": "mu_style_eyepupil_09",
+                    "value": 1.0,
+                    "colorStr": "makeup_pupil_color",
+                    "colors": [],
+                    "defaultColorIndex": 0,
+                    "title": "极光"
+                }
 			]
 		}
 	]

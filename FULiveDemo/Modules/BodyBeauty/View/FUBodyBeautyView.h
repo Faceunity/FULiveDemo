@@ -7,21 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FUPosition.h"
+#import "FUPositionInfo.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol FUBodyBeautyViewDelegate <NSObject>
 @optional
-- (void)bodyBeautyViewDidSelectPosition:(FUPosition *)position;
+- (void)bodyBeautyViewDidSelectPosition:(FUPositionInfo *)position;
 
 @end
 
 @interface FUBodyBeautyView : UIView
 
-@property (assign,nonatomic) id<FUBodyBeautyViewDelegate> delegate;
+@property (weak,nonatomic) id<FUBodyBeautyViewDelegate> delegate;
 
--(instancetype)initWithFrame:(CGRect)frame dataArray:(NSArray <FUPosition *> *)dataArray;
+-(instancetype)initWithFrame:(CGRect)frame dataArray:(NSArray <FUPositionInfo *> *)dataArray;
 
 @end
 

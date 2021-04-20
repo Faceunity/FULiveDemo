@@ -7,23 +7,26 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FUBeautyParam.h"
+#import "FUBeautyModel.h"
 
 @protocol FUAPIDemoBarDelegate <NSObject>
 
 // 滤镜程度改变
-- (void)filterValueChange:(FUBeautyParam *)param;
+- (void)filterValueChange:(FUBeautyModel *)param;
 
-- (void)beautyParamValueChange:(FUBeautyParam *)param;
+- (void)beautyParamValueChange:(FUBeautyModel *)param;
 // 显示提示语
 - (void)filterShowMessage:(NSString *)message ;
 
 // 显示上半部分View
 -(void)showTopView:(BOOL)shown;
 
--(void)restDefaultValue:(int)type;
+-(void)restDefaultValue:(NSUInteger)type;
 
-
+//美型是否全部是默认参数
+- (BOOL)isDefaultShapeValue;
+//美肤是否全部是默认参数
+- (BOOL)isDefaultSkinValue;
 @end
 
 @interface FUAPIDemoBar : UIView
@@ -34,24 +37,22 @@
 @property (weak, nonatomic) IBOutlet UIView *topView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 
-@property (nonatomic, assign) int selBottomIndex;
 
--(void)reloadSkinView:(NSArray<FUBeautyParam *> *)skinParams;
+-(void)reloadSkinView:(NSArray<FUBeautyModel *> *)skinParams;
 
--(void)reloadShapView:(NSArray<FUBeautyParam *> *)shapParams;
+-(void)reloadShapView:(NSArray<FUBeautyModel *> *)shapParams;
 
--(void)reloadFilterView:(NSArray<FUBeautyParam *> *)filterParams;
-/* 风格 */
--(void)reloadStyleView:(NSArray<FUBeautyParam *> *)styleParams defaultStyle:(FUBeautyParam *)selStyle;
+-(void)reloadFilterView:(NSArray<FUBeautyModel *> *)filterParams;
+
+-(void)reloadStyleView:(NSArray <FUBeautyModel *> *)styleParams defaultStyle:(FUBeautyModel *)selStyle;
+
 // 关闭上半部分
 -(void)hiddenTopViewWithAnimation:(BOOL)animation;
 
 // 上半部是否显示
 @property (nonatomic, assign) BOOL isTopViewShow ;
 
--(void)setDefaultFilter:(FUBeautyParam *)filter;
-
--(void)setDefaultStyle:(int)index;
+-(void)setDefaultFilter:(FUBeautyModel *)filter;
 
 
 @end

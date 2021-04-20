@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FUBeautyParam.h"
+#import "FUGreenScreenBgModel.h"
 #import "FUDemoBarDefine.h"
 #import "UIColor+FUAPIDemoBar.h"
 NS_ASSUME_NONNULL_BEGIN
@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol FUBgCollectionViewDelegate <NSObject>
 
 // 开启滤镜
-- (void)bgCollectionViewDidSelectedFilter:(FUBeautyParam *)param;
+- (void)bgCollectionViewDidSelectedFilter:(FUGreenScreenBgModel *)param;
 @end
 
 
@@ -26,10 +26,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) NSInteger selectedIndex ;
 
-@property (nonatomic, strong) NSArray<FUBeautyParam *> *filters;
+@property (nonatomic, strong) NSArray<FUGreenScreenBgModel *> *filters;
 
 @property (strong, nonatomic) UICollectionView *mBgCollectionView;
-
 @end
 
 @interface FUBgFilterCell : UICollectionViewCell

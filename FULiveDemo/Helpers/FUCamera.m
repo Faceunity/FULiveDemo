@@ -773,6 +773,11 @@ typedef void(^FUCameraRecordVidepCompleted)(NSString *videoPath);
 }
 
 
+//获取设置的图片帧方向
+- (AVCaptureVideoOrientation)videoOrientation {
+    return self.videoConnection.videoOrientation;
+}
+
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     

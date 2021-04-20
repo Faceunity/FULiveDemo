@@ -305,7 +305,7 @@
 
 
 -(void)dealloc{
-        [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypePhotolive];
+//        [[FUManager shareManager] destoryItemAboutType:FUNamaHandleTypePhotolive];
 }
 
 @end

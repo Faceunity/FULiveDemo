@@ -99,6 +99,11 @@
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(imagePicker:didFinishWithInfo:)]) {
+        [self.delegate imagePicker:picker didFinishWithInfo:info];
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
     
     // 关闭相册
     [picker dismissViewControllerAnimated:NO completion:^{
@@ -125,7 +130,6 @@
                 
                 UIGraphicsEndImageContext();
             }
-            
             FURenderImageViewController *renderView = [[FURenderImageViewController alloc] init];
             renderView.image = image;
             [self.navigationController pushViewController:renderView animated:YES];
@@ -153,6 +157,9 @@
 
 // 返回
 - (void)backAction:(UIButton *)sender {
+    if (self.didCancel) {
+        self.didCancel();
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 

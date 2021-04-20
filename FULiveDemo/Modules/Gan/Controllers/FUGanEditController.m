@@ -22,6 +22,7 @@
 #import "FUGanImageModel.h"
 #import "FUTipView.h"
 #import "UIImage+GIF.h"
+//#import <FURenderKit/FURenderer.h>
 
 @interface FUGanEditController ()<FUGanEditBarViewDelegate,FUGifEditViewDelegate,UIGestureRecognizerDelegate>
 @property(strong ,nonatomic) UIButton *backBtn;
@@ -176,62 +177,62 @@
 
 #pragma  mark ----  图片校验  -----
 -(void)setupPhotoMake{
-    NSData *imageData = UIImageJPEGRepresentation(_originalImage, 1.0);
-    UIImage *image = [UIImage imageWithData:imageData];
-    int photoWidth = (int)CGImageGetWidth(image.CGImage);
-    int photoHeight = (int)CGImageGetHeight(image.CGImage);
-    
-    CFDataRef photoDataFromImageDataProvider = CGDataProviderCopyData(CGImageGetDataProvider(image.CGImage));
-    GLubyte *photoData = (GLubyte *)CFDataGetBytePtr(photoDataFromImageDataProvider);
-    
-    fuOnCameraChange();
-    int endI = 0;
-    for (int i = 0; i<50; i++) {//校验出人脸再trsckFace 10次
-        [FURenderer trackFace:FU_FORMAT_BGRA_BUFFER inputData:photoData width:photoWidth height:photoHeight];
-        if ([FURenderer isTracking] > 0) {
-            if (endI == 0) {
-                endI = i;
-            }
-            if (i > endI + 10) {
-                break;
-            }
-        }
-    }
-
-    if ([FURenderer isTracking] > 0) {
-        if (![[FUManager shareManager] isGoodFace:0]) {
-            if (_pushFrom == FUGanEditImagePushFromPhoto) {
-                _tipView.mTextLabel.text = FUNSLocalizedString(@"人脸偏转角度过大，请重新拍摄",nil);
-            }else{
-                _tipView.mTextLabel.text = FUNSLocalizedString(@"人脸偏转角度过大，请重新选择",nil);
-            }
-            _tipView.hidden = NO;
-            CFRelease(photoDataFromImageDataProvider);
-            return;
-        }
-        if ([[FUManager shareManager] isExaggeration:0]) {
-            _tipView.mTextLabel.text = FUNSLocalizedString(@"人脸表情夸张，请正脸拍摄",nil);
-            _tipView.hidden = NO;
-            CFRelease(photoDataFromImageDataProvider);
-            return;
-        }
-        
-    }else{
-        if (_pushFrom == FUGanEditImagePushFromPhoto) {
-            _tipView.mTextLabel.text = FUNSLocalizedString(@"未检测出人脸，请重新拍摄",nil);
-        }else{
-            _tipView.mTextLabel.text = FUNSLocalizedString(@"未检测出人脸，请重新选择",nil);
-        }
-        _tipView.hidden = NO;
-        CFRelease(photoDataFromImageDataProvider);
-        return;
-    }
-//    if ([self isExaggeration]) {
-//        _tipView.mTextLabel.text = @"";
-//        _tipView.hidden = NO;
+//    NSData *imageData = UIImageJPEGRepresentation(_originalImage, 1.0);
+//    UIImage *image = [UIImage imageWithData:imageData];
+//    int photoWidth = (int)CGImageGetWidth(image.CGImage);
+//    int photoHeight = (int)CGImageGetHeight(image.CGImage);
+//
+//    CFDataRef photoDataFromImageDataProvider = CGDataProviderCopyData(CGImageGetDataProvider(image.CGImage));
+//    GLubyte *photoData = (GLubyte *)CFDataGetBytePtr(photoDataFromImageDataProvider);
+//
+//    fuOnCameraChange();
+//    int endI = 0;
+//    for (int i = 0; i<50; i++) {//校验出人脸再trsckFace 10次
+//        [FURenderer trackFace:FU_FORMAT_BGRA_BUFFER inputData:photoData width:photoWidth height:photoHeight];
+//        if ([FURenderer isTracking] > 0) {
+//            if (endI == 0) {
+//                endI = i;
+//            }
+//            if (i > endI + 10) {
+//                break;
+//            }
+//        }
 //    }
-    
-    CFRelease(photoDataFromImageDataProvider);
+//
+//    if ([FURenderer isTracking] > 0) {
+//        if (![[FUManager shareManager] isGoodFace:0]) {
+//            if (_pushFrom == FUGanEditImagePushFromPhoto) {
+//                _tipView.mTextLabel.text = FUNSLocalizedString(@"人脸偏转角度过大，请重新拍摄",nil);
+//            }else{
+//                _tipView.mTextLabel.text = FUNSLocalizedString(@"人脸偏转角度过大，请重新选择",nil);
+//            }
+//            _tipView.hidden = NO;
+//            CFRelease(photoDataFromImageDataProvider);
+//            return;
+//        }
+//        if ([[FUManager shareManager] isExaggeration:0]) {
+//            _tipView.mTextLabel.text = FUNSLocalizedString(@"人脸表情夸张，请正脸拍摄",nil);
+//            _tipView.hidden = NO;
+//            CFRelease(photoDataFromImageDataProvider);
+//            return;
+//        }
+//
+//    }else{
+//        if (_pushFrom == FUGanEditImagePushFromPhoto) {
+//            _tipView.mTextLabel.text = FUNSLocalizedString(@"未检测出人脸，请重新拍摄",nil);
+//        }else{
+//            _tipView.mTextLabel.text = FUNSLocalizedString(@"未检测出人脸，请重新选择",nil);
+//        }
+//        _tipView.hidden = NO;
+//        CFRelease(photoDataFromImageDataProvider);
+//        return;
+//    }
+////    if ([self isExaggeration]) {
+////        _tipView.mTextLabel.text = @"";
+////        _tipView.hidden = NO;
+////    }
+//
+//    CFRelease(photoDataFromImageDataProvider);
 }
 
 

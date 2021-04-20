@@ -12,13 +12,13 @@
 #import "FUSquareButton.h"
 
 @interface FUBodyBeautyView()<UICollectionViewDelegate,UICollectionViewDataSource>
-@property(nonatomic,strong)NSArray <FUPosition *> *dataArray;
+@property(nonatomic,strong)NSArray <FUPositionInfo *> *dataArray;
 
 @property(nonatomic,strong) UICollectionView *collection;
 
 @property(nonatomic,strong) FUSlider *slider;
 
-@property(nonatomic,strong) FUPosition * currentPosition;
+@property(nonatomic,strong) FUPositionInfo * currentPosition;
 
 @property(nonatomic,strong) FUSquareButton *btn;
 
@@ -27,11 +27,11 @@
 
 static NSString *positionCellID = @"positionCell";
 
--(instancetype)initWithFrame:(CGRect)frame dataArray:(NSArray <FUPosition *> *)dataArray{
+-(instancetype)initWithFrame:(CGRect)frame dataArray:(NSArray <FUPositionInfo *> *)dataArray{
     if (self = [super initWithFrame:frame]) {
         _dataArray = dataArray;
         
-        for (FUPosition *modle0 in _dataArray) {
+        for (FUPositionInfo *modle0 in _dataArray) {
             if (modle0.isSel) {
                 _currentPosition = modle0;
                  [self setSliderState:_currentPosition];
@@ -57,6 +57,7 @@ static NSString *positionCellID = @"positionCell";
     [_slider addTarget:self action:@selector(sliderChangeValue:) forControlEvents:UIControlEventValueChanged];
     [_slider addTarget:self action:@selector(sliderChangeEnd:) forControlEvents:UIControlEventTouchUpInside];
     _slider.type = FUFilterSliderType01;
+    [_slider setMaximumTrackTintColor:UIColor.whiteColor];
     [self addSubview:_slider];
     
     _btn = [[FUSquareButton alloc] initWithFrame:CGRectMake(17, CGRectGetMaxY(_slider.frame) + 18, 50, 60) interval:6];
@@ -112,8 +113,8 @@ static NSString *positionCellID = @"positionCell";
     
     __weak typeof(self)weakSelf = self ;
     UIAlertAction *certainAction = [UIAlertAction actionWithTitle:FUNSLocalizedString(@"确定",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        for (FUPosition *position in _dataArray) {
-            if (position.type == FUPositionTypeshoulder) {//不同的样式
+        for (FUPositionInfo *position in _dataArray) {
+            if (position.type == FUPositionInfoTypeshoulder) {//不同的样式
                 position.value = 0.5;
             }else{
                 position.value = 0;
@@ -154,7 +155,7 @@ static NSString *positionCellID = @"positionCell";
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     FUPositionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:positionCellID forIndexPath:indexPath];
-    FUPosition *modle = _dataArray[indexPath.row];
+    FUPositionInfo *modle = _dataArray[indexPath.row];
     cell.topImage.image = [self getIconImage:modle];
     cell.botlabel.text = FUNSLocalizedString(modle.name,nil);
 
@@ -168,11 +169,11 @@ static NSString *positionCellID = @"positionCell";
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    FUPosition *modle = _dataArray[indexPath.row];
+    FUPositionInfo *modle = _dataArray[indexPath.row];
     if(_currentPosition == modle){
         return;
     }
-    for (FUPosition *modle0 in _dataArray) {
+    for (FUPositionInfo *modle0 in _dataArray) {
         modle0.isSel = NO;
     }
     modle.isSel = YES;
@@ -187,9 +188,9 @@ static NSString *positionCellID = @"positionCell";
 
 #pragma  mark -  private
 
--(void)setSliderState:(FUPosition *)position{
+-(void)setSliderState:(FUPositionInfo *)position{
     _slider.hidden = NO;
-    if (position.type == FUPositionTypeshoulder) {//不同的样式
+    if (position.type == FUPositionInfoTypeshoulder) {//不同的样式
         _slider.type = FUFilterSliderType101;
     }else{
         _slider.type = FUFilterSliderType01;
@@ -199,10 +200,10 @@ static NSString *positionCellID = @"positionCell";
 }
 
 /* 根据数据不同icon */
--(UIImage *)getIconImage:(FUPosition *)position{
+-(UIImage *)getIconImage:(FUPositionInfo *)position{
     NSString *behindStr = nil;
     if (position.isSel) {
-        if (position.type == FUPositionTypeshoulder) {
+        if (position.type == FUPositionInfoTypeshoulder) {
             if (fabs(position.value - 0.5) < 0.01) {
                 behindStr = @"_sel";
             }else{
@@ -216,7 +217,7 @@ static NSString *positionCellID = @"positionCell";
             }
         }
     }else{
-        if (position.type == FUPositionTypeshoulder) {
+        if (position.type == FUPositionInfoTypeshoulder) {
             if (fabs(position.value - 0.5) < 0.01) {
                 behindStr = @"_nor";
             }else{
@@ -238,8 +239,8 @@ static NSString *positionCellID = @"positionCell";
  value 是否有改动
  */
 -(BOOL)isChangeValue{
-    for (FUPosition *position in _dataArray) {
-        if (position.type == FUPositionTypeshoulder) {//不同的样式
+    for (FUPositionInfo *position in _dataArray) {
+        if (position.type == FUPositionInfoTypeshoulder) {//不同的样式
             
             if (position.value != 0.5) {
                 return YES;

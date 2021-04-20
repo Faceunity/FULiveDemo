@@ -7,61 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "FUMakeupProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface FUSingleMakeupModel : NSObject<NSCopying,NSMutableCopying, FUMakeupProtocol>
 
-/**
- 妆容类型
-
- - FUMakeupModelTypeLip: 口红
- - FUMakeupModelTypeBlusher: 腮红
- - FUMakeupModelTypeBrow: 眉毛
- - FUMakeupModelTypeEye: 眼影
- - FUMakeupModelTypeEyeLiner: 眼线
- - FUMakeupModelTypeEyeLash: 睫毛
- - FUMakeupModelTypePupil: 美瞳
- - FUMakeupModelTypeFoundation: 粉底
- - FUMakeupModelTypeHighlight: 高光
- - FUMakeupModelTypeShadow: 阴影
- */
-typedef NS_ENUM(NSUInteger, FUMakeupModelType) {
-    FUMakeupModelTypeLip = 0,
-    FUMakeupModelTypeBlusher,
-    FUMakeupModelTypeBrow,
-    FUMakeupModelTypeEye,
-    FUMakeupModelTypeEyeLiner,
-    FUMakeupModelTypeEyeLash,
-    FUMakeupModelTypePupil,
-    FUMakeupModelTypeFoundation,
-    FUMakeupModelTypeHighlight,
-    FUMakeupModelTypeShadow,
-};
-
-@interface FUSingleMakeupModel : NSObject<NSCopying,NSMutableCopying>
-
-/* 妆容类型 */
-@property (nonatomic, assign) FUMakeupModelType makeType;
 /* icon */
 @property (nonatomic, copy) NSString* iconStr;
-/* 加载到部位的图片 */
-@property (nonatomic, copy) NSString* namaImgStr;
-/* 妆容键值 */
-@property (nonatomic, copy) NSString* namaTypeStr;
-/* 妆容程度值键值 */
-@property (nonatomic, copy) NSString* namaValueStr;
-/* 妆容程度值 */
-@property (nonatomic, assign) float  value;
-/* 妆容颜色键值 */
-@property (nonatomic, copy) NSString* colorStr;
-/* 妆容颜色 */
-@property (nonatomic, strong) NSArray* colorStrV;
+
+/* 美妆妆容bundle键值*/
+@property (nonatomic, assign) SUBMAKEUPTYPE namaBundleType;
+
 /* 一些妆容标题 */
 @property (nonatomic, copy) NSString *title;
-
-/* 口红相关 */
-@property (nonatomic, assign) int is_two_color;
-@property (nonatomic, assign) int lip_type;
 
 /* 眼影相关 */
 @property (nonatomic, copy) NSString *tex_eye2;
