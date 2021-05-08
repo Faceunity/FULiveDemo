@@ -115,6 +115,8 @@
                             image = [weak.segmentManager.segment readFirstFrame];
                         }
                         if (image) {
+                            model.iconImage = image;
+                            [weak.segmentManager saveModel: model];
                             [weak saveImg:image withName:CUSTOMBG];
                         } else {
                             //未获取当前录像的第一帧，移除自定义背景
