@@ -37,6 +37,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)updateMakeupPackage:(FUItem * __nullable)makeupPackage needCleanSubItem:(BOOL)needCleanSubItem;
 
+//修改整体妆容程度值
+@property (nonatomic, assign) double intensity;
+
 ////组合装对象，内部包含当前组合装所有部位子妆
 //@property (nonatomic, strong, nullable) FUItem *makeupPackage;
 

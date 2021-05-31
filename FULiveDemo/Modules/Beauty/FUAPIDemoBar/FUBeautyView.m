@@ -50,15 +50,26 @@
         }
         
         
-            BOOL selected = _selectedIndex == indexPath.row ;
-            
+        BOOL selected = _selectedIndex == indexPath.row ;
+        
+        if (selected) {
+            imageName = opened ? [modle.mTitle stringByAppendingString:@"-3"] : [modle.mTitle stringByAppendingString:@"-2"] ;
+        }else {
+            imageName = opened ? [modle.mTitle stringByAppendingString:@"-1"] : [modle.mTitle stringByAppendingString:@"-0"] ;
+        }
+        
+        /* icon 未找到, 尝试处理 多语言图片 */
+        UIImage *imageIcon = [UIImage imageWithName:imageName];
+        if (imageIcon == nil) {
             if (selected) {
-                imageName = opened ? [modle.mTitle stringByAppendingString:@"-3.png"] : [modle.mTitle stringByAppendingString:@"-2.png"] ;
+                imageName = opened ? [modle.mTitle stringByAppendingString:@"-3"] : [modle.mTitle stringByAppendingString:@"-2"] ;
             }else {
-                imageName = opened ? [modle.mTitle stringByAppendingString:@"-1.png"] : [modle.mTitle stringByAppendingString:@"-0.png"] ;
+                imageName = opened ? [modle.mTitle stringByAppendingString:@"-1"] : [modle.mTitle stringByAppendingString:@"-0"] ;
             }
+            imageIcon = [UIImage localizedImageWithName:imageName countrySimple:nil];
+        }
 
-        cell.imageView.image = [UIImage imageWithName:imageName];
+        cell.imageView.image = imageIcon;
         cell.titleLabel.text = FUNSLocalizedString(modle.mTitle,nil);
         cell.titleLabel.textColor = _selectedIndex == indexPath.row ? [UIColor colorWithHexColorString:@"5EC7FE"] : [UIColor whiteColor];
     }
