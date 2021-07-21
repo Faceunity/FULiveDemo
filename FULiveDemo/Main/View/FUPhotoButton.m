@@ -11,10 +11,9 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import <AVFoundation/AVFoundation.h>
-#import "FUVolumeObserver.h"
 
 
-@interface FUPhotoButton ()<FUVolumeObserverProtocol>
+@interface FUPhotoButton ()
 {
     NSTimer *timer;
     NSInteger time;

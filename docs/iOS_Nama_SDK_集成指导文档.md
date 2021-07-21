@@ -1,5 +1,20 @@
 # Demo运行说明文档-iOS  
 
+------
+
+级别：Public   
+更新日期：2021-07-09 
+SDK版本: 7.4.1
+
+### 最新更新内容：
+
+1）更新精品贴纸8款，包含2款PK游戏，5款装饰及互动贴纸，1款全身驱动道具
+2）更新2款中国风Animoji模型
+3）修复人像分割贴纸效果问题，修复后人像分割结果和贴纸效果会同时出现
+4）修复一些bug，包括高分辨率磨皮效果问题，人脸检测与贴纸绘制的时序问题
+
+------
+
 级别：Public   
 更新日期：2021-04-19 
 SDK版本: 7.4.0  
@@ -53,32 +68,32 @@ SDK版本: 7.4.0
 本小节，描述Demo文件结构，各个目录，以及重要文件的功能。
 
 ```
-+Helpers                //nama 业务管理文件
-    -FUManager          //nama 业务类
-    -FUCamera          //视频采集类
-+Lib                    //nama SDK  
-    -authpack.h             //权限文件
-    +libCNamaSDK.framework      
-        +Headers
-            -funama.h          //C 接口
-            -FURenderer.h      //OC 接口
-    +Resources
-        +model              //AI模型
-            -ai_face_processor.bundle      // 人脸识别AI能力模型，需要默认加载
-            -ai_face_processor_lite.bundle // 人脸识别AI能力模型，轻量版
-            -ai_hand_processor.bundle             // 手势识别AI能力模型
-            -ai_human_processor.bundle     // 人体点位AI能力模型
-        +graphics        //随库发版的重要模块资源
-            -body_slim.bundle              // 美体道具
-            -controller.bundle             // Avatar 道具
-            -face_beautification.bundle    // 美颜道具
-            -face_makeup.bundle            // 美妆道具
-            -fuzzytoonfilter.bundle        // 动漫滤镜道具
-            -fxaa.bundle                   // 3D 绘制抗锯齿
-            -tongue.bundle                 // 舌头跟踪数据包
-
-+Resource       // 资源文件
-    +items      // 美颜相关资源文件 
++FULiveDemo
+  +FULiveDemo                   //原代码目录
+    +Main                     //主模块(主页和公共页面UI、模型、主业务管理类) 
+    +Modules                  //所有功能模块
+      +Normal                   //普通道具模块
+      +Beauty                   //美颜模块
+        ...
+    +Helpers                //主要业务管理类  
+      -FUManager              //NAMA业务管理类
+      +VC                      //基类控制器
+      +Manager                 //管理类基类
+          ...   
+    +Config                    //配置文件目录
+      -DataSource             //主界面，权限，item 道具配置类 
+      -makeup.json             //美妆单个妆数组
+      -makeup_whole.json      //美妆整体妆容配置
+      -avatar.json            //捏脸颜色，模板配置文件
+    +Resource               
+       +itmes                 //各个模块道具资源 
+    +Lib                    //nama SDK  
+      -authpack.h             //权限文件
+      -FURenderKit.framework   //动态库      
+      +Resources               //各个能力相关的资源
+  +docs                        //文档目录
+  +Pods                     //三方库管理
+  -FULiveDemo.xcworkspace   //工程文件
 ```
 
 ------
@@ -101,13 +116,13 @@ Xcode 8或更高版本
 全功能版本（支持物理特效）：
 
 ```
-pod 'Nama', '7.3.2' 
+pod 'Nama', '7.4.1' 
 ```
 
 lite 版（体积更小，包含人脸相关的功能(海报换脸除外)）：
 
 ```
-pod 'Nama-lite', '7.3.2' 
+pod 'Nama-lite', '7.4.1' 
 ```
 
 接下来执行：

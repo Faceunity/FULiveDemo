@@ -36,7 +36,7 @@ struct FUImageBuffer {
     size_t stride2;                 // 格式与传入 stride 类型对应关系：RGBA/BGRA: 0; YUV420V/YUV420F: 0; YUVI420: v_stride
     
     CGSize size;                    // 图像宽高
-    FUImageBufferFormat format;     // 图像宽高
+    FUImageBufferFormat format;     // 图像格式
     
 };
 typedef struct FUImageBuffer FUImageBuffer;
@@ -62,11 +62,17 @@ typedef struct FUTexture FUTexture;
 /// 自定义输出结果的大小，当前只会对输出的纹理及pixelBuffer有效
 @property (nonatomic, assign) CGSize customOutputSize;
 
-/// 当前图片是否来源于未镜像前置摄像头
-@property (nonatomic, assign) BOOL isFromNoMirroredFrontCamera;
+/// 当前图片是否来源于前置摄像头，默认为 NO
+@property (nonatomic, assign) BOOL isFromFrontCamera;
+
+/// 当前图片是否来源于镜像摄像头，默认为 NO
+@property (nonatomic, assign) BOOL isFromMirroredCamera;
 
 /// 原始图像的朝向
 @property (nonatomic, assign) FUImageOrientation imageOrientation;
+
+/// 贴纸水平镜像
+@property (nonatomic, assign) BOOL stickerFlipH;
 
 /// 重力开关，开启此功能可以根据已设置的 imageRotation 自动适配AI检测的方向。
 @property (nonatomic, assign) BOOL gravityEnable;
@@ -74,11 +80,11 @@ typedef struct FUTexture FUTexture;
 /// 设置为YES 只会生效美颜结果
 @property (nonatomic, assign) BOOL onlyRenderBeauty;
 
-/// 设置输入纹理的旋转方向，设置该属性会影响输出纹理的方向。由于默认创建的纹理是倒着的，所以该参数的默认值为 CCROT0_FLIPVERTICAL，如已转正，请将该参数设置为 DEFAULT
-@property (nonatomic, assign) TRANSFORM_MATRIX textureTransform;
-
 /// 设置输入pixelBuffer/imageBuffer的旋转方向，以使buffer数据与textureTransform作用后纹理的方向一致，该参数仅用于AI算法检测，不会改变buffer的方向或镜像属性
 @property (nonatomic, assign) TRANSFORM_MATRIX bufferTransform;
+
+/// 设置输入纹理的旋转及镜像信息，设置该属性会影响输出纹理的方向。默认基于 CPU 图像创建的纹理与CPU 图像成上下镜像关系，此时 textureTransform 对应的值为 DEFAULT，以此类推，如果对默认生成的纹理做了其他变换，则将该参数设置为对应的变换即可。
+@property (nonatomic, assign) TRANSFORM_MATRIX textureTransform;
 
 /// 设置输入pixelBuffer/imageBuffer的旋转方向，以使buffer数据与textureTransform作用后纹理的方向一致，该参数仅用于AI算法检测，不会改变buffer的方向或镜像属性
 @property (nonatomic, assign) TRANSFORM_MATRIX outputTransform;
@@ -86,8 +92,14 @@ typedef struct FUTexture FUTexture;
 /// 是否渲染到当前的FBO，设置为YES时，返回的 FURenderOutput 内的所有数据均为空值。
 @property (nonatomic, assign) BOOL renderToCurrentFBO;
 
+//是否读回到输入的buffer
+@property (nonatomic, assign) BOOL readBackToPixelBuffer;
+
 /// 设置为YES 且 renderToCurrentFBO 为 NO 时，只会输出纹理，不会输出CPU层的图像。
 @property (nonatomic, assign) BOOL onlyOutputTexture;
+
+/// 控制输出图像是否保留透明信息，默认值为NO，可能会输出不透明的图像，开启该参数可以保持图像中透明信息。
+@property (nonatomic, assign) BOOL keepAlpha;
 
 @end
 

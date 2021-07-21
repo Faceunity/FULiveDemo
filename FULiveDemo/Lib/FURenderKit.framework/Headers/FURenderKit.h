@@ -126,6 +126,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)setLogLevel:(FULOGLEVEL)logLevel;
 
++ (void)setLogFilePath:(NSString *)filePath;
+
 #pragma mark - setup
 + (void)setupWithSetupConfig:(FUSetupConfig *)setupConfig;
 
@@ -168,6 +170,9 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)stopRecordVideoComplention:(void(^)(NSString *filePath))complention;
 
 + (UIImage *)captureImage;
+
+
+- (int)renderItems;
 @end
 
 NS_ASSUME_NONNULL_END

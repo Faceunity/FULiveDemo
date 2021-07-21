@@ -36,12 +36,13 @@
         NSMutableArray *modesArray = [NSMutableArray array];
         NSArray *tempArray = (NSArray *)dataArray[i];
         for (int j = 0; j < tempArray.count; j ++) {
-             NSDictionary *dict = tempArray[j] ;
-             FULiveModel *model = [[FULiveModel alloc] init];
-             NSString *itemName = dict[@"itemName"] ;
-             model.title = itemName ;
+            
+            NSDictionary *dict = tempArray[j] ;
+            FULiveModel *model = [[FULiveModel alloc] init];
+            NSString *itemName = dict[@"itemName"] ;
+            model.title = itemName ;
             model.maxFace = [dict[@"maxFace"] integerValue] ;
-             model.enble = NO;
+            model.enble = NO;
             model.type = [dict[@"itemType"] intValue];
             model.modules = dict[@"modules"] ;
             model.items = dict[@"items"] ;

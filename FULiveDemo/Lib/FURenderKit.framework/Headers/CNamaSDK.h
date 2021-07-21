@@ -1377,15 +1377,6 @@ FUNAMA_API int fuSetUseAsyncAIInference(int use_async);
 FUNAMA_API int fuSetUseMultiBuffer(int use_multi_gpu_textuer,
                                    int use_multi_cpu_buffer);
 
-// FUNAMA_API void getlandmarks(float* landmarks1, float* landmraks2, float*
-// ori);
-
-FUNAMA_API void fuSmartWarpPreprocess(const char* templatePath,
-                                      const char* resPath);
-
-FUNAMA_API void fuSmartWarpProcess(char* jstr, void* img, int w, int h,
-                                   float* ret);
-
 /**
  \brief check gl error
  \return OpenGL error information, 0 for no error
@@ -1472,23 +1463,38 @@ FUNAMA_API void fuHumanProcessorSetMaxHumans(int max_humans);
 
 /**
  \brief set ai model HumanProcessor's avatar scale
- \param scene_state, enum of FUAISCENESTATE, zero for selfie scene, one for
- dance scene
  \param scale.
  */
-FUNAMA_API void fuHumanProcessorSetAvatarScale(int scene, float scale);
+FUNAMA_API void fuHumanProcessorSetAvatarScale(float scale);
 
 /**
  \brief set ai model HumanProcessor's avatar global offset
- \param scene_state, enum of FUAISCENESTATE, zero for selfie scene, one for
- dance scene
  \param offset x.
  \param offset y.
  \param offset z.
  */
-FUNAMA_API void fuHumanProcessorSetAvatarGlobalOffset(int scene, float offset_x,
+FUNAMA_API void fuHumanProcessorSetAvatarGlobalOffset(float offset_x,
                                                       float offset_y,
                                                       float offset_z);
+/**
+\param use_retarget_root_scale(default True): Set use retarget root scale or
+not.
+\param retarget_root_scale(default 0.0): root movement scale (when <= 0.0, use
+the auto-calculated value)
+ */
+FUNAMA_API void fuHumanProcessorSetAvatarUseRetargetRootScale(
+    bool use_retarget_root_scale, float retarget_root_scale);
+
+/**
+\param n_buffer_frames(default 5 and > 0): filter buffer frames.
+\param pos_w(default 0.05 and >= 0): root position filter weight, less pos_w
+-> smoother.
+\param angle_w(default 1.2 and >= 0): joint angle filter weight, less angle_w ->
+smoother.
+ */
+FUNAMA_API void fuHumanProcessorSetAvatarAnimFilterParams(int n_buffer_frames,
+                                                          float pos_w,
+                                                          float angle_w);
 
 /**
  \brief set ai model HumanProcessor's tracking fov, use to 3d joint projection.
@@ -1626,6 +1632,8 @@ FUNAMA_API FUAIGESTURETYPE fuHandDetectorGetResultGestureType(int index);
  \return gesture score, range [0,1]
 */
 FUNAMA_API float fuHandDetectorGetResultHandScore(int index);
+
+FUNAMA_API void fuSetOutputImageSize(int w, int h);
 
 /**
  \brief internal api for profile

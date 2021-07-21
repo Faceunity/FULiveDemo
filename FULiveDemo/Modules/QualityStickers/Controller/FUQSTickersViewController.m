@@ -59,6 +59,9 @@ static NSString * const kFUStickerContentCollectionCellIdentifier = @"FUStickerC
     self.selectedIndex = 0;
     _isShowingStickers = YES;
     
+    self.headButtonView.selectedImageBtn.hidden = NO;
+    self.canPushImageSelView = NO;
+    
     [self.view addSubview:self.bottomView];
     [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.trailing.bottom.equalTo(self.view);
@@ -116,7 +119,7 @@ static NSString * const kFUStickerContentCollectionCellIdentifier = @"FUStickerC
 - (void)requestTags {
     [FUStickerHelper itemTagsCompletion:^(BOOL isSuccess, NSArray * _Nullable tags) {
         if (isSuccess && tags) {
-             self.tags = [tags copy];
+            self.tags = [tags copy];
             [[NSUserDefaults standardUserDefaults] setObject:self.tags forKey:kFUStickerTagsKey];
             [[NSUserDefaults standardUserDefaults] synchronize];
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -315,7 +318,6 @@ static NSString * const kFUStickerContentCollectionCellIdentifier = @"FUStickerC
 - (FUStickerSegmentsView *)stickerSegmentView {
     if (!_stickerSegmentView) {
         FUStickerSegmentsConfigurations *config = [[FUStickerSegmentsConfigurations alloc] init];
-        config.itemWidth = self.tags.count <= 4 ? (CGRectGetWidth(self.view.frame) - 57.f) / self.tags.count : 80;
         _stickerSegmentView = [[FUStickerSegmentsView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame) - 57, 49) titles:[self.tags copy] configuration:config];
         _stickerSegmentView.delegate = self;
     }

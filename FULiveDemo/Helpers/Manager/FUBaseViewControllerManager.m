@@ -11,7 +11,9 @@
 #import "FUBeautyDefine.h"
 #import <FURenderKit/FUAIKit.h>
 #import <FURenderKit/FUGLContext.h>
-@interface FUBaseViewControllerManager ()
+@interface FUBaseViewControllerManager () {
+    BOOL _preFaceResult;
+}
 /* 滤镜参数 */
 @property (nonatomic, strong) NSArray<FUBeautyModel *> *filters;
 /* 美肤参数 */
@@ -20,6 +22,7 @@
 @property (nonatomic, strong) NSArray<FUBeautyModel *> *shapeParams;
 /* 风格参数 ，用父类，因为View 用的就是父类泛型，后续需要优化*/
 @property (nonatomic, strong) NSArray<FUStyleModel *> *styleParams;
+
 @end
 
 @implementation FUBaseViewControllerManager
@@ -40,12 +43,13 @@
     self = [super init];
     if (self) {
         [self reloadBeautyParams];
-        //默认配置相机为前置
-        [FURenderKit shareRenderKit].internalCameraSetting.position = AVCaptureDevicePositionFront;
+        _cameraPosition = AVCaptureDevicePositionFront;
+        [FURenderKit shareRenderKit].internalCameraSetting.position = _cameraPosition;
         [self initBeauty];
     }
     return self;
 }
+
 
 - (void)setFaceProcessorDetectMode:(int)mode {
     [FUAIKit shareKit].faceProcessorDetectMode = mode;
@@ -57,12 +61,16 @@
 
 //检测是否有人脸
 - (BOOL)faceTrace {
-    int ret = [FUAIKit shareKit].trackedFacesCount;
-    return ret > 0;
+    BOOL ret = [FUAIKit shareKit].trackedFacesCount > 0;
+    return ret;
 }
 
 - (void)setMaxFaces:(int)maxFaces {
     [FUAIKit shareKit].maxTrackFaces = maxFaces;
+}
+
+- (void)setMaxBodies:(int)maxBodies {
+    [FUAIKit shareKit].maxTrackBodies = maxBodies;
 }
 
 - (void)setAsyncTrackFaceEnable:(BOOL)enable {

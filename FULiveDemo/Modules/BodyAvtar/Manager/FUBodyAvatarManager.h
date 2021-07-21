@@ -12,8 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FUBodyAvatarManager : FUMetaManager
 
-@property (nonatomic, strong, nullable) FUScene *scene;
-
 //加载抗锯齿道具
 - (void)loadAntiAliasing;
 

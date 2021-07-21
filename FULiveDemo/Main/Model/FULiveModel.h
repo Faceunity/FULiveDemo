@@ -23,7 +23,6 @@ typedef NS_ENUM(NSUInteger, FULiveModelType) {
     FULiveModelTypeHahaMirror,
     FULiveModelTypeBody,
     FULiveModelTypeWholeAvatar,
-    FULiveModelTypeActionRecognition,
     FULiveModelTypeBGSegmentation,
     FULiveModelTypeGestureRecognition,
     FULiveModelTypeLvMu,

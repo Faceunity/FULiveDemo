@@ -25,6 +25,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    [self.baseManager setMaxFaces:4];
+    [self.baseManager setMaxBodies:4];
+    
     self.segmentManager = [[FUBGSegmentManager alloc] init];
     [self setupView];
     

@@ -49,7 +49,7 @@
     if (!_curStickItem) {
         return;
     }
-    _curStickItem.isClick = YES;
+    [_curStickItem clickToChange];
 }
 
 - (void)releaseItem {

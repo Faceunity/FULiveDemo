@@ -23,6 +23,8 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, assign) int maxTrackFaces; // 设置最大的人脸跟踪个数 default is 1
 
+@property (nonatomic, assign) int maxTrackBodies; // 设置最大的人体跟踪个数 default is 1
+
 @property (nonatomic, assign, readonly) int trackedFacesCount; // 跟踪到的人脸个数
 
 @property (nonatomic, assign) FUFaceProcessorDetectMode faceProcessorDetectMode; // 图像加载模式 default is FUFaceProcessorDetectModeVideo
@@ -115,6 +117,12 @@ typedef enum : NSUInteger {
               pret:(float *)pret
             number:(int)number;
 
+/// 设置了InputCameraMatrix之后获取获取人脸信息
++ (int)getRotatedFaceInfo:(int)faceId
+                     name:(NSString *)name
+                     pret:(float *)pret
+                   number:(int)number;
+
 /// 图像明显发生改变时调用该接口重置内部检测结果
 + (void)resetTrackedResult;
 @end
@@ -140,9 +148,16 @@ typedef enum : NSUInteger {
 /// 是否进行舌头的检测，默认不对舌头进行检测。
 @property (nonatomic, assign) BOOL trackTongue;
 
-@property (nonatomic, assign) FUImageOrientation imageOrientation; // 设置人物在原始图像中的方向，默认为 FUAITrackOrientationPortrait。
+@property (nonatomic, assign) FUImageOrientation imageOrientation; // 设置人物在原始图像中的方向，默认为 FUImageOrientationUP。
 
 @property (nonatomic, assign) BOOL gravityEnable; // 重力开关，开启此功能可以根据已设置的 trackOrientation 自动适配AI检测的方向。
+
+
+/// 当前图片是否来源于前置摄像头，默认为 NO
+@property (nonatomic, assign) BOOL isFromFrontCamera;
+
+/// 当前图片是否来源于镜像摄像头，默认为 NO
+@property (nonatomic, assign) BOOL isFromMirroredCamera;
 @end
 
 /// trackFaceWithInput 接口的输入，CVPixelBufferRef、FUImageBuffer只需要传入一个就好，如果传入多个，将按优先级使用其中一种，优先级为：CVPixelBufferRef > FUImageBuffer;
