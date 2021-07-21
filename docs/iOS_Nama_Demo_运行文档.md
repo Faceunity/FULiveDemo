@@ -1,5 +1,20 @@
 # Demo运行说明文档-iOS  
 
+------
+
+级别：Public   
+更新日期：2021-07-09 
+SDK版本: 7.4.1
+
+### 最新更新内容：
+
+1）更新精品贴纸8款，包含2款PK游戏，5款装饰及互动贴纸，1款全身驱动道具
+2）更新2款中国风Animoji模型
+3）修复人像分割贴纸效果问题，修复后人像分割结果和贴纸效果会同时出现
+4）修复一些bug，包括高分辨率磨皮效果问题，人脸检测与贴纸绘制的时序问题
+
+------
+
 级别：Public   
 更新日期：2021-04-19 
 SDK版本: 7.4.0  
@@ -49,30 +64,30 @@ SDK版本: 7.4.0
 ### 2. iOS Demo文件结构
 本小节，描述iOS Demo文件结构，各个目录，以及重要文件的功能。
 
-```
+```obj
 +FULiveDemo
   +FULiveDemo 			  	//原代码目录
-    +Main                     //基类控制器(主要包含基类UI和视频采集) 
+    +Main                     //主模块(主页和公共页面UI、模型、主业务管理类) 
     +Modules                  //所有功能模块
       +Normal                   //普通道具模块
       +Beauty                   //美颜模块
         ...
     +Helpers                //主要业务管理类  
-      -FUManager              //nama 业务类
-      -FUCamera               //视频采集类     
+      -FUManager              //NAMA业务管理类
+      +VC                      //基类控制器
+      +Manager                 //管理类基类
+      	...   
     +Config					//配置文件目录
       -DataSource             //主界面，权限，item 道具配置类 
       -makeup.json       	  //美妆单个妆数组
       -makeup_whole.json      //美妆整体妆容配置
       -avatar.json            //捏脸颜色，模板配置文件
     +Resource               
-       +itmes                 //个个模块道具资源 
+       +itmes                 //各个模块道具资源 
     +Lib                    //nama SDK  
       -authpack.h             //权限文件
-      +libCNamaSDK.framework      
-        +Headers
-          -funama.h                //C 接口
-          -FURenderer.h            //OC 接口
+      -FURenderKit.framework   //动态库      
+      +Resources               //各个能力相关的资源
   +docs						//文档目录
   +Pods                     //三方库管理
   -FULiveDemo.xcworkspace   //工程文件

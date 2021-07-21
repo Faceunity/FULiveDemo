@@ -85,8 +85,11 @@
 			<key>items</key>
 			<array>
 				<string>resetItem</string>
+				<string>cartoon_princess_Animoji</string>
 				<string>qgirl_Animoji</string>
 				<string>kaola_Animoji</string>
+				<string>wuxia_Animoji</string>
+				<string>baihu_Animoji</string>
 				<string>frog_Animoji</string>
 				<string>huangya_Animoji</string>
 				<string>hetun_Animoji</string>
@@ -345,35 +348,13 @@
 		</dict>
 		<dict>
 			<key>itemName</key>
-			<string>动作识别</string>
-			<key>maxFace</key>
-			<integer>1</integer>
-			<key>enble</key>
-			<false/>
-			<key>itemType</key>
-			<integer>14</integer>
-			<key>conpareCode</key>
-			<integer>1</integer>
-			<key>modules</key>
-			<array>
-				<integer>65536</integer>
-			</array>
-			<key>items</key>
-			<array>
-				<string>picasso_e1</string>
-				<string>picasso_e2</string>
-				<string>picasso_e3</string>
-			</array>
-		</dict>
-		<dict>
-			<key>itemName</key>
 			<string>人像分割</string>
 			<key>maxFace</key>
 			<integer>1</integer>
 			<key>enble</key>
 			<false/>
 			<key>itemType</key>
-			<integer>15</integer>
+			<integer>14</integer>
 			<key>conpareCode</key>
 			<integer>0</integer>
 			<key>modules</key>
@@ -401,7 +382,7 @@
 			<key>enble</key>
 			<false/>
 			<key>itemType</key>
-			<integer>16</integer>
+			<integer>15</integer>
 			<key>conpareCode</key>
 			<integer>0</integer>
 			<key>modules</key>
@@ -427,7 +408,7 @@
 			<key>enble</key>
 			<false/>
 			<key>itemType</key>
-			<integer>17</integer>
+			<integer>16</integer>
 			<key>conpareCode</key>
 			<integer>1</integer>
 			<key>modules</key>
@@ -445,7 +426,7 @@
 			<key>enble</key>
 			<false/>
 			<key>itemType</key>
-			<integer>18</integer>
+			<integer>17</integer>
 			<key>conpareCode</key>
 			<integer>0</integer>
 			<key>animationIcon</key>

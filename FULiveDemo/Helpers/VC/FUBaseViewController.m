@@ -30,7 +30,7 @@ FUItemsViewDelegate,
 FULightingViewDelegate,
 UINavigationControllerDelegate,
 UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate,
-FUPopupMenuDelegate
+FUPopupMenuDelegate, FUCaptureCameraDataSource
 >
 {
     dispatch_semaphore_t signal;
@@ -42,8 +42,6 @@ FUPopupMenuDelegate
     BOOL _isFromOtherPage;//记录是否从其他页面回到美颜
 }
 @property (strong, nonatomic) FUCaptureCamera *mCamera ;
-//@property (strong, nonatomic) FUOpenGLView *renderView;
-//@property (strong, nonatomic) FUItemsView *itemsView;
 
 @property (strong, nonatomic) UILabel *buglyLabel;
 @property (strong, nonatomic) UIImageView *adjustImage;
@@ -79,6 +77,7 @@ FUPopupMenuDelegate
     }
     
     [[FURenderKit shareRenderKit] startInternalCamera];
+    [FURenderKit shareRenderKit].captureCamera.dataSource = self;
     //把渲染的View 赋值给 FURenderKit，这样会在FURenderKit内部自动渲染
     [FURenderKit shareRenderKit].glDisplayView = self.renderView;
     [FURenderKit shareRenderKit].delegate = self;
@@ -97,7 +96,6 @@ FUPopupMenuDelegate
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchScreenAction:)];
     [self.renderView addGestureRecognizer:tap];
     self.canPushImageSelView = YES;
-//    self.renderView.contentMode = FUOpenGLViewContentModeScaleAspectFit;
 
 }
 
@@ -109,6 +107,7 @@ FUPopupMenuDelegate
         [FURenderKit shareRenderKit].glDisplayView = self.renderView;
     }
     [FURenderKit shareRenderKit].pause = NO;
+    [FURenderKit shareRenderKit].internalCameraSetting.position = self.baseManager.cameraPosition;
     //不确定是不是小bug，每次重新回到页面分辨率都被设置成AVCaptureSessionPreset1280x720了，放到页面初始化地方去
 //    [FURenderKit shareRenderKit].internalCameraSetting.sessionPreset = AVCaptureSessionPreset1280x720;
     /* 监听屏幕方向 */
@@ -130,6 +129,8 @@ FUPopupMenuDelegate
     NSLog(@"viewWillDisappear : %@",self);
     [[FURenderKit shareRenderKit] stopInternalCamera];
     [FURenderKit shareRenderKit].glDisplayView = nil;
+    
+    self.baseManager.cameraPosition = [FURenderKit shareRenderKit].internalCameraSetting.position;
 }
 
 #pragma  mark -  UI
@@ -251,7 +252,7 @@ FUPopupMenuDelegate
     [self.view addSubview:_photoBtn];
     
     /* 默认选中720P index = 1 */
-    _selIndex = 1;
+    _selIndex = self.model.type == FULiveModelTypeQSTickers ? 0 : 1;
 }
 
 
@@ -362,10 +363,16 @@ FUPopupMenuDelegate
         [self fuPopupMenuDidSelectedImage];
         return;
     }
+    
     if (self.canPushImageSelView) {
         [FUPopupMenu showRelyOnView:btn frame:CGRectMake(17, CGRectGetMaxY(self.headButtonView.frame) + 1 , 340, 132) defaultSelectedAtIndex:_selIndex onlyTop:NO delegate:self];
-    }else{
-        [FUPopupMenu showRelyOnView:btn frame:CGRectMake(17, CGRectGetMaxY(self.headButtonView.frame) + 1 , 340, 80) defaultSelectedAtIndex:_selIndex onlyTop:YES delegate:self];
+    } else {
+        if (self.model.type == FULiveModelTypeQSTickers) {
+            // 精品贴纸特殊处理
+            [FUPopupMenu showRelyOnView:btn frame:CGRectMake(17, CGRectGetMaxY(self.headButtonView.frame) + 1, 340, 80) defaultSelectedAtIndex:_selIndex onlyTop:YES dataSource:@[@"720x1280", @"1080x1920"] delegate:self];
+        } else {
+            [FUPopupMenu showRelyOnView:btn frame:CGRectMake(17, CGRectGetMaxY(self.headButtonView.frame) + 1 , 340, 80) defaultSelectedAtIndex:_selIndex onlyTop:YES delegate:self];
+        }
     }
 }
 
@@ -383,7 +390,9 @@ FUPopupMenuDelegate
         _selIndex = _selIndex - 1;
         [self fuPopupMenuDidSelectedAtIndex:_selIndex];
     }
+    
      [self.mCamera changeCameraInputDeviceisFront:sender.selected];
+    [FURenderKit shareRenderKit].internalCameraSetting.position = self.mCamera.isFrontCamera?AVCaptureDevicePositionFront:AVCaptureDevicePositionBack;
     /**切换摄像头要调用此函数*/
     [self.baseManager setOnCameraChange];
     sender.selected = !sender.selected ;
@@ -505,6 +514,7 @@ static NSTimeInterval startTime = 0;
         dispatch_semaphore_signal(semaphore);
     }
     
+    [self autoFocus];
     /**判断是否检测到人脸*/
     [self displayPromptText];
    
@@ -550,20 +560,7 @@ static NSTimeInterval startTime = 0;
 
 #pragma mark - FUCameraDataSource
 -(CGPoint)fuCaptureFaceCenterInImage:(FUCaptureCamera *)camera{
-    CGPoint center = CGPointMake(-1, -1);
-    BOOL isHaveFace = [self.baseManager faceTrace];
-    
-    if (isHaveFace) {
-        center = [self cameraFocusAndExposeFace];
-    }
-//    NSLog(@"人脸曝光点-----%@",NSStringFromCGPoint(center));
-    return center;
-}
-
-
--(CGPoint)cameraFocusAndExposeFace{
-    CGPoint center = [self.baseManager getFaceCenterInFrameSize:CGSizeMake(imageW, imageH)];
-   return  CGPointMake(center.y, self.mCamera.isFrontCamera ? center.x : 1 - center.x);
+    return self.baseManager.faceCenter;
 }
 
 #pragma  mark -  刷新bugly text
@@ -595,10 +592,10 @@ static NSTimeInterval startTime = 0;
     
     switch (index) {
         case 0:
-            ret = [self.mCamera changeSessionPreset:AVCaptureSessionPreset640x480];
+            ret = self.model.type == FULiveModelTypeQSTickers ? [self.mCamera changeSessionPreset:AVCaptureSessionPreset1280x720] : [self.mCamera changeSessionPreset:AVCaptureSessionPreset640x480];
             break;
         case 1:
-            ret = [self.mCamera changeSessionPreset:AVCaptureSessionPreset1280x720];
+            ret = self.model.type == FULiveModelTypeQSTickers ? [self.mCamera changeSessionPreset:AVCaptureSessionPreset1920x1080] : [self.mCamera changeSessionPreset:AVCaptureSessionPreset1280x720];
             break;
         case 2:
             ret = [self.mCamera changeSessionPreset:AVCaptureSessionPreset1920x1080];
@@ -633,7 +630,23 @@ static NSTimeInterval startTime = 0;
     dispatch_async(dispatch_get_main_queue(), ^{
        self.noTrackLabel.text = FUNSLocalizedString(@"No_Face_Tracking",nil);
        self.noTrackLabel.hidden = isHaveFace;
-    }) ;
+    });
+}
+
+//自动对焦
+- (void)autoFocus {
+    BOOL isHaveFace = [self.baseManager faceTrace];
+    CGPoint center = CGPointMake(0.5, 0.5);
+    if (isHaveFace) {
+        center = [self cameraFocusAndExposeFace];
+    }
+    self.baseManager.faceCenter = center; //在渲染线程获取人脸中心点是准确的，保存起来，让其他线程去访问。
+}
+
+
+-(CGPoint)cameraFocusAndExposeFace {
+   CGPoint center = [self.baseManager getFaceCenterInFrameSize:CGSizeMake(imageW, imageH)];
+   return  CGPointMake(center.y, self.mCamera.isFrontCamera ? center.x : 1 - center.x);
 }
 
 -(BOOL)onlyJumpImage{

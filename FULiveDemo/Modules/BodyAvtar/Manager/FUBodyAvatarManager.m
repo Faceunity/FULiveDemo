@@ -7,15 +7,19 @@
 //
 
 #import "FUBodyAvatarManager.h"
+#import <FURenderKit/FURenderKit.h>
 
 @interface FUBodyAvatarManager () {
     int _index;
     FUPosition halfPosition;
     FUPosition fullPosition;
 }
-@property (nonatomic, strong)NSArray <NSArray <FUItem *> *>*bindItems;//1.女  2.男
+
+@property (nonatomic, strong, nullable) FUScene *scene;
+@property (nonatomic, strong) FUBackground *sceneBackground;
 @property (nonatomic, copy) NSArray<FUAvatar *> *avatars;
 @property (nonatomic, strong) FUAvatar *currentAvatar;
+
 @end
 
 @implementation FUBodyAvatarManager
@@ -42,20 +46,30 @@
     halfPosition = FUPositionMake(0.0, 0, -183.89);
     if (iPhoneXStyle) {
         fullPosition.z = -600;
-        halfPosition.z = - 200;
+        halfPosition.z = -200;
     }
 }
 
 - (void)setupScene {
     self.scene = [[FUScene alloc] init];
-    
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"default_bg.bundle" ofType:nil];
-    self.scene.background = [FUBackground itemWithPath:path name:@"bg"];
-
     self.scene.AIConfig.bodyTrackEnable = YES;
 }
 
 - (void)setupAvatars {
+    
+    // setup little bear
+    FUAvatar *bearAvatar = [[FUAvatar alloc] init];
+    NSString *bearPath = [[NSBundle mainBundle] pathForResource:@"xiong" ofType:@"bundle"];
+    FUItem *bearItem = [FUItem itemWithPath:bearPath name:@"xiong"];
+    [bearAvatar addComponent:bearItem];
+    
+    NSString *bearAnimationPath = [[NSBundle mainBundle] pathForResource:@"xiong_animation" ofType:@"bundle"];
+    FUAnimation *bearAnimation = [FUAnimation animationWithPath:bearAnimationPath name:@"xiong_animation"];
+    [bearAvatar addAnimation:bearAnimation];
+    
+    NSString *bearLightPath = [[NSBundle mainBundle] pathForResource:@"xiong_light" ofType:@"bundle"];
+    FUAnimation *bearLight = [FUAnimation animationWithPath:bearLightPath name:@"xiong_light"];
+    [bearAvatar addAnimation:bearLight];
     
     NSArray <NSString *>*gestureTrackComponents = @[@"anim_eight",@"anim_fist",@"anim_greet",@"anim_gun",@"anim_heart",@"anim_hold",@"anim_korheart",@"anim_merge",@"anim_ok",@"anim_one", @"anim_palm",@"anim_rock",@"anim_six",@"anim_thumb",@"anim_two"];
     
@@ -112,7 +126,7 @@
     maleAvatar.position = fullPosition;
     femaleAvatar.position = fullPosition;
     
-    self.avatars = @[femaleAvatar,maleAvatar];
+    self.avatars = @[bearAvatar, femaleAvatar, maleAvatar];
     
 }
 
@@ -128,20 +142,35 @@
     }
     return nil;
 }
-
+FUAvatar *curA = nil;
 - (void)loadAvatarWithIndex:(int)index {
     if (_index == index && index == -1) {
         return ; 
     }
     
     FUAvatar *newAvatar = self.avatars[index];
-    newAvatar.position = self.scene.AIConfig.bodyTrackMode == FUBodyTrackModeFull ? fullPosition:halfPosition;
+    newAvatar.visible = NO;
     if (self.currentAvatar) {
+        self.currentAvatar.visible = NO;
         [self.scene replaceAvatar:self.currentAvatar withNewAvatar:newAvatar];
     }else{
         [self.scene addAvatar:newAvatar];
     }
-   
+    if (index == 0) {
+        // 处理小熊Avatar
+        // **这里临时处理了图形Y坐标到视图Y坐标的转换
+        newAvatar.position = FUPositionMake(25.2, iPhoneXStyle ? (56.14 - 50.0*24.0/72.0) : 56.14, -537.94);
+        self.scene.background = nil;
+        self.scene.AIConfig.avatarTranslationScale = FUPositionMake(0.45, 0.45, 0.25);
+        [self.scene.AIConfig setAvatarAnimFilter:7 pos:0.05 angle:0.1];
+    } else {
+        newAvatar.position = self.scene.AIConfig.bodyTrackMode == FUBodyTrackModeFull ? fullPosition:halfPosition;
+        curA.position = FUPositionMake(25.2, 0, -537.94);
+        self.scene.background = self.sceneBackground;
+        self.scene.AIConfig.avatarTranslationScale = FUPositionMake(0, 0, 0);
+        [self.scene.AIConfig setAvatarAnimFilter:5 pos:0 angle:0];
+    }
+    newAvatar.visible = YES;
     _index = index;
 }
 
@@ -164,4 +193,12 @@
         [self.scene unload];
     });
 }
+
+- (FUBackground *)sceneBackground {
+    if (!_sceneBackground) {
+        _sceneBackground = [[FUBackground alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"default_bg.bundle" ofType:nil] name:@"bg"];
+    }
+    return _sceneBackground;
+}
+
 @end

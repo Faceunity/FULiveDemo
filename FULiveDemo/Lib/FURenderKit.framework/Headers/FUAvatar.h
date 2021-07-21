@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) FUPosition position;
 
+@property (nonatomic, assign) BOOL visible;
+
 @property (nonatomic, assign) double rotate;
 
 @property (nonatomic, assign) double rotateDelta;
@@ -157,7 +159,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FUAvatar (Color)
 
-- (void)setColor:(FUColor)color forKey:(FUAvatarColor)colorKey;
+- (void)setColor:(FURGBColor)color forKey:(FUAvatarColor)colorKey;
 
 - (void)setColorIntensity:(double)colorIntensity forKey:(FUAvatarColorIntensity)colorIntensityKey;
 

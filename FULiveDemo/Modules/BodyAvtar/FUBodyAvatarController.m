@@ -12,7 +12,6 @@
 #import "FUBodyAvatarManager.h"
 
 @interface FUBodyAvatarController ()<FUBodyItemsDelegate>{
-    int oldSelIndex;
     dispatch_semaphore_t backSignal;
 
 }
@@ -44,9 +43,8 @@
     /* 道具切信号 */
     backSignal = dispatch_semaphore_create(1);
     
-    oldSelIndex = -1;
     /* 待绑定的道具 */
-    _mItmsArray = @[@"avatar_female",@"avatar_male"];
+    _mItmsArray = @[@"avatar_bear",@"avatar_female",@"avatar_male"];
     
     /* 句柄缓存对象 */
     _itemsHache = [NSMutableDictionary dictionary];
@@ -129,8 +127,8 @@
 -(void)displayPromptText{
     int res  = [self.bodyAvatarManager aiHumanProcessorNums];
     dispatch_async(dispatch_get_main_queue(), ^{
-            self.noTrackLabel.text = FUNSLocalizedString(@"未检测到人体",nil);
-           self.noTrackLabel.hidden = res > 0 ? YES : NO;
+        self.noTrackLabel.text = FUNSLocalizedString(@"未检测到人体",nil);
+        self.noTrackLabel.hidden = res > 0 ? YES : NO;
     }) ;
 }
 
@@ -138,14 +136,23 @@
 
 /* UI 点击 */
 -(void)bodyDidSelectedItemsIndex:(int)index{
-    [self.bodyAvatarManager loadAvatarWithIndex: index];
+    // 小熊Avatar隐藏切换按钮和小视图
+    self.mSwitch.hidden = index == 0;
+    self.mPerView.hidden = index == 0;
+    if (index == 0) {
+        // 小熊只设置全身
+        [self.bodyAvatarManager switchBodyTrackMode:FUBodyTrackModeFull];
+    } else {
+        [self switchSex:self.mSwitch];
+    }
+    [self.bodyAvatarManager loadAvatarWithIndex:index];
 }
 
 -(void)switchSex:(FUSwitch *)mSwitch{
     if (mSwitch.on) {//全
         [self.bodyAvatarManager switchBodyTrackMode:FUBodyTrackModeFull];
      }else{//半身
-         [self.bodyAvatarManager switchBodyTrackMode:FUBodyTrackModeHalf];
+        [self.bodyAvatarManager switchBodyTrackMode:FUBodyTrackModeHalf];
      }
 }
 

@@ -6,6 +6,7 @@
 //
 
 #import "FUItem.h"
+#import <Foundation/Foundation.h>
 #import <FURenderKit/FUStruct.h>
 #import "FUMakeupValueDefine.h"
 
@@ -19,7 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL isClearMakeup;//在解绑妆容时是否清空除口红以外的妆容，0表示不清空，1表示清空，口红可由强度进行设置
 @property (nonatomic, assign) FUMakeupLipType lipType;//口红类型  0雾面 2润泽 3珠光 6高性能（不支持双色）
 @property (nonatomic, assign) BOOL isTwoColor;//口红双色开关，0为关闭，1为开启，如果想使用咬唇，开启双色开关，并且将makeup_lip_color2的值都设置为0
-@property (nonatomic, assign) BOOL isFlipPoints; //点位镜像，0为关闭，1为开启
 @property (nonatomic, assign) FUMakeupBrowWarpType browWarpType;//眉毛变形类型 0柳叶眉  1一字眉  2远山眉 3标准眉 4扶形眉  5日常风 6日系风
 @property (nonatomic, assign) BOOL browWarp;//是否使用眉毛变形 ，1为开 0为关
 
@@ -36,6 +36,9 @@ NS_ASSUME_NONNULL_BEGIN
  * needCleanSubItem： YES 清除，NO 不清除
  */
 - (void)updateMakeupPackage:(FUItem * __nullable)makeupPackage needCleanSubItem:(BOOL)needCleanSubItem;
+
+//修改整体妆容程度值
+@property (nonatomic, assign) double intensity;
 
 ////组合装对象，内部包含当前组合装所有部位子妆
 //@property (nonatomic, strong, nullable) FUItem *makeupPackage;

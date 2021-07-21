@@ -9,7 +9,6 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
-#import "FUCamera.h"
 #import "FUHeadButtonView.h"
 #import "FUPhotoButton.h"
 #import <Masonry.h>
@@ -33,7 +32,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) FULiveModel *model;
 
-@property (strong, nonatomic,readonly) FUCamera *mCamera;
 @property (strong, nonatomic) FUHeadButtonView *headButtonView;
 @property (strong, nonatomic) FUPhotoButton *photoBtn;
 

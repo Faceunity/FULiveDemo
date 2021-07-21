@@ -20,7 +20,7 @@
         [self setTitleColor:[UIColor colorWithRed:94/255.0 green:199/255.0 blue:254/255.0 alpha:1.0] forState:UIControlStateHighlighted];
         [self setTitleColor:[UIColor colorWithRed:94/255.0 green:199/255.0 blue:254/255.0 alpha:1.0] forState:UIControlStateSelected];
         
-        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"加速" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:10],NSForegroundColorAttributeName: [UIColor colorWithRed:94/255.0 green:199/255.0 blue:254/255.0 alpha:1.0]}];
+        // NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"加速" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:10],NSForegroundColorAttributeName: [UIColor colorWithRed:94/255.0 green:199/255.0 blue:254/255.0 alpha:1.0]}];
         
     }
     

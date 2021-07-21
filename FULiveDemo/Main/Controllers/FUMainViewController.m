@@ -24,7 +24,6 @@
 #import "FUBodyBeautyController.h"
 #import "FULightMakeupController.h"
 #import "FUHeadReusableView.h"
-#import "FUActionRecognitionController.h"
 #import "FUBodyAvatarController.h"
 #import "FULvMuViewController.h"
 
@@ -232,13 +231,6 @@ static NSString *headerViewID = @"MGHeaderView";
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;
-        
-        case FULiveModelTypeActionRecognition:{
-                FUActionRecognitionController *vc = [[FUActionRecognitionController alloc] init];
-                vc.model = model;
-                [self.navigationController pushViewController:vc animated:YES];
-            }
-                break;
             
         case FULiveModelTypeLvMu:{
                 FULvMuViewController *vc = [[FULvMuViewController alloc] init];

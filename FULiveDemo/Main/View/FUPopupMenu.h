@@ -37,6 +37,15 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param delegate 代理
 + (FUPopupMenu *)showRelyOnView:(UIView *)view frame:(CGRect)frame defaultSelectedAtIndex:(int)index onlyTop:(BOOL)onlyTop delegate:(id<FUPopupMenuDelegate>)delegate;
 
+///  弹出
+/// @param view b绑定的view
+/// @param frame 尺寸
+/// @param index 分辨率默认选中
+/// @param onlyTop 是否只显示分辨率
+/// @param dataSource 数据源
+/// @param delegate 代理
++ (FUPopupMenu *)showRelyOnView:(UIView *)view frame:(CGRect)frame defaultSelectedAtIndex:(int)index onlyTop:(BOOL)onlyTop dataSource:(nullable NSArray *)dataSource delegate:(id<FUPopupMenuDelegate>)delegate;
+
 @property (nonatomic) int  selIndex;
 
 /// 不需要按钮

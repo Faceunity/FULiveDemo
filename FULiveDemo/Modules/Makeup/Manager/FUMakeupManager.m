@@ -29,7 +29,7 @@
         self.makeup = [[FUMakeup alloc] initWithPath:path name:@"makeUp"];
         self.makeup.isMakeupOn = YES;
         /* 镜像设置 */
-        self.makeup.isFlipPoints = 1;
+        // self.makeup.isFlipPoints = 1;
         NSDictionary *dataParms = [NSDictionary dictionaryWithDictionary:[FULocalDataManager makeupJsonData]];
         self.dataArray = [FUMakeupModel mj_objectArrayWithKeyValuesArray:dataParms[@"data"]];
         if (self.dataArray.count == 0) {

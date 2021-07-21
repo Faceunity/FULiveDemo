@@ -19,15 +19,19 @@
 @property (nonatomic) CGPoint               point;
 
 @property (nonatomic,assign) int               onlyTop;
+
+@property (nonatomic, copy) NSArray *dataSource;
+
 @end
 @implementation FUPopupMenu
 
-- (instancetype)initWithFrame:(CGRect)frame onlyTop:(BOOL)onlyTop defaultSelectedAtIndex:(int)index
+- (instancetype)initWithFrame:(CGRect)frame onlyTop:(BOOL)onlyTop defaultSelectedAtIndex:(int)index dataSource:(nullable NSArray *)dataSource
 {
     self = [super initWithFrame:frame];
     if (self) {
         _selIndex = index;
         _onlyTop = onlyTop;
+        _dataSource = dataSource;
         [self setupView];
     }
     return self;
@@ -50,7 +54,7 @@
     [self addSubview:bageView];
     
     /* 分段控制器 */
-    NSArray *array = [NSArray arrayWithObjects:@"480×640",@"720×1280",@"1080×1920", nil];
+    NSArray *array = self.dataSource.count > 0 ? self.dataSource : [NSArray arrayWithObjects:@"480×640",@"720×1280",@"1080×1920", nil];
     UISegmentedControl *segment = [[UISegmentedControl alloc]initWithItems:array];
     segment.frame = CGRectMake(25, 28, self.frame.size.width-50, 32);
     segment.selectedSegmentIndex = _selIndex;
@@ -83,14 +87,17 @@
 
 
 + (FUPopupMenu *)showRelyOnView:(UIView *)view frame:(CGRect)frame defaultSelectedAtIndex:(int)index onlyTop:(BOOL)onlyTop delegate:(id<FUPopupMenuDelegate>)delegate{
+    return [self showRelyOnView:view frame:frame defaultSelectedAtIndex:index onlyTop:onlyTop dataSource:nil delegate:delegate];
+}
+
++ (FUPopupMenu *)showRelyOnView:(UIView *)view frame:(CGRect)frame defaultSelectedAtIndex:(int)index onlyTop:(BOOL)onlyTop dataSource:(NSArray *)dataSource delegate:(id<FUPopupMenuDelegate>)delegate {
     CGRect absoluteRect = [view convertRect:view.bounds toView:FUMainWindow];
     CGPoint relyPoint = CGPointMake(absoluteRect.origin.x + absoluteRect.size.width / 2, absoluteRect.origin.y + absoluteRect.size.height);
-    FUPopupMenu *popupMenu = [[FUPopupMenu alloc] initWithFrame:frame  onlyTop:(BOOL)onlyTop defaultSelectedAtIndex:(int)index];
+    FUPopupMenu *popupMenu = [[FUPopupMenu alloc] initWithFrame:frame  onlyTop:(BOOL)onlyTop defaultSelectedAtIndex:(int)index dataSource:dataSource];
     popupMenu.delegate = delegate;
     popupMenu.point  = relyPoint;
     [popupMenu show];
     return popupMenu;
-
 }
 
 #pragma mark - privates

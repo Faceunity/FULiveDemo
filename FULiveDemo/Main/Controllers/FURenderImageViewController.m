@@ -8,7 +8,6 @@
 
 #import "FURenderImageViewController.h"
 #import <MobileCoreServices/MobileCoreServices.h>
-//#import "FUOpenGLView.h"
 #import <FURenderKit/FUGLDisplayView.h>
 #import "FUVideoReader.h"
 #import "FUManager.h"

@@ -37,6 +37,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) FUBeauty *beauty;
 
+//缓存渲染线程的人脸中心点
+@property (nonatomic, assign) CGPoint faceCenter;
+
+//当前页面绑定的相机朝向
+@property (assign, nonatomic) AVCaptureDevicePosition cameraPosition;
+
+
 - (void)setSkin:(double)value forKey:(FUBeautifySkin)key;
 
 - (void)setShap:(double)value forKey:(FUBeautifyShape)key;
@@ -48,6 +55,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setOnCameraChange;
 
 - (void)setMaxFaces:(int)maxFaces;
+
+- (void)setMaxBodies:(int)maxBodies;
 
 - (void)setAsyncTrackFaceEnable:(BOOL)enable;
 

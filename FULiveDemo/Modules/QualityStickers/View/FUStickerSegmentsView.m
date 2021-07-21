@@ -15,6 +15,8 @@
 @property (nonatomic, copy) NSArray<NSString *> *titlesArray;
 @property (nonatomic, strong) FUStickerSegmentsConfigurations *configurations;
 @property (nonatomic, strong) NSMutableArray<UIButton *> *titleButtons;
+
+// ScrollView contentSize.width
 @property (nonatomic, assign) CGFloat contentWidth;
 @property (nonatomic, strong) UIButton *selectedButton;
 
@@ -43,12 +45,29 @@
 - (void)setupContentView {
     CGFloat frameWidth = CGRectGetWidth(self.frame);
     CGFloat frameHeight = CGRectGetHeight(self.frame);
-    _contentWidth = 0;
-    _contentWidth = self.configurations.itemWidth * self.titlesArray.count;
-    if (_contentWidth < frameWidth) {
-        self.scrollView.frame = CGRectMake((frameWidth - _contentWidth) / 2.0, 0, _contentWidth, frameHeight);
+    
+    // 计算总宽度
+    CGFloat itemsWidth = 0;
+    for (NSString *tagString in self.titlesArray) {
+        NSString *resultString = [tagString copy];
+        if ([tagString componentsSeparatedByString:@"/"].count > 1) {
+            NSArray *titles = [tagString componentsSeparatedByString:@"/"];
+            NSString *languageString = [[NSUserDefaults standardUserDefaults] objectForKey:@"appLanguage"];
+            resultString = [languageString isEqualToString:@"zh-Hans"] ? titles[0] : titles[1];
+        }
+        // 计算文字宽度，并加上额外宽度，额外宽度暂时设为20
+        CGFloat tagWidth = [resultString sizeWithAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:13]}].width + 20;
+        itemsWidth += tagWidth;
+    }
+    
+    // 是否根据文字自动设置宽度
+    BOOL isAutoItemWidth = YES;
+    if (itemsWidth > frameWidth) {
+        _contentWidth = itemsWidth;
     } else {
-        self.scrollView.frame = CGRectMake(0, 0, frameWidth, frameHeight);
+        // 未超过父控件宽度，则不根据文字自动设置宽度
+        isAutoItemWidth = NO;
+        _contentWidth = frameWidth;
     }
     self.scrollView.contentSize = CGSizeMake(_contentWidth, 0);
     
@@ -58,7 +77,6 @@
     [self.titlesArray enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         UIButton *titleButton = [UIButton buttonWithType:UIButtonTypeCustom];
         titleButton.tag = 1000 + idx;
-        titleButton.frame = CGRectMake(positionX, 0, self.configurations.itemWidth, frameHeight);
         NSString *titleString = obj;
         // 处理多语言
         if ([obj componentsSeparatedByString:@"/"].count > 1) {
@@ -66,6 +84,13 @@
             NSString *languageString = [[NSUserDefaults standardUserDefaults] objectForKey:@"appLanguage"];
             titleString = [languageString isEqualToString:@"zh-Hans"] ? titles[0] : titles[1];
         }
+        CGFloat tempButtonWidth;
+        if (isAutoItemWidth) {
+            tempButtonWidth = [titleString sizeWithAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:13]}].width + 20;
+        } else {
+            tempButtonWidth = frameWidth / self.titlesArray.count;
+        }
+        titleButton.frame = CGRectMake(positionX, 0, tempButtonWidth, frameHeight);
         
         [titleButton setTitle:titleString forState:UIControlStateNormal];
         titleButton.titleLabel.font = [UIFont systemFontOfSize:13];
@@ -78,7 +103,7 @@
         }
         [self.titleButtons addObject:titleButton];
         [self.scrollView addSubview:titleButton];
-        positionX += self.configurations.itemWidth;
+        positionX += tempButtonWidth;
     }];
 }
 
@@ -95,9 +120,6 @@
     }
     if (configuration.selectedColor && configuration.selectedColor != self.configurations.selectedColor) {
         self.configurations.selectedColor = configuration.selectedColor;
-    }
-    if (configuration.itemWidth && configuration.itemWidth != self.configurations.itemWidth) {
-        self.configurations.itemWidth = configuration.itemWidth;
     }
 }
 
@@ -148,7 +170,7 @@
 #pragma mark - Getters
 - (UIScrollView *)scrollView {
     if (!_scrollView) {
-        _scrollView = [[UIScrollView alloc] init];
+        _scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
         _scrollView.backgroundColor = [UIColor clearColor];
         _scrollView.showsHorizontalScrollIndicator = NO;
         _scrollView.showsVerticalScrollIndicator = NO;
@@ -166,7 +188,6 @@
         _configurations = [[FUStickerSegmentsConfigurations alloc] init];
         _configurations.normalColor = [UIColor whiteColor];
         _configurations.selectedColor = [UIColor colorWithRed:94/255.0f green:199/255.0f blue:254/255.0f alpha:1.0];
-        _configurations.itemWidth = 100;
     }
     return _configurations;
 }

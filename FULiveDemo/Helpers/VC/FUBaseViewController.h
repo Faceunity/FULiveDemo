@@ -9,7 +9,6 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
-//#import "FUCamera.h"
 #import <FURenderKit/FUCaptureCamera.h>
 #import "FUHeadButtonView.h"
 #import "FUPhotoButton.h"
@@ -41,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 /* 可以跳转到导入图片 */
 @property (assign, nonatomic) BOOL canPushImageSelView;
 
-@property (strong, nonatomic) FULightingView *lightingView ;
+@property (strong, nonatomic) FULightingView *lightingView;
 
 /* 子类重载，实现差异逻辑 */
 -(void)takePhotoToSave:(UIImage *)image;//拍照保存

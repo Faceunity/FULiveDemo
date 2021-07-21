@@ -16,7 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) UIColor *normalColor;             // 普通颜色
 @property (nonatomic, strong) UIColor *selectedColor;           // 选中颜色
-@property (nonatomic, assign) CGFloat itemWidth;               // 每一项宽度
 
 @end
 

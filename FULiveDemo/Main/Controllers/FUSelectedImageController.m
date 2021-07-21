@@ -12,6 +12,7 @@
 #import "FUManager.h"
 #import "FULiveModel.h"
 #import "FUEditImageViewController.h"
+#import "UIImage+FU.h"
 #import <Masonry.h>
 
 @interface FUSelectedImageController ()<UINavigationControllerDelegate, UIImagePickerControllerDelegate>
@@ -118,7 +119,12 @@
         }else if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) { //照片
             
             UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-            
+            CGFloat imagePixel = image.size.width * image.size.height;
+            if (imagePixel > 24000000) {
+                // 大于24000000像素需要压缩
+                CGFloat ratio = 24000000 / imagePixel * 1.0;
+                image = [image fu_compress:ratio];
+            }
             // 图片转正
             if (image.imageOrientation != UIImageOrientationUp && image.imageOrientation != UIImageOrientationUpMirrored) {
                 
