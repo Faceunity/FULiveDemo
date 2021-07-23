@@ -374,6 +374,12 @@ FUNAMA_API int fuOpenFileLog(const char* file_pullname, int max_file_size,
 FUNAMA_API int fuSetLogLevel(FULOGLEVEL level);
 
 /**
+ \brief set log prefix
+ \param prefix, log prefix
+ */
+FUNAMA_API void fuSetLogPrefix(const char* prefix);
+
+/**
  \brief Get current log level
  \return ref to FULOGLEVEL
 */
