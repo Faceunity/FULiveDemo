@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) BOOL supportARMode; // 是否支持 AR 模式
 
+@property (nonatomic, copy) NSSet<NSNumber *> *bodyInvisibleList; // 身体隐藏区域
+
 /// 根据道具路径创建道具对象，可支持自动加载
 /// @param path 道具路径
 /// @param name 道具名称

@@ -29,6 +29,7 @@ extern NSString * const FUSelectedStickerDidChangeNotification;
 - (instancetype)initWithTag:(NSString *)tag;
 
 - (void)reloadData;
+
 @end
 
 NS_ASSUME_NONNULL_END

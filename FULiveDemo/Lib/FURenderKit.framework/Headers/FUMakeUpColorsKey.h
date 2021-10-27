@@ -15,10 +15,13 @@ FUParamsKeysDefine(FUMakeUpColor,
                    //粉底
                    FUMakeUpColorFoundationColor = @"makeup_foundation_color",
                    
-                   //口红
+                   //口红颜色
                    FUMakeUpColorLipColor = @"makeup_lip_color",
                    
-                   //口红2
+                   //口红颜色v2
+                   FUMakeUpColorLipColorV2 = @"makeup_lip_color_v2",
+                   
+                   //口红颜色2
                    FUMakeUpColorLipColor2 = @"makeup_lip_color2",
                    
                    //腮红

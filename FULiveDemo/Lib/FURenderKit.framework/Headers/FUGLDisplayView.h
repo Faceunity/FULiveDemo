@@ -25,14 +25,27 @@ typedef NS_ENUM(NSInteger, FUGLDisplayViewContentMode) {
 
 };
 
+@class FUGLDisplayView;
+@protocol FUGLDisplayViewGestureDelegate <NSObject>
+
+- (void)displayView:(FUGLDisplayView *)displayView panMovedWithTranslation:(CGPoint)translation translationDelta:(CGPoint)translationDelta gestureState:(UIGestureRecognizerState)gestureState;
+
+- (void)displayView:(FUGLDisplayView *)displayView pinchMovedWithScale:(CGFloat)scale scaleDelta:(CGFloat)scaleDelta gestureState:(UIGestureRecognizerState)gestureState;
+
+@end
+
 @interface FUGLDisplayView : UIView
 
 @property (nonatomic, assign) FUGLDisplayViewContentMode contentMode;
 // 设置视频朝向，保证视频总是竖屏播放
 @property (nonatomic, assign) FUGLDisplayViewOrientation origintation;
 
+@property (nonatomic, weak) id<FUGLDisplayViewGestureDelegate> gestureDelegate;
+
 @property (nonatomic, assign) NSInteger disapplePointIndex ;
-@property (nonatomic,assign,readonly)  CGSize boundsSizeAtFrameBufferEpoch;  
+@property (nonatomic,assign,readonly)  CGSize boundsSizeAtFrameBufferEpoch;
+
+@property (nonatomic, assign) BOOL alphaEnable;
 
 - (void)setDisplayFramebuffer;
 - (void)displayPixelBuffer:(CVPixelBufferRef)pixelBuffer;

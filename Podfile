@@ -10,5 +10,6 @@ target 'FULiveDemo' do
     pod 'MJExtension'
     pod 'lottie-ios', '~> 2.5.3'
     pod 'Bugly', '~> 2.5.71'
+    pod 'SSZipArchive'
 end
 

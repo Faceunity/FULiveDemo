@@ -56,9 +56,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(BOOL)onlyJumpImage;
 
-- (void)willResignActive;
-- (void)didBecomeActive;
-
 - (void)touchScreenAction:(UITapGestureRecognizer *)tap;
 
 //avatar 不需要加载美颜，所以通过重写方法来告知父类是否加载美颜

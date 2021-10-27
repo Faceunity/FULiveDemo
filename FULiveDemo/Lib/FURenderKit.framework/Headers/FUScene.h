@@ -35,7 +35,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, weak) id<FUSceneDelegate> delegate;
 
 /// controller_config.bundle 文件路径，默认为 FURenderKit 初始化时设置的 controller_config 路径，用户可以通过修改该参数修改该路径。
-@property (nonatomic, copy) NSString *controllerConfigPath;
+@property (nonatomic, copy, readonly) NSString *controllerConfigPath;
 
 /// 背景道具
 @property (nonatomic, strong) FUBackground *background;
@@ -46,12 +46,12 @@ typedef enum : NSUInteger {
 /// 机位道具
 @property (nonatomic, strong) FUSceneCamera *sceneCamera;
 
-/// 投影模式，支持两种模式：1、透视投影（FUProjectionModePerspective）；2、平行投影（FUProjectionModeParallel）
-@property (nonatomic, assign) FUProjectionMode projectMode;
+/// 是否使用 orthogonal projection, 默认为 perspective projection
+@property (nonatomic, assign) BOOL enableOrthogonalProjection;
 
-@property (nonatomic, assign) double renderFov;
+@property (nonatomic, assign) float renderFov;
 
-@property (nonatomic, assign) double renderOrthSize;
+@property (nonatomic, assign) float renderOrthSize;
 
 @property (nonatomic, assign) double znear;
 
@@ -60,20 +60,18 @@ typedef enum : NSUInteger {
 /// 光照道具
 @property (nonatomic, strong) FULight *light;
 
+@property (nonatomic, assign) BOOL enableLowQualityLighting;
+
+@property (nonatomic, assign) BOOL enableBloom;
+
 /// 阴影开关
 @property (nonatomic, assign) BOOL enableShadow;
 
-@property (nonatomic, assign) double shadowMapSize;
-
-@property (nonatomic, assign) double shadowPcfLevel;
-
-@property (nonatomic, assign) FUShadowBias shadowBias;
-
-@property (nonatomic, assign) BOOL enableExpressionBlend;
+@property (nonatomic, assign) BOOL enableRenderCameraImage;
 
 @property (nonatomic, copy, readonly) NSArray<FUAvatar *> *avatars;
 
-- (void)unload;
+- (FUScene *)initWithControllerConfigPath:(NSString *)controllerConfigPath;
 
 - (void)addAvatar:(FUAvatar *)avatar;
 
@@ -93,9 +91,13 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, assign) BOOL enableCustomAnimationTime;
 
-@property (nonatomic, assign) double customAnimationTime;
+@property (nonatomic, assign) float customAnimationTime;
+
+@property (nonatomic, assign) BOOL pauseSystemTimeUpdate;
 
 @property (nonatomic, assign) BOOL enableCameraAnimation;
+
+@property (nonatomic, assign) BOOL enableCameraAnimationLerp;
 
 ///// 相机动画列表
 @property (nonatomic, copy, readonly) NSArray<FUCameraAnimation *> *cameraAnimations;
@@ -130,29 +132,23 @@ typedef enum : NSUInteger {
 /// @param transitionDuration 相机动画过度时间
 - (void)playCameraAnimationWithName:(NSString *)cameraAnimationName playOnce:(BOOL)playOnce transitionDuration:(float)transitionDuration;
 
-- (void)setCurrentCameraAnimationUseProgress:(BOOL)useProgress;
-
-- (void)setCurrentCameraAnimationProgress:(double)progress;
-
-- (void)letCurrentCameraAnimationUseTransitionProgress:(BOOL)useTransitionProgress;
-
-- (void)setCurrentCameraAnimationTransitionProgress:(double)transitionProgress;
-
-- (void)logCurrentCameraAnimationStatus;
-
 - (void)pauseCurrentCameraAnimation;
 
 - (void)resumeCurrentCameraAnimation;
 
-- (void)stopCurrentCameraAnimation;
-
 - (void)resetCurrentCameraAnimation;
 
-- (double)getProgressForCameraAnimation:(FUCameraAnimation *)cameraAnimation;
+- (float)getProgressForCameraAnimation:(FUCameraAnimation *)cameraAnimation;
 
-- (double)getTransitionProgressForCameraAnimation:(FUCameraAnimation *)cameraAnimation;
+- (float)getCurrentCameraAnimationTransitionProgress;
 
 - (int)getFrameNumberForCameraAnimation:(FUCameraAnimation *)cameraAnimation;
+
+@end
+
+@interface FUScene (DynamicBone)
+
+@property (nonatomic, assign) BOOL enableDynamicbone;
 
 @end
 

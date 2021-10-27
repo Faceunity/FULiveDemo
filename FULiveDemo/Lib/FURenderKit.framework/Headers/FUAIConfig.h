@@ -47,6 +47,8 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, assign) BOOL followBody;
 
+@property (nonatomic, assign) BOOL handDetector;
+
 //@property (nonatomic, assign) double followFov;
 
 //@property (nonatomic, assign) double fullBodyScale;
@@ -54,10 +56,6 @@ typedef enum : NSUInteger {
 //@property (nonatomic, assign) double halfBodyScale;
 
 //@property (nonatomic, assign) CGPoint bodyOffset;
-
-@property (nonatomic, assign, readonly) FUBodyTrackStatus bodyTrackStatus;
-
-@property (nonatomic, assign, readonly) FUGestureID gestureID;
 
 @end
 

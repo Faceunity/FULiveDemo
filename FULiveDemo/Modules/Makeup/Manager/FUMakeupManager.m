@@ -14,6 +14,12 @@
 #import <FURenderKit/FURenderKit.h>
 
 @interface FUMakeupManager ()
+
+/// 普通美妆道具对象
+@property (nonatomic, strong, nullable) FUMakeup *makeup;
+/// 新组合妆对象
+@property (nonatomic, strong, nullable) FUMakeup *combinationMakeup;
+
 @property (nonatomic, strong) NSArray <FUMakeupModel *>* dataArray;
 
 @property (nonatomic, strong) NSArray <FUMakeupSupModel *>*supArray;
@@ -25,11 +31,6 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"face_makeup" ofType:@"bundle"];
-        self.makeup = [[FUMakeup alloc] initWithPath:path name:@"makeUp"];
-        self.makeup.isMakeupOn = YES;
-        /* 镜像设置 */
-        // self.makeup.isFlipPoints = 1;
         NSDictionary *dataParms = [NSDictionary dictionaryWithDictionary:[FULocalDataManager makeupJsonData]];
         self.dataArray = [FUMakeupModel mj_objectArrayWithKeyValuesArray:dataParms[@"data"]];
         if (self.dataArray.count == 0) {
@@ -40,60 +41,75 @@
         if (self.supArray.count == 0) {
             NSLog(@"%@.supArray数据出错",self.class);
         }
-        [self loadItem];
+        
     }
     return self;
 }
 
-- (void)setSupModle:(FUMakeupSupModel *)model {
+- (void)setSupModel:(FUMakeupSupModel *)model {
     dispatch_async(self.loadQueue, ^{
-        self.makeup.isClearMakeup = YES;
-        
-        /* 防止子妆调节，把口红调乱了，注意：不需要自定义 */
-        self.makeup.lipType = FUMakeupLipTypeFOG;
-        self.makeup.isTwoColor = NO;
-
-        [self loadMakeupPackageWithPathName:model.makeupBundle];
-        
-        self.makeup.isClearMakeup = NO;
-        [self setMakeupWholeModel:model];
+        [FURenderKit shareRenderKit].makeup = nil;
+        if (model.isCombined) {
+            // 新组合妆只需要加载一个bundle，切换时需要重新初始化
+            NSString *path = [[NSBundle mainBundle] pathForResource:model.makeupBundle ofType:@"bundle"];
+            self.combinationMakeup = [[FUMakeup alloc] initWithPath:path name:model.name];
+            [FURenderKit shareRenderKit].makeup = self.combinationMakeup;
+            [self setMakeupWholeModel:model];
+        } else {
+            NSString *path = [[NSBundle mainBundle] pathForResource:@"face_makeup" ofType:@"bundle"];
+            self.makeup = [[FUMakeup alloc] initWithPath:path name:@"makeUp"];
+            [FURenderKit shareRenderKit].makeup = self.makeup;
+            // 老道具使用绑定到face_makeup.bundle的方式
+            self.makeup.isClearMakeup = YES;
+            /* 防止子妆调节，把口红调乱了，注意：不需要自定义 */
+            self.makeup.lipType = FUMakeupLipTypeFOG;
+            [self loadMakeupPackageWithPathName:model.makeupBundle];
+            self.makeup.isClearMakeup = NO;
+            [self setMakeupWholeModel:model];
+        }
     });
     
 }
 
 - (void)loadMakeupPackageWithPathName:(NSString *)pathName {
-//    dispatch_async(self.loadQueue, ^{
-        NSString *path = [[NSBundle mainBundle] pathForResource:pathName ofType:@"bundle"];
-        if (path) {
-            FUItem *item = [[FUItem alloc] initWithPath:path name:pathName];
-            [self.makeup updateMakeupPackage:item needCleanSubItem:NO];
-        } else {
-            [self.makeup updateMakeupPackage:nil needCleanSubItem:NO];
-        }
-//    });
-}
-
-- (void)loadItem {
-    dispatch_async(self.loadQueue, ^{
-        [FURenderKit shareRenderKit].makeup = self.makeup;
-    });
-    
+    NSString *path = [[NSBundle mainBundle] pathForResource:pathName ofType:@"bundle"];
+    if (path) {
+        FUItem *item = [[FUItem alloc] initWithPath:path name:pathName];
+        [self.makeup updateMakeupPackage:item needCleanSubItem:YES];
+    } else {
+        [self.makeup updateMakeupPackage:nil needCleanSubItem:YES];
+    }
 }
 
 - (void)releaseItem {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        self.makeup = nil;
+        if (_makeup) {
+            _makeup = nil;
+        }
+        
+        if (_combinationMakeup) {
+            _combinationMakeup = nil;
+        }
+        
         [FURenderKit shareRenderKit].makeup = nil;
+        
+        [[FURenderKit shareRenderKit].stickerContainer removeAllSticks];
     });
 }
 
 
 //修改整体妆容的数据
 - (void)setMakeupWholeModel:(FUMakeupSupModel *)model {
-    for (FUSingleMakeupModel *singleModel in model.makeups) {
-        //整体妆容设置每个子妆强度时需要乘上整体妆容程度值
-        singleModel.realValue = singleModel.value * model.value;
-        [self setMakeupSupModel:singleModel type:UIMAKEUITYPE_intensity];
+    if (model.isCombined) {
+        [self updateCombinationMakeupIntensity:model.value];
+        // 滤镜程度值特殊处理
+        [self updateMakeupFilterLevel:model];
+    } else {
+        for (FUSingleMakeupModel *singleModel in model.makeups) {
+            // 旧妆容设置每个子妆强度时需要乘上整体妆容程度值
+            singleModel.realValue = singleModel.value * model.value;
+            [self setMakeupSupModel:singleModel type:UIMAKEUITYPE_intensity];
+        }
     }
 }
 
@@ -123,6 +139,14 @@
             self.makeup.intensityLip = model.realValue;
             self.makeup.lipType = model.lip_type;
             self.makeup.isTwoColor = model.is_two_color == 1?YES:NO;
+            if (model.lip_type == FUMakeupLipTypeMoisturizing) {
+                // 润泽Ⅱ口红时需要开启口红高光，高光暂时为固定值
+                self.makeup.isLipHighlightOn = YES;
+                self.makeup.intensityLipHighlight = 0.8;
+            } else {
+                self.makeup.isLipHighlightOn = NO;
+                self.makeup.intensityLipHighlight = 0;
+            }
         }
             break;
         case MAKEUPTYPE_blusher:
@@ -163,7 +187,12 @@
             self.makeup.foundationColor = color;
             break;
         case MAKEUPTYPE_Lip:
-            self.makeup.lipColor = color;
+            if (model.lip_type == FUMakeupLipTypeMoisturizing) {
+                // 润泽Ⅱ口红颜色设置lipColorV2
+                self.makeup.lipColorV2 = color;
+            } else {
+                self.makeup.lipColor = color;
+            }
             break;
         case MAKEUPTYPE_blusher:
             self.makeup.blusherColor = color;
@@ -201,6 +230,16 @@
     }
 }
 
+/// 更新新组合妆程度值
+- (void)updateCombinationMakeupIntensity:(CGFloat)makeupIntensity {
+    // 新组合妆程度值使用整体妆容程度值
+    self.combinationMakeup.intensity = makeupIntensity;
+}
+
+- (void)updateMakeupFilterLevel:(FUMakeupSupModel *)model {
+    NSLog(@"⭐️滤镜值：%@", @(model.value * model.selectedFilterLevel));
+    self.combinationMakeup.filterIntensity = model.value * model.selectedFilterLevel;
+}
 
 - (FUColor)FUColorTransformWithValues:(NSArray *)values {
     return FUColorMake([values[0] doubleValue], [values[1] doubleValue], [values[2] doubleValue], [values[3] doubleValue]);;
@@ -215,6 +254,9 @@
     switch (model.namaBundleType) {
         case SUBMAKEUPTYPE_foundation:
             self.makeup.subFoundation = item;
+            break;
+        case SUBMAKEUPTYPE_lip:
+            self.makeup.subLip = item;
             break;
         case SUBMAKEUPTYPE_blusher:
             self.makeup.subBlusher = item;

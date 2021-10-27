@@ -18,7 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface FUMakeup : FUItem
 @property (nonatomic, assign) BOOL isMakeupOn; //美妆开关
 @property (nonatomic, assign) BOOL isClearMakeup;//在解绑妆容时是否清空除口红以外的妆容，0表示不清空，1表示清空，口红可由强度进行设置
-@property (nonatomic, assign) FUMakeupLipType lipType;//口红类型  0雾面 2润泽 3珠光 6高性能（不支持双色）
+@property (nonatomic, assign) FUMakeupLipType lipType;//口红类型  0雾面 2润泽Ⅰ 3珠光 6高性能（不支持双色）7润泽Ⅱ
+@property (nonatomic, assign) BOOL isLipHighlightOn;//是否开启口红高光，1为开 0为关
 @property (nonatomic, assign) BOOL isTwoColor;//口红双色开关，0为关闭，1为开启，如果想使用咬唇，开启双色开关，并且将makeup_lip_color2的值都设置为0
 @property (nonatomic, assign) FUMakeupBrowWarpType browWarpType;//眉毛变形类型 0柳叶眉  1一字眉  2远山眉 3标准眉 4扶形眉  5日常风 6日系风
 @property (nonatomic, assign) BOOL browWarp;//是否使用眉毛变形 ，1为开 0为关
@@ -40,6 +41,9 @@ NS_ASSUME_NONNULL_BEGIN
 //修改整体妆容程度值
 @property (nonatomic, assign) double intensity;
 
+//修改整体妆容滤镜程度值
+@property (nonatomic, assign) double filterIntensity;
+
 ////组合装对象，内部包含当前组合装所有部位子妆
 //@property (nonatomic, strong, nullable) FUItem *makeupPackage;
 
@@ -53,6 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nullable) FUItem *subFoundation;
 @property (nonatomic, strong, nullable) FUItem *subHighlight;
 @property (nonatomic, strong, nullable) FUItem *subShadow;
+@property (nonatomic, strong, nullable) FUItem *subLip;
 @end
 
 #pragma mark - 图层混合模式
@@ -73,6 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) double intensityFoundation;//粉底
 @property (nonatomic, assign) double intensityLip;//口红
+@property (nonatomic, assign) double intensityLipHighlight;//口红高光（暂时只用于lipType=FUMakeupLipTypeMoisturizing的情况）
 @property (nonatomic, assign) double intensityBlusher;//腮红
 @property (nonatomic, assign) double intensityEyebrow;//眉毛
 @property (nonatomic, assign) double intensityEyeshadow;//眼影
@@ -86,8 +92,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FUMakeup (Color)
 @property (nonatomic, assign) FUColor foundationColor;//粉底
-@property (nonatomic, assign) FUColor lipColor;//口红
+@property (nonatomic, assign) FUColor lipColor;//口红颜色
 @property (nonatomic, assign) FUColor lipColor2;//口红2
+@property (nonatomic, assign) FUColor lipColorV2;//口红颜色v2（暂时只用于lipType=FUMakeupLipTypeMoisturizing的情况）
 @property (nonatomic, assign) FUColor blusherColor;//腮红
 @property (nonatomic, assign) FUColor eyebrowColor;//眉毛
 @property (nonatomic, assign) FUColor eyelinerColor;//眼线

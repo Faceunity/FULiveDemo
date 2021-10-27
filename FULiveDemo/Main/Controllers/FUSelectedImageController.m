@@ -7,13 +7,17 @@
 //
 
 #import "FUSelectedImageController.h"
-#import <MobileCoreServices/MobileCoreServices.h>
 #import "FURenderImageViewController.h"
+#import "FUEditImageViewController.h"
+
 #import "FUManager.h"
 #import "FULiveModel.h"
-#import "FUEditImageViewController.h"
+#import "FULiveDefine.h"
+
 #import "UIImage+FU.h"
+
 #import <Masonry.h>
+#import <MobileCoreServices/MobileCoreServices.h>
 
 @interface FUSelectedImageController ()<UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property (strong, nonatomic) UIButton *mSelImageBtn;
@@ -54,6 +58,10 @@
     [_mSelImageBtn setImage:[UIImage imageNamed:@"选择相册icon"] forState:UIControlStateNormal];
     [_mSelImageBtn setBackgroundImage:[UIImage imageNamed:@"selectedBg"] forState:UIControlStateNormal];
     [_mSelImageBtn setTitle:FUNSLocalizedString(@"sel_Photo",nil) forState:UIControlStateNormal];
+    [_mSelImageBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_mSelImageBtn setTitleColor:[UIColor colorWithWhite:1 alpha:0.6] forState:UIControlStateHighlighted];
+    [_mSelImageBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, -5)];
+    [_mSelImageBtn setImageEdgeInsets:UIEdgeInsetsMake(0, -5, 0, 0)];
     [_mSelImageBtn addTarget:self action:@selector(selectedImage:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_mSelImageBtn];
     [_mSelImageBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -66,6 +74,10 @@
     [_mSelVideoBtn setImage:[UIImage imageNamed:@"视频icon"] forState:UIControlStateNormal];
     [_mSelVideoBtn setBackgroundImage:[UIImage imageNamed:@"selectedBg"] forState:UIControlStateNormal];
     [_mSelVideoBtn setTitle:FUNSLocalizedString(@"sel_Video",nil) forState:UIControlStateNormal];
+    [_mSelVideoBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_mSelVideoBtn setTitleColor:[UIColor colorWithWhite:1 alpha:0.6] forState:UIControlStateHighlighted];
+    [_mSelVideoBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, -5)];
+    [_mSelVideoBtn setImageEdgeInsets:UIEdgeInsetsMake(0, -5, 0, 0)];
     [_mSelVideoBtn addTarget:self action:@selector(selectedVideo:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_mSelVideoBtn];
     [_mSelVideoBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -115,26 +127,19 @@
             FURenderImageViewController *renderView = [[FURenderImageViewController alloc] init];
             renderView.videoURL = videoURL;
             [self.navigationController pushViewController:renderView animated:YES];
-            
         }else if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) { //照片
             
             UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+            
             CGFloat imagePixel = image.size.width * image.size.height;
-            if (imagePixel > 24000000) {
-                // 大于24000000像素需要压缩
-                CGFloat ratio = 24000000 / imagePixel * 1.0;
+            // 超过限制像素需要压缩
+            if (imagePixel > FUPicturePixelMaxSize) {
+                CGFloat ratio = FUPicturePixelMaxSize / imagePixel * 1.0;
                 image = [image fu_compress:ratio];
             }
             // 图片转正
             if (image.imageOrientation != UIImageOrientationUp && image.imageOrientation != UIImageOrientationUpMirrored) {
-                
-                UIGraphicsBeginImageContext(CGSizeMake(image.size.width * 0.5, image.size.height * 0.5));
-                
-                [image drawInRect:CGRectMake(0, 0, image.size.width * 0.5, image.size.height * 0.5)];
-                
-                image = UIGraphicsGetImageFromCurrentImageContext();
-                
-                UIGraphicsEndImageContext();
+                image = [image fu_resetImageOrientationToUp];
             }
             FURenderImageViewController *renderView = [[FURenderImageViewController alloc] init];
             renderView.image = image;

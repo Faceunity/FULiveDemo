@@ -10,36 +10,38 @@
 
 @implementation FUStickerModel
 
-- (id)initWithCoder:(NSCoder *)aDecoder {
+- (instancetype)initWithCoder:(NSCoder *)coder {
     self = [super init];
     if (self) {
-        _tag = [aDecoder decodeObjectForKey:@"tag"];
-        _stickerId = [aDecoder decodeObjectForKey:@"stickerId"];
-        _iconId = [aDecoder decodeObjectForKey:@"iconId"];
-        _iconURLString = [aDecoder decodeObjectForKey:@"iconURLString"];
-        _itemId = [aDecoder decodeObjectForKey:@"itemId"];
-        _loading = [aDecoder decodeBoolForKey:@"loading"];
-        _keepPortrait = [aDecoder decodeBoolForKey:@"keepPortrait"];
-        _single = [aDecoder decodeBoolForKey:@"single"];
-        _makeupItem = [aDecoder decodeBoolForKey:@"makeupItem"];
-        _needClick = [aDecoder decodeBoolForKey:@"needClick"];
-        _is3DFlipH = [aDecoder decodeBoolForKey:@"is3DFlipH"];
+        _type = [coder decodeIntegerForKey:@"type"];
+        _tag = [coder decodeObjectForKey:@"tag"];
+        _stickerId = [coder decodeObjectForKey:@"stickerId"];
+        _iconId = [coder decodeObjectForKey:@"iconId"];
+        _iconURLString = [coder decodeObjectForKey:@"iconURLString"];
+        _itemId = [coder decodeObjectForKey:@"itemId"];
+        _loading = [coder decodeBoolForKey:@"loading"];
+        _keepPortrait = [coder decodeBoolForKey:@"keepPortrait"];
+        _single = [coder decodeBoolForKey:@"single"];
+        _makeupItem = [coder decodeBoolForKey:@"makeupItem"];
+        _needClick = [coder decodeBoolForKey:@"needClick"];
+        _is3DFlipH = [coder decodeBoolForKey:@"is3DFlipH"];
     }
     return self ;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [aCoder encodeObject:_tag forKey:@"tag"];
-    [aCoder encodeObject:_stickerId forKey:@"stickerId"];
-    [aCoder encodeObject:_iconId forKey:@"iconId"];
-    [aCoder encodeObject:_iconURLString forKey:@"iconURLString"];
-    [aCoder encodeObject:_itemId forKey:@"itemId"];
-    [aCoder encodeBool:_loading forKey:@"loading"];
-    [aCoder encodeBool:_keepPortrait forKey:@"keepPortrait"];
-    [aCoder encodeBool:_single forKey:@"single"];
-    [aCoder encodeBool:_makeupItem forKey:@"makeupItem"];
-    [aCoder encodeBool:_needClick forKey:@"needClick"];
-    [aCoder encodeBool:_is3DFlipH forKey:@"is3DFlipH"];
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [coder encodeInteger:_type forKey:@"type"];
+    [coder encodeObject:_tag forKey:@"tag"];
+    [coder encodeObject:_stickerId forKey:@"stickerId"];
+    [coder encodeObject:_iconId forKey:@"iconId"];
+    [coder encodeObject:_iconURLString forKey:@"iconURLString"];
+    [coder encodeObject:_itemId forKey:@"itemId"];
+    [coder encodeBool:_loading forKey:@"loading"];
+    [coder encodeBool:_keepPortrait forKey:@"keepPortrait"];
+    [coder encodeBool:_single forKey:@"single"];
+    [coder encodeBool:_makeupItem forKey:@"makeupItem"];
+    [coder encodeBool:_needClick forKey:@"needClick"];
+    [coder encodeBool:_is3DFlipH forKey:@"is3DFlipH"];
 }
 
 @end

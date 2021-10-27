@@ -23,12 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) double rotate;
 
-@property (nonatomic, assign) double rotateDelta;
-
-@property (nonatomic, assign) double scaleDelta;
-
-@property (nonatomic, assign) double translateDelta;
-
 /// 身体组件列表
 @property (nonatomic, copy, readonly) NSArray<FUItem *> *components;
 
@@ -40,19 +34,30 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) int faceTrackID;
 
-- (void)updateTransformWithPosition:(FUPosition)position rotate:(double)rotate lastsFrames:(int)frames;
+// 阴影
+@property (nonatomic, assign) double shadowPCFLevel;
+
+@property (nonatomic, assign) int shadowSampleOffset;
+
+- (void)updateTransformWithTranslateDelta:(float)translateDelta rotateDelta:(float)rotateDelta scaleDelta:(float)scaleDelta;
 
 @end
 
 @interface FUAvatar (Component)
 
-/// 添加身体组件，如果组件的 name 不为空，可以通过 name 查找或移除组件
+/// 添加身体组件，如果组件的 name 不为空，可以通过 name 查找或移除组件；如果 avatar 已有组件存在与新组件名称一致的组件，已存在的组件将被替换。
 /// @param component 身体组件
 - (void)addComponent:(FUItem *)component;
 
 - (BOOL)replaceComponent:(FUItem *)component withNewComponent:(FUItem *)newComponent;
 
 - (BOOL)replaceComponentWithName:(NSString *)name newComponent:(FUItem *)newComponent;
+
+
+/// 批量添加和移除接口，如果 avatar 已有组件与新组件数组中存在名称一致的组件，已存在的组件将被替换。
+/// @param newComponents 新的组件数组
+/// @param removeComponentNames 老组件名字数组
+- (void)addNewComponents:(NSArray<FUItem *> *)newComponents withRemoveComponentNames:(NSArray<NSString *> *)removeComponentNames ;
 
 /// 通过组件名称查找组件
 /// @param componentName 组件名称
@@ -64,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 通过身体组件名称移除组件
 /// @param componentName 组件名称
-- (void)removeComponentWithName:(NSString *)componentName;
+- (FUItem*)removeComponentWithName:(NSString *)componentName;
 
 - (void)updateComponentsVisiableWithARMode:(BOOL)ARMode;
 
@@ -72,8 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FUAvatar (Animation)
 
-/// 个别设备支持的骨骼数量有限，无法在默认情况下运行骨骼动画，这时候开启这个选项
-@property (nonatomic, assign) BOOL enableVTF;
+@property (nonatomic, assign) BOOL enableAnimationLerp;
 
 /// 添加动画，如果动画的 name 不为空，可以通过 name 查找或移除动画
 /// @param animation 动画
@@ -90,6 +94,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// 通过名称移除动画
 /// @param animationName 动画名称
 - (void)removeAnimationWithName:(NSString *)animationName;
+
+/// 移除所有动画
+- (void)removeAllAnimations;
 
 /// 播放动画
 /// @param animation 动画
@@ -117,14 +124,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (int)getFrameNumberForAnimation:(FUAnimation *)animation;
 
-- (int)getLayerIDForAnimation:(FUAnimation *)animation;
-
 @end
 
 @interface FUAvatar (DynamicBone)
 
 @property (nonatomic, assign) BOOL modelmatToBone;
-@property (nonatomic, assign) BOOL enableDynamicbone;
 @property (nonatomic, assign) BOOL dynamicBoneTeleportMode;
 @property (nonatomic, assign) BOOL dynamicBoneRootTranslateSpeedLimitMode;
 @property (nonatomic, assign) BOOL dynamicBoneRootRotateSpeedLimitMode;
@@ -159,11 +163,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FUAvatar (Color)
 
-- (void)setColor:(FURGBColor)color forKey:(FUAvatarColor)colorKey;
+- (NSDictionary <NSString *, NSData *> *)allColorKeyValues;
 
-- (void)setColorIntensity:(double)colorIntensity forKey:(FUAvatarColorIntensity)colorIntensityKey;
+- (NSDictionary<NSString *,NSNumber *> *)allColorIntensityKeyValues;
 
-- (int)colorIndexForKey:(FUAvatarColorIndex)colorIndexKey;
+- (void)setColor:(FURGBColor)color forComponentName:(NSString *)componentName;
+
+- (void)setColor:(FURGBColor)color forKey:(NSString *)colorKey;
+
+- (void)setColorIntensity:(float)colorIntensity forKey:(NSString *)colorIntensityKey;
+
+- (int)getSkinColorIndex;
 
 @end
 
@@ -171,31 +181,28 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy, readonly) NSArray<NSNumber *> *allFacepupValues;
 
+@property (nonatomic, copy, readonly) NSDictionary<NSString *, NSNumber *> *allFacepupKeyValues;
+
++ (void)setFacepupKeysWithJsonPath:(NSString *)josnPath;
+
 - (void)enterFacepupMode;
 
 - (void)quitFacepupMode;
 
-- (void)setFacepupValue:(double)facepupValue forKey:(FUFacepup)facepupKey;
+- (void)setFacepupValue:(double)facepupValue forKey:(NSString *)facepupKey;
 
-- (double)facepupValueForKey:(NSString *)facepupKey;
+- (CGPoint)getFaceVertexScreenCoordinateForVertexIndex:(int)index;
 
-- (NSArray *)allFacepupKeys;
-
-- (NSDictionary<NSString*, NSNumber *> *)allFacepupKeyValues;
+- (float)getFacepupOriginalValueForKey:(NSString *)facepupKey;
 
 @end
 
 @interface FUAvatar (Deformation)
 
-@property (nonatomic, copy, readonly) NSArray<NSNumber *> *allDeformationValues;
+@property (nonatomic, copy, readonly) NSDictionary<NSString *, NSNumber *> *allDeformationKeyValues;
 
-- (void)setDeformationValue:(double)deformationValue forKey:(FUDeformation)deformationKey;
+- (void)setDeformationValue:(double)deformationValue forKey:(NSString *)deformationKey;
 
-- (double)deformationValueForKey:(NSString *)deformationKey;
-
-- (NSArray *)allDeformationKeys;
-
-- (NSDictionary<NSString*, NSNumber *> *)allDeformationKeyValues;
 @end
 
 NS_ASSUME_NONNULL_END

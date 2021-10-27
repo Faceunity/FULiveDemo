@@ -68,51 +68,10 @@ static FUManager *shareManager = NULL;
         float flexible = 0.5;
         [FUAIKit setFaceTrackParam:@"mouth_expression_more_flexible" value:flexible];
         NSLog(@"---%lf",endTime);
+        
+        // 设置人脸算法质量
+        [FUAIKit shareKit].faceProcessorFaceLandmarkQuality = [FURenderKit devicePerformanceLevel] == FUDevicePerformanceLevelHigh ? FUFaceProcessorFaceLandmarkQualityHigh : FUFaceProcessorFaceLandmarkQualityMedium;
     });
-//
 }
 
-
-+ (BOOL)saveToLocal:(id)model filePath:(NSString *)filePath {
-    if (!model) {
-        return NO;
-    }
-    
-    if (!filePath) {
-        NSLog(@"filePath is not avaiable!");
-        return NO;
-    }
-    
-    NSData *data = [model mj_JSONData];
-    
-    if (![[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-        [[NSFileManager defaultManager] createFileAtPath:filePath contents:data attributes:nil];
-    } else {
-        [data writeToFile:filePath atomically:YES];
-    }
-
-    return YES;
-}
-
-//获取模型数据
-+ (FUMetalModel *)getLocalJsonDataWithFilePath:(NSString *)filePath {
-    if (!filePath) {
-        NSLog(@"filePath is not avaiable!");
-        return nil;
-    }
-    
-    if (![[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-        NSLog(@"filePath have not be created");
-        return nil;
-    }
-    
-    id model = nil;
-    NSData *data = [NSData dataWithContentsOfFile:filePath];
-    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-    if ([dic.allKeys containsObject:@"className"]) {
-        Class cls = NSClassFromString([dic objectForKey:@"className"]);
-        model = [cls mj_objectWithKeyValues:data];
-    }
-    return model;
-}
 @end

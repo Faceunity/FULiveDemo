@@ -8,7 +8,8 @@
 
 #import "FUTakeColorView.h"
 #import "FUBaseViewController.h"
-#import "FUImageHelper.h"
+#import <FURenderKit/FUImageHelper.h>
+
 @interface FUTakeColorView()
 @property(nonatomic,strong)FUTakeColorChange didChange;
 

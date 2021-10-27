@@ -8,14 +8,10 @@
 
 #import "FURenderImageViewController.h"
 #import <MobileCoreServices/MobileCoreServices.h>
-#import <FURenderKit/FUGLDisplayView.h>
 #import "FUVideoReader.h"
 #import "FUManager.h"
-#import <SVProgressHUD.h>
 #import "FUAPIDemoBar.h"
 #import "FUItemsView.h"
-#import <Masonry.h>
-#import "FUImageHelper.h"
 #import "FUBodyBeautyView.h"
 #import "MJExtension.h"
 #import "FUBaseViewController.h"
@@ -23,21 +19,28 @@
 
 #import "FUBaseViewControllerManager.h"
 #import "FUStickerManager.h"
-
 #import "FUGreenScreenManager.h"
-
 #import "FUBodyBeautyManager.h"
+#import "FUMakeupManager.h"
+
+#import "FULandmarkManager.h"
+
+#import "FUMakeUpView.h"
+#import "FUColourView.h"
+
+#import <Masonry.h>
+#import <FURenderKit/FUImageHelper.h>
+#import <SVProgressHUD.h>
+
 
 #define finalPath   [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:@"finalVideo.mp4"]
 
-@interface FURenderImageViewController ()<UINavigationControllerDelegate, UIImagePickerControllerDelegate, FUVideoReaderDelegate, FUAPIDemoBarDelegate, FUItemsViewDelegate,FULvMuViewDelegate,UIGestureRecognizerDelegate>
+@interface FURenderImageViewController ()<UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIGestureRecognizerDelegate, FUVideoReaderDelegate, FUAPIDemoBarDelegate, FUItemsViewDelegate,FULvMuViewDelegate, FUBodyBeautyViewDelegate, FUColourViewDelegate, FUMakeUpViewDelegate>
 
 {
     __block BOOL takePic ;
     
     BOOL videHasRendered ;
-    
-    dispatch_queue_t renderQueue;
     
     float w,h;
     
@@ -48,11 +51,13 @@
 @property (strong, nonatomic) FUStickerManager *stickManager;
 @property (strong, nonatomic) FUGreenScreenManager *greenScreenManager;
 @property (strong, nonatomic) FUBodyBeautyManager *bodyBeautyManager;
+@property (strong, nonatomic) FUMakeupManager *makeupManager;
 
 @property (nonatomic, strong) FULiveModel *model ;
 
-@property (strong, nonatomic) FUGLDisplayView *glView;
+@property (nonatomic, strong) FUGLDisplayView *glView;
 @property (nonatomic, strong) FUVideoReader *videoReader ;
+
 
 @property (strong, nonatomic) UIButton *playBtn;
 
@@ -66,6 +71,11 @@
 @property(nonatomic,strong)FUBodyBeautyView *mBodyBeautyView;
 
 @property(strong,nonatomic) FULvMuView *lvmuEditeView;
+
+/// 化妆视图
+@property (nonatomic, strong) FUMakeUpView *makeupView ;
+/// 颜色选择视图
+@property (nonatomic, strong) FUColourView *colourView;
 
 // 定时器
 @property (nonatomic, strong) CADisplayLink *displayLink;
@@ -81,9 +91,14 @@
 @property (nonatomic, strong) UIGestureRecognizer *pinchGesture;
 
 @property (nonatomic, assign) CGRect lvRect;
+
+@property (nonatomic, strong) NSOperationQueue *renderOperationQueue;
+
 @end
 
-@implementation FURenderImageViewController
+@implementation FURenderImageViewController {
+    FUImageBuffer currentImageBuffer;
+}
 
 - (BOOL)prefersStatusBarHidden {
     return YES;
@@ -93,8 +108,6 @@
     [super viewDidLoad];
     self.baseManager = [[FUBaseViewControllerManager alloc] init];
     self.model = [FUManager shareManager].currentModel;
-    
-    renderQueue = dispatch_queue_create("com.faceUMakeup", DISPATCH_QUEUE_SERIAL);
     
     [self setupView];
     
@@ -109,8 +122,8 @@
         /* 比对按钮 */
         _compBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_compBtn setImage:[UIImage imageNamed:@"demo_icon_contrast"] forState:UIControlStateNormal];
-        [_compBtn addTarget:self action:@selector(TouchDown) forControlEvents:UIControlEventTouchDown];
-        [_compBtn addTarget:self action:@selector(TouchUp) forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchUpOutside];
+        [_compBtn addTarget:self action:@selector(compareTouchDown) forControlEvents:UIControlEventTouchDown];
+        [_compBtn addTarget:self action:@selector(compareTouchUp) forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchUpOutside];
         _compBtn.hidden = YES;
         [self.view addSubview:_compBtn];
         if (iPhoneXStyle) {
@@ -126,9 +139,10 @@
         
         self.itemsView = nil ;
         
-        self.downloadBtn.transform = CGAffineTransformMakeTranslation(0, 30) ;
+        self.downloadBtn.transform = CGAffineTransformMakeTranslation(0, -30) ;
         [self setupView1];
     }else if(self.model.type == FULiveModelTypeLvMu){
+        self.demoBar.hidden = YES;
         self.greenScreenManager = [[FUGreenScreenManager alloc] init];
         self.greenScreenManager.greenScreen.keyColor = FUColorMakeWithUIColor([UIColor colorWithRed:0.0 green:1.0 blue:0.0 alpha:1.0]);
         self.greenScreenManager.greenScreen.center = CGPointMake(0.5, 0.5);
@@ -137,12 +151,22 @@
         [_lvmuEditeView reloadDataSoure:self.greenScreenManager.dataArray];
         [_lvmuEditeView reloadBgDataSource:self.greenScreenManager.bgDataArray];
         self.downloadBtn.hidden = YES;
-        self.glView.contentMode = FUOpenGLViewContentModeScaleAspectFit;
 
         //默认取教室的背景录像
         FUGreenScreenBgModel *param = [self.greenScreenManager.bgDataArray objectAtIndex:3];
         NSString *urlStr = [[NSBundle mainBundle] pathForResource:param.videoPath ofType:@"mp4"];
         self.greenScreenManager.greenScreen.videoPath = urlStr;
+    } else if (self.model.type == FULiveModelTypeMakeUp) {
+        self.demoBar.hidden = YES;
+        self.downloadBtn.transform = CGAffineTransformMakeTranslation(0, -40) ;
+        [self setupMakeupView];
+        
+        [self.makeupView reloadDataArray:self.makeupManager.dataArray];
+        [self.makeupView reloadSupArray:self.makeupManager.supArray];
+        
+        // 默认选中
+        [self.makeupView setSelSupItem:1];
+        
     } else { //目前只包含道具贴纸内容
         self.demoBar.hidden = YES ;
         
@@ -197,9 +221,9 @@
     [_lvmuEditeView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.bottom.equalTo(self.view);
         if (iPhoneXStyle) {
-            make.height.mas_equalTo(184 + 34);
+            make.height.mas_equalTo(195 + 34);
         }else{
-            make.height.mas_equalTo(184);
+            make.height.mas_equalTo(195);
         }
     }];
     
@@ -217,6 +241,56 @@
     self.downloadBtn.transform = CGAffineTransformConcat(photoTransform0, photoTransform1) ;
     [self initMovementGestures];
     
+}
+
+- (void)setupMakeupView {
+    [self.view addSubview:self.colourView];
+    
+    _makeupView = [[FUMakeUpView alloc] init];
+    _makeupView.delegate = self;
+
+    _makeupView.backgroundColor = [UIColor clearColor];
+    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    UIVisualEffectView *effectview = [[UIVisualEffectView alloc] initWithEffect:blur];
+    [_makeupView.topView addSubview:effectview];
+    [_makeupView.topView sendSubviewToBack:effectview];
+    /* 磨玻璃 */
+    [effectview mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(_makeupView.topView);
+    }];
+    
+    UIBlurEffect *blur1 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    UIVisualEffectView *effectview1 = [[UIVisualEffectView alloc] initWithEffect:blur1];
+    _makeupView.bottomCollection.backgroundView = effectview1;
+    /* 磨玻璃 */
+    [effectview1 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.equalTo(_makeupView);
+        make.height.mas_equalTo(_makeupView.bottomCollection.bounds.size.height);
+    }];
+    
+    [self.view addSubview:_makeupView];
+    
+    [_makeupView mas_makeConstraints:^(MASConstraintMaker *make) {
+        if (@available(iOS 11.0, *)) {
+            make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
+        } else {
+            make.bottom.equalTo(self.view.mas_bottom);
+        }
+        make.left.right.equalTo(self.view);
+        make.height.mas_equalTo(182);
+    }];
+    
+    if(iPhoneXStyle){
+        UIBlurEffect *blur2 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+        UIVisualEffectView *effectview2 = [[UIVisualEffectView alloc] initWithEffect:blur2];
+        [self.view addSubview:effectview2];
+        [self.view sendSubviewToBack:effectview2];
+        [effectview2 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view.mas_bottom);
+            make.left.right.equalTo(self.view);
+            make.height.mas_equalTo(34);
+        }];
+    }
 }
 
 
@@ -237,22 +311,71 @@
     [super viewWillAppear:animated];
     [self addObserver];
     [self startRendering];
-    if (self.baseManager) {
-        [self.baseManager loadItem];
+    [self.baseManager loadItem];
+    // 设置不同图像加载模式
+    [self.baseManager setFaceProcessorDetectMode:self.image ? FUFaceProcessorDetectModeImage : FUFaceProcessorDetectModeVideo];
+    
+    if ((self.model.type == FULiveModelTypeBeautifyFace || self.model.type == FULiveModelTypeMakeUp) && FUShowLandmark) {
+        // 添加点位测试开关
+        [FULandmarkManager show];
     }
 }
 
-- (FUGLDisplayView *)glView {
-    if (!_glView) {
-        /* opengl */
-        _glView = [[FUGLDisplayView alloc] initWithFrame:self.view.bounds];
-        _glView.contentMode = FUOpenGLViewContentModeScaleAspectFit;
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    if ((self.model.type == FULiveModelTypeBeautifyFace || self.model.type == FULiveModelTypeMakeUp) && FUShowLandmark) {
+        // 移除点位测试开关
+        [FULandmarkManager dismiss];
     }
-    return _glView;
+    
+    // 取消所有渲染任务
+    [self.renderOperationQueue cancelAllOperations];
+    
+    [_avPlayer pause];
+    _avPlayer = nil;
+    
+    _displayLink.paused = YES;
+    [_displayLink invalidate];
+    _displayLink = nil;
+
+    if (self.lvmuEditeView) {
+        [self.lvmuEditeView destoryLvMuView];
+    }
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void)dealloc {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:finalPath]) {
+        [[NSFileManager defaultManager] removeItemAtPath:finalPath error:nil];
+    }
+    if (&currentImageBuffer) {
+        [UIImage freeImageBuffer:&currentImageBuffer];
+    }
+    NSLog(@"render control dealloc");
 }
 
 -(void)setupView{
     [self.view addSubview:self.glView];
+    
+    [self.glView mas_makeConstraints:^(MASConstraintMaker *make) {
+         make.left.right.equalTo(self.view);
+         if (@available(iOS 11.0, *)) {
+             make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop);
+             if(iPhoneXStyle){
+                make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom).mas_offset(-50);
+             }else{
+                 make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
+             }
+         } else {
+             // Fallback on earlier versions
+             make.top.equalTo(self.view.mas_top);
+             make.bottom.equalTo(self.view.mas_bottom);
+         }
+        
+        make.left.right.equalTo(self.view);
+     }];
+    
     /* 播放按钮 */
     _playBtn = [[UIButton alloc] init];
     [_playBtn setBackgroundImage:[UIImage imageNamed:@"play_icon"] forState:UIControlStateNormal];
@@ -380,6 +503,7 @@
     [effectview mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.bottom.equalTo(_itemsView);
     }];
+    
 }
 
 -(void)setupView1{
@@ -391,25 +515,6 @@
     _mBodyBeautyView = [[FUBodyBeautyView alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height - 134, [UIScreen mainScreen].bounds.size.width, 134) dataArray:dataArray];
     _mBodyBeautyView.delegate = self;
     [self.view addSubview:_mBodyBeautyView];
-    
-}
-
--(void)viewWillDisappear:(BOOL)animated {
-    
-    [_avPlayer pause];
-    _avPlayer = nil ;
-    [self.videoReader stopReading];
-    [self.videoReader destory];
-    [_displayLink invalidate];
-    _displayLink.paused = YES ;
-    _displayLink = nil ;
-    
-    if (self.lvmuEditeView) {
-        [self.lvmuEditeView destoryLvMuView];
-    }
-    
-    [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 
@@ -420,7 +525,6 @@
     }
     
     if (self.model.type == FULiveModelTypeLvMu) {
-        [_lvmuEditeView hidenTop:YES];
         if(!self.videoURL){
             self.downloadBtn.hidden = NO;
             return;
@@ -431,17 +535,22 @@
         }
         
     }
+    if (self.model.type == FULiveModelTypeMakeUp) {
+        if (!_makeupView.topHidden) {
+            [_makeupView hiddenTopCollectionView:YES];
+            _colourView.hidden = YES;
+        }
+    }
+    
 }
 
 #pragma mark - 视频/图片处理入口
 - (void)startRendering {
     [self.baseManager setOnCameraChange];
-    if (self.image ) {
+    if (self.image) {
         [self processImage];
     }else {
-        
         if (self.videoURL) {
-            
             self.downloadBtn.hidden = YES ;
             self.playBtn.hidden = YES ;
             
@@ -597,21 +706,25 @@
 
     if (self.greenScreenManager) {
         [self.greenScreenManager.greenScreen stopVideoDecode];
+        [self.greenScreenManager releaseItem];
+    }
+    if (self.makeupManager) {
+        [self.makeupManager releaseItem];
     }
     [self.videoReader stopReading];
     [self.videoReader destory];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)TouchDown{
+- (void)compareTouchDown {
     self.openComp = YES;
 }
 
-- (void)TouchUp{
+- (void)compareTouchUp {
     self.openComp = NO;
 }
 
-#pragma mark -   FUVideoReaderDelegate
+#pragma mark - FUVideoReaderDelegate
 
 -(CVPixelBufferRef)videoReaderDidReadVideoBuffer:(CVPixelBufferRef)pixelBuffer {
     
@@ -715,12 +828,12 @@
 }
 
 - (void)displayLinkAction{
-    __weak typeof(self)weakSelf  = self ;
     
-    dispatch_async(renderQueue, ^{
+    [self.renderOperationQueue addOperationWithBlock:^{
+        [self.baseManager updateBeautyBlurEffect];
         @autoreleasepool {//防止大图片，内存峰值过高
             UIImage *newImage = nil;
-            FUImageBuffer imageBuffer = [_image getImageBuffer];
+            currentImageBuffer = [_image getImageBuffer];
             if (!_openComp) {
                 FURenderInput *input = [[FURenderInput alloc] init];
                 input.renderConfig.imageOrientation = 0;
@@ -741,45 +854,45 @@
                         input.renderConfig.imageOrientation = FUImageOrientationUP;
                         break;
                 }
-                input.imageBuffer = imageBuffer;
-                
+                input.imageBuffer = currentImageBuffer;
+
                 FURenderOutput *outPut =  [[FURenderKit shareRenderKit] renderWithInput:input];
-                
+
                 if (takePic) {
-                    imageBuffer = outPut.imageBuffer;
-                    newImage = [UIImage imageWithRGBAImageBuffer:&imageBuffer autoFreeBuffer:NO];
+                    currentImageBuffer = outPut.imageBuffer;
+                    newImage = [UIImage imageWithRGBAImageBuffer:&currentImageBuffer autoFreeBuffer:NO];
                     takePic = NO ;
-                    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                         UIImageWriteToSavedPhotosAlbum(newImage, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
-                    });
+                    }];
                 }
             }
-            
-            [weakSelf.glView displayImageData:imageBuffer.buffer0 withSize:imageBuffer.size];
+
+            [self.glView displayImageData:currentImageBuffer.buffer0 withSize:currentImageBuffer.size];
             
             //绿慕取色
             if (self.greenScreenManager) {
-                newImage = [UIImage imageWithRGBAImageBuffer:&imageBuffer autoFreeBuffer:NO];
-                [self getColorWithImage: newImage];
+                newImage = [UIImage imageWithRGBAImageBuffer:&currentImageBuffer autoFreeBuffer:NO];
+                [self getColorWithImage:newImage];
             }
-            [UIImage freeImageBuffer:&imageBuffer];
+            [UIImage freeImageBuffer:&currentImageBuffer];
         }
         
         //绿慕特殊处理
         if(self.model.type == FULiveModelTypeLvMu){
-            dispatch_async(dispatch_get_main_queue(), ^{ 
-              self.noTrackLabel.hidden = YES;
-            });
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                self.noTrackLabel.hidden = YES;
+            }];
             return ;
         }
         
         //美体特殊处理
         if (self.model.type == FULiveModelTypeBody) {
-            int res = [self.bodyBeautyManager aiHumanProcessNums];
-            dispatch_async(dispatch_get_main_queue(), ^{
+            BOOL result = [self.baseManager bodyTrace];
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 self.noTrackLabel.text = FUNSLocalizedString(@"未检测到人体",nil);
-                self.noTrackLabel.hidden = res > 0 ? YES : NO;
-            }) ;
+                self.noTrackLabel.hidden = result;
+            }];
             return ;
         }
         
@@ -787,22 +900,20 @@
         BOOL isTrack = [self.baseManager faceTrace];
         
         if (!isTrack) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 self.noTrackLabel.text = FUNSLocalizedString(@"未识别到人脸", nil) ;
                 if (self.noTrackLabel.hidden) {
                     self.noTrackLabel.hidden = NO ;
                 }
-            });
+            }];
         }else {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 if (!self.noTrackLabel.hidden) {
                     self.noTrackLabel.hidden = YES ;
                 }
-            });
+            }];
         }
-    });
+    }];
 }
 
 
@@ -822,8 +933,8 @@
         size_t height = CVPixelBufferGetHeight(pixelBuffer);
         
         int scale = (int)[UIScreen mainScreen].scale;
-        size_t viewWidth = CGRectGetWidth(self.view.bounds) * scale;
-        size_t viewHeight = CGRectGetHeight(self.view.bounds) * scale;
+        size_t viewWidth = CGRectGetWidth(self.glView.bounds) * scale;
+        size_t viewHeight = CGRectGetHeight(self.glView.bounds) * scale;
         
         CGPoint imagePoint;
         imagePoint = CGPointMake(_currPoint.x * width / viewWidth, _currPoint.y * height / viewHeight);
@@ -839,14 +950,15 @@
 - (void)getColorWithImage:(UIImage *)image {
     if (!CGPointEqualToPoint(CGPointZero, _currPoint)) {
         //转换为图片坐标
-        size_t width = image.size.width;
-        size_t height = image.size.height;
+        CGFloat width = image.size.width;
+        CGFloat height = image.size.height;
         
-        int scale = (int)[UIScreen mainScreen].scale;
-        size_t viewWidth = CGRectGetWidth(self.view.bounds) * scale;
-        size_t viewHeight = CGRectGetHeight(self.view.bounds) * scale;
+        CGFloat scale = [UIScreen mainScreen].scale;
+        CGFloat viewWidth = CGRectGetWidth(self.glView.bounds) * scale;
+        CGFloat viewHeight = CGRectGetHeight(self.glView.bounds) * scale;
         
         CGPoint imagePoint;
+        
         imagePoint = CGPointMake(_currPoint.x * width / viewWidth, _currPoint.y * height / viewHeight);
         
         UIColor *color = [FUGreenScreen pixelColorWithImage:image point:imagePoint];
@@ -858,6 +970,16 @@
 
 -(void)beautyCollectionView:(FULvMuView *)beautyView didSelectedParam:(FUGreenScreenModel *)param{
     [self.greenScreenManager setGreenScreenModel:param];
+}
+
+- (void)lvmuViewDidSelectSafeArea:(FUGreenScreenSafeAreaModel *)model {
+    if (model.effectImage) {
+        [self.greenScreenManager updateSafeAreaImage:model.effectImage];
+    }
+}
+
+- (void)lvmuViewDidCancelSafeArea {
+    [self.greenScreenManager updateSafeAreaImage:nil];
 }
 
 -(void)colorDidSelected:(UIColor *)color {
@@ -925,14 +1047,13 @@
 //从外面获取全局的取点背景view，为了修复取点view加载Window上的系统兼容性问题
 - (UIView *)takeColorBgView {
     UIView *bgView = [[UIView alloc] initWithFrame:self.view.frame];
-    [self.view addSubview:bgView];
     [self.view insertSubview:bgView aboveSubview:self.glView];
     return bgView;
 }
 
 /**设置美颜参数*/
 #pragma mark -  FUAPIDemoBarDelegate
--(void)restDefaultValue:(int)type{
+- (void)resetDefaultValue:(NSUInteger)type {
     [self.baseManager resetDefaultParams:type];
 }
 
@@ -947,7 +1068,7 @@
 }
 
 
--(void)showTopView:(BOOL)shown{
+- (void)showTopView:(BOOL)shown{
     if (shown) {
         _compBtn.hidden = NO;
         self.downloadBtn.hidden = YES ;
@@ -961,13 +1082,13 @@
     }
 }
 
--(void)filterValueChange:(FUBeautyModel *)param{
+- (void)filterValueChange:(FUBeautyModel *)param{
     [self.baseManager setFilterkey:[param.strValue lowercaseString]];
     self.baseManager.beauty.filterLevel = param.mValue;
     self.baseManager.seletedFliter = param;
 }
 
--(void)beautyParamValueChange:(FUBeautyModel *)param{
+- (void)beautyParamValueChange:(FUBeautyModel *)param{
     switch (param.type) {
         case FUBeautyDefineShape: {
             [self.baseManager setShap:param.mValue forKey:param.mParam];
@@ -986,10 +1107,70 @@
     }
 }
 
-
 - (void)dismissTipLabel {
     self.tipLabel.hidden = YES;
 }
+
+#pragma mark - FUMakeUpViewDelegate
+-(void)makeupViewDidSelectedSupModle:(FUMakeupSupModel *)model {
+    [self.makeupManager setSupModel:model];
+    [self modifyFilter:model];
+}
+
+-(void)makeupViewChangeValueSupModle:(FUMakeupSupModel *)model {
+    [self.makeupManager setMakeupWholeModel:model];
+    [self modifyFilter:model];
+}
+
+- (void)modifyFilter:(FUMakeupSupModel *)model {
+    /* 修改美颜的滤镜 */
+    if (!model.selectedFilter || [model.selectedFilter isEqualToString:@""]) {
+        FUBeautyModel *param = self.baseManager.seletedFliter;
+        self.baseManager.beauty.filterName = [param.strValue lowercaseString];
+        self.baseManager.beauty.filterLevel = param.mValue;
+    }else {
+        self.baseManager.beauty.filterName = [model.selectedFilter lowercaseString];
+        self.baseManager.beauty.filterLevel = model.value;
+    }
+}
+
+- (void)makeupViewDidSelectedModel:(FUSingleMakeupModel *)model type:(UIMAKEUITYPE)type {
+    model.realValue = model.value;
+    [self.makeupManager setMakeupSupModel:model type:type];
+    
+}
+
+-(void)makeupCustomShow:(BOOL)isShow{
+    if (isShow) {
+        [UIView animateWithDuration:0.2 animations:^{
+            self.downloadBtn.transform = CGAffineTransformConcat(CGAffineTransformMakeTranslation(0, -150), CGAffineTransformMakeScale(0.8, 0.8)) ;
+        }];
+    } else {
+        [UIView animateWithDuration:0.2 animations:^{
+            self.downloadBtn.transform = CGAffineTransformConcat(CGAffineTransformMakeTranslation(0, -100), CGAffineTransformMakeScale(0.8, 0.8));
+        }];
+    }
+}
+
+-(void)makeupViewSelectiveColorArray:(NSArray<NSArray *> *)colors selColorIndex:(int)index {
+    [_colourView setDataColors:colors];
+    [_colourView setSelCell:index];
+}
+
+-(void)makeupSelColorState:(BOOL)state {
+    _colourView.hidden = state ? NO :YES;
+}
+
+-(void)makeupViewDidSelTitle:(NSString *)nama{
+    
+}
+
+
+#pragma mark - FUColourViewDelegate
+-(void)colourViewDidSelIndex:(int)index{
+    [self.makeupView changeSubItemColorIndex:index];
+}
+
 
 #pragma  mark ----  手势事件  -----
 -(void)handlePanGesture:(UIPanGestureRecognizer *) panGesture{
@@ -1049,112 +1230,6 @@
     }];
 }
 
--(NSArray *)jsonToLipRgbaArrayResName:(NSString *)resName{
-    NSString *path=[[NSBundle mainBundle] pathForResource:resName ofType:@"json"];
-    NSData *data=[[NSData alloc] initWithContentsOfFile:path];
-    //解析成字典
-    NSDictionary *dic=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-    NSArray *rgba = [dic objectForKey:@"rgba"];
-    
-    if (rgba.count != 4) {
-        NSLog(@"颜色json不合法");
-    }
-    return rgba;
-}
-
-
-
-- (CVPixelBufferRef) pixelBufferFromImage:(UIImage *)image {
-    
-    NSDictionary *options = @{
-        (NSString*)kCVPixelBufferCGImageCompatibilityKey : @YES,
-        (NSString*)kCVPixelBufferCGBitmapContextCompatibilityKey : @YES,
-        (NSString*)kCVPixelBufferIOSurfacePropertiesKey: [NSDictionary dictionary]
-    };
-    
-    CVPixelBufferRef pxbuffer = NULL;
-    CGFloat frameWidth = CGImageGetWidth(image.CGImage);
-    CGFloat frameHeight = CGImageGetHeight(image.CGImage);
-    CVReturn status = CVPixelBufferCreate(
-                                          kCFAllocatorDefault,
-                                          frameWidth,
-                                          frameHeight,
-                                          kCVPixelFormatType_32BGRA,
-                                          (__bridge CFDictionaryRef)options,
-                                          &pxbuffer);
-    
-    NSParameterAssert(status == kCVReturnSuccess && pxbuffer != NULL);
-    
-    CVPixelBufferLockBaseAddress(pxbuffer, 0);
-    
-    void *pxdata = CVPixelBufferGetBaseAddress(pxbuffer);
-    
-    NSParameterAssert(pxdata != NULL);
-    
-    CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
-    
-    CGContextRef context = CGBitmapContextCreate(
-                                                 pxdata,
-                                                 frameWidth,
-                                                 frameHeight,
-                                                 8,
-                                                 CVPixelBufferGetBytesPerRow(pxbuffer),
-                                                 rgbColorSpace, kCGImageAlphaNoneSkipFirst | kCGBitmapByteOrder32Little);
-    NSParameterAssert(context);
-    
-    CGContextConcatCTM(context, CGAffineTransformIdentity);
-    
-    CGContextDrawImage(context, CGRectMake(0, 0, frameWidth, frameHeight), image.CGImage);
-    
-    CGColorSpaceRelease(rgbColorSpace);
-    CGContextRelease(context);
-    CVPixelBufferUnlockBaseAddress(pxbuffer, 0);
-    //    CFRelease(rgbColorSpace) ;
-    
-    return pxbuffer;
-}
-
-
-- (UIImage *)imageFromPixelBuffer:(CVPixelBufferRef)pixelBufferRef {
-    
-    CVPixelBufferLockBaseAddress(pixelBufferRef, 0);
-    
-    CGFloat SW = [UIScreen mainScreen].bounds.size.width;
-    CGFloat SH = [UIScreen mainScreen].bounds.size.height;
-    
-    float width = CVPixelBufferGetWidth(pixelBufferRef);
-    float height = CVPixelBufferGetHeight(pixelBufferRef);
-    
-    float dw = width / SW;
-    float dh = height / SH;
-    
-    float cropW = width;
-    float cropH = height;
-    
-    if (dw > dh) {
-        cropW = SW * dh;
-    }else
-    {
-        cropH = SH * dw;
-    }
-    
-    CGFloat cropX = (width - cropW) * 0.5;
-    CGFloat cropY = (height - cropH) * 0.5;
-    
-    CIImage *ciImage = [CIImage imageWithCVPixelBuffer:pixelBufferRef];
-    
-    CIContext *temporaryContext = [CIContext contextWithOptions:nil];
-    CGImageRef videoImage = [temporaryContext
-                             createCGImage:ciImage
-                             fromRect:CGRectMake(cropX, cropY,
-                                                 cropW,
-                                                 cropH)];
-    
-    UIImage *image = [UIImage imageWithCGImage:videoImage];
-    CGImageRelease(videoImage);
-    CVPixelBufferUnlockBaseAddress(pixelBufferRef, 0);
-    return image;
-}
 
 - (void)image: (UIImage *) image didFinishSavingWithError: (NSError *) error contextInfo: (void *) contextInfo  {
     if(error != NULL){
@@ -1179,33 +1254,14 @@
 }
 
 
-- (NSUInteger)degressFromVideoFileWithURL:(NSURL *)url
-{
-    NSUInteger degress = 0;
-    
-    AVAsset *asset = [AVAsset assetWithURL:url];
-    NSArray *tracks = [asset tracksWithMediaType:AVMediaTypeVideo];
-    if([tracks count] > 0) {
-        AVAssetTrack *videoTrack = [tracks objectAtIndex:0];
-        CGAffineTransform t = videoTrack.preferredTransform;
-        
-        if(t.a == 0 && t.b == 1.0 && t.c == -1.0 && t.d == 0){
-            // Portrait
-            degress = 0;
-        }else if(t.a == 0 && t.b == -1.0 && t.c == 1.0 && t.d == 0){
-            // PortraitUpsideDown
-            degress = 2;
-        }else if(t.a == 1.0 && t.b == 0 && t.c == 0 && t.d == 1.0){
-            // LandscapeRight
-            degress = 1;
-        }else if(t.a == -1.0 && t.b == 0 && t.c == 0 && t.d == -1.0){
-            // LandscapeLeft
-            degress = 3;
-        }
+#pragma mark - Getters
+- (FUGLDisplayView *)glView {
+    if (!_glView) {
+        _glView = [[FUGLDisplayView alloc] initWithFrame:self.view.bounds];
+        // 长边充满，短边等比放大或缩小
+        _glView.contentMode = FUGLDisplayViewContentModeScaleAspectFit;
     }
-    
-    
-    return degress;
+    return _glView;
 }
 
 - (FUStickerManager *)stickManager {
@@ -1215,16 +1271,33 @@
     return _stickManager;
 }
 
--(void)dealloc {
-    self.image = nil ;
-    self.videoURL = nil ;
-    if ([[NSFileManager defaultManager] fileExistsAtPath:finalPath]) {
-        [[NSFileManager defaultManager] removeItemAtPath:finalPath error:nil];
+- (NSOperationQueue *)renderOperationQueue {
+    if (!_renderOperationQueue) {
+        _renderOperationQueue = [[NSOperationQueue alloc] init];
+        _renderOperationQueue.maxConcurrentOperationCount = 1;
     }
-//    if (self.greenScreenManager) {
-//        self.lvmuEditeView
-//    }
-    NSLog(@"render control dealloc");
+    return _renderOperationQueue;
+}
+        
+- (FUMakeupManager *)makeupManager {
+    if (!_makeupManager) {
+        _makeupManager = [[FUMakeupManager alloc] init];
+        // [_makeupManager addLandmarks];
+    }
+    return _makeupManager;
+}
+
+- (FUColourView *)colourView {
+    if (!_colourView) {
+        if (iPhoneXStyle) {
+            _colourView = [[FUColourView alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 15 - 60, self.view.frame.size.height - 250 - 182 - 10 - 34, 60, 250)];
+        }else{
+            _colourView = [[FUColourView alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 15 - 60, self.view.frame.size.height - 250 - 182 - 10, 60, 250)];
+        }
+        _colourView.delegate = self;
+        _colourView.hidden = YES;
+    }
+    return _colourView;
 }
 
 @end

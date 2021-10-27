@@ -13,7 +13,7 @@
     self = [super init];
     if (self) {
         [FUAIKit shareKit].maxTrackFaces = 4;
-        [FUAIKit shareKit].faceProcessorDetectMode = 0;
+        [FUAIKit shareKit].faceProcessorDetectMode = FUFaceProcessorDetectModeImage;
         NSString *path = [[NSBundle mainBundle] pathForResource:@"change_face" ofType:@"bundle"];
         self.poster = [[FUPoster alloc] initWithPath:path name:@"change_face"];
     }

@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "FUScene.h"
+#import "FUGroupAnimation.h"
 #import "FUCaptureCamera.h"
 #import "FUInternalCameraSetting.h"
 #import "FUGLDisplayView.h"
@@ -31,10 +32,10 @@
 #import "FUFaceRectInfo.h"
 #import "FUAISegment.h"
 #import "UIImage+FURenderKit.h"
+#import "FUImageHelper.h"
+#import "UIDevice+FURenderKit.h"
 
 #import "FUAIKit.h"
-
-NS_ASSUME_NONNULL_BEGIN
 
 @class FURenderKit;
 
@@ -60,8 +61,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// 暂停内部渲染循环，不会影响外部对renderWithInput的调用。
 @property (nonatomic, assign) BOOL pause;
 
-/// 3D场景实例
-@property (nonatomic, strong, nullable) FUScene *scene;
+/// 3D场景实例，设置前需要先将 scene 通过 addScene 接口添加到 renderKit
+@property (nonatomic, strong, nullable) FUScene *currentScene;
+
+@property (nonatomic, strong, readonly) NSArray *scenes;
 
 /**
  * 美颜模块
@@ -114,6 +117,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nullable) FUItem *antiAliasing;
 
 
+/// 多重采样等级，默认为0
+@property (nonatomic, assign) int msaaLevel;
+
+
 /// 如果使用sceneView渲染需要由用户自己创建
 @property (nonatomic, strong, nullable) FUGLDisplayView *glDisplayView;
 
@@ -129,13 +136,32 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)setLogFilePath:(NSString *)filePath;
 
 #pragma mark - setup
-+ (void)setupWithSetupConfig:(FUSetupConfig *)setupConfig;
++ (BOOL)setupWithSetupConfig:(FUSetupConfig *)setupConfig;
+
+/**
+ *  setupconfig 里面需要填入offLinePath 离线鉴权包地址
+ *  @return 第一次鉴权成功后的文件
+ */
++ (NSData *)setupLocalWithSetupConfig:(FUSetupConfig *)setupConfig;
+
+/**
+ * 内部调用fuSetupInternalCheck 去初始化鉴权
+ *  return NO 失败， YES成功
+ */
++ (BOOL)setupInternalCheckWithSetupConfig:(FUSetupConfig *)setupConfig;
 
 + (void)destroy;
 
 + (void)clear;
 
 + (instancetype)shareRenderKit;
+
+#pragma mark - scene
+- (void)addScene:(FUScene *)scene completion:(void(^)(BOOL success))completion;
+
+- (void)removeScene:(FUScene *)scene completion:(void(^)(BOOL success))completion;
+
+- (void)replaceScene:(FUScene *)scene withNewScene:(FUScene *)newScene completion:(void(^)(BOOL success))completion;
 
 #pragma mark - Other API
 /**
@@ -163,6 +189,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (int)profileGetNumTimers;
 + (long long)profileGetTimerAverage:(int)index;
 
+/// 设备性能分级
++ (FUDevicePerformanceLevel)devicePerformanceLevel;
 
 #pragma mark - Record && capture
 + (void)startRecordVideoWithFilePath:(NSString *)filePath;
@@ -170,9 +198,5 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)stopRecordVideoComplention:(void(^)(NSString *filePath))complention;
 
 + (UIImage *)captureImage;
-
-
-- (int)renderItems;
 @end
 
-NS_ASSUME_NONNULL_END

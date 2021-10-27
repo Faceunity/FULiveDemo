@@ -8,7 +8,6 @@
 
 #import "FUHairController.h"
 #import "FUHairView.h"
-#import "FUSwitch.h"
 #import "SVProgressHUD.h"
 #import "FUHairManager.h"
 

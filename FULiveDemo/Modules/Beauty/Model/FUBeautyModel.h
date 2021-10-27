@@ -20,8 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSString *strValue;
 
-@property (nonatomic,copy)NSString *mImageStr;
-
 /* 双向的参数  0.5是原始值*/
 @property (nonatomic,assign) BOOL iSStyle101;
 
@@ -33,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 //标识类型
 @property (nonatomic, assign) FUBeautyDefine type;
+
 @end
 
 NS_ASSUME_NONNULL_END

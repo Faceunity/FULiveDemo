@@ -96,6 +96,9 @@
     FUPopupMenu *popupMenu = [[FUPopupMenu alloc] initWithFrame:frame  onlyTop:(BOOL)onlyTop defaultSelectedAtIndex:(int)index dataSource:dataSource];
     popupMenu.delegate = delegate;
     popupMenu.point  = relyPoint;
+    CGFloat anchorPointX= (relyPoint.x - frame.origin.x) / frame.size.width * 1.0;
+    popupMenu.layer.anchorPoint = CGPointMake(anchorPointX, 0);
+    popupMenu.layer.frame = frame;
     [popupMenu show];
     return popupMenu;
 }

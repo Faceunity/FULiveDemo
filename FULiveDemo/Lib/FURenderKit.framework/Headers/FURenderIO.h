@@ -92,7 +92,7 @@ typedef struct FUTexture FUTexture;
 /// 是否渲染到当前的FBO，设置为YES时，返回的 FURenderOutput 内的所有数据均为空值。
 @property (nonatomic, assign) BOOL renderToCurrentFBO;
 
-//是否读回到输入的buffer
+//是否读回到输入的buffer, 如果手机在后台状态也不回写数据，返回的output对象内部buffer为空。
 @property (nonatomic, assign) BOOL readBackToPixelBuffer;
 
 /// 设置为YES 且 renderToCurrentFBO 为 NO 时，只会输出纹理，不会输出CPU层的图像。
@@ -100,6 +100,9 @@ typedef struct FUTexture FUTexture;
 
 /// 控制输出图像是否保留透明信息，默认值为NO，可能会输出不透明的图像，开启该参数可以保持图像中透明信息。
 @property (nonatomic, assign) BOOL keepAlpha;
+
+/// 如果 renderKit 有 glDisplayView ，控制绘制结果将直接渲染到  glDisplayView
+@property (nonatomic, assign) BOOL autoDisplay;
 
 @end
 

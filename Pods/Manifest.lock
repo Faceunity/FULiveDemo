@@ -22,6 +22,7 @@ PODS:
   - SDWebImage (4.4.3):
     - SDWebImage/Core (= 4.4.3)
   - SDWebImage/Core (4.4.3)
+  - SSZipArchive (2.2.2)
   - SVProgressHUD (2.2.5)
 
 DEPENDENCIES:
@@ -32,6 +33,7 @@ DEPENDENCIES:
   - Masonry
   - MJExtension
   - SDWebImage
+  - SSZipArchive
   - SVProgressHUD
 
 SPEC REPOS:
@@ -43,6 +45,7 @@ SPEC REPOS:
     - Masonry
     - MJExtension
     - SDWebImage
+    - SSZipArchive
     - SVProgressHUD
 
 SPEC CHECKSUMS:
@@ -53,8 +56,9 @@ SPEC CHECKSUMS:
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJExtension: 19bc33ce2eee2d319760f5622562cf581a6ff756
   SDWebImage: c5594f1a19c48d526d321e548902b56b479cd508
+  SSZipArchive: fa16b8cc4cdeceb698e5e5d9f67e9558532fbf23
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: b17608233473a88285a272bd55f53a0e9c73f1c7
+PODFILE CHECKSUM: 6c47b1a66ae843d4276a204b8345992c60c9be4a
 
-COCOAPODS: 1.10.0
+COCOAPODS: 1.10.1

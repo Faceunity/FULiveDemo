@@ -1,5 +1,5 @@
 //
-//  FUQSTickersViewController.h
+//  FUQStickersViewController.h
 //  FULiveDemo
 //
 //  Created by 孙慕 on 2021/2/3.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface FUQSTickersViewController : FUBaseViewController
+@interface FUQStickersViewController : FUBaseViewController
 
 @end
 

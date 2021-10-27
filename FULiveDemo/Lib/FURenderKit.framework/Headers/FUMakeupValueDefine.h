@@ -10,9 +10,10 @@
 
 typedef NS_ENUM(NSUInteger, FUMakeupLipType) {
     FUMakeupLipTypeFOG = 0, //雾面
-    FUMakeupLipTypeGlossy = 2, //润泽
+    FUMakeupLipTypeGlossy = 2, //润泽Ⅰ
     FUMakeupLipTypePearlyLustre = 3, //珠光
-    FUMakeupLipTypeHightPerformance = 6 //高性能
+    FUMakeupLipTypeHightPerformance = 6, //高性能
+    FUMakeupLipTypeMoisturizing = 7, //润泽Ⅱ
 };
 
 typedef NS_ENUM(NSUInteger, FUMakeupBrowWarpType) {

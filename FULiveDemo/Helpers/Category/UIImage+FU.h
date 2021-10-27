@@ -7,14 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface UIImage (FU)
 
 /// 压缩图片
-/// @param ratio 倍率
+/// @param ratio 宽高压缩倍率
 - (UIImage *)fu_compress:(CGFloat)ratio;
+
+/// 图片转正
+- (UIImage *)fu_resetImageOrientationToUp;
 
 @end
 

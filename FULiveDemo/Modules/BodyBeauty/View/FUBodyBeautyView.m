@@ -11,6 +11,8 @@
 #import "FUSlider.h"
 #import "FUSquareButton.h"
 
+#import "UIView+FU.h"
+
 @interface FUBodyBeautyView()<UICollectionViewDelegate,UICollectionViewDataSource>
 @property(nonatomic,strong)NSArray <FUPositionInfo *> *dataArray;
 
@@ -131,19 +133,9 @@ static NSString *positionCellID = @"positionCell";
     [alertCon addAction:cancleAction];
     [alertCon addAction:certainAction];
     
-    [[self viewControllerFromView:self] presentViewController:alertCon animated:YES completion:^{
+    [[self fu_targetViewController] presentViewController:alertCon animated:YES completion:^{
     }];
     return;
-}
-
-- (UIViewController *)viewControllerFromView:(UIView *)view {
-    for (UIView *next = [view superview]; next; next = next.superview) {
-        UIResponder *nextResponder = [next nextResponder];
-        if ([nextResponder isKindOfClass:[UIViewController class]]) {
-            return (UIViewController *)nextResponder;
-        }
-    }
-    return nil;
 }
 
 

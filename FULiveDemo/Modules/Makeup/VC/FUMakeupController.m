@@ -14,13 +14,13 @@
 #import "FUColourView.h"
 #import "FUMakeupManager.h"
 
+#import "FULandmarkManager.h"
+
 @interface FUMakeupController ()<FUMakeUpViewDelegate,FUColourViewDelegate>
 /* 化妆视图 */
 @property (nonatomic, strong) FUMakeUpView *makeupView ;
 /* 颜色选择视图 */
 @property (nonatomic, strong) FUColourView *colourView;
-/* 自定义调节需要保存，现有部位句柄，用户切换对道具销毁 */
-@property (nonatomic,strong) NSMutableDictionary *oldHandleDic;
 
 @property (strong, nonatomic) FUMakeupManager *makeupManager;
 @end
@@ -41,18 +41,23 @@
     [_makeupView setSelSupItem:1];
     
     self.canPushImageSelView = NO;
-    
-    
-    NSDictionary* dic = @{@"tex_brow":@0,@"tex_eye":@0,@"tex_eye2":@0,@"tex_eye3":@0,@"tex_pupil":@0,@"tex_eyeLash":@0,@"tex_eyeLiner":@0,@"tex_blusher":@0,@"tex_foundation":@0,@"tex_highlight":@0,@"tex_shadow":@0};
-    _oldHandleDic = [dic mutableCopy];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
+    // 添加点位测试开关
+    if (FUShowLandmark) {
+        [FULandmarkManager show];
+    }
+    
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
+    
+    if (FUShowLandmark) {
+        [FULandmarkManager dismiss];
+    }
 }
 
 - (void)headButtonViewBackAction:(UIButton *)btn {
@@ -95,7 +100,7 @@
         make.height.mas_equalTo(_makeupView.bottomCollection.bounds.size.height);
     }];
     
-    [self.view addSubview:_makeupView];
+    [self.view insertSubview:_makeupView belowSubview:self.photoBtn];
     
     [_makeupView mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(iOS 11.0, *)) {
@@ -126,7 +131,7 @@
 
 #pragma mark -  FUMakeUpViewDelegate
 -(void)makeupViewDidSelectedSupModle:(FUMakeupSupModel *)model {
-    [self.makeupManager setSupModle:model];
+    [self.makeupManager setSupModel:model];
     [self modifyFilter:model];
 }
 
@@ -136,15 +141,21 @@
 }
 
 - (void)modifyFilter:(FUMakeupSupModel *)model {
-    /* 修改美颜的滤镜 */
-    if (!model.selectedFilter || [model.selectedFilter isEqualToString:@""]) {
-        FUBeautyModel *param = self.baseManager.seletedFliter;
-        self.baseManager.beauty.filterName = [param.strValue lowercaseString];
-        self.baseManager.beauty.filterLevel = param.mValue;
-    }else {
-        self.baseManager.beauty.filterName = [model.selectedFilter lowercaseString];
-        self.baseManager.beauty.filterLevel = model.value;
+    if (model.isCombined) {
+        // 新组合妆直接设置滤镜程度
+        [self.makeupManager updateMakeupFilterLevel:model];
+    } else {
+        // 老组合妆修改美颜的滤镜
+        if (!model.selectedFilter || [model.selectedFilter isEqualToString:@""]) {
+            FUBeautyModel *param = self.baseManager.seletedFliter;
+            self.baseManager.beauty.filterName = [param.strValue lowercaseString];
+            self.baseManager.beauty.filterLevel = param.mValue;
+        }else {
+            self.baseManager.beauty.filterName = [model.selectedFilter lowercaseString];
+            self.baseManager.beauty.filterLevel = model.value;
+        }
     }
+    
 }
 
 
@@ -173,8 +184,8 @@
     [_colourView setSelCell:index];
 }
 
--(void)makeupSelColorStata:(BOOL)stata{
-    _colourView.hidden = stata ? NO :YES;
+-(void)makeupSelColorState:(BOOL)state {
+    _colourView.hidden = state ? NO :YES;
 }
 
 
@@ -182,7 +193,7 @@
     self.tipLabel.hidden = NO;
     self.tipLabel.text = FUNSLocalizedString(nama, nil);
     [FUMakeupController cancelPreviousPerformRequestsWithTarget:self selector:@selector(dismissTipLabel) object:nil];
-    [self performSelector:@selector(dismissTipLabel) withObject:nil afterDelay:1 ];
+    [self performSelector:@selector(dismissTipLabel) withObject:nil afterDelay:1];
 }
 
 - (void)dismissTipLabel{

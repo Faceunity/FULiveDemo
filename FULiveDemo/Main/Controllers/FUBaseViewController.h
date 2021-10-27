@@ -14,10 +14,8 @@
 #import <Masonry.h>
 #import "FULiveModel.h"
 #import "FUManager.h"
-#import "FUOpenGLView.h"
 #import "FULightingView.h"
 #import "FUBaseViewControllerManager.h"
-#import <FURenderKit/FURenderer.h>
 
 
 #define KScreenWidth ([UIScreen mainScreen].bounds.size.width)
@@ -35,7 +33,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) FUHeadButtonView *headButtonView;
 @property (strong, nonatomic) FUPhotoButton *photoBtn;
 
-@property (strong, nonatomic) FUOpenGLView *renderView;
 @property (strong, nonatomic) UILabel *noTrackLabel;
 @property (strong, nonatomic) UILabel *tipLabel;
 /* 是否开启比对 */

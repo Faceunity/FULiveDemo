@@ -240,7 +240,9 @@
 				{
 					"makeType": 0,
 					"iconStr": "demo_style_lip_01",
+                    "namaBundleType": 1,
 					"namaValueType": 1,
+                    "namaBundle": "mu_style_lip_01",
 					"is_two_color": 0,
 					"lip_type": 0,
 					"value": 1.0,
@@ -282,8 +284,10 @@
 				},
 				{
 					"makeType": 0,
-					"iconStr": "demo_style_lip_04",
+					"iconStr": "demo_style_lip_03",
+                    "namaBundleType": 1,
 					"namaValueType": 1,
+                    "namaBundle": "mu_style_lip_03",
 					"lip_type": 2,
 					"value": 1.0,
 					"colorStr": "makeup_lip_color",
@@ -320,12 +324,59 @@
 						]
 					],
 					"defaultColorIndex": 0,
-					"title": "润泽"
+					"title": "润泽Ⅰ"
 				},
+                {
+                    "makeType": 0,
+                    "iconStr": "demo_style_lip_02",
+                    "namaBundleType": 1,
+                    "namaValueType": 1,
+                    "namaBundle": "mu_style_lip_02",
+                    "is_two_color": 0,
+                    "lip_type": 7,
+                    "value": 1.0,
+                    "colorStr": "makeup_lip_color_v2",
+                    "colors": [
+                        [
+                            0.60,
+                            0.16,
+                            0.16,
+                            1.0
+                        ],
+                        [
+                            0.84,
+                            0.16,
+                            0.27,
+                            1.0
+                        ],
+                        [
+                            0.84,
+                            0.26,
+                            0.16,
+                            1.0
+                        ],
+                        [
+                            0.60,
+                            0.11,
+                            0.23,
+                            1.0
+                        ],
+                        [
+                            0.81,
+                            0.31,
+                            0.22,
+                            1.0
+                        ]
+                    ],
+                    "defaultColorIndex": 0,
+                    "title": "润泽Ⅱ"
+                },
 				{
 					"makeType": 0,
-					"iconStr": "demo_style_lip_03",
+					"iconStr": "demo_style_lip_04",
+                    "namaBundleType": 1,
 					"namaValueType": 1,
+                    "namaBundle": "mu_style_lip_04",
 					"lip_type": 3,
 					"value": 1.0,
 					"colorStr": "makeup_lip_color",
@@ -367,7 +418,9 @@
 				{
 					"makeType": 0,
 					"iconStr": "demo_style_lip_05",
+                    "namaBundleType": 1,
 					"namaValueType": 1,
+                    "namaBundle": "mu_style_lip_05",
 					"lip_type": 0,
 					"is_two_color": 1,
 					"value": 1.0,
@@ -421,7 +474,7 @@
 				{
 					"makeType": 1,
 					"iconStr": "demo_style_blush_01",
-					"namaBundleType": 1,
+					"namaBundleType": 2,
 					"namaValueType": 2,
 					"namaBundle": "mu_style_blush_01",
 					"value": 1.0,
@@ -464,7 +517,7 @@
 				{
 					"makeType": 1,
 					"iconStr": "demo_style_blush_02",
-					"namaBundleType": 1,
+					"namaBundleType": 2,
 					"namaValueType": 2,
 					"namaBundle": "mu_style_blush_02",
 					"value": 1.0,
@@ -507,7 +560,7 @@
 				{
 					"makeType": 1,
 					"iconStr": "demo_style_blush_03",
-					"namaBundleType": 1,
+					"namaBundleType": 2,
 					"namaValueType": 2,
 					"namaBundle": "mu_style_blush_03",
 					"value": 1.0,
@@ -550,7 +603,7 @@
 				{
 					"makeType": 1,
 					"iconStr": "demo_style_blush_04",
-					"namaBundleType": 1,
+					"namaBundleType": 2,
 					"namaValueType": 2,
 					"namaBundle": "mu_style_blush_04",
 					"value": 1.0,
@@ -605,7 +658,7 @@
 				{
 					"makeType": 2,
 					"iconStr": "demo_style_eyebrow_01",
-					"namaBundleType": 2,
+					"namaBundleType": 3,
 					"namaValueType": 3,
 					"namaBundle": "mu_style_eyebrow_01",
 					"brow_warp": 1,
@@ -650,7 +703,7 @@
 				{
 					"makeType": 2,
 					"iconStr": "demo_style_eyebrow_02",
-					"namaBundleType": 2,
+					"namaBundleType": 3,
 					"namaValueType": 3,
 					"namaBundle": "mu_style_eyebrow_01",
 					"brow_warp": 1,
@@ -695,7 +748,7 @@
 				{
 					"makeType": 2,
 					"iconStr": "demo_style_eyebrow_03",
-					"namaBundleType": 2,
+					"namaBundleType": 3,
 					"namaValueType": 3,
 					"namaBundle": "mu_style_eyebrow_01",
 					"brow_warp": 1,
@@ -740,7 +793,7 @@
 				{
 					"makeType": 2,
 					"iconStr": "demo_style_eyebrow_04",
-					"namaBundleType": 2,
+					"namaBundleType": 3,
 					"namaValueType": 3,
 					"namaBundle": "mu_style_eyebrow_01",
 					"brow_warp": 1,
@@ -785,7 +838,7 @@
 				{
 					"makeType": 2,
 					"iconStr": "demo_style_eyebrow_05",
-					"namaBundleType": 2,
+					"namaBundleType": 3,
 					"namaValueType": 3,
 					"namaBundle": "mu_style_eyebrow_01",
 					"brow_warp": 1,
@@ -830,7 +883,7 @@
 				{
 					"makeType": 2,
 					"iconStr": "demo_style_eyebrow_06",
-					"namaBundleType": 2,
+					"namaBundleType": 3,
 					"namaValueType": 3,
 					"namaBundle": "mu_style_eyebrow_01",
 					"brow_warp": 1,
@@ -875,7 +928,7 @@
 				{
 					"makeType": 2,
 					"iconStr": "demo_style_eyebrow_07",
-					"namaBundleType": 2,
+					"namaBundleType": 3,
 					"namaValueType": 3,
 					"namaBundle": "mu_style_eyebrow_01",
 					"brow_warp": 1,
@@ -931,7 +984,7 @@
 				{
 					"makeType": 3,
 					"iconStr": "demo_style_eyeshadow_01",
-					"namaBundleType": 3,
+					"namaBundleType": 4,
 					"namaValueType": 4,
 					"namaBundle": "mu_style_eyeshadow_01",
 					"value": 1.0,
@@ -1014,7 +1067,7 @@
 				{
 					"makeType": 3,
 					"iconStr": "demo_style_eyeshadow_02",
-					"namaBundleType": 3,
+					"namaBundleType": 4,
 					"namaValueType": 4,
 					"namaBundle": "mu_style_eyeshadow_02",
 					"value": 1.0,
@@ -1097,7 +1150,7 @@
 				{
 					"makeType": 3,
 					"iconStr": "demo_style_eyeshadow_03",
-					"namaBundleType": 3,
+					"namaBundleType": 4,
 					"namaValueType": 4,
 					"namaBundle": "mu_style_eyeshadow_03",
 					"value": 1.0,
@@ -1180,7 +1233,7 @@
 				{
 					"makeType": 3,
 					"iconStr": "demo_style_eyeshadow_04",
-					"namaBundleType": 3,
+					"namaBundleType": 4,
 					"namaValueType": 4,
 					"namaBundle": "mu_style_eyeshadow_04",
 					"value": 1.0,
@@ -1263,7 +1316,7 @@
 				{
 					"makeType": 3,
 					"iconStr": "demo_style_eyeshadow_05",
-					"namaBundleType": 3,
+					"namaBundleType": 4,
 					"namaValueType": 4,
 					"namaBundle": "mu_style_eyeshadow_05",
 					"value": 1.0,
@@ -1346,7 +1399,7 @@
 				{
 					"makeType": 3,
 					"iconStr": "demo_style_eyeshadow_06",
-					"namaBundleType": 3,
+					"namaBundleType": 4,
 					"namaValueType": 4,
 					"namaBundle": "mu_style_eyeshadow_06",
 					"value": 1.0,
@@ -1440,7 +1493,7 @@
 				{
 					"makeType": 4,
 					"iconStr": "demo_style_eyeliner_01",
-					"namaBundleType": 4,
+					"namaBundleType": 5,
 					"namaValueType": 5,
 					"namaBundle": "mu_style_eyeliner_01",
 					"value": 1.0,
@@ -1483,7 +1536,7 @@
 				{
 					"makeType": 4,
 					"iconStr": "demo_style_eyeliner_02",
-					"namaBundleType": 4,
+					"namaBundleType": 5,
 					"namaValueType": 5,
 					"namaBundle": "mu_style_eyeliner_02",
 					"value": 1.0,
@@ -1526,7 +1579,7 @@
 				{
 					"makeType": 4,
 					"iconStr": "demo_style_eyeliner_03",
-					"namaBundleType": 4,
+					"namaBundleType": 5,
 					"namaValueType": 5,
 					"namaBundle": "mu_style_eyeliner_03",
 					"value": 1.0,
@@ -1569,7 +1622,7 @@
 				{
 					"makeType": 4,
 					"iconStr": "demo_style_eyeliner_04",
-					"namaBundleType": 4,
+					"namaBundleType": 5,
 					"namaValueType": 5,
 					"namaBundle": "mu_style_eyeliner_04",
 					"value": 1.0,
@@ -1612,7 +1665,7 @@
 				{
 					"makeType": 4,
 					"iconStr": "demo_style_eyeliner_05",
-					"namaBundleType": 4,
+					"namaBundleType": 5,
 					"namaValueType": 5,
 					"namaBundle": "mu_style_eyeliner_05",
 					"value": 1.0,
@@ -1655,7 +1708,7 @@
 				{
 					"makeType": 4,
 					"iconStr": "demo_style_eyeliner_06",
-					"namaBundleType": 4,
+					"namaBundleType": 5,
 					"namaValueType": 5,
 					"namaBundle": "mu_style_eyeliner_06",
 					"value": 1.0,
@@ -1709,7 +1762,7 @@
 				{
 					"makeType": 5,
 					"iconStr": "demo_style_eyelash_01",
-					"namaBundleType": 5,
+					"namaBundleType": 6,
 					"namaValueType": 6,
 					"namaBundle": "mu_style_eyelash_01",
 					"value": 1.0,
@@ -1752,7 +1805,7 @@
 				{
 					"makeType": 5,
 					"iconStr": "demo_style_eyelash_02",
-					"namaBundleType": 5,
+					"namaBundleType": 6,
 					"namaValueType": 6,
 					"namaBundle": "mu_style_eyelash_02",
 					"value": 1.0,
@@ -1795,7 +1848,7 @@
 				{
 					"makeType": 5,
 					"iconStr": "demo_style_eyelash_03",
-					"namaBundleType": 5,
+					"namaBundleType": 6,
 					"namaValueType": 6,
 					"namaBundle": "mu_style_eyelash_03",
 					"value": 1.0,
@@ -1838,7 +1891,7 @@
 				{
 					"makeType": 5,
 					"iconStr": "demo_style_eyelash_04",
-					"namaBundleType": 5,
+					"namaBundleType": 6,
 					"namaValueType": 6,
 					"namaBundle": "mu_style_eyelash_04",
 					"value": 1.0,
@@ -1881,7 +1934,7 @@
 				{
 					"makeType": 5,
 					"iconStr": "demo_style_eyelash_05",
-					"namaBundleType": 5,
+					"namaBundleType": 6,
 					"namaValueType": 6,
 					"namaBundle": "mu_style_eyelash_05",
 					"value": 1.0,
@@ -1924,7 +1977,7 @@
 				{
 					"makeType": 5,
 					"iconStr": "demo_style_eyelash_06",
-					"namaBundleType": 5,
+					"namaBundleType": 6,
 					"namaValueType": 6,
 					"namaBundle": "mu_style_eyelash_06",
 					"value": 1.0,
@@ -1978,7 +2031,7 @@
 				{
 					"makeType": 8,
 					"iconStr": "demo_style_highlight_01",
-					"namaBundleType": 6,
+					"namaBundleType": 7,
 					"namaValueType": 7,
 					"namaBundle": "mu_style_highlight_01",
 					"value": 1.0,
@@ -2021,7 +2074,7 @@
 				{
 					"makeType": 8,
 					"iconStr": "demo_style_highlight_02",
-					"namaBundleType": 6,
+					"namaBundleType": 7,
 					"namaValueType": 7,
 					"namaBundle": "mu_style_highlight_02",
 					"value": 1.0,
@@ -2075,7 +2128,7 @@
 				{
 					"makeType": 9,
 					"iconStr": "demo_style_contour_01",
-					"namaBundleType": 7,
+					"namaBundleType": 8,
 					"namaValueType": 8,
 					"namaBundle": "mu_style_contour_01",
 					"value": 1.0,
@@ -2128,7 +2181,7 @@
 				{
 					"makeType": 6,
 					"iconStr": "demo_style_eyepupil_01",
-					"namaBundleType": 8,
+					"namaBundleType": 9,
 					"namaValueType": 9,
 					"namaBundle": "mu_style_eyepupil_01",
 					"value": 1.0,
@@ -2170,7 +2223,7 @@
 				},{
                     "makeType": 6,
                     "iconStr": "demo_style_eyepupil_03",
-                    "namaBundleType": 8,
+                    "namaBundleType": 9,
                     "namaValueType": 9,
                     "namaBundle": "mu_style_eyepupil_03",
                     "value": 1.0,
@@ -2181,7 +2234,7 @@
                 },{
                     "makeType": 6,
                     "iconStr": "demo_style_eyepupil_04",
-                    "namaBundleType": 8,
+                    "namaBundleType": 9,
                     "namaValueType": 9,
                     "namaBundle": "mu_style_eyepupil_04",
                     "value": 1.0,
@@ -2192,7 +2245,7 @@
                 },{
                     "makeType": 6,
                     "iconStr": "demo_style_eyepupil_05",
-                    "namaBundleType": 8,
+                    "namaBundleType": 9,
                     "namaValueType": 9,
                     "namaBundle": "mu_style_eyepupil_05",
                     "value": 1.0,
@@ -2203,7 +2256,7 @@
                 },{
                     "makeType": 6,
                     "iconStr": "demo_style_eyepupil_06",
-                    "namaBundleType": 8,
+                    "namaBundleType": 9,
                     "namaValueType": 9,
                     "namaBundle": "mu_style_eyepupil_06",
                     "value": 1.0,
@@ -2214,7 +2267,7 @@
                 },{
                     "makeType": 6,
                     "iconStr": "demo_style_eyepupil_07",
-                    "namaBundleType": 8,
+                    "namaBundleType": 9,
                     "namaValueType": 9,
                     "namaBundle": "mu_style_eyepupil_07",
                     "value": 1.0,
@@ -2225,7 +2278,7 @@
                 },{
                     "makeType": 6,
                     "iconStr": "demo_style_eyepupil_08",
-                    "namaBundleType": 8,
+                    "namaBundleType": 9,
                     "namaValueType": 9,
                     "namaBundle": "mu_style_eyepupil_08",
                     "value": 1.0,
@@ -2236,7 +2289,7 @@
                 },{
                     "makeType": 6,
                     "iconStr": "demo_style_eyepupil_09",
-                    "namaBundleType": 8,
+                    "namaBundleType": 9,
                     "namaValueType": 9,
                     "namaBundle": "mu_style_eyepupil_09",
                     "value": 1.0,

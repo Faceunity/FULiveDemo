@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// 下载单个道具
 /// @param itemId 道具ID
 /// @param completion 结果回调
-+ (void)downloadItemSticker:(FUStickerModel *)sticker completion:(void (^)(NSError * _Nullable error))completion;
++ (void)downloadItem:(FUStickerModel *)sticker completion:(void (^)(NSError * _Nullable error))completion;
 
 /// 取消所有精品贴纸相关网络任务
 + (void)cancelStickerHTTPTasks;

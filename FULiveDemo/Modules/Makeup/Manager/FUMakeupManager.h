@@ -14,21 +14,24 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface FUMakeupManager : FUMetaManager
-@property (nonatomic, strong, nullable) FUMakeup *makeup;
 
 @property (nonatomic, strong, readonly) NSArray <FUMakeupModel *>* dataArray;
 
 @property (nonatomic, strong, readonly) NSArray <FUMakeupSupModel *>*supArray;
 
-//设置子妆容数据
+/// 设置子妆容数据
 - (void)setMakeupSupModel:(FUSingleMakeupModel *)model type:(UIMAKEUITYPE)type;
 
-//设置整体妆容数据
+/// 设置整体妆容数据
 - (void)setMakeupWholeModel:(FUMakeupSupModel *)model;
+
+/// 设置新组合妆滤镜程度
+- (void)updateMakeupFilterLevel:(FUMakeupSupModel *)model;
 
 - (void)loadMakeupPackageWithPathName:(NSString *)pathName;
 
-- (void)setSupModle:(FUMakeupSupModel *)model;
+- (void)setSupModel:(FUMakeupSupModel *)model;
+
 @end
 
 NS_ASSUME_NONNULL_END

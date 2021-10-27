@@ -16,11 +16,6 @@
 
 @interface FUBodyBeautyController ()<FUBodyBeautyViewDelegate>
 @property(nonatomic,strong)FUBodyBeautyView *mBodyBeautyView;
-
-/* 监听屏幕方向 */
-//@property (nonatomic, strong) CMMotionManager *motionManager;
-
-
 @property (nonatomic, strong) FUBodyBeautyManager *bodyBeautyManager;
 @end
 
@@ -77,10 +72,10 @@
 
 
 -(void)displayPromptText{
-    int res = [self.bodyBeautyManager aiHumanProcessNums];
+    BOOL result = [self.baseManager bodyTrace];
     dispatch_async(dispatch_get_main_queue(), ^{
         self.noTrackLabel.text = FUNSLocalizedString(@"未检测到人体",nil);
-        self.noTrackLabel.hidden = res > 0 ? YES : NO;
+        self.noTrackLabel.hidden = result;
     }) ;
 }
 

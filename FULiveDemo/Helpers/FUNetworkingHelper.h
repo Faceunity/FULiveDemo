@@ -33,10 +33,10 @@ typedef void (^FURequestProgress)(NSProgress *progress);
 + (instancetype)sharedInstance;
 
 /// 获取实时网络状态
-- (FUNetworkStatus)currentNetworkStatus;
++ (FUNetworkStatus)currentNetworkStatus;
 
 /// 网络状态变化
-- (void)networkStatusHandler:(FUNetworkStatusHandler)networkStatus;
++ (void)networkStatusHandler:(FUNetworkStatusHandler)networkStatus;
 
 /// GET请求
 /// @param URLString 请求URL

@@ -10,17 +10,14 @@
 #import "FUSaveViewController.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "FUEditImageViewController.h"
+#import "UIImage+FU.h"
+#import "FULiveDefine.h"
 
 @interface FUPosterController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
 @end
 
 @implementation FUPosterController
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    /* 视频模式 */
-    [self.baseManager setFaceProcessorDetectMode:1];
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -91,29 +88,15 @@
     // 关闭相册
     [picker dismissViewControllerAnimated:YES completion:nil];
     UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    CGFloat imagePixel = image.size.width * image.size.height;
+    // 超过限制像素需要压缩
+    if (imagePixel > FUPicturePixelMaxSize) {
+        CGFloat ratio = FUPicturePixelMaxSize / imagePixel * 1.0;
+        image = [image fu_compress:ratio];
+    }
     // 图片转正
-    if(image.size.width  > 1500 ||  image.size.height > 1500 ){// 图片转正 + 超大取缩略,这里有点随意，不知道sdk算法
-        int scalew = image.size.width  / 1000;
-        int scaleH = image.size.height  / 1000;
-        
-        int scale = scalew > scaleH ? scalew + 1: scaleH + 1;
-        
-        UIGraphicsBeginImageContext(CGSizeMake(image.size.width / scale, image.size.height / scale));
-        
-        [image drawInRect:CGRectMake(0, 0, image.size.width/scale, image.size.height/scale)];
-        
-        image = UIGraphicsGetImageFromCurrentImageContext();
-        
-        UIGraphicsEndImageContext();
-    }else{
-        
-        UIGraphicsBeginImageContext(CGSizeMake(image.size.width , image.size.height));
-        
-        [image drawInRect:CGRectMake(0, 0, image.size.width, image.size.height)];
-        
-        image = UIGraphicsGetImageFromCurrentImageContext();
-        
-        UIGraphicsEndImageContext();
+    if (image.imageOrientation != UIImageOrientationUp && image.imageOrientation != UIImageOrientationUpMirrored) {
+        image = [image fu_resetImageOrientationToUp];
     }
     FUEditImageViewController *vc = [[FUEditImageViewController alloc] initWithNibName:@"FUEditImageViewController" bundle:nil];
     vc.view.backgroundColor = [UIColor blackColor];

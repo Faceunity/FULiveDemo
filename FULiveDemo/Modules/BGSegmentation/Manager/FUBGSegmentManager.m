@@ -34,14 +34,9 @@
     return [NSArray arrayWithArray:arr];
 }
 
-- (int)aiHumanProcessorNums {
-    int ret = [FUAIKit aiHumanProcessorNums];
-    return ret;
-}
-
 -(NSString *)filePath {
-    NSString *paths =[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
-    NSString *path = [paths stringByAppendingString:@"/saveModel"];
+    NSString *paths =[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+    NSString *path = [paths stringByAppendingPathComponent:@"saveModel"];
     return path;
 }
 

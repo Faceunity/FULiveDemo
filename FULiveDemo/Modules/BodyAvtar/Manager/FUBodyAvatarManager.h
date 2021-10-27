@@ -21,8 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
 //切换模式: 半身还是全身
 - (void)switchBodyTrackMode:(FUBodyTrackMode)mode;
 
-//检测人体
-- (int)aiHumanProcessorNums;
 @end
 
 NS_ASSUME_NONNULL_END

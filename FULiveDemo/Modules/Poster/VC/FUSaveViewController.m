@@ -9,15 +9,11 @@
 #import "FUSaveViewController.h"
 #import "FUEditImageViewController.h"
 #import <FURenderKit/FUAIKit.h>
-#import "FUGanEditController.h"
-#import "FUTipView.h"
 
 @interface FUSaveViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *closeBtn;
 @property (weak, nonatomic) IBOutlet UIButton *doneBtn;
-
-@property(strong ,nonatomic) FUTipView *tipView;
 
 @end
 
@@ -29,18 +25,6 @@
     /* 图片模式 */
     [FUAIKit shareKit].faceProcessorDetectMode = FUFaceProcessorDetectModeImage;
     // Do any additional setup after loading the view from its nib.
-    [self prefersStatusBarHidden];
-    [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
-    
-    _tipView = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([FUTipView class]) owner:self options:nil].lastObject;
-    _tipView.frame = CGRectMake(0, 0, 245, 225);
-    _tipView.center = self.view.center;
-    _tipView.hidden = YES;
-    __weak typeof(self)weakSelf = self ;
-    _tipView.didClick = ^(int index) {
-        [weakSelf.navigationController popViewControllerAnimated:YES];
-    };
-    [self.view addSubview:_tipView];
 }
 
 -(void)setMImage:(UIImage *)mImage{
@@ -50,10 +34,6 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-
-}
--(void)viewDidLayoutSubviews{
-     _tipView.center = self.view.center;
 }
 
 #pragma  mark ----  UI Action  -----
@@ -72,24 +52,6 @@
     }
 
 }
-
-/* 是否夸张 */
-//-(BOOL)isExaggeration{
-//    float expression[46] ;
-//    [FURenderer getFaceInfo:0 name:@"expression" pret:expression number:46];
-//    
-//    for (int i = 0 ; i < 46; i ++) {
-//        
-//        if (expression[i] > 0.50) {
-//            
-//            return YES;
-//        }
-//    }
-//    return NO;
-//}
-
-
-
 
 #pragma  mark ----  重载系统方法  -----
 - (BOOL)prefersStatusBarHidden

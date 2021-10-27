@@ -13,12 +13,18 @@
 #import "FUSquareButton.h"
 #import "FUMakeupSlider.h"
 #import "FUBgCollectionView.h"
+#import "FUSafeAreaCollectionView.h"
+#import "FULiveDefine.h"
+#import "FUTipHUD.h"
 
+#import "UIView+FU.h"
+#import "UIImage+FU.h"
 
+#import <MobileCoreServices/MobileCoreServices.h>
 
 typedef NS_ENUM(NSUInteger, FULvMuState) {
     FULvMukeying,
-    FULvMubackground,
+    FULvMubackground
 };
 @implementation FULvMuCell
 
@@ -87,14 +93,18 @@ typedef NS_ENUM(NSUInteger, FULvMuState) {
 }
 @end
 
-static NSString *LvMuCellID = @"FULvMuCellID";
-static NSString *colorCellID = @"FULvMuColorCellID";
 
-@interface FULvMuView()<UICollectionViewDelegate,UICollectionViewDataSource,FUBgCollectionViewDelegate>
+static NSString * const LvMuCellID = @"FULvMuCellID";
+static NSString * const colorCellID = @"FULvMuColorCellID";
 
-@property(nonatomic,strong) UICollectionView *mColorCollectionView;
+@interface FULvMuView()<UICollectionViewDelegate,UICollectionViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate,  FUSafeAreaCollectionViewDelegate, FUBgCollectionViewDelegate>
 
-@property(nonatomic,strong) UICollectionView *mItemCollectionView;
+@property (nonatomic, strong) UICollectionView *mColorCollectionView;
+
+@property (nonatomic, strong) UICollectionView *mItemCollectionView;
+
+/// 安全区域
+@property (nonatomic, strong) FUSafeAreaCollectionView *safeAreaCollectionView;
 
 @property (strong, nonatomic) FUSegmentBarView *segmentBarView;
 
@@ -104,6 +114,9 @@ static NSString *colorCellID = @"FULvMuColorCellID";
 @property (strong, nonatomic) FUSquareButton *restBtn;
 
 @property (assign, nonatomic) FULvMuState state;
+
+/// 是否显示安全区域视图
+@property (assign, nonatomic) BOOL isShowingSafeArea;
 
 @property (strong, nonatomic) NSMutableArray <UIColor *>* colors;
 
@@ -157,10 +170,11 @@ static NSString *colorCellID = @"FULvMuColorCellID";
         UIView *bgView = nil;
         if ([self.mDelegate respondsToSelector:@selector(takeColorBgView)]) {
             bgView = [self.mDelegate takeColorBgView];
+            [_mTakeColorView actionRect:bgView.bounds];
         } else {
-            [_mTakeColorView actionRect:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 180)];
             UIWindow *window = [UIApplication sharedApplication].keyWindow;
             bgView = window;
+            [_mTakeColorView actionRect:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 180)];
         }
 
         [bgView addSubview:_mTakeColorView];
@@ -175,9 +189,6 @@ static NSString *colorCellID = @"FULvMuColorCellID";
     
     return _mTakeColorView;
 }
-
-
-
 
 
 -(instancetype)initWithFrame:(CGRect)frame{
@@ -202,6 +213,7 @@ static NSString *colorCellID = @"FULvMuColorCellID";
 - (void)reloadDataSoure:(NSArray <FUGreenScreenModel *> *)dataSource {
     _dataArray = [NSMutableArray arrayWithArray:dataSource];
     [self.mColorCollectionView reloadData];
+    [self.safeAreaCollectionView reloadSafeAreas];
 }
 
 //刷新绿慕背景collection数据
@@ -211,8 +223,6 @@ static NSString *colorCellID = @"FULvMuColorCellID";
 
 -(void)setupDefault{
     /* 设置回调一遍默认 */
-    [self bgCollectionViewDidSelectedFilter:_mBgCollectionView.filters[_mBgCollectionView.selectedIndex]];
-    
     if ([self.mDelegate respondsToSelector:@selector(colorDidSelected:)]) {
         [self.mDelegate colorDidSelected:[UIColor colorWithRed:0.0 green:1.0 blue:0.0 alpha:1.0]];
     }
@@ -286,14 +296,28 @@ static NSString *colorCellID = @"FULvMuColorCellID";
     layout.minimumLineSpacing = 30;
     layout.itemSize = CGSizeMake(44, 60);
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    layout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 15);
     
     CGRect frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 80);
     _mItemCollectionView = [[UICollectionView alloc] initWithFrame:frame collectionViewLayout:layout];
     _mItemCollectionView.backgroundColor = [UIColor clearColor];
+    _mItemCollectionView.showsHorizontalScrollIndicator = NO;
     _mItemCollectionView.delegate = self;
     _mItemCollectionView.dataSource = self;
     [self addSubview:_mItemCollectionView];
     [_mItemCollectionView registerClass:[FULvMuCell class] forCellWithReuseIdentifier:LvMuCellID];
+    
+    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+    flowLayout.minimumInteritemSpacing = 15;
+    flowLayout.minimumLineSpacing = 15;
+    flowLayout.itemSize = CGSizeMake(54, 70);
+    flowLayout.sectionInset = UIEdgeInsetsMake(0, 16, 0, 16);
+    flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    
+    _safeAreaCollectionView = [[FUSafeAreaCollectionView alloc] initWithFrame:CGRectMake(0, 56, CGRectGetWidth(self.bounds), 84) collectionViewLayout:flowLayout];
+    _safeAreaCollectionView.hidden = YES;
+    _safeAreaCollectionView.safeAreaDelegate = self;
+    [self addSubview:_safeAreaCollectionView];
     
     __weak typeof(self)weakSelf  = self ;
     _segmentBarView = [[FUSegmentBarView alloc] initWithFrame:CGRectMake(0, 200,[UIScreen mainScreen].bounds.size.width, 49) titleArray:@[FUNSLocalizedString(@"抠像",nil),FUNSLocalizedString(@"背景",nil)] selBlock:^(int index) {
@@ -308,7 +332,7 @@ static NSString *colorCellID = @"FULvMuColorCellID";
         }
         
     }];
-    _segmentBarView.backgroundColor = [UIColor clearColor];
+    _segmentBarView.backgroundColor = [UIColor colorWithRed:5/255.f green:15/255.f blue:20/255.f alpha:0.74];
     //    [_segmentBarView setUINormal];
     [self addSubview:_segmentBarView];
     
@@ -333,6 +357,12 @@ static NSString *colorCellID = @"FULvMuColorCellID";
         make.bottom.equalTo(_segmentBarView.mas_top).offset(-6);
         make.left.equalTo(_sqLine.mas_right).offset(12);
         make.right.equalTo(self);
+        make.height.mas_equalTo(84);
+    }];
+    
+    [_safeAreaCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(_segmentBarView.mas_top).offset(-6);
+        make.leading.trailing.equalTo(self);
         make.height.mas_equalTo(84);
     }];
     
@@ -378,10 +408,9 @@ static NSString *colorCellID = @"FULvMuColorCellID";
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if(collectionView == _mItemCollectionView ){
         return self.dataArray.count ;
-    }else{
+    } else {
         return 3;
     }
-    
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -393,14 +422,14 @@ static NSString *colorCellID = @"FULvMuColorCellID";
             FUGreenScreenModel *modle = self.dataArray[indexPath.row] ;
             NSString *imageName ;
             
-            BOOL opened = YES;
-            if (modle.iSStyle101) {
-                opened = fabs([modle.value floatValue] - 0.5) > 0.01 ? YES : NO;
-            }else{
-                opened = fabsf([modle.value floatValue] - 0) > 0.01 ? YES : NO;
+            BOOL opened = NO;
+            if (modle.type == GREENSCREENTYPE_safeArea) {
+                // 判断是否选择了安全区域
+                opened = self.safeAreaCollectionView.selectedIndex > 1;
+            } else {
+                opened = [modle.value floatValue] > 0;
             }
-            
-            BOOL selected = _selectedIndex == indexPath.row ;
+            BOOL selected = _selectedIndex == indexPath.row;
             if (selected) {
                 imageName = opened ? [modle.imageName stringByAppendingString:@"_sel_open.png"] : [modle.imageName stringByAppendingString:@"_sel.png"] ;
             }else {
@@ -412,7 +441,7 @@ static NSString *colorCellID = @"FULvMuColorCellID";
             cell.titleLabel.textColor = _selectedIndex == indexPath.row ? [UIColor colorWithHexColorString:@"5EC7FE"] : [UIColor whiteColor];
         }
         return cell ;
-    }else{
+    } else {
         FULvMuColorCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:colorCellID forIndexPath:indexPath];
         [cell setColorItemSelected:_colorSelectedIndex == indexPath.row ?YES:NO];
         
@@ -431,8 +460,6 @@ static NSString *colorCellID = @"FULvMuColorCellID";
         }
         return cell;
     }
-    
-    
 }
 
 #pragma mark ---- UICollectionViewDelegate
@@ -443,13 +470,23 @@ static NSString *colorCellID = @"FULvMuColorCellID";
             return ;
         }
         FUGreenScreenModel *model = _dataArray[indexPath.row];
-        _selectedIndex = indexPath.row ;
-        [self hiddenSlideer:_selectedIndex == 0?YES:NO];
-        _slider.value = [model.value floatValue];
-        
-        [self.mItemCollectionView reloadData];
-        
-    }else{
+        if (model.type == GREENSCREENTYPE_safeArea) {
+            // 显示安全区域
+            self.mItemCollectionView.hidden = YES;
+            self.slider.hidden = YES;
+            self.restBtn.hidden = YES;
+            self.sqLine.hidden = YES;
+            self.mColorCollectionView.hidden = YES;
+            self.safeAreaCollectionView.hidden = NO;
+            _isShowingSafeArea = YES;
+            [FUTipHUD showTips:@"白色区域为安全区域，不参与绿幕抠像"];
+        } else {
+            _selectedIndex = indexPath.row ;
+            [self hiddenSlideer:_selectedIndex == 0 ? YES : NO];
+            _slider.value = [model.value floatValue];
+            [self.mItemCollectionView reloadData];
+        }
+    } else {
         if(_colorSelectedIndex == indexPath.row && indexPath.row != 0){
             return;
         }
@@ -479,23 +516,33 @@ static NSString *colorCellID = @"FULvMuColorCellID";
 
 -(void)segmentBarClickUpdateView:(FULvMuState)state{
     if (state == FULvMubackground) {
-        _mBgCollectionView.hidden = NO;
+        // 显示背景相关内容
         _mColorCollectionView.hidden = YES;
         _mItemCollectionView.hidden = YES;
         _slider.hidden = YES;
-        
         _restBtn.hidden = YES;
         _sqLine.hidden = YES;
-        
-        self.slider.hidden = YES;
-        self.mColorCollectionView.hidden = YES;
-    }else{
+        _mColorCollectionView.hidden = YES;
+        _safeAreaCollectionView.hidden = YES;
+        _mBgCollectionView.hidden = NO;
+    } else {
         _mBgCollectionView.hidden = YES;
-        _mItemCollectionView.hidden = NO;
-        [self hiddenSlideer:_selectedIndex == 0?YES:NO];
-        
-        _restBtn.hidden = NO;
-        _sqLine.hidden = NO;
+        if (_isShowingSafeArea) {
+            // 安全区域已经显示的情况
+            _mColorCollectionView.hidden = YES;
+            _mItemCollectionView.hidden = YES;
+            _slider.hidden = YES;
+            _restBtn.hidden = YES;
+            _sqLine.hidden = YES;
+            _mColorCollectionView.hidden = YES;
+            _safeAreaCollectionView.hidden = NO;
+        } else {
+            _safeAreaCollectionView.hidden = YES;
+            _mItemCollectionView.hidden = NO;
+            [self hiddenSlideer:_selectedIndex == 0?YES:NO];
+            _restBtn.hidden = NO;
+            _sqLine.hidden = NO;
+        }
     }
 }
 
@@ -518,8 +565,11 @@ static NSString *colorCellID = @"FULvMuColorCellID";
     
     [self.mItemCollectionView reloadData];
     [self.mColorCollectionView reloadData];
-    [self.mBgCollectionView.mBgCollectionView reloadData];
-    [_mBgCollectionView setSelectedIndex:3];
+    
+    self.safeAreaCollectionView.selectedIndex = 1;
+    [self.safeAreaCollectionView reloadData];
+    [self safeAreaCollectionViewDidClickCancel:self.safeAreaCollectionView];
+    
     _restBtn.alpha = 0.7;
 }
 
@@ -544,21 +594,9 @@ static NSString *colorCellID = @"FULvMuColorCellID";
     [alertCon addAction:cancleAction];
     [alertCon addAction:certainAction];
     
-    [[self viewControllerFromView:self]  presentViewController:alertCon animated:YES completion:^{
+    [[self fu_targetViewController]  presentViewController:alertCon animated:YES completion:^{
     }];
 }
-
-- (UIViewController *)viewControllerFromView:(UIView *)view {
-    for (UIView *next = [view superview]; next; next = next.superview) {
-        UIResponder *nextResponder = [next nextResponder];
-        if ([nextResponder isKindOfClass:[UIViewController class]]) {
-            return (UIViewController *)nextResponder;
-        }
-    }
-    return nil;
-}
-
-
 
 -(void)didSelColorWithIdnex:(int)index{
     NSIndexPath *indexpath = [NSIndexPath indexPathForRow:index inSection:0];
@@ -581,7 +619,72 @@ static NSString *colorCellID = @"FULvMuColorCellID";
     [self changRestBtnUI];
 }
 
-#pragma  mark -  bgdelegate
+#pragma mark - UIImagePickerControllerDelegate
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<UIImagePickerControllerInfoKey,id> *)info {
+    [picker dismissViewControllerAnimated:YES completion:^{
+        UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+        if (!image) {
+            return;
+        }
+        CGFloat imagePixel = image.size.width * image.size.height;
+        // 超过限制像素需要压缩
+        if (imagePixel > FUPicturePixelMaxSize) {
+            CGFloat ratio = FUPicturePixelMaxSize / imagePixel * 1.0;
+            image = [image fu_compress:ratio];
+        }
+        // 图片转正
+        if (image.imageOrientation != UIImageOrientationUp && image.imageOrientation != UIImageOrientationUpMirrored) {
+            image = [image fu_resetImageOrientationToUp];
+        }
+        // 保存自定义安全区域图片
+        if ([FUGreenScreenManager safeLocalSafeAreaImage:image]) {
+            // 设置选中自定义，重新加载安全区域数据
+            self.safeAreaCollectionView.selectedIndex = 3;
+            [self.safeAreaCollectionView reloadSafeAreas];
+            if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(lvmuViewDidSelectSafeArea:)] && self.safeAreaCollectionView.safeAreas.count == 3) {
+                [self.mDelegate lvmuViewDidSelectSafeArea:self.safeAreaCollectionView.safeAreas[0]];
+            }
+        }
+    }];
+}
+
+#pragma mark - FUSafeAreaCollectionViewDelegate
+- (void)safeAreaCollectionViewDidClickBack:(FUSafeAreaCollectionView *)safeAreaView {
+    _safeAreaCollectionView.hidden = YES;
+    _isShowingSafeArea = NO;
+    _mItemCollectionView.hidden = NO;
+    [self hiddenSlideer:_selectedIndex == 0?YES:NO];
+    _restBtn.hidden = NO;
+    _sqLine.hidden = NO;
+}
+- (void)safeAreaCollectionViewDidClickCancel:(FUSafeAreaCollectionView *)safeAreaView {
+    [self.mItemCollectionView reloadData];
+    [self changRestBtnUI];
+    if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(lvmuViewDidCancelSafeArea)]) {
+        [self.mDelegate lvmuViewDidCancelSafeArea];
+    }
+}
+- (void)safeAreaCollectionViewDidClickAdd:(FUSafeAreaCollectionView *)safeAreaView {
+    // 调用系统相册选择图片
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.delegate = self;
+    picker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+    picker.allowsEditing = NO;
+    picker.mediaTypes = @[(NSString *)kUTTypeImage];
+    [self.fu_targetViewController presentViewController:picker animated:YES completion:nil];
+}
+- (void)safeAreaCollectionView:(FUSafeAreaCollectionView *)safeAreaView didSelectItemAtIndex:(NSInteger)index {
+    if (index < 3) {
+        return;
+    }
+    if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(lvmuViewDidSelectSafeArea:)]) {
+        [self.mDelegate lvmuViewDidSelectSafeArea:safeAreaView.safeAreas[index - 3]];
+    }
+    [self.mItemCollectionView reloadData];
+    [self changRestBtnUI];
+}
+
+#pragma mark -  bgdelegate
 -(void)bgCollectionViewDidSelectedFilter:(FUGreenScreenModel *)param{
     if ([self.mDelegate respondsToSelector:@selector(didSelectedParam:)]) {
         [self.mDelegate didSelectedParam:param];
@@ -615,8 +718,6 @@ static NSString *colorCellID = @"FULvMuColorCellID";
     if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(lvmuViewShowTopView:)]) {
         [self.mDelegate lvmuViewShowTopView:!isHiden];
     }
-    
-    //    [self changeTakeColorState:FUTakeColorStateStop];
 }
 
 -(void)destoryLvMuView {
@@ -667,9 +768,11 @@ static NSString *colorCellID = @"FULvMuColorCellID";
         if (fabs([(NSNumber *)param.value doubleValue] - [(NSNumber *)param.defaultValue doubleValue        ]) > 0.01)  {
             isDefaultValue = NO;
         }
-        
     }
     if(_colorSelectedIndex != 1 || _selectedIndex != 0){
+        isDefaultValue = NO;
+    }
+    if (self.safeAreaCollectionView.selectedIndex > 1) {
         isDefaultValue = NO;
     }
     if(isDefaultValue){
@@ -681,6 +784,7 @@ static NSString *colorCellID = @"FULvMuColorCellID";
 }
 
 
+#pragma mark - Dealloc
 -(void)dealloc {
     NSLog(@"lv ---- dealloc");
     if (_mTakeColorView) {

@@ -4,7 +4,7 @@
 ### 通过cocoapods集成
 
 ```
-pod 'FURenderKit'
+pod 'FURenderKit', '8.0.0' 
 ```
 
 接下来执行：
@@ -308,6 +308,8 @@ AI能力相关的功能都通过FUAIKit 加载或获取
 
 @property (nonatomic, assign) BOOL asyncTrackFace; //设置是否进行异步人脸跟踪
 
+@property (nonatomic, assign) FUFaceProcessorFaceLandmarkQuality faceProcessorFaceLandmarkQuality;  // 人脸算法质量
+
 //加载 AI bundle
 + (void)loadAIModeWithAIType:(FUAITYPE)type dataPath:(NSString *)dataPath;
 //卸载 AI bundle
@@ -326,6 +328,8 @@ AI能力相关的功能都通过FUAIKit 加载或获取
 + (void)resetHumanProcessor;
 //get ai model HumanProcessor's tracking result.
 + (int)aiHumanProcessorNums;
+//人脸检测置信度
++ (float)fuFaceProcessorGetConfidenceScore:(int)index;
 ```
 
 其他接口参考  FUAIKit.h 
@@ -361,7 +365,7 @@ beauty.colorLevel = 0.3;
 beauty.redLevel = 0.3;
 beauty.blurLevel = 0.7*6;
 beauty.heavyBlur = 0;
-beauty.blurType = 2;
+beauty.blurType = 3;
 
 beauty.sharpen = 0.2;
 beauty.eyeBright = 0.0;
@@ -374,14 +378,15 @@ beauty.faceShapeLevel = 1.0;
 beauty.changeFrames = 0;
 beauty.faceShape = 4;
 
-beauty.eyeEnlarging = 0.4;
+beauty.eyeEnlargingV2 = 0.4;
 beauty.cheekThinning = 0.0;
 beauty.cheekV = 0.5;
-beauty.cheekNarrow = 0;
-beauty.cheekSmall = 0;
-beauty.intensityNose = 0.5;
-beauty.intensityForehead = 0.3;
-beauty.intensityMouth = 0.4;
+beauty.cheekNarrowV2 = 0;
+beauty.cheekShort = 0;
+beauty.cheekSmallV2 = 0;
+beauty.intensityNoseV2 = 0.5;
+beauty.intensityForeheadV2 = 0.3;
+beauty.intensityMouthV2 = 0.4;
 beauty.intensityChin = 0.3;
 beauty.intensityPhiltrum = 0.5;
 beauty.intensityLongNose = 0.5;

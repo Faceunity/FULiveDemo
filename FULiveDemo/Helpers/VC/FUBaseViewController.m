@@ -11,16 +11,14 @@
 #import "FULiveModel.h"
 #import <SVProgressHUD.h>
 #import <MobileCoreServices/MobileCoreServices.h>
-#import "FUSaveViewController.h"
 #import "FUEditImageViewController.h"
-#import "FUImageHelper.h"
-//#import <FURenderKit/FURenderer.h>
 #import "FUSelectedImageController.h"
 #import <CoreMotion/CoreMotion.h>
 #import "FUPopupMenu.h"
 
 #import <FURenderKit/FURenderIO.h>
 #import <FURenderKit/FURenderKit.h>
+#import <FURenderKit/FUImageHelper.h>
 #import "NSObject+economizer.h"
 
 @interface FUBaseViewController ()<
@@ -47,11 +45,6 @@ FUPopupMenuDelegate, FUCaptureCameraDataSource
 @property (strong, nonatomic) UIImageView *adjustImage;
 /* 分辨率 选中第几个项 */
 @property (assign, nonatomic) int selIndex;
-/* 当前 */
-//@property (nonatomic, assign) int orientation;
-
-/* 监听屏幕方向 */
-@property (nonatomic, strong) CMMotionManager *motionManager;
 
 @end
 
@@ -84,9 +77,6 @@ FUPopupMenuDelegate, FUCaptureCameraDataSource
     [self.baseManager setMaxFaces:(int)self.model.maxFace];
     [self setupSubView];
     
-    /* 视频模式 */
-    [self.baseManager setFaceProcessorDetectMode:1];
-    
     self.view.backgroundColor = [UIColor colorWithRed:17/255.0 green:18/255.0 blue:38/255.0 alpha:1.0];
 
     [self setupLightingValue];
@@ -101,6 +91,8 @@ FUPopupMenuDelegate, FUCaptureCameraDataSource
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    // 设置图像加载模式为视频模式
+    [self.baseManager setFaceProcessorDetectMode:FUFaceProcessorDetectModeVideo];
     if (_isFromOtherPage) {
         [[FURenderKit shareRenderKit] startInternalCamera];
         [self.baseManager loadItem];
@@ -110,17 +102,12 @@ FUPopupMenuDelegate, FUCaptureCameraDataSource
     [FURenderKit shareRenderKit].internalCameraSetting.position = self.baseManager.cameraPosition;
     //不确定是不是小bug，每次重新回到页面分辨率都被设置成AVCaptureSessionPreset1280x720了，放到页面初始化地方去
 //    [FURenderKit shareRenderKit].internalCameraSetting.sessionPreset = AVCaptureSessionPreset1280x720;
-    /* 监听屏幕方向 */
-//    [self startListeningDirectionOfDevice];
-    /* 后台监听 */
-    [self addObserver];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     _isFromOtherPage = YES;
     [self.mCamera resetFocusAndExposureModes];
-//    [FURenderKit shareRenderKit].glDisplayView;
     /* 清一下信息，防止快速切换有人脸信息缓存 */
     [self.baseManager setOnCameraChange];
     [_photoBtn photoButtonFinishRecord];
@@ -498,6 +485,7 @@ static NSTimeInterval startTime = 0;
 - (void)renderKitWillRenderFromRenderInput:(FURenderInput *)renderInput {
     imageW = CVPixelBufferGetWidth(renderInput.pixelBuffer);
     imageH = CVPixelBufferGetHeight(renderInput.pixelBuffer);
+    [self.baseManager updateBeautyBlurEffect];
     startTime = [[NSDate date] timeIntervalSince1970];
 }
 
@@ -653,88 +641,11 @@ static NSTimeInterval startTime = 0;
     return NO;
 }
 
-#pragma mark -  Observer
-
-- (void)addObserver{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willResignActive) name:UIApplicationWillResignActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
-}
-
-- (void)willResignActive{
-    if (self.navigationController.visibleViewController == self) {
-//        [self.mCamera stopCapture];
-//        [FURenderKit shareRenderKit].pause = YES;
-//        self.mCamera = nil;
-    }
-}
-
-
-- (void)didBecomeActive{
-    if (self.navigationController.visibleViewController == self) {
-
-//        [FURenderKit shareRenderKit].pause = NO;
-    }
-}
-
-
 - (void)didReceiveMemoryWarning {
     NSLog(@"*******************self == %@ didReceiveMemoryWarning *******************",self);
 }
 
-
-#pragma  mark -  方向监听
-
-/// 开启屏幕旋转的检测
-//- (void)startListeningDirectionOfDevice {
-//    if (self.motionManager == nil) {
-//        self.motionManager = [[CMMotionManager alloc] init];
-//    }
-//    self.motionManager.deviceMotionUpdateInterval = 0.3;
-//
-//    // 判断设备传感器是否可用
-//    if (self.motionManager.deviceMotionAvailable) {
-//        // 启动设备的运动更新，通过给定的队列向给定的处理程序提供数据。
-//        [self.motionManager startDeviceMotionUpdatesToQueue:[NSOperationQueue mainQueue] withHandler:^(CMDeviceMotion *motion, NSError *error) {
-//            [self performSelectorOnMainThread:@selector(handleDeviceMotion:) withObject:motion waitUntilDone:YES];
-//        }];
-//    } else {
-//        [self setMotionManager:nil];
-//    }
-//}
-
-//- (void)handleDeviceMotion:(CMDeviceMotion *)deviceMotion {
-//
-//    double x = deviceMotion.gravity.x;
-//    double y = deviceMotion.gravity.y;
-//    int orientation = 0;
-//
-//    if (fabs(y) >= fabs(x)) {// 竖屏
-//        if (y < 0) {
-//            orientation = 0;
-//        }
-//        else {
-//            orientation = 2;
-//        }
-//    }
-//    else { // 横屏
-//        if (x < 0) {
-//           orientation = 1;
-//        }
-//        else {
-//           orientation = 3;
-//        }
-//    }
-//
-//    if (orientation != _orientation) {
-//        self.orientation = orientation;
-//    }
-//
-//}
-
-
 -(void)dealloc{
-//    [[FURenderKit shareRenderKit] stopInternalCamera];
-//    [FURenderKit shareRenderKit].glDisplayView = nil;
     NSLog(@"----界面销毁");
 }
 

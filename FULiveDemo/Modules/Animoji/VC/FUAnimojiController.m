@@ -31,7 +31,6 @@
     // Do any additional setup after loading the view.
     self.animojManager = [[FUAnimojiManager alloc] init];
     self.animationFilterManager = [[FUAnimationFilterManager alloc] init];
-    self.animojManager.animoji.flowEnable = YES;
     [self setupView];
     
 }

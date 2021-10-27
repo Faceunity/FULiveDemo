@@ -5,25 +5,24 @@
 //  Created by liuyang on 2021/2/18.
 //
 
-FUParamsKeysDefine(FUAvatarColor,
-                   //   颜色
-                   FUAvatarColorSkinColor = @"skinColor",    // 肤色
-                   FUAvatarColorLipColor = @"lipColor",    // 唇色
-                   FUAvatarColorIrisColor = @"irisColor",    // 瞳孔颜色
-                   FUAvatarColorGlassColor = @"glassColor",    // 眼镜片颜色
-                   FUAvatarColorGlassFrameColor = @"glass_frameColor",    // 眼镜框颜色
-                   FUAvatarColorHairColor = @"hairColor",    // 头发颜色
-                   FUAvatarColorBeardColor = @"beardColor",    // 胡子颜色
-                   FUAvatarColorHatColor = @"hatColor"    // 帽子颜色
-                   )
-
-FUParamsKeysDefine(FUAvatarColorIntensity,
-                   //   颜色强度
-                   FUAvatarColorIntensityHair = @"hairColor_intensity"    // 头发颜色强度
-                   )
-
-FUParamsKeysDefine(FUAvatarColorIndex,
-                   //   颜色索引
-                   FUAvatarColorIndexSkin = @"skinColor_index",    // 当前肤色在肤色表的索引，从0开始
-                   FUAvatarColorIndexLip = @"lipColor_index"    // 当前唇色在唇色表的索引，从0开始
-                   )
+//FUParamsKeysDefine(FUAvatarColor,
+//                   //   颜色
+//                   FUAvatarColorSkinColor = @"skin_color",    // 肤色
+//                   FUAvatarColorIrisColor = @"iris_color",    // 瞳孔颜色
+//                   FUAvatarColorGlassColor = @"glass_color",    // 眼镜片颜色
+//                   FUAvatarColorGlassFrameColor = @"glass_frame_color",    // 眼镜框颜色
+//                   FUAvatarColorHairColor = @"hair_color",    // 头发颜色
+//                   FUAvatarColorLipColor = @"makeup_lipgloss_color",    // 头发颜色
+//                   FUAvatarColorLipColor12 = @"makeup_eyelash_color",    // 头发颜色
+//                   )
+//
+//FUParamsKeysDefine(FUAvatarColorIntensity,
+//                   //   颜色强度
+//                   FUAvatarColorIntensityHair = @"hair_color_intensity"    // 头发颜色强度
+//                   )
+//
+//FUParamsKeysDefine(FUAvatarColorIndex,
+//                   //   颜色索引
+//                   FUAvatarColorIndexSkin = @"skin_color_index",    // 当前肤色在肤色表的索引，从0开始
+//                   FUAvatarColorIndexLip = @"lip_color_index"    // 当前唇色在唇色表的索引，从0开始
+//                   )

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -38,7 +38,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UdX-KP-ajT">
-                            <rect key="frame" x="92" y="9.5" width="92" height="30"/>
+                            <rect key="frame" x="92" y="9.5" width="91.5" height="30"/>
                             <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <state key="normal" title="美型">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -77,7 +77,7 @@
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.60191835972515328" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.60191835972515328" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstItem="0jq-Oa-c5T" firstAttribute="width" secondItem="x7V-Ni-tfT" secondAttribute="width" id="1p2-Rh-WZB"/>
                         <constraint firstAttribute="trailing" secondItem="x7V-Ni-tfT" secondAttribute="trailing" id="1yQ-dP-UoP"/>
@@ -108,7 +108,7 @@
                             </constraints>
                             <state key="normal" title="恢复" image="恢复-0"/>
                             <connections>
-                                <action selector="clickRestBtn:" destination="iN0-l3-epB" eventType="touchUpInside" id="hb9-bh-JPw"/>
+                                <action selector="recoverAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="OhI-Tv-X9r"/>
                             </connections>
                         </button>
                         <view alpha="0.20000000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="keK-XP-1fD">
@@ -253,9 +253,9 @@
                 <outlet property="beautySlider" destination="yzS-kB-xDl" id="Avt-f9-G9E"/>
                 <outlet property="bottomView" destination="Eeq-TV-ISu" id="8rV-1d-zkv"/>
                 <outlet property="filterView" destination="VSF-ei-fYl" id="zTh-Sj-cos"/>
-                <outlet property="mRestBtn" destination="nic-eP-luj" id="6zx-il-038"/>
                 <outlet property="mStyleBtn" destination="x7V-Ni-tfT" id="9J3-Be-y7a"/>
                 <outlet property="mStyleView" destination="jmd-m9-e5R" id="nup-QM-Cd8"/>
+                <outlet property="recoverButton" destination="nic-eP-luj" id="5iy-0A-i2O"/>
                 <outlet property="shapeBtn" destination="UdX-KP-ajT" id="Gpr-kc-Vde"/>
                 <outlet property="shapeView" destination="uvW-i0-quc" id="vUf-ul-OGa"/>
                 <outlet property="skinBtn" destination="Pt2-fx-Wpc" id="xGX-ry-ILC"/>

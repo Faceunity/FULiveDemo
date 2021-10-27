@@ -7,12 +7,11 @@
 
 #import "FUItem.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface FUAnimation : FUItem
 
 + (instancetype)animationWithPath:(NSString *)path name:(NSString *)name;
 
-@end
+- (NSArray *)getAllAnimations;
 
-NS_ASSUME_NONNULL_END
+- (NSArray *)getAllItems;
+@end

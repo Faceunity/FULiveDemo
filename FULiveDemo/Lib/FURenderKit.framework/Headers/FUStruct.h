@@ -48,15 +48,15 @@ FU_EXTERN FUAuthPack FUAuthPackMake(char *authData, int authDataSize);
 #pragma mark - FUPosition
 
 struct FUPosition {
-    double x;
-    double y;
-    double z;
+    float x;
+    float y;
+    float z;
 };
 typedef struct FU_BOXABLE FUPosition FUPosition;
-FU_EXTERN FUPosition FUPositionMake(double x, double y, double z);
-FU_EXTERN FUPosition FUPositionMakeWithX(FUPosition position, double x);
-FU_EXTERN FUPosition FUPositionMakeWithY(FUPosition position, double y);
-FU_EXTERN FUPosition FUPositionMakeWithZ(FUPosition position, double z);
+FU_EXTERN FUPosition FUPositionMake(float x, float y, float z);
+FU_EXTERN FUPosition FUPositionMakeWithX(FUPosition position, float x);
+FU_EXTERN FUPosition FUPositionMakeWithY(FUPosition position, float y);
+FU_EXTERN FUPosition FUPositionMakeWithZ(FUPosition position, float z);
 FU_EXTERN BOOL FUPositionIsEqual(FUPosition position1, FUPosition position2);
 
 #pragma mark - FUColor
@@ -78,16 +78,17 @@ FU_EXTERN BOOL FUColorIsEqual(FUColor color1, FUColor color2);
 
 #pragma mark - FURGBColor
 struct FURGBColor {
-    double r;
-    double g;
-    double b;
+    float r;
+    float g;
+    float b;
 };
-typedef struct FURGBColor FURGBColor;
-FU_EXTERN FURGBColor FURGBColorMake(double r, double g, double b);
-FU_EXTERN FURGBColor FURGBColorMakeWithR(FURGBColor color, double r);
-FU_EXTERN FURGBColor FURGBColorMakeWithG(FURGBColor color, double g);
-FU_EXTERN FURGBColor FURGBColorMakeWithB(FURGBColor color, double b);
+typedef struct FU_BOXABLE FURGBColor FURGBColor;
+FU_EXTERN FURGBColor FURGBColorMake(float r, float g, float b);
+FU_EXTERN FURGBColor FURGBColorMakeWithR(FURGBColor color, float r);
+FU_EXTERN FURGBColor FURGBColorMakeWithG(FURGBColor color, float g);
+FU_EXTERN FURGBColor FURGBColorMakeWithB(FURGBColor color, float b);
 FU_EXTERN FURGBColor FURGBColorMakeWithUIColor(UIColor *color);
+FU_EXTERN FURGBColor FURGBColorMakeWithNSData(NSData *data);
 FU_EXTERN BOOL FURGBColorIsEqual(FURGBColor color1, FURGBColor color2);
 
 #pragma mark - FUBlendshape
@@ -109,11 +110,11 @@ typedef struct FUBlendshapeWeight FUBlendshapeWeight;
 FU_EXTERN FUBlendshapeWeight FUBlendshapeWeightMake(float *expressionWeight, int expressionCount);
 
 struct FUShadowBias {
-    double uniformBias;
-    double normalBias;
+    float uniformBias;
+    float normalBias;
 };
 typedef struct FUShadowBias FUShadowBias;
-FU_EXTERN FUShadowBias FUShadowBiasMake(double uniformBias, double normalBias);
+FU_EXTERN FUShadowBias FUShadowBiasMake(float uniformBias, float normalBias);
 
 struct FUGestureID {
     int left;
@@ -143,15 +144,16 @@ FU_EXTERN FULandMark FULandMarkMake(double *landMarks, int landMarksCount);
 
 #pragma mark - LABColor
 struct FULABColor {
-    double l;
-    double a;
-    double b;
+    float l;
+    float a;
+    float b;
 };
 typedef struct FULABColor FULABColor;
-FU_EXTERN FULABColor FULABColorMake(double l, double a, double b);
-FU_EXTERN FULABColor FULABColorMakeWithL(FULABColor color, double l);
-FU_EXTERN FULABColor FULABColorMakeWithA(FULABColor color, double a);
-FU_EXTERN FULABColor FULABColorMakeWithB(FULABColor color, double b);
+FU_EXTERN FULABColor FULABColorMake(float l, float a, float b);
+FU_EXTERN FULABColor FULABColorMakeWithL(FULABColor color, float l);
+FU_EXTERN FULABColor FULABColorMakeWithA(FULABColor color, float a);
+FU_EXTERN FULABColor FULABColorMakeWithB(FULABColor color, float b);
 FU_EXTERN BOOL FULABColorIsEqual(FULABColor color1, FULABColor color2);
 
 extern FULABColor FULABColorInvalid;
+extern FURGBColor FURGBColorInvalid;
