@@ -29,8 +29,10 @@ NS_ASSUME_NONNULL_BEGIN
 /* 工程路径下，美妆bundle 名称 */
 @property (nonatomic, strong) NSString *makeupBundle;
 
-/* 组合妆程度值 */
-@property (nonatomic, assign) int is_flip_points;
+/// 是否允许自定义
+@property (nonatomic, assign) BOOL isAllowEditing;
+/// 是否新加的组合妆（只用一个bundle）
+@property (nonatomic, assign) BOOL isCombined;
 
 /* 组合妆对应所有子妆容
  

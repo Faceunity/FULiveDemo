@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FULightMakeup : FUItem
 @property (nonatomic, assign) BOOL isMakeupOn; //0 关 1开
-@property (nonatomic, assign) FUMakeupLipType lipType;//口红类型  0雾面 2润泽 3珠光 6高性能（不支持双色）
+@property (nonatomic, assign) FUMakeupLipType lipType;//口红类型  0雾面 2润泽Ⅰ 3珠光 6高性能（不支持双色）7润泽Ⅱ
 @property (nonatomic, assign) BOOL isTwoColor;//口红双色开关，0为关闭，1为开启，如果想使用咬唇，开启双色开关，并且将makeup_lip_color2的值都设置为0
 @property (nonatomic, assign) BOOL makeupLipMask;//嘴唇优化效果开关，1.0为开 0为关
 @end

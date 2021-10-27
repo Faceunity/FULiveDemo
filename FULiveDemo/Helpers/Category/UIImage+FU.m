@@ -19,4 +19,12 @@
     return resultImage;
 }
 
+- (UIImage *)fu_resetImageOrientationToUp {
+    UIGraphicsBeginImageContext(CGSizeMake(self.size.width, self.size.height));
+    [self drawInRect:CGRectMake(0, 0, self.size.width, self.size.height)];
+    UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return resultImage;
+}
+
 @end

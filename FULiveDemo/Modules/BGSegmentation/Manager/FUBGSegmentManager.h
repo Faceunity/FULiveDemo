@@ -18,9 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface FUBGSegmentManager : FUStickerManager
 @property (nonatomic, strong) FUAISegment * _Nullable segment;
 
-//检测人体
-- (int)aiHumanProcessorNums;
-
 - (BOOL)saveModel:(FUBGSaveModel *)model;
 
 - (BOOL)isHaveCustItem;

@@ -82,19 +82,20 @@
     
     cell.imageView.image = [self loadIcon:imageName];
     if(!self.selectedItem && indexPath.row == 0){
-        cell.selected = YES ;
+        cell.imageView.layer.borderWidth = 3.0 ;
+        cell.imageView.layer.borderColor = [UIColor colorWithRed:94/255.0 green:199/255.0 blue:254/255.0 alpha:1.0].CGColor;
     }else{
         if ([self.selectedItem isEqualToString:imageName]) {
-            
-            cell.selected = YES ;
+            cell.imageView.layer.borderWidth = 3.0 ;
+            cell.imageView.layer.borderColor = [UIColor colorWithRed:94/255.0 green:199/255.0 blue:254/255.0 alpha:1.0].CGColor;
             if (loading) {
                 [cell.indicator startAnimating];
             }else {
                 [cell.indicator stopAnimating];
             }
         }else {
-            
-            cell.selected = NO ;
+            cell.imageView.layer.borderWidth = 0.0 ;
+            cell.imageView.layer.borderColor = [UIColor clearColor].CGColor;
             [cell.indicator stopAnimating];
         }
     }
@@ -119,10 +120,7 @@
     if (imageName == self.selectedItem) {
         
         return ;
-    }
-    
-    [collectionView deselectItemAtIndexPath:indexPath animated:YES];
-    
+    }    
     
     self.selectedItem = imageName ;
 

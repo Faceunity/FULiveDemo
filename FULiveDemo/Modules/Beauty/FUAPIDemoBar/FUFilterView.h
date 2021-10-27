@@ -15,6 +15,7 @@
 
 // 开启滤镜
 - (void)filterViewDidSelectedFilter:(FUBeautyModel *)param;
+
 @end
 
 
@@ -35,5 +36,5 @@
 @interface FUFilterCell : UICollectionViewCell
 
 @property (nonatomic, strong) UIImageView *imageView ;
-@property (nonatomic, strong) UILabel *titleLabel ;
+@property (nonatomic, strong) UILabel *titleLabel;
 @end

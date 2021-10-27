@@ -16,8 +16,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) NSString *controllerPath;
 
+@property (nonatomic, assign) BOOL enableCacheSceneShaderProgram;
+
 @property (nonatomic, copy) NSString *controllerConfigPath;
 
+//离线鉴权包路径
+@property (nonatomic, copy) NSString *offLinePath;
 @end
 
 NS_ASSUME_NONNULL_END

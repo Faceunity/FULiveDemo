@@ -47,9 +47,6 @@ struct FUMakeupIndexPath {
 static NSString *topCellID = @"FUMakeupTopCell";
 static NSString *bottomCellID = @"FUMakeupBottomCell";
 @implementation FUMakeUpView
-- (void)dealloc {
-    
-}
 
 -(instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
@@ -310,13 +307,13 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
 
 #pragma  mark -  颜色选择状态
 -(void)setColorViewStata:(FUMakeupModel *)model{
-    if([self.delegate respondsToSelector:@selector(makeupSelColorStata:)]){
+    if([self.delegate respondsToSelector:@selector(makeupSelColorState:)]){
         if (model.sgArr[0].makeType == MAKEUPTYPE_foundation) {
-            [self.delegate makeupSelColorStata:NO];
+            [self.delegate makeupSelColorState:NO];
         }else {
             FUSingleMakeupModel *temp = model.sgArr[_currentSel.topIndex];
             
-            [self.delegate makeupSelColorStata:temp.colors.count > 0?YES:NO];
+            [self.delegate makeupSelColorState:temp.colors.count > 0?YES:NO];
         }
     }
     if (_currentSel.topIndex != 0) {
@@ -363,8 +360,8 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
         [_noitemBtn setImage:[UIImage imageNamed:@"makeup_custom_nor"] forState:UIControlStateNormal];
         [_noitemBtn setTitle:FUNSLocalizedString(@"自定义",nil)  forState:UIControlStateNormal];
         
-        if([self.delegate respondsToSelector:@selector(makeupSelColorStata:)]){
-            [self.delegate makeupSelColorStata:NO];
+        if([self.delegate respondsToSelector:@selector(makeupSelColorState:)]){
+            [self.delegate makeupSelColorState:NO];
         }
     }
     [self.topCollection reloadData];
@@ -398,14 +395,19 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
     }
 }
 
--(void)setNoitemBtnSata:(int)supSelIndex{
-    if (supSelIndex < 14 && supSelIndex != 0) {
-        self.noitemBtn.enabled = NO;
-        self.noitemBtn.titleLabel.alpha = 0.7;
-    }else{
-        self.noitemBtn.enabled = YES;
-        self.noitemBtn.titleLabel.alpha = 1.0;
-    }
+//-(void)setNoitemBtnSata:(int)supSelIndex{
+//    if (supSelIndex < 14 && supSelIndex != 0) {
+//        self.noitemBtn.enabled = NO;
+//        self.noitemBtn.titleLabel.alpha = 0.7;
+//    }else{
+//        self.noitemBtn.enabled = YES;
+//        self.noitemBtn.titleLabel.alpha = 1.0;
+//    }
+//}
+
+- (void)updateEditingStatus:(BOOL)allowEditing {
+    self.noitemBtn.enabled = allowEditing;
+    self.noitemBtn.titleLabel.alpha = allowEditing ? 1.0 : 0.7;
 }
 
 #pragma  mark ----  改变模型  -----
@@ -465,12 +467,12 @@ static NSString *bottomCellID = @"FUMakeupBottomCell";
     if (index >= _supArray.count || index < 0) {
         return;
     }
-    /* 一些妆容进编辑 */
-    [self setNoitemBtnSata:index];
-    FUMakeupSupModel *modle = _supArray[index];
+    FUMakeupSupModel *model = _supArray[index];
+    // 更新妆容是否允许编辑状态
+    [self updateEditingStatus:model.isAllowEditing];
     _supIndex = index;
     if (self.delegate && [self.delegate respondsToSelector:@selector(makeupViewDidSelectedSupModle:)]) {
-        [self.delegate makeupViewDidSelectedSupModle:modle];
+        [self.delegate makeupViewDidSelectedSupModle:model];
     }
     
     /* 修改UI */

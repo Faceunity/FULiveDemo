@@ -11,22 +11,24 @@
 
 @protocol FUAPIDemoBarDelegate <NSObject>
 
-// 滤镜程度改变
+// 滤镜值变化
 - (void)filterValueChange:(FUBeautyModel *)param;
-
+// 美肤、美型值变化
 - (void)beautyParamValueChange:(FUBeautyModel *)param;
-// 显示提示语
-- (void)filterShowMessage:(NSString *)message ;
-
 // 显示上半部分View
 -(void)showTopView:(BOOL)shown;
-
--(void)restDefaultValue:(NSUInteger)type;
-
-//美型是否全部是默认参数
+// 重新设置默认值
+-(void)resetDefaultValue:(NSUInteger)type;
+// 美型是否全部是默认参数
 - (BOOL)isDefaultShapeValue;
-//美肤是否全部是默认参数
+// 美肤是否全部是默认参数
 - (BOOL)isDefaultSkinValue;
+
+@optional
+
+// 显示提示语
+- (void)filterShowMessage:(NSString *)message;
+
 @end
 
 @interface FUAPIDemoBar : UIView
@@ -46,13 +48,20 @@
 
 -(void)reloadStyleView:(NSArray <FUBeautyModel *> *)styleParams defaultStyle:(FUBeautyModel *)selStyle;
 
+/// 切换底部功能时更新界面
+/// @param beautyItem 美颜类型
+- (void)updateSubviews:(FUBeautyDefine)beautyItem;
+
 // 关闭上半部分
 -(void)hiddenTopViewWithAnimation:(BOOL)animation;
 
-// 上半部是否显示
-@property (nonatomic, assign) BOOL isTopViewShow ;
-
+// 设置默认滤镜
 -(void)setDefaultFilter:(FUBeautyModel *)filter;
+
+// 上半部是否显示
+@property (nonatomic, assign) BOOL isTopViewShow;
+
+
 
 
 @end

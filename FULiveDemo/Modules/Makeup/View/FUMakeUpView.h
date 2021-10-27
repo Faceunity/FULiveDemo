@@ -29,7 +29,7 @@
 // 自定义选择
 - (void)makeupCustomShow:(BOOL)isShow;
 
-- (void)makeupSelColorStata:(BOOL)stata;
+- (void)makeupSelColorState:(BOOL)state;
 
 // 显示上半部分View
 -(void)showTopView:(BOOL)shown;

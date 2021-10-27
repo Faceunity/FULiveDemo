@@ -25,6 +25,7 @@ typedef NS_ENUM(NSUInteger, MAKEUPTYPE) {
 //具体子妆bundle枚举
 typedef NS_ENUM(NSUInteger, SUBMAKEUPTYPE) {
     SUBMAKEUPTYPE_foundation = 0, //粉底
+    SUBMAKEUPTYPE_lip, //口红
     SUBMAKEUPTYPE_blusher, //腮红
     SUBMAKEUPTYPE_eyeBrow, //眉毛
     SUBMAKEUPTYPE_eyeShadow, //眼影
@@ -32,7 +33,7 @@ typedef NS_ENUM(NSUInteger, SUBMAKEUPTYPE) {
     SUBMAKEUPTYPE_eyeLash, //睫毛
     SUBMAKEUPTYPE_highlight, //高光
     SUBMAKEUPTYPE_shadow, //阴影
-    SUBMAKEUPTYPE_pupil = 8, //美瞳
+    SUBMAKEUPTYPE_pupil //美瞳
 
 };
 

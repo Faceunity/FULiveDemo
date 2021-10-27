@@ -14,7 +14,7 @@
 
 @interface FUStickerManager ()
 @property (nonatomic, strong) NSDictionary *stickTipDic;
-@property (nonatomic, strong) NSArray *deviceOrientationItems;
+// @property (nonatomic, strong) NSArray *deviceOrientationItems;
 //通用的道具贴纸
 @property (nonatomic, strong) FUSticker *curSticker;
 @end
@@ -28,8 +28,6 @@
     self = [super init];
     if (self) {
         self.stickTipDic = [FULocalDataManager stickerTipsJsonData];
-        /* 带屏幕方向的道具 */
-        self.deviceOrientationItems = @[@"ctrl_rain",@"ctrl_snow",@"ctrl_flower",@"ssd_thread_six",@"ssd_thread_cute"];
     }
     return self;
 }

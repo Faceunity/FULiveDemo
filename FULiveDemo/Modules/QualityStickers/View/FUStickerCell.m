@@ -10,10 +10,12 @@
 
 #import "FUStickerModel.h"
 
+#import "FUStickerHelper.h"
+#import "FULiveDefine.h"
+
 #import "UIColor+FU.h"
 
 #import <UIImageView+WebCache.h>
-#import "FULiveDefine.h"
 
 @implementation FUStickerCell
 
@@ -59,10 +61,7 @@
         }
     }
     
-    // 道具包本地地址
-    NSString *itemPath = [[FUStickerBundlesPath stringByAppendingPathComponent:model.tag] stringByAppendingPathComponent:model.itemId];
-    BOOL hasDownload = [[NSFileManager defaultManager] fileExistsAtPath:itemPath];
-    if (hasDownload) {
+    if ([FUStickerHelper downloadStatusOfSticker:model]) {
         self.imageView.alpha = 1.0 ;
         self.downloadIcon.hidden = YES ;
         self.loadImage.hidden = YES ;

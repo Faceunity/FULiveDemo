@@ -22,7 +22,15 @@ NS_ASSUME_NONNULL_BEGIN
 /// 将 FUImageBuffer 转换为图片，如果 FUImageBuffer 是从 UIImage 获取的，可以将 autoFreeBuffer  设置为 YES，内部会自动释放 FUImageBuffer 内存。
 /// @param imageBuffer  FUImageBuffer 图像的地址指针
 /// @param autoFreeBuffer 是否自动释放 FUImageBuffer
+/// 默认alpha 为NO
 + (UIImage *)imageWithRGBAImageBuffer:(FUImageBuffer *)imageBuffer autoFreeBuffer:(BOOL)autoFreeBuffer;
+
+
+/// 将 FUImageBuffer 转换为图片，如果 FUImageBuffer 是从 UIImage 获取的，可以将 autoFreeBuffer  设置为 YES，内部会自动释放 FUImageBuffer 内存。
+/// @param imageBuffer  FUImageBuffer 图像的地址指针
+/// @param autoFreeBuffer 是否自动释放 FUImageBuffer
+/// @param alpha == YES 透明 NO 不透明
++ (UIImage *)imageWithRGBAImageBuffer:(FUImageBuffer *)imageBuffer autoFreeBuffer:(BOOL)autoFreeBuffer alpha:(BOOL)alpha;
 @end
 
 NS_ASSUME_NONNULL_END

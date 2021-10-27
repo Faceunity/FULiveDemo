@@ -1,6 +1,7 @@
 
-
 ----
+
+更新时间: 2021-10-27
 
 创建时间: 2020-01-22
 
@@ -123,28 +124,29 @@ ____
 
 ____
 
-### 2.0 美颜  FUBeautiItem   ###
+### 2.0 美颜  FUBeauty   ###
 
-* 2.1.0 说明: 美颜模块继承自FUParamsCacheItem， 美颜模块分为主体和三个类扩展: 美肤(skin)、美型(shapre)、滤镜(Filter), 需要证书秘钥包含该功能才可以使用。
+* 2.1.0 说明: 美颜模块继承自FUItem， 美颜模块分为主体和三个类扩展: 美肤(Skin)、美型(Shap)、滤镜(Filter), 需要证书秘钥包含该功能才可以使用。
 
 * 2.1.1 属性说明
 
 | 属性名称  | 类型 | 说明                                                         | key        |
 | --------- | ---- | ------------------------------------------------------------ | ---------- |
+| blurUseMask | BOOL  | blur是否使用mask                      | blur_use_mask |
 | heavyBlur | int  | 朦胧磨皮开关，0为清晰磨皮，1为朦胧磨皮                       | heavy_blur |
-| blurType  | int  | 此参数优先级比heavyBlur低，在使用时要将heavy_blur设为0，0 清晰磨皮 1 朦胧磨皮 2精细磨皮 | blur_type  |
+| blurType  | int  | 此参数优先级比heavyBlur低，在使用时要将heavy_blur设为0，0 清晰磨皮 1 朦胧磨皮 2精细磨皮 3均匀磨皮 | blur_type  |
 
 ____
 
-#### 2.2 美肤 FUBeautiItem (Skin) ####
+#### 2.2 美肤 FUBeauty (Skin) ####
 
 * 属性说明
 
 | 属性名称                      | 类型   | 说明                                                         | key                              |
 | ----------------------------- | ------ | ------------------------------------------------------------ | -------------------------------- |
-| blurLevel                     | double | 精细磨皮,磨皮程度，取值范围0.0-6.0，默认6.0                  | blur_level                       |
-| colorLevel                    | double | 美白 取值范围 0.0-2.0,0.0为无效果，2.0为最大效果，默认值0.2  | color_level                      |
-| redLevel                      | double | 红润 取值范围 0.0-2.0,0.0为无效果，2.0为最大效果，默认值0.5  | red_level                        |
+| blurLevel                     | double | 默认均匀磨皮,磨皮程度，取值范围0.0-6.0，默认6.0                  | blur_level                       |
+| colorLevel                    | double | 美白 取值范围 0.0-1.0，0.0为无效果，1.0为最大效果，默认值0.2  | color_level                      |
+| redLevel                      | double | 红润 取值范围 0.0-1.0，0.0为无效果，1.0为最大效果，默认值0.5  | red_level                        |
 | sharpen                       | double | 锐化 锐化程度，取值范围0.0-1.0，默认0.2                      | sharpen                          |
 | eyeBright                     | double | 亮眼 0.0-1.0,  0.0为无效果，1.0为最大效果，默认值1.0 亮眼为高级美颜功能，需要相应证书权限才能使用 | eye_bright                       |
 | toothWhiten                   | double | 美牙 取值范围 0.0-1.0,  0.0为无效果，1.0为最大效果，默认值1.0 美牙为高级美颜功能，需要相应证书权限才能使用 | tooth_whiten                     |
@@ -153,26 +155,32 @@ ____
 
 ____
 
-#### 2.3 美型 FUBeautiItem (Shap) ####
+#### 2.3 美型 FUBeauty (Shap) ####
 
 * 属性说明
 
 | 属性名称             | 类型   | 说明                                                         | key                  |
 | -------------------- | ------ | ------------------------------------------------------------ | -------------------- |
-| faceShape            | int    | 变形取值 0:女神变形 1:网红变形 2:自然变形 3:默认变形 4:精细变形 | face_shape           |
+| faceShape            | int    | 变形取值 0:女神变形 1:网红变形 2:自然变形 3:默认变形 4:精细变形 默认4 | face_shape           |
 | changeFrames         | int    | 0为关闭 ，大于0开启渐变，值为渐变所需要的帧数 change_frames  | change_frames        |
 | faceShapeLevel       | double | 美型的整体程度由face_shape_level参数控制 取值范围 0.0-1.0, 0.0为无效果，1.0为最大效果，默认值1.0  face_shape_level | face_shape_level     |
 | cheekThinning        | double | 瘦脸 瘦脸程度范围0.0-1.0 默认0.5                             | cheek_thinning       |
 | cheekV               | double | v脸程度范围0.0-1.0 默认0.0                                   | cheek_v              |
-| cheekNarrow          | double | 窄脸程度范围0.0-1.0 默认0.0                                  | cheek_narrow         |
-| cheekSmall           | double | 小脸程度范围0.0-1.0 默认0.0                                  | cheek_small          |
+| cheekNarrow          | double | 窄脸程度范围0.0-1.0 默认0.0，8.0.0版本之后使用cheekNarrowV2                                  | cheek_narrow         |
+| cheekNarrowV2          | double | 窄脸程度范围0.0-1.0 默认0.0                                  | cheek_narrow_v2         |
+| cheekShort           | double | 短脸程度范围0.0-1.0 默认0.0                                  | cheek_short          |
+| cheekSmall           | double | 小脸程度范围0.0-1.0 默认0.0，8.0.0版本之后使用cheekSmallV2                                  | cheek_small          |
+| cheekSmallV2           | double | 小脸程度范围0.0-1.0 默认0.0                                  | cheek_small_v2          |
 | intensityCheekbones  | double | 瘦颧骨程度范围0.0~1.0 1.0程度最强 默认0.0                    | intensity_cheekbones |
 | intensityLowerJaw    | double | 瘦下颌骨程度范围0.0~1.0 1.0程度最强 默认0.0                  | intensity_lower_jaw  |
-| eyeEnlarging         | double | 大眼程度范围0.0-1.0 默认0.5                                  | eye_enlarging        |
+| eyeEnlarging         | double | 大眼程度范围0.0-1.0 默认0.0，8.0.0版本之后使用eyeEnlargingV2                                  | eye_enlarging        |
+| eyeEnlargingV2         | double | 大眼程度范围0.0-1.0 默认0.0                                  | eye_enlarging_v2        |
 | intensityChin        | double | 下巴调整程度范围0.0-1.0，0-0.5是变小，0.5-1是变大 默认0.5    | intensity_chin       |
-| intensityForehead    | double | 额头调整程度范围0.0-1.0，0-0.5是变小，0.5-1是变大 默认0.5    | intensity_forehead   |
+| intensityForehead    | double | 额头调整程度范围0.0-1.0，0-0.5是变小，0.5-1是变大 默认0.5，8.0.0版本之后使用intensityForeheadV2    | intensity_forehead   |
+| intensityForeheadV2    | double | 额头调整程度范围0.0-1.0，0-0.5是变小，0.5-1是变大 默认0.5    | intensity_forehead_v2   |
 | intensityNose        | double | 瘦鼻程度范围0.0-1.0 默认0.0                                  | intensity_nose       |
-| intensityMouth       | double | 嘴巴调整程度范围0.0-1.0，0-0.5是变大，0.5-1是变小 默认0.5    | intensity_mouth      |
+| intensityMouth       | double | 嘴巴调整程度范围0.0-1.0，0-0.5是变大，0.5-1是变小 默认0.5，8.0.0版本之后使用intensityMouthV2    | intensity_mouth      |
+| intensityMouthV2       | double | 嘴巴调整程度范围0.0-1.0，0-0.5是变大，0.5-1是变小 默认0.5    | intensity_mouth_v2      |
 | intensityCanthus     | double | 开眼角程度范围0.0~1.0 1.0程度最强 默认0.0                    | intensity_canthus    |
 | intensityEyeSpace    | double | 眼距调节范围0.0~1.0， 0.5-0.0变长，0.5-1.0变短 默认0.5       | intensity_eye_space  |
 | intensityEyeRotate   | double | 眼睛角度调节范围0.0~1.0， 0.5-0.0逆时针旋转，0.5-1.0顺时针旋转 默认0.5 | intensity_eye_rotate |
@@ -183,7 +191,7 @@ ____
 
 ____
 
-#### 2.4 滤镜 ####
+#### 2.4 滤镜 FUBeauty (Filter) ####
 
 * 属性说明
 
@@ -193,12 +201,6 @@ ____
 | filterLevel | double   | filter_level 取值范围 0.0-1.0,0.0为无效果，1.0为最大效果，默认值1.0 | filter_level |
 
 * 接口说明
-
-  key-value 设置属性
-
-  ```objective-c
-  - (void)setFilterValue:(double)value forKey:(FUFilter)filterKey; 
-  ```
 
   通过key名称获取对应的value值
 
@@ -287,43 +289,48 @@ ____
 
 ___
 
-### 3.0 美妆 （FUMakeUpItem）
+### 3.0 美妆 （FUMakeup）
 
-* 3.1.0 整体说明: 美妆模块包含组合妆和子妆,当业务层选中某组合装时候直接添加该组合妆对象（FUMakeUpSubject）实例赋值给美妆（FUMakeUpItem）实例的subjectItem属性即可。粉底、腮红、这些属性在美妆（FUMakeUpItem）实例上设置。
+* 3.1.0 整体说明: 美妆模块包含组合妆和子妆，当业务层选中某组合装时候调用（updateMakeupPackage）即可。粉底、腮红、这些属性在美妆（FUMakeup）实例上设置。
 * 3.1.1 属性说明
 
 | 属性名称      | 类型 | 说明                                                         | key             |
 | ------------- | ---- | ------------------------------------------------------------ | --------------- |
-| isMakeUpOn    | Int  | 美妆开关，1开 0关                                            | is_makeup_on    |
-| isClearMakeup | int  | 在解绑妆容时是否清空除口红以外的妆容，0表示不清空，1表示清空，口红可由强度进行设置 | is_clear_makeup |
-| lipType       | int  | 口红类型 0雾面 2润泽 3珠光 6高性能（不支持双色）             | lip_type        |
+| isMakeUpOn    | BOOL  | 美妆开关，1开 0关                                            | is_makeup_on    |
+| isClearMakeup | BOOL  | 在解绑妆容时是否清空除口红以外的妆容，0表示不清空，1表示清空，口红可由强度进行设置 | is_clear_makeup |
+| lipType       | int  | 口红类型 0雾面 2润泽Ⅰ 3珠光 6高性能（不支持双色）7润泽Ⅱ            | lip_type        |
+| isLipHighlightOn       | BOOL  | 是否开启口红高光 1开 0关             | makeup_lip_highlight_enable        |
 | isTwoColor    | int  | 口红双色开关，0为关闭，1为开启，如果想使用咬唇，开启双色开关，并且将makeup_lip_color2的值都设置为0 | is_two_color    |
-| isFlipPoints  | int  | 点位镜像，0为关闭，1为开启                                   | is_flip_points  |
 | browWarpType  | int  | 眉毛变形类型 0柳叶眉 1一字眉 2远山眉 3标准眉 4扶形眉 5日常风 6日系风 | brow_warp_type  |
 | browWarp      | int  | 是否使用眉毛变形 ，1为开 0为关                               | brow_warp       |
 
-* 3.2 主题妆 FUMakeUpItem (Subject)
+* 3.2 主题妆 FUMakeup (Subject)
 
-  * 属性说明
+  * 3.4.1 属性说明
 
     | 属性名称      | 类型            | 说明                                                         |
     | ------------- | --------------- | ------------------------------------------------------------ |
-    | subjectItem   | FUMakeUpSubject | 组合装对象，通过bundle文件路径生成，此bundle包含该妆的所有局部妆(眼影、眉毛等)资源 |
-    | texBrow       | FUItem          | 眉毛对象                                                     |
-    | texEye1       | FUItem          | 眼影1对象                                                    |
-    | texEye2       | FUItem          | 眼影2对象                                                    |
-    | texEye3       | FUItem          | 眼影3对象                                                    |
-    | texEye4       | FUItem          | 眼影4对象                                                    |
-    | texPupil      | FUItem          | 美瞳对象                                                     |
-    | texEyeLash    | FUItem          | 睫毛对象                                                     |
-    | texEyeLiner   | FUItem          | 眼线对象                                                     |
-    | texBlusher1   | FUItem          | 腮红1对象                                                    |
-    | texBlusher2   | FUItem          | 腮红2对象                                                    |
-    | texFoundation | FUItem          | 粉底对象                                                     |
-    | texHighlight  | FUItem          | 高光对象                                                     |
-    | texShadow     | FUItem          | 阴影对象                                                     |
+    | subEyebrow       | FUItem          | 眉毛对象                                                     |
+    | subEyeshadow       | FUItem          | 眼影对象                                                    |
+    | subPupil      | FUItem          | 美瞳对象                                                     |
+    | subEyelash    | FUItem          | 睫毛对象                                                     |
+    | subEyeliner   | FUItem          | 眼线对象                                                     |
+    | subBlusher   | FUItem          | 腮红对象                                                    |
+    | subFoundation | FUItem          | 粉底对象                                                     |
+    | subHighlight  | FUItem          | 高光对象                                                     |
+    | subShadow     | FUItem          | 阴影对象                                                     |
+    | subLip        | FUItem          | 口红对象                                                     |
+    
+    * 3.4.2 接口说明
+    ````objective-c
+    /**
+     * 更新组合装时是否清除子妆
+     * needCleanSubItem： YES 清除，NO 不清除
+     */
+    - (void)updateMakeupPackage:(FUItem * __nullable)makeupPackage needCleanSubItem:(BOOL)needCleanSubItem;
+    ````
 
-* 3.3,0 图层混合 FUMakeUpItem (blend)
+* 3.3,0 图层混合 FUMakeup (blend)
 
   * 属性说明 
 
@@ -331,82 +338,51 @@ ___
   
     | 属性名称         | 类型 | 说明                | key                     |
     | ---------------- | ---- | ------------------- | ----------------------- |
-    | blendTexEye1     | int  | 第1层眼影的混合模式 | blend_type_tex_eye      |
-    | blendTexEye2     | int  | 第2层眼影的混合模式 | blend_type_tex_eye2     |
-    | blendTexEye3     | int  | 第3层眼影的混合模式 | blend_type_tex_eye3     |
-    | blendTexEye4     | int  | 第4层眼影的混合模式 | blend_type_tex_eye4     |
-    | blendTexEyeLash  | int  | 睫毛的混合模式      | blend_type_tex_eyeLash  |
-  | blendTexEyeLiner | int  | 眼线的混合模式      | blend_type_tex_eyeLiner |
-    | blendTexBlusher1 | int  | 第1层腮红的混合模式 | blend_type_tex_blusher  |
-  | blendTexBlusher2 | int  | 第2层腮红的混合模式 | blend_type_tex_blusher2 |
-    | blendTexTexPupil | int  | 美瞳的混合模式      | blend_type_tex_pupil    |
+    | blendTypeEyeshadow1     | int  | 第1层眼影的混合模式 | blend_type_tex_eye      |
+    | blendTypeEyeshadow2     | int  | 第2层眼影的混合模式 | blend_type_tex_eye2     |
+    | blendTypeEyeshadow3     | int  | 第3层眼影的混合模式 | blend_type_tex_eye3     |
+    | blendTypeEyeshadow4     | int  | 第4层眼影的混合模式 | blend_type_tex_eye4     |
+    | blendTypeEyelash  | int  | 睫毛的混合模式      | blend_type_tex_eyeLash  |
+    | blendTypeEyeliner | int  | 眼线的混合模式      | blend_type_tex_eyeLiner |
+    | blendTypeBlusher1 | int  | 第1层腮红的混合模式 | blend_type_tex_blusher  |
+    | blendTypeBlusher2 | int  | 第2层腮红的混合模式 | blend_type_tex_blusher2 |
+    | blendTypePupil | int  | 美瞳的混合模式      | blend_type_tex_pupil    |
   
     
-  
-* 3.4.0 子妆 FUMakeUpItem (Child)
+    
+* 3.4.0 妆容强度 FUMakeup (intensity)
 
-  * 3.4.1 属性说明
+  * 属性说明
 
     | 属性名称            | 类型   | 说明     | key                         |
     | ------------------- | ------ | -------- | --------------------------- |
     | intensityFoundation | double | 粉底强度 | makeup_intensity_foundation |
+    | intensityLip | double | 口红强度 | makeup_intensity_lip |
     | intensityBlusher    | double | 腮红强度 | makeup_intensity_blusher    |
-    | intensityEye        | double | 眼影强度 | makeup_intensity_eyeBrow    |
+    | intensityEyebrow    | double | 眉毛强度 | makeup_intensity_eyeBrow    |
+    | intensityEyeshadow   | double | 眼影强度 | makeup_intensity_eye    |
     | intensityEyelash    | double | 睫毛强度 | makeup_intensity_eyelash    |
     | intensityHighlight  | double | 高光强度 | makeup_intensity_highlight  |
     | intensityShadow     | double | 阴影强度 | makeup_intensity_shadow     |
     | intensityPupil      | double | 美瞳强度 | makeup_intensity_pupil      |
 
-  * 3.4.2 接口说明
-
-    ````objective-c
-    /**
-     * 设置眉毛需 需要额外特殊处理，
-     *  type : 眉毛变形类型  0柳叶眉  1一字眉  2远山眉 3标准眉 4扶形眉  5日常风 6日系风
-     *  enable, 眉毛是否变形开关， 0 关闭变形，1 开启变形
-     */
-    - (void)setEyeBrowValue:(double)value
-                eyeBrowtype:(int)type
-                     enable:(int)enable;
-    ````
-
-    ```objective-c
-    /**
-     * 口红特殊处理
-     * type:  0雾面 2润泽 3珠光 6高性能（不支持双色）
-     * enable  口红双色开关，0为关闭，1为开启，如果想使用咬唇，开启双色开关，并且将makeup_lip_color2的值都设置为0
-     */
-    - (void)setLipValue:(double)value
-                lipType:(int)type
-                 enable:(int)enable
-    ```
-
-    ```objective-c
-    //键值对的形式设置 子妆的属性,主要是为了多个属性的情况下方便设置。效果和属性一致
-    - (void)setChildValue:(double)value forKey:(FUMakeUpChildStrengthKey)key;
-    ```
-
-    ```objective-c
-    //获取当前所有子妆强度key值数组
-    - (NSArray *)allMakeUpChildKeys;
-    ```
-
   ***
 
   
 
-* 3.5.0 颜色 FUMakeUpItem (Color)
+* 3.5.0 颜色 FUMakeup (Color)
 
   * 3.5.1 属性说明
 
     | 属性名称        | 类型    | 说明                                                         | key                     |
     | --------------- | ------- | ------------------------------------------------------------ | ----------------------- |
     | foundationColor | FUColor | 粉底调色参数，数组的第四个值（对应alpha）为0时，会关闭粉底的调色功能，大于0时会开启 | makeup_foundation_color |
-    | lipColor        | FUColor | 为口红颜色                                                   | makeup_lip_color        |
+    | lipColor        | FUColor | 口红颜色                                                   | makeup_lip_color        |
     | lipColor2       | FUColor | 如果is_two_color为1，会启用这个颜色，外圈颜色为makeup_lip_color2，内圈颜色为makeup_lip_color，如果makeup_lip_color2都为0，则外圈为透明，即为咬唇效果 | makeup_lip_color2       |
+    | lipColorV2        | FUColor | 口红颜色v2，暂时只用于lipType=FUMakeupLipTypeMoisturizing的情况                                                   | makeup_lip_color_v2        |
     | blusherColor    | FUColor | 第一层腮红调色参数，数组的第四个值（对应alpha）为0时，会关闭这一层腮红的调色功能，大于0时会开启 | makeup_blusher_color    |
-    | eyeBrowColor    | FUColor | 眉毛调色参数，数组的第四个值（对应alpha）为0时，会关闭眉毛的调色功能，大于0时会开启 | makeup_eyeBrow_color    |
-    | eyeLinerColor   | FUColor | 眼线调色参数，数组的第四个值（对应alpha）为0时，会关闭眼线的调色功能，大于0时会开启 | makeup_eyeLiner_color   |
+    | eyebrowColor    | FUColor | 眉毛调色参数，数组的第四个值（对应alpha）为0时，会关闭眉毛的调色功能，大于0时会开启 | makeup_eyeBrow_color    |
+    | eyelinerColor   | FUColor | 眼线调色参数，数组的第四个值（对应alpha）为0时，会关闭眼线的调色功能，大于0时会开启 | makeup_eyeLiner_color   |
     | eyelashColor    | FUColor | 睫毛调色参数，数组的第四个值（对应alpha）为0时，会关闭睫毛的调色功能，大于0时会开启 | makeup_eyelash_color    |
     | highlightColor  | FUColor | 高光调色参数，数组的第四个值（对应alpha）为0时，会关闭高光的调色功能，大于0时会开启 | makeup_highlight_color  |
     | shadowColor     | FUColor | 阴影调色参数，数组的第四个值（对应alpha）为0时，会关闭阴影的调色功能，大于0时会开启 | makeup_shadow_color     |
@@ -428,18 +404,9 @@ ___
                  color2:(FUColor)color2
                  color3:(FUColor)color3;
     ```
+    
 
-    ```objective-c
-    //键值对的形式设置颜色属性
-    - (void)setColor:(FUColor)color forKey:(FUMakeUpColor)colorKey
-    ```
-
-    ```objective-c
-    //获取当前所有colorKey数组
-    - (NSArray *)allFUMakeUpColorKeys;
-    ```
-
-  * 3.6.0 人脸点位 FULightMakeUpItem (landMark)
+  * 3.6.0 人脸点位 FUMakeup (landMark)
 
     * 属性说明
 
@@ -454,54 +421,47 @@ ___
 
 ***
 
-### 4.0 轻美妆 （FULightMakeUpItem）
+### 4.0 轻美妆 （FULightMakeup）
 
 * 4.1.0属性说明
 
   | 属性名称        | 类型 | 说明                                                         | key             |
   | --------------- | ---- | ------------------------------------------------------------ | --------------- |
-  | isMakeUpOn      | int  | 美妆开关 1 开 0 关                                           | is_makeup_on    |
+  | isMakeUpOn      | BOOL  | 美妆开关 1 开 0 关                                           | is_makeup_on    |
   | lipType         | int  | 口红类型 0雾面 2润泽 3珠光 6高性能（不支持双色）             | lip_type        |
-  | isTwoColor      | int  | 口红双色开关，0为关闭，1为开启，如果想使用咬唇，开启双色开关，并且将makeup_lip_color2的值都设置为0 | is_two_color    |
-  | makeup_lip_mask | int  | 嘴唇优化效果开关，1 开 0 关                                  | makeup_lip_mask |
-
-* 接口说明
-
-  ```objective-c
-  //图片纹理形式添加，底部调用fuCreateTexForItem接口
-  - (void)setLightMakeUpImage:(UIImage *)image forKey:(FULightMakeUpTextureKey)key;
-  ```
-
-  ```objective-c
-  //获取所有纹理图片key数组
-  - (NSArray *)allImageMakeUpKeys;
-  ```
-
-* 4.2.0 子妆 FULightMakeUpItem (Child)
+  | isTwoColor      | BOOL  | 口红双色开关，0为关闭，1为开启，如果想使用咬唇，开启双色开关，并且将makeup_lip_color2的值都设置为0 | is_two_color    |
+  | makeupLipMask | BOOL  | 嘴唇优化效果开关，1 开 0 关                                  | makeup_lip_mask |
+  
+* 4.2.0 轻美妆子妆图片 FULightMakeup (image)
 
   * 4.2.1 属性说明
+  
+  | 属性说明          | 类型   | 说明     | key                       |
+  | ----------------- | ------ | -------- | ------------------------- |
+  | subEyebrowImage  | UIImage | 眉毛图片 | tex_brow  |
+  | subEyeshadowImage      | UIImage | 眼影图片 | tex_eye      |
+  | subPupilImage | UIImage | 美瞳图片 | tex_pupil |
+  | subEyelashImage  | UIImage | 睫毛图片 | tex_eyeLash  |
+  | subHightLightImage    | UIImage | 高光图片 | tex_highlight    |
+  | subEyelinerImage  | UIImage | 眼线图片 | tex_eyeLiner  |
+  | subBlusherImage  | UIImage | 腮红图片 | tex_blusher  |
+    
+
+* 4.3.0 轻美妆子妆强度 FULightMakeup (intensity)
+
+  * 属性说明
 
     | 属性说明          | 类型   | 说明     | key                       |
     | ----------------- | ------ | -------- | ------------------------- |
+    | intensityLip  | double | 口红强度 | makeup_intensity_lip  |
     | intensityBlusher  | double | 腮红强度 | makeup_intensity_blusher  |
-    | intensityEye      | double | 眼影强度 | makeup_intensity_eye      |
+    | intensityEyeshadow  | double | 眼影强度 | makeup_intensity_eye      |
     | intensityEyeLiner | double | 眼线强度 | makeup_intensity_eyeLiner |
     | intensityEyelash  | double | 睫毛强度 | makeup_intensity_eyelash  |
     | intensityPupil    | double | 美瞳强度 | makeup_intensity_pupil    |
     | intensityEyeBrow  | double | 眉毛强度 | makeup_intensity_eyeBrow  |
 
-  * 4.2.2 接口说明
-
-    ```objective-c
-    /**
-     * 口红特殊处理
-     * type:  0雾面 2润泽 3珠光 6高性能（不支持双色）
-     * enable  口红双色开关，0为关闭，1为开启，如果想使用咬唇，开启双色开关，并且将makeup_lip_color2的值都设置为0
-     */
-    - (void)setLipType:(int)type enable:(int)enable;
-    ```
-
-* 4.3.0 FULightMakeUpItem (Color)
+* 4.3.0 FULightMakeup (Color)
 
   * 属性说明
 
@@ -511,7 +471,7 @@ ___
 
   
 
-* 4.4.0 人脸点位 FUMakeUpItem (landMark)
+* 4.4.0 人脸点位 FULightMakeup (landMark)
 
   * 属性说明
 
@@ -560,47 +520,23 @@ ___
 
 ```objective-c
 /**
- * 特殊蒙板需要设置弯曲度
+ * 计算人脸区域
  */
-@property (nonatomic, copy) void(^WarpBlock)(NSNumber *warp);
++ (CGRect)cacluteRectWithIndex:(int)index height:(int)originHeight width:(int)orighnWidth;
 ```
 
 ```objective-c
 /**
- * 检测输入照片人脸结果异常调用， 用于处理异常提示 UI逻辑.
- * code: -1, 人脸异常（检测到人脸但是角度不对返回-1），0: 未检测到人脸
+ * 选择某张具体的人脸，
+ * faceId 通过 checkPosterWithFaceIds:rectsMap 获取
  */
-- (void)checkInputFaceWithResultCode:(int)code;
+- (void)chooseFaceID:(int)faceID;
 ```
-
-```objective-c
-/**
- * 输入照片检测到多张人脸回调此方法,用于UI层绘制多人脸 UI
- */
-- (void)checkPosterWithFaceInfos:(NSArray <FUFaceRectInfo *> *)faceInfos;
-```
-
-```objective-c
-/**
- * 检测海报模版背景图片人脸结果（异常调用）
- * code: -1, 人脸异常（检测到人脸但是角度不对返回-1） 0: 未检测到人脸
- */
-- (void)checkTempImageWithResultCode:(int)code;
-```
-
-```objective-c
-/**
- *  inputImage图片 和 海报蒙板图片合成的结果回调
- *  data : inputImage图片和海报蒙板图片合成之后的图片数据
- */
-- (void)renderResultWithImageData:(UIImage *)data;
-```
-
 ***
 
 ***
 
-### 6.0 绿幕 FUGreenScreenItem
+### 6.0 绿幕 FUGreenScreen
 
 * 接口说明
 
@@ -620,9 +556,9 @@ ___
 
 ```objective-c
 /**
- * 绿幕背景视频设置,内部逐帧解析渲染。
+ * 开始视频播放
  */
-- (void)setUpVideoDecodeWithUrl:(NSURL *)url;
+- (void)startVideoDecode;
 
 ```
 
@@ -637,51 +573,46 @@ ___
 
 | 属性名称     | 类型    | 说明                                                         | key              |
 | ------------ | ------- | ------------------------------------------------------------ | ---------------- |
+| backgroundImage     | UIImage | 设置背景图片 |         |
+| safeAreaImage     | UIImage | 设置安全区域图片 |         |
+| videoPath     | NSString | 设置背景视频 |         |
 | keyColor     | FUColor | 设置绿幕取色, 颜色值按照十六进制大小设置 ex: RGBA (255.0, 255.0, 255.0, 1.0) | key_color        |
-| chromaThres  | double  |                                                              | chroma_thres     |
-| chromaThrest | double  |                                                              | chroma_thres_T   |
-| alphal       | double  |                                                              | alpha_L          |
+| chromaThres  | double  | 默认值为0.518,取值范围0.0-1.0，相似度：色度最大容差，色度最大容差值越大，更多幕景被抠除 | chroma_thres     |
+| chromaThrest | double  |  默认值为0.22,取值范围0.0-1.0，平滑：色度最小限差，值越大，更多幕景被扣除  | chroma_thres_T   |
+| alphal       | double  |  默认值为0.0,取值范围0.0-1.0，透明度：图像前后景透明度过度，值越大，两者边缘处透明过度更平滑  | alpha_L          |
 | center       | CGPoint | 当前图片偏移量                                               | start_x、start_y |
 | scale        | float   | 图片宽高放大值                                               | end_x、end_y     |
 | rotationMode | int     | 当前设备方向0、1、2、3                                       | rotation_mode    |
 | isBgra       | int     |                                                              | is_bgra          |
 | cutouting    | BOOL    | 当前是否正在进行抠图,抠图就停止绿慕渲染                      |                  |
+| pause    | BOOL    | 是否停止渲染                     |                  |
 
 ***
 
 ***
 
-### 7.0 道具贴纸  FUStickerItem
+### 7.0 道具贴纸  FUSticker
 
 * 说明
 
   无特殊设置项的道具直接使用此类实例化
 
-  FUMusicFilterItem音乐滤镜、FUAnimojiItem 表情、FUGestureItem手势道具、FUAISegmentItem 人像分割 用各自具体子类实例化
+  FUMusicFilter音乐滤镜、FUAnimoji 表情、FUGesture手势道具、FUAISegment 人像分割 用各自具体子类实例化
     
 
 ***
 
 ***
 
-### 8.0 音乐滤镜  FUMusicFilterItem ：FUStickerItem 
+### 8.0 音乐滤镜  FUMusicFilter 
+
+* 属性说明
+
+| 属性名称     | 类型    | 说明                                                         | key              |
+| ------------ | ------- | ------------------------------------------------------------ | ---------------- |
+| musicPath     | NSString | 设置音乐文件路径，但不播放，等到乐滤镜在底层库渲染时自动播放音乐 |         |
 
 * 接口说明
-
-```objective-c
-/**
- * 立即播放音乐
- */
-- (void)playWithMusicName:(NSString *)music;
-```
-
-```objective-c
-/**
- * 设置音乐名称，但不播放，等到乐滤镜在底层苦渲染时自动播放音乐
- * 同步音乐和渲染效果
- */
-- (void)setMusicName:(NSString *)music;
-```
 
 ```objective-c
 /**
@@ -715,7 +646,7 @@ ___
 
 ***
 
-### 9.0 表情  FUAnimojiItem 
+### 9.0 表情  FUAnimoji
 
 * 属性说明
 
@@ -727,26 +658,50 @@ ___
 
 ***
 
-### 10.0 手势道具 FUGestureItem
+### 10.0 手势道具 FUGesture
 
 * 属性说明
 
 | 属性名称 | 类型   | 说明                   | key      |
 | -------- | ------ | ---------------------- | -------- |
-| rotMode  | double | 设备方向参数           | rotMode  |
-| handOffY | double | 调整手部比星的位置参数 | handOffY |
+| handOffY | double | 调整手部比心的位置参数 | handOffY |
 
 ***
 
 ***
 
-### 11.0 人像分割 FUAISegmentItem
+### 11.0 人像分割 FUAISegment
 
 * 属性说明
 
 | 属性名称   | 类型 | 说明           | key         |
 | ---------- | ---- | -------------- | ----------- |
 | cameraMode | int  | 设置相机前后置 | camera_mode |
+| lineGap | double  | 轮廓分割线和人之间的间距 | lineGap |
+| lineSize | double  | 轮廓分割线宽度 | lineSize |
+| lineColor | FUColor  | 轮廓分割线颜色 | lineColor |
+| backgroundImage     | UIImage | 设置背景视频 |         |
+| videoPath     | NSURL 或者 NSString | 设置背景视频 |         |
+| pause    | BOOL    | 是否停止渲染                     |                  |
+
+* 接口说明
+
+```objective-c
+/**
+ * 开始视频播放
+ */
+- (void)startVideoDecode;
+
+/**
+ * 取消视频播放
+ */
+- (void)stopVideoDecode;
+
+/**
+ * 视频解析获取第一帧图片
+ */
+- (UIImage *)readFirstFrame;
+```
 
 ***
 
@@ -758,51 +713,50 @@ ___
 
 ```objective-c
 /**
- * 添加item，移除当前已经加载的所有item
- * flag: YES 移除，NO 叠加(不移除)
+ * 单个FUSticker操作接口
+ * 内部已经加锁，外部无需处理
  */
-- (void)addStickerItem:(FUStickerItem *)item removeCurrent:(BOOL)flag;
-/**
-* 单个FUStickerItem操作接口
-* 内部已经加锁，外部无序需处理
-*/
-- (void)addStickerItem:(FUStickerItem *)item;
-- (void)removeStickerItem:(FUStickerItem *)item;
-- (void)updateStickerItem:(FUStickerItem *)item;
-//按照路径移除
-- (void)removeStickerItemForPath:(NSString *)itemPath;
+- (void)addSticker:(FUSticker *)sticker completion:(nullable void(^)(void))completion;
+
+- (void)removeSticker:(FUSticker *)sticker completion:(nullable void(^)(void))completion;
+
+- (void)removeStickerForPath:(NSString *)stickerPath completion:(nullable void(^)(void))completion;
+
+- (void)replaceSticker:(FUSticker *)oldSticker withSticker:(FUSticker *)newSticker completion:(nullable void(^)(void))completion;
 ```
 
 ```objective-c
 /**
-* 多个FUStickerItem操作接口
-* 内部已经加锁，外部无序需处理
-*/
-- (void)addStickerItems:(NSArray <FUStickerItem *> *)items;
-- (void)removeStickerItems:(NSArray <FUStickerItem *> *)items;
-- (void)updateStickerItems:(NSArray <FUStickerItem *> *)items;
-- (void)removeStickerItemsForPaths:(NSArray <NSString *> *)itemPaths;
+ * 多个FUSticker操作接口
+ * 内部已经加锁，外部无需处理
+ */
+- (void)addStickers:(NSArray <FUSticker *> *)stickers completion:(nullable void(^)(void))completion;
+
+- (void)removeStickers:(NSArray <FUSticker *> *)stickers completion:(nullable void(^)(void))completion;
+
+- (void)removeStickersForPaths:(NSArray <NSString *> *)stickerPaths completion:(nullable void(^)(void))completion;
 ```
 
 ```objective-c
 /**
-* 移除所有已经添加的FUStickerItem
-* 内部已经枷锁，外部无需处理
-*/
+ * 移除所有已经添加的FUSticker
+ * 内部已经枷锁，外部无序需处理
+ */
 - (void)removeAllSticks;
+
 /**
-* 获取所有已经添加的FUStickerItem
-*/
-- (NSArray *)allStickerItemItems;
+ * 获取所有已经添加的FUSticker
+ */
+- (NSArray *)allStickers;
 ```
 
 ***
 
 ***
 
-### 13.0 动漫滤镜 FUAnimationFilterItem
+### 13.0 动漫滤镜 FUComicFilter （FUItem的子类）
 
-* 接口说明
+* 属性说明
 
 | 属性名称 | 类型   | 说明                                   | key   |
 | -------- | ------ | -------------------------------------- | ----- |
@@ -826,7 +780,7 @@ ___
 
 ***
 
-### 14.0 美发 FUHairItem
+### 14.0 美发 FUHairBeauty
 
 * 属性说明
 
@@ -845,20 +799,21 @@ ___
 
 ***
 
-### 15.0 美体 FUBodyBeautyItem
+### 15.0 美体 FUBodyBeauty
 
 * 属性说明
 
 | 属性名称             | 类型   | 说明                                                         | key                  |
 | -------------------- | ------ | ------------------------------------------------------------ | -------------------- |
 | bodySlimStrength     | double | 瘦身:0.0表示强度为0，值越大，强度越大，瘦身效果越明显，默认为0.0 | bodySlimStrength     |
-| LegSlimStrength      | double | 长腿:0.0表示强度为0，值越大，腿越长，默认为0.0               | LegSlimStrength      |
-| WaistSlimStrength    | double | 瘦腰:0.0表示强度为0，值越大，腰越细，默认为0.0               | WaistSlimStrength    |
-| ShoulderSlimStrength | double | 美肩:0.5表示强度为0，0.5到1.0，值越大，肩膀越宽，0.5到0.0，值越小，肩膀越窄，0.5为默认值 | ShoulderSlimStrength |
-| HipSlimStrength      | double | 美臀:0.0表示强度为0，值越大，强度越大， 提臀效果越明显，默认为0.0 | HipSlimStrength      |
+| legSlimStrength      | double | 长腿:0.0表示强度为0，值越大，腿越长，默认为0.0               | LegSlimStrength      |
+| waistSlimStrength    | double | 瘦腰:0.0表示强度为0，值越大，腰越细，默认为0.0               | WaistSlimStrength    |
+| shoulderSlimStrength | double | 美肩:0.5表示强度为0，0.5到1.0，值越大，肩膀越宽，0.5到0.0，值越小，肩膀越窄，0.5为默认值 | ShoulderSlimStrength |
+| hipSlimStrength      | double | 美臀:0.0表示强度为0，值越大，强度越大， 提臀效果越明显，默认为0.0 | HipSlimStrength      |
+| headSlim             | double | 小头：0.0表示强度为0，值越大，小头效果越明显，默认为0.0      | HeadSlim             |
+| legSlim             | double | 瘦腿：0.0表示强度为0，值越大，瘦腿效果越明显，默认为0.0      | LegSlim             |
+| debug                | int    | 是否开启debug点位，0表示关闭，1表示开启，默认关闭            | Debug                |
 | clearSlim            | int    | 重置:清空所有的美体效果，恢复为默认值                        | clearSlim            |
-| Debug                | int    | 是否开启debug点位，0表示关闭，1表示开启，默认关闭            | Debug                |
-| HeadSlim             | double | 小头：0.0表示强度为0，值越大，小头效果越明显，默认为0.0      | HeadSlim             |
 | orientation          | int    | 方向参数 取值范围 0 - 3                                      | Orientation          |
 
 ***
@@ -873,7 +828,7 @@ ___
 
 ***
 
-### 17.0 精品贴纸  FUQualityStickerItem ：FUStickerItem
+### 17.0 精品贴纸  FUQualitySticker （FUSticker的子类）
 
 * 属性说明
 

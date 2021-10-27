@@ -34,59 +34,45 @@
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
     FUBeautyCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FUBeautyCell" forIndexPath:indexPath];
+    FUBeautyModel *modle = self.dataArray[indexPath.row] ;
+    NSString *imageName;
+    UIColor *titleColor;
+    BOOL opened = YES;
     
-    if (indexPath.row < self.dataArray.count){
-        FUBeautyModel *modle = self.dataArray[indexPath.row] ;
-        NSString *imageName ;
-        
-            BOOL opened = YES;
-        
-        if (modle.iSStyle101) {
-            opened = fabs(modle.mValue - 0.5) > 0.01 ? YES : NO;
-        }else{
-            opened = fabs(modle.mValue - 0) > 0.01 ? YES : NO;
-        }
-        
-        
-        BOOL selected = _selectedIndex == indexPath.row ;
-        
-        if (selected) {
-            imageName = opened ? [modle.mTitle stringByAppendingString:@"-3"] : [modle.mTitle stringByAppendingString:@"-2"] ;
-        }else {
-            imageName = opened ? [modle.mTitle stringByAppendingString:@"-1"] : [modle.mTitle stringByAppendingString:@"-0"] ;
-        }
-        
-        /* icon 未找到, 尝试处理 多语言图片 */
-        UIImage *imageIcon = [UIImage imageWithName:imageName];
-        if (imageIcon == nil) {
-            if (selected) {
-                imageName = opened ? [modle.mTitle stringByAppendingString:@"-3"] : [modle.mTitle stringByAppendingString:@"-2"] ;
-            }else {
-                imageName = opened ? [modle.mTitle stringByAppendingString:@"-1"] : [modle.mTitle stringByAppendingString:@"-0"] ;
-            }
-            imageIcon = [UIImage localizedImageWithName:imageName countrySimple:nil];
-        }
-
-        cell.imageView.image = imageIcon;
-        cell.titleLabel.text = FUNSLocalizedString(modle.mTitle,nil);
-        cell.titleLabel.textColor = _selectedIndex == indexPath.row ? [UIColor colorWithHexColorString:@"5EC7FE"] : [UIColor whiteColor];
+    if (modle.iSStyle101) {
+        opened = fabs(modle.mValue - 0.5) > 0.01 ? YES : NO;
+    }else{
+        opened = fabs(modle.mValue - 0) > 0.01 ? YES : NO;
     }
+    BOOL selected = _selectedIndex == indexPath.row ;
+    if (selected) {
+        imageName = opened ? [modle.mTitle stringByAppendingString:@"-3"] : [modle.mTitle stringByAppendingString:@"-2"];
+    }else {
+        imageName = opened ? [modle.mTitle stringByAppendingString:@"-1"] : [modle.mTitle stringByAppendingString:@"-0"] ;
+    }
+    titleColor = _selectedIndex == indexPath.row ? [UIColor colorWithHexColorString:@"5EC7FE"] : [UIColor whiteColor];
+    
+    /* icon 未找到, 尝试处理 多语言图片 */
+    UIImage *imageIcon = [UIImage imageWithName:imageName];
+    if (imageIcon == nil) {
+        imageIcon = [UIImage localizedImageWithName:imageName countrySimple:nil];
+    }
+    cell.imageView.image = imageIcon;
+    cell.titleLabel.text = FUNSLocalizedString(modle.mTitle, nil);
+    cell.titleLabel.textColor = titleColor;
     return cell ;
 }
 
 #pragma mark ---- UICollectionViewDelegate
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (_selectedIndex == indexPath.row) {
-        return ;
-    }
     FUBeautyModel *model = _dataArray[indexPath.row];
-    _selectedIndex = indexPath.row ;
-    
+    if (_selectedIndex == indexPath.row) {
+        return;
+    }
+    _selectedIndex = indexPath.row;
     [self reloadData];
-    
     if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(beautyCollectionView:didSelectedParam:)]) {
         [self.mDelegate beautyCollectionView:self didSelectedParam:model];
     }
@@ -98,10 +84,6 @@
     
     return UIEdgeInsetsMake(16, 16, 6, 16) ;
 }
-
-
-
-
 
 @end
 

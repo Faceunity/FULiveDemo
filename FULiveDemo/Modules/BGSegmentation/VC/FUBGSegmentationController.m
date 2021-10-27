@@ -12,6 +12,8 @@
 #import <CoreMotion/CoreMotion.h>
 #import "FUBGSegmentManager.h"
 #import "FUBGSaveModel.h"
+#import "FULiveDefine.h"
+#import "UIImage+FU.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 
 @interface FUBGSegmentationController ()<FUItemsViewDelegate, FUImagePickerDataDelegate>
@@ -46,6 +48,10 @@
     [self itemsViewDidSelectedItem:selectItem indexPath:nil];
     
     self.segmentManager.selectedItem = selectItem;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willResignActive) name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
+
 }
 
 -(void)setupView {
@@ -198,10 +204,10 @@
             self.noTrackLabel.hidden = YES;
         });
     } else {
-        int res = [self.segmentManager aiHumanProcessorNums];
+        BOOL result = [self.baseManager bodyTrace];
         dispatch_async(dispatch_get_main_queue(), ^{
-                self.noTrackLabel.text = FUNSLocalizedString(@"未检测到人体",nil);
-               self.noTrackLabel.hidden = res > 0 ? YES : NO;
+            self.noTrackLabel.text = FUNSLocalizedString(@"未检测到人体",nil);
+            self.noTrackLabel.hidden = result;
         }) ;
     }
 }
@@ -240,16 +246,16 @@
             
             UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
             
+            CGFloat imagePixel = image.size.width * image.size.height;
+            // 超过限制像素需要压缩
+            if (imagePixel > FUPicturePixelMaxSize) {
+                CGFloat ratio = FUPicturePixelMaxSize / imagePixel * 1.0;
+                image = [image fu_compress:ratio];
+            }
+            
             // 图片转正
             if (image.imageOrientation != UIImageOrientationUp && image.imageOrientation != UIImageOrientationUpMirrored) {
-                
-                UIGraphicsBeginImageContext(CGSizeMake(image.size.width * 0.5, image.size.height * 0.5));
-                
-                [image drawInRect:CGRectMake(0, 0, image.size.width * 0.5, image.size.height * 0.5)];
-                
-                image = UIGraphicsGetImageFromCurrentImageContext();
-                
-                UIGraphicsEndImageContext();
+                image = [image fu_resetImageOrientationToUp];
             }
             
             [self saveImg:image withName:CUSTOMBG];
@@ -276,7 +282,6 @@
         return nil;
     }
     NSData *imagedata=UIImagePNGRepresentation(image);
-    //NSData *imagedata=UIImageJEPGRepresentation(m_imgFore,1.0);
     NSString *savedImagePath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imgName]];
     [imagedata writeToFile:savedImagePath atomically:YES];
     return savedImagePath;
@@ -299,18 +304,18 @@
 
 
 - (void)willResignActive {
-    [super willResignActive];
     [self.segmentManager.segment stopVideoDecode];
 }
 
 
 - (void)didBecomeActive {
-    [super didBecomeActive];
     [self.segmentManager.segment startVideoDecode];
 }
 
 -(void)dealloc{
     NSLog(@"dealloc--------");
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 @end

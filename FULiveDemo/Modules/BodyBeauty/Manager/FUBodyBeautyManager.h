@@ -18,8 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, readonly) NSArray <FUPositionInfo *> *dataArray;
 
-- (int)aiHumanProcessNums;
-
 //调整人体数据
 - (void)setBodyBeautyModel:(FUPositionInfo *)model;
 @end

@@ -49,10 +49,11 @@ static NSString *bgCellId = @"FUBgCollectionView";
 }
 
 -(void)setSelectedIndex:(NSInteger)selectedIndex {
-    _selectedIndex = selectedIndex ;
+    _selectedIndex = selectedIndex;
     [_mBgCollectionView reloadData];
     
-    FUGreenScreenBgModel *model = _filters[_selectedIndex];
+    FUGreenScreenBgModel *model = _filters[_selectedIndex];
+    
     if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(bgCollectionViewDidSelectedFilter:)]) {
         [self.mDelegate bgCollectionViewDidSelectedFilter:model];
     }

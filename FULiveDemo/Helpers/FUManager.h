@@ -11,20 +11,13 @@
 #import <AVFoundation/AVFoundation.h>
 #import "FUSaveModelProtocol.h"
 
-@class FULiveModel, FUMetalModel, FUBeautyModel, FUStyleModel;
+@class FULiveModel, FUBeautyModel, FUStyleModel;
 
 /**
  * 暂时作为加载FURenderKit的入口和记录当前模块数据的作用
  */
 @interface FUManager : NSObject
 + (FUManager *)shareManager;
-
-//直接存模型
-+ (BOOL)saveToLocal:(id)model filePath:(NSString *)filePath;
-
-//获取模型数据
-+ (FUMetalModel *)getLocalJsonDataWithFilePath:(NSString *)filePath;
-
 
 @property (nonatomic, strong) FULiveModel *currentModel;
 //初始化FURenderKit

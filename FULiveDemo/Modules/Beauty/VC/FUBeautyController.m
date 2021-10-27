@@ -13,6 +13,9 @@
 #import "FUSelectedImageController.h"
 #import "SVProgressHUD.h"
 #import "FUMakeupSupModel.h"
+
+#import "FULandmarkManager.h"
+
 @interface FUBeautyController ()<FUAPIDemoBarDelegate> {
     BOOL _isFromOther;//其他页面过来的
 }
@@ -54,11 +57,26 @@
     [_demoBar reloadFilterView:self.baseManager.filters];
     [_demoBar reloadStyleView:self.baseManager.styleParams defaultStyle:self.baseManager.currentStyle];
     [_demoBar setDefaultFilter:self.baseManager.seletedFliter];
+    
+    if (self.baseManager.currentStyle) {
+        // 当前已经选中了风格推荐时需要调整界面
+        [self.demoBar updateSubviews:FUBeautyDefineStyle];
+    }
+    
+    // 添加点位测试开关
+    if (FUShowLandmark) {
+        [FULandmarkManager show];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     _isFromOther = YES;
+    
+    // 移除点位测试开关
+    if (FUShowLandmark) {
+        [FULandmarkManager dismiss];
+    }
 }
 
 -(void)setupView{
@@ -148,7 +166,7 @@
 
 #pragma mark -  FUAPIDemoBarDelegate
 
--(void)restDefaultValue:(NSUInteger)type {
+-(void)resetDefaultValue:(NSUInteger)type {
     [self.baseManager resetDefaultParams:type];
 }
 

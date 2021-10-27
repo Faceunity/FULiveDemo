@@ -17,9 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,assign) double mValue;
 
-@property (nonatomic,copy)NSString *mImageStr;
-
-
 /* 双向的参数  0.5是原始值*/
 @property (nonatomic,assign) BOOL iSStyle101;
 

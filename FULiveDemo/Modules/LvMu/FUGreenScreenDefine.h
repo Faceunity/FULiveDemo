@@ -14,6 +14,7 @@ typedef NS_ENUM(NSUInteger, GREENSCREENTYPE) {
     GREENSCREENTYPE_chromaThres, //色度最大容差
     GREENSCREENTYPE_chromaThresT, //色度最小限差
     GREENSCREENTYPE_alphaL, //透明度
+    GREENSCREENTYPE_safeArea, //安全区域
     GREENSCREENTYPE_Max
 };
 

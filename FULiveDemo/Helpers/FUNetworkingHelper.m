@@ -63,7 +63,7 @@ static NSString * const FUBaseURLString = @"https://items.faceunity.com:4006/api
     return self;
 }
 
-- (FUNetworkStatus)currentNetworkStatus {
++ (FUNetworkStatus)currentNetworkStatus {
     AFNetworkReachabilityStatus status = [AFNetworkReachabilityManager sharedManager].networkReachabilityStatus;
     if (status == AFNetworkReachabilityStatusReachableViaWWAN || status == AFNetworkReachabilityStatusReachableViaWiFi) {
         return FUNetworkStatusReachable;
@@ -74,7 +74,7 @@ static NSString * const FUBaseURLString = @"https://items.faceunity.com:4006/api
     }
 }
 
-- (void)networkStatusHandler:(FUNetworkStatusHandler)networkStatus {
++ (void)networkStatusHandler:(FUNetworkStatusHandler)networkStatus {
     [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
         switch (status) {
             case AFNetworkReachabilityStatusUnknown: {
@@ -160,12 +160,11 @@ static NSString * const FUBaseURLString = @"https://items.faceunity.com:4006/api
             return;
         }
         NSLog(@"response = %@", response);
-        BOOL isExsit = [[NSFileManager defaultManager] fileExistsAtPath:filePath.path];
-        NSLog(@"%@", @(isExsit));
-        !success ?: success(filePath.absoluteString);
+        !success ?: success(filePath);
     }];
     [task resume];
     
+    // 保存task
     !task ?: [self.tasksArray addObject:task];
     return task;
 }
@@ -192,6 +191,13 @@ static NSString * const FUBaseURLString = @"https://items.faceunity.com:4006/api
         }];
         [self.tasksArray removeAllObjects];
     }
+}
+
+- (NSMutableArray<NSURLSessionTask *> *)tasksArray {
+    if (!_tasksArray) {
+        _tasksArray = [[NSMutableArray alloc] init];
+    }
+    return _tasksArray;
 }
 
 @end

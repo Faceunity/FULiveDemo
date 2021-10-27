@@ -15,7 +15,7 @@
    
     //美肤
     NSMutableArray *skinArr = [NSMutableArray array];
-    NSArray *skinTitles = @[@"精细磨皮",@"美白",@"红润",@"锐化",@"亮眼",@"美牙",@"去黑眼圈",@"去法令纹"];//
+    NSArray *skinTitles = @[@"磨皮",@"美白",@"红润",@"锐化",@"亮眼",@"美牙",@"去黑眼圈",@"去法令纹"];//
     float ratio[FUBeautifySkinMax] = {6.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
     for (NSUInteger i = 0; i < FUBeautifySkinMax; i ++) {
         FUBeautyModel *model = [[FUBeautyModel alloc] init];
@@ -34,6 +34,7 @@
     NSArray *titleAndValues = @[@{@"key": @"瘦脸",@"value":@0.0},
                                 @{@"key": @"v脸",@"value":@0.0},
                                 @{@"key": @"窄脸",@"value":@0.0},
+                                @{@"key": @"短脸",@"value":@0.0},
                                 @{@"key": @"小脸",@"value":@0.0},
                                 @{@"key": @"瘦颧骨",@"value":@0.0},
                                 @{@"key": @"瘦下颌骨",@"value":@0.0},
@@ -49,10 +50,9 @@
                                 @{@"key": @"长鼻",@"value":@0.5},
                                 @{@"key": @"缩人中",@"value":@0.5},
                                 @{@"key": @"微笑嘴角",@"value":@0.0}];
-    float shapeRatio[FUBeautifyShapeMax] = {1.0, 1.0, 0.5, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+    float shapeRatio[FUBeautifyShapeMax] = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
     for (NSUInteger i = 0; i < FUBeautifyShapeMax; i ++) {
         NSDictionary *keyValues = [titleAndValues objectAtIndex:i];
-        
         FUBeautyModel *model = [[FUBeautyModel alloc] init];
         model.type = FUBeautyDefineShape;
         model.mParam = i;
@@ -62,7 +62,7 @@
         model.ratio = shapeRatio[i];
         [shapArr addObject:model];
     }
-    defaultModel.shapes = [NSArray arrayWithArray: shapArr];
+    defaultModel.shapes = [NSArray arrayWithArray:shapArr];
     
     //滤镜
     FUBeautyModel *filterModel = [[FUBeautyModel alloc] init];
@@ -128,7 +128,7 @@
     
     [self setShapeModelWithIndex:FUBeautifyShapeCheekThinning value:0.45];
     [self setShapeModelWithIndex:FUBeautifyShapeCheekV value:0.08];
-    [self setShapeModelWithIndex:FUBeautifyShapeCheekSmall value:0.05];
+    [self setShapeModelWithIndex:FUBeautifyShapeCheekShort value:0.05];
     [self setShapeModelWithIndex:FUBeautifyShapeEyeEnlarging value:0.3];
 }
 
@@ -153,7 +153,7 @@
     [self setSkinModelWithIndex:FUBeautifySkinBlurLevel value:1.8];
 
     [self setShapeModelWithIndex:FUBeautifyShapeCheekThinning value:0.3];
-    [self setShapeModelWithIndex:FUBeautifyShapeCheekSmall value:0.15];
+    [self setShapeModelWithIndex:FUBeautifyShapeCheekShort value:0.15];
     [self setShapeModelWithIndex:FUBeautifyShapeEyeEnlarging value:0.65];
     [self setShapeModelWithIndex:FUBeautifyShapeIntensityNose value:0.3];
 }
@@ -188,9 +188,9 @@
     [self setSkinModelWithIndex:FUBeautifySkinColorLevel value:0.2];
     [self setSkinModelWithIndex:FUBeautifySkinRedLevel value:0.65];
     [self setSkinModelWithIndex:FUBeautifySkinBlurLevel value:3.3];
-
+    
     [self setShapeModelWithIndex:FUBeautifyShapeCheekThinning value:0.1];
-    [self setShapeModelWithIndex:FUBeautifyShapeCheekSmall value:0.05];
+    [self setShapeModelWithIndex:FUBeautifyShapeCheekShort value:0.05];
 }
 
 @end

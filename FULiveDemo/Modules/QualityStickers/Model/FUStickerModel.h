@@ -8,7 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-@interface FUStickerModel : NSObject
+/// 精品贴纸类型
+typedef NS_ENUM(NSUInteger, FUQualityStickerType) {
+    FUQualityStickerTypeCommon,         // 通用
+    FUQualityStickerTypeAvatar          // Avatar
+};
+
+@interface FUStickerModel : NSObject<NSCoding>
+
+@property (nonatomic, assign) FUQualityStickerType type;
 
 @property (nonatomic, copy) NSString *tag;
 /// 道具ID，根据此ID获取道具包
@@ -31,8 +39,7 @@
 @property (nonatomic, assign, getter=isNeedClick) BOOL needClick;
 /// 是否翻转模型
 @property (nonatomic, assign) BOOL is3DFlipH;
-
-//是否被选中
+/// 是否被选中
 @property (nonatomic, assign, getter=isSelected) BOOL selected;
 
 @end

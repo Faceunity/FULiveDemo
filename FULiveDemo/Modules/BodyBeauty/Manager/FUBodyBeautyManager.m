@@ -31,10 +31,6 @@
     return self;
 }
 
-- (int)aiHumanProcessNums {
-    return [FUAIKit aiHumanProcessorNums];
-}
-
 //调整人体数据
 - (void)setBodyBeautyModel:(FUPositionInfo *)model {
     switch (model.type) {

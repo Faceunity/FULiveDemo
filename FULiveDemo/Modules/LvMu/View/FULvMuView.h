@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <Masonry.h>
 #import "FUGreenScreenModel.h"
+#import "FUGreenScreenSafeAreaModel.h"
 #import "FUTakeColorView.h"
 
 @class FUGreenScreenModel, FUGreenScreenBgModel;
@@ -24,6 +25,12 @@ typedef NS_ENUM(NSUInteger, FUTakeColorState) {
 
 - (void)beautyCollectionView:(FULvMuView *)beautyView didSelectedParam:(FUGreenScreenModel *)param;
 
+/// 选中安全区域
+- (void)lvmuViewDidSelectSafeArea:(FUGreenScreenSafeAreaModel *)model;
+
+/// 取消安全区域
+- (void)lvmuViewDidCancelSafeArea;
+
 -(void)lvmuViewShowTopView:(BOOL)show;
 
 - (void)colorDidSelected:(UIColor *)color;
@@ -37,14 +44,15 @@ typedef NS_ENUM(NSUInteger, FUTakeColorState) {
 
 //从外面获取全局的取点背景view，为了修复取点view加载Window上的系统兼容性问题
 - (UIView *)takeColorBgView;
+
 @end
 
 
 @interface FULvMuView : UIView
 @property (nonatomic, assign) id<FULvMuViewDelegate>mDelegate ;
 
-@property (nonatomic, assign) NSInteger selectedIndex ;
-@property (nonatomic, assign) NSInteger colorSelectedIndex ;
+@property (nonatomic, assign) NSInteger selectedIndex;
+@property (nonatomic, assign) NSInteger colorSelectedIndex;
 
 @property (strong, nonatomic) FUTakeColorView *mTakeColorView;
 
@@ -78,7 +86,7 @@ typedef NS_ENUM(NSUInteger, FUTakeColorState) {
 @property (nonatomic, strong) UILabel *titleLabel ;
 
 @property (nonatomic, strong) UIColor *color;
-@end
 
+@end
 
 NS_ASSUME_NONNULL_END

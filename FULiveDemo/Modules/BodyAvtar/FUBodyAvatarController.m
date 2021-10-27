@@ -8,7 +8,7 @@
 
 #import "FUBodyAvatarController.h"
 #import "FUSwitch.h"
-#import "FUBodCollectionView.h"
+#import "FUBodyCollectionView.h"
 #import "FUBodyAvatarManager.h"
 
 @interface FUBodyAvatarController ()<FUBodyItemsDelegate>{
@@ -23,7 +23,7 @@
 @property (strong, nonatomic) FUSwitch *mSwitch;
 
 @property(strong, nonatomic) NSArray <NSString *>*mItmsArray;
-@property(strong, nonatomic) FUBodCollectionView *bodyItemsView;
+@property(strong, nonatomic) FUBodyCollectionView *bodyItemsView;
 
 @property (nonatomic, strong) FUBodyAvatarManager *bodyAvatarManager;
 @end
@@ -44,7 +44,7 @@
     backSignal = dispatch_semaphore_create(1);
     
     /* 待绑定的道具 */
-    _mItmsArray = @[@"avatar_bear",@"avatar_female",@"avatar_male"];
+    _mItmsArray = @[@"avatar_female",@"avatar_male"];
     
     /* 句柄缓存对象 */
     _itemsHache = [NSMutableDictionary dictionary];
@@ -71,7 +71,7 @@
      [_mPerView addGestureRecognizer:panGestureRecognizer];
      [self.view addSubview:_mPerView];
     
-    _bodyItemsView = [[FUBodCollectionView alloc] init];
+    _bodyItemsView = [[FUBodyCollectionView alloc] init];
     _bodyItemsView.delegate = self;
     [_bodyItemsView updateCollectionAndSel:0];
     [self.view addSubview:_bodyItemsView];
@@ -125,10 +125,10 @@
 }
 
 -(void)displayPromptText{
-    int res  = [self.bodyAvatarManager aiHumanProcessorNums];
+    BOOL result  = [self.baseManager bodyTrace];
     dispatch_async(dispatch_get_main_queue(), ^{
         self.noTrackLabel.text = FUNSLocalizedString(@"未检测到人体",nil);
-        self.noTrackLabel.hidden = res > 0 ? YES : NO;
+        self.noTrackLabel.hidden = result;
     }) ;
 }
 
@@ -136,15 +136,7 @@
 
 /* UI 点击 */
 -(void)bodyDidSelectedItemsIndex:(int)index{
-    // 小熊Avatar隐藏切换按钮和小视图
-    self.mSwitch.hidden = index == 0;
-    self.mPerView.hidden = index == 0;
-    if (index == 0) {
-        // 小熊只设置全身
-        [self.bodyAvatarManager switchBodyTrackMode:FUBodyTrackModeFull];
-    } else {
-        [self switchSex:self.mSwitch];
-    }
+    [self switchSex:self.mSwitch];
     [self.bodyAvatarManager loadAvatarWithIndex:index];
 }
 

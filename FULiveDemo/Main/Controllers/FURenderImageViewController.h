@@ -12,7 +12,8 @@
 @interface FURenderImageViewController : UIViewController
 
 /* 相片 */
-@property (nonatomic, strong) UIImage *image ;
+@property (nonatomic, strong) UIImage *image;
 /* 本地视频路径 */
-@property (nonatomic, strong) NSURL *videoURL ;
+@property (nonatomic, strong) NSURL *videoURL;
+
 @end

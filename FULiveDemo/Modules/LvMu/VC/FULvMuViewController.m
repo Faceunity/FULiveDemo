@@ -9,8 +9,9 @@
 #import "FULvMuViewController.h"
 #import "FULvMuView.h"
 #import "FUManager.h"
-#import "FUImageHelper.h"
 #import "FUGreenScreenManager.h"
+
+#import <FURenderKit/FUImageHelper.h>
 
 @interface FULvMuViewController ()<FULvMuViewDelegate,UIGestureRecognizerDelegate>{
     BOOL isRender;
@@ -25,24 +26,6 @@
 @end
 
 @implementation FULvMuViewController
-
--(void)viewWillAppear:(BOOL)animated {
-    [self.greenScreenManager loadItem];
-    
-    [super viewWillAppear:animated];
-    
-    [self colorDidSelected:[UIColor colorWithRed:0.0 green:1.0 blue:0.0 alpha:1.0]];
-
-    [_lvmuEditeView restUI];
-    
-    [_lvmuEditeView reloadDataSoure:self.greenScreenManager.dataArray];
-    [_lvmuEditeView reloadBgDataSource:self.greenScreenManager.bgDataArray];
-    
-    //默认取教室的背景录像
-    FUGreenScreenBgModel *param = [self.greenScreenManager.bgDataArray objectAtIndex:3];
-    NSString *urlStr = [[NSBundle mainBundle] pathForResource:param.videoPath ofType:@"mp4"];
-    self.greenScreenManager.greenScreen.videoPath = urlStr;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -83,8 +66,34 @@
     [self showToast];
     
     self.greenScreenManager = [[FUGreenScreenManager alloc] init];
-    self.greenScreenManager.greenScreen.center = CGPointMake(0.5, 0.5);
     
+    self.greenScreenManager.greenScreen.center = CGPointMake(0.5, 0.5);
+    //默认取教室的背景录像
+    FUGreenScreenBgModel *param = [self.greenScreenManager.bgDataArray objectAtIndex:3];
+    NSString *urlStr = [[NSBundle mainBundle] pathForResource:param.videoPath ofType:@"mp4"];
+    self.greenScreenManager.greenScreen.videoPath = urlStr;
+    
+    [self colorDidSelected:[UIColor colorWithRed:0.0 green:1.0 blue:0.0 alpha:1.0]];
+    
+    [_lvmuEditeView reloadDataSoure:self.greenScreenManager.dataArray];
+    [_lvmuEditeView reloadBgDataSource:self.greenScreenManager.bgDataArray];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willResignActive) name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.greenScreenManager loadItem];
+    [self.greenScreenManager.greenScreen startVideoDecode];
+}
+
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self.lvmuEditeView destoryLvMuView];
+    [self.greenScreenManager.greenScreen stopVideoDecode];
 }
 
 -(void)initMovementGestures {
@@ -127,13 +136,11 @@
 
 
 - (void)willResignActive {
-    [super willResignActive];
     self.greenScreenManager.greenScreen.pause = YES;
 }
 
 
 - (void)didBecomeActive{
-    [super didBecomeActive];
     self.greenScreenManager.greenScreen.pause = NO;
 }
 
@@ -150,11 +157,20 @@
     [self.greenScreenManager setGreenScreenModel:param];
 }
 
+- (void)lvmuViewDidSelectSafeArea:(FUGreenScreenSafeAreaModel *)model {
+    if (model.effectImage) {
+        [self.greenScreenManager updateSafeAreaImage:model.effectImage];
+    }
+}
+
+- (void)lvmuViewDidCancelSafeArea {
+    [self.greenScreenManager updateSafeAreaImage:nil];
+}
+
 -(void)colorDidSelected:(UIColor *)color {
     [self.greenScreenManager setGreenScreenWithColor:color];
     NSLog(@"取色值 %@",color);
 }
-
 
 -(void)lvmuViewShowTopView:(BOOL)shown{
     float h = shown?195:49;
@@ -168,7 +184,7 @@
 
 //从外面获取全局的取点背景view，为了修复取点view加载Window上的系统兼容性问题
 - (UIView *)takeColorBgView {
-    UIView *bgView = [[UIView alloc] initWithFrame:self.view.frame];
+    UIView *bgView = [[UIView alloc] initWithFrame:self.renderView.frame];
     [self.view addSubview:bgView];
     [self.view insertSubview:bgView aboveSubview:self.renderView];
     return bgView;
@@ -182,8 +198,8 @@
         size_t height = CVPixelBufferGetHeight(pixelBuffer);
         
         int scale = (int)[UIScreen mainScreen].scale;
-        size_t viewWidth = CGRectGetWidth(self.view.bounds) * scale;
-        size_t viewHeight = CGRectGetHeight(self.view.bounds) * scale;
+        size_t viewWidth = CGRectGetWidth(self.renderView.bounds) * scale;
+        size_t viewHeight = CGRectGetHeight(self.renderView.bounds) * scale;
         
         CGPoint imagePoint;
         imagePoint = CGPointMake(_currPoint.x * width / viewWidth, _currPoint.y * height / viewHeight);
@@ -262,12 +278,6 @@
     return YES;
 }
 
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    [self.lvmuEditeView destoryLvMuView];
-    [self.greenScreenManager.greenScreen stopVideoDecode];
-}
-
 #pragma  mark -  supAction
 -(void)touchScreenAction:(UITapGestureRecognizer *)tap {
     if (_lvmuEditeView.mTakeColorView.isHidden) {
@@ -282,6 +292,7 @@
 
 
 - (void)dealloc {
-    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 @end

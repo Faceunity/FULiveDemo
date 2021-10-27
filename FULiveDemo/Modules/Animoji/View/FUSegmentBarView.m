@@ -46,11 +46,7 @@ typedef void(^FUSegmentDidSelBtnIndex)(int index);
         titleBtn.tag = 100 + i;
         [self addSubview:titleBtn];
         
-        if (i > 0) {
-            UIView *sepView = [[UIView alloc] initWithFrame:CGRectMake(btnW * i, 13,  1/[UIScreen mainScreen].scale, 20)];
-            sepView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.2];
-            [self addSubview:sepView];
-        }else{
+        if (i == 0) {
             titleBtn.selected = YES;
         }
     }

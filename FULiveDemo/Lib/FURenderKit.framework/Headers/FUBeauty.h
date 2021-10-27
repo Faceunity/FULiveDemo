@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) BOOL blurUseMask;//blur是否使用mask
 @property (nonatomic, assign) int heavyBlur;//朦胧磨皮开关，0为清晰磨皮，1为朦胧磨皮
-@property (nonatomic, assign) int blurType;//此参数优先级比heavyBlur低，在使用时要将heavy_blur设为0，0 清晰磨皮  1 朦胧磨皮  2精细磨皮
+@property (nonatomic, assign) int blurType;//此参数优先级比heavyBlur低，在使用时要将heavy_blur设为0，0清晰磨皮 1朦胧磨皮 2精细磨皮 3均匀磨皮
 
 /// 将参数恢复到默认值
 - (void)resetToDefault;
@@ -39,17 +39,30 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) int faceShape;//变形取值 0:女神变形 1:网红变形 2:自然变形 3:默认变形 4:精细变形
 @property (nonatomic, assign) int changeFrames; //0为关闭 ，大于0开启渐变，值为渐变所需要的帧数
 @property (nonatomic, assign) double faceShapeLevel; //取值范围 0.0-1.0,0.0为无效果，1.0为最大效果，默认值1.0
-@property (nonatomic, assign) double cheekThinning;//瘦脸 瘦脸程度范围0.0-1.0 默认0.5
+
+/// 脸型相关属性，程度范围0.0-1.0 默认0
 @property (nonatomic, assign) double cheekV;//v脸
-@property (nonatomic, assign) double cheekNarrow;//窄脸
-@property (nonatomic, assign) double cheekSmall;//小脸
+@property (nonatomic, assign) double cheekThinning;//瘦脸
+@property (nonatomic, assign) double cheekLong;//长脸
+@property (nonatomic, assign) double cheekCircle;//圆脸
+
+/// 其他普通属性
+@property (nonatomic, assign) double cheekNarrow;//窄脸（8.0.0版本之后不再维护）
+@property (nonatomic, assign) double cheekNarrowV2;//窄脸
+@property (nonatomic, assign) double cheekSmall;//小脸（8.0.0版本之后不再维护）
+@property (nonatomic, assign) double cheekSmallV2;//
+@property (nonatomic, assign) double cheekShort;//短脸
 @property (nonatomic, assign) double intensityCheekbones;//瘦颧骨
 @property (nonatomic, assign) double intensityLowerJaw;//瘦下颌骨
-@property (nonatomic, assign) double eyeEnlarging;//大眼
+@property (nonatomic, assign) double eyeEnlarging;//大眼（8.0.0版本之后不再维护）
+@property (nonatomic, assign) double eyeEnlargingV2;//大眼
 @property (nonatomic, assign) double intensityChin;//下巴
-@property (nonatomic, assign) double intensityForehead;//额头
-@property (nonatomic, assign) double intensityNose;//瘦鼻
-@property (nonatomic, assign) double intensityMouth;//嘴型
+@property (nonatomic, assign) double intensityForehead;//额头（8.0.0版本之后不再维护）
+@property (nonatomic, assign) double intensityForeheadV2;//额头
+@property (nonatomic, assign) double intensityNose;//瘦鼻（8.0.0版本之后不再维护）
+@property (nonatomic, assign) double intensityNoseV2;//瘦鼻
+@property (nonatomic, assign) double intensityMouth;//嘴型（8.0.0版本之后不再维护）
+@property (nonatomic, assign) double intensityMouthV2;//嘴型
 @property (nonatomic, assign) double intensityCanthus;//开眼角
 @property (nonatomic, assign) double intensityEyeSpace;//眼距
 @property (nonatomic, assign) double intensityEyeRotate;//眼角

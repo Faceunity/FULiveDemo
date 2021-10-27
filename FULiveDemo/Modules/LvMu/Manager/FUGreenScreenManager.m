@@ -35,11 +35,11 @@
 
 - (NSArray *)createUIData {
 //    NSArray *list = @{@[@"key_color"]}
-    NSArray *prams = @[@(GREENSCREENTYPE_keyColor),@(GREENSCREENTYPE_chromaThres),@(GREENSCREENTYPE_chromaThresT),@(GREENSCREENTYPE_alphaL)];
-    NSArray *titelArr = @[@"关键颜色", @"相似度", @"平滑", @"透明度"];
-    NSArray *imageArr = @[@"demo_icon_key_color", @"demo_icon_similarityr", @"demo_icon_smooth", @"demo_icon_transparency"];
+    NSArray *prams = @[@(GREENSCREENTYPE_keyColor),@(GREENSCREENTYPE_chromaThres),@(GREENSCREENTYPE_chromaThresT),@(GREENSCREENTYPE_alphaL), @(GREENSCREENTYPE_safeArea)];
+    NSArray *titelArr = @[@"关键颜色", @"相似度", @"平滑", @"透明度", @"安全区域"];
+    NSArray *imageArr = @[@"demo_icon_key_color", @"demo_icon_similarityr", @"demo_icon_smooth", @"demo_icon_transparency", @"demo_icon_safe_area"];
     
-    NSArray *defaultValueArr = @[@(0), @(0.45), @(0.30), @(0.20)];
+    NSArray *defaultValueArr = @[@(0), @(0.45), @(0.30), @(0.20), @0];
     
     NSMutableArray *tempArr = [NSMutableArray array];
     for (int i = 0; i < GREENSCREENTYPE_Max; i ++) {
@@ -116,6 +116,10 @@
     }
 }
 
+- (void)updateSafeAreaImage:(UIImage *)image {
+    self.greenScreen.safeAreaImage = image;
+}
+
 - (void)loadItem {
     [FURenderKit shareRenderKit].greenScreen = self.greenScreen;
 }
@@ -126,4 +130,22 @@
         [FURenderKit shareRenderKit].greenScreen = nil;
     });
 }
+
+#pragma mark - Class methods
++ (BOOL)safeLocalSafeAreaImage:(UIImage *)image {
+    if (!image) {
+        return NO;
+    }
+    NSString *localPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:@"safeArea.png"];
+    return [UIImagePNGRepresentation(image) writeToFile:localPath atomically:YES];
+}
+
++ (UIImage *)localSafeAreaImage {
+    NSString *localPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:@"safeArea.png"];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:localPath]) {
+        return nil;
+    }
+    return [UIImage imageWithContentsOfFile:localPath];
+}
+
 @end

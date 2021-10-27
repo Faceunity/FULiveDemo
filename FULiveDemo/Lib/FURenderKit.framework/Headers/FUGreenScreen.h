@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) UIImage *backgroundImage; // 背景图片
 
+@property (nonatomic, strong, nullable) UIImage *safeAreaImage; // 安全区域图片
+
 @property (nonatomic, copy) NSString *videoPath; // 背景视频
 
 /**

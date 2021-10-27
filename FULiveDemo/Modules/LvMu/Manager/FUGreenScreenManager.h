@@ -11,7 +11,7 @@
 #import "FUGreenScreenDefine.h"
 #import "FUGreenScreenBgModel.h"
 
-@class FUGreenScreenModel, FUGreenScreenBgModel;
+@class FUGreenScreenModel;
 NS_ASSUME_NONNULL_BEGIN
 
 @interface FUGreenScreenManager : FUMetaManager
@@ -26,6 +26,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 //设置颜色值
 - (void)setGreenScreenWithColor:(UIColor *)color;
+
+/// 更新安全区域图片
+- (void)updateSafeAreaImage:(nullable UIImage *)image;
+
+/// 保存本地安全区域图片
++ (BOOL)safeLocalSafeAreaImage:(UIImage *)image;
+
+/// 获取本地安全区域图片
++ (UIImage *)localSafeAreaImage;
+
 @end
 
 NS_ASSUME_NONNULL_END

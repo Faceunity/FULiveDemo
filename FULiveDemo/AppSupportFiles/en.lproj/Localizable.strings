@@ -8,14 +8,13 @@
 /* demobar  */
 //"清晰磨皮" = "Light Blur" ;
 //"朦胧磨皮" = "Heavy Blur" ;
-"精细磨皮" = "Fine Smooth" ;
+//"精细磨皮" = "Fine Smooth" ;
 "磨皮" = "Fine Blur" ;
 "锐化" = "sharpen";
 "美白" = "Whiten" ;
 "红润" = "Ruddy" ;
 "亮眼" = "Eye Brighten" ;
 "美牙" = "Tooth Whiten" ;
-"脸型" = "Face Shape" ;
 "大眼" = "Eye Enlarge" ;
 "瘦脸" = "Cheek Thin" ;
 "下巴" = "Chin" ;
@@ -142,6 +141,8 @@
 "女神" =  "Fairy" ;
 "网红" =  "Belle" ;
 "自然" =  "Nature" ;
+//"长脸专属" = "Long face";
+//"圆脸专属" = "Circle face";
 //"清晰磨皮" = "Light Blur mode" ;
 //"朦胧磨皮" = "Heavy Blur mode" ;
 //"精细磨皮" = "Fine Blur mode" ;
@@ -160,7 +161,9 @@
 "恢复"         =  "recover";
 "v脸"          =  "V face";
 "窄脸"          = "Narrow Face";
+"短脸"         = "Short Face";
 "小脸"          = "Small Face";
+"返回"        = "back";
 
 "美颜" = "Beautification" ;
 "美妆"  =  "Make Up" ;
@@ -279,7 +282,8 @@
 "Ⅱ号"    =   "highlight Ⅱ";
 "阴影" =  "shadow";
 
-"润泽"    =   "Moist";
+"润泽Ⅰ" = "Moist Ⅰ";
+"润泽Ⅱ"    =   "Moist Ⅱ";
 "珠光"    =   "Pearl";
 "咬唇" =  "Bite lip";
 

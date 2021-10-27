@@ -12,6 +12,8 @@
 #import "FUStickerModel.h"
 #import "FULiveDefine.h"
 
+#import <ZipArchive.h>
+
 @implementation FUStickerHelper
 
 + (void)itemTagsCompletion:(void (^)(BOOL, NSArray * _Nullable))complection {
@@ -46,6 +48,8 @@
                 model.iconId = doc[@"tool"][@"icon"][@"uid"];
                 model.iconURLString = doc[@"tool"][@"icon"][@"url"];
                 model.itemId = doc[@"tool"][@"bundle"][@"uid"];
+                // 道具类型
+                model.type = [doc[@"tool"][@"category"] isEqualToString:@"avatar"] ? FUQualityStickerTypeAvatar : FUQualityStickerTypeCommon;
                 // 特殊道具处理
                 if (doc[@"tool"][@"adapter"] && [doc[@"tool"][@"adapter"] length] > 0) {
                     NSString *adapterString = doc[@"tool"][@"adapter"];
@@ -71,7 +75,7 @@
     }];
 }
 
-+ (void)downloadItemSticker:(FUStickerModel *)sticker completion:(void (^)(NSError * _Nullable))completion {
++ (void)downloadItem:(FUStickerModel *)sticker completion:(void (^)(NSError * _Nullable))completion {
     [[FUNetworkingHelper sharedInstance] getWithURL:@"guest/download" parameters:@{@"id" : sticker.stickerId, @"platform" : @"mobile"} success:^(id  _Nonnull responseObject) {
         if (responseObject[@"data"][@"url"]) {
             NSString *downloadURLString = responseObject[@"data"][@"url"];
@@ -81,7 +85,24 @@
             }
             [[FUNetworkingHelper sharedInstance] downloadWithURL:downloadURLString directoryPath:directoryPathString fileName:sticker.itemId progress:^(NSProgress * _Nonnull progress) {
             } success:^(id  _Nonnull responseObject) {
-                !completion ?: completion(nil);
+                NSURL *responseURL = (NSURL *)responseObject;
+                if ([responseURL.pathExtension isEqualToString:@"zip"]) {
+                    // zip包需要解压，当前目录新建子目录
+                    NSString *unzipDestonationPath = [directoryPathString stringByAppendingPathComponent:sticker.stickerId];
+                    if (![[NSFileManager defaultManager] fileExistsAtPath:unzipDestonationPath]) {
+                        [[NSFileManager defaultManager] createDirectoryAtPath:unzipDestonationPath withIntermediateDirectories:YES attributes:nil error:nil];
+                    }
+                    if ([SSZipArchive unzipFileAtPath:responseURL.path toDestination:unzipDestonationPath]) {
+                        !completion ?: completion(nil);
+                    } else {
+                        NSLog(@"道具解压失败");
+                        // 解压失败暂时认为压缩包有问题，删除本地文件
+                        [[NSFileManager defaultManager] removeItemAtURL:responseURL error:nil];
+                        !completion ?: completion([NSError errorWithDomain:NSCocoaErrorDomain code:-1 userInfo:@{NSUnderlyingErrorKey : @"Unzip failed"}]);
+                    }
+                } else {
+                    !completion ?: completion(nil);
+                }
             } failure:^(NSError * _Nonnull error) {
                 !completion ?: completion(error);
             }];
@@ -94,9 +115,7 @@
 }
 
 + (void)cancelStickerHTTPTasks {
-    [[FUNetworkingHelper sharedInstance] cancelHttpRequestWithURL:@"guest/tags"];
-    [[FUNetworkingHelper sharedInstance] cancelHttpRequestWithURL:@"guest/tools"];
-    [[FUNetworkingHelper sharedInstance] cancelHttpRequestWithURL:@"guest/download"];
+    [[FUNetworkingHelper sharedInstance] cancelAllHttpRequests];
 }
 
 + (NSArray<FUStickerModel *> *)localStickersWithTag:(NSString *)stickerTag {

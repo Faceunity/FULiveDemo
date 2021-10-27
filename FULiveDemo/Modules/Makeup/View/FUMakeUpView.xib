@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -33,15 +33,8 @@
                     </collectionViewFlowLayout>
                     <cells/>
                 </collectionView>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g4j-xE-MXI" userLabel="line">
-                    <rect key="frame" x="0.0" y="143" width="459" height="1"/>
-                    <color key="backgroundColor" red="0.8980392157" green="0.8980392157" blue="0.8980392157" alpha="0.20178724319999999" colorSpace="calibratedRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="1" id="1Gp-Zp-QYQ"/>
-                    </constraints>
-                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="01v-fN-mN3">
-                    <rect key="frame" x="0.0" y="3" width="459" height="140"/>
+                    <rect key="frame" x="0.0" y="4" width="459" height="140"/>
                     <subviews>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="33O-R7-s7k">
                             <rect key="frame" x="86" y="42" width="373" height="98"/>
@@ -61,7 +54,7 @@
                             <rect key="frame" x="0.0" y="42" width="86" height="98"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iTa-oW-hFz" customClass="FUMakeButton">
-                                    <rect key="frame" x="-11" y="22" width="108" height="54"/>
+                                    <rect key="frame" x="16" y="22" width="54" height="54"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="54" id="lhV-mT-X30"/>
                                     </constraints>
@@ -115,12 +108,19 @@
                         <constraint firstItem="33O-R7-s7k" firstAttribute="leading" secondItem="cqU-3V-tEr" secondAttribute="trailing" id="xMV-yW-Ghs"/>
                     </constraints>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g4j-xE-MXI" userLabel="line">
+                    <rect key="frame" x="0.0" y="143" width="459" height="1"/>
+                    <color key="backgroundColor" white="1" alpha="0.19929453685564577" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="1Gp-Zp-QYQ"/>
+                    </constraints>
+                </view>
             </subviews>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="ppE-5j-WyN" secondAttribute="trailing" id="2zc-ix-vhR"/>
                 <constraint firstItem="ppE-5j-WyN" firstAttribute="top" secondItem="g4j-xE-MXI" secondAttribute="bottom" id="3eo-SJ-mB3"/>
-                <constraint firstItem="g4j-xE-MXI" firstAttribute="top" secondItem="01v-fN-mN3" secondAttribute="bottom" id="95H-EK-s9i"/>
                 <constraint firstItem="ppE-5j-WyN" firstAttribute="leading" secondItem="bh8-Nm-foI" secondAttribute="leading" id="Oey-66-TzD"/>
+                <constraint firstItem="ppE-5j-WyN" firstAttribute="top" secondItem="01v-fN-mN3" secondAttribute="bottom" id="VJP-Mv-VTK"/>
                 <constraint firstItem="x3s-88-gof" firstAttribute="top" secondItem="ppE-5j-WyN" secondAttribute="bottom" id="d0e-o5-UVh"/>
                 <constraint firstAttribute="trailing" secondItem="01v-fN-mN3" secondAttribute="trailing" id="dGM-Ln-aCg"/>
                 <constraint firstItem="g4j-xE-MXI" firstAttribute="leading" secondItem="bh8-Nm-foI" secondAttribute="leading" id="ecl-GV-jgJ"/>
