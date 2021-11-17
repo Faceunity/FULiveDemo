@@ -495,6 +495,7 @@
 		E3CB953323CC6EBF000D1695 /* qianzhihe.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3CB951923CC6EBE000D1695 /* qianzhihe.bundle */; };
 		E3CB953423CC6EBF000D1695 /* hongfeng.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3CB951A23CC6EBE000D1695 /* hongfeng.bundle */; };
 		E3CB953523CC6EBF000D1695 /* Rose.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3CB951B23CC6EBF000D1695 /* Rose.bundle */; };
+		E3CE4CB126CBBDD300ED0B4E /* docs in Resources */ = {isa = PBXBuildFile; fileRef = E3CE4CB026CBBDD300ED0B4E /* docs */; };
 		E3DD0F6F2484D7FC0064CF7E /* hair_gradient.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3DD0F5B2484D7FC0064CF7E /* hair_gradient.bundle */; };
 		E3DD0F712484D7FC0064CF7E /* hair_normal.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3DD0F5D2484D7FC0064CF7E /* hair_normal.bundle */; };
 		E3DF96BC2369403D00DB49B2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3DF96BE2369403D00DB49B2 /* InfoPlist.strings */; };
@@ -1162,6 +1163,7 @@
 		E3CB951923CC6EBE000D1695 /* qianzhihe.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = qianzhihe.bundle; sourceTree = "<group>"; };
 		E3CB951A23CC6EBE000D1695 /* hongfeng.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = hongfeng.bundle; sourceTree = "<group>"; };
 		E3CB951B23CC6EBF000D1695 /* Rose.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Rose.bundle; sourceTree = "<group>"; };
+		E3CE4CB026CBBDD300ED0B4E /* docs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = docs; sourceTree = "<group>"; };
 		E3DD0F5B2484D7FC0064CF7E /* hair_gradient.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = hair_gradient.bundle; sourceTree = "<group>"; };
 		E3DD0F5D2484D7FC0064CF7E /* hair_normal.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = hair_normal.bundle; sourceTree = "<group>"; };
 		E3DD0F782484DA6E0064CF7E /* CoreML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreML.framework; path = System/Library/Frameworks/CoreML.framework; sourceTree = SDKROOT; };
@@ -1249,6 +1251,7 @@
 		0B5A0CAC2021913900AAD47D = {
 			isa = PBXGroup;
 			children = (
+				E3CE4CB026CBBDD300ED0B4E /* docs */,
 				0B5A0CB72021913900AAD47D /* FULiveDemo */,
 				0B5A0CD02021913900AAD47D /* FULiveDemoTests */,
 				0B5A0CDB2021913900AAD47D /* FULiveDemoUITests */,
@@ -2999,7 +3002,6 @@
 				TargetAttributes = {
 					0B5A0CB42021913900AAD47D = {
 						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
 					};
 					0B5A0CCC2021913900AAD47D = {
 						CreatedOnToolsVersion = 9.2;
@@ -3095,6 +3097,7 @@
 				E39CF98E249A1187003A6C14 /* default_bg.bundle in Resources */,
 				E39CF975249A030A003A6C14 /* headnv.bundle in Resources */,
 				E310BFF224A9E51F0088629C /* anim_korheart.bundle in Resources */,
+				E3CE4CB126CBBDD300ED0B4E /* docs in Resources */,
 				E310BFFB24A9E51F0088629C /* anim_eight.bundle in Resources */,
 				E346BFE12704191F0090F3B3 /* diadiatu.bundle in Resources */,
 				E39B803E242A18D900E837E0 /* mu_eyebrow_01.png in Resources */,
@@ -3880,7 +3883,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 54;
+				CURRENT_PROJECT_VERSION = 56;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
@@ -3948,10 +3951,10 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 54;
+				CURRENT_PROJECT_VERSION = 56;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 35A6KD62ZJ;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
