@@ -14,7 +14,6 @@
 #import "FUItemsView.h"
 #import "FUBodyBeautyView.h"
 #import "MJExtension.h"
-#import "FUBaseViewController.h"
 #import "FULvMuView.h"
 
 #import "FUBaseViewControllerManager.h"
@@ -106,6 +105,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.view.backgroundColor = [UIColor blackColor];
+    
     self.baseManager = [[FUBaseViewControllerManager alloc] init];
     self.model = [FUManager shareManager].currentModel;
     
@@ -209,9 +211,64 @@
         }
     }
     
-    takePic = NO ;
-    videHasRendered = NO ;
+    takePic = NO;
+    videHasRendered = NO;
+    
+    [self.baseManager loadItem];
+    // 设置不同图像加载模式
+    [self.baseManager setFaceProcessorDetectMode:self.image ? FUFaceProcessorDetectModeImage : FUFaceProcessorDetectModeVideo];
 }
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self addObserver];
+    
+    if ((self.model.type == FULiveModelTypeBeautifyFace || self.model.type == FULiveModelTypeMakeUp) && FUShowLandmark) {
+        // 添加点位测试开关
+        [FULandmarkManager show];
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self startRendering];
+}
+
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    if ((self.model.type == FULiveModelTypeBeautifyFace || self.model.type == FULiveModelTypeMakeUp) && FUShowLandmark) {
+        // 移除点位测试开关
+        [FULandmarkManager dismiss];
+    }
+    
+    // 取消所有渲染任务
+    [self.renderOperationQueue cancelAllOperations];
+    
+    [_avPlayer pause];
+    _avPlayer = nil;
+    
+    _displayLink.paused = YES;
+    [_displayLink invalidate];
+    _displayLink = nil;
+
+    if (self.lvmuEditeView) {
+        [self.lvmuEditeView destoryLvMuView];
+    }
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void)dealloc {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:finalPath]) {
+        [[NSFileManager defaultManager] removeItemAtPath:finalPath error:nil];
+    }
+    if (&currentImageBuffer) {
+        [UIImage freeImageBuffer:&currentImageBuffer];
+    }
+    NSLog(@"render control dealloc");
+}
+
 
 -(void)setupLvMuSubView{
     // Do any additional setup after loading the view.
@@ -294,65 +351,13 @@
 }
 
 
--(void)initMovementGestures
-{
-    
+-(void)initMovementGestures {
     self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
     self.panGesture.delegate = self;
     [self.view addGestureRecognizer:self.panGesture];
-    //
     self.pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchGesture:)];
     self.pinchGesture.delegate = self;
     [self.view addGestureRecognizer:self.pinchGesture];
-}
-
-
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self addObserver];
-    [self startRendering];
-    [self.baseManager loadItem];
-    // 设置不同图像加载模式
-    [self.baseManager setFaceProcessorDetectMode:self.image ? FUFaceProcessorDetectModeImage : FUFaceProcessorDetectModeVideo];
-    
-    if ((self.model.type == FULiveModelTypeBeautifyFace || self.model.type == FULiveModelTypeMakeUp) && FUShowLandmark) {
-        // 添加点位测试开关
-        [FULandmarkManager show];
-    }
-}
-
--(void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    
-    if ((self.model.type == FULiveModelTypeBeautifyFace || self.model.type == FULiveModelTypeMakeUp) && FUShowLandmark) {
-        // 移除点位测试开关
-        [FULandmarkManager dismiss];
-    }
-    
-    // 取消所有渲染任务
-    [self.renderOperationQueue cancelAllOperations];
-    
-    [_avPlayer pause];
-    _avPlayer = nil;
-    
-    _displayLink.paused = YES;
-    [_displayLink invalidate];
-    _displayLink = nil;
-
-    if (self.lvmuEditeView) {
-        [self.lvmuEditeView destoryLvMuView];
-    }
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
--(void)dealloc {
-    if ([[NSFileManager defaultManager] fileExistsAtPath:finalPath]) {
-        [[NSFileManager defaultManager] removeItemAtPath:finalPath error:nil];
-    }
-    if (&currentImageBuffer) {
-        [UIImage freeImageBuffer:&currentImageBuffer];
-    }
-    NSLog(@"render control dealloc");
 }
 
 -(void)setupView{

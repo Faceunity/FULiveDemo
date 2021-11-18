@@ -4,13 +4,9 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>.DS_Store</key>
-		<data>
-		Uf2f+kRNDRJsY4WiVb2d+Ie3dec=
-		</data>
 		<key>FURenderKit快速集成文档.md</key>
 		<data>
-		aweHfRWi98tLJXLS8b0XxKSCEBc=
+		gj8zBwp62toJwVkgcFOIiqItIPU=
 		</data>
 		<key>Headers/CNamaSDK.h</key>
 		<data>
@@ -274,7 +270,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		740s4sjMK03DMmKMGGRKxsdqr6k=
+		VYl4URrPCQs0HtaDYDZ3qI/0D0k=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -287,11 +283,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			aweHfRWi98tLJXLS8b0XxKSCEBc=
+			gj8zBwp62toJwVkgcFOIiqItIPU=
 			</data>
 			<key>hash2</key>
 			<data>
-			rmVOWm6yOk7AywMkf+76PL6IPus2u1t9PuiFY6Qa8tU=
+			TdOEZKSlhRK77to/qsWxTI0InvwZAbnZPcZZDUEl8Kc=
 			</data>
 		</dict>
 		<key>Headers/CNamaSDK.h</key>
