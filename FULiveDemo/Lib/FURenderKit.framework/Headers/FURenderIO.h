@@ -74,6 +74,9 @@ typedef struct FUTexture FUTexture;
 /// 贴纸水平镜像
 @property (nonatomic, assign) BOOL stickerFlipH;
 
+/// 贴纸垂直镜像
+@property (nonatomic, assign) BOOL stickerFlipV;
+
 /// 重力开关，开启此功能可以根据已设置的 imageRotation 自动适配AI检测的方向。
 @property (nonatomic, assign) BOOL gravityEnable;
 

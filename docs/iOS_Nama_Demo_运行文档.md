@@ -3,6 +3,16 @@
 ------
 
 级别：Public   
+更新日期：2021-12-24 
+SDK版本: 8.0.2
+
+### 最新更新内容：
+
+1）解决部分bug
+
+------
+
+级别：Public   
 更新日期：2021-11-17 
 SDK版本: 8.0.1
 
@@ -68,8 +78,6 @@ SDK版本: 7.4.0
 
 **2021-1-25 v7.3.2:  **
 
-更新内容  
-
 - 优化人脸表情跟踪驱动性能。
 - fuSetup 函数改为线程安全。
 - fuSetUp 、fuCreateItemFromPackage、fuLoadAIModel函数增加异常处理，增强鲁棒性。
@@ -100,7 +108,7 @@ SDK版本: 7.4.0
       +Beauty                   //美颜模块
         ...
     +Helpers                //主要业务管理类  
-      -FUManager              //NAMA业务管理类
+      -FUManager              //Nama业务管理类
       +VC                      //基类控制器
       +Manager                 //管理类基类
       	...   

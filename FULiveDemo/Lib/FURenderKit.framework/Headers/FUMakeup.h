@@ -94,7 +94,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) FUColor foundationColor;//粉底
 @property (nonatomic, assign) FUColor lipColor;//口红颜色
 @property (nonatomic, assign) FUColor lipColor2;//口红2
-@property (nonatomic, assign) FUColor lipColorV2;//口红颜色v2（暂时只用于lipType=FUMakeupLipTypeMoisturizing的情况）
 @property (nonatomic, assign) FUColor blusherColor;//腮红
 @property (nonatomic, assign) FUColor eyebrowColor;//眉毛
 @property (nonatomic, assign) FUColor eyelinerColor;//眼线

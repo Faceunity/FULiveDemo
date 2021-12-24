@@ -44,9 +44,9 @@ typedef void (^FURequestProgress)(NSProgress *progress);
 /// @param success 成功回调
 /// @param failure 失败回调
 - (NSURLSessionTask *)getWithURL:(NSString *)URLString
-               parameters:(nullable NSDictionary *)parameters
-                  success:(FURequestSuccess)success
-                  failure:(FURequestFailure)failure;
+                      parameters:(nullable NSDictionary *)parameters
+                         success:(FURequestSuccess)success
+                         failure:(FURequestFailure)failure;
 
 /// POST请求
 /// @param URLString 请求URL
@@ -54,9 +54,9 @@ typedef void (^FURequestProgress)(NSProgress *progress);
 /// @param success 成功回调
 /// @param failure 失败回调
 - (NSURLSessionTask *)postWithURL:(NSString *)URLString
-                parameters:(NSDictionary *)parameters
-                   success:(FURequestSuccess)success
-                   failure:(FURequestFailure)failure;
+                       parameters:(NSDictionary *)parameters
+                          success:(FURequestSuccess)success
+                          failure:(FURequestFailure)failure;
 
 /// DOWNLOAD请求
 /// @param URLString 请求URL

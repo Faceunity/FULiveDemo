@@ -132,7 +132,7 @@
 }
 
 #pragma mark - Class methods
-+ (BOOL)safeLocalSafeAreaImage:(UIImage *)image {
++ (BOOL)saveLocalSafeAreaImage:(UIImage *)image {
     if (!image) {
         return NO;
     }

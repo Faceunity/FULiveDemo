@@ -13,35 +13,30 @@
 #import "FUAPIDemoBar.h"
 #import "FUItemsView.h"
 #import "FUBodyBeautyView.h"
-#import "MJExtension.h"
 #import "FULvMuView.h"
 
 #import "FUBaseViewControllerManager.h"
 #import "FUStickerManager.h"
 #import "FUGreenScreenManager.h"
 #import "FUBodyBeautyManager.h"
-#import "FUMakeupManager.h"
 
 #import "FULandmarkManager.h"
 
-#import "FUMakeUpView.h"
-#import "FUColourView.h"
-
-#import <Masonry.h>
 #import <FURenderKit/FUImageHelper.h>
 #import <SVProgressHUD.h>
+#import <MJExtension.h>
 
 
 #define finalPath   [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:@"finalVideo.mp4"]
 
-@interface FURenderImageViewController ()<UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIGestureRecognizerDelegate, FUVideoReaderDelegate, FUAPIDemoBarDelegate, FUItemsViewDelegate,FULvMuViewDelegate, FUBodyBeautyViewDelegate, FUColourViewDelegate, FUMakeUpViewDelegate>
+@interface FURenderImageViewController ()<UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIGestureRecognizerDelegate, FUVideoReaderDelegate, FUAPIDemoBarDelegate, FUItemsViewDelegate,FULvMuViewDelegate, FUBodyBeautyViewDelegate>
 
 {
     __block BOOL takePic ;
     
     BOOL videHasRendered ;
     
-    float w,h;
+    // float w,h;
     
     CGPoint _currPoint;
 }
@@ -50,12 +45,11 @@
 @property (strong, nonatomic) FUStickerManager *stickManager;
 @property (strong, nonatomic) FUGreenScreenManager *greenScreenManager;
 @property (strong, nonatomic) FUBodyBeautyManager *bodyBeautyManager;
-@property (strong, nonatomic) FUMakeupManager *makeupManager;
 
-@property (nonatomic, strong) FULiveModel *model ;
+@property (nonatomic, strong) FULiveModel *model;
 
 @property (nonatomic, strong) FUGLDisplayView *glView;
-@property (nonatomic, strong) FUVideoReader *videoReader ;
+@property (nonatomic, strong) FUVideoReader *videoReader;
 
 
 @property (strong, nonatomic) UIButton *playBtn;
@@ -70,11 +64,6 @@
 @property(nonatomic,strong)FUBodyBeautyView *mBodyBeautyView;
 
 @property(strong,nonatomic) FULvMuView *lvmuEditeView;
-
-/// 化妆视图
-@property (nonatomic, strong) FUMakeUpView *makeupView ;
-/// 颜色选择视图
-@property (nonatomic, strong) FUColourView *colourView;
 
 // 定时器
 @property (nonatomic, strong) CADisplayLink *displayLink;
@@ -158,17 +147,6 @@
         FUGreenScreenBgModel *param = [self.greenScreenManager.bgDataArray objectAtIndex:3];
         NSString *urlStr = [[NSBundle mainBundle] pathForResource:param.videoPath ofType:@"mp4"];
         self.greenScreenManager.greenScreen.videoPath = urlStr;
-    } else if (self.model.type == FULiveModelTypeMakeUp) {
-        self.demoBar.hidden = YES;
-        self.downloadBtn.transform = CGAffineTransformMakeTranslation(0, -40) ;
-        [self setupMakeupView];
-        
-        [self.makeupView reloadDataArray:self.makeupManager.dataArray];
-        [self.makeupView reloadSupArray:self.makeupManager.supArray];
-        
-        // 默认选中
-        [self.makeupView setSelSupItem:1];
-        
     } else { //目前只包含道具贴纸内容
         self.demoBar.hidden = YES ;
         
@@ -269,7 +247,6 @@
     NSLog(@"render control dealloc");
 }
 
-
 -(void)setupLvMuSubView{
     // Do any additional setup after loading the view.
     _lvmuEditeView = [[FULvMuView alloc] initWithFrame:CGRectZero];
@@ -300,61 +277,13 @@
     
 }
 
-- (void)setupMakeupView {
-    [self.view addSubview:self.colourView];
+-(void)initMovementGestures
+{
     
-    _makeupView = [[FUMakeUpView alloc] init];
-    _makeupView.delegate = self;
-
-    _makeupView.backgroundColor = [UIColor clearColor];
-    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-    UIVisualEffectView *effectview = [[UIVisualEffectView alloc] initWithEffect:blur];
-    [_makeupView.topView addSubview:effectview];
-    [_makeupView.topView sendSubviewToBack:effectview];
-    /* 磨玻璃 */
-    [effectview mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.bottom.equalTo(_makeupView.topView);
-    }];
-    
-    UIBlurEffect *blur1 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-    UIVisualEffectView *effectview1 = [[UIVisualEffectView alloc] initWithEffect:blur1];
-    _makeupView.bottomCollection.backgroundView = effectview1;
-    /* 磨玻璃 */
-    [effectview1 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.bottom.equalTo(_makeupView);
-        make.height.mas_equalTo(_makeupView.bottomCollection.bounds.size.height);
-    }];
-    
-    [self.view addSubview:_makeupView];
-    
-    [_makeupView mas_makeConstraints:^(MASConstraintMaker *make) {
-        if (@available(iOS 11.0, *)) {
-            make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
-        } else {
-            make.bottom.equalTo(self.view.mas_bottom);
-        }
-        make.left.right.equalTo(self.view);
-        make.height.mas_equalTo(182);
-    }];
-    
-    if(iPhoneXStyle){
-        UIBlurEffect *blur2 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-        UIVisualEffectView *effectview2 = [[UIVisualEffectView alloc] initWithEffect:blur2];
-        [self.view addSubview:effectview2];
-        [self.view sendSubviewToBack:effectview2];
-        [effectview2 mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.view.mas_bottom);
-            make.left.right.equalTo(self.view);
-            make.height.mas_equalTo(34);
-        }];
-    }
-}
-
-
--(void)initMovementGestures {
     self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
     self.panGesture.delegate = self;
     [self.view addGestureRecognizer:self.panGesture];
+    //
     self.pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchGesture:)];
     self.pinchGesture.delegate = self;
     [self.view addGestureRecognizer:self.pinchGesture];
@@ -411,7 +340,6 @@
     }];
     
     /* 未检测到人脸提示 */
-    _noTrackLabel = [[UILabel alloc] init];
     _noTrackLabel = [[UILabel alloc] init];
     _noTrackLabel.textColor = [UIColor whiteColor];
     _noTrackLabel.font = [UIFont systemFontOfSize:17];
@@ -539,12 +467,6 @@
             self.downloadBtn.hidden = NO;
         }
         
-    }
-    if (self.model.type == FULiveModelTypeMakeUp) {
-        if (!_makeupView.topHidden) {
-            [_makeupView hiddenTopCollectionView:YES];
-            _colourView.hidden = YES;
-        }
     }
     
 }
@@ -713,9 +635,6 @@
         [self.greenScreenManager.greenScreen stopVideoDecode];
         [self.greenScreenManager releaseItem];
     }
-    if (self.makeupManager) {
-        [self.makeupManager releaseItem];
-    }
     [self.videoReader stopReading];
     [self.videoReader destory];
     [self.navigationController popViewControllerAnimated:YES];
@@ -772,8 +691,8 @@
         outPixelBuffer = pixelBuffer;
     }
     
-    w = CVPixelBufferGetWidth(outPixelBuffer);
-    h = CVPixelBufferGetHeight(outPixelBuffer);
+//    w = CVPixelBufferGetWidth(outPixelBuffer);
+//    h = CVPixelBufferGetHeight(outPixelBuffer);
     [self.glView displayPixelBuffer:outPixelBuffer];
 //    [self.glView displaySyncPixelBuffer:outPixelBuffer];
     
@@ -933,44 +852,70 @@
 #pragma  mark -  FULvMuViewDelegate && 绿慕模块
 - (void)getColorWithPixelBuffer:(CVPixelBufferRef)pixelBuffer {
     if (!CGPointEqualToPoint(CGPointZero, _currPoint)) {
-        //转换为图片坐标
-        size_t width = CVPixelBufferGetWidth(pixelBuffer);
-        size_t height = CVPixelBufferGetHeight(pixelBuffer);
-        
-        int scale = (int)[UIScreen mainScreen].scale;
-        size_t viewWidth = CGRectGetWidth(self.glView.bounds) * scale;
-        size_t viewHeight = CGRectGetHeight(self.glView.bounds) * scale;
-        
-        CGPoint imagePoint;
-        imagePoint = CGPointMake(_currPoint.x * width / viewWidth, _currPoint.y * height / viewHeight);
-        
-        UIColor *color = [FUGreenScreen pixelColorWithPixelBuffer:pixelBuffer point:imagePoint];;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.lvmuEditeView setTakeColor:color];
-        });
+        UIColor *color = [UIColor blackColor];
+        CGPoint takePoint = [self currentTakePointWithImageWidth:CVPixelBufferGetWidth(pixelBuffer) imageHeight:CVPixelBufferGetHeight(pixelBuffer)];
+        if (!CGPointEqualToPoint(CGPointZero, takePoint)) {
+            // 获取实际点的颜色
+            color = [FUGreenScreen pixelColorWithPixelBuffer:pixelBuffer point:takePoint];
+        }
+        if (color) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.lvmuEditeView setTakeColor:color];
+            });
+        }
     }
 }
 
 
 - (void)getColorWithImage:(UIImage *)image {
     if (!CGPointEqualToPoint(CGPointZero, _currPoint)) {
-        //转换为图片坐标
-        CGFloat width = image.size.width;
-        CGFloat height = image.size.height;
-        
-        CGFloat scale = [UIScreen mainScreen].scale;
-        CGFloat viewWidth = CGRectGetWidth(self.glView.bounds) * scale;
-        CGFloat viewHeight = CGRectGetHeight(self.glView.bounds) * scale;
-        
-        CGPoint imagePoint;
-        
-        imagePoint = CGPointMake(_currPoint.x * width / viewWidth, _currPoint.y * height / viewHeight);
-        
-        UIColor *color = [FUGreenScreen pixelColorWithImage:image point:imagePoint];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.lvmuEditeView setTakeColor:color];
-        });
+        UIColor *color = [UIColor blackColor];
+        CGPoint takePoint = [self currentTakePointWithImageWidth:image.size.width imageHeight:image.size.height];
+        if (!CGPointEqualToPoint(CGPointZero, takePoint)) {
+            // 获取实际点的颜色
+            color = [FUGreenScreen pixelColorWithImage:image point:takePoint];
+        }
+        if (color) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.lvmuEditeView setTakeColor:color];
+            });
+        }
     }
+}
+
+- (CGPoint)currentTakePointWithImageWidth:(CGFloat)width imageHeight:(CGFloat)height {
+    CGFloat scale = [UIScreen mainScreen].scale;
+    CGFloat viewWidth = CGRectGetWidth(self.glView.bounds) * scale;
+    CGFloat viewHeight = CGRectGetHeight(self.glView.bounds) * scale;
+    
+    // 宽度比例
+    CGFloat widthRatio = width / viewWidth;
+    // 高度比例
+    CGFloat heightRatio = height / viewHeight;
+    // 图片实际在glView上的位置
+    CGRect imageRect;
+    // 展示图片的比例
+    CGFloat targetRatio;
+    // 对比高度比例和宽度比例决定高度充满还是宽度充满
+    if (widthRatio >= heightRatio) {
+        // 宽度充满
+        targetRatio = widthRatio;
+        CGFloat imageHeight = height / targetRatio;
+        imageRect = CGRectMake(0, viewHeight/2.f - imageHeight/2.0, viewWidth, imageHeight);
+    } else {
+        // 高度充满
+        targetRatio = heightRatio;
+        CGFloat imageWidth = width / targetRatio;
+        imageRect = CGRectMake(viewWidth/2.f - imageWidth/2.0, 0, imageWidth, viewHeight);
+    }
+    
+    CGPoint takePoint = CGPointZero;
+    if (CGRectContainsPoint(imageRect, CGPointMake(_currPoint.x * scale, _currPoint.y * scale))) {
+        // 点位在图片展示区域内，则获取实际点
+        CGPoint resultPoint = CGPointMake(_currPoint.x - imageRect.origin.x / scale, _currPoint.y - imageRect.origin.y / scale);
+        takePoint = CGPointMake(resultPoint.x * targetRatio, resultPoint.y * targetRatio);
+    }
+    return takePoint;
 }
 
 -(void)beautyCollectionView:(FULvMuView *)beautyView didSelectedParam:(FUGreenScreenModel *)param{
@@ -1051,7 +996,7 @@
 
 //从外面获取全局的取点背景view，为了修复取点view加载Window上的系统兼容性问题
 - (UIView *)takeColorBgView {
-    UIView *bgView = [[UIView alloc] initWithFrame:self.view.frame];
+    UIView *bgView = [[UIView alloc] initWithFrame:self.glView.frame];
     [self.view insertSubview:bgView aboveSubview:self.glView];
     return bgView;
 }
@@ -1115,67 +1060,6 @@
 - (void)dismissTipLabel {
     self.tipLabel.hidden = YES;
 }
-
-#pragma mark - FUMakeUpViewDelegate
--(void)makeupViewDidSelectedSupModle:(FUMakeupSupModel *)model {
-    [self.makeupManager setSupModel:model];
-    [self modifyFilter:model];
-}
-
--(void)makeupViewChangeValueSupModle:(FUMakeupSupModel *)model {
-    [self.makeupManager setMakeupWholeModel:model];
-    [self modifyFilter:model];
-}
-
-- (void)modifyFilter:(FUMakeupSupModel *)model {
-    /* 修改美颜的滤镜 */
-    if (!model.selectedFilter || [model.selectedFilter isEqualToString:@""]) {
-        FUBeautyModel *param = self.baseManager.seletedFliter;
-        self.baseManager.beauty.filterName = [param.strValue lowercaseString];
-        self.baseManager.beauty.filterLevel = param.mValue;
-    }else {
-        self.baseManager.beauty.filterName = [model.selectedFilter lowercaseString];
-        self.baseManager.beauty.filterLevel = model.value;
-    }
-}
-
-- (void)makeupViewDidSelectedModel:(FUSingleMakeupModel *)model type:(UIMAKEUITYPE)type {
-    model.realValue = model.value;
-    [self.makeupManager setMakeupSupModel:model type:type];
-    
-}
-
--(void)makeupCustomShow:(BOOL)isShow{
-    if (isShow) {
-        [UIView animateWithDuration:0.2 animations:^{
-            self.downloadBtn.transform = CGAffineTransformConcat(CGAffineTransformMakeTranslation(0, -150), CGAffineTransformMakeScale(0.8, 0.8)) ;
-        }];
-    } else {
-        [UIView animateWithDuration:0.2 animations:^{
-            self.downloadBtn.transform = CGAffineTransformConcat(CGAffineTransformMakeTranslation(0, -100), CGAffineTransformMakeScale(0.8, 0.8));
-        }];
-    }
-}
-
--(void)makeupViewSelectiveColorArray:(NSArray<NSArray *> *)colors selColorIndex:(int)index {
-    [_colourView setDataColors:colors];
-    [_colourView setSelCell:index];
-}
-
--(void)makeupSelColorState:(BOOL)state {
-    _colourView.hidden = state ? NO :YES;
-}
-
--(void)makeupViewDidSelTitle:(NSString *)nama{
-    
-}
-
-
-#pragma mark - FUColourViewDelegate
--(void)colourViewDidSelIndex:(int)index{
-    [self.makeupView changeSubItemColorIndex:index];
-}
-
 
 #pragma  mark ----  手势事件  -----
 -(void)handlePanGesture:(UIPanGestureRecognizer *) panGesture{
@@ -1282,27 +1166,6 @@
         _renderOperationQueue.maxConcurrentOperationCount = 1;
     }
     return _renderOperationQueue;
-}
-        
-- (FUMakeupManager *)makeupManager {
-    if (!_makeupManager) {
-        _makeupManager = [[FUMakeupManager alloc] init];
-        // [_makeupManager addLandmarks];
-    }
-    return _makeupManager;
-}
-
-- (FUColourView *)colourView {
-    if (!_colourView) {
-        if (iPhoneXStyle) {
-            _colourView = [[FUColourView alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 15 - 60, self.view.frame.size.height - 250 - 182 - 10 - 34, 60, 250)];
-        }else{
-            _colourView = [[FUColourView alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 15 - 60, self.view.frame.size.height - 250 - 182 - 10, 60, 250)];
-        }
-        _colourView.delegate = self;
-        _colourView.hidden = YES;
-    }
-    return _colourView;
 }
 
 @end

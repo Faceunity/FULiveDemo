@@ -229,19 +229,6 @@
             model.type = FUBGSaveModelTypeVideo;
             model.url = videoURL;
 
-//            [self.itemsView startAnimation];
-//            __weak typeof(self) weak = self;
-//            [self.segmentManager loadItem:CUSTOMBG completion:^(BOOL finished) {
-//                [weak.itemsView stopAnimation];
-//                weak.segmentManager.segment.videoPath = model.url;
-//                UIImage *image = [weak.segmentManager.segment readFirstFrame];
-//                if (image) {
-//                    [weak saveImg:image withName:CUSTOMBG];
-//                    model.iconImage = image;
-//                    [weak.segmentManager saveModel: model];
-//                    [weak.itemsView reloadData];
-//                }
-//            }];
         } else if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) { //照片
             
             UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];

@@ -120,7 +120,7 @@
     if (imageName == self.selectedItem) {
         
         return ;
-    }    
+    }
     
     self.selectedItem = imageName ;
 
