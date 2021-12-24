@@ -86,6 +86,10 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.greenScreenManager loadItem];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     [self.greenScreenManager.greenScreen startVideoDecode];
 }
 
@@ -185,28 +189,25 @@
 //从外面获取全局的取点背景view，为了修复取点view加载Window上的系统兼容性问题
 - (UIView *)takeColorBgView {
     UIView *bgView = [[UIView alloc] initWithFrame:self.renderView.frame];
-    [self.view addSubview:bgView];
     [self.view insertSubview:bgView aboveSubview:self.renderView];
     return bgView;
 }
 
 - (void)renderKitDidRenderToOutput:(FURenderOutput *)renderOutput {
     if (!CGPointEqualToPoint(CGPointZero, _currPoint)) {
-        CVPixelBufferRef pixelBuffer = renderOutput.pixelBuffer;
-        //转换为图片坐标
-        size_t width = CVPixelBufferGetWidth(pixelBuffer);
-        size_t height = CVPixelBufferGetHeight(pixelBuffer);
-        
-        int scale = (int)[UIScreen mainScreen].scale;
-        size_t viewWidth = CGRectGetWidth(self.renderView.bounds) * scale;
-        size_t viewHeight = CGRectGetHeight(self.renderView.bounds) * scale;
-        
-        CGPoint imagePoint;
-        imagePoint = CGPointMake(_currPoint.x * width / viewWidth, _currPoint.y * height / viewHeight);
-        
-        
-        UIColor *color = [FUImageHelper getPixelColorWithPixelBuff:pixelBuffer point:imagePoint];
         dispatch_async(dispatch_get_main_queue(), ^{
+            CVPixelBufferRef pixelBuffer = renderOutput.pixelBuffer;
+            //转换为图片坐标
+            size_t width = CVPixelBufferGetWidth(pixelBuffer);
+            size_t height = CVPixelBufferGetHeight(pixelBuffer);
+            
+            int scale = (int)[UIScreen mainScreen].scale;
+            size_t viewWidth = CGRectGetWidth(self.renderView.bounds) * scale;
+            size_t viewHeight = CGRectGetHeight(self.renderView.bounds) * scale;
+            
+            CGPoint imagePoint;
+            imagePoint = CGPointMake(_currPoint.x * width / viewWidth, _currPoint.y * height / viewHeight);
+            UIColor *color = [FUImageHelper getPixelColorWithPixelBuff:pixelBuffer point:imagePoint];
             [self.lvmuEditeView setTakeColor:color];
         });
     }

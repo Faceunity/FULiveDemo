@@ -637,7 +637,7 @@ static NSString * const colorCellID = @"FULvMuColorCellID";
             image = [image fu_resetImageOrientationToUp];
         }
         // 保存自定义安全区域图片
-        if ([FUGreenScreenManager safeLocalSafeAreaImage:image]) {
+        if ([FUGreenScreenManager saveLocalSafeAreaImage:image]) {
             // 设置选中自定义，重新加载安全区域数据
             self.safeAreaCollectionView.selectedIndex = 3;
             [self.safeAreaCollectionView reloadSafeAreas];

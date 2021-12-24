@@ -138,6 +138,7 @@ static NSString * const kFUSafeAreaCellIdentifierKey = @"FUSafeAreaCellIdentifie
             }
             dispatch_async(dispatch_get_main_queue(), ^{
                 [collectionView reloadData];
+                [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
             });
         }
             break;
@@ -156,6 +157,7 @@ static NSString * const kFUSafeAreaCellIdentifierKey = @"FUSafeAreaCellIdentifie
             }
             dispatch_async(dispatch_get_main_queue(), ^{
                 [collectionView reloadData];
+                [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
             });
         }
             break;

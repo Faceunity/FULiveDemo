@@ -187,12 +187,7 @@
             self.makeup.foundationColor = color;
             break;
         case MAKEUPTYPE_Lip:
-            if (model.lip_type == FUMakeupLipTypeMoisturizing) {
-                // 润泽Ⅱ口红颜色设置lipColorV2
-                self.makeup.lipColorV2 = color;
-            } else {
-                self.makeup.lipColor = color;
-            }
+            self.makeup.lipColor = color;
             break;
         case MAKEUPTYPE_blusher:
             self.makeup.blusherColor = color;

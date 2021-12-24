@@ -6,7 +6,7 @@
 	<dict>
 		<key>FURenderKit快速集成文档.md</key>
 		<data>
-		gj8zBwp62toJwVkgcFOIiqItIPU=
+		8trbPr+b+YgCTZ45+nCv/zFgnTo=
 		</data>
 		<key>Headers/CNamaSDK.h</key>
 		<data>
@@ -110,7 +110,7 @@
 		</data>
 		<key>Headers/FUGLContext.h</key>
 		<data>
-		vtYXZNQj7tV1AMiguAENF9XXXMc=
+		0D2Gx8rhv2W5pXz1/lHEwKRat9s=
 		</data>
 		<key>Headers/FUGLDisplayView.h</key>
 		<data>
@@ -182,7 +182,7 @@
 		</data>
 		<key>Headers/FUMakeup.h</key>
 		<data>
-		4f9QFXJePmC2GGBV1JSYe3i6y2Q=
+		NO4IOlQn61FQwJCBN3V8SwyEt6M=
 		</data>
 		<key>Headers/FUMakeupValueDefine.h</key>
 		<data>
@@ -218,11 +218,11 @@
 		</data>
 		<key>Headers/FURenderIO.h</key>
 		<data>
-		ZeCUXl4UrBvISka+AvEnSQF2eNU=
+		D3gW0h3REmwvadsyoovqVm4jvXA=
 		</data>
 		<key>Headers/FURenderKit.h</key>
 		<data>
-		gyqAoQ6DfmcMT1nbmLX/wyJPSOg=
+		WIkr0Jlv0oooPmsRCareIi4xZTI=
 		</data>
 		<key>Headers/FURenderableObject.h</key>
 		<data>
@@ -258,7 +258,7 @@
 		</data>
 		<key>Headers/UIDevice+FURenderKit.h</key>
 		<data>
-		ZOiRq2pZKcg7dtSFWOKyv5r5tlU=
+		CtuwsWyQRXu6LcmVdnNP/ttZroc=
 		</data>
 		<key>Headers/UIImage+FURenderKit.h</key>
 		<data>
@@ -270,7 +270,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		VYl4URrPCQs0HtaDYDZ3qI/0D0k=
+		E79q0sn+bJYhKmEbmmXGU2GTTto=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -283,11 +283,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			gj8zBwp62toJwVkgcFOIiqItIPU=
+			8trbPr+b+YgCTZ45+nCv/zFgnTo=
 			</data>
 			<key>hash2</key>
 			<data>
-			TdOEZKSlhRK77to/qsWxTI0InvwZAbnZPcZZDUEl8Kc=
+			GaXMxnvp2hfBVjO38wqyG2LrFXIsTj24+hOAMdQYIMc=
 			</data>
 		</dict>
 		<key>Headers/CNamaSDK.h</key>
@@ -569,11 +569,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			vtYXZNQj7tV1AMiguAENF9XXXMc=
+			0D2Gx8rhv2W5pXz1/lHEwKRat9s=
 			</data>
 			<key>hash2</key>
 			<data>
-			nvzbFAV2413BJYhpWeb0xBMxjwWJT5cot7DNuqEiZ6M=
+			rMsywYqChrTE4u2PGWVrTPQT8FGChPMuQIB9Yx8xnxQ=
 			</data>
 		</dict>
 		<key>Headers/FUGLDisplayView.h</key>
@@ -767,11 +767,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			4f9QFXJePmC2GGBV1JSYe3i6y2Q=
+			NO4IOlQn61FQwJCBN3V8SwyEt6M=
 			</data>
 			<key>hash2</key>
 			<data>
-			B9xsmyTEigYjoQEe+3vUTwxnq4bELkyYcdwC4h0bIAM=
+			5bTm+VOp1w+LCAz5OGM/N9jAZEMXF8pg7Vz1fve2MNY=
 			</data>
 		</dict>
 		<key>Headers/FUMakeupValueDefine.h</key>
@@ -866,22 +866,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ZeCUXl4UrBvISka+AvEnSQF2eNU=
+			D3gW0h3REmwvadsyoovqVm4jvXA=
 			</data>
 			<key>hash2</key>
 			<data>
-			T/wur+RkiUrVuPKaad1c4qvQsE3W1ZDhrJgZts2l6tY=
+			YAVmPEUS5S5gtA8pssysxQTe82T6GDcXSjkeyVCFeAQ=
 			</data>
 		</dict>
 		<key>Headers/FURenderKit.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			gyqAoQ6DfmcMT1nbmLX/wyJPSOg=
+			WIkr0Jlv0oooPmsRCareIi4xZTI=
 			</data>
 			<key>hash2</key>
 			<data>
-			9O9xeWfFB0WUDzzSc6bGramQCzCAdUp2GPPc9VxrHq8=
+			lVGHzK700X8Wk0UcbpXZJVgTSJ9Vlha2ACKDCzwJ6zM=
 			</data>
 		</dict>
 		<key>Headers/FURenderableObject.h</key>
@@ -976,11 +976,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ZOiRq2pZKcg7dtSFWOKyv5r5tlU=
+			CtuwsWyQRXu6LcmVdnNP/ttZroc=
 			</data>
 			<key>hash2</key>
 			<data>
-			wCZIE3iA+Htkqa65fAQrjHyfgLIUSnuFOLts4MX7mQs=
+			imzYx2sdGclV6VtxY8xpZh9IFVJMPW0cW2DczmLaB6s=
 			</data>
 		</dict>
 		<key>Headers/UIImage+FURenderKit.h</key>

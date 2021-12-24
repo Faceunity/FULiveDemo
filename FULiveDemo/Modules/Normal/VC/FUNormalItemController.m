@@ -150,7 +150,7 @@
 }
 
 -(void)dealloc {
-    NSLog(@"normalll dealloc");
+    NSLog(@"normal dealloc");
 }
 
 

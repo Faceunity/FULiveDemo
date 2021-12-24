@@ -379,7 +379,6 @@ ___
     | foundationColor | FUColor | 粉底调色参数，数组的第四个值（对应alpha）为0时，会关闭粉底的调色功能，大于0时会开启 | makeup_foundation_color |
     | lipColor        | FUColor | 口红颜色                                                   | makeup_lip_color        |
     | lipColor2       | FUColor | 如果is_two_color为1，会启用这个颜色，外圈颜色为makeup_lip_color2，内圈颜色为makeup_lip_color，如果makeup_lip_color2都为0，则外圈为透明，即为咬唇效果 | makeup_lip_color2       |
-    | lipColorV2        | FUColor | 口红颜色v2，暂时只用于lipType=FUMakeupLipTypeMoisturizing的情况                                                   | makeup_lip_color_v2        |
     | blusherColor    | FUColor | 第一层腮红调色参数，数组的第四个值（对应alpha）为0时，会关闭这一层腮红的调色功能，大于0时会开启 | makeup_blusher_color    |
     | eyebrowColor    | FUColor | 眉毛调色参数，数组的第四个值（对应alpha）为0时，会关闭眉毛的调色功能，大于0时会开启 | makeup_eyeBrow_color    |
     | eyelinerColor   | FUColor | 眼线调色参数，数组的第四个值（对应alpha）为0时，会关闭眼线的调色功能，大于0时会开启 | makeup_eyeLiner_color   |

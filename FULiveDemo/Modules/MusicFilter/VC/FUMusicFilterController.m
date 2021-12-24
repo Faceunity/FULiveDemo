@@ -75,8 +75,7 @@
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];    
-    [self.mCamera removeAudio];
+    [super viewWillDisappear:animated];
     
     [self.musicManager.musicItem stop];
 }

@@ -36,7 +36,7 @@
 
 -(NSString *)filePath {
     NSString *paths =[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
-    NSString *path = [paths stringByAppendingPathComponent:@"saveModel"];
+    NSString *path = [paths stringByAppendingPathComponent:@"FUBGSaveModel.data"];
     return path;
 }
 
@@ -61,7 +61,14 @@
     if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
         return nil;
     }
-    FUBGSaveModel *model = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+    
+    FUBGSaveModel *model = nil;
+    @try {
+        model = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+    } @catch (NSException *exception) {
+        [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
+    } @finally {
+    }
     return model;
 }
 

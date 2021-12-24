@@ -205,13 +205,4 @@
     [_makeupView changeSubItemColorIndex:index];
 }
 
-
-
--(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    if (!_makeupView.topHidden) {
-        [_makeupView hiddenTopCollectionView:YES];
-        _colourView.hidden = YES;
-    }
-}
-
 @end

@@ -128,7 +128,7 @@
 
 @property (nonatomic, weak) id<FURenderKitDelegate> delegate;
 
-#pragma makr - version
+#pragma mark - version
 + (NSString *)getVersion;
 
 + (void)setLogLevel:(FULOGLEVEL)logLevel;

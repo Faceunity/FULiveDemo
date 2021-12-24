@@ -42,7 +42,7 @@
  */
 - (void)loadItem:(NSString *)itemName
       completion:(void (^ __nullable)(BOOL finished))completion {
-    self.selectedItem = itemName ;
+    self.selectedItem = itemName;
     NSLog(@"道具名称=====%@",itemName);
     if (itemName != nil && ![itemName isEqual: @"resetItem"])  {
         [self loadItemWithCompletion:^{

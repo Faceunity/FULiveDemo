@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)updateSafeAreaImage:(nullable UIImage *)image;
 
 /// 保存本地安全区域图片
-+ (BOOL)safeLocalSafeAreaImage:(UIImage *)image;
++ (BOOL)saveLocalSafeAreaImage:(UIImage *)image;
 
 /// 获取本地安全区域图片
 + (UIImage *)localSafeAreaImage;

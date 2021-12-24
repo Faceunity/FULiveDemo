@@ -11,6 +11,19 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol FUGLContextProtocol <NSObject>
+
+@required
+- (void)glQueueAsync:(dispatch_block_t)block;
+
+- (void)glQueueSync:(dispatch_block_t)block;
+
+- (void)glContextDidChange;
+
+@property (nonatomic, weak) EAGLContext *currentGLContext;
+
+@end
+
 @interface FUGLContext : NSObject
 
 @property (nonatomic,strong, readonly) EAGLContext *currentGLContext;

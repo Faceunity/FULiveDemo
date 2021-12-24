@@ -45,6 +45,10 @@ typedef NS_ENUM(NSInteger, FUDeviceModelType) {
     FUDeviceModelTypeiPhone12,
     FUDeviceModelTypeiPhone12Pro,
     FUDeviceModelTypeiPhone12ProMax,
+    FUDeviceModelTypeiPhone13Mini,
+    FUDeviceModelTypeiPhone13,
+    FUDeviceModelTypeiPhone13Pro,
+    FUDeviceModelTypeiPhone13ProMax,
     FUDeviceModelTypeOthers
 };
 
