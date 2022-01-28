@@ -7,7 +7,7 @@
 
 #import "FUItem.h"
 #import <Foundation/Foundation.h>
-#import <FURenderKit/FUStruct.h>
+#import "FUStruct.h"
 #import "FUMakeupValueDefine.h"
 
 NS_ASSUME_NONNULL_BEGIN

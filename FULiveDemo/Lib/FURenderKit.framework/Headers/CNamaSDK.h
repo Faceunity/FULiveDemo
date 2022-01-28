@@ -168,6 +168,13 @@ typedef enum FUAISCENESTATE {
   FUAISCENE_SLIM = 2,
 } FUAISCENESTATE;
 
+typedef enum FUAIHUMANFOLLOWMODE {
+  FUAIHUMAN_FOLLOW_MODE_UNKNOWN = -1,
+  FUAIHUMAN_FOLLOW_MODE_FIX = 0,
+  FUAIHUMAN_FOLLOW_MODE_ALIGN = 1,
+  FUAIHUMAN_FOLLOW_MODE_STAGE = 2
+} FUAIHUMANFOLLOWMODE;
+
 typedef enum TRANSFORM_MATRIX {
   /*
    * 8 base orientation cases, first do counter-clockwise rotation in degree,
@@ -373,6 +380,74 @@ FUNAMA_API int fuOpenFileLog(const char* file_pullname, int max_file_size,
  \return zero for failed, one for success.
 */
 FUNAMA_API int fuSetLogLevel(FULOGLEVEL level);
+
+/**
+ \brief Set Frame time profile
+ \param enable - is enbale.
+ \return void.
+*/
+FUNAMA_API void fuFrameTimeProfileSetEnbale(bool enable);
+/**
+ \brief Set Frame time auto report interval
+ \param interval - default is 300.
+ \return void.
+*/
+FUNAMA_API void fuFrameTimeProfileSetReportInterval(int interval);
+
+
+/**
+ \brief Set Frame time auto report to console
+ \param enable - is enbale.
+ \return void.
+*/
+FUNAMA_API void fuFrameTimeProfileSetAutoReportToConsole(bool enable);
+
+/**
+ \brief Set Frame time auto report to file
+ \param enable - is enbale.
+ \param file - file path.
+ \return void.
+*/
+FUNAMA_API void fuFrameTimeProfileSetAutoReportToFile(bool enable, 
+                                        const char* file);
+                                        
+/**
+ \brief Set Frame time auto report to server
+ \param enable - is enbale.
+ \param server_addr - remote server ip addr.
+ \param port - port.
+ \return void.
+*/
+FUNAMA_API void fuFrameTimeProfileSetAutoReportToServer(bool enable, 
+                                        const char* server_addr,
+                                        int port);
+/**
+ \brief Start time profile root node
+ \param lable - lable name.
+ \return void.
+*/
+FUNAMA_API void fuRootTimeProfileStart(const char* lable);
+
+/**
+ \brief Stop time profile root node
+ \param lable - lable name.
+ \return void.
+*/
+FUNAMA_API void fuRootTimeProfileStop(const char* lable);
+
+/**
+ \brief Start time profile stack node
+ \param lable - lable name.
+ \return void.
+*/
+FUNAMA_API void fuStackTimeProfileStart(const char* lable);
+
+/**
+ \brief Stop time profile stack node
+ \param lable - lable name.
+ \return void.
+*/
+FUNAMA_API void fuStackTimeProfileStop(const char* lable);
 
 /**
  \brief set log prefix
@@ -1025,6 +1100,18 @@ FUNAMA_API int fuSetDeviceOrientation(int deviceOrientation);
 FUNAMA_API int fuSetMaxFaces(int n_max_faces);
 
 /**
+ \brief Set detect face every how number of frame when no face
+ \param n is the number of frame
+*/
+FUNAMA_API void fuSetFaceProcessorDetectEveryNFramesWhenNoFace(int n_frames);
+
+/**
+ \brief Set detect face every how number of frame when having face
+ \param n is the number of frame
+*/
+FUNAMA_API void fuSetFaceProcessorDetectEveryNFramesWhenFace(int n_frames);
+
+/**
  \brief Get the unique identifier for each face during current tracking
         Lost face tracking will change the identifier, even for a quick retrack
  \param face_id is the id of face, index is smaller than which is set in
@@ -1463,6 +1550,13 @@ FUNAMA_API void fuFaceProcessorSetMinFaceRatio(float ratio);
 FUNAMA_API void fuFaceProcessorSetFaceLandmarkQuality(int quality);
 
 /**
+ \brief set ai model FaceProcessor's detector mode.
+ \param use , 0 for disable detect small face, 1 for enable detect small face
+ quality. 0 by default.
+ */
+FUNAMA_API void fuFaceProcessorSetDetectSmallFace(int use);
+
+/**
  \brief get ai model FaceProcessor's tracking hair mask with index.
  \param index, index of fuFaceProcessorGetNumResults.
  \param mask_width,  width of return.
@@ -1514,40 +1608,9 @@ FUNAMA_API int fuFaceProcessorGetNumResults();
 FUNAMA_API void fuHumanProcessorReset();
 
 /**
- \brief set ai model HumanProcessor's 3d skeleton hierarchy.
- \param data, json file description of skeleton hierarchy. ref to boneMap.json.
- \param size, size of data in bytes.
- */
-FUNAMA_API void fuHumanProcessorSetBonemap(const char* data, const int size);
-
-/**
  \brief set ai model HumanProcessor's maxinum tracking people.
  */
 FUNAMA_API void fuHumanProcessorSetMaxHumans(int max_humans);
-
-/**
- \brief set ai model HumanProcessor's avatar scale
- \param scale.
- */
-FUNAMA_API void fuHumanProcessorSetAvatarScale(float scale);
-
-/**
- \brief set ai model HumanProcessor's avatar global offset
- \param offset x.
- \param offset y.
- \param offset z.
- */
-FUNAMA_API void fuHumanProcessorSetAvatarGlobalOffset(float offset_x,
-                                                      float offset_y,
-                                                      float offset_z);
-/**
-\param use_retarget_root_scale(default True): Set use retarget root scale or
-not.
-\param retarget_root_scale(default 0.0): root movement scale (when <= 0.0, use
-the auto-calculated value)
- */
-FUNAMA_API void fuHumanProcessorSetAvatarUseRetargetRootScale(
-    bool use_retarget_root_scale, float retarget_root_scale);
 
 /**
 \param n_buffer_frames(default 5 and > 0): filter buffer frames.
@@ -1637,20 +1700,20 @@ FUNAMA_API const float* fuHumanProcessorGetResultJoint2ds(int index, int* size);
 FUNAMA_API const float* fuHumanProcessorGetResultJoint3ds(int index, int* size);
 
 /**
- \brief get ai model HumanProcessor's 3d joint transform, rotation only.
- \param index, index of fuHumanProcessorGetNumResults
- \param size,  size of return data.
+ \brief get ai model HumanProcessor's  pof2d joint with index. (The joint2ds
+ generated by human driver). \param index, index of
+ fuHumanProcessorGetNumResults \param size,  size of return data.
  */
-FUNAMA_API const float* fuHumanProcessorGetResultTransformArray(int index,
-                                                                int* size);
+FUNAMA_API const float* fuHumanProcessorGetResultPofJoint2ds(int index,
+                                                             int* size);
 
 /**
- \brief get ai model HumanProcessor's 3d root joint's transform.
- \param index, index of fuHumanProcessorGetNumResults
- \param size,  size of return data.
+ \brief get ai model HumanProcessor's pof2d joint scores with index. (The
+ joint2ds generated by human driver). \param index, index of
+ fuHumanProcessorGetNumResults \param size,  size of return data.
  */
-FUNAMA_API const float* fuHumanProcessorGetResultModelMatrix(int index,
-                                                             int* size);
+FUNAMA_API const float* fuHumanProcessorGetResultPofJointScores(int index,
+                                                                int* size);
 
 /**
  \brief get ai model HumanProcessor's tracking full body mask with index.

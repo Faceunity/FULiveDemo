@@ -12,6 +12,7 @@
 #import "FUDeformationKeys.h"
 #import "FUAvatarColorKeys.h"
 #import "FUAvatarMakeup.h"
+#import "CNamaSDK.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -41,6 +42,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)updateTransformWithTranslateDelta:(float)translateDelta rotateDelta:(float)rotateDelta scaleDelta:(float)scaleDelta;
 
+/// 通过Avatar的名称获取Avatar信息的Json字符串
+/// @param name Avatar的名称
+- (NSString *)avatarJsonWithName:(NSString *)name;
+
 @end
 
 @interface FUAvatar (Component)
@@ -59,6 +64,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param removeComponentNames 老组件名字数组
 - (void)addNewComponents:(NSArray<FUItem *> *)newComponents withRemoveComponentNames:(NSArray<NSString *> *)removeComponentNames ;
 
+/// 批量添加和移除接口，如果 avatar 已有组件与新组件数组中存在名称一致的组件，已存在的组件将被替换。
+/// @param newComponents 新的组件数组
+/// @param removeComponentFileIds 老组件fileId数组
+- (void)addNewComponents:(NSArray<FUItem *> *)newComponents withRemoveComponentFileIds:(NSArray<NSString *> *)removeComponentFileIds;
+
 /// 通过组件名称查找组件
 /// @param componentName 组件名称
 - (FUItem *)componentForName:(NSString *)componentName;
@@ -72,6 +82,18 @@ NS_ASSUME_NONNULL_BEGIN
 - (FUItem*)removeComponentWithName:(NSString *)componentName;
 
 - (void)updateComponentsVisiableWithARMode:(BOOL)ARMode;
+
+/// 处理选中多个道具时的互斥协同逻辑
+/// @param fileIds 道具fileId 集合
+/// @param assetRootPath 资源跟路径
+- (void)handleExcludeAndAssociateWithFileIds:(NSArray<NSString *> *)fileIds assetRootPath:(NSString *)assetRootPath;
+
+/// 处理选中多个道具时的互斥协同逻辑
+/// @param fileIds 道具fileId 集合
+/// @param assetRootPath 资源跟路径
+/// @param instanceId Avatar实例id
+/// @param avatar avatar
++ (void)handleExcludeAndAssociateWithFileIds:(NSArray<NSString *> *)fileIds assetRootPath:(NSString *)assetRootPath instanceId:(int)instanceId avatar:(FUAvatar *)avatar;
 
 @end
 
@@ -197,6 +219,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@interface FUAvatar (HumanAnimDriver)
+
+-(void)setEnableHumanAnimDriver:(BOOL)enableHumanAnimDriver;
+
+@end
+
 @interface FUAvatar (Deformation)
 
 @property (nonatomic, copy, readonly) NSDictionary<NSString *, NSNumber *> *allDeformationKeyValues;
@@ -205,4 +233,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@interface FUAvatar (BodyTrack)
+
+@property (nonatomic, assign) FUAIHUMANFOLLOWMODE bodyFollowMode;
+
+@property (nonatomic, assign) BOOL bodyTrackEnable;
+
+@end
 NS_ASSUME_NONNULL_END

@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "FUScene.h"
+//#import "FUAvatarCheck.h"
 #import "FUGroupAnimation.h"
 #import "FUCaptureCamera.h"
 #import "FUInternalCameraSetting.h"
@@ -41,6 +42,7 @@
 
 // 内部相机render相关协议
 @protocol FURenderKitDelegate <NSObject>
+@optional
 
 // 使用内部相机时，即将处理图像时输入回调
 - (void)renderKitWillRenderFromRenderInput:(FURenderInput *)renderInput;
@@ -134,6 +136,29 @@
 + (void)setLogLevel:(FULOGLEVEL)logLevel;
 
 + (void)setLogFilePath:(NSString *)filePath;
+
+#pragma mark - frame time profile
+/**
+ * 开启算法耗时统计功能
+ */
++ (void)setupFrameTimeProfileEnable;
+
+/**
+ * 设置算法耗时输出到控制台
+ */
++ (void)setupFrameTimeProfileAutoReportToConsole;
+
+/**
+ * 设置算法耗时输出到文件
+ * filePath 文件路径
+ */
++ (void)setupFrameTimeProfileAutoReportToFile:(NSString *)filePath;
+
+/**
+ * 设置算法耗时打印间隔
+ * interval 默认300
+ */
++ (void)setupFrameTimeProfileReportInterval:(int)interval;
 
 #pragma mark - setup
 + (BOOL)setupWithSetupConfig:(FUSetupConfig *)setupConfig;

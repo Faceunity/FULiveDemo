@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "FUBackground.h"
+#import "FUCustomBackground.h"
 #import "FULight.h"
 #import "FUSceneCamera.h"
 #import "FUAvatar.h"
@@ -73,11 +74,21 @@ typedef enum : NSUInteger {
 
 - (FUScene *)initWithControllerConfigPath:(NSString *)controllerConfigPath;
 
-- (void)addAvatar:(FUAvatar *)avatar;
+- (FUScene *)initWithControllerConfigPath:(NSString *)controllerConfigPath litemListJson:(NSString *)litemListJson;
 
-- (BOOL)replaceAvatar:(FUAvatar *)avatar withNewAvatar:(FUAvatar*)newAvatar;
+#pragma mark - Avatar
+
+- (BOOL)addAvatar:(FUAvatar *)avatar;
+
+- (void)addAvatar:(FUAvatar *)avatar completion:(void(^)(BOOL result))completion;
 
 - (void)removeAvatar:(FUAvatar *)avatar;
+
+- (void)removeAvatar:(FUAvatar *)avatar completion:(void(^)(void))completion;
+
+- (BOOL)replaceAvatar:(FUAvatar *)avatar withNewAvatar:(FUAvatar *)newAvatar;
+
+- (void)replaceAvatar:(FUAvatar *)avatar withNewAvatar:(FUAvatar *)newAvatar compoletion:(void(^)(BOOL result))completion;
 
 @end
 
@@ -149,6 +160,19 @@ typedef enum : NSUInteger {
 @interface FUScene (DynamicBone)
 
 @property (nonatomic, assign) BOOL enableDynamicbone;
+
+@end
+
+@interface FUScene (Reflection)
+
+/// 是否开启倒影（默认为 YES）
+@property (nonatomic, assign) BOOL enableReflection;
+
+/// 设置倒影参数
+/// @param transparency 倒影透明度 （0～1）
+/// @param distance 倒影显示距离
+/// （说明：倒影显示距离与倒影透明度的设置要合理搭配才能出来比较好的效果，两者呈正相关的关系）
+- (BOOL)reflectionWithTransparency:(float)transparency distance:(float)distance;
 
 @end
 

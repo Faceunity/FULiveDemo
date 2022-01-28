@@ -5,7 +5,7 @@
 //  Created by liuyang on 2021/4/22.
 //
 
-#import <FURenderKit/FURenderKit.h>
+#import "FUAnimation.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -27,6 +27,9 @@
       completion:(void (^)(BOOL))completion {
     self.selectedItem = itemName;
     if (itemName != nil && ![itemName isEqual: @"resetItem"])  {
+        if (!_comicFilter) {
+            [self loadItem];
+        }
         self.comicFilter.style = type;
         if (completion) {
             completion(YES);
@@ -50,7 +53,7 @@
 }
 
 - (void)releaseItem {
-    self.comicFilter = nil;
+    _comicFilter = nil;
     [FURenderKit shareRenderKit].comicFilter = nil;
 }
 
@@ -58,7 +61,6 @@
     if (!_comicFilter) {
         NSString *path = [[NSBundle mainBundle] pathForResource:@"fuzzytoonfilter" ofType:@"bundle"];
         _comicFilter = [[FUComicFilter alloc] initWithPath:path name:@"fuzzytoonfilter"];
-        [self loadItem];
     }
     return _comicFilter;
 }

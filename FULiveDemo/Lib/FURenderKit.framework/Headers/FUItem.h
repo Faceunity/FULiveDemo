@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) NSString *path; // 道具绝对路径
 
+@property (nonatomic, copy, readonly) NSString *fileId;
+
 @property (nonatomic, assign) BOOL supportARMode; // 是否支持 AR 模式
 
 @property (nonatomic, copy) NSSet<NSNumber *> *bodyInvisibleList; // 身体隐藏区域
@@ -24,7 +26,15 @@ NS_ASSUME_NONNULL_BEGIN
 /// 根据道具路径创建道具对象，可支持自动加载
 /// @param path 道具路径
 /// @param name 道具名称
+/// @param fileId itemList 中的 path
+- (instancetype)initWithPath:(NSString *)path name:(nullable NSString *)name fileId:(nullable NSString *)fileId;
+
+/// 根据道具路径创建道具对象，可支持自动加载
+/// @param path 道具路径
+/// @param name 道具名称
 - (instancetype)initWithPath:(NSString *)path name:(nullable NSString *)name;
+
++ (instancetype)itemWithPath:(NSString *)path name:(nullable NSString *)name fileId:(nullable NSString *)fileId;
 
 + (instancetype)itemWithPath:(NSString *)path name:(nullable NSString *)name;
 

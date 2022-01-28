@@ -34,6 +34,8 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, assign) FUFaceProcessorDetectMode faceProcessorDetectMode; // 图像加载模式 default is FUFaceProcessorDetectModeVideo
 
+@property (nonatomic, assign) BOOL faceProcessorDetectSmallFace; // 是否开启小脸检测，default is NO
+
 @property (nonatomic, assign) BOOL asyncTrackFace; //设置是否进行异步人脸跟踪
 
 @property (nonatomic, assign) FUFaceProcessorFaceLandmarkQuality faceProcessorFaceLandmarkQuality;  // 人脸算法质量

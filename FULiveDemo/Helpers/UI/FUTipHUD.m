@@ -69,6 +69,10 @@
     return self;
 }
 
+- (instancetype)initWithFrame:(CGRect)frame {
+    return [self initWithFrame:frame insets:UIEdgeInsetsMake(8, 8, 8, 8)];
+}
+
 - (void)drawTextInRect:(CGRect)rect {
     [super drawTextInRect:UIEdgeInsetsInsetRect(rect, self.insets)];
 }

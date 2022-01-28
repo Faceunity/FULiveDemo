@@ -8,9 +8,8 @@
 
 #import "FUManager.h"
 #import "authpack.h"
+
 #import <FURenderKit/FURenderKit.h>
-#import <MJExtension/NSObject+MJKeyValue.h>
-#import "FUMetalModel.h"
 
 static FUManager *shareManager = NULL;
 
@@ -40,6 +39,12 @@ static FUManager *shareManager = NULL;
     [FURenderKit setupWithSetupConfig:setupConfig];
     
     [FURenderKit setLogLevel:FU_LOG_LEVEL_INFO];
+//    // 算法耗时统计
+//    [FURenderKit setupFrameTimeProfileEnable];
+//    // 算法耗时统计输出到控制台
+//    [FURenderKit setupFrameTimeProfileAutoReportToConsole];
+//    // 算法耗时统计输出到文件
+//    [FURenderKit setupFrameTimeProfileAutoReportToFile:[FUDocumentPath stringByAppendingPathComponent:[NSString stringWithFormat:@"FUFrameTime %@.txt", FUCurrentDateString()]]];
         
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         // 加载人脸 AI 模型
@@ -71,6 +76,9 @@ static FUManager *shareManager = NULL;
         
         // 设置人脸算法质量
         [FUAIKit shareKit].faceProcessorFaceLandmarkQuality = [FURenderKit devicePerformanceLevel] == FUDevicePerformanceLevelHigh ? FUFaceProcessorFaceLandmarkQualityHigh : FUFaceProcessorFaceLandmarkQualityMedium;
+        
+        // 设置小脸检测是否打开
+        [FUAIKit shareKit].faceProcessorDetectSmallFace = [FURenderKit devicePerformanceLevel] == FUDevicePerformanceLevelHigh;
     });
 }
 

@@ -5,7 +5,7 @@
 //  Created by Chen on 2021/4/14.
 //
 
-#import <FURenderKit/FURenderKit.h>
+#import "FUSticker.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
