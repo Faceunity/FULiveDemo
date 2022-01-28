@@ -174,10 +174,8 @@ NSString * const FUSelectedStickerDidChangeNotification = @"FUSelectedStickerDid
         [cell setModel:sticker];
         
         [self.downloadQueue addOperationWithBlock:^{
-            NSLog(@"⭐️添加任务");
             dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
             [FUStickerHelper downloadItem:sticker completion:^(NSError * _Nullable error) {
-                NSLog(@"⭐️完成任务");
                 dispatch_semaphore_signal(semaphore);
                 sticker.loading = NO;
                 dispatch_async(dispatch_get_main_queue(), ^{

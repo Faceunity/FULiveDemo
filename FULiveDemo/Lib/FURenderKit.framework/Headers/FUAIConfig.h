@@ -22,7 +22,6 @@ typedef enum : NSUInteger {
     FUBodyTrackStatusFullBody
 } FUBodyTrackStatus;
 
-
 @interface FUAIConfig : FUConfig
 
 @end
@@ -45,8 +44,6 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, assign) FUBodyTrackMode bodyTrackMode;
 
-@property (nonatomic, assign) BOOL followBody;
-
 @property (nonatomic, assign) BOOL handDetector;
 
 //@property (nonatomic, assign) double followFov;
@@ -61,11 +58,7 @@ typedef enum : NSUInteger {
 
 @interface FUAIConfig (Avatar)
 
-@property (nonatomic, assign) double avatarScale;
-
 @property (nonatomic, assign) FUPosition avatarTranslationScale;
-
-@property (nonatomic, assign) FUPosition avatarGlobalOffset;
 
 /// 抖动参数设置
 - (void)setAvatarAnimFilter:(int)bufferFrames pos:(float)pos angle:(float)angle;

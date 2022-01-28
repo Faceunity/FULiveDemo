@@ -29,6 +29,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak) id<FUQualityStickerSegmentsViewDelegate> quatilyStickerSegmentsDelegate;
 
+/// Unvailable initializer
+
++ (instancetype)new NS_UNAVAILABLE;
+
+- (instancetype)init NS_UNAVAILABLE;
+
+- (instancetype)initWithFrame:(CGRect)frame collectionViewLayout:(UICollectionViewLayout *)layout NS_UNAVAILABLE;
+
 /// 初始化
 /// @param frame frame
 /// @param titles SegmentsTitle数组

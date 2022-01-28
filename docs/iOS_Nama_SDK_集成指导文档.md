@@ -3,6 +3,18 @@
 ------
 
 级别：Public   
+更新日期：2021-01-27
+SDK版本: 8.1.0
+
+### 最新更新内容：
+
+1）更新人脸检测模型为全角度,高端机可自由选择是否启动小人脸检测
+2）更新PTA侧驱动相关接口
+3）解决部分已知bug
+
+------
+
+级别：Public   
 更新日期：2021-12-24 
 SDK版本: 8.0.2
 
@@ -153,24 +165,24 @@ Xcode 8或更高版本
 Nama全功能版本（支持物理特效）：
 
 ```
-pod 'Nama', '8.0.2' 
+pod 'Nama', '8.1.0' 
 ```
 
 Nama-lite版本（体积更小，包含人脸相关的功能(海报换脸除外)）：
 
 ```
-pod 'Nama-lite', '8.0.2' 
+pod 'Nama-lite', '8.1.0' 
 ```
 FURenderKit全功能版本（支持物理特效）：
 
 ```
-pod 'FURenderKit', '8.0.2' 
+pod 'FURenderKit', '8.1.0' 
 ```
 
 FURenderKit-lite版本：
 
 ```
-pod 'FURenderKit-lite', '8.0.2' 
+pod 'FURenderKit-lite', '8.1.0' 
 ```
 
 接下来执行：
@@ -187,15 +199,15 @@ pod repo update 或 pod setup
 
 #### 3.2.2 直接下载
 
-Nama全功能版本（支持物理特效）：[FaceUnity-SDK-iOS-v8.0.2.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FaceUnity-SDK-iOS-v8.0.2.zip)
+Nama全功能版本（支持物理特效）：[FaceUnity-SDK-iOS-v8.1.0.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FaceUnity-SDK-iOS-v8.1.0.zip)
 
-Nama-lite版本： 版（体积更小，包含人脸相关的功能(海报换脸除外)）：[FaceUnity-SDK-iOS-v8.0.2-lite.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FaceUnity-SDK-iOS-v8.0.2-lite.zip)
+Nama-lite版本： 版（体积更小，包含人脸相关的功能(海报换脸除外)）：[FaceUnity-SDK-iOS-v8.1.0-lite.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FaceUnity-SDK-iOS-v8.1.0-lite.zip)
 
 FURenderKit全功能版本（支持物理特效）：
-    [FURenderKit-v8.0.2.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FURenderKit-v8.0.2.zip)
+    [FURenderKit-v8.1.0.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FURenderKit-v8.1.0.zip)
 
 FURenderKit-lite版本：
-    [FURenderKit-lite-v8.0.0.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FURenderKit-lite-v8.0.0.zip)
+    [FURenderKit-lite-v8.1.0.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FURenderKit-lite-v8.1.0.zip)
     
 
 下载完成并解压后将库文件夹拖入到工程中，并勾选上 Copy items if needed，如图：

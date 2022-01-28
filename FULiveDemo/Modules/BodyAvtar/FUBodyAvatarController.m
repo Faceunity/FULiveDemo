@@ -59,7 +59,7 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.headButtonView.switchBtn.selected = YES;
-     [self.mCamera changeCameraInputDeviceisFront:NO];
+    [self.mCamera changeCameraInputDeviceisFront:NO];
 }
 
 -(void)setupBodySubView{

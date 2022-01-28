@@ -132,7 +132,9 @@
 #pragma mark -  FUMakeUpViewDelegate
 -(void)makeupViewDidSelectedSupModle:(FUMakeupSupModel *)model {
     [self.makeupManager setSupModel:model];
-    [self modifyFilter:model];
+    if (!model.isCombined) {
+        [self modifyFilter:model];
+    }
 }
 
 -(void)makeupViewChangeValueSupModle:(FUMakeupSupModel *)model {

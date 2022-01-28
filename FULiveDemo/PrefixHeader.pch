@@ -9,6 +9,6 @@
 #ifndef PrefixHeader_pch
 #define PrefixHeader_pch
 
-#define FUNSLocalizedString(Context,comment)  [NSString stringWithFormat:@"%@", [[NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"appLanguage"]] ofType:@"lproj"]] localizedStringForKey:(Context) value:nil table:nil]]
+#import "FULiveDefine.h"
 
 #endif /* PrefixHeader_pch */

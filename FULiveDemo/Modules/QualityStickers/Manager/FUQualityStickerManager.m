@@ -7,7 +7,7 @@
 //
 
 #import "FUQualityStickerManager.h"
-#import "FULiveDefine.h"
+#import "FUStickerHelper.h"
 
 #import <FURenderKit/FUQualitySticker.h>
 
@@ -24,6 +24,7 @@
 @implementation FUQualityStickerManager
 
 #pragma mark - Instance methods
+
 - (void)loadItemWithModel:(FUStickerModel *)stickerModel {
     switch (stickerModel.type) {
         case FUQualityStickerTypeAvatar:{
@@ -48,17 +49,14 @@
 
 - (void)releaseItem {
     
-    [[FURenderKit shareRenderKit] removeScene:self.scene completion:nil];
-    if (_avatar) {
-        _avatar = nil;
-    }
     if (_scene) {
-        _scene = nil;
+        [[FURenderKit shareRenderKit] removeScene:self.scene completion:^(BOOL success) {
+            [FURenderKit shareRenderKit].currentScene = nil;
+        }];
     }
     if (_curStickItem) {
-        _curStickItem = nil;
+        [[FURenderKit shareRenderKit].stickerContainer removeAllSticks];
     }
-    [[FURenderKit shareRenderKit].stickerContainer removeAllSticks];
 }
 
 #pragma mark - Private methods
@@ -77,8 +75,6 @@
             NSLog(@"info.json文件错误");
             return;
         }
-        
-        
         
         for (NSString *keyString in dictionary.allKeys) {
             if ([keyString isEqualToString:@"components"]) {
@@ -103,9 +99,9 @@
         }
         [self.scene addAvatar:self.avatar];
         self.avatar.position = FUPositionMake(25.2, iPhoneXStyle ? (56.14 - 50.0*24.0/72.0) : 56.14, -537.94);
+        [self.avatar setEnableHumanAnimDriver:YES];
         self.scene.AIConfig.avatarTranslationScale = FUPositionMake(0.45, 0.45, 0.25);
         [self.scene.AIConfig setAvatarAnimFilter:7 pos:0.05 angle:0.1];
-        self.avatar.visible = YES;
         NSLog(@"Load success");
         [FURenderKit shareRenderKit].currentScene = self.scene;
         
@@ -141,7 +137,6 @@
 - (FUAvatar *)avatar {
     if (!_avatar) {
         _avatar = [[FUAvatar alloc] init];
-        _avatar.visible = NO;
     }
     return _avatar;
 }

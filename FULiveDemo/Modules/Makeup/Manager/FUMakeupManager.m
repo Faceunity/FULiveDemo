@@ -48,18 +48,21 @@
 
 - (void)setSupModel:(FUMakeupSupModel *)model {
     dispatch_async(self.loadQueue, ^{
-        [FURenderKit shareRenderKit].makeup = nil;
         if (model.isCombined) {
             // 新组合妆只需要加载一个bundle，切换时需要重新初始化
+            self.makeup = nil;
             NSString *path = [[NSBundle mainBundle] pathForResource:model.makeupBundle ofType:@"bundle"];
             self.combinationMakeup = [[FUMakeup alloc] initWithPath:path name:model.name];
             [FURenderKit shareRenderKit].makeup = self.combinationMakeup;
             [self setMakeupWholeModel:model];
         } else {
-            NSString *path = [[NSBundle mainBundle] pathForResource:@"face_makeup" ofType:@"bundle"];
-            self.makeup = [[FUMakeup alloc] initWithPath:path name:@"makeUp"];
-            [FURenderKit shareRenderKit].makeup = self.makeup;
             // 老道具使用绑定到face_makeup.bundle的方式
+            self.combinationMakeup = nil;
+            if (!self.makeup) {
+                NSString *path = [[NSBundle mainBundle] pathForResource:@"face_makeup" ofType:@"bundle"];
+                self.makeup = [[FUMakeup alloc] initWithPath:path name:@"makeUp"];
+            }
+            [FURenderKit shareRenderKit].makeup = self.makeup;
             self.makeup.isClearMakeup = YES;
             /* 防止子妆调节，把口红调乱了，注意：不需要自定义 */
             self.makeup.lipType = FUMakeupLipTypeFOG;
@@ -83,17 +86,7 @@
 
 - (void)releaseItem {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        if (_makeup) {
-            _makeup = nil;
-        }
-        
-        if (_combinationMakeup) {
-            _combinationMakeup = nil;
-        }
-        
         [FURenderKit shareRenderKit].makeup = nil;
-        
-        [[FURenderKit shareRenderKit].stickerContainer removeAllSticks];
     });
 }
 
@@ -232,7 +225,6 @@
 }
 
 - (void)updateMakeupFilterLevel:(FUMakeupSupModel *)model {
-    NSLog(@"⭐️滤镜值：%@", @(model.value * model.selectedFilterLevel));
     self.combinationMakeup.filterIntensity = model.value * model.selectedFilterLevel;
 }
 
