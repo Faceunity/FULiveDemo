@@ -78,26 +78,31 @@
     [_lvmuEditeView reloadDataSoure:self.greenScreenManager.dataArray];
     [_lvmuEditeView reloadBgDataSource:self.greenScreenManager.bgDataArray];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willResignActive) name:UIApplicationWillResignActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.greenScreenManager loadItem];
+    
+    if (self.greenScreenManager.greenScreen.pause && self.greenScreenManager.greenScreen.path) {
+        self.greenScreenManager.greenScreen.pause = NO;
+        [self.greenScreenManager.greenScreen startVideoDecode];
+    }
+    [self lvmuViewShowTopView:!self.lvmuEditeView.isHidenTop];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    [self.greenScreenManager.greenScreen startVideoDecode];
-}
-
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [self.lvmuEditeView destoryLvMuView];
-    [self.greenScreenManager.greenScreen stopVideoDecode];
+    if (!self.greenScreenManager.greenScreen.pause && self.greenScreenManager.greenScreen.path) {
+        self.greenScreenManager.greenScreen.pause = YES;
+    }
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
 -(void)initMovementGestures {
@@ -139,13 +144,17 @@
 }
 
 
-- (void)willResignActive {
-    self.greenScreenManager.greenScreen.pause = YES;
+- (void)didEnterBackground {
+    if (!self.greenScreenManager.greenScreen.pause && self.greenScreenManager.greenScreen.path) {
+        self.greenScreenManager.greenScreen.pause = YES;
+    }
 }
 
-
-- (void)didBecomeActive{
-    self.greenScreenManager.greenScreen.pause = NO;
+- (void)willEnterForeground{
+    if (self.greenScreenManager.greenScreen.pause && self.greenScreenManager.greenScreen.path) {
+        self.greenScreenManager.greenScreen.pause = NO;
+        [self.greenScreenManager.greenScreen startVideoDecode];
+    }
 }
 
 
@@ -237,6 +246,7 @@
         NSString *urlStr = [[NSBundle mainBundle] pathForResource:param.videoPath ofType:@"mp4"];
         self.greenScreenManager.greenScreen.videoPath = urlStr;
     }else{
+        self.greenScreenManager.greenScreen.videoPath = nil;
         [self.greenScreenManager.greenScreen stopVideoDecode];
     }
 }

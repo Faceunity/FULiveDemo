@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "FUScene.h"
-//#import "FUAvatarCheck.h"
+#import "FUAvatarCheck.h"
 #import "FUGroupAnimation.h"
 #import "FUCaptureCamera.h"
 #import "FUInternalCameraSetting.h"

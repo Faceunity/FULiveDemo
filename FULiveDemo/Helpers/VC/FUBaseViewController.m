@@ -180,7 +180,7 @@ FUPopupMenuDelegate, FUCaptureCameraDataSource
         make.top.equalTo(_headButtonView.mas_bottom).offset(15);
         make.left.equalTo(self.view).offset(10);
         make.width.mas_equalTo(90);
-        make.height.mas_equalTo(100);
+        make.height.mas_equalTo(110);
     }];
     
     /* 曝光度指示器 */
