@@ -4,10 +4,6 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>.DS_Store</key>
-		<data>
-		LMKkV4ieDOZPCxNxcxz2gvbYFE8=
-		</data>
 		<key>FURenderKit快速集成文档.md</key>
 		<data>
 		q44ETuybTfA31OMiQbzYb5XAtjA=
@@ -43,6 +39,10 @@
 		<key>Headers/FUAvatar.h</key>
 		<data>
 		cSmQfvRsr6AoStC0iK7Repnfqjg=
+		</data>
+		<key>Headers/FUAvatarCheck.h</key>
+		<data>
+		n0i7LzzdPj3BJp4km4QjQvZ9ZX8=
 		</data>
 		<key>Headers/FUAvatarColorKeys.h</key>
 		<data>
@@ -230,7 +230,7 @@
 		</data>
 		<key>Headers/FURenderKit.h</key>
 		<data>
-		BJ/Y99Xin05UCBrA7l0BbawLwSk=
+		eIatOWPrtj/4l5XFgpxm/PnUJTY=
 		</data>
 		<key>Headers/FURenderableObject.h</key>
 		<data>
@@ -278,7 +278,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		YkouTxzJ5PQHnO+nj/TTbD1C5bQ=
+		5ozKucq7Au2L06a6ibS+tvmMWkk=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -384,6 +384,17 @@
 			<key>hash2</key>
 			<data>
 			sXTEeP1U4tldis4r+zCFBBNcRgecI0v2F8+q9ltdvIE=
+			</data>
+		</dict>
+		<key>Headers/FUAvatarCheck.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			n0i7LzzdPj3BJp4km4QjQvZ9ZX8=
+			</data>
+			<key>hash2</key>
+			<data>
+			LVLQi4e10+rVwhQ2NyImh9AhQDrqx3u3h7VQY2eewfw=
 			</data>
 		</dict>
 		<key>Headers/FUAvatarColorKeys.h</key>
@@ -896,11 +907,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			BJ/Y99Xin05UCBrA7l0BbawLwSk=
+			eIatOWPrtj/4l5XFgpxm/PnUJTY=
 			</data>
 			<key>hash2</key>
 			<data>
-			UOHjkSvfTFmNsJ1FZFlKlqvvS4iIpyR8v10JECn6Eqk=
+			/3L3tnPfCudqj+HyLKlbvrzFz31d22y8EFXOrpQYSIY=
 			</data>
 		</dict>
 		<key>Headers/FURenderableObject.h</key>
