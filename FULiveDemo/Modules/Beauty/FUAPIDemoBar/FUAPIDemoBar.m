@@ -10,8 +10,6 @@
 #import "FUFilterView.h"
 #import "FUSlider.h"
 #import "FUBeautyView.h"
-#import "MJExtension.h"
-#import "FUMakeupSupModel.h"
 #import "FUSquareButton.h"
 #import "FUManager.h"
 #import "SVProgressHUD.h"
