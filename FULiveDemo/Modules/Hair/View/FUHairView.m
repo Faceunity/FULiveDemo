@@ -42,7 +42,7 @@ static NSString *cellID = @"FUHairCell";
 }
 
 
-- (IBAction)sliderValueChange:(FUMakeupSlider *)sender {
+- (IBAction)sliderValueChange:(FUSlider *)sender {
     if (self.delegate && [self.delegate respondsToSelector:@selector(hairViewChanageStrength:)]) {
         [self.delegate hairViewChanageStrength:sender.value];
     }

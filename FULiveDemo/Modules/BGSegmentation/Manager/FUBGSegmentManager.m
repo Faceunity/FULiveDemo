@@ -35,8 +35,7 @@
 }
 
 -(NSString *)filePath {
-    NSString *paths =[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
-    NSString *path = [paths stringByAppendingPathComponent:@"FUBGSaveModel.data"];
+    NSString *path = [FUDocumentPath stringByAppendingPathComponent:@"FUBGSaveModel.data"];
     return path;
 }
 

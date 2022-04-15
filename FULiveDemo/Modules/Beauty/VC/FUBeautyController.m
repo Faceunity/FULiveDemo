@@ -8,17 +8,12 @@
 
 #import "FUBeautyController.h"
 #import "FUAPIDemoBar.h"
-//#import "FUManager.h"
-#import <Masonry.h>
 #import "FUSelectedImageController.h"
 #import "SVProgressHUD.h"
-#import "FUMakeupSupModel.h"
 
 #import "FULandmarkManager.h"
 
-@interface FUBeautyController ()<FUAPIDemoBarDelegate> {
-    BOOL _isFromOther;//其他页面过来的
-}
+@interface FUBeautyController ()<FUAPIDemoBarDelegate>
 
 @property (strong, nonatomic) FUAPIDemoBar *demoBar;
 /* 比对按钮 */
@@ -41,15 +36,9 @@
     
 }
 
-- (void)headButtonViewBackAction:(UIButton *)btn {
-    [super headButtonViewBackAction:btn];
-    [self.baseManager releaseItem];
-}
-
-
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    if (_isFromOther) {
+    if (self.isFromOtherPage) {
         [self.baseManager reloadBeautyParams];
     }
     [_demoBar reloadShapView:self.baseManager.shapeParams];
@@ -71,7 +60,6 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    _isFromOther = YES;
     
     // 移除点位测试开关
     if (FUShowLandmark) {

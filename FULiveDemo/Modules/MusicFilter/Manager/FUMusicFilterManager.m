@@ -44,7 +44,7 @@
 
 - (void)loadItem {
     NSString *itemName = self.selectedItem;
-    NSString *path = [[NSBundle mainBundle] pathForResource:[itemName stringByAppendingString:@".bundle"] ofType:nil];
+    NSString *path = [[NSBundle mainBundle] pathForResource:[itemName stringByAppendingPathExtension:@"bundle"] ofType:nil];
     FUMusicFilter *newItem = [[FUMusicFilter alloc] initWithPath:path name:@"music"];
     newItem.musicPath = _musicPath;
     [FURenderKit shareRenderKit].musicFilter = newItem;

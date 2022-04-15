@@ -3,7 +3,7 @@
 //  Flipboard
 //
 //  Created by Raphael Schaad on 7/8/13.
-//  Copyright (c) 2013-2015 Flipboard. All rights reserved.
+//  Copyright (c) Flipboard. All rights reserved.
 //
 
 
@@ -87,6 +87,10 @@
 - (void)commonInit
 {
     self.runLoopMode = [[self class] defaultRunLoopMode];
+    
+    if (@available(iOS 11.0, *)) {
+        self.accessibilityIgnoresInvertColors = YES;
+    }
 }
 
 
@@ -97,8 +101,16 @@
 {
     if (![_animatedImage isEqual:animatedImage]) {
         if (animatedImage) {
-            // Clear out the image.
-            super.image = nil;
+            if (super.image) {
+                // UIImageView's `setImage:` will internally call its layer's `setContentsTransform:` based on the `image.imageOrientation`.
+                // The `contentsTransform` will affect layer rendering rotation because the CGImage's bitmap buffer does not actually take rotation.
+                // However, when calling `setImage:nil`, this `contentsTransoforms` will not be reset to identity.
+                // Further animation frame will be rendered as rotated. So we must set it to the poster image to clear the previous state.
+                // See more here: https://github.com/Flipboard/FLAnimatedImage/issues/100
+                super.image = animatedImage.posterImage;
+                // Clear out the image.
+                super.image = nil;
+            }
             // Ensure disabled highlighting; it's not supported (see `-setHighlighted:`).
             super.highlighted = NO;
             // UIImageView seems to bypass some accessors when calculating its intrinsic content size, so this ensures its intrinsic content size comes from the animated image.
@@ -209,6 +221,7 @@
     return intrinsicContentSize;
 }
 
+#pragma mark Smart Invert Colors
 
 #pragma mark - UIImageView Method Overrides
 #pragma mark Image Data
@@ -304,7 +317,7 @@ static NSUInteger gcd(NSUInteger a, NSUInteger b)
     }
 }
 
-- (void)setRunLoopMode:(NSString *)runLoopMode
+- (void)setRunLoopMode:(NSRunLoopMode)runLoopMode
 {
     if (![@[NSDefaultRunLoopMode, NSRunLoopCommonModes] containsObject:runLoopMode]) {
         NSAssert(NO, @"Invalid run loop mode: %@", runLoopMode);
@@ -418,7 +431,7 @@ static NSUInteger gcd(NSUInteger a, NSUInteger b)
     }
 }
 
-+ (NSString *)defaultRunLoopMode
++ (NSRunLoopMode)defaultRunLoopMode
 {
     // Key off `activeProcessorCount` (as opposed to `processorCount`) since the system could shut down cores in certain situations.
     return [NSProcessInfo processInfo].activeProcessorCount > 1 ? NSRunLoopCommonModes : NSDefaultRunLoopMode;

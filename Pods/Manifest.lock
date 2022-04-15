@@ -1,33 +1,31 @@
 PODS:
-  - AFNetworking (3.2.1):
-    - AFNetworking/NSURLSession (= 3.2.1)
-    - AFNetworking/Reachability (= 3.2.1)
-    - AFNetworking/Security (= 3.2.1)
-    - AFNetworking/Serialization (= 3.2.1)
-    - AFNetworking/UIKit (= 3.2.1)
-  - AFNetworking/NSURLSession (3.2.1):
+  - AFNetworking (4.0.1):
+    - AFNetworking/NSURLSession (= 4.0.1)
+    - AFNetworking/Reachability (= 4.0.1)
+    - AFNetworking/Security (= 4.0.1)
+    - AFNetworking/Serialization (= 4.0.1)
+    - AFNetworking/UIKit (= 4.0.1)
+  - AFNetworking/NSURLSession (4.0.1):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/Reachability (3.2.1)
-  - AFNetworking/Security (3.2.1)
-  - AFNetworking/Serialization (3.2.1)
-  - AFNetworking/UIKit (3.2.1):
+  - AFNetworking/Reachability (4.0.1)
+  - AFNetworking/Security (4.0.1)
+  - AFNetworking/Serialization (4.0.1)
+  - AFNetworking/UIKit (4.0.1):
     - AFNetworking/NSURLSession
-  - Bugly (2.5.71)
-  - FLAnimatedImage (1.0.12)
+  - FLAnimatedImage (1.0.16)
   - lottie-ios (2.5.3)
   - Masonry (1.1.0)
-  - MJExtension (3.0.15.1)
-  - SDWebImage (4.4.3):
-    - SDWebImage/Core (= 4.4.3)
-  - SDWebImage/Core (4.4.3)
-  - SSZipArchive (2.2.2)
+  - MJExtension (3.3.0)
+  - SDWebImage (5.12.1):
+    - SDWebImage/Core (= 5.12.1)
+  - SDWebImage/Core (5.12.1)
+  - SSZipArchive (2.4.3)
   - SVProgressHUD (2.2.5)
 
 DEPENDENCIES:
-  - AFNetworking
-  - Bugly (~> 2.5.71)
+  - AFNetworking (~> 4.0.0)
   - FLAnimatedImage
   - lottie-ios (~> 2.5.3)
   - Masonry
@@ -39,7 +37,6 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - AFNetworking
-    - Bugly
     - FLAnimatedImage
     - lottie-ios
     - Masonry
@@ -49,16 +46,15 @@ SPEC REPOS:
     - SVProgressHUD
 
 SPEC CHECKSUMS:
-  AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
-  Bugly: fd066c75c4a0eca1440f9b6a84bd37d51bfc85ac
-  FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
+  AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
+  FLAnimatedImage: 8f3e854ebf9680b71f0b6e700939687fc4d82b4b
   lottie-ios: a50d5c0160425cd4b01b852bb9578963e6d92d31
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  MJExtension: 19bc33ce2eee2d319760f5622562cf581a6ff756
-  SDWebImage: c5594f1a19c48d526d321e548902b56b479cd508
-  SSZipArchive: fa16b8cc4cdeceb698e5e5d9f67e9558532fbf23
+  MJExtension: 01704cca2b60a214c10761b6491eab74069d68a9
+  SDWebImage: 4dc3e42d9ec0c1028b960a33ac6b637bb432207b
+  SSZipArchive: fe6a26b2a54d5a0890f2567b5cc6de5caa600aef
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: 6c47b1a66ae843d4276a204b8345992c60c9be4a
+PODFILE CHECKSUM: fd67fc11630e51cc13b9f00dfa2ab0c1b0b02f2f
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.2

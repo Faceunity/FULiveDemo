@@ -4,7 +4,7 @@
 			"name": "粉底",
 			"sgArr": [
 				{
-					"makeType": 7,
+					"makeType": 0,
 					"iconStr": "makeup_noitem",
 					"namaValueType": 0,
 					"value": 0.0,
@@ -17,7 +17,7 @@
 					]
 				},
 				{
-					"makeType": 7,
+					"makeType": 0,
 					"iconStr": "mu_style_foundation_01",
 					"namaBundleType": 0,
 					"namaValueType": 0,
@@ -59,7 +59,7 @@
 					"defaultColorIndex": 0
 				},
 				{
-					"makeType": 7,
+					"makeType": 0,
 					"iconStr": "mu_style_foundation_01",
 					"namaBundleType": 0,
 					"namaValueType": 0,
@@ -98,10 +98,10 @@
 							1.0
 						]
 					],
-					"defaultColorIndex": 0
+					"defaultColorIndex": 1
 				},
 				{
-					"makeType": 7,
+					"makeType": 0,
 					"iconStr": "mu_style_foundation_01",
 					"namaBundleType": 0,
 					"namaValueType": 0,
@@ -140,10 +140,10 @@
 							1.0
 						]
 					],
-					"defaultColorIndex": 0
+					"defaultColorIndex": 2
 				},
 				{
-					"makeType": 7,
+					"makeType": 0,
 					"iconStr": "mu_style_foundation_01",
 					"namaBundleType": 0,
 					"namaValueType": 0,
@@ -182,10 +182,10 @@
 							1.0
 						]
 					],
-					"defaultColorIndex": 0
+					"defaultColorIndex": 3
 				},
 				{
-					"makeType": 7,
+					"makeType": 0,
 					"iconStr": "mu_style_foundation_01",
 					"namaBundleType": 0,
 					"namaValueType": 0,
@@ -232,13 +232,13 @@
 			"name": "口红",
 			"sgArr": [
 				{
-					"makeType": 0,
+					"makeType": 1,
 					"iconStr": "makeup_noitem",
 					"namaValueType": 1,
 					"value": 0.0
 				},
 				{
-					"makeType": 0,
+					"makeType": 1,
 					"iconStr": "demo_style_lip_01",
                     "namaBundleType": 1,
 					"namaValueType": 1,
@@ -283,7 +283,7 @@
 					"title": "雾面"
 				},
 				{
-					"makeType": 0,
+					"makeType": 1,
 					"iconStr": "demo_style_lip_03",
                     "namaBundleType": 1,
 					"namaValueType": 1,
@@ -327,7 +327,7 @@
 					"title": "润泽Ⅰ"
 				},
                 {
-                    "makeType": 0,
+                    "makeType": 1,
                     "iconStr": "demo_style_lip_02",
                     "namaBundleType": 1,
                     "namaValueType": 1,
@@ -372,7 +372,7 @@
                     "title": "润泽Ⅱ"
                 },
 				{
-					"makeType": 0,
+					"makeType": 1,
 					"iconStr": "demo_style_lip_04",
                     "namaBundleType": 1,
 					"namaValueType": 1,
@@ -416,7 +416,7 @@
 					"title": "珠光"
 				},
 				{
-					"makeType": 0,
+					"makeType": 1,
 					"iconStr": "demo_style_lip_05",
                     "namaBundleType": 1,
 					"namaValueType": 1,
@@ -466,13 +466,13 @@
 			"name": "腮红",
 			"sgArr": [
 				{
-					"makeType": 1,
+					"makeType": 2,
 					"iconStr": "makeup_noitem",
 					"namaValueType": 2,
 					"value": 0.0
 				},
 				{
-					"makeType": 1,
+					"makeType": 2,
 					"iconStr": "demo_style_blush_01",
 					"namaBundleType": 2,
 					"namaValueType": 2,
@@ -515,7 +515,7 @@
 					"title": "苹果肌"
 				},
 				{
-					"makeType": 1,
+					"makeType": 2,
 					"iconStr": "demo_style_blush_02",
 					"namaBundleType": 2,
 					"namaValueType": 2,
@@ -558,7 +558,7 @@
 					"title": "扇形"
 				},
 				{
-					"makeType": 1,
+					"makeType": 2,
 					"iconStr": "demo_style_blush_03",
 					"namaBundleType": 2,
 					"namaValueType": 2,
@@ -601,7 +601,7 @@
 					"title": "眼角"
 				},
 				{
-					"makeType": 1,
+					"makeType": 2,
 					"iconStr": "demo_style_blush_04",
 					"namaBundleType": 2,
 					"namaValueType": 2,
@@ -649,14 +649,14 @@
 			"name": "眉毛",
 			"sgArr": [
 				{
-					"makeType": 2,
+					"makeType": 3,
 					"iconStr": "makeup_noitem",
 					"namaValueType": 3,
 					"brow_warp": 0,
 					"value": 0.0
 				},
 				{
-					"makeType": 2,
+					"makeType": 3,
 					"iconStr": "demo_style_eyebrow_01",
 					"namaBundleType": 3,
 					"namaValueType": 3,
@@ -701,7 +701,7 @@
 					"title": "柳叶眉"
 				},
 				{
-					"makeType": 2,
+					"makeType": 3,
 					"iconStr": "demo_style_eyebrow_02",
 					"namaBundleType": 3,
 					"namaValueType": 3,
@@ -746,7 +746,7 @@
 					"title": "标准眉"
 				},
 				{
-					"makeType": 2,
+					"makeType": 3,
 					"iconStr": "demo_style_eyebrow_03",
 					"namaBundleType": 3,
 					"namaValueType": 3,
@@ -791,7 +791,7 @@
 					"title": "小山眉"
 				},
 				{
-					"makeType": 2,
+					"makeType": 3,
 					"iconStr": "demo_style_eyebrow_04",
 					"namaBundleType": 3,
 					"namaValueType": 3,
@@ -836,7 +836,7 @@
 					"title": "一字眉"
 				},
 				{
-					"makeType": 2,
+					"makeType": 3,
 					"iconStr": "demo_style_eyebrow_05",
 					"namaBundleType": 3,
 					"namaValueType": 3,
@@ -881,7 +881,7 @@
 					"title": "扶形眉"
 				},
 				{
-					"makeType": 2,
+					"makeType": 3,
 					"iconStr": "demo_style_eyebrow_06",
 					"namaBundleType": 3,
 					"namaValueType": 3,
@@ -926,7 +926,7 @@
 					"title": "日常风"
 				},
 				{
-					"makeType": 2,
+					"makeType": 3,
 					"iconStr": "demo_style_eyebrow_07",
 					"namaBundleType": 3,
 					"namaValueType": 3,
@@ -976,13 +976,13 @@
 			"name": "眼影",
 			"sgArr": [
 				{
-					"makeType": 3,
+					"makeType": 4,
 					"iconStr": "makeup_noitem",
 					"namaValueType": 4,
 					"value": 0.0
 				},
 				{
-					"makeType": 3,
+					"makeType": 4,
 					"iconStr": "demo_style_eyeshadow_01",
 					"namaBundleType": 4,
 					"namaValueType": 4,
@@ -1065,7 +1065,7 @@
 					"title": "单色眼影"
 				},
 				{
-					"makeType": 3,
+					"makeType": 4,
 					"iconStr": "demo_style_eyeshadow_02",
 					"namaBundleType": 4,
 					"namaValueType": 4,
@@ -1148,7 +1148,7 @@
 					"title": "双色眼影Ⅰ"
 				},
 				{
-					"makeType": 3,
+					"makeType": 4,
 					"iconStr": "demo_style_eyeshadow_03",
 					"namaBundleType": 4,
 					"namaValueType": 4,
@@ -1231,7 +1231,7 @@
 					"title": "双色眼影Ⅱ"
 				},
 				{
-					"makeType": 3,
+					"makeType": 4,
 					"iconStr": "demo_style_eyeshadow_04",
 					"namaBundleType": 4,
 					"namaValueType": 4,
@@ -1314,7 +1314,7 @@
 					"title": "双色眼影Ⅲ"
 				},
 				{
-					"makeType": 3,
+					"makeType": 4,
 					"iconStr": "demo_style_eyeshadow_05",
 					"namaBundleType": 4,
 					"namaValueType": 4,
@@ -1397,7 +1397,7 @@
 					"title": "三色眼影Ⅰ"
 				},
 				{
-					"makeType": 3,
+					"makeType": 4,
 					"iconStr": "demo_style_eyeshadow_06",
 					"namaBundleType": 4,
 					"namaValueType": 4,
@@ -1485,13 +1485,13 @@
 			"name": "眼线",
 			"sgArr": [
 				{
-					"makeType": 4,
+					"makeType": 5,
 					"iconStr": "makeup_noitem",
 					"namaValueType": 5,
 					"value": 0.0
 				},
 				{
-					"makeType": 4,
+					"makeType": 5,
 					"iconStr": "demo_style_eyeliner_01",
 					"namaBundleType": 5,
 					"namaValueType": 5,
@@ -1534,7 +1534,7 @@
 					"title": "猫眼"
 				},
 				{
-					"makeType": 4,
+					"makeType": 5,
 					"iconStr": "demo_style_eyeliner_02",
 					"namaBundleType": 5,
 					"namaValueType": 5,
@@ -1577,7 +1577,7 @@
 					"title": "下垂眼"
 				},
 				{
-					"makeType": 4,
+					"makeType": 5,
 					"iconStr": "demo_style_eyeliner_03",
 					"namaBundleType": 5,
 					"namaValueType": 5,
@@ -1620,7 +1620,7 @@
 					"title": "拉开眼距"
 				},
 				{
-					"makeType": 4,
+					"makeType": 5,
 					"iconStr": "demo_style_eyeliner_04",
 					"namaBundleType": 5,
 					"namaValueType": 5,
@@ -1663,7 +1663,7 @@
 					"title": "拉近眼距"
 				},
 				{
-					"makeType": 4,
+					"makeType": 5,
 					"iconStr": "demo_style_eyeliner_05",
 					"namaBundleType": 5,
 					"namaValueType": 5,
@@ -1706,7 +1706,7 @@
 					"title": "长眼"
 				},
 				{
-					"makeType": 4,
+					"makeType": 5,
 					"iconStr": "demo_style_eyeliner_06",
 					"namaBundleType": 5,
 					"namaValueType": 5,
@@ -1754,13 +1754,13 @@
 			"name": "睫毛",
 			"sgArr": [
 				{
-					"makeType": 5,
+					"makeType": 6,
 					"iconStr": "makeup_noitem",
 					"namaValueType": 6,
 					"value": 0.0
 				},
 				{
-					"makeType": 5,
+					"makeType": 6,
 					"iconStr": "demo_style_eyelash_01",
 					"namaBundleType": 6,
 					"namaValueType": 6,
@@ -1803,7 +1803,7 @@
 					"title": "自然型Ⅰ"
 				},
 				{
-					"makeType": 5,
+					"makeType": 6,
 					"iconStr": "demo_style_eyelash_02",
 					"namaBundleType": 6,
 					"namaValueType": 6,
@@ -1846,7 +1846,7 @@
 					"title": "自然型Ⅱ"
 				},
 				{
-					"makeType": 5,
+					"makeType": 6,
 					"iconStr": "demo_style_eyelash_03",
 					"namaBundleType": 6,
 					"namaValueType": 6,
@@ -1889,7 +1889,7 @@
 					"title": "浓密型Ⅰ"
 				},
 				{
-					"makeType": 5,
+					"makeType": 6,
 					"iconStr": "demo_style_eyelash_04",
 					"namaBundleType": 6,
 					"namaValueType": 6,
@@ -1932,7 +1932,7 @@
 					"title": "浓密型Ⅱ"
 				},
 				{
-					"makeType": 5,
+					"makeType": 6,
 					"iconStr": "demo_style_eyelash_05",
 					"namaBundleType": 6,
 					"namaValueType": 6,
@@ -1975,7 +1975,7 @@
 					"title": "夸张型Ⅰ"
 				},
 				{
-					"makeType": 5,
+					"makeType": 6,
 					"iconStr": "demo_style_eyelash_06",
 					"namaBundleType": 6,
 					"namaValueType": 6,
@@ -2023,13 +2023,13 @@
 			"name": "高光",
 			"sgArr": [
 				{
-					"makeType": 8,
+					"makeType": 7,
 					"namaValueType": 7,
 					"iconStr": "makeup_noitem",
 					"value": 0.0
 				},
 				{
-					"makeType": 8,
+					"makeType": 7,
 					"iconStr": "demo_style_highlight_01",
 					"namaBundleType": 7,
 					"namaValueType": 7,
@@ -2072,7 +2072,7 @@
 					"title": "Ⅰ号"
 				},
 				{
-					"makeType": 8,
+					"makeType": 7,
 					"iconStr": "demo_style_highlight_02",
 					"namaBundleType": 7,
 					"namaValueType": 7,
@@ -2120,13 +2120,13 @@
 			"name": "阴影",
 			"sgArr": [
 				{
-					"makeType": 9,
+					"makeType": 8,
 					"iconStr": "makeup_noitem",
 					"namaValueType": 8,
 					"value": 0.0
 				},
 				{
-					"makeType": 9,
+					"makeType": 8,
 					"iconStr": "demo_style_contour_01",
 					"namaBundleType": 8,
 					"namaValueType": 8,
@@ -2173,13 +2173,13 @@
 			"name": "美瞳",
 			"sgArr": [
 				{
-					"makeType": 6,
+					"makeType": 9,
 					"iconStr": "makeup_noitem",
 					"namaValueType": 9,
 					"value": 0.0
 				},
 				{
-					"makeType": 6,
+					"makeType": 9,
 					"iconStr": "demo_style_eyepupil_01",
 					"namaBundleType": 9,
 					"namaValueType": 9,
@@ -2221,7 +2221,7 @@
 					"defaultColorIndex": 0,
                     "title": "蜜糖"
 				},{
-                    "makeType": 6,
+                    "makeType": 9,
                     "iconStr": "demo_style_eyepupil_03",
                     "namaBundleType": 9,
                     "namaValueType": 9,
@@ -2232,7 +2232,7 @@
                     "defaultColorIndex": 0,
                     "title": "奶茶"
                 },{
-                    "makeType": 6,
+                    "makeType": 9,
                     "iconStr": "demo_style_eyepupil_04",
                     "namaBundleType": 9,
                     "namaValueType": 9,
@@ -2243,7 +2243,7 @@
                     "defaultColorIndex": 0,
                     "title": "水波"
                 },{
-                    "makeType": 6,
+                    "makeType": 9,
                     "iconStr": "demo_style_eyepupil_05",
                     "namaBundleType": 9,
                     "namaValueType": 9,
@@ -2254,7 +2254,7 @@
                     "defaultColorIndex": 0,
                     "title": "鎏金"
                 },{
-                    "makeType": 6,
+                    "makeType": 9,
                     "iconStr": "demo_style_eyepupil_06",
                     "namaBundleType": 9,
                     "namaValueType": 9,
@@ -2265,7 +2265,7 @@
                     "defaultColorIndex": 0,
                     "title": "孔雀"
                 },{
-                    "makeType": 6,
+                    "makeType": 9,
                     "iconStr": "demo_style_eyepupil_07",
                     "namaBundleType": 9,
                     "namaValueType": 9,
@@ -2276,7 +2276,7 @@
                     "defaultColorIndex": 0,
                     "title": "星河"
                 },{
-                    "makeType": 6,
+                    "makeType": 9,
                     "iconStr": "demo_style_eyepupil_08",
                     "namaBundleType": 9,
                     "namaValueType": 9,
@@ -2287,7 +2287,7 @@
                     "defaultColorIndex": 0,
                     "title": "落目"
                 },{
-                    "makeType": 6,
+                    "makeType": 9,
                     "iconStr": "demo_style_eyepupil_09",
                     "namaBundleType": 9,
                     "namaValueType": 9,

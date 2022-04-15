@@ -12,7 +12,7 @@
 #import "FULiveCell.h"
 
 #import "FUBeautyController.h"
-#import "FUMakeupController.h"
+#import "FUMakeupViewController.h"
 #import "FUNormalItemController.h"
 #import "FUPosterListViewController.h"
 #import "FUAnimojiController.h"
@@ -145,9 +145,9 @@ static NSString *headerViewID = @"MGHeaderView";
             break;
             
         case FULiveModelTypeMakeUp:{
-            FUMakeupController *vc = [[FUMakeupController alloc] init];
-            vc.model = model;
-            [self.navigationController pushViewController:vc animated:YES];
+            FUMakeupViewController *makeupController = [[FUMakeupViewController alloc] init];
+            makeupController.model = model;
+            [self.navigationController pushViewController:makeupController animated:YES];
         }
             break;
             
@@ -220,10 +220,10 @@ static NSString *headerViewID = @"MGHeaderView";
             break;
             
         case FULiveModelTypeLvMu:{
-                FULvMuViewController *vc = [[FULvMuViewController alloc] init];
-                vc.model = model;
-                [self.navigationController pushViewController:vc animated:YES];
-            }
+            FULvMuViewController *vc = [[FULvMuViewController alloc] init];
+            vc.model = model;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
                 break;
         case FULiveModelTypeGestureRecognition: {
             FUNormalItemController *vc = [[FUNormalItemController alloc] init];

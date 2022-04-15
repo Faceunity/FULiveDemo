@@ -1,5 +1,5 @@
 framework module FURenderKit {
-  umbrella header "FURenderKit.h"
+  umbrella header "FURenderKit-umbrella.h"
 
   export *
   module * { export * }

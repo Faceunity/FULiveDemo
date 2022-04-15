@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
              completion:(void (^)(NSArray <FUStickerModel *>* _Nullable dataArray, NSError * _Nullable error))completion;
 
 /// 下载单个道具
-/// @param itemId 道具ID
+/// @param sticker 道具
 /// @param completion 结果回调
 + (void)downloadItem:(FUStickerModel *)sticker completion:(void (^)(NSError * _Nullable error))completion;
 

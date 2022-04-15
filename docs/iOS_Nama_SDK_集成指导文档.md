@@ -3,7 +3,20 @@
 ------
 
 级别：Public   
-更新日期：2021-02-15
+更新日期：2022-04-15
+SDK版本: 8.2.0
+
+### 最新更新内容：
+
+1）提升美颜效果，包括6大功能维度：祛黑眼圈功能保留卧蚕，优化祛黑效果；祛法令纹改善涂抹问题；嘴型功能、大眼功能优化等比例问题；小脸功能优化侧脸自然度问题；新增粉嫩透亮的美白功能
+2）提高人脸检测功能小人脸模型的检出率，更好地支持远距离场景
+3）提高人脸基础关键点稳定性
+4）解决部分bug
+
+------
+
+级别：Public   
+更新日期：2022-01-27
 SDK版本: 8.1.0
 
 ### 最新更新内容：
@@ -119,21 +132,23 @@ SDK版本: 7.4.0
 ```
 +FULiveDemo
   +FULiveDemo                   //原代码目录
-    +Main                     //主模块(主页和公共页面UI、模型、主业务管理类) 
+    +Main                     //主页模块(主页UI、主页模型、主页管理类) 
     +Modules                  //所有功能模块
+      +Base                    //所有模块控制器、管理类的基类
       +Normal                   //普通道具模块
       +Beauty                   //美颜模块
         ...
     +Helpers                //主要业务管理类  
+      +UI                   //公共UI控件
+      +Protocol             //接口文件
+      +Category              //类别
       -FUManager              //Nama业务管理类
-      +VC                      //基类控制器
-      +Manager                 //管理类基类
           ...   
     +Config                    //配置文件目录
+      -FULiveDefine.h         //宏、常量声明
       -DataSource             //主界面，权限，item 道具配置类 
       -makeup.json             //美妆单个妆数组
       -makeup_whole.json      //美妆整体妆容配置
-      -avatar.json            //捏脸颜色，模板配置文件
     +Resource               
        +itmes                 //各个模块道具资源 
     +Lib                    //nama SDK  
@@ -143,6 +158,7 @@ SDK版本: 7.4.0
   +docs                        //文档目录
   +Pods                     //三方库管理
   -FULiveDemo.xcworkspace   //工程文件
+  
 ```
 
 ------
@@ -165,24 +181,24 @@ Xcode 8或更高版本
 Nama全功能版本（支持物理特效）：
 
 ```
-pod 'Nama', '8.1.0' 
+pod 'Nama', '8.2.0' 
 ```
 
 Nama-lite版本（体积更小，包含人脸相关的功能(海报换脸除外)）：
 
 ```
-pod 'Nama-lite', '8.1.0' 
+pod 'Nama-lite', '8.2.0' 
 ```
 FURenderKit全功能版本（支持物理特效）：
 
 ```
-pod 'FURenderKit', '8.1.0' 
+pod 'FURenderKit', '8.2.0' 
 ```
 
 FURenderKit-lite版本：
 
 ```
-pod 'FURenderKit-lite', '8.1.0' 
+pod 'FURenderKit-lite', '8.2.0' 
 ```
 
 接下来执行：
@@ -199,15 +215,15 @@ pod repo update 或 pod setup
 
 #### 3.2.2 直接下载
 
-Nama全功能版本（支持物理特效）：[FaceUnity-SDK-iOS-v8.1.0.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FaceUnity-SDK-iOS-v8.1.0.zip)
+Nama全功能版本（支持物理特效）：[FaceUnity-SDK-iOS-v8.2.0.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FaceUnity-SDK-iOS-v8.2.0.zip)
 
-Nama-lite版本： 版（体积更小，包含人脸相关的功能(海报换脸除外)）：[FaceUnity-SDK-iOS-v8.1.0-lite.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FaceUnity-SDK-iOS-v8.1.0-lite.zip)
+Nama-lite版本： 版（体积更小，包含人脸相关的功能(海报换脸除外)）：[FaceUnity-SDK-iOS-v8.2.0-lite.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FaceUnity-SDK-iOS-v8.2.0-lite.zip)
 
 FURenderKit全功能版本（支持物理特效）：
-    [FURenderKit-v8.1.0.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FURenderKit-v8.1.0.zip)
+    [FURenderKit-v8.2.0.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FURenderKit-v8.2.0.zip)
 
 FURenderKit-lite版本：
-    [FURenderKit-lite-v8.1.0.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FURenderKit-lite-v8.1.0.zip)
+    [FURenderKit-lite-v8.2.0.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FURenderKit-lite-v8.2.0.zip)
     
 
 下载完成并解压后将库文件夹拖入到工程中，并勾选上 Copy items if needed，如图：
@@ -870,7 +886,7 @@ __高级镜像__
 
 #### 5.3 相机曝光异常问题
 
-曝光问题主要相机采集问题和SDK无关，FULivemo主要策略是：
+曝光问题主要相机采集问题和SDK无关，FULiveDemo主要策略是：
 
 - __手动设置了曝光点，曝光手动位置；非手动点击对焦，进入人脸对焦逻辑;相机主题区域发生了变化，进入人脸对焦逻辑。__
 - __人脸对焦逻辑：检测到人脸设置人脸中点为曝光点，无人脸设置曝光点位为 CGPointMake(0.5, 0.5)__

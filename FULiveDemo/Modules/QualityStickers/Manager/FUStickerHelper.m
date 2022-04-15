@@ -10,9 +10,8 @@
 #import "FUNetworkingHelper.h"
 
 #import "FUStickerModel.h"
-#import "FULiveDefine.h"
 
-#import <ZipArchive.h>
+#import <SSZipArchive.h>
 
 @implementation FUStickerHelper
 

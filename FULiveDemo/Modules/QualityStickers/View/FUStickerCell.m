@@ -11,7 +11,6 @@
 #import "FUStickerModel.h"
 
 #import "FUStickerHelper.h"
-#import "FULiveDefine.h"
 
 #import "UIColor+FU.h"
 

@@ -52,7 +52,7 @@
 
 - (void)loadAvatarWithIndex:(int)index {
     if (_index == index && index == -1) {
-        return ; 
+        return ;
     }
     if (![FURenderKit shareRenderKit].currentScene) {
         // 先添加scene到FURenderKit
@@ -77,18 +77,19 @@
         [self.scene addAvatar:avatar];
     }
     avatar.position = self.scene.AIConfig.bodyTrackMode == FUBodyTrackModeFull ? fullPosition:halfPosition;
+    avatar.humanProcessorType = 0;
     [avatar setEnableHumanAnimDriver:YES];
     avatar.visible = YES;
     self.currentAvatar = avatar;
 }
 
-/// 切换模式: 半身还是全身
+//切换模式: 半身还是全身
 - (void)switchBodyTrackMode:(FUBodyTrackMode)mode {
     self.currentAvatar.position = mode == FUBodyTrackModeFull ? fullPosition:halfPosition;
     self.scene.AIConfig.bodyTrackMode = mode;
 }
 
-/// 加载抗锯齿道具
+//加载抗锯齿道具
 - (void)loadAntiAliasing {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"fxaa" ofType:@"bundle"];
     [FURenderKit shareRenderKit].antiAliasing = [[FUItem alloc] initWithPath:path name:@"antiAliasing"];
@@ -109,7 +110,6 @@
 
 - (NSArray<FUAvatar *> *)avatars {
     if (!_avatars) {
-        //    NSArray <NSString *>*gestureTrackComponents = @[@"anim_eight",@"anim_fist",@"anim_greet",@"anim_gun",@"anim_heart",@"anim_hold",@"anim_korheart",@"anim_merge",@"anim_ok",@"anim_one", @"anim_palm",@"anim_rock",@"anim_six",@"anim_thumb",@"anim_two"];
         
         // setup female
         FUAvatar *femaleAvatar = [[FUAvatar alloc] init];
@@ -124,13 +124,6 @@
             }
             [femaleAvatar addComponent:item];
         }
-        
-        // gesture track components
-        //    for (NSString *gestureTrackComponent in gestureTrackComponents) {
-        //        NSString *path = [[NSBundle mainBundle] pathForResource:gestureTrackComponent ofType:@"bundle"];
-        //        FUItem *item = [FUItem itemWithPath:path name:gestureTrackComponent];
-        //        [femaleAvatar addComponent:item];
-        //    }
             
         // avatar makeup
         NSString *path = [[NSBundle mainBundle] pathForResource:@"facemakeup_3" ofType:@"bundle"];
@@ -157,13 +150,6 @@
             }
             [maleAvatar addComponent:item];
         }
-        
-        // gesture track components
-        //    for (NSString *gestureTrackComponent in gestureTrackComponents) {
-        //        NSString *path = [[NSBundle mainBundle] pathForResource:gestureTrackComponent ofType:@"bundle"];
-        //        FUItem *item = [FUItem itemWithPath:path name:gestureTrackComponent];
-        //        [maleAvatar addComponent:item];
-        //    }
             
         // animation
         FUAnimation *maleAnimation = [FUAnimation animationWithPath:[[NSBundle mainBundle] pathForResource:@"anim_idle" ofType:@"bundle"] name:@"anim_idle"];
@@ -178,5 +164,6 @@
     }
     return _avatars;
 }
+
 
 @end

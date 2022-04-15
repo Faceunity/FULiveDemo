@@ -7,13 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FUMakeupProtocol.h"
+#import "FUSingleMakeupProtocol.h"
 #import "FUSingleMakeupModel.h"//目的导入FUMakeupModelType枚举，这里简单写了
 
 NS_ASSUME_NONNULL_BEGIN
-@interface FUSingleLightMakeupModel : NSObject <FUMakeupProtocol>
-//轻美妆妆容图片键值
-@property (nonatomic, assign) LIGHTMAKEUPIMAGETYPE namaBundleKey;
+@interface FUSingleLightMakeupModel : NSObject <FUSingleMakeupProtocol>
+
 @end
 
 @interface FULightModel : NSObject
@@ -31,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) float value;
 
 /* 组合妆对应所有子妆容 */
-@property (nonatomic, strong) NSArray <FUSingleLightMakeupModel *>* makeups;
+@property (nonatomic, copy) NSArray <FUSingleLightMakeupModel *>* makeups;
 
 @end
 

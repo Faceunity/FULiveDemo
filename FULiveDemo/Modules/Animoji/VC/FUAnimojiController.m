@@ -7,22 +7,25 @@
 //
 
 #import "FUAnimojiController.h"
-#import "FUSegmentBarView.h"
+#import "FUSegmentBar.h"
 #import "FUItemsView.h"
 #import "FUAnimojiManager.h"
 #import "FUAnimationFilterManager.h"
 
-@interface FUAnimojiController ()<FUItemsViewDelegate>
+@interface FUAnimojiController ()<FUItemsViewDelegate, FUSegmentBarDelegate>
 @property (strong,nonatomic) NSString *selAnmoji;
 @property (strong,nonatomic) NSString *selComic;
 @property (strong, nonatomic) FUItemsView *itemsView;
 /* 动漫滤镜分栏*/
-@property (strong, nonatomic) FUSegmentBarView *segmentBarView;
+@property (strong, nonatomic) FUSegmentBar *segmentBarView;
 @property (strong, nonatomic) NSArray *comicItemArray;
 
 @property (strong, nonatomic) FUAnimojiManager *animojManager;
 
 @property (strong, nonatomic) FUAnimationFilterManager *animationFilterManager;
+
+@property (nonatomic) NSInteger currentIndex;
+
 @end
 
 @implementation FUAnimojiController
@@ -31,6 +34,9 @@
     // Do any additional setup after loading the view.
     self.animojManager = [[FUAnimojiManager alloc] init];
     self.animationFilterManager = [[FUAnimationFilterManager alloc] init];
+    
+    _currentIndex = 0;
+    
     [self setupView];
     
 }
@@ -47,35 +53,13 @@
 -(void)setupView{
     /* 动漫data */
     _comicItemArray = @[@"resetItem",@"fuzzytoonfilter1",@"fuzzytoonfilter2",@"fuzzytoonfilter3",@"fuzzytoonfilter4",@"fuzzytoonfilter5",@"fuzzytoonfilter6",@"fuzzytoonfilter7",@"fuzzytoonfilter8"];
+
+    self.segmentBarView = [[FUSegmentBar alloc] initWithFrame:CGRectMake(0, 200,[UIScreen mainScreen].bounds.size.width, 49) titles:@[@"Animoji",FUNSLocalizedString(@"动漫滤镜",nil)] configuration:[FUSegmentBarConfigurations new]];
+    self.segmentBarView.segmentDelegate = self;
+    self.segmentBarView.selectedIndex = _currentIndex;
+    [self.view addSubview:self.segmentBarView];
     
-    /* anmoji View */
-    _itemsView = [[FUItemsView alloc] init];
-    _itemsView.delegate = self;
-    [self.view addSubview:_itemsView];
-//    _itemsView.backgroundColor = [UIColor colorWithRed:17/255.0 green:18/255.0 blue:38/255.0 alpha:0.95];
-    [self.itemsView updateCollectionArray:self.model.items];
-    
-    self.photoBtn.transform = CGAffineTransformMakeTranslation(0, -90) ;
-    
-    /* 初始状态 */
-    self.itemsView.selectedItem = @"resetItem" ;
-    _selAnmoji = self.itemsView.selectedItem;
-    
-    __weak typeof(self)weakSelf  = self ;
-    _segmentBarView = [[FUSegmentBarView alloc] initWithFrame:CGRectMake(0, 200,[UIScreen mainScreen].bounds.size.width, 49) titleArray:@[@"Animoji",FUNSLocalizedString(@"动漫滤镜",nil)] selBlock:^(int index) {
-        if (index == 0) {
-            weakSelf.itemsView.selectedItem = weakSelf.selAnmoji;
-            [weakSelf.itemsView updateCollectionArray:weakSelf.model.items];
-        }else{
-            weakSelf.itemsView.selectedItem = weakSelf.selComic;
-            [weakSelf.itemsView updateCollectionArray:weakSelf.comicItemArray];
-        }
-        NSLog(@"选中---%d",index);
-    }];
-    _segmentBarView.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:_segmentBarView];
-    
-    [_segmentBarView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.segmentBarView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view.mas_bottom);
         make.left.right.equalTo(self.view);
         if (iPhoneXStyle) {
@@ -86,30 +70,22 @@
         
     }];
     
-    [_itemsView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(_segmentBarView.mas_top);
+    /* anmoji View */
+    self.itemsView = [[FUItemsView alloc] init];
+    self.itemsView.delegate = self;
+    [self.view addSubview:self.itemsView];
+    [self.itemsView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.segmentBarView.mas_top);
         make.left.right.equalTo(self.view);
         make.height.mas_equalTo(84);
     }];
     
-    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-    UIVisualEffectView *effectview = [[UIVisualEffectView alloc] initWithEffect:blur];
-    effectview.alpha = 1.0;
-    [self.view insertSubview:effectview atIndex:1];
-
-    /* 磨玻璃 */
-    [effectview mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.bottom.equalTo(self.view);
-        
-        if (iPhoneXStyle) {
-            make.height.mas_equalTo(84 + 49 + 34 + 1);
-        }else{
-            make.height.mas_equalTo(84 + 34 + 1);
-        }
-        
-    }];
+    [self.itemsView updateCollectionArray:self.model.items];
+    /* 初始状态 */
+    self.itemsView.selectedItem = @"resetItem" ;
+    self.selAnmoji = self.itemsView.selectedItem;
     
-    
+    self.photoBtn.transform = CGAffineTransformMakeTranslation(0, -90) ;
 }
 
 -(void)headButtonViewBackAction:(UIButton *)btn{
@@ -122,7 +98,7 @@
 - (void)itemsViewDidSelectedItem:(NSString *)item indexPath:(NSIndexPath *)indexPath {
     [_itemsView startAnimation];
     __weak typeof(self) weak = self;
-    if (self.segmentBarView.currentBtnIndex == 1){//动漫
+    if (self.currentIndex == 1){//动漫
         _selComic = item;
         NSArray *array = [_selComic componentsSeparatedByString:@"toonfilter"];
         int type = [array.lastObject intValue];
@@ -136,6 +112,18 @@
         }];
     }
 
+}
+
+- (void)segmentBar:(FUSegmentBar *)segmentsView didSelectItemAtIndex:(NSUInteger)index {
+    if (index == 0) {
+        self.itemsView.selectedItem = self.selAnmoji;
+        [self.itemsView updateCollectionArray:self.model.items];
+    }else{
+        self.itemsView.selectedItem = self.selComic;
+        [self.itemsView updateCollectionArray:self.comicItemArray];
+    }
+    self.currentIndex = index;
+    NSLog(@"选中---%lu",(unsigned long)index);
 }
 
 

@@ -32,17 +32,13 @@
     return self;
 }
 
-+ (int)aiHandDistinguishNums {
-    return [FUAIKit aiHandDistinguishNums];
-}
-
 /**
  加载普通道具
  - 先创建再释放可以有效缓解切换道具卡顿问题
  */
 - (void)loadItem:(NSString *)itemName
       completion:(void (^ __nullable)(BOOL finished))completion {
-    self.selectedItem = itemName;
+    self.selectedItem = itemName ;
     NSLog(@"道具名称=====%@",itemName);
     if (itemName != nil && ![itemName isEqual: @"resetItem"])  {
         [self loadItemWithCompletion:^{

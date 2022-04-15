@@ -11,6 +11,9 @@
 
 #import <FURenderKit/FUQualitySticker.h>
 
+/// 允许同时下载任务最大数量
+static NSInteger const kFUDownloadTasksMaxNumber = 4;
+
 @interface FUQualityStickerManager ()
 
 @property (nonatomic, strong) FUQualitySticker *curStickItem;
@@ -19,22 +22,44 @@
 @property (nonatomic, strong) FUScene *scene;
 @property (nonatomic, strong) FUAvatar *avatar;
 
+/// 下载队列
+@property (nonatomic, strong) NSOperationQueue *downloadQueue;
+
 @end
 
 @implementation FUQualityStickerManager
 
 #pragma mark - Instance methods
 
-- (void)loadItemWithModel:(FUStickerModel *)stickerModel {
-    switch (stickerModel.type) {
+- (void)downloadItem:(FUStickerModel *)sticker completion:(void (^)(NSError * _Nullable))completion {
+    [self.downloadQueue addOperationWithBlock:^{
+        dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+        [FUStickerHelper downloadItem:sticker completion:^(NSError * _Nullable error) {
+            dispatch_semaphore_signal(semaphore);
+            if (error) {
+                completion(error);
+            } else {
+                completion(nil);
+            }
+        }];
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+    }];
+}
+
+- (void)cancelDownloadingTasks {
+    [self.downloadQueue cancelAllOperations];
+}
+
+- (void)loadItem:(FUStickerModel *)sticker {
+    switch (sticker.type) {
         case FUQualityStickerTypeAvatar:{
             // Avatar道具加载
-            [self loadAvatarItem:stickerModel];
+            [self loadAvatarItem:sticker];
         }
             break;
         case FUQualityStickerTypeCommon:{
             // 普通道具加载
-            [self loadCommonItem:stickerModel];
+            [self loadCommonItem:sticker];
         }
             break;
     }
@@ -99,6 +124,7 @@
         }
         [self.scene addAvatar:self.avatar];
         self.avatar.position = FUPositionMake(25.2, iPhoneXStyle ? (56.14 - 50.0*24.0/72.0) : 56.14, -537.94);
+        self.avatar.humanProcessorType = 0;
         [self.avatar setEnableHumanAnimDriver:YES];
         self.scene.AIConfig.avatarTranslationScale = FUPositionMake(0.45, 0.45, 0.25);
         [self.scene.AIConfig setAvatarAnimFilter:7 pos:0.05 angle:0.1];
@@ -139,6 +165,14 @@
         _avatar = [[FUAvatar alloc] init];
     }
     return _avatar;
+}
+
+- (NSOperationQueue *)downloadQueue {
+    if (!_downloadQueue) {
+        _downloadQueue = [[NSOperationQueue alloc] init];
+        _downloadQueue.maxConcurrentOperationCount = kFUDownloadTasksMaxNumber;
+    }
+    return _downloadQueue;
 }
 
 @end

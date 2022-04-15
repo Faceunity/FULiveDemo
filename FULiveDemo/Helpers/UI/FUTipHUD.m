@@ -9,8 +9,6 @@
 #import "FUTipHUD.h"
 #import "FUMetaManager.h"
 
-#import <Masonry.h>
-
 @implementation FUTipHUD
 
 + (void)showTips:(NSString *)tipsString {
@@ -30,13 +28,24 @@
     tipLabel.text = tipsString;
     tipLabel.textColor = [UIColor whiteColor];
     tipLabel.font = [UIFont systemFontOfSize:13];
+    tipLabel.numberOfLines = 0;
     tipLabel.layer.masksToBounds = YES;
     tipLabel.layer.cornerRadius = 4;
     
     [window addSubview:tipLabel];
-    [tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(window);
-    }];
+    
+    CGFloat tipWidth = [tipsString sizeWithAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:13]}].width;
+    if (tipWidth + 50 > CGRectGetWidth(window.bounds)) {
+        [tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(window);
+            make.leading.equalTo(window.mas_leading).mas_offset(5);
+            make.trailing.equalTo(window.mas_trailing).mas_offset(-5);
+        }];
+    } else {
+        [tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(window);
+        }];
+    }
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [UIView animateWithDuration:0.3 animations:^{

@@ -10,8 +10,6 @@
 #import "FUFilterView.h"
 #import "FUSlider.h"
 #import "FUBeautyView.h"
-#import "MJExtension.h"
-#import "FUMakeupSupModel.h"
 #import "FUSquareButton.h"
 #import "FUManager.h"
 #import "SVProgressHUD.h"
@@ -162,7 +160,7 @@
     if (self.beautyFilterBtn.selected) {
         
         NSInteger selectedIndex = self.beautyFilterView.selectedIndex ;
-        self.beautySlider.type = FUFilterSliderType01 ;
+        self.beautySlider.bidirection = NO;
         self.beautySlider.hidden = selectedIndex <= 0;
         if (selectedIndex >= 0) {
             FUBeautyModel *modle = self.beautyFilterView.filters[selectedIndex];
@@ -240,17 +238,25 @@
 #pragma mark - Instance methods
 -(void)reloadSkinView:(NSArray<FUBeautyModel *> *)skinParams{
     _skinView.dataArray = skinParams;
-    _skinView.selectedIndex = 0;
-    FUBeautyModel *modle = skinParams[0];
-    if (modle) {
-        _beautySlider.hidden = NO;
-        _beautySlider.value = modle.mValue / modle.ratio;
+    if (_skinView.selectedIndex >= 0) {
+        FUBeautyModel *model = skinParams[_skinView.selectedIndex];
+        if (model) {
+            _beautySlider.hidden = NO;
+            _beautySlider.value = model.mValue / model.ratio;
+        }
     }
     [_skinView reloadData];
 }
 
 -(void)reloadShapView:(NSArray<FUBeautyModel *> *)shapParams{
     _shapeView.dataArray = shapParams;
+    if (_shapeView.selectedIndex >= 0) {
+        FUBeautyModel *model = shapParams[_shapeView.selectedIndex];
+        if (model) {
+            _beautySlider.hidden = NO;
+            _beautySlider.value = model.mValue / model.ratio;
+        }
+    }
     [_shapeView reloadData];
 }
 
@@ -306,9 +312,9 @@
 /// 更新Slider类型
 -(void)updateSliderType:(FUBeautyModel *)param{
     if (param.iSStyle101) {
-        self.beautySlider.type = FUFilterSliderType101;
+        self.beautySlider.bidirection = YES;
     }else{
-        self.beautySlider.type = FUFilterSliderType01;
+        self.beautySlider.bidirection = NO;
     }
 }
 

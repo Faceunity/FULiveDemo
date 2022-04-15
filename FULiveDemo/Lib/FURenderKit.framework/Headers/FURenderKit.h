@@ -16,6 +16,7 @@
 #import "FURenderIO.h"
 
 #import "FUBeauty.h"
+#import "FUBeauty-Deprecated.h"
 #import "FUMakeup.h"
 
 #import "FUStickerContainer.h"
@@ -139,9 +140,9 @@
 
 #pragma mark - frame time profile
 /**
- * 开启算法耗时统计功能
+ * 开启/关闭算法耗时统计功能
  */
-+ (void)setupFrameTimeProfileEnable;
++ (void)setupFrameTimeProfileEnable:(BOOL)enable;
 
 /**
  * 设置算法耗时输出到控制台
@@ -152,7 +153,7 @@
  * 设置算法耗时输出到文件
  * filePath 文件路径
  */
-+ (void)setupFrameTimeProfileAutoReportToFile:(NSString *)filePath;
++ (void)setupFrameTimeProfileAutoReportToFile:(NSString *_Nonnull)filePath;
 
 /**
  * 设置算法耗时打印间隔

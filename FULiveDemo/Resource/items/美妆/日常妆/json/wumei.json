@@ -51,6 +51,7 @@
         0.07450980693101883,
         1.0
     ],
+    "tex_eye_bundle": "mu_style_eyeshadow_02",
     "tex_eye": "mu_style_eyeshadow1_03.png",
     "tex_eye2": "mu_style_eyeshadow2_03.png",
     "makeup_intensity_eye": 0.699999988079071,

@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak) id<FUSafeAreaCollectionViewDelegate> safeAreaDelegate;
 
-- (void)reloadSafeAreas;
+- (void)reloadSafeAreas:(BOOL)needsReloadData;
 
 @end
 

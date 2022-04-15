@@ -7,7 +7,6 @@
 //
 
 #import "FUHeadButtonView.h"
-#import <Masonry.h>
 
 
 @implementation FUHeadButtonView

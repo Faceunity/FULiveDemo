@@ -35,6 +35,7 @@ static NSString *bgCellId = @"FUBgCollectionView";
     CGRect frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 80);
     _mBgCollectionView = [[UICollectionView alloc] initWithFrame:frame collectionViewLayout:layout];
     _mBgCollectionView.backgroundColor = [UIColor clearColor];
+    _mBgCollectionView.showsHorizontalScrollIndicator = NO;
     _mBgCollectionView.delegate = self;
     _mBgCollectionView.dataSource = self;
     [self addSubview:_mBgCollectionView];

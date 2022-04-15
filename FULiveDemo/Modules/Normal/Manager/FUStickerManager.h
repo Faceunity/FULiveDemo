@@ -16,7 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 //手势道具专用（手势道具目前未独立，所以和道具贴纸共用一个模块，通过FUStickerType区分）
 @property (nonatomic, strong) FUGesture * _Nullable gestureItem;
+
 - (void)loadItemWithCompletion:(void(^)(void))completion;
+
 @end
 
 NS_ASSUME_NONNULL_END

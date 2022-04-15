@@ -7,10 +7,9 @@
 //
 
 #import "AppDelegate.h"
+
 #import <SVProgressHUD/SVProgressHUD.h>
 #import <dlfcn.h>
-#import <FURenderKit/FURenderKit.h>
-#import <Bugly/Bugly.h>
 
 @interface AppDelegate ()
 @property (nonatomic, assign) double height;
@@ -37,15 +36,7 @@
     [UIApplication sharedApplication].idleTimerDisabled = YES;
     [SVProgressHUD setMinimumDismissTimeInterval:1.5];
     
-//    [self setupBugly];
     return YES;
-}
-
-//bugly集成
-- (void)setupBugly {
-    BuglyConfig *buglyConfig = [[BuglyConfig alloc] init];
-    buglyConfig.debugMode = YES;
-    [Bugly startWithAppId:@"" config:buglyConfig];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

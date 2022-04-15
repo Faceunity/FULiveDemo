@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "FUGreenScreenBgModel.h"
 #import "FUDemoBarDefine.h"
-#import "UIColor+FUAPIDemoBar.h"
+#import "UIColor+FU.h"
 NS_ASSUME_NONNULL_BEGIN
 
 

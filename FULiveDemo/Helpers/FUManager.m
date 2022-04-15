@@ -9,8 +9,6 @@
 #import "FUManager.h"
 #import "authpack.h"
 
-#import <FURenderKit/FURenderKit.h>
-
 static FUManager *shareManager = NULL;
 
 @implementation FUManager
@@ -39,8 +37,8 @@ static FUManager *shareManager = NULL;
     [FURenderKit setupWithSetupConfig:setupConfig];
     
     [FURenderKit setLogLevel:FU_LOG_LEVEL_INFO];
-//    // 算法耗时统计
-//    [FURenderKit setupFrameTimeProfileEnable];
+    // 算法耗时统计
+//    [FURenderKit setupFrameTimeProfileEnable:YES];
 //    // 算法耗时统计输出到控制台
 //    [FURenderKit setupFrameTimeProfileAutoReportToConsole];
 //    // 算法耗时统计输出到文件

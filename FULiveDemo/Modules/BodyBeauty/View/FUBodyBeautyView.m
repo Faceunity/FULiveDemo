@@ -58,7 +58,7 @@ static NSString *positionCellID = @"positionCell";
     _slider = [[FUSlider alloc] initWithFrame:CGRectMake(56, 20, [UIScreen mainScreen].bounds.size.width  - 112, 20)];
     [_slider addTarget:self action:@selector(sliderChangeValue:) forControlEvents:UIControlEventValueChanged];
     [_slider addTarget:self action:@selector(sliderChangeEnd:) forControlEvents:UIControlEventTouchUpInside];
-    _slider.type = FUFilterSliderType01;
+    _slider.bidirection = NO;
     [_slider setMaximumTrackTintColor:UIColor.whiteColor];
     [self addSubview:_slider];
     
@@ -183,9 +183,9 @@ static NSString *positionCellID = @"positionCell";
 -(void)setSliderState:(FUPositionInfo *)position{
     _slider.hidden = NO;
     if (position.type == FUPositionInfoTypeshoulder) {//不同的样式
-        _slider.type = FUFilterSliderType101;
+        _slider.bidirection = YES;
     }else{
-        _slider.type = FUFilterSliderType01;
+        _slider.bidirection = NO;
     }
     
     _slider.value = position.value;

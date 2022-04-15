@@ -68,7 +68,7 @@
         "selectedFilterLevel": 1.0,
         "isSel": false,
         "makeups": [{
-            "makeType": 0,
+            "makeType": 1,
             "namaValueStr": "makeup_intensity_lip",
             "value": 0.9,
             "colorStr": "makeup_lip_color",
@@ -77,22 +77,19 @@
             "lip_type": 1
         },
         {
-            "makeType": 1,
-            "namaBundleKey": 6,
+            "makeType": 2,
             "namaBundle": "mu_blush_01",
             "namaValueStr": "makeup_intensity_blusher",
             "value": 0.9
         },
         {
-            "makeType": 2,
-            "namaBundleKey": 0,
+            "makeType": 3,
             "namaBundle": "mu_eyebrow_01",
             "namaValueStr": "makeup_intensity_eyeBrow",
             "value": 0.9
         },
         {
-            "makeType": 3,
-            "namaBundleKey": 1,
+            "makeType": 4,
             "namaBundle": "mu_eyeshadow_01",
             "namaValueStr": "makeup_intensity_eye",
             "value": 0.9
@@ -108,7 +105,7 @@
         "selectedFilterLevel": 0.7,
         "isSel": false,
         "makeups": [{
-            "makeType": 0,
+            "makeType": 1,
             "namaValueStr": "makeup_intensity_lip",
             "value": 0.7,
             "colorStr": "makeup_lip_color",
@@ -117,22 +114,19 @@
             "lip_type": 1
         },
         {
-            "makeType": 1,
-            "namaBundleKey": 6,
+            "makeType": 2,
             "namaBundle": "mu_blush_23",
             "namaValueStr": "makeup_intensity_blusher",
             "value": 0.7
         },
         {
-            "makeType": 2,
-            "namaBundleKey": 0,
+            "makeType": 3,
             "namaBundle": "mu_eyebrow_19",
             "namaValueStr": "makeup_intensity_eyeBrow",
             "value": 0.5
         },
         {
-            "makeType": 3,
-            "namaBundleKey": 1,
+            "makeType": 4,
             "namaBundle": "mu_eyeshadow_21",
             "namaValueStr": "makeup_intensity_eye",
             "value": 0.7
@@ -148,7 +142,7 @@
         "selectedFilterLevel": 0.9,
         "isSel": false,
         "makeups": [{
-            "makeType": 0,
+            "makeType": 1,
             "namaValueStr": "makeup_intensity_lip",
             "value": 0.7,
             "colorStr": "makeup_lip_color",
@@ -157,22 +151,19 @@
             "lip_type": 1
         },
         {
-            "makeType": 1,
-            "namaBundleKey": 6,
+            "makeType": 2,
             "namaBundle": "mu_blush_20",
             "namaValueStr": "makeup_intensity_blusher",
             "value": 0.7
         },
         {
-            "makeType": 2,
-            "namaBundleKey": 0,
+            "makeType": 3,
             "namaBundle": "mu_eyebrow_16",
             "namaValueStr": "makeup_intensity_eyeBrow",
             "value": 0.5
         },
         {
-            "makeType": 3,
-            "namaBundleKey": 1,
+            "makeType": 4,
             "namaBundle": "mu_eyeshadow_18",
             "namaValueStr": "makeup_intensity_eye",
             "value": 0.7
@@ -187,7 +178,7 @@
         "selectedFilterLevel": 0.8,
         "isSel": false,
         "makeups": [{
-            "makeType": 0,
+            "makeType": 1,
             "namaValueStr": "makeup_intensity_lip",
             "value": 0.7,
             "colorStr": "makeup_lip_color",
@@ -198,22 +189,19 @@
             "lip_type": 1
         },
         {
-            "makeType": 1,
-            "namaBundleKey": 6,
+            "makeType": 2,
             "namaBundle": "mu_blush_22",
             "namaValueStr": "makeup_intensity_blusher",
             "value": 0.7
         },
         {
-            "makeType": 2,
-            "namaBundleKey": 0,
+            "makeType": 3,
             "namaBundle": "mu_eyebrow_18",
             "namaValueStr": "makeup_intensity_eyeBrow",
             "value": 0.5
         },
         {
-            "makeType": 3,
-            "namaBundleKey": 1,
+            "makeType": 4,
             "namaBundle": "mu_eyeshadow_20",
             "namaValueStr": "makeup_intensity_eye",
             "value": 0.7

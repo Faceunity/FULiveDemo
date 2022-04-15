@@ -170,7 +170,6 @@
 "Animoji" = "Animoji" ;
 "道具贴纸" = "Sticker" ;
 "AR面具" = "AR Mesh" ;
-"换脸" = "Face Transfer" ;
 "表情识别" = "Expression" ;
 "音乐滤镜" = "Music Filter" ;
 "人像分割" = "Portrait segmentation" ;
@@ -447,6 +446,7 @@
  */
 "水墨画" = "Ink";
 "森林" = "Forest";
+"白色区域为安全区域，不参与绿幕抠像" = "The white area is a safe area and does not participate in the green screen keying";
 
 /**
  * 精品贴纸

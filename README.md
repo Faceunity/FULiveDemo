@@ -16,7 +16,7 @@ FULiveDemo 是 iOS 平台上，集成相芯人脸跟踪及视频特效开发包�
 
 ## English
 
-FULiveDemoDroid is an integration example, that integrates Faceunity's Face AR SDK (aka Nama SDK) on iOS platform.
+FULiveDemo is an integration example, that integrates Faceunity's Face AR SDK (aka Nama SDK) on iOS platform.
 
 This example has integrated various interesting features of Faceunity's Face AR SDK, such as Face landmarks and expressions tracking, Face Beautification, Animoji, Stickers, AR Mask, Face Tranfer, Musical Filters, Background Segmentation, Hand Gestures Detection, Face Warping, Live Photo, etc.
 

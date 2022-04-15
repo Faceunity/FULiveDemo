@@ -8,7 +8,6 @@
 
 #import "FUBodyBeautyManager.h"
 #import "FUPositionInfo.h"
-#import <MJExtension/NSObject+MJKeyValue.h>
 #import "FULocalDataManager.h"
 #import <FURenderKit/FUAIKit.h>
 

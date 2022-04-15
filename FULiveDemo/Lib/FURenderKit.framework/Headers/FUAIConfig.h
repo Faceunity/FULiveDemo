@@ -46,14 +46,6 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, assign) BOOL handDetector;
 
-//@property (nonatomic, assign) double followFov;
-
-//@property (nonatomic, assign) double fullBodyScale;
-
-//@property (nonatomic, assign) double halfBodyScale;
-
-//@property (nonatomic, assign) CGPoint bodyOffset;
-
 @end
 
 @interface FUAIConfig (Avatar)

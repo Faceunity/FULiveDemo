@@ -7,8 +7,6 @@
 //
 
 #import "FUMainViewControllerManager.h"
-#import <FURenderKit/FURenderKit.h>
-
 
 @interface FUMainViewControllerManager ()
 @property (nonatomic, strong) NSArray<NSArray<FULiveModel *>*> *dataSource;

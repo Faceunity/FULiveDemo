@@ -9,11 +9,13 @@
 #import "FUNormalItemController.h"
 #import "FUSelectedImageController.h"
 #import "FUStickerManager.h"
+#import "FUItemsView.h"
 
-@interface FUNormalItemController () {
-    FUStickerType _type;
-}
+@interface FUNormalItemController ()<FUItemsViewDelegate>
+
+@property (strong, nonatomic) FUItemsView *itemsView;
 @property (nonatomic, strong) FUStickerManager *stickerManager;
+
 @end
 
 @implementation FUNormalItemController
@@ -53,18 +55,6 @@
             make.height.mas_equalTo(84);
         }
     }];
-    
-    
-    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-    UIVisualEffectView *effectview = [[UIVisualEffectView alloc] initWithEffect:blur];
-    effectview.alpha = 1.0;
-    [self.itemsView addSubview:effectview];
-    [self.itemsView sendSubviewToBack:effectview];
-    /* 磨玻璃 */
-    [effectview mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.bottom.equalTo(_itemsView);
-    }];
-    
 
     self.photoBtn.transform = CGAffineTransformMakeTranslation(0, -36) ;
     

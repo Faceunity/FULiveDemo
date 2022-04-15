@@ -6,7 +6,7 @@
       "isSel": true,
       "value": 0.0,
       "makeupBundle": "xiezhuan",
-      "isAllowEditing" : true
+      "isAllowedEdit" : true
     },
     {
       "name": "嗲嗲兔",
@@ -154,7 +154,7 @@
       "value": 0.7,
       "isSel": false,
       "makeupBundle": "xinggan",
-      "isAllowEditing" : true
+      "isAllowedEdit" : true
     },
     {
       "name": "甜美",
@@ -162,7 +162,7 @@
       "value": 0.7,
       "isSel": false,
       "makeupBundle": "tianmei",
-      "isAllowEditing" : true
+      "isAllowedEdit" : true
     },
     {
       "name": "邻家",
@@ -170,7 +170,7 @@
       "value": 0.7,
       "isSel": false,
       "makeupBundle": "linjia",
-      "isAllowEditing" : true
+      "isAllowedEdit" : true
     },
     {
       "name": "欧美",
@@ -178,7 +178,7 @@
       "value": 0.7,
       "isSel": false,
       "makeupBundle": "oumei",
-      "isAllowEditing" : true
+      "isAllowedEdit" : true
     },
     {
       "name": "妩媚",
@@ -186,7 +186,7 @@
       "value": 0.7,
       "isSel": false,
       "makeupBundle": "wumei",
-      "isAllowEditing" : true
+      "isAllowedEdit" : true
     }
     
   ]

@@ -1,9 +1,8 @@
 /* mz_crypt.h -- Crypto/hash functions
-   Version 2.8.7, May 9, 2019
-   part of the MiniZip project
+   part of the minizip-ng project
 
-   Copyright (C) 2010-2019 Nathan Moinvaziri
-     https://github.com/nmoinvaz/minizip
+   Copyright (C) 2010-2021 Nathan Moinvaziri
+     https://github.com/zlib-ng/minizip-ng
 
    This program is distributed under the terms of the same license as zlib.
    See the accompanying LICENSE file for the full text of the license.
@@ -20,7 +19,7 @@ extern "C" {
 
 uint32_t mz_crypt_crc32_update(uint32_t value, const uint8_t *buf, int32_t size);
 
-int32_t  mz_crypt_pbkdf2(uint8_t *password, int32_t password_length, uint8_t *salt, 
+int32_t  mz_crypt_pbkdf2(uint8_t *password, int32_t password_length, uint8_t *salt,
             int32_t salt_length, int32_t iteration_count, uint8_t *key, int32_t key_length);
 
 /***************************************************************************/

@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, nullable) UIImage *safeAreaImage; // 安全区域图片
 
-@property (nonatomic, copy) NSString *videoPath; // 背景视频
+@property (nonatomic, copy, nullable) NSString *videoPath; // 背景视频
 
 /**
  * 根据传入的图进和点位进行取色，获取到的颜色需要生效直接设置 self.keyColor

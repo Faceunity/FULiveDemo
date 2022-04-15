@@ -53,9 +53,6 @@
         make.left.right.top.bottom.equalTo(_lvmuEditeView);
     }];
     
-    CGAffineTransform photoTransform0 = CGAffineTransformMakeTranslation(0, 180 * -0.8) ;
-    CGAffineTransform photoTransform1 = CGAffineTransformMakeScale(0.9, 0.9);
-    self.photoBtn.transform = CGAffineTransformConcat(photoTransform0, photoTransform1) ;
     self.headButtonView.selectedImageBtn.hidden = NO;
     [self.headButtonView.selectedImageBtn setImage:[UIImage imageNamed:@"相册icon"] forState:UIControlStateNormal];
     
@@ -83,10 +80,9 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.greenScreenManager loadItem];
-    
     if (self.greenScreenManager.greenScreen.pause && self.greenScreenManager.greenScreen.path) {
-        self.greenScreenManager.greenScreen.pause = NO;
         [self.greenScreenManager.greenScreen startVideoDecode];
+        // self.greenScreenManager.greenScreen.pause = NO;
     }
     [self lvmuViewShowTopView:!self.lvmuEditeView.isHidenTop];
     
@@ -143,7 +139,6 @@
     [self.greenScreenManager releaseItem];
 }
 
-
 - (void)didEnterBackground {
     if (!self.greenScreenManager.greenScreen.pause && self.greenScreenManager.greenScreen.path) {
         self.greenScreenManager.greenScreen.pause = YES;
@@ -153,10 +148,8 @@
 - (void)willEnterForeground{
     if (self.greenScreenManager.greenScreen.pause && self.greenScreenManager.greenScreen.path) {
         self.greenScreenManager.greenScreen.pause = NO;
-        [self.greenScreenManager.greenScreen startVideoDecode];
     }
 }
-
 
 /* 不需要进入分辨率选择 */
 -(BOOL)onlyJumpImage{
@@ -186,7 +179,7 @@
 }
 
 -(void)lvmuViewShowTopView:(BOOL)shown{
-    float h = shown?195:49;
+    float h = shown?190:49;
     [self setPhotoScaleWithHeight:h show:shown];
 }
 
@@ -197,9 +190,7 @@
 
 //从外面获取全局的取点背景view，为了修复取点view加载Window上的系统兼容性问题
 - (UIView *)takeColorBgView {
-    UIView *bgView = [[UIView alloc] initWithFrame:self.renderView.frame];
-    [self.view insertSubview:bgView aboveSubview:self.renderView];
-    return bgView;
+    return self.renderView;
 }
 
 - (void)renderKitDidRenderToOutput:(FURenderOutput *)renderOutput {
@@ -216,7 +207,7 @@
             
             CGPoint imagePoint;
             imagePoint = CGPointMake(_currPoint.x * width / viewWidth, _currPoint.y * height / viewHeight);
-            UIColor *color = [FUImageHelper getPixelColorWithPixelBuff:pixelBuffer point:imagePoint];
+            UIColor *color = [FUGreenScreen pixelColorWithPixelBuffer:pixelBuffer point:imagePoint];
             [self.lvmuEditeView setTakeColor:color];
         });
     }
@@ -253,11 +244,10 @@
 
 /* 取色的时候，不rendder */
 -(void)takeColorState:(FUTakeColorState)state{
-    if (state == FUTakeColorStateStop) {
-        self.greenScreenManager.greenScreen.cutouting = NO;
-    }else{
-        self.greenScreenManager.greenScreen.cutouting = YES;
-    }
+    self.greenScreenManager.greenScreen.cutouting = state == FUTakeColorStateRunning;
+    // 取色的时候取消缩放和移动手势
+    self.panGesture.enabled = state == FUTakeColorStateStop;
+    self.pinchGesture.enabled = state == FUTakeColorStateStop;
 }
 
 #pragma  mark ----  手势事件  -----
@@ -282,10 +272,10 @@
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
-    
-    if ([touch.view isDescendantOfView:self.lvmuEditeView]) {
-        return NO;
-    }
+    return ![touch.view isDescendantOfView:self.lvmuEditeView];
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     return YES;
 }
 

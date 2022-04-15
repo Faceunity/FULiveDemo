@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <Masonry.h>
 #import "FUGreenScreenModel.h"
 #import "FUGreenScreenSafeAreaModel.h"
 #import "FUTakeColorView.h"

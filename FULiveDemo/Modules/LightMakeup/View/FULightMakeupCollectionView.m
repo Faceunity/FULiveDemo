@@ -7,8 +7,10 @@
 //
 
 #import "FULightMakeupCollectionView.h"
-#import "FUMakeupTopCell.h"
+#import "FULightMakeupCell.h"
 #import "FUSlider.h"
+
+static NSString * const kFULightMakeupCellIdentifierKey = @"FULightMakeupCell";
 
 @interface FULightMakeupCollectionView()<UICollectionViewDelegate,UICollectionViewDataSource>
 @property(nonatomic,strong)NSArray <FULightModel *> *dataArray;
@@ -38,7 +40,9 @@ static NSString *makeupCellID = @"FUMakeupTopCell";
                 break;
             }
         }
-
+        
+        // 默认选中卸妆
+        [self.collection selectItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] animated:NO scrollPosition:UICollectionViewScrollPositionNone];
         
     }
     return self;
@@ -55,12 +59,9 @@ static NSString *makeupCellID = @"FUMakeupTopCell";
     
     _slider = [[FUSlider alloc] initWithFrame:CGRectMake(56, 20, [UIScreen mainScreen].bounds.size.width  - 112, 20)];
     [_slider addTarget:self action:@selector(sliderChangeValue:) forControlEvents:UIControlEventValueChanged];
-    _slider.type = FUFilterSliderType01;
+    _slider.bidirection = NO;
     _slider.hidden = YES;
     [self addSubview:_slider];
-//    UIView *sqView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_btn.frame) + 12, CGRectGetMaxY(_slider.frame) + 8 + 20, 1/[UIScreen mainScreen].scale, 20)];
-//    sqView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.2];
-//    [self addSubview:sqView];
     
     _collection = [[UICollectionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_slider.frame), self.frame.size.width, 100) collectionViewLayout:layout];
     _collection.backgroundColor = [UIColor clearColor];
@@ -69,7 +70,7 @@ static NSString *makeupCellID = @"FUMakeupTopCell";
     [self addSubview:_collection];
     
     /* 初始化collection */
-    [_collection registerNib:[UINib nibWithNibName:@"FUMakeupTopCell" bundle:nil] forCellWithReuseIdentifier:makeupCellID];
+    [_collection registerClass:[FULightMakeupCell class] forCellWithReuseIdentifier:kFULightMakeupCellIdentifierKey];
 }
 
 
@@ -80,18 +81,11 @@ static NSString *makeupCellID = @"FUMakeupTopCell";
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-
-    FUMakeupTopCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:makeupCellID forIndexPath:indexPath];
-    cell.imageView.backgroundColor = [UIColor clearColor];
-    cell.imageView.image = [UIImage imageNamed:_dataArray[indexPath.row].imageStr];
-    cell.mLabel.text = FUNSLocalizedString(_dataArray[indexPath.row].name, nil);;
-    cell.mLabel.textColor = _dataArray[indexPath.row].isSel ? [UIColor colorWithRed:94/255.0 green:199/255.0 blue:254/255.0 alpha:1.0] : [UIColor whiteColor];
-    cell.imageView.layer.borderWidth = _dataArray[indexPath.row].isSel ? 3.0 : 0.0 ;
-    cell.imageView.layer.borderColor = _dataArray[indexPath.row].isSel ? [UIColor colorWithRed:94/255.0 green:199/255.0 blue:254/255.0 alpha:1.0].CGColor : [UIColor clearColor].CGColor;
+    FULightMakeupCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kFULightMakeupCellIdentifierKey forIndexPath:indexPath];
+    cell.fuImageView.image = [UIImage imageNamed:_dataArray[indexPath.row].imageStr];
+    cell.fuTitleLabel.text = FUNSLocalizedString(_dataArray[indexPath.row].name, nil);;
     return cell;
 }
-
-
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     FULightModel *modle = _dataArray[indexPath.row];
@@ -105,8 +99,6 @@ static NSString *makeupCellID = @"FUMakeupTopCell";
     _currentLightModel = modle;
     [self.slider setValue:modle.value];
     _slider.hidden = indexPath.row ? NO:YES;
-    [self.collection reloadData];
-    
 
     if (self.delegate && [self.delegate respondsToSelector:@selector(lightMakeupCollectionView:)]) {
         [self.delegate lightMakeupCollectionView:_dataArray[indexPath.row]];

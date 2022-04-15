@@ -8,12 +8,10 @@
 /* 加道具切换 */
 
 #import "FUBaseViewController.h"
-#import "FUItemsView.h"
 #import "FUStickerDefine.h"
 NS_ASSUME_NONNULL_BEGIN
 
-@interface FUNormalItemController : FUBaseViewController<FUItemsViewDelegate>
-@property (strong, nonatomic) FUItemsView *itemsView;
+@interface FUNormalItemController : FUBaseViewController
 
 /**
  * 默认是贴纸道具类

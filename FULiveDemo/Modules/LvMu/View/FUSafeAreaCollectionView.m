@@ -17,7 +17,7 @@
     if (self) {
         self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 54, 54)];
         self.imageView.contentMode = UIViewContentModeScaleAspectFill;
-        self.imageView.layer.masksToBounds = YES ;
+        self.imageView.layer.masksToBounds = YES;
         self.imageView.layer.cornerRadius = 3.0;
         [self addSubview:self.imageView];
     }
@@ -62,27 +62,30 @@ static NSString * const kFUSafeAreaCellIdentifierKey = @"FUSafeAreaCellIdentifie
     return self;
 }
 
-- (void)reloadSafeAreas {
-    NSMutableArray<FUGreenScreenSafeAreaModel *> *models = [[NSMutableArray alloc] init];
-    if ([FUGreenScreenManager localSafeAreaImage]) {
-        // 存在本地自定义
-        FUGreenScreenSafeAreaModel *model = [[FUGreenScreenSafeAreaModel alloc] init];
-        model.iconImage = [FUGreenScreenManager localSafeAreaImage];
-        model.effectImage = model.iconImage;
-        [models addObject:model];
+- (void)reloadSafeAreas:(BOOL)needsReloadData {
+    if (needsReloadData) {
+        NSMutableArray<FUGreenScreenSafeAreaModel *> *models = [[NSMutableArray alloc] init];
+        if ([FUGreenScreenManager localSafeAreaImage]) {
+            // 存在本地自定义
+            FUGreenScreenSafeAreaModel *model = [[FUGreenScreenSafeAreaModel alloc] init];
+            model.iconImage = [FUGreenScreenManager localSafeAreaImage];
+            model.effectImage = model.iconImage;
+            [models addObject:model];
+        }
+        FUGreenScreenSafeAreaModel *model1 = [[FUGreenScreenSafeAreaModel alloc] init];
+        model1.iconImage = [UIImage imageNamed:@"demo_icon_safe_area_1"];
+        model1.effectImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"safe_area_1" ofType:@"jpg"]];
+        [models addObject:model1];
+        
+        FUGreenScreenSafeAreaModel *model2 = [[FUGreenScreenSafeAreaModel alloc] init];
+        model2.iconImage = [UIImage imageNamed:@"demo_icon_safe_area_2"];
+        model2.effectImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"safe_area_2" ofType:@"jpg"]];
+        [models addObject:model2];
+        self.safeAreas = [models copy];
     }
-    FUGreenScreenSafeAreaModel *model1 = [[FUGreenScreenSafeAreaModel alloc] init];
-    model1.iconImage = [UIImage imageNamed:@"demo_icon_safe_area_1"];
-    model1.effectImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"safe_area_1" ofType:@"jpg"]];
-    [models addObject:model1];
-    
-    FUGreenScreenSafeAreaModel *model2 = [[FUGreenScreenSafeAreaModel alloc] init];
-    model2.iconImage = [UIImage imageNamed:@"demo_icon_safe_area_2"];
-    model2.effectImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"safe_area_2" ofType:@"jpg"]];
-    [models addObject:model2];
-    self.safeAreas = [models copy];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self reloadData];
+        [self selectItemAtIndexPath:[NSIndexPath indexPathForItem:self.selectedIndex inSection:0] animated:NO scrollPosition:UICollectionViewScrollPositionNone];
     });
 }
 
@@ -112,7 +115,6 @@ static NSString * const kFUSafeAreaCellIdentifierKey = @"FUSafeAreaCellIdentifie
         }
             break;
     }
-    cell.selected = indexPath.item == self.selectedIndex;
     return cell;
 }
 
@@ -136,10 +138,6 @@ static NSString * const kFUSafeAreaCellIdentifierKey = @"FUSafeAreaCellIdentifie
             if (self.safeAreaDelegate && [self.safeAreaDelegate respondsToSelector:@selector(safeAreaCollectionViewDidClickCancel:)]) {
                 [self.safeAreaDelegate safeAreaCollectionViewDidClickCancel:self];
             }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [collectionView reloadData];
-                [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-            });
         }
             break;
         case 2:{
@@ -155,10 +153,6 @@ static NSString * const kFUSafeAreaCellIdentifierKey = @"FUSafeAreaCellIdentifie
             if (self.safeAreaDelegate && [self.safeAreaDelegate respondsToSelector:@selector(safeAreaCollectionView:didSelectItemAtIndex:)]) {
                 [self.safeAreaDelegate safeAreaCollectionView:self didSelectItemAtIndex:indexPath.item];
             }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [collectionView reloadData];
-                [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-            });
         }
             break;
     }

@@ -1,138 +1,101 @@
 //
-//  FUMakeUpManager.m
+//  FUMakeupManager.m
 //  FULiveDemo
 //
-//  Created by Chen on 2021/3/2.
+//  Created by 项林平 on 2021/11/15.
 //  Copyright © 2021 FaceUnity. All rights reserved.
 //
 
 #import "FUMakeupManager.h"
 #import "FULocalDataManager.h"
+
 #import "FUMakeupModel.h"
-#import "FUMakeupSupModel.h"
-#import <MJExtension/NSObject+MJKeyValue.h>
-#import <FURenderKit/FURenderKit.h>
+#import "FUCombinationMakeupModel.h"
+#import "FUSingleMakeupModel.h"
+
+#import "FUMakeupDefine.h"
 
 @interface FUMakeupManager ()
 
-/// 普通美妆道具对象
-@property (nonatomic, strong, nullable) FUMakeup *makeup;
-/// 新组合妆对象
-@property (nonatomic, strong, nullable) FUMakeup *combinationMakeup;
+@property (nonatomic, copy) NSArray<FUCombinationMakeupModel *> *combinationMakeups;
+@property (nonatomic, copy) NSArray<FUMakeupModel *> *makeups;
 
-@property (nonatomic, strong) NSArray <FUMakeupModel *>* dataArray;
-
-@property (nonatomic, strong) NSArray <FUMakeupSupModel *>*supArray;
+@property (nonatomic, strong) FUMakeup *makeup;
 
 @end
 
 @implementation FUMakeupManager
 
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        NSDictionary *dataParms = [NSDictionary dictionaryWithDictionary:[FULocalDataManager makeupJsonData]];
-        self.dataArray = [FUMakeupModel mj_objectArrayWithKeyValuesArray:dataParms[@"data"]];
-        if (self.dataArray.count == 0) {
-            NSLog(@"%@.dataArray数据出错",self.class);
-        }
-        NSDictionary *supParms = [NSDictionary dictionaryWithDictionary:[FULocalDataManager makeupWholeJsonData]];
-        self.supArray = [FUMakeupSupModel mj_objectArrayWithKeyValuesArray:supParms[@"data"]];
-        if (self.supArray.count == 0) {
-            NSLog(@"%@.supArray数据出错",self.class);
-        }
-        
-    }
-    return self;
-}
+#pragma mark - Instance methods
 
-- (void)setSupModel:(FUMakeupSupModel *)model {
-    dispatch_async(self.loadQueue, ^{
-        if (model.isCombined) {
-            // 新组合妆只需要加载一个bundle，切换时需要重新初始化
+- (void)setCurrentCombinationMakeupModel:(FUCombinationMakeupModel *)currentCombinationMakeupModel {
+    if (!currentCombinationMakeupModel) {
+        _currentCombinationMakeupModel = nil;
+        return;
+    }
+    if ([currentCombinationMakeupModel.name isEqualToString:@"卸妆"]) {
+        // 卸妆
+        dispatch_async(self.loadQueue, ^{
             self.makeup = nil;
-            NSString *path = [[NSBundle mainBundle] pathForResource:model.makeupBundle ofType:@"bundle"];
-            self.combinationMakeup = [[FUMakeup alloc] initWithPath:path name:model.name];
-            [FURenderKit shareRenderKit].makeup = self.combinationMakeup;
-            [self setMakeupWholeModel:model];
-        } else {
-            // 老道具使用绑定到face_makeup.bundle的方式
-            self.combinationMakeup = nil;
-            if (!self.makeup) {
+            [FURenderKit shareRenderKit].makeup = nil;
+            _currentCombinationMakeupModel = currentCombinationMakeupModel;
+        });
+        return;
+    }
+    // 注：嗲嗲兔、冻龄、国风、混血是8.0.0新加的四个组合妆，新组合妆只需要直接加载bundle，不需要绑定到face_makeup.bundle
+    if (currentCombinationMakeupModel.isCombined) {
+        // 新组合妆，每次加载必须重新初始化
+        dispatch_async(self.loadQueue, ^{
+            NSString *path = [[NSBundle mainBundle] pathForResource:currentCombinationMakeupModel.bundleName ofType:@"bundle"];
+            self.makeup = [[FUMakeup alloc] initWithPath:path name:@"makeup"];
+            [FURenderKit shareRenderKit].makeup = self.makeup;
+            [self updateIntensityOfCombinationMakeup:currentCombinationMakeupModel];
+            _currentCombinationMakeupModel = currentCombinationMakeupModel;
+        });
+    } else {
+        // 老组合妆
+        dispatch_async(self.loadQueue, ^{
+            if (!self.makeup || _currentCombinationMakeupModel.isCombined) {
+                // 当前未选择或者当前选择了新组合装，需要重新初始化
                 NSString *path = [[NSBundle mainBundle] pathForResource:@"face_makeup" ofType:@"bundle"];
-                self.makeup = [[FUMakeup alloc] initWithPath:path name:@"makeUp"];
+                self.makeup = [[FUMakeup alloc] initWithPath:path name:@"makeup"];
             }
             [FURenderKit shareRenderKit].makeup = self.makeup;
-            self.makeup.isClearMakeup = YES;
-            /* 防止子妆调节，把口红调乱了，注意：不需要自定义 */
-            self.makeup.lipType = FUMakeupLipTypeFOG;
-            [self loadMakeupPackageWithPathName:model.makeupBundle];
-            self.makeup.isClearMakeup = NO;
-            [self setMakeupWholeModel:model];
-        }
-    });
-    
-}
-
-- (void)loadMakeupPackageWithPathName:(NSString *)pathName {
-    NSString *path = [[NSBundle mainBundle] pathForResource:pathName ofType:@"bundle"];
-    if (path) {
-        FUItem *item = [[FUItem alloc] initWithPath:path name:pathName];
-        [self.makeup updateMakeupPackage:item needCleanSubItem:YES];
-    } else {
-        [self.makeup updateMakeupPackage:nil needCleanSubItem:YES];
+            // 绑定组合妆bundle到face_makeup.bundle
+            [self loadCombinationMakeupWithBundleName:currentCombinationMakeupModel.bundleName];
+            // 更新程度值
+            [self updateIntensityOfCombinationMakeup:currentCombinationMakeupModel];
+            _currentCombinationMakeupModel = currentCombinationMakeupModel;
+        });
     }
 }
 
-- (void)releaseItem {
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [FURenderKit shareRenderKit].makeup = nil;
-    });
-}
-
-
-//修改整体妆容的数据
-- (void)setMakeupWholeModel:(FUMakeupSupModel *)model {
+- (void)updateIntensityOfCombinationMakeup:(FUCombinationMakeupModel *)model {
     if (model.isCombined) {
-        [self updateCombinationMakeupIntensity:model.value];
-        // 滤镜程度值特殊处理
-        [self updateMakeupFilterLevel:model];
+        // 新组合妆直接设置
+        self.makeup.intensity = model.value;
+        self.makeup.filterIntensity = model.value * model.selectedFilterLevel;
     } else {
-        for (FUSingleMakeupModel *singleModel in model.makeups) {
-            // 旧妆容设置每个子妆强度时需要乘上整体妆容程度值
-            singleModel.realValue = singleModel.value * model.value;
-            [self setMakeupSupModel:singleModel type:UIMAKEUITYPE_intensity];
+        // 老组合妆需要遍历所有子妆
+        for (FUSingleMakeupModel *singleMakeupModel in model.singleMakeupArray) {
+            // 计算子妆实际值
+            singleMakeupModel.realValue = model.value * singleMakeupModel.value;
+            [self updateIntensityOfSingleMakeup:singleMakeupModel];
         }
     }
 }
 
-////设置子妆容数据
-- (void)setMakeupSupModel:(FUSingleMakeupModel *)model type:(UIMAKEUITYPE)type {
-    switch (type) {
-        case UIMAKEUITYPE_intensity:
-            [self setIntensity:model];
+- (void)updateIntensityOfSingleMakeup:(FUSingleMakeupModel *)singleMakeupModel {
+    switch (singleMakeupModel.type) {
+        case FUSingleMakeupTypeFoundation:{
+            self.makeup.intensityFoundation = singleMakeupModel.realValue;
+        }
             break;
-        case UIMAKEUITYPE_color:
-            [self setColor:model];
-            break;
-        case UIMAKEUITYPE_pattern:
-            [self setPatter:model];
-            break;
-        default:
-            break;
-    }
-}
-
-- (void)setIntensity:(FUSingleMakeupModel *)model {
-    switch (model.makeType) {
-        case MAKEUPTYPE_foundation:
-            self.makeup.intensityFoundation = model.realValue;
-            break;
-        case MAKEUPTYPE_Lip: {
-            self.makeup.intensityLip = model.realValue;
-            self.makeup.lipType = model.lip_type;
-            self.makeup.isTwoColor = model.is_two_color == 1?YES:NO;
-            if (model.lip_type == FUMakeupLipTypeMoisturizing) {
+        case FUSingleMakeupTypeLip:{
+            self.makeup.lipType = singleMakeupModel.lipType;
+            self.makeup.isTwoColor = singleMakeupModel.isTwoColorLip;
+            self.makeup.intensityLip = singleMakeupModel.realValue;
+            if (singleMakeupModel.lipType == FUMakeupLipTypeMoisturizing) {
                 // 润泽Ⅱ口红时需要开启口红高光，高光暂时为固定值
                 self.makeup.isLipHighlightOn = YES;
                 self.makeup.intensityLipHighlight = 0.8;
@@ -142,140 +105,465 @@
             }
         }
             break;
-        case MAKEUPTYPE_blusher:
-            self.makeup.intensityBlusher = model.realValue;
-            break;
-        case MAKEUPTYPE_eyeBrow: {
-            self.makeup.intensityEyebrow = model.realValue;
+        case FUSingleMakeupTypeBlusher:{
+            self.makeup.intensityBlusher = singleMakeupModel.realValue;
         }
             break;
-        case MAKEUPTYPE_eyeShadow:
-            self.makeup.intensityEyeshadow = model.realValue;
+        case FUSingleMakeupTypeEyebrow:{
+            self.makeup.intensityEyebrow = singleMakeupModel.realValue;
+        }
             break;
-        case MAKEUPTYPE_eyeLiner:
-            self.makeup.intensityEyeliner = model.realValue;
+        case FUSingleMakeupTypeEyeshadow:{
+            self.makeup.intensityEyeshadow = singleMakeupModel.realValue;
+        }
             break;
-        case MAKEUPTYPE_eyelash:
-            self.makeup.intensityEyelash = model.realValue;
+        case FUSingleMakeupTypeEyeliner:{
+            self.makeup.intensityEyeliner = singleMakeupModel.realValue;
+        }
             break;
-        case MAKEUPTYPE_highlight:
-            self.makeup.intensityHighlight = model.realValue;
+        case FUSingleMakeupTypeEyelash:{
+            self.makeup.intensityEyelash = singleMakeupModel.realValue;
+        }
             break;
-        case MAKEUPTYPE_shadow:
-            self.makeup.intensityShadow = model.realValue;
+        case FUSingleMakeupTypeHighlight:{
+            self.makeup.intensityHighlight = singleMakeupModel.realValue;
+        }
             break;
-        case MAKEUPTYPE_pupil:
-            self.makeup.intensityPupil = model.realValue;
+        case FUSingleMakeupTypeShadow:{
+            self.makeup.intensityShadow = singleMakeupModel.realValue;
+        }
             break;
-        default:
+        case FUSingleMakeupTypePupil:{
+            self.makeup.intensityPupil = singleMakeupModel.realValue;
+        }
             break;
     }
 }
 
-- (void)setColor:(FUSingleMakeupModel *)model {
-    NSArray *values = model.colors[model.defaultColorIndex];
-    FUColor color = [self FUColorTransformWithValues:values];
-    switch (model.makeType) {
-        case MAKEUPTYPE_foundation:
+- (void)updateCustomizedSingleMakeup:(FUSingleMakeupModel *)model {
+    if (!model.bundleName) {
+        return;
+    }
+    if (!self.makeup) {
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"face_makeup" ofType:@"bundle"];
+        self.makeup = [[FUMakeup alloc] initWithPath:path name:@"makeup"];
+        [FURenderKit shareRenderKit].makeup = self.makeup;
+    }
+    NSString *path = [[NSBundle mainBundle] pathForResource:model.bundleName ofType:@"bundle"];
+    FUItem *item = [[FUItem alloc] initWithPath:path name:model.bundleName];
+    switch (model.type) {
+        case FUSingleMakeupTypeFoundation:{
+            self.makeup.subFoundation = item;
+        }
+            break;
+        case FUSingleMakeupTypeLip:{
+            self.makeup.subLip = item;
+        }
+            break;
+        case FUSingleMakeupTypeBlusher:{
+            self.makeup.subBlusher = item;
+        }
+            break;
+        case FUSingleMakeupTypeEyebrow:{
+            self.makeup.subEyebrow = item;
+            self.makeup.browWarp = model.isBrowWarp;
+            self.makeup.browWarpType = model.browWarpType;
+        }
+            break;
+        case FUSingleMakeupTypeEyeshadow:{
+            self.makeup.subEyeshadow = item;
+        }
+            break;
+        case FUSingleMakeupTypeEyeliner:{
+            self.makeup.subEyeliner = item;
+        }
+            break;
+        case FUSingleMakeupTypeEyelash:{
+            self.makeup.subEyelash = item;
+        }
+            break;
+        case FUSingleMakeupTypeHighlight:{
+            self.makeup.subHighlight = item;
+        }
+            break;
+        case FUSingleMakeupTypeShadow:{
+            self.makeup.subShadow = item;
+        }
+            break;
+        case FUSingleMakeupTypePupil:{
+            self.makeup.subPupil = item;
+        }
+            break;
+    }
+}
+
+- (void)updateColorOfCustomizedSingleMakeup:(FUSingleMakeupModel *)model {
+    NSArray *colorValues = model.colors[model.defaultColorIndex];
+    FUColor color = FUColorMake([colorValues[0] doubleValue], [colorValues[1] doubleValue], [colorValues[2] doubleValue], [colorValues[3] doubleValue]);
+    switch (model.type) {
+        case FUSingleMakeupTypeFoundation:{
             self.makeup.foundationColor = color;
+        }
             break;
-        case MAKEUPTYPE_Lip:
+        case FUSingleMakeupTypeLip:{
             self.makeup.lipColor = color;
+        }
             break;
-        case MAKEUPTYPE_blusher:
+        case FUSingleMakeupTypeBlusher:{
             self.makeup.blusherColor = color;
+        }
             break;
-        case MAKEUPTYPE_eyeBrow:
+        case FUSingleMakeupTypeEyebrow:{
             self.makeup.eyebrowColor = color;
+        }
             break;
-        case MAKEUPTYPE_eyeShadow: {
+        case FUSingleMakeupTypeEyeshadow:{
             NSArray *values0 = [model.colors[model.defaultColorIndex] subarrayWithRange:NSMakeRange(0, 4)];
             NSArray *values2 = [model.colors[model.defaultColorIndex] subarrayWithRange:NSMakeRange(4, 4)];
             NSArray *values3 = [model.colors[model.defaultColorIndex] subarrayWithRange:NSMakeRange(8, 4)];
-            [self.makeup setEyeColor:[self FUColorTransformWithValues:values0]
+            [self.makeup setEyeColor:FUColorMake([values0[0] doubleValue], [values0[1] doubleValue], [values0[2] doubleValue], [values0[3] doubleValue])
                               color1:FUColorMake(0, 0, 0, 0)
-                              color2:[self FUColorTransformWithValues:values2]
-                              color3:[self FUColorTransformWithValues:values3]];
+                              color2:FUColorMake([values2[0] doubleValue], [values2[1] doubleValue], [values2[2] doubleValue], [values2[3] doubleValue])
+                              color3:FUColorMake([values3[0] doubleValue], [values3[1] doubleValue], [values3[2] doubleValue], [values3[3] doubleValue])];
         }
             break;
-        case MAKEUPTYPE_eyeLiner:
+        case FUSingleMakeupTypeEyeliner:{
             self.makeup.eyelinerColor = color;
+        }
             break;
-        case MAKEUPTYPE_eyelash:
+        case FUSingleMakeupTypeEyelash:{
             self.makeup.eyelashColor = color;
+        }
             break;
-        case MAKEUPTYPE_highlight:
+        case FUSingleMakeupTypeHighlight:{
             self.makeup.highlightColor = color;
+        }
             break;
-        case MAKEUPTYPE_shadow:
+        case FUSingleMakeupTypeShadow:{
             self.makeup.shadowColor = color;
+        }
             break;
-        case MAKEUPTYPE_pupil:
+        case FUSingleMakeupTypePupil:{
             self.makeup.pupilColor = color;
-            break;
-        default:
+        }
             break;
     }
 }
 
-/// 更新新组合妆程度值
-- (void)updateCombinationMakeupIntensity:(CGFloat)makeupIntensity {
-    // 新组合妆程度值使用整体妆容程度值
-    self.combinationMakeup.intensity = makeupIntensity;
-}
-
-- (void)updateMakeupFilterLevel:(FUMakeupSupModel *)model {
-    self.combinationMakeup.filterIntensity = model.value * model.selectedFilterLevel;
-}
-
-- (FUColor)FUColorTransformWithValues:(NSArray *)values {
-    return FUColorMake([values[0] doubleValue], [values[1] doubleValue], [values[2] doubleValue], [values[3] doubleValue]);;
-}
-
-- (void)setPatter:(FUSingleMakeupModel *)model {
-    if (!model.namaBundle) {
+- (void)compareCustomizedMakeupsWithCurrentCombinationMakeup {
+    if (!self.currentCombinationMakeupModel) {
         return;
     }
-    NSString *path = [[NSBundle mainBundle] pathForResource:model.namaBundle ofType:@"bundle"];
-    FUItem *item = [[FUItem alloc] initWithPath:path name:model.namaBundle];
-    switch (model.namaBundleType) {
-        case SUBMAKEUPTYPE_foundation:
-            self.makeup.subFoundation = item;
+    for (FUMakeupModel *makeupModel in self.makeups) {
+        // 清除自定义妆容选择
+        makeupModel.selectedIndex = 0;
+    }
+    if (![self.currentCombinationMakeupModel.name isEqualToString:@"卸妆"]) {
+        // 选择组合妆进入自定义，需要对比各个妆容
+        for (FUSingleMakeupType type = FUSingleMakeupTypeFoundation; type <= FUSingleMakeupTypePupil; type++) {
+            // 组合妆的单个妆容
+            FUSingleMakeupModel *combinationSingleMakeup = self.currentCombinationMakeupModel.singleMakeupArray[type];
+            // 自定义可选单个妆容数组
+            NSArray *customizedSingleMakeups = self.makeups[type].singleMakeups;
+            switch (type) {
+                case FUSingleMakeupTypeFoundation:{
+                    // 粉底的类型和颜色都用颜色确定，粉底颜色索引和类型索引一致，json文件已经写死
+                    for (NSInteger tempIndex = 0; tempIndex < customizedSingleMakeups.count; tempIndex++) {
+                        FUSingleMakeupModel *singleMakeup = customizedSingleMakeups[tempIndex];
+                        NSInteger index = [self indexOfColor:combinationSingleMakeup.colorsArray inArray:singleMakeup.colors];
+                        if (index >= 0) {
+                            self.makeups[type].selectedIndex = index + 1;
+                            FUSingleMakeupModel *needChangeModel = customizedSingleMakeups[index + 1];
+                            needChangeModel.value = combinationSingleMakeup.value * self.currentCombinationMakeupModel.value;
+                            break;
+                        }
+                    }
+                }
+                    break;
+                case FUSingleMakeupTypeLip:{
+                    for (NSInteger tempIndex = 0; tempIndex < customizedSingleMakeups.count; tempIndex++) {
+                        FUSingleMakeupModel *singleMakeup = customizedSingleMakeups[tempIndex];
+                        if (singleMakeup.title && singleMakeup.isTwoColorLip == combinationSingleMakeup.isTwoColorLip && singleMakeup.lipType == combinationSingleMakeup.lipType) {
+                            // 确定选中的口红类型
+                            self.makeups[type].selectedIndex = tempIndex;
+                            singleMakeup.value = combinationSingleMakeup.value * self.currentCombinationMakeupModel.value;
+                            // 确定选中的口红颜色
+                            NSInteger index = [self indexOfColor:combinationSingleMakeup.colorsArray inArray:singleMakeup.colors];
+                            if (index >= 0) {
+                                singleMakeup.defaultColorIndex = index;
+                            } else {
+                                singleMakeup.defaultColorIndex = 0;
+                            }
+                            break;
+                        }
+                    }
+                }
+                    break;
+                case FUSingleMakeupTypeEyebrow:{
+                    for (NSInteger tempIndex = 0; tempIndex < customizedSingleMakeups.count; tempIndex++) {
+                        FUSingleMakeupModel *singleMakeup = customizedSingleMakeups[tempIndex];
+                        if (singleMakeup.title && singleMakeup.browWarpType == combinationSingleMakeup.browWarpType && singleMakeup.isBrowWarp == combinationSingleMakeup.isBrowWarp) {
+                            // 确定选中的眉毛类型
+                            self.makeups[type].selectedIndex = tempIndex;
+                            singleMakeup.value = combinationSingleMakeup.value * self.currentCombinationMakeupModel.value;
+                            // 确定选中的眉毛颜色索引
+                            NSInteger index = [self indexOfColor:combinationSingleMakeup.colorsArray inArray:singleMakeup.colors];
+                            if (index >= 0) {
+                                singleMakeup.defaultColorIndex = index;
+                            } else {
+                                singleMakeup.defaultColorIndex = 0;
+                            }
+                            break;
+                        }
+                    }
+                }
+                    break;
+                default:{
+                    // 注：组合妆json文件中眼影存在bundle名不对应的问题，修改了允许自定义的五个组合妆json文件，增加了"tex_eye_bundle"，原"tex_eye"保持不变，所以其他妆容都可以使用bundle名确定选中类型
+                    for (NSInteger tempIndex = 0; tempIndex < customizedSingleMakeups.count; tempIndex++) {
+                        FUSingleMakeupModel *singleMakeup = customizedSingleMakeups[tempIndex];
+                        if (!combinationSingleMakeup.bundleName || !singleMakeup.bundleName) {
+                            continue;
+                        }
+                        if ([combinationSingleMakeup.bundleName containsString:singleMakeup.bundleName]) {
+                            // 使用bundle名确定选中类型
+                            self.makeups[type].selectedIndex = tempIndex;
+                            singleMakeup.value = combinationSingleMakeup.value * self.currentCombinationMakeupModel.value;
+                            // 确定选中的妆容颜色索引
+                            NSInteger index = [self indexOfColor:combinationSingleMakeup.colorsArray inArray:singleMakeup.colors];
+                            if (index >= 0) {
+                                singleMakeup.defaultColorIndex = index;
+                            } else {
+                                singleMakeup.defaultColorIndex = 0;
+                            }
+                            break;
+                        }
+                        
+                    }
+                }
+                    break;
+            }
+        }
+    }
+}
+
+#pragma mark - Private methods
+
+/// 更新组合妆（老组合妆方法）
+/// @param bundleName bundle名称
+- (void)loadCombinationMakeupWithBundleName:(NSString *)bundleName {
+    NSString *path = [[NSBundle mainBundle] pathForResource:bundleName ofType:@"bundle"];
+    FUItem *item = [[FUItem alloc] initWithPath:path name:bundleName];
+    [self.makeup updateMakeupPackage:item needCleanSubItem:YES];
+}
+
+/// 获取颜色值在可选颜色数组中的索引
+- (NSInteger)indexOfColor:(NSArray *)color inArray:(NSArray *)colors {
+    if (!color || color.count == 0 || !colors || colors.count == 0) {
+        return -1;
+    }
+    NSInteger resultIndex = -1;
+    for (NSInteger i = 0; i < colors.count; i++) {
+        NSArray *tempArray = colors[i];
+        if ([self color:tempArray isEqualToColor:color]) {
+            resultIndex = i;
             break;
-        case SUBMAKEUPTYPE_lip:
-            self.makeup.subLip = item;
-            break;
-        case SUBMAKEUPTYPE_blusher:
-            self.makeup.subBlusher = item;
-            break;
-        case SUBMAKEUPTYPE_eyeBrow:
-            self.makeup.subEyebrow = item;
-            self.makeup.browWarp = model.brow_warp;
-            self.makeup.browWarpType = model.brow_warp_type;
-            break;
-        case SUBMAKEUPTYPE_eyeShadow:
-            self.makeup.subEyeshadow = item;
-            break;
-        case SUBMAKEUPTYPE_eyeLiner:
-            self.makeup.subEyeliner = item;
-            break;
-        case SUBMAKEUPTYPE_eyeLash:
-            self.makeup.subEyelash = item;
-            break;
-        case SUBMAKEUPTYPE_highlight:
-            self.makeup.subHighlight = item;
-            break;
-        case SUBMAKEUPTYPE_shadow:
-            self.makeup.subShadow = item;
-            break;
-        case SUBMAKEUPTYPE_pupil:
-            self.makeup.subPupil = item;
-            self.makeup.blendTypePupil = 1;
-            break;
-        default:
-            break;
+        }
+    }
+    return resultIndex;
+}
+
+/// 对比两个颜色值是否一样
+- (BOOL)color:(NSArray *)color isEqualToColor:(NSArray *)otherColor {
+    NSInteger count = MIN(color.count, otherColor.count);
+    for (NSInteger index = 0; index < count; index ++) {
+        if (fabsf([color[index] floatValue] - [otherColor[index] floatValue]) > 0.01 ) {
+            // 色值不同
+            return NO;
+        }
+    }
+    return YES;
+}
+
+#pragma mark - Override methods
+
+- (void)releaseItem {
+    [FURenderKit shareRenderKit].makeup = nil;
+}
+
+#pragma mark - Getters
+
+/// 组合妆数组（包含子妆数据）
+- (NSArray<FUCombinationMakeupModel *> *)combinationMakeups {
+    if (!_combinationMakeups) {
+        NSDictionary *combinationMakeupParams = [[FULocalDataManager makeupWholeJsonData] copy];
+        _combinationMakeups = [FUCombinationMakeupModel mj_objectArrayWithKeyValuesArray:combinationMakeupParams[@"data"]];
+        for (FUCombinationMakeupModel *model in _combinationMakeups) {
+            @autoreleasepool {
+                // 对应组合妆json文件
+                NSString *path = [[NSBundle mainBundle] pathForResource:model.bundleName ofType:@"json"];
+                NSData *data = [[NSData alloc] initWithContentsOfFile:path];
+                NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+                // 初始化子妆容数组（保存不同子妆容模型）
+                NSMutableArray *singleMakeups = [[NSMutableArray alloc] init];
+                for (FUSingleMakeupType type = FUSingleMakeupTypeFoundation; type <= FUSingleMakeupTypePupil; type ++) {
+                    FUSingleMakeupModel *singleMakeupModel = [[FUSingleMakeupModel alloc] init];
+                    singleMakeupModel.type = type;
+                    switch (type) {
+                        case FUSingleMakeupTypeFoundation:{
+                            singleMakeupModel.bundleName = dic[@"tex_foundation"];
+                            singleMakeupModel.value  = [dic[@"makeup_intensity_foundation"] floatValue];
+                            singleMakeupModel.colorsArray = dic[@"makeup_foundation_color"];
+                        }
+                            break;
+                        case FUSingleMakeupTypeLip:{
+                            singleMakeupModel.value  = [dic[@"makeup_intensity_lip"] floatValue];
+                            singleMakeupModel.colorsArray = dic[@"makeup_lip_color"];
+                            singleMakeupModel.isTwoColorLip = [dic[@"is_two_color"] boolValue];
+                            singleMakeupModel.lipType = [dic[@"lip_type"] integerValue];
+                        }
+                            break;
+                        case FUSingleMakeupTypeBlusher:{
+                            singleMakeupModel.bundleName = dic[@"tex_blusher"];
+                            singleMakeupModel.value  = [dic[@"makeup_intensity_blusher"] floatValue];
+                            singleMakeupModel.colorsArray = dic[@"makeup_blusher_color"];
+                        }
+                            break;
+                        case FUSingleMakeupTypeEyebrow:{
+                            singleMakeupModel.bundleName = dic[@"tex_brow"];
+                            singleMakeupModel.isBrowWarp = [dic[@"brow_warp"] boolValue];
+                            singleMakeupModel.browWarpType = [dic[@"brow_warp_type"] integerValue];
+                            singleMakeupModel.value  = [dic[@"makeup_intensity_eyeBrow"] floatValue];
+                            singleMakeupModel.colorsArray = dic[@"makeup_eyeBrow_color"];
+                        }
+                            break;
+                        case FUSingleMakeupTypeEyeshadow:{
+                            // 允许自定义组合妆json文件新加了key：tex_eye_bundle，为了准确判断眼影类型
+                            singleMakeupModel.bundleName = dic[@"tex_eye_bundle"] ?: dic[@"tex_eye"];
+                            singleMakeupModel.value  = [dic[@"makeup_intensity_eye"] floatValue];
+                            singleMakeupModel.colorsArray = dic[@"makeup_eye_color"];
+                        }
+                            break;
+                        case FUSingleMakeupTypeEyeliner:{
+                            singleMakeupModel.bundleName = dic[@"tex_eyeLiner"];
+                            singleMakeupModel.value  = [dic[@"makeup_intensity_eyeLiner"] floatValue];
+                            singleMakeupModel.colorsArray = dic[@"makeup_eyeLiner_color"];
+                        }
+                            break;
+                        case FUSingleMakeupTypeEyelash:{
+                            singleMakeupModel.bundleName = dic[@"tex_eyeLash"];
+                            singleMakeupModel.value  = [dic[@"makeup_intensity_eyelash"] floatValue];
+                            singleMakeupModel.colorsArray = dic[@"makeup_eyelash_color"];
+                        }
+                            break;
+                        case FUSingleMakeupTypeHighlight:{
+                            singleMakeupModel.bundleName = dic[@"tex_highlight"];
+                            singleMakeupModel.value  = [dic[@"makeup_intensity_highlight"] floatValue];
+                            singleMakeupModel.colorsArray = dic[@"makeup_highlight_color"];
+                        }
+                            break;
+                        case FUSingleMakeupTypeShadow:{
+                            singleMakeupModel.bundleName = dic[@"tex_shadow"];
+                            singleMakeupModel.value  = [dic[@"makeup_intensity_shadow"] floatValue];
+                            singleMakeupModel.colorsArray = dic[@"makeup_shadow_color"];
+                        }
+                            break;
+                        case FUSingleMakeupTypePupil:{
+                            singleMakeupModel.bundleName = dic[@"tex_pupil"];
+                            singleMakeupModel.value  = [dic[@"makeup_intensity_pupil"] floatValue];
+                            singleMakeupModel.colorsArray = dic[@"makeup_pupil_color"];
+                        }
+                            break;
+                    }
+                    [singleMakeups addObject:singleMakeupModel];
+                }
+                model.singleMakeupArray = [singleMakeups copy];
+            }
+            
+        }
+    }
+    return _combinationMakeups;
+}
+
+- (NSArray<FUMakeupModel *> *)makeups {
+    if (!_makeups) {
+        NSDictionary *makeupParams = [NSDictionary dictionaryWithDictionary:[FULocalDataManager makeupJsonData]];
+        _makeups = [FUMakeupModel mj_objectArrayWithKeyValuesArray:makeupParams[@"data"]];
+    }
+    return _makeups;
+}
+
+- (BOOL)isChangedMakeup {
+    if (!self.currentCombinationMakeupModel || [self.currentCombinationMakeupModel.name isEqualToString:@"卸妆"]) {
+        // 只需要判断自定义妆容是否有值
+        for (FUMakeupModel *model in self.makeups) {
+            if (model.selectedIndex > 0 && model.singleMakeups[model.selectedIndex].value > 0) {
+                return YES;
+            }
+        }
+        return NO;
+    } else {
+        // 对比各个妆容
+        for (FUSingleMakeupType type = FUSingleMakeupTypeFoundation; type <= FUSingleMakeupTypePupil; type++) {
+            FUSingleMakeupModel *combinationSingleMakeup = self.currentCombinationMakeupModel.singleMakeupArray[type];
+            NSArray *customizedSingleMakeups = self.makeups[type].singleMakeups;
+            FUSingleMakeupModel *selectedSingleMakeup = customizedSingleMakeups[self.makeups[type].selectedIndex];
+            BOOL isSameColor = YES;
+            if (selectedSingleMakeup.colors.count > 0 && combinationSingleMakeup.colorsArray) {
+                isSameColor = [self color:selectedSingleMakeup.colors[selectedSingleMakeup.defaultColorIndex] isEqualToColor:combinationSingleMakeup.colorsArray];
+            }
+            BOOL isSameIntensity = fabs(selectedSingleMakeup.value - self.currentCombinationMakeupModel.value * combinationSingleMakeup.value) <= 0.01;
+            switch (type) {
+                case FUSingleMakeupTypeFoundation:{
+                    // 粉底只需要对比颜色和程度值
+                    if (!isSameColor || !isSameIntensity) {
+                        return YES;
+                    }
+                }
+                    break;
+                case FUSingleMakeupTypeLip:{
+                    // 对比口红类型、颜色、程度值
+                    if (selectedSingleMakeup.lipType != combinationSingleMakeup.lipType || !isSameColor || !isSameIntensity) {
+                        return YES;
+                    }
+                }
+                    break;
+                case FUSingleMakeupTypeEyebrow:{
+                    // 对比眉毛类型、颜色、程度值
+                    if (selectedSingleMakeup.browWarpType != combinationSingleMakeup.browWarpType || !isSameColor || !isSameIntensity) {
+                        return YES;
+                    }
+                }
+                    break;
+                default: {
+                    // 其他妆容对比bundle名、颜色索引和程度值
+                    // 注：存在组合妆的子妆颜色不存在于可选颜色数组中的情况，所以这里对比颜色索引，取不到索引默认为0
+                    if (!combinationSingleMakeup.bundleName && !selectedSingleMakeup.bundleName) {
+                        continue;
+                    }
+                    if (combinationSingleMakeup.bundleName && !selectedSingleMakeup.bundleName) {
+                        return YES;
+                    }
+                    if (!combinationSingleMakeup.bundleName && selectedSingleMakeup.bundleName) {
+                        return YES;
+                    }
+                    if (![combinationSingleMakeup.bundleName containsString:selectedSingleMakeup.bundleName]) {
+                        return YES;
+                    }
+                    NSInteger colorIndex = [self indexOfColor:combinationSingleMakeup.colorsArray inArray:selectedSingleMakeup.colors];
+                    if (colorIndex == -1) {
+                        colorIndex = 0;
+                    }
+                    if (colorIndex != selectedSingleMakeup.defaultColorIndex || !isSameIntensity) {
+                        return YES;
+                    }
+                }
+                    break;
+            }
+        }
     }
     
+    return NO;
 }
 
 @end

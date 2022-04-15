@@ -8,7 +8,6 @@
 //
 
 #import "FUBeautyModel.h"
-#import "FUBaseUIModelProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

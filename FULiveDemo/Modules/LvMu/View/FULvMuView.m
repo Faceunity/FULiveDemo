@@ -7,18 +7,17 @@
 //
 
 #import "FULvMuView.h"
-#import "UIColor+FUAPIDemoBar.h"
-#import "FUSegmentBarView.h"
+#import "FUSegmentBar.h"
 #import "FUBaseViewController.h"
 #import "FUSquareButton.h"
-#import "FUMakeupSlider.h"
+#import "FUSlider.h"
 #import "FUBgCollectionView.h"
 #import "FUSafeAreaCollectionView.h"
-#import "FULiveDefine.h"
 #import "FUTipHUD.h"
 
 #import "UIView+FU.h"
 #import "UIImage+FU.h"
+#import "UIColor+FU.h"
 
 #import <MobileCoreServices/MobileCoreServices.h>
 
@@ -97,7 +96,7 @@ typedef NS_ENUM(NSUInteger, FULvMuState) {
 static NSString * const LvMuCellID = @"FULvMuCellID";
 static NSString * const colorCellID = @"FULvMuColorCellID";
 
-@interface FULvMuView()<UICollectionViewDelegate,UICollectionViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate,  FUSafeAreaCollectionViewDelegate, FUBgCollectionViewDelegate>
+@interface FULvMuView()<UICollectionViewDelegate,UICollectionViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate,  FUSafeAreaCollectionViewDelegate, FUBgCollectionViewDelegate, FUSegmentBarDelegate>
 
 @property (nonatomic, strong) UICollectionView *mColorCollectionView;
 
@@ -106,9 +105,9 @@ static NSString * const colorCellID = @"FULvMuColorCellID";
 /// 安全区域
 @property (nonatomic, strong) FUSafeAreaCollectionView *safeAreaCollectionView;
 
-@property (strong, nonatomic) FUSegmentBarView *segmentBarView;
+@property (strong, nonatomic) FUSegmentBar *segmentBarView;
 
-@property (strong, nonatomic) FUMakeupSlider *slider;
+@property (strong, nonatomic) FUSlider *slider;
 @property (strong, nonatomic) UIView *sqLine;
 
 @property (strong, nonatomic) FUSquareButton *restBtn;
@@ -213,7 +212,7 @@ static NSString * const colorCellID = @"FULvMuColorCellID";
 - (void)reloadDataSoure:(NSArray <FUGreenScreenModel *> *)dataSource {
     _dataArray = [NSMutableArray arrayWithArray:dataSource];
     [self.mColorCollectionView reloadData];
-    [self.safeAreaCollectionView reloadSafeAreas];
+    [self.safeAreaCollectionView reloadSafeAreas:YES];
 }
 
 //刷新绿慕背景collection数据
@@ -247,7 +246,7 @@ static NSString * const colorCellID = @"FULvMuColorCellID";
 
 
 -(void)setupSubView{
-    _slider = [[FUMakeupSlider alloc] init];
+    _slider = [[FUSlider alloc] init];
     _slider.hidden = YES;
     [_slider addTarget:self action:@selector(didChangeValue:) forControlEvents:UIControlEventValueChanged];
     [_slider addTarget:self action:@selector(didChangeValueEnd:) forControlEvents:UIControlEventTouchUpInside];
@@ -319,22 +318,11 @@ static NSString * const colorCellID = @"FULvMuColorCellID";
     _safeAreaCollectionView.safeAreaDelegate = self;
     [self addSubview:_safeAreaCollectionView];
     
-    __weak typeof(self)weakSelf  = self ;
-    _segmentBarView = [[FUSegmentBarView alloc] initWithFrame:CGRectMake(0, 200,[UIScreen mainScreen].bounds.size.width, 49) titleArray:@[FUNSLocalizedString(@"抠像",nil),FUNSLocalizedString(@"背景",nil)] selBlock:^(int index) {
-        FULvMuState tepState = index==0? FULvMukeying:FULvMubackground;
-        if (weakSelf.state == tepState) {
-            weakSelf.state = tepState;
-            [weakSelf hidenTop:YES];
-        }else{
-            weakSelf.state = tepState;
-            [weakSelf segmentBarClickUpdateView:weakSelf.state];
-            [weakSelf hidenTop:NO];
-        }
-        
-    }];
-    _segmentBarView.backgroundColor = [UIColor colorWithRed:5/255.f green:15/255.f blue:20/255.f alpha:0.74];
-    //    [_segmentBarView setUINormal];
-    [self addSubview:_segmentBarView];
+    self.segmentBarView = [[FUSegmentBar alloc] initWithFrame:CGRectMake(0, 200,[UIScreen mainScreen].bounds.size.width, 49) titles:@[FUNSLocalizedString(@"抠像",nil),FUNSLocalizedString(@"背景",nil)] configuration:[FUSegmentBarConfigurations new]];
+    self.segmentBarView.backgroundColor = [UIColor colorWithRed:5/255.f green:15/255.f blue:20/255.f alpha:0.74];
+    self.segmentBarView.segmentDelegate = self;
+    self.segmentBarView.selectedIndex = 0;
+    [self addSubview:self.segmentBarView];
     
     _mBgCollectionView = [[FUBgCollectionView alloc] init];
     _mBgCollectionView.mDelegate = self;
@@ -478,8 +466,9 @@ static NSString * const colorCellID = @"FULvMuColorCellID";
             self.sqLine.hidden = YES;
             self.mColorCollectionView.hidden = YES;
             self.safeAreaCollectionView.hidden = NO;
+            [self.safeAreaCollectionView reloadSafeAreas:NO];
             _isShowingSafeArea = YES;
-            [FUTipHUD showTips:@"白色区域为安全区域，不参与绿幕抠像"];
+            [FUTipHUD showTips:FUNSLocalizedString(@"白色区域为安全区域，不参与绿幕抠像", nil)];
         } else {
             _selectedIndex = indexPath.row ;
             [self hiddenSlideer:_selectedIndex == 0 ? YES : NO];
@@ -505,6 +494,19 @@ static NSString * const colorCellID = @"FULvMuColorCellID";
         [self.mColorCollectionView reloadData];
     }
     [self changRestBtnUI];
+}
+
+#pragma mark - FUSegmentBarDelegate
+
+- (void)segmentBar:(FUSegmentBar *)segmentsView didSelectItemAtIndex:(NSUInteger)index {
+    FULvMuState tepState = index == 0 ? FULvMukeying : FULvMubackground;
+    if (self.state == tepState) {
+        [self hidenTop:YES];
+    }else{
+        self.state = tepState;
+        [self segmentBarClickUpdateView:self.state];
+        [self hidenTop:NO];
+    }
 }
 
 #pragma  mark - update UI
@@ -606,7 +608,7 @@ static NSString * const colorCellID = @"FULvMuColorCellID";
     }
 }
 
--(void)didChangeValue:(FUMakeupSlider *)slider{
+-(void)didChangeValue:(FUSlider *)slider{
     FUGreenScreenModel *param = _dataArray[_selectedIndex];
     param.value = [NSNumber numberWithFloat:slider.value];
     
@@ -614,7 +616,7 @@ static NSString * const colorCellID = @"FULvMuColorCellID";
         [self.mDelegate beautyCollectionView:self didSelectedParam:param];
     }
 }
--(void)didChangeValueEnd:(FUMakeupSlider *)slider{
+-(void)didChangeValueEnd:(FUSlider *)slider{
     [self.mItemCollectionView reloadData];
     [self changRestBtnUI];
 }
@@ -640,7 +642,7 @@ static NSString * const colorCellID = @"FULvMuColorCellID";
         if ([FUGreenScreenManager saveLocalSafeAreaImage:image]) {
             // 设置选中自定义，重新加载安全区域数据
             self.safeAreaCollectionView.selectedIndex = 3;
-            [self.safeAreaCollectionView reloadSafeAreas];
+            [self.safeAreaCollectionView reloadSafeAreas:YES];
             if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(lvmuViewDidSelectSafeArea:)] && self.safeAreaCollectionView.safeAreas.count == 3) {
                 [self.mDelegate lvmuViewDidSelectSafeArea:self.safeAreaCollectionView.safeAreas[0]];
             }
@@ -696,7 +698,7 @@ static NSString * const colorCellID = @"FULvMuColorCellID";
 -(void)hidenTop:(BOOL)isHiden{
     _isHidenTop = isHiden;
     if (isHiden) {
-        [_segmentBarView setUINormal];
+        self.segmentBarView.selectedIndex = -1;
         self.state = 3;
         [self mas_updateConstraints:^(MASConstraintMaker *make) {
             if (iPhoneXStyle) {

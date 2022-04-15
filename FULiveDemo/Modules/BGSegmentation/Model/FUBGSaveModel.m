@@ -9,21 +9,17 @@
 #import "FUBGSaveModel.h"
 @implementation FUBGSaveModel
 //序列化
-- (void)encodeWithCoder:(NSCoder *)aCoder{
-    [aCoder encodeObject:self.url forKey:@"url"];
-    [aCoder encodeInteger:self.type forKey:@"type"];
-    [aCoder encodeObject:self.pathName forKey:@"pathName"];
-    [aCoder encodeObject:self.iconImage forKey:@"iconImage"];
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [self mj_encode:coder];
 }
 
 //反序列化
-- (instancetype)initWithCoder:(NSCoder *)aDecoder{
-   self = [super init];
-   if (!self) { return nil; }
-   self.url = [aDecoder decodeObjectForKey:@"url"];
-   self.type = [aDecoder decodeIntegerForKey:@"type"];
-   self.pathName = [aDecoder decodeObjectForKey:@"pathName"];
-   self.iconImage = [aDecoder decodeObjectForKey:@"iconImage"];
-   return self;
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    self = [super init];
+    if (self) {
+        [self mj_decode:coder];
+    }
+    return self;
 }
+
 @end

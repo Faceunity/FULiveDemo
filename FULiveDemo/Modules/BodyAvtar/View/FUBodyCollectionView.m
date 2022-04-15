@@ -8,7 +8,6 @@
 
 #import "FUBodyCollectionView.h"
 #import "FUItemsViewCell.h"
-#import <Masonry.h>
 
 @interface FUBodyCollectionView ()<UICollectionViewDelegate,UICollectionViewDataSource>
 

@@ -20,17 +20,17 @@ typedef NS_ENUM(NSUInteger, FUBeautifyShape) {
 //    FUBeautifyShapeFaceShape,     //"face_shape"
     FUBeautifyShapeCheekThinning, //"cheek_thinning",
     FUBeautifyShapeCheekV, //"cheek_v",
-    FUBeautifyShapeCheekNarrow, //"cheek_narrow_v2",
+    FUBeautifyShapeCheekNarrow, //"cheek_narrow",
     FUBeautifyShapeCheekShort,  //"cheek_short"
-    FUBeautifyShapeCheekSmall, //"cheek_small_v2",
+    FUBeautifyShapeCheekSmall, //"cheek_small",
     FUBeautifyShapeIntensityCheekbones, //"intensity_cheekbones",
     FUBeautifyShapeIntensityLowerJaw, //"intensity_lower_jaw",
-    FUBeautifyShapeEyeEnlarging, //"eye_enlarging_v2",
+    FUBeautifyShapeEyeEnlarging, //"eye_enlarging",
     FUBeautifyShapeEyeCircle, //eye_circle
     FUBeautifyShapeIntensityChin, //"intensity_chin",
-    FUBeautifyShapeIntensityForehead, //"intensity_forehead_v2",
-    FUBeautifyShapeIntensityNose, //"intensity_nose_v2",
-    FUBeautifyShapeIntensityMouth, //"intensity_mouth_v2",
+    FUBeautifyShapeIntensityForehead, //"intensity_forehead",
+    FUBeautifyShapeIntensityNose, //"intensity_nose",
+    FUBeautifyShapeIntensityMouth, //"intensity_mouth",
     FUBeautifyShapeIntensityCanthus, //"intensity_canthus",
     FUBeautifyShapeIntensityEyeSpace, //"intensity_eye_space",
     FUBeautifyShapeIntensityEyeRotate, //"intensity_eye_rotate",

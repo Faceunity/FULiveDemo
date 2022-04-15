@@ -13,7 +13,6 @@
 #import "SVProgressHUD.h"
 #import <FLAnimatedImage/FLAnimatedImage.h>
 #import <math.h>
-#import <Masonry.h>
 #import "FUBaseViewController.h"
 #import "FUPosterManager.h"
 
@@ -94,18 +93,6 @@
             make.height.mas_equalTo(84);
         }
     }];
-
-
-    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-    UIVisualEffectView *effectview = [[UIVisualEffectView alloc] initWithEffect:blur];
-    effectview.alpha = 1.0;
-    [_mItemView addSubview:effectview];
-    [_mItemView sendSubviewToBack:effectview];
-    /* 磨玻璃 */
-    [effectview mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.bottom.equalTo(_mItemView);
-    }];
-
 }
 
 
