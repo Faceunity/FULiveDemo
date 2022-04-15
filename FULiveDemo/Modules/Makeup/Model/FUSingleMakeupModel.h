@@ -2,38 +2,31 @@
 //  FUSingleMakeupModel.h
 //  FULiveDemo
 //
-//  Created by 孙慕 on 2019/2/28.
-//  Copyright © 2019年 FaceUnity. All rights reserved.
+//  Created by 项林平 on 2021/11/12.
+//  Copyright © 2021 FaceUnity. All rights reserved.
 //
+//  子妆模型
 
 #import <Foundation/Foundation.h>
-#import "FUMakeupProtocol.h"
+#import "FUMakeupDefine.h"
+#import "FUSingleMakeupProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface FUSingleMakeupModel : NSObject<NSCopying,NSMutableCopying, FUMakeupProtocol>
+@interface FUSingleMakeupModel : NSObject<FUSingleMakeupProtocol>
 
-/* icon */
-@property (nonatomic, copy) NSString* iconStr;
-
-/* 美妆妆容bundle键值*/
-@property (nonatomic, assign) SUBMAKEUPTYPE namaBundleType;
-
-/* 一些妆容标题 */
+/// icon
+@property (nonatomic, copy) NSString *icon;
+/// 标题
 @property (nonatomic, copy) NSString *title;
-
-/* 眼影相关 */
-@property (nonatomic, copy) NSString *tex_eye2;
-@property (nonatomic, copy) NSString *tex_eye3;
-
-/* 眉毛相关 */
-@property (nonatomic, assign) int brow_warp;
-//0柳叶眉  1上挑眉  2一字眉  3英气眉  4远山眉  5标准眉  6扶形眉  7剑眉  8日常风  9日系风
-@property (nonatomic, assign) int brow_warp_type;
-
-/* 样式所有可选的颜色 */
-@property (nonatomic, strong) NSArray <NSArray *>* colors;
-@property (nonatomic, assign) int defaultColorIndex;
+/// 是否使用眉毛变形
+@property (nonatomic, assign) BOOL isBrowWarp;
+/// 眉毛类型（0柳叶眉  1上挑眉  2一字眉  3英气眉  4远山眉  5标准眉  6扶形眉  7剑眉  8日常风  9日系风）
+@property (nonatomic, assign) NSInteger browWarpType;
+/// 子妆可选颜色数组
+@property (nonatomic, copy) NSArray<NSArray *> *colors;
+/// 默认选择颜色索引
+@property (nonatomic, assign) NSInteger defaultColorIndex;
 
 @end
 

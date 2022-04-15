@@ -6,7 +6,6 @@
 //  Copyright © 2021 FaceUnity. All rights reserved.
 //
 
-#import "FUMetalModel.h"
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -16,7 +15,7 @@ typedef enum : NSUInteger {
     FUBGSaveModelTypeVideo,
 } FUBGSaveModelType;
 
-@interface FUBGSaveModel : FUMetalModel
+@interface FUBGSaveModel : NSObject<NSCoding>
 
 /* 类别名称 */
 @property (nonatomic, copy) NSString* pathName;

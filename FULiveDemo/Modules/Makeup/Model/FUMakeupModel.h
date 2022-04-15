@@ -1,30 +1,25 @@
 //
-//  FUSingleMakeupModel.h
+//  FUMakeupModel.h
 //  FULiveDemo
 //
-//  Created by 孙慕 on 2019/2/28.
-//  Copyright © 2019年 FaceUnity. All rights reserved.
+//  Created by 项林平 on 2021/11/22.
+//  Copyright © 2021 FaceUnity. All rights reserved.
 //
+//  单个妆容类型模型，对应自定义妆容任一一项
 
 #import <Foundation/Foundation.h>
-#import "FUSingleMakeupModel.h"
+
+@class FUSingleMakeupModel;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface FUMakeupModel : NSObject
-/* 类别名称 */
-@property (nonatomic, copy) NSString* name;
-/* 记录一份子妆容的所有集合
-  如口红: sgArr就包含 口红1，口红2，口红3......
- */
-@property (nonatomic, copy) NSArray <FUSingleMakeupModel *>* sgArr;
-/* 被选中的索引 */
-@property (assign, nonatomic) int singleSelIndex;
-/* 颜色键值 */
-@property (nonatomic, copy) NSString* colorStr;
-/* 颜色值 */
-@property (nonatomic, strong) NSArray* colorStrV;
 
+@property (nonatomic, copy) NSString *name;
+/// 妆容可选类型数组（如口红包括：雾面、润泽、珠光等）
+@property (nonatomic, copy) NSArray<FUSingleMakeupModel *> *singleMakeups;
+/// 当前类型选中的索引
+@property (nonatomic, assign) NSInteger selectedIndex;
 
 @end
 

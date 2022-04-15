@@ -1,9 +1,8 @@
 /* mz_zip_rw.h -- Zip reader/writer
-   Version 2.8.7, May 9, 2019
-   part of the MiniZip project
+   part of the minizip-ng project
 
-   Copyright (C) 2010-2019 Nathan Moinvaziri
-     https://github.com/nmoinvaz/minizip
+   Copyright (C) 2010-2021 Nathan Moinvaziri
+     https://github.com/zlib-ng/minizip-ng
 
    This program is distributed under the terms of the same license as zlib.
    See the accompanying LICENSE file for the full text of the license.
@@ -87,7 +86,7 @@ int32_t mz_zip_reader_entry_is_dir(void *handle);
 /* Gets the current entry is a directory */
 
 int32_t mz_zip_reader_entry_save(void *handle, void *stream, mz_stream_write_cb write_cb);
-/* Save the current entry to a steam */
+/* Save the current entry to a stream */
 
 int32_t mz_zip_reader_entry_save_process(void *handle, void *stream, mz_stream_write_cb write_cb);
 /* Saves a portion of the current entry to a stream callback */
@@ -121,13 +120,16 @@ int32_t mz_zip_reader_get_raw(void *handle, uint8_t *raw);
 /* Gets whether or not it should save the entry raw */
 
 int32_t mz_zip_reader_get_zip_cd(void *handle, uint8_t *zip_cd);
-/* Gets whether or not the archive has zipped cd */
+/* Gets whether or not the archive has a zipped central directory */
 
 int32_t mz_zip_reader_get_comment(void *handle, const char **comment);
 /* Gets the comment for the central directory */
 
+int32_t mz_zip_reader_set_recover(void *handle, uint8_t recover);
+/* Sets the ability to recover the central dir by reading local file headers */
+
 void    mz_zip_reader_set_encoding(void *handle, int32_t encoding);
-/* Sets whether or not it should support cp437 in zip file names */
+/* Sets whether or not it should support a special character encoding in zip file names. */
 
 void    mz_zip_reader_set_sign_required(void *handle, uint8_t sign_required);
 /* Sets whether or not it a signature is required  */
@@ -168,7 +170,7 @@ typedef int32_t (*mz_zip_writer_entry_cb)(void *handle, void *userdata, mz_zip_f
 int32_t mz_zip_writer_is_open(void *handle);
 /* Checks to see if the zip file is open */
 
-int32_t mz_zip_writer_open(void *handle, void *stream);
+int32_t mz_zip_writer_open(void *handle, void *stream, uint8_t append);
 /* Opens zip file from stream */
 
 int32_t mz_zip_writer_open_file(void *handle, const char *path, int64_t disk_size, uint8_t append);
@@ -182,11 +184,6 @@ int32_t mz_zip_writer_close(void *handle);
 
 /***************************************************************************/
 
-int32_t mz_zip_writer_zip_cd(void *handle);
-/* Zip the central directory */
-
-/***************************************************************************/
-
 int32_t mz_zip_writer_entry_open(void *handle, mz_zip_file *file_info);
 /* Opens an entry in the zip file for writing */
 
@@ -195,10 +192,6 @@ int32_t mz_zip_writer_entry_close(void *handle);
 
 int32_t mz_zip_writer_entry_write(void *handle, const void *buf, int32_t len);
 /* Writes data into entry for zip */
-
-int32_t mz_zip_writer_entry_sign(void *handle, uint8_t *message, int32_t message_size, 
-    uint8_t *cert_data, int32_t cert_data_size, const char *cert_pwd);
-/* Signs uncompressed content of entry, call before closing */
 
 /***************************************************************************/
 
@@ -217,7 +210,7 @@ int32_t mz_zip_writer_add_buffer(void *handle, void *buf, int32_t len, mz_zip_fi
 int32_t mz_zip_writer_add_file(void *handle, const char *path, const char *filename_in_zip);
 /* Adds an entry to the zip from a file */
 
-int32_t mz_zip_writer_add_path(void *handle, const char *path, const char *root_path, uint8_t include_path, 
+int32_t mz_zip_writer_add_path(void *handle, const char *path, const char *root_path, uint8_t include_path,
     uint8_t recursive);
 /* Enumerates a directory or pattern and adds entries to the zip */
 
@@ -254,7 +247,7 @@ void    mz_zip_writer_set_store_links(void *handle, uint8_t store_links);
 /* Store symbolic links in zip file */
 
 void    mz_zip_writer_set_zip_cd(void *handle, uint8_t zip_cd);
-/* Sets additional flags to be set when adding files in zip */
+/* Sets whether or not central directory should be zipped */
 
 int32_t mz_zip_writer_set_certificate(void *handle, const char *cert_path, const char *cert_pwd);
 /* Sets the certificate and timestamp url to use for signing when adding files in zip */

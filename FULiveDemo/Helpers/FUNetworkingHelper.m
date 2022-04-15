@@ -97,7 +97,7 @@ static NSString * const FUBaseURLString = @"https://items.faceunity.com:4006/api
 
 - (NSURLSessionTask *)getWithURL:(NSString *)URLString parameters:(NSDictionary *)parameters success:(FURequestSuccess)success failure:(FURequestFailure)failure {
     NSLog(@"\nURL:%@\nparams:%@", URLString, parameters);
-    NSURLSessionTask *task = [self.manager GET:URLString parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
+    NSURLSessionTask *task = [self.manager GET:URLString parameters:parameters headers:nil progress:^(NSProgress * _Nonnull downloadProgress) {
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary *result = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
         NSLog(@"responseObject = %@", result);
@@ -120,7 +120,7 @@ static NSString * const FUBaseURLString = @"https://items.faceunity.com:4006/api
 
 - (NSURLSessionTask *)postWithURL:(NSString *)URLString parameters:(NSDictionary *)parameters success:(FURequestSuccess)success failure:(FURequestFailure)failure {
     NSLog(@"\nURL:%@\nparams:%@", URLString, parameters);
-    NSURLSessionTask *task = [self.manager POST:URLString parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+    NSURLSessionTask *task = [self.manager POST:URLString parameters:parameters headers:nil progress:^(NSProgress * _Nonnull uploadProgress) {
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary *result = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
         NSLog(@"responseObject = %@", result);

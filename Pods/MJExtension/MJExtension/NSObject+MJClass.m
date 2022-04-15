@@ -19,7 +19,7 @@ static const char MJIgnoredCodingPropertyNamesKey = '\0';
 
 @implementation NSObject (MJClass)
 
-+ (NSMutableDictionary *)classDictForKey:(const void *)key
++ (NSMutableDictionary *)mj_classDictForKey:(const void *)key
 {
     static NSMutableDictionary *allowedPropertyNamesDict;
     static NSMutableDictionary *ignoredPropertyNamesDict;
@@ -130,8 +130,9 @@ static const char MJIgnoredCodingPropertyNamesKey = '\0';
 }
 
 #pragma mark - block和方法处理:存储block的返回值
-+ (void)mj_setupBlockReturnValue:(id (^)(void))block key:(const char *)key
-{
++ (void)mj_setupBlockReturnValue:(id (^)(void))block key:(const char *)key {
+    MJExtensionSemaphoreCreate
+    MJ_LOCK(mje_signalSemaphore);
     if (block) {
         objc_setAssociatedObject(self, key, block(), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     } else {
@@ -139,27 +140,24 @@ static const char MJIgnoredCodingPropertyNamesKey = '\0';
     }
     
     // 清空数据
-    MJExtensionSemaphoreCreate
-    MJExtensionSemaphoreWait
-    [[self classDictForKey:key] removeAllObjects];
-    MJExtensionSemaphoreSignal
+    [[self mj_classDictForKey:key] removeAllObjects];
+    MJ_UNLOCK(mje_signalSemaphore);
 }
 
 + (NSMutableArray *)mj_totalObjectsWithSelector:(SEL)selector key:(const char *)key
 {
     MJExtensionSemaphoreCreate
-    MJExtensionSemaphoreWait
-    
-    NSMutableArray *array = [self classDictForKey:key][NSStringFromClass(self)];
+    MJ_LOCK(mje_signalSemaphore);
+    NSMutableArray *array = [self mj_classDictForKey:key][NSStringFromClass(self)];
     if (array == nil) {
         // 创建、存储
-        [self classDictForKey:key][NSStringFromClass(self)] = array = [NSMutableArray array];
+        [self mj_classDictForKey:key][NSStringFromClass(self)] = array = [NSMutableArray array];
         
         if ([self respondsToSelector:selector]) {
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
             NSArray *subArray = [self performSelector:selector];
-    #pragma clang diagnostic pop
+#pragma clang diagnostic pop
             if (subArray) {
                 [array addObjectsFromArray:subArray];
             }
@@ -170,9 +168,7 @@ static const char MJIgnoredCodingPropertyNamesKey = '\0';
             [array addObjectsFromArray:subArray];
         }];
     }
-    
-    MJExtensionSemaphoreSignal
-    
+    MJ_UNLOCK(mje_signalSemaphore);
     return array;
 }
 @end

@@ -9,7 +9,6 @@
 #import "FUBodyBeautyController.h"
 #import "FUBodyBeautyView.h"
 #import "FUPositionInfo.h"
-#import "MJExtension.h"
 #import <CoreMotion/CoreMotion.h>
 #import "FUSelectedImageController.h"
 #import "FUBodyBeautyManager.h"
@@ -29,6 +28,8 @@
     [self setupView];
  
     self.photoBtn.transform = CGAffineTransformMakeTranslation(0, -100);
+    
+    // self.headButtonView.selectedImageBtn.hidden = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated {

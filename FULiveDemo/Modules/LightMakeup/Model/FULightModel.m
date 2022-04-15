@@ -7,19 +7,29 @@
 //
 
 #import "FULightModel.h"
+
 @implementation FUSingleLightMakeupModel : NSObject
 
-@synthesize makeType, namaBundle, namaValueType, value, colorStr, colorStrV, is_two_color, lip_type, realValue;
+@synthesize bundleName, value, realValue, colorsArray, isTwoColorLip, lipType;
+
++ (NSDictionary *)mj_replacedKeyFromPropertyName {
+    return @{
+        @"type" : @"makeType",
+        @"bundleName" : @"namaBundle",
+        @"colorsArray" : @"colorStrV",
+        @"lipType" : @"lip_type",
+        @"isTwoColorLip" : @"is_two_color"
+    };
+}
 
 @end
 
-@implementation FULightModel : NSObject 
+@implementation FULightModel : NSObject
 
-+ (NSDictionary *)objectClassInArray{
++ (NSDictionary *)mj_objectClassInArray {
     return @{
-             @"makeups" : @"FUSingleLightMakeupModel"
-             };
+        @"makeups" : @"FUSingleLightMakeupModel"
+    };
 }
-
 
 @end

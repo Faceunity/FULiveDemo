@@ -16,8 +16,3 @@ typedef NS_ENUM(NSInteger, FUBeautyViewType) {
     FUBeautyViewTypeShape               = 2,// 美型
 };
 
-typedef NS_ENUM(NSInteger, FUSliderType) {
-    FUFilterSliderType01            = 1,
-    FUFilterSliderType101              = 2,
-};
-

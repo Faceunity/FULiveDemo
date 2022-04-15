@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FUMakeupSlider.h"
+#import "FUSlider.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) id<FUHairViewDelegate>delegate ;
 
-@property (weak, nonatomic) IBOutlet FUMakeupSlider *slider;
+@property (weak, nonatomic) IBOutlet FUSlider *slider;
 @end
 
 

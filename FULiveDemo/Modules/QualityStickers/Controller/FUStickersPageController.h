@@ -8,8 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class FUStickerModel;
-@class FUStickersPageController;
+@class FUStickerModel, FUStickersPageController, FUQualityStickerManager;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -25,6 +24,8 @@ extern NSString * const FUSelectedStickerDidChangeNotification;
 @interface FUStickersPageController : UIViewController
 
 @property (nonatomic, weak) id<FUStickersPageControllerDelegate> delegate;
+
+@property (nonatomic, strong) FUQualityStickerManager *qualityStickerManager;
 
 - (instancetype)initWithTag:(NSString *)tag;
 

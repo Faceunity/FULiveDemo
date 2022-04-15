@@ -11,10 +11,7 @@
 #import "FUBodyCollectionView.h"
 #import "FUBodyAvatarManager.h"
 
-@interface FUBodyAvatarController ()<FUBodyItemsDelegate>{
-    dispatch_semaphore_t backSignal;
-
-}
+@interface FUBodyAvatarController ()<FUBodyItemsDelegate>
 
 @property(nonatomic,strong)NSMutableDictionary *itemsHache;
 
@@ -40,9 +37,6 @@
     
     self.headButtonView.inputSegm.hidden = YES;
     
-    /* 道具切信号 */
-    backSignal = dispatch_semaphore_create(1);
-    
     /* 待绑定的道具 */
     _mItmsArray = @[@"avatar_female",@"avatar_male"];
     
@@ -59,14 +53,14 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.headButtonView.switchBtn.selected = YES;
-    [self.mCamera changeCameraInputDeviceisFront:NO];
+     [self.mCamera changeCameraInputDeviceisFront:NO];
 }
 
 -(void)setupBodySubView{
     self.photoBtn.transform = CGAffineTransformMakeTranslation(0, -36) ;
     self.photoBtn.hidden = YES;
     
-    _mPerView = [[FUGLDisplayView alloc] initWithFrame:CGRectMake(KScreenWidth - 90 - 5, KScreenHeight - 144 - 5 - 80 - (iPhoneXStyle ? 34:0), 90, 144)];
+    _mPerView = [[FUGLDisplayView alloc] initWithFrame:CGRectMake(FUScreenWidth - 90 - 5, FUScreenHeight - 144 - 5 - 80 - (iPhoneXStyle ? 34:0), 90, 144)];
      UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanAction:)];
      [_mPerView addGestureRecognizer:panGestureRecognizer];
      [self.view addSubview:_mPerView];
@@ -152,11 +146,8 @@
  返回按钮
  */
 -(void)headButtonViewBackAction:(UIButton *)btn{
-    dispatch_semaphore_wait(backSignal, DISPATCH_TIME_FOREVER);
-    [self.bodyAvatarManager releaseItem];
-    [self.navigationController popViewControllerAnimated:YES];
-    dispatch_semaphore_signal(backSignal);
     [super headButtonViewBackAction:btn];
+    [self.bodyAvatarManager releaseItem];
 }
 
 -(void)headButtonViewSwitchAction:(UIButton *)sender{
@@ -166,10 +157,10 @@
         sender.userInteractionEnabled = YES ;
     });
     //TODO: todo 替换内部相机的时需要设置一下
-     [self.mCamera changeCameraInputDeviceisFront:sender.selected];
+    [self.mCamera changeCameraInputDeviceisFront:sender.selected];
     /**切换摄像头要调用此函数*/
     [self.baseManager setOnCameraChange];
-    sender.selected = !sender.selected ;
+    sender.selected = !sender.selected;
 }
 
 #pragma  mark -  手势
@@ -183,17 +174,17 @@
     // 拖拽状态结束
     if (sender.state == UIGestureRecognizerStateEnded) {
         [UIView animateWithDuration:0.4 animations:^{
-            if ((sender.view.center.x + point.x - senderHalfViewWidth) <= 5 || sender.view.center.x < KScreenWidth/2) {
+            if ((sender.view.center.x + point.x - senderHalfViewWidth) <= 5 || sender.view.center.x < FUScreenWidth/2) {
                 viewCenter.x = senderHalfViewWidth + 5;
             }
-            if ((sender.view.center.x + point.x + senderHalfViewWidth) >= KScreenWidth - 5 || sender.view.center.x >= KScreenWidth/2) {
-                viewCenter.x = KScreenWidth - senderHalfViewWidth - 5;
+            if ((sender.view.center.x + point.x + senderHalfViewWidth) >= FUScreenWidth - 5 || sender.view.center.x >= FUScreenWidth/2) {
+                viewCenter.x = FUScreenWidth - senderHalfViewWidth - 5;
             }
             if ((sender.view.center.y + point.y - senderHalfViewHeight) <= 75) {
                 viewCenter.y = senderHalfViewHeight + 75;
             }
-            if ((sender.view.center.y + point.y + senderHalfViewHeight) >= (KScreenHeight -90 -  34)) {
-                viewCenter.y = KScreenHeight - senderHalfViewHeight - 90 - 34;
+            if ((sender.view.center.y + point.y + senderHalfViewHeight) >= (FUScreenHeight -90 -  34)) {
+                viewCenter.y = FUScreenHeight - senderHalfViewHeight - 90 - 34;
             }
             sender.view.center = viewCenter;
         } completion:^(BOOL finished) {

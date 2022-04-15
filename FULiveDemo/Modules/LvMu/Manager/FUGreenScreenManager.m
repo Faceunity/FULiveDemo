@@ -34,7 +34,6 @@
 }
 
 - (NSArray *)createUIData {
-//    NSArray *list = @{@[@"key_color"]}
     NSArray *prams = @[@(GREENSCREENTYPE_keyColor),@(GREENSCREENTYPE_chromaThres),@(GREENSCREENTYPE_chromaThresT),@(GREENSCREENTYPE_alphaL), @(GREENSCREENTYPE_safeArea)];
     NSArray *titelArr = @[@"关键颜色", @"相似度", @"平滑", @"透明度", @"安全区域"];
     NSArray *imageArr = @[@"demo_icon_key_color", @"demo_icon_similarityr", @"demo_icon_smooth", @"demo_icon_transparency", @"demo_icon_safe_area"];
@@ -125,10 +124,8 @@
 }
 
 - (void)releaseItem {
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        self.greenScreen = nil;
-        [FURenderKit shareRenderKit].greenScreen = nil;
-    });
+    [[FURenderKit shareRenderKit].greenScreen stopVideoDecode];
+    [FURenderKit shareRenderKit].greenScreen = nil;
 }
 
 #pragma mark - Class methods

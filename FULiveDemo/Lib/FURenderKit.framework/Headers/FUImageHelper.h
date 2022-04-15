@@ -11,16 +11,22 @@
 
 @interface FUImageHelper : NSObject
 
-+ (void) convertUIImageToBitmapRGBA8:(UIImage *) image completionHandler:(void (^)(int32_t size, unsigned char * bits))completionHandler ;
-+ (UIImage *) convertBitmapRGBA8ToUIImage:(unsigned char *) buffer
-                                withWidth:(int) width
-                               withHeight:(int) height ;
++ (void)convertUIImageToBitmapRGBA8:(UIImage *)image completionHandler:(void (^)(int32_t size, unsigned char * bits))completionHandler;
 
-+(CVPixelBufferRef) pixelBufferFromImage:(UIImage *)image;
++ (UIImage *)convertBitmapRGBA8ToUIImage:(unsigned char *)buffer
+                                withWidth:(int)width
+                               withHeight:(int)height;
 
-+(UIImage *)imageFromPixelBuffer:(CVPixelBufferRef)pixelBufferRef;
+/// 根据UIImage返回CVPixelBufferRef
+/// @param image UIImage实例对象
+/// 注意：CVPixelBufferRef需要手动release
++ (CVPixelBufferRef)pixelBufferFromImage:(UIImage *)image;
 
-+ (UIImage *)imageFromPixelBuffer2:(CVPixelBufferRef)pixelBufferRef;
+/// 根据CVPixelBufferRef返回UIImage
+/// @param pixelBufferRef buffer
+/// 注意：如果后续业务有使用到image.CGImage，则需要及时释放掉 image.CGImage
++ (UIImage *)imageFromPixelBuffer:(CVPixelBufferRef)pixelBufferRef;
+
 + (unsigned char *)getRGBAWithImage:(UIImage *)image;
 
 + (unsigned char *)getRGBAWithImageName:(NSString *)imageName width:(int *)width height:(int *)height;
@@ -34,6 +40,6 @@
 //针对每一帧处理取色
 + (UIColor *)getPixelColorWithPixelBuff:(CVPixelBufferRef)pixelBuffer point:(CGPoint)point;
 
++ (UIImage*)rotateImageWithAngle:(UIImage*)vImg Angle:(NSInteger)vAngle IsExpand:(BOOL)vIsExpand;
 
-+(UIImage*)rotateImageWithAngle:(UIImage*)vImg Angle:(NSInteger)vAngle IsExpand:(BOOL)vIsExpand;
 @end

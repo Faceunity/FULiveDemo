@@ -11,7 +11,6 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "FUEditImageViewController.h"
 #import "UIImage+FU.h"
-#import "FULiveDefine.h"
 
 @interface FUPosterController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 

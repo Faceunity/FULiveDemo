@@ -1,20 +1,25 @@
 //
-//  FUSingleMakeupModel.m
+//  FUMakeupModel.m
 //  FULiveDemo
 //
-//  Created by 孙慕 on 2019/2/28.
-//  Copyright © 2019年 FaceUnity. All rights reserved.
+//  Created by 项林平 on 2021/11/22.
+//  Copyright © 2021 FaceUnity. All rights reserved.
 //
 
 #import "FUMakeupModel.h"
 
 @implementation FUMakeupModel
 
-+ (NSDictionary *)objectClassInArray
-{
++ (NSDictionary *)mj_replacedKeyFromPropertyName {
     return @{
-             @"sgArr" : @"FUSingleMakeupModel"
-             };
+        @"singleMakeups" : @"sgArr"
+    };
+}
+
++ (NSDictionary *)mj_objectClassInArray {
+    return @{
+        @"singleMakeups" : @"FUSingleMakeupModel"
+    };
 }
 
 @end

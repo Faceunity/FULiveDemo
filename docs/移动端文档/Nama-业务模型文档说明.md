@@ -1,7 +1,6 @@
-
 ----
 
-更新时间: 2021-10-27
+更新时间: 2022-04-15
 
 创建时间: 2020-01-22
 
@@ -20,26 +19,26 @@
       ```objective-c
     //美颜示例
     NSString *path = [[NSBundle mainBundle] pathForResource:@"face_beautification" ofType:@"bundle"];
-    FUBeautiItem *item = [[FUBeautiItem alloc] initWithPath:path name:@"face_beautification" autoLoad:YES];
-    self.beautiyItem = item;
-    //加载item
-    [FURenderKit shareRenderKit].beautifulItem = item;
+    FUBeauty *beauty = [[FUBeauty alloc] initWithPath:path name:@"FUBeauty"];
     
-    //移除item
-    [FURenderKit shareRenderKit].beautifulItem = nil;
+    //加载美颜
+    [FURenderKit shareRenderKit].beauty = beauty;
+    
+    //移除美颜
+    [FURenderKit shareRenderKit].beauty = nil;
     
     //道具贴纸示例
     NSString *path = [[NSBundle mainBundle] pathForResource:@"baozi" ofType:@"bundle"];
-    FUStickerItem *item = [[FUStickerItem alloc] initWithPath:path name:@"baozi" autoLoad:YES];
-    self.arMaskItem = item;
+    FUSticker *sticker = [[FUSticker alloc] initWithPath:path name:@"baozi"];
+    
     //添加到stickerContainer 这个道具贴纸容器中，内部会自动处理叠加道具，
-    [[FURenderKit shareRenderKit].stickerContainer addStickerItem:item];
+    [[FURenderKit shareRenderKit].stickerContainer addSticker:sticker];
     
     //如果不希望叠加 需要移除对应的道具对象
-    [[FURenderKit shareRenderKit].stickerContainer removeStickerItem:item];
+    [[FURenderKit shareRenderKit].stickerContainer removeSticker:sticker];
     
     //按照加载路径移除
-    [[FURenderKit shareRenderKit].stickerContainer removeStickerItemForPath:item.path];
+    [[FURenderKit shareRenderKit].stickerContainer removeStickerForPath:sticker.path];
     
     //释放所有加载的道具
     [[FURenderKit shareRenderKit].stickerContainer removeAllSticks];
@@ -48,8 +47,6 @@
   
     
   
-  
-
 #### 1.1 接口说明 ####
 
 * 根据道具路径创建道具对象，可支持自动加载
@@ -57,27 +54,14 @@
 ``` objective-c
 /**
 * @param path 道具路径
-* @param autoLoad 是否自动加载道具
 **/
-
-+ (instancetype)initWithPath:(NSString *)path name:(nullable NSString *)name autoLoad:(BOOL)autoLoad;
++ (instancetype)initWithPath:(NSString *)path name:(nullable NSString *)name;
 
 /**
 * 实例方法
 **/
-- (instancetype)itemWithPath:(NSString *)path name:(nullable NSString *)name autoLoad:(BOOL)autoLoad;
+- (instancetype)itemWithPath:(NSString *)path name:(nullable NSString *)name;
 ```
-
-* 加载ItemID
-
-```objective-c
-带回调
-- (void)loadAsync:(void (^)(BOOL successed))completion;
-
-不带回调
-- (BOOL)loadSync;
-```
-
 
 
 * 设置键值对参数，封装成 FUParam 对象
@@ -115,9 +99,7 @@
 | ------------- | -------- | ------------------------------------------ |
 | name          | NSString | 道具名称                                   |
 | path          | NSString | 道具绝对路径                               |
-| itemID        | int      | 只读，内部生成的道具ID                     |
-| loaded        | BOOL     | 是否已经加载                               |
-| binded        | BOOL     | 是否已经绑定，用于绑定到其他道具的普通道具 |
+| bodyInvisibleList        | NSSet<NSNumber *>     | 身体隐藏区域，用于FUAvatar等道具 |
 | supportARMode | BOOL     | 是否支持 AR 模式                           |
 
 ____
@@ -134,7 +116,7 @@ ____
 | --------- | ---- | ------------------------------------------------------------ | ---------- |
 | blurUseMask | BOOL  | blur是否使用mask                      | blur_use_mask |
 | heavyBlur | int  | 朦胧磨皮开关，0为清晰磨皮，1为朦胧磨皮                       | heavy_blur |
-| blurType  | int  | 此参数优先级比heavyBlur低，在使用时要将heavy_blur设为0，0 清晰磨皮 1 朦胧磨皮 2精细磨皮 3均匀磨皮 | blur_type  |
+| blurType  | int  | 此参数优先级比heavyBlur低，在使用时要将heavy_blur设为0，0 清晰磨皮 1 朦胧磨皮 2精细磨皮 3均匀磨皮 |  blur_type  |
 
 ____
 
@@ -144,12 +126,14 @@ ____
 
 | 属性名称                      | 类型   | 说明                                                         | key                              |
 | ----------------------------- | ------ | ------------------------------------------------------------ | -------------------------------- |
-| blurLevel                     | double | 默认均匀磨皮,磨皮程度，取值范围0.0-6.0，默认6.0                  | blur_level                       |
-| colorLevel                    | double | 美白 取值范围 0.0-1.0，0.0为无效果，1.0为最大效果，默认值0.2  | color_level                      |
-| redLevel                      | double | 红润 取值范围 0.0-1.0，0.0为无效果，1.0为最大效果，默认值0.5  | red_level                        |
-| sharpen                       | double | 锐化 锐化程度，取值范围0.0-1.0，默认0.2                      | sharpen                          |
-| eyeBright                     | double | 亮眼 0.0-1.0,  0.0为无效果，1.0为最大效果，默认值1.0 亮眼为高级美颜功能，需要相应证书权限才能使用 | eye_bright                       |
-| toothWhiten                   | double | 美牙 取值范围 0.0-1.0,  0.0为无效果，1.0为最大效果，默认值1.0 美牙为高级美颜功能，需要相应证书权限才能使用 | tooth_whiten                     |
+| skinDetect                    | double | 肤色检测开关，0为关，1为开 默认值0                  | skin_detect                       |
+| nonskinBlurScale              | double | 肤色检测之后非肤色区域的融合程度，取值范围0.0-1.0，默认值0.0                  | nonskin_blur_scale     |                      |
+| blurLevel                     | double | 默认均匀磨皮,磨皮程度，取值范围0.0-6.0，默认值6.0                  | blur_level                       |
+| colorLevel                    | double | 美白 取值范围 0.0-1.0，0.0为无效果，1.0为最大效果，默认值0.0  | color_level                      |
+| redLevel                      | double | 红润 取值范围 0.0-1.0，0.0为无效果，1.0为最大效果，默认值0.0  | red_level                        |
+| sharpen                       | double | 锐化 锐化程度，取值范围0.0-1.0，默认0.0                      | sharpen                          |
+| eyeBright                     | double | 亮眼 0.0-1.0,  0.0为无效果，1.0为最大效果，默认值0.0 亮眼为高级美颜功能，需要相应证书权限才能使用 | eye_bright                       |
+| toothWhiten                   | double | 美牙 取值范围 0.0-1.0,  0.0为无效果，1.0为最大效果，默认值0.0 美牙为高级美颜功能，需要相应证书权限才能使用 | tooth_whiten                     |
 | removePouchStrength           | double | 去黑眼圈 范围0.0~1.0,  0.0为无效果，1.0最强，默认0.0  去黑眼圈为高级美颜功能，需要相应证书权限才能使用 | remove_pouch_strength            |
 | removeNasolabialFoldsStrength | double | 去法令纹 范围0.0~1.0, 0.0为无效果，1.0最强，默认0.0 去法令纹为高级美颜功能，需要相应证书权限才能使用 | remove_nasolabial_folds_strength |
 
@@ -164,28 +148,23 @@ ____
 | faceShape            | int    | 变形取值 0:女神变形 1:网红变形 2:自然变形 3:默认变形 4:精细变形 默认4 | face_shape           |
 | changeFrames         | int    | 0为关闭 ，大于0开启渐变，值为渐变所需要的帧数 change_frames  | change_frames        |
 | faceShapeLevel       | double | 美型的整体程度由face_shape_level参数控制 取值范围 0.0-1.0, 0.0为无效果，1.0为最大效果，默认值1.0  face_shape_level | face_shape_level     |
-| cheekThinning        | double | 瘦脸 瘦脸程度范围0.0-1.0 默认0.5                             | cheek_thinning       |
+| cheekThinning        | double | 瘦脸 瘦脸程度范围0.0-1.0 默认0.0                             | cheek_thinning       |
 | cheekV               | double | v脸程度范围0.0-1.0 默认0.0                                   | cheek_v              |
-| cheekNarrow          | double | 窄脸程度范围0.0-1.0 默认0.0，8.0.0版本之后使用cheekNarrowV2                                  | cheek_narrow         |
-| cheekNarrowV2          | double | 窄脸程度范围0.0-1.0 默认0.0                                  | cheek_narrow_v2         |
+| cheekNarrow          | double | 窄脸程度范围0.0-1.0 默认0.0                                  | cheek_narrow         |
 | cheekShort           | double | 短脸程度范围0.0-1.0 默认0.0                                  | cheek_short          |
-| cheekSmall           | double | 小脸程度范围0.0-1.0 默认0.0，8.0.0版本之后使用cheekSmallV2                                  | cheek_small          |
-| cheekSmallV2           | double | 小脸程度范围0.0-1.0 默认0.0                                  | cheek_small_v2          |
+| cheekSmall           | double | 小脸程度范围0.0-1.0 默认0.0                                  | cheek_small          |
 | intensityCheekbones  | double | 瘦颧骨程度范围0.0~1.0 1.0程度最强 默认0.0                    | intensity_cheekbones |
 | intensityLowerJaw    | double | 瘦下颌骨程度范围0.0~1.0 1.0程度最强 默认0.0                  | intensity_lower_jaw  |
-| eyeEnlarging         | double | 大眼程度范围0.0-1.0 默认0.0，8.0.0版本之后使用eyeEnlargingV2                                  | eye_enlarging        |
-| eyeEnlargingV2         | double | 大眼程度范围0.0-1.0 默认0.0                                  | eye_enlarging_v2        |
-| intensityChin        | double | 下巴调整程度范围0.0-1.0，0-0.5是变小，0.5-1是变大 默认0.5    | intensity_chin       |
-| intensityForehead    | double | 额头调整程度范围0.0-1.0，0-0.5是变小，0.5-1是变大 默认0.5，8.0.0版本之后使用intensityForeheadV2    | intensity_forehead   |
-| intensityForeheadV2    | double | 额头调整程度范围0.0-1.0，0-0.5是变小，0.5-1是变大 默认0.5    | intensity_forehead_v2   |
-| intensityNose        | double | 瘦鼻程度范围0.0-1.0 默认0.0                                  | intensity_nose       |
-| intensityMouth       | double | 嘴巴调整程度范围0.0-1.0，0-0.5是变大，0.5-1是变小 默认0.5，8.0.0版本之后使用intensityMouthV2    | intensity_mouth      |
-| intensityMouthV2       | double | 嘴巴调整程度范围0.0-1.0，0-0.5是变大，0.5-1是变小 默认0.5    | intensity_mouth_v2      |
+| eyeEnlarging         | double | 大眼程度范围0.0-1.0 1.0程度最强 默认0.0                     | eye_enlarging        |
+| intensityChin        | double | 下巴调整程度范围0.0-1.0，0.5-0.0是变小，0.5-1.0是变大 默认0.5    | intensity_chin       |
+| intensityForehead    | double | 额头调整程度范围0.0-1.0，0.5-0.0是变小，0.5-1.0是变大 默认0.5    | intensity_forehead   |
+| intensityNose        | double | 瘦鼻程度范围0.0-1.0 1.0程度最强 默认0.0                    | intensity_nose       |
+| intensityMouth       | double | 嘴巴调整程度范围0.0-1.0，0.5-0.0是变小，0.5-1.0是变大 默认0.5    | intensity_mouth      |
 | intensityCanthus     | double | 开眼角程度范围0.0~1.0 1.0程度最强 默认0.0                    | intensity_canthus    |
-| intensityEyeSpace    | double | 眼距调节范围0.0~1.0， 0.5-0.0变长，0.5-1.0变短 默认0.5       | intensity_eye_space  |
-| intensityEyeRotate   | double | 眼睛角度调节范围0.0~1.0， 0.5-0.0逆时针旋转，0.5-1.0顺时针旋转 默认0.5 | intensity_eye_rotate |
-| intensityLongNose    | double | 鼻子长度调节范围0.0~1.0， 0.5-0.0变长，0.5-1.0变短 默认0.5   | intensity_long_nose  |
-| intensityPhiltrum    | double | 人中调节范围0.0~1.0， 0.5-1.0变长，0.5-0.0变短 默认0.5       | intensity_philtrum   |
+| intensityEyeSpace    | double | 眼距调节范围0.0~1.0，0.5-0.0是变大，0.5-1.0是变小 默认0.5       | intensity_eye_space  |
+| intensityEyeRotate   | double | 眼睛角度调节范围0.0~1.0，0.5-0.0逆时针旋转，0.5-1.0顺时针旋转 默认0.5 | intensity_eye_rotate |
+| intensityLongNose    | double | 鼻子长度调节范围0.0~1.0，0.5-0.0是变长，0.5-1.0是变短 默认0.5   | intensity_long_nose  |
+| intensityPhiltrum    | double | 人中调节范围0.0~1.0，0.5-0.0是变短，0.5-1.0是变长， 默认0.5       | intensity_philtrum   |
 | intensitySmile       | double | 微笑嘴角程度范围0.0~1.0 1.0程度最强 默认0.0                  | intensity_smile      |
 | intensity_eye_circle | double | 圆眼程度范围0.0~1.0 1.0程度最强                              | intensity_eye_circle |
 
@@ -287,6 +266,53 @@ ____
 
 ----
 
+#### 2.5 美颜Mode FUBeauty (Mode) ####
+
+  * 2.5.1 接口说明
+  
+    ````objective-c
+    
+    /**
+    * 设置部分美颜属性的mode，不同mode会有主观上会有不同效果
+    * 必须在设置美颜各个属性值之前调用该接口
+    **/
+    - (void)setBeautyMode:(FUBeautyPropertyMode)mode forKey:(NSString *)key;
+    
+    ````
+    * 支持的key和mode说明
+    
+     | key      |   属性   |  支持的mode                                                        |
+     | ------------- | -------- | ------------------------------------------------------------ |
+     | color_level    |   美白  | FUBeautyPropertyMode1，FUBeautyPropertyMode2(v8.2.0)        |
+     | remove_pouch_strength     |   去黑眼圈    | FUBeautyPropertyMode1，FUBeautyPropertyMode2(v8.2.0，高性能设备推荐)    |
+     | remove_nasolabial_folds_strength     |    去法令纹   | FUBeautyPropertyMode1，FUBeautyPropertyMode2(v8.2.0，高性能设备推荐)        |
+     | cheek_narrow    |  窄脸   | FUBeautyPropertyMode1，FUBeautyPropertyMode2(v8.0.0)     |
+     | cheek_small  |  小脸   | FUBeautyPropertyMode1，FUBeautyPropertyMode2(v8.0.0)    |
+     | eye_enlarging    | 大眼  | FUBeautyPropertyMode1，FUBeautyPropertyMode2(v8.0.0)，FUBeautyPropertyMode3(v8.2.0，高性能设备推荐)        |
+     | intensity_forehead    |   额头   | FUBeautyPropertyMode1，FUBeautyPropertyMode2(v8.0.0)     |
+     | intensity_nose  |   瘦鼻   | FUBeautyPropertyMode1，FUBeautyPropertyMode2(v8.0.0)    |
+     | intensity_mouth    |   嘴型   | FUBeautyPropertyMode1，FUBeautyPropertyMode2(v8.0.0)，FUBeautyPropertyMode3(v8.2.0，高性能设备推荐)       |
+    
+
+----
+
+#### 2.6 美颜废弃属性 FUBeauty (Deprecated) ####
+
+----
+
+* 说明: 废弃属性原本用于兼容新老版本美颜效果，v8.2.0以后不建议使用，如需要老版本美颜效果，可以使用 setBeautyMode:forKey: 接口特殊设置
+
+| 属性名称             | 类型   | 说明                                                         |      
+| -------------------- | ------ | ------------------------------------------------------------ |
+| cheekNarrowV2            | double    | 窄脸 取值范围 0.0-1.0,  0.0为无效果，1.0为最大效果，默认值0.0 |
+| cheekSmallV2         | double    | 小脸 取值范围 0.0-1.0,  0.0为无效果，1.0为最大效果，默认值0.0  |
+| eyeEnlargingV2       | double | 大眼 取值范围 0.0-1.0,  0.0为无效果，1.0为最大效果，默认值0.0  |
+| intensityForeheadV2  | double | 额头 取值范围 0.0-1.0,  0.5-0是变小，0.5-1是变大，默认值0.5   |
+| intensityNoseV2      | double | 瘦鼻 取值范围 0.0-1.0,  0.0为无效果，1.0为最大效果，默认值0.0  |
+| intensityMouthV2     | double | 嘴型 取值范围 0.0-1.0,  0.5-0.0是变小，0.5-1.0是变大，默认值0.5  |
+
+----
+·   
 ___
 
 ### 3.0 美妆 （FUMakeup）
@@ -349,7 +375,7 @@ ___
     | blendTypePupil | int  | 美瞳的混合模式      | blend_type_tex_pupil    |
   
     
-    
+  
 * 3.4.0 妆容强度 FUMakeup (intensity)
 
   * 属性说明
@@ -403,7 +429,6 @@ ___
                  color2:(FUColor)color2
                  color3:(FUColor)color3;
     ```
-    
 
   * 3.6.0 人脸点位 FUMakeup (landMark)
 
@@ -434,7 +459,7 @@ ___
 * 4.2.0 轻美妆子妆图片 FULightMakeup (image)
 
   * 4.2.1 属性说明
-  
+
   | 属性说明          | 类型   | 说明     | key                       |
   | ----------------- | ------ | -------- | ------------------------- |
   | subEyebrowImage  | UIImage | 眉毛图片 | tex_brow  |
@@ -444,7 +469,6 @@ ___
   | subHightLightImage    | UIImage | 高光图片 | tex_highlight    |
   | subEyelinerImage  | UIImage | 眼线图片 | tex_eyeLiner  |
   | subBlusherImage  | UIImage | 腮红图片 | tex_blusher  |
-    
 
 * 4.3.0 轻美妆子妆强度 FULightMakeup (intensity)
 
@@ -597,7 +621,7 @@ ___
   无特殊设置项的道具直接使用此类实例化
 
   FUMusicFilter音乐滤镜、FUAnimoji 表情、FUGesture手势道具、FUAISegment 人像分割 用各自具体子类实例化
-    
+  
 
 ***
 

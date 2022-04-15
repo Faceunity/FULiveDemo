@@ -4,7 +4,7 @@
 ### 通过cocoapods集成
 
 ```
-pod 'FURenderKit', '8.1.0' 
+pod 'FURenderKit', '8.2.0' 
 ```
 
 接下来执行：
@@ -378,15 +378,15 @@ beauty.faceShapeLevel = 1.0;
 beauty.changeFrames = 0;
 beauty.faceShape = 4;
 
-beauty.eyeEnlargingV2 = 0.4;
+beauty.eyeEnlarging = 0.4;
 beauty.cheekThinning = 0.0;
 beauty.cheekV = 0.5;
-beauty.cheekNarrowV2 = 0;
-beauty.cheekShort = 0;
-beauty.cheekSmallV2 = 0;
-beauty.intensityNoseV2 = 0.5;
-beauty.intensityForeheadV2 = 0.3;
-beauty.intensityMouthV2 = 0.4;
+beauty.cheekNarrow = 0.0;
+beauty.cheekShort = 0.0;
+beauty.cheekSmall = 0.0;
+beauty.intensityNose = 0.5;
+beauty.intensityForehead = 0.3;
+beauty.intensityMouth = 0.4;
 beauty.intensityChin = 0.3;
 beauty.intensityPhiltrum = 0.5;
 beauty.intensityLongNose = 0.5;

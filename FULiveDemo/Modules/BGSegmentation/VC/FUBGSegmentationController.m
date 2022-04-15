@@ -12,7 +12,6 @@
 #import <CoreMotion/CoreMotion.h>
 #import "FUBGSegmentManager.h"
 #import "FUBGSaveModel.h"
-#import "FULiveDefine.h"
 #import "UIImage+FU.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 
@@ -48,41 +47,12 @@
     [self itemsViewDidSelectedItem:selectItem indexPath:nil];
     
     self.segmentManager.selectedItem = selectItem;
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willResignActive) name:UIApplicationWillResignActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
 
-}
-
--(void)setupView {
-    _itemsView = [[FUItemsView alloc] init];
-    _itemsView.delegate = self;
-    [self.view addSubview:_itemsView];
-    [_itemsView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view.mas_bottom);
-        make.left.right.equalTo(self.view);
-        if (iPhoneXStyle) {
-            make.height.mas_equalTo(84 + 34);
-        }else{
-            make.height.mas_equalTo(84);
-        }
-    }];
-    
-    
-    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-    UIVisualEffectView *effectview = [[UIVisualEffectView alloc] initWithEffect:blur];
-    effectview.alpha = 1.0;
-    [self.itemsView addSubview:effectview];
-    [self.itemsView sendSubviewToBack:effectview];
-    /* 磨玻璃 */
-    [effectview mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.bottom.equalTo(_itemsView);
-    }];
-    self.photoBtn.transform = CGAffineTransformMakeTranslation(0, -36) ;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
     /* 返回当前界面的时候，重新加载 */
     if (!self.itemsView.selectedItem) {
         self.itemsView.selectedItem = self.segmentManager.selectedItem;
@@ -95,6 +65,32 @@
             }
         }
     }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willResignActive) name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+}
+
+-(void)setupView {
+    self.itemsView = [[FUItemsView alloc] init];
+    self.itemsView.delegate = self;
+    [self.view addSubview:self.itemsView];
+    [self.itemsView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view.mas_bottom);
+        make.left.right.equalTo(self.view);
+        if (iPhoneXStyle) {
+            make.height.mas_equalTo(84 + 34);
+        }else{
+            make.height.mas_equalTo(84);
+        }
+    }];
+    
+    self.photoBtn.transform = CGAffineTransformMakeTranslation(0, -36) ;
 }
 
 
@@ -229,6 +225,19 @@
             model.type = FUBGSaveModelTypeVideo;
             model.url = videoURL;
 
+//            [self.itemsView startAnimation];
+//            __weak typeof(self) weak = self;
+//            [self.segmentManager loadItem:CUSTOMBG completion:^(BOOL finished) {
+//                [weak.itemsView stopAnimation];
+//                weak.segmentManager.segment.videoPath = model.url;
+//                UIImage *image = [weak.segmentManager.segment readFirstFrame];
+//                if (image) {
+//                    [weak saveImg:image withName:CUSTOMBG];
+//                    model.iconImage = image;
+//                    [weak.segmentManager saveModel: model];
+//                    [weak.itemsView reloadData];
+//                }
+//            }];
         } else if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) { //照片
             
             UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
@@ -269,13 +278,13 @@
         return nil;
     }
     NSData *imagedata=UIImagePNGRepresentation(image);
-    NSString *savedImagePath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imgName]];
+    NSString *savedImagePath = [FUDocumentPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imgName]];
     [imagedata writeToFile:savedImagePath atomically:YES];
     return savedImagePath;
 }
 
 - (UIImage *)loadImageWithName:(NSString *)imgName {
-    NSString *imagePath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imgName]];
+    NSString *imagePath = [FUDocumentPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imgName]];
     
     UIImage *img = [UIImage imageWithContentsOfFile:imagePath];
     return img;
@@ -283,7 +292,7 @@
 
 
 - (void)removeCacheImage:(NSString *)imgName {
-    NSString *imagePath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imgName]];
+    NSString *imagePath = [FUDocumentPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imgName]];
     if ([[NSFileManager defaultManager] fileExistsAtPath:imagePath]) {
         [[NSFileManager defaultManager] removeItemAtPath:imagePath error:nil];
     }
@@ -301,8 +310,6 @@
 
 -(void)dealloc{
     NSLog(@"dealloc--------");
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 @end

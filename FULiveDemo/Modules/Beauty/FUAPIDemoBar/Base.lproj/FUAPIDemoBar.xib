@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -167,16 +167,6 @@
                                 <inset key="sectionInset" minX="16" minY="16" maxX="16" maxY="6"/>
                             </collectionViewFlowLayout>
                         </collectionView>
-                        <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="HbK-4s-bX2" customClass="FUFaceCollection">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="48"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="16" minimumInteritemSpacing="16" id="Mq9-8E-OvE">
-                                <size key="itemSize" width="36" height="30"/>
-                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                <inset key="sectionInset" minX="20" minY="2" maxX="20" maxY="1"/>
-                            </collectionViewFlowLayout>
-                        </collectionView>
                         <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Oz7-LF-H3c" customClass="FUBeautyView">
                             <rect key="frame" x="76" y="48" width="299" height="98"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -206,21 +196,18 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.59773651539999995" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstItem="yzS-kB-xDl" firstAttribute="centerY" secondItem="HbK-4s-bX2" secondAttribute="centerY" constant="10" id="29d-xs-BVJ"/>
-                        <constraint firstAttribute="trailing" secondItem="HbK-4s-bX2" secondAttribute="trailing" id="3Eu-JI-DXN"/>
                         <constraint firstAttribute="trailing" secondItem="yzS-kB-xDl" secondAttribute="trailing" constant="56" id="3rH-56-rgP"/>
                         <constraint firstItem="nic-eP-luj" firstAttribute="centerY" secondItem="uvW-i0-quc" secondAttribute="centerY" id="6RG-T2-O3o"/>
                         <constraint firstItem="VKT-X8-6nB" firstAttribute="leading" secondItem="EDc-v0-QNc" secondAttribute="leading" id="6qQ-D2-XVO"/>
                         <constraint firstItem="jmd-m9-e5R" firstAttribute="leading" secondItem="EDc-v0-QNc" secondAttribute="leading" id="7OI-5Q-zSd"/>
                         <constraint firstItem="keK-XP-1fD" firstAttribute="leading" secondItem="nic-eP-luj" secondAttribute="trailing" constant="14" id="BKp-Io-udg"/>
                         <constraint firstAttribute="trailing" secondItem="Oz7-LF-H3c" secondAttribute="trailing" id="H8Q-V2-GlT"/>
-                        <constraint firstItem="HbK-4s-bX2" firstAttribute="leading" secondItem="EDc-v0-QNc" secondAttribute="leading" id="JCz-9x-rsp"/>
                         <constraint firstItem="VSF-ei-fYl" firstAttribute="leading" secondItem="EDc-v0-QNc" secondAttribute="leading" id="LCV-VT-qx5"/>
                         <constraint firstAttribute="trailing" secondItem="VKT-X8-6nB" secondAttribute="trailing" id="PuA-oA-UqF"/>
-                        <constraint firstItem="VSF-ei-fYl" firstAttribute="top" secondItem="HbK-4s-bX2" secondAttribute="bottom" id="Wut-5s-e2a"/>
                         <constraint firstItem="nic-eP-luj" firstAttribute="leading" secondItem="EDc-v0-QNc" secondAttribute="leading" constant="17" id="XO7-9b-SO7"/>
                         <constraint firstAttribute="trailing" secondItem="uvW-i0-quc" secondAttribute="trailing" id="aIO-2e-Q4K"/>
                         <constraint firstItem="jmd-m9-e5R" firstAttribute="centerY" secondItem="nic-eP-luj" secondAttribute="centerY" id="caT-0v-Xla"/>
+                        <constraint firstItem="yzS-kB-xDl" firstAttribute="top" secondItem="EDc-v0-QNc" secondAttribute="top" constant="19" id="ekN-L8-0Dn"/>
                         <constraint firstAttribute="bottom" secondItem="Oz7-LF-H3c" secondAttribute="bottom" id="gZz-vl-w13"/>
                         <constraint firstAttribute="bottom" secondItem="VKT-X8-6nB" secondAttribute="bottom" id="ga3-bn-VYs"/>
                         <constraint firstAttribute="trailing" secondItem="jmd-m9-e5R" secondAttribute="trailing" id="hO8-la-mND"/>
@@ -228,7 +215,6 @@
                         <constraint firstAttribute="bottom" secondItem="uvW-i0-quc" secondAttribute="bottom" id="jTn-NJ-idr"/>
                         <constraint firstItem="keK-XP-1fD" firstAttribute="top" secondItem="nic-eP-luj" secondAttribute="top" constant="10" id="l1H-Tv-MoK"/>
                         <constraint firstAttribute="bottom" secondItem="VSF-ei-fYl" secondAttribute="bottom" id="ls2-kr-8Ea"/>
-                        <constraint firstItem="HbK-4s-bX2" firstAttribute="top" secondItem="EDc-v0-QNc" secondAttribute="top" id="lsy-1k-K0c"/>
                         <constraint firstAttribute="bottom" secondItem="jmd-m9-e5R" secondAttribute="bottom" id="mb3-md-kue"/>
                         <constraint firstItem="uvW-i0-quc" firstAttribute="leading" secondItem="EDc-v0-QNc" secondAttribute="leading" constant="76" id="nvc-o4-0hC"/>
                         <constraint firstAttribute="height" constant="146" id="pCb-78-8CE"/>

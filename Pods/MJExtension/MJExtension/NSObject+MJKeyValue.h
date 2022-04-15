@@ -47,6 +47,10 @@
  */
 + (NSDictionary *)mj_objectClassInArray;
 
+
+/** 特殊地区在字符串格式化数字时使用 */
++ (NSLocale *)mj_numberLocale;
+
 /**
  *  旧值换新值，用于过滤字典中的值
  *
@@ -59,12 +63,16 @@
 /**
  *  当字典转模型完毕时调用
  */
-- (void)mj_keyValuesDidFinishConvertingToObject;
+- (void)mj_keyValuesDidFinishConvertingToObject MJExtensionDeprecated("请使用`mj_didConvertToObjectWithKeyValues:`替代");
+- (void)mj_keyValuesDidFinishConvertingToObject:(NSDictionary *)keyValues MJExtensionDeprecated("请使用`mj_didConvertToObjectWithKeyValues:`替代");
+- (void)mj_didConvertToObjectWithKeyValues:(NSDictionary *)keyValues;
 
 /**
  *  当模型转字典完毕时调用
  */
-- (void)mj_objectDidFinishConvertingToKeyValues;
+- (void)mj_objectDidFinishConvertingToKeyValues MJExtensionDeprecated("请使用`mj_objectDidConvertToKeyValues:`替代");
+- (void)mj_objectDidConvertToKeyValues:(NSMutableDictionary *)keyValues;
+
 @end
 
 @interface NSObject (MJKeyValue) <MJKeyValue>
@@ -183,43 +191,4 @@
  *  转换为JSON 字符串
  */
 - (NSString *)mj_JSONString;
-@end
-
-@interface NSObject (MJKeyValueDeprecated_v_2_5_16)
-- (instancetype)setKeyValues:(id)keyValue MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-- (instancetype)setKeyValues:(id)keyValues error:(NSError **)error MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-- (instancetype)setKeyValues:(id)keyValues context:(NSManagedObjectContext *)context MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-- (instancetype)setKeyValues:(id)keyValues context:(NSManagedObjectContext *)context error:(NSError **)error MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-+ (void)referenceReplacedKeyWhenCreatingKeyValues:(BOOL)reference MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-- (NSMutableDictionary *)keyValues MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-- (NSMutableDictionary *)keyValuesWithError:(NSError **)error MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-- (NSMutableDictionary *)keyValuesWithKeys:(NSArray *)keys MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-- (NSMutableDictionary *)keyValuesWithKeys:(NSArray *)keys error:(NSError **)error MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-- (NSMutableDictionary *)keyValuesWithIgnoredKeys:(NSArray *)ignoredKeys MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-- (NSMutableDictionary *)keyValuesWithIgnoredKeys:(NSArray *)ignoredKeys error:(NSError **)error MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-+ (NSMutableArray *)keyValuesArrayWithObjectArray:(NSArray *)objectArray MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-+ (NSMutableArray *)keyValuesArrayWithObjectArray:(NSArray *)objectArray error:(NSError **)error MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-+ (NSMutableArray *)keyValuesArrayWithObjectArray:(NSArray *)objectArray keys:(NSArray *)keys MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-+ (NSMutableArray *)keyValuesArrayWithObjectArray:(NSArray *)objectArray keys:(NSArray *)keys error:(NSError **)error MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-+ (NSMutableArray *)keyValuesArrayWithObjectArray:(NSArray *)objectArray ignoredKeys:(NSArray *)ignoredKeys MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-+ (NSMutableArray *)keyValuesArrayWithObjectArray:(NSArray *)objectArray ignoredKeys:(NSArray *)ignoredKeys error:(NSError **)error MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-+ (instancetype)objectWithKeyValues:(id)keyValues MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-+ (instancetype)objectWithKeyValues:(id)keyValues error:(NSError **)error MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-+ (instancetype)objectWithKeyValues:(id)keyValues context:(NSManagedObjectContext *)context MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-+ (instancetype)objectWithKeyValues:(id)keyValues context:(NSManagedObjectContext *)context error:(NSError **)error MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-+ (instancetype)objectWithFilename:(NSString *)filename MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-+ (instancetype)objectWithFilename:(NSString *)filename error:(NSError **)error MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-+ (instancetype)objectWithFile:(NSString *)file MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-+ (instancetype)objectWithFile:(NSString *)file error:(NSError **)error MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-+ (NSMutableArray *)objectArrayWithKeyValuesArray:(id)keyValuesArray MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-+ (NSMutableArray *)objectArrayWithKeyValuesArray:(id)keyValuesArray error:(NSError **)error MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-+ (NSMutableArray *)objectArrayWithKeyValuesArray:(id)keyValuesArray context:(NSManagedObjectContext *)context MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-+ (NSMutableArray *)objectArrayWithKeyValuesArray:(id)keyValuesArray context:(NSManagedObjectContext *)context error:(NSError **)error MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-+ (NSMutableArray *)objectArrayWithFilename:(NSString *)filename MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-+ (NSMutableArray *)objectArrayWithFilename:(NSString *)filename error:(NSError **)error MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-+ (NSMutableArray *)objectArrayWithFile:(NSString *)file MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-+ (NSMutableArray *)objectArrayWithFile:(NSString *)file error:(NSError **)error MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-- (NSData *)JSONData MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-- (id)JSONObject MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-- (NSString *)JSONString MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
 @end

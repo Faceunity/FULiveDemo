@@ -239,5 +239,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) BOOL bodyTrackEnable;
 
+@property (nonatomic, assign) int humanProcessorType;   // 身体数据的来源类型
+
 @end
 NS_ASSUME_NONNULL_END

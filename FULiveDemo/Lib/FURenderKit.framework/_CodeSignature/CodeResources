@@ -6,15 +6,15 @@
 	<dict>
 		<key>FURenderKit快速集成文档.md</key>
 		<data>
-		q44ETuybTfA31OMiQbzYb5XAtjA=
+		rmM7aej46+2PiasPWftIO1d09p8=
 		</data>
 		<key>Headers/CNamaSDK.h</key>
 		<data>
-		m/FysMa/ienPWBs9bBYOKzwP8iY=
+		IAmz7NNPaWbsMVXcfZn6xPFt64s=
 		</data>
 		<key>Headers/FUAIConfig.h</key>
 		<data>
-		Qzqyj5LdSa1hGLEI+9rYi65mKu0=
+		hOtKXkMqlBnCGFFoMp7FotV/+w4=
 		</data>
 		<key>Headers/FUAIKit.h</key>
 		<data>
@@ -38,7 +38,7 @@
 		</data>
 		<key>Headers/FUAvatar.h</key>
 		<data>
-		cSmQfvRsr6AoStC0iK7Repnfqjg=
+		5KUCYHnBWWwuSTEoa0KOd7bcFK4=
 		</data>
 		<key>Headers/FUAvatarCheck.h</key>
 		<data>
@@ -56,9 +56,17 @@
 		<data>
 		A8X4vM2umtY6vFOsLKg8RcGILGs=
 		</data>
+		<key>Headers/FUBeauty-Deprecated.h</key>
+		<data>
+		9YNFH0kdV6XbRthYAZxt//aEYw0=
+		</data>
 		<key>Headers/FUBeauty.h</key>
 		<data>
-		TC5HiL/QWYB93HLk3td16iI/dsw=
+		J/WulV113ckbL+Y482iMf0W5QjI=
+		</data>
+		<key>Headers/FUBeautyPropertyModeDefine.h</key>
+		<data>
+		Im+2rZsoskmSiSNO8fvk5hobwWU=
 		</data>
 		<key>Headers/FUBodyBeauty.h</key>
 		<data>
@@ -130,7 +138,7 @@
 		</data>
 		<key>Headers/FUGreenScreen.h</key>
 		<data>
-		nfkYrJ8wmjBRXyFft2K7/vnWubQ=
+		HH8rjMXVcAbylis4sbtzsMnFuHk=
 		</data>
 		<key>Headers/FUGroupAnimation.h</key>
 		<data>
@@ -146,7 +154,7 @@
 		</data>
 		<key>Headers/FUImageHelper.h</key>
 		<data>
-		pgRt5BAPvmCPE8nG1zP4t15cXBw=
+		VnepRbqiiFUxZgbW0wa8TKKayc8=
 		</data>
 		<key>Headers/FUInternalCameraSetting.h</key>
 		<data>
@@ -228,9 +236,13 @@
 		<data>
 		D3gW0h3REmwvadsyoovqVm4jvXA=
 		</data>
+		<key>Headers/FURenderKit-umbrella.h</key>
+		<data>
+		sHn14uVPGqvwXqgRbWiPXNAezts=
+		</data>
 		<key>Headers/FURenderKit.h</key>
 		<data>
-		eIatOWPrtj/4l5XFgpxm/PnUJTY=
+		tvwjfejCkKRe+s23bQO57y1xdHI=
 		</data>
 		<key>Headers/FURenderableObject.h</key>
 		<data>
@@ -278,11 +290,11 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		5ozKucq7Au2L06a6ibS+tvmMWkk=
+		S6mRcT+MMjdwDdbvIydr0/0oMX4=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
-		6SWWbdVJPfVvt957XaZ8c1DKu6E=
+		QwpXYLIfGBdchGR8ZTh78o/lrpM=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -291,33 +303,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			q44ETuybTfA31OMiQbzYb5XAtjA=
+			rmM7aej46+2PiasPWftIO1d09p8=
 			</data>
 			<key>hash2</key>
 			<data>
-			Qb1JDIt2lnA2dl87DqYle+AMESEoUULlQY6lT03UNY0=
+			qsbsgy52xRC+fnqx+GgJlqxFgC1IYQQ6sDsAtOQ+tEA=
 			</data>
 		</dict>
 		<key>Headers/CNamaSDK.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			m/FysMa/ienPWBs9bBYOKzwP8iY=
+			IAmz7NNPaWbsMVXcfZn6xPFt64s=
 			</data>
 			<key>hash2</key>
 			<data>
-			0rRO2H1dcmi+4YpphWL48uyAYN/f3M4Z74FgkpGhEZY=
+			hvl4RV7sGL5KLqVzV1aiUP+rUY3xmj3KK9JKzagXqcE=
 			</data>
 		</dict>
 		<key>Headers/FUAIConfig.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Qzqyj5LdSa1hGLEI+9rYi65mKu0=
+			hOtKXkMqlBnCGFFoMp7FotV/+w4=
 			</data>
 			<key>hash2</key>
 			<data>
-			3t2mVksPK9b8yXKqSUgN/c0lFtIo8sJxukEZTY6HP1s=
+			qjOdnP2Qc6l+7qDRxmsTD+atJe5UM05RpEgH3VZYJ20=
 			</data>
 		</dict>
 		<key>Headers/FUAIKit.h</key>
@@ -379,11 +391,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			cSmQfvRsr6AoStC0iK7Repnfqjg=
+			5KUCYHnBWWwuSTEoa0KOd7bcFK4=
 			</data>
 			<key>hash2</key>
 			<data>
-			sXTEeP1U4tldis4r+zCFBBNcRgecI0v2F8+q9ltdvIE=
+			hRrcQLqQWQRKFDyEJEyi7jrO5j/+HTJH/OUqq5VNG3U=
 			</data>
 		</dict>
 		<key>Headers/FUAvatarCheck.h</key>
@@ -430,15 +442,37 @@
 			RxqY/FOC9zGkdDxfsONjansxWWw1TLXVXmbpq5DuTVE=
 			</data>
 		</dict>
+		<key>Headers/FUBeauty-Deprecated.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			9YNFH0kdV6XbRthYAZxt//aEYw0=
+			</data>
+			<key>hash2</key>
+			<data>
+			7hkHDYupuD1xC7X9ZbGeHkoB4Va8Ba8cjSev3axCkak=
+			</data>
+		</dict>
 		<key>Headers/FUBeauty.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			TC5HiL/QWYB93HLk3td16iI/dsw=
+			J/WulV113ckbL+Y482iMf0W5QjI=
 			</data>
 			<key>hash2</key>
 			<data>
-			XYq30Ktxq1278UafY/14a8d5PnMi20nbzPj+5Z/TXHU=
+			5Bn3/64UWxu8WWgnb9PvR9qCs1XTtB+ZQ0N/EE2ud2g=
+			</data>
+		</dict>
+		<key>Headers/FUBeautyPropertyModeDefine.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Im+2rZsoskmSiSNO8fvk5hobwWU=
+			</data>
+			<key>hash2</key>
+			<data>
+			Venw7JgkkpYnGP0Z9/d+Ym1DPP47/8d+n/jKzZl6/Iw=
 			</data>
 		</dict>
 		<key>Headers/FUBodyBeauty.h</key>
@@ -632,11 +666,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			nfkYrJ8wmjBRXyFft2K7/vnWubQ=
+			HH8rjMXVcAbylis4sbtzsMnFuHk=
 			</data>
 			<key>hash2</key>
 			<data>
-			cg8163uCkAY1ZiBjfJy9UUM8zeLvSnzX8KoetIvVDMw=
+			Ovt6fDG6fSwdMLjP94r1RJNeTWWuiM2EqQ93a1bcCoE=
 			</data>
 		</dict>
 		<key>Headers/FUGroupAnimation.h</key>
@@ -676,11 +710,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			pgRt5BAPvmCPE8nG1zP4t15cXBw=
+			VnepRbqiiFUxZgbW0wa8TKKayc8=
 			</data>
 			<key>hash2</key>
 			<data>
-			ttM0r8uPs1snOfLr5W8r+Oh1B7gZm7aFPjF2QIBro0s=
+			q2qzVfo0bMpfviwTMxxy4acBUWq+luro1z5bKSKSTgo=
 			</data>
 		</dict>
 		<key>Headers/FUInternalCameraSetting.h</key>
@@ -903,15 +937,26 @@
 			YAVmPEUS5S5gtA8pssysxQTe82T6GDcXSjkeyVCFeAQ=
 			</data>
 		</dict>
+		<key>Headers/FURenderKit-umbrella.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			sHn14uVPGqvwXqgRbWiPXNAezts=
+			</data>
+			<key>hash2</key>
+			<data>
+			/r+f2yjCCrMnYnKobRW5NKmqiccyy4M3yO8qqhGHgNg=
+			</data>
+		</dict>
 		<key>Headers/FURenderKit.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			eIatOWPrtj/4l5XFgpxm/PnUJTY=
+			tvwjfejCkKRe+s23bQO57y1xdHI=
 			</data>
 			<key>hash2</key>
 			<data>
-			/3L3tnPfCudqj+HyLKlbvrzFz31d22y8EFXOrpQYSIY=
+			i/upWm7ZTyvj8fkrBIiJOoTjB2oBQemxIOrw3JOaOOU=
 			</data>
 		</dict>
 		<key>Headers/FURenderableObject.h</key>
@@ -1039,11 +1084,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			6SWWbdVJPfVvt957XaZ8c1DKu6E=
+			QwpXYLIfGBdchGR8ZTh78o/lrpM=
 			</data>
 			<key>hash2</key>
 			<data>
-			RY796HYS10l/iVOBTk12HZ7qgI9EAB3oQG5Yx3JyLig=
+			e6eY+WRmqPmJtlaNJ5wWxxyNYGWhpD+7kfHEVxrwxIc=
 			</data>
 		</dict>
 	</dict>

@@ -1,0 +1,6 @@
+framework module Pods_FULiveDemo {
+  umbrella header "Pods-FULiveDemo-umbrella.h"
+
+  export *
+  module * { export * }
+}

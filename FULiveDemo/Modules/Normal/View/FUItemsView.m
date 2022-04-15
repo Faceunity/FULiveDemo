@@ -23,7 +23,9 @@
     if (self) {
 //        self.backgroundColor = [UIColor colorWithRed:5/255.0 green:15/255.0 blue:20/255.0 alpha:0.6];
         [_collection registerNib:[UINib nibWithNibName:@"FUItemsViewCell" bundle:nil] forCellWithReuseIdentifier:@"FUItemsViewCell"];
-        loading = NO ;
+        loading = NO;
+        
+        [self addBlurEffect];
     }
     return self ;
 }
@@ -34,7 +36,9 @@
 //        self.backgroundColor = [UIColor colorWithRed:5/255.0 green:15/255.0 blue:20/255.0 alpha:0.6];
         [self setupCollectionView];
         [_collection registerNib:[UINib nibWithNibName:@"FUItemsViewCell" bundle:nil] forCellWithReuseIdentifier:@"FUItemsViewCell"];
-        loading = NO ;
+        loading = NO;
+        
+        [self addBlurEffect];
     }
     return self;
 }
@@ -50,6 +54,17 @@
     _collection.showsHorizontalScrollIndicator = NO;
     
     [self addSubview:_collection];
+}
+
+- (void)addBlurEffect {
+    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    UIVisualEffectView *effectview = [[UIVisualEffectView alloc] initWithEffect:blur];
+    effectview.alpha = 1.0;
+    [self addSubview:effectview];
+    [self sendSubviewToBack:effectview];
+    [effectview mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
 }
 
 -(void)updateCollectionArray:(NSArray *)itemArray{
@@ -120,7 +135,7 @@
     if (imageName == self.selectedItem) {
         
         return ;
-    }
+    }    
     
     self.selectedItem = imageName ;
 
@@ -159,7 +174,7 @@
 
 
 -(UIImage *)loadImageWithName:(NSString *)imgName{
-    NSString *imagePath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imgName]];
+    NSString *imagePath = [FUDocumentPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imgName]];
     
     UIImage *img = [UIImage imageWithContentsOfFile:imagePath];
     return img;

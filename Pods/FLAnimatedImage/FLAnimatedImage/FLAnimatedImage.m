@@ -3,13 +3,17 @@
 //  Flipboard
 //
 //  Created by Raphael Schaad on 7/8/13.
-//  Copyright (c) 2013-2015 Flipboard. All rights reserved.
+//  Copyright (c) Flipboard. All rights reserved.
 //
 
 
 #import "FLAnimatedImage.h"
 #import <ImageIO/ImageIO.h>
+#if __has_include(<MobileCoreServices/MobileCoreServices.h>)
 #import <MobileCoreServices/MobileCoreServices.h>
+#else
+#import <CoreServices/CoreServices.h>
+#endif
 
 
 // From vm_param.h, define for iOS 8.0 or higher to build on device.
@@ -299,7 +303,7 @@ static NSHashTable *allAnimatedImagesWeak;
                     CFRelease(frameImageRef);
                 } else {
                     skippedFrameCount++;
-                    FLLog(FLLogLevelInfo, @"Dropping frame %zu because failed to `CGImageSourceCreateImageAtIndex` with image source %@", i, _imageSource);
+                    FLLog(FLLogLevelInfo, @"Dropping frame %zu because failed to `CGImageSourceCreateImageAtIndex` with image source %@", i, self->_imageSource);
                 }
             }
         }

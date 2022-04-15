@@ -8,14 +8,14 @@
 
 #import "FULandmarkManager.h"
 
-#import <FURenderKit/FURenderKit.h>
+#import <FURenderKit/FUFacialFeatures.h>
 
 /// 设置是否显示点位开关，默认为NO
 BOOL const FUShowLandmark = NO;
 
 @interface FULandmarkManager ()
 
-@property (nonatomic, strong) FUSticker *landmarksItem;
+@property (nonatomic, strong) FUFacialFeatures *landmarksItem;
 
 @end
 
@@ -25,14 +25,18 @@ BOOL const FUShowLandmark = NO;
     static FULandmarkManager *landmarkView;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        landmarkView = [[self alloc] initWithFrame:CGRectMake(10, CGRectGetHeight([UIApplication sharedApplication].statusBarFrame) + 60, 50, 30)];
+        CGFloat top = 0;
+        if (@available(iOS 11.0, *)) {
+            top = [UIApplication sharedApplication].delegate.window.safeAreaInsets.top;
+        }
+        landmarkView = [[self alloc] initWithFrame:CGRectMake(10, top + 60, 50, 30)];
     });
     [landmarkView addTarget:self action:@selector(landmarkSwitchAction:) forControlEvents:UIControlEventValueChanged];
     return landmarkView;
 }
 
 + (void)show {
-    [[UIApplication sharedApplication].keyWindow addSubview:[self shared]];
+    [[UIApplication sharedApplication].delegate.window addSubview:[self shared]];
 }
 
 + (void)dismiss {
@@ -51,10 +55,11 @@ BOOL const FUShowLandmark = NO;
     }
 }
 
-- (FUSticker *)landmarksItem {
+- (FUFacialFeatures *)landmarksItem {
     if (!_landmarksItem) {
         NSString *path = [[NSBundle mainBundle] pathForResource:@"landmarks" ofType:@"bundle"];
-        _landmarksItem = [[FUSticker alloc] initWithPath:path name:@"landmarks"];
+        _landmarksItem = [[FUFacialFeatures alloc] initWithPath:path name:@"landmarks"];
+        _landmarksItem.landmarksType = FUAITYPE_FACELANDMARKS239;
     }
     return _landmarksItem;
 }

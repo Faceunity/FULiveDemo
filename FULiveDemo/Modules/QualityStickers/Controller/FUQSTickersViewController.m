@@ -9,7 +9,7 @@
 #import "FUQStickersViewController.h"
 #import "FUStickersPageController.h"
 
-#import "FUQuatilyStickerSegmentsView.h"
+#import "FUSegmentBar.h"
 
 #import "FUStickerModel.h"
 
@@ -23,14 +23,14 @@
 static NSString * const kFUStickerTagsKey = @"FUStickerTags";
 static NSString * const kFUStickerContentCollectionCellIdentifier = @"FUStickerContentCollectionCell";
 
-@interface FUQStickersViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, FUStickersPageControllerDelegate, FUQualityStickerSegmentsViewDelegate>
+@interface FUQStickersViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, FUStickersPageControllerDelegate, FUSegmentBarDelegate>
 
 @property (nonatomic, strong) UIView *bottomView;
 @property (nonatomic, strong) UICollectionView *contentCollectionView;
 @property (nonatomic, strong) UIView *bottom;
 /// 取消效果按钮
 @property (nonatomic, strong) UIButton *cancelStickerButton;
-@property (nonatomic, strong) FUQuatilyStickerSegmentsView *segmentsView;
+@property (nonatomic, strong) FUSegmentBar *segmentsView;
 
 @property (nonatomic, copy) NSArray<NSString *> *tags;
 @property (nonatomic, strong) NSMutableArray<FUStickersPageController *> *stickerControllers;
@@ -107,7 +107,7 @@ static NSString * const kFUStickerContentCollectionCellIdentifier = @"FUStickerC
         make.bottom.equalTo(self.bottom.mas_top);
     }];
     
-    [self.segmentsView selectSegmentItemAtIndex:_selectedIndex];
+    self.segmentsView.selectedIndex = _selectedIndex;
 }
 
 #pragma mark - Private methods
@@ -192,8 +192,11 @@ static NSString * const kFUStickerContentCollectionCellIdentifier = @"FUStickerC
 -(void)headButtonViewBackAction:(UIButton *)btn {
     // 取消所有下载任务
     [FUStickerHelper cancelStickerHTTPTasks];
+    [self.qualityStickerManager cancelDownloadingTasks];
     [self.qualityStickerManager releaseItem];
     [super headButtonViewBackAction:btn];
+    
+    [FURenderKit clear];
 }
 
 - (void)cancelStickerAction {
@@ -205,9 +208,9 @@ static NSString * const kFUStickerContentCollectionCellIdentifier = @"FUStickerC
 }
 
 
-#pragma mark - FUQualityStickerSegmentsViewDelegate
+#pragma mark - FUSegmentBarDelegate
 
-- (void)qualityStickerSegmentsView:(FUQuatilyStickerSegmentsView *)segmentsView didSelectItemAtIndex:(NSUInteger)index {
+- (void)segmentBar:(FUSegmentBar *)segmentsView didSelectItemAtIndex:(NSUInteger)index {
     [self selectSegmentBarWithIndex:index];
 }
 
@@ -232,7 +235,7 @@ static NSString * const kFUStickerContentCollectionCellIdentifier = @"FUStickerC
             [self.baseManager setMaxFaces:4];
         }
         
-        [self.qualityStickerManager loadItemWithModel:sticker];
+        [self.qualityStickerManager loadItem:sticker];
         if (sticker.type == FUQualityStickerTypeAvatar) {
             // 自动隐藏选择视图
             [self changeStickerViewStatus:NO];
@@ -262,7 +265,7 @@ static NSString * const kFUStickerContentCollectionCellIdentifier = @"FUStickerC
         if (index < 0 || index >= self.tags.count) {
             return;
         }
-        [self.segmentsView selectSegmentItemAtIndex:index];
+        self.segmentsView.selectedIndex = index;
         _selectedIndex = index;
         
     }
@@ -277,7 +280,7 @@ static NSString * const kFUStickerContentCollectionCellIdentifier = @"FUStickerC
         UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
         UIVisualEffectView *effectview = [[UIVisualEffectView alloc] initWithEffect:blur];
         effectview.alpha = 1.0;
-        effectview.frame = CGRectMake(0, 0, CGRectGetWidth(_bottomView.frame), CGRectGetHeight(_bottomView.frame));
+        effectview.frame = CGRectMake(0, 0, CGRectGetWidth(_bottomView.frame), 182);
         [_bottomView insertSubview:effectview atIndex:0];
     }
     return _bottomView;
@@ -286,7 +289,7 @@ static NSString * const kFUStickerContentCollectionCellIdentifier = @"FUStickerC
 - (UIView *)bottom {
     if (!_bottom) {
         _bottom = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), iPhoneXStyle ? 83 : 49)];
-        _bottom.backgroundColor = [UIColor colorWithRed:5/255.0 green:15/255.0 blue:20/255.0 alpha:0.74];
+        _bottom.backgroundColor = [UIColor colorWithRed:5/255.0 green:15/255.0 blue:20/255.0 alpha:1];
         
         [_bottom addSubview:self.cancelStickerButton];
         [self.cancelStickerButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -332,10 +335,10 @@ static NSString * const kFUStickerContentCollectionCellIdentifier = @"FUStickerC
     return _cancelStickerButton;
 }
 
-- (FUQuatilyStickerSegmentsView *)segmentsView {
+- (FUSegmentBar *)segmentsView {
     if (!_segmentsView) {
-        _segmentsView = [[FUQuatilyStickerSegmentsView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame) - 57, 49) titles:self.tags configuration:[FUQuatilyStickerSegmentsConfigurations new]];
-        _segmentsView.quatilyStickerSegmentsDelegate = self;
+        _segmentsView = [[FUSegmentBar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame) - 57, 49) titles:self.tags configuration:[FUSegmentBarConfigurations new]];
+        _segmentsView.segmentDelegate = self;
     }
     return _segmentsView;
 }
@@ -365,6 +368,7 @@ static NSString * const kFUStickerContentCollectionCellIdentifier = @"FUStickerC
         _stickerControllers = [[NSMutableArray alloc] init];
         for (NSString *tag in self.tags) {
             FUStickersPageController *stickerController = [[FUStickersPageController alloc] initWithTag:tag];
+            stickerController.qualityStickerManager = self.qualityStickerManager;
             stickerController.delegate = self;
             [_stickerControllers addObject:stickerController];
         }

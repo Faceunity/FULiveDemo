@@ -9,7 +9,6 @@
 #import "FULightMakeupManager.h"
 #import "FULightModel.h"
 #import "FULocalDataManager.h"
-#import <MJExtension/NSObject+MJKeyValue.h>
 
 @interface FULightMakeupManager ()
 @property (nonatomic, strong) NSArray <FULightModel *> *dataArray;
@@ -46,18 +45,12 @@
 //设置子妆整体，包括图片、程度值
 - (void)setSingModel:(FUSingleLightMakeupModel *)model {
     //程度值
-    [self setIntensity:model.realValue type:model.makeType];
-//    if (model.makeType == MAKEUPTYPE_Lip) {
-//        self.lightMakeup.lipType = model.lip_type;
-//        self.lightMakeup.isTwoColor = model.is_two_color == 1?YES:NO;
-//        FUColor color = [self FUColorTransformWithValues:model.colorStrV];
-//        self.lightMakeup.makeUpLipColor = color;
-//    }
+    [self setIntensity:model.realValue type:model.type];
     
-    if (model.makeType == MAKEUPTYPE_Lip) {
-        self.lightMakeup.lipType = model.lip_type;
-        self.lightMakeup.isTwoColor = model.is_two_color==1?YES:NO;
-        NSArray *values = model.colorStrV;
+    if (model.type == FUSingleMakeupTypeLip) {
+        self.lightMakeup.lipType = model.lipType;
+        self.lightMakeup.isTwoColor = model.isTwoColorLip;
+        NSArray *values = model.colorsArray;
         if (values.count > 3) {
             FUColor color = FUColorMake([values[0] doubleValue], [values[1] doubleValue], [values[2] doubleValue], [values[3] doubleValue]);;
             self.lightMakeup.makeUpLipColor = color;
@@ -65,41 +58,41 @@
     }
     
     //图片
-    [self setImage:model.namaBundle type:model.namaBundleKey];
+    [self setImage:model.bundleName type:model.type];
 }
 
 //单独设置子妆设置强度值
 - (void)setIntensityWithModel:(FUSingleLightMakeupModel *)model {
-    [self setIntensity:model.realValue type:model.makeType];
+    [self setIntensity:model.realValue type:model.type];
 }
 
 //设置图片
-- (void)setImage:(NSString *)imageName type:(LIGHTMAKEUPIMAGETYPE)type {
+- (void)setImage:(NSString *)imageName type:(FUSingleMakeupType)type {
     if (!imageName) {
         NSLog(@"%@:%s图片名称不正确",self.class,__func__);
         return ;
     }
     UIImage *image = [UIImage imageNamed:imageName];
     switch (type) {
-        case LIGHTMAKEUPIMAGETYPE_texBrow:
+        case FUSingleMakeupTypeEyebrow:
             self.lightMakeup.subEyebrowImage = image;
             break;
-        case LIGHTMAKEUPIMAGETYPE_texEye:
+        case FUSingleMakeupTypeEyeshadow:
             self.lightMakeup.subEyeshadowImage = image;
             break;
-        case LIGHTMAKEUPIMAGETYPE_pupil:
+        case FUSingleMakeupTypePupil:
             self.lightMakeup.subPupilImage = image;
             break;
-        case LIGHTMAKEUPIMAGETYPE_eyeLash:
+        case FUSingleMakeupTypeEyelash:
             self.lightMakeup.subEyelashImage = image;
             break;
-        case LIGHTMAKEUPIMAGETYPE_HightLight:
+        case FUSingleMakeupTypeHighlight:
             self.lightMakeup.subHightLightImage = image;
             break;
-        case LIGHTMAKEUPIMAGETYPE_eyeLiner:
+        case FUSingleMakeupTypeEyeliner:
             self.lightMakeup.subEyelinerImage = image;
             break;
-        case LIGHTMAKEUPIMAGETYPE_blusher:
+        case FUSingleMakeupTypeBlusher:
             self.lightMakeup.subBlusherImage = image;
             break;
         default:
@@ -108,27 +101,27 @@
 }
 
 //设置程度值
-- (void)setIntensity:(double)value type:(MAKEUPTYPE)type {
+- (void)setIntensity:(double)value type:(FUSingleMakeupType)type {
     switch (type) {
-        case MAKEUPTYPE_Lip:
+        case FUSingleMakeupTypeLip:
             self.lightMakeup.intensityLip = value;
             break;
-        case MAKEUPTYPE_blusher:
+        case FUSingleMakeupTypeBlusher:
             self.lightMakeup.intensityBlusher = value;
             break;
-        case MAKEUPTYPE_eyeShadow:
+        case FUSingleMakeupTypeEyeshadow:
             self.lightMakeup.intensityEyeshadow = value;
             break;
-        case MAKEUPTYPE_eyeLiner:
+        case FUSingleMakeupTypeEyeliner:
             self.lightMakeup.intensityEyeliner = value;
             break;
-        case MAKEUPTYPE_eyelash:
+        case FUSingleMakeupTypeEyelash:
             self.lightMakeup.intensityEyelash = value;
             break;
-        case MAKEUPTYPE_pupil:
+        case FUSingleMakeupTypePupil:
             self.lightMakeup.intensityPupil = value;
             break;
-        case MAKEUPTYPE_eyeBrow:
+        case FUSingleMakeupTypeEyebrow:
             self.lightMakeup.intensityEyebrow = value;
             break;
         default:

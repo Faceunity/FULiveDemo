@@ -30,11 +30,11 @@
 }
 
 -(void)setupView{
-    _itemsView = [[FUItemsView alloc] init];
-    _itemsView.delegate = self;
-    [self.view addSubview:_itemsView];
+    self.itemsView = [[FUItemsView alloc] init];
+    self.itemsView.delegate = self;
+    [self.view addSubview:self.itemsView];
     [self.itemsView updateCollectionArray:self.model.items];
-    [_itemsView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.itemsView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view.mas_bottom);
         make.left.right.equalTo(self.view);
         if (iPhoneXStyle) {
@@ -42,17 +42,6 @@
         }else{
             make.height.mas_equalTo(84);
         }
-    }];
-    
-    
-    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-    UIVisualEffectView *effectview = [[UIVisualEffectView alloc] initWithEffect:blur];
-    effectview.alpha = 1.0;
-    [self.itemsView addSubview:effectview];
-    [self.itemsView sendSubviewToBack:effectview];
-    /* 磨玻璃 */
-    [effectview mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.bottom.equalTo(_itemsView);
     }];
     
     /* 初始状态 */

@@ -15,8 +15,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FUQualityStickerManager : FUMetaManager
 
+/// 下载道具
+- (void)downloadItem:(FUStickerModel *)sticker completion:(void (^)(NSError * _Nullable error))completion;
+
+/// 取消当前队列中的下载任务
+- (void)cancelDownloadingTasks;
+
 /// 加载精品贴纸道具
-- (void)loadItemWithModel:(FUStickerModel *)stickerModel;
+- (void)loadItem:(FUStickerModel *)sticker;
 
 /// 设置当前精品贴纸 is_click 属性状态
 - (void)clickCurrentItem;

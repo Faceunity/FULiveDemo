@@ -12,11 +12,11 @@
 
 #import "FUStickerModel.h"
 #import "FUStickerHelper.h"
+#import "FUQualityStickerManager.h"
 #import "FUNetworkingHelper.h"
 #import "FUManager.h"
 #import "FUTipHUD.h"
 
-#import <Masonry.h>
 #import <SVProgressHUD.h>
 
 static NSString * const kFUReuseIdentifier = @"FUStickerCell";
@@ -33,9 +33,6 @@ NSString * const FUSelectedStickerDidChangeNotification = @"FUSelectedStickerDid
 
 /// 选中贴纸
 @property (nonatomic, strong) FUStickerModel *selectedSticker;
-
-/// 下载队列
-@property (nonatomic, strong, nullable) NSOperationQueue *downloadQueue;
 
 @end
 
@@ -71,8 +68,6 @@ NSString * const FUSelectedStickerDidChangeNotification = @"FUSelectedStickerDid
 }
 
 - (void)dealloc {
-    [self.downloadQueue cancelAllOperations];
-    _downloadQueue = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FUSelectedStickerDidChangeNotification object:nil];
 }
 
@@ -173,27 +168,20 @@ NSString * const FUSelectedStickerDidChangeNotification = @"FUSelectedStickerDid
         FUStickerCell *cell = (FUStickerCell *)[collectionView cellForItemAtIndexPath:indexPath];
         [cell setModel:sticker];
         
-        [self.downloadQueue addOperationWithBlock:^{
-            dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-            [FUStickerHelper downloadItem:sticker completion:^(NSError * _Nullable error) {
-                dispatch_semaphore_signal(semaphore);
-                sticker.loading = NO;
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [collectionView reloadData];
-                });
-                if (!error) {
-                    // 下载完成以后加载贴纸
-                    if (self.delegate && [self.delegate respondsToSelector:@selector(stickerPageController:shouldLoadSticker:)]) {
-                        [self.delegate stickerPageController:self shouldLoadSticker:sticker];
-                    }
-                } else {
-                    NSLog(@"download fail");
-                    if (_downloadQueue) {
-                        [FUTipHUD showTips:FUNSLocalizedString(@"下载失败", nil)];
-                    }
+        [self.qualityStickerManager downloadItem:sticker completion:^(NSError * _Nullable error) {
+            sticker.loading = NO;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [collectionView reloadData];
+            });
+            if (!error) {
+                // 下载完成以后加载贴纸
+                if (self.delegate && [self.delegate respondsToSelector:@selector(stickerPageController:shouldLoadSticker:)]) {
+                    [self.delegate stickerPageController:self shouldLoadSticker:sticker];
                 }
-            }];
-            dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+            } else {
+                NSLog(@"download fail");
+                [FUTipHUD showTips:FUNSLocalizedString(@"下载失败", nil)];
+            }
         }];
         
     } else {
@@ -224,14 +212,6 @@ NSString * const FUSelectedStickerDidChangeNotification = @"FUSelectedStickerDid
         _collectionView.delegate = self;
     }
     return _collectionView;
-}
-
-- (NSOperationQueue *)downloadQueue {
-    if (!_downloadQueue) {
-        _downloadQueue = [[NSOperationQueue alloc] init];
-        _downloadQueue.maxConcurrentOperationCount = 4;
-    }
-    return _downloadQueue;
 }
 
 @end
