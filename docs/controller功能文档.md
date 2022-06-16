@@ -27,7 +27,7 @@ fuItemSetParamd(1, "destroy_instance", 1.0);
 //NAMA中使用右手坐标系，X轴水平向右，Y轴竖直向上，Z轴垂直屏幕向外
 ```
 ------
-##### 设置角色的旋转角度
+##### 设置角色在三维空间中绕Y轴的旋转角度
 ```C
 //第三个参数是归一化的旋转角度，范围[0.0, 1.0]，0.0代表0度，1.0代表360度
 fuItemSetParamd(1, "target_angle", 0.5);
@@ -127,13 +127,19 @@ fuItemGetParamd(1, "{\"name\":\"get_animation_frame_num\", \"anim_id\":2}");
 
 //获取句柄为2的动画的LayerID
 fuItemGetParamd(1, "{\"name\":\"get_animation_layerid\", \"anim_id\":2}"); 
+
+//打印当前动画系统状态
+fuItemSetParamd(1, "animator_Print", 1);
+fuItemSetParamd(1, "Bone_Print", 1);
+fuItemSetParamd(1, "BlendShape_Print", 1);
+fuItemSetParamd(1, "Camera_Print", 1);
 ```
 
 ------
 
 ## DynamicBone控制
 ```C
-//假设：通过fuCreateItemFromPackage创建的动画道具anim.bundle的句柄为2
+//假设：通过fuCreateItemFromPackage创建的带物理Mesh道具mesh.bundle的句柄为2
 //以下控制接口只对当前角色有效
 ```
 ------
@@ -146,6 +152,13 @@ fuItemSetParamd(1, "modelmat_to_bone", 1.0);
 
 //1为开启，0为关闭，开启的时候已加载的物理会生效，同时加载新的带物理的bundle也会生效，关闭的时候已加载的物理会停止生效，但不会清除缓存（这时候再次开启物理会在此生效），这时加载带物理的bundle不会生效，且不会产生缓存，即关闭后加载的带物理的bundle，即时再次开启，物理也不会生效，需要重新加载
 fuItemSetParamd(1, "enable_dynamicbone", 1.0); 
+
+//这个参数和enable_dynamicbone为并集，即enable_dynamicbone为开启enable_single_dynamicbone也为开启，物理才会运行
+//新加载道具enable_single_dynamicbone为开启
+//单独开启指定句柄道具的物理效果，输入参数为道具句柄
+fuItemSetParamd(1, "enable_single_dynamicbone", 2); 
+//单独关闭指定句柄道具的物理效果，输入参数为道具句柄
+fuItemSetParamd(1, "disable_single_dynamicbone", 2); 
 
 //1为开启，0为关闭，开启的时候人物移动或者动画都不会使被DynamicBone控制的骨骼产生位移，关闭的时候再开始计算DynamicBone的效果。人物需要快速移动/旋转的时候强烈建议开启这个，移动/旋转结束后再关闭，可以防止穿模和闪烁。
 fuItemSetParamd(1, "dynamicBone_TeleportMode", 1.0); 
@@ -162,6 +175,49 @@ fuItemSetParamd(1, "dynamicBone_RootRotateSpeedLimitMode", 1.0);
 fuItemSetParamd(1, "dynamicBone_Refresh", 1.0); 
 //Reset会重置刚体位置，消耗较小，推荐用这个，这个解决不了再用Refresh
 fuItemSetParamd(1, "dynamicBone_Reset", 1.0); 
+//Refresh接口延迟生效版，这个接口不会立即执行，而是在下一帧渲染时执行
+fuItemSetParamd(1, "dynamicBone_Delay_Refresh", 1.0); 
+//Reset接口延迟生效版，这个接口不会立即执行，而是在下一帧渲染时执行
+fuItemSetParamd(1, "dynamicBone_Delay_Reset", 1.0); 
+
+//打印当前DynamicBone状态
+fuItemSetParamd(1, "dynamicBone_Print", 1);
+```
+
+------
+
+## 布料NvCloth控制
+```C
+//假设：通过fuCreateItemFromPackage创建的带布料Mesh道具mesh.bundle的句柄为2
+//以下控制接口只对当前角色有效
+```
+------
+```C
+//1为开启，0为关闭，开启的时候移动角色的值会被设进骨骼系统，这时候带布料NvCloth的模型会有相关效果
+//如果添加了没有骨骼的模型，请关闭这个值，否则无法移动模型
+//默认关闭
+//每个角色的这个值都是独立的
+fuItemSetParamd(1, "modelmat_to_bone", 1.0); 
+
+//1为开启，0为关闭，开启的时候已加载的物理会生效，同时加载新的带物理的bundle也会生效，关闭的时候已加载的物理会停止生效，但不会清除缓存（这时候再次开启物理会在此生效），这时加载带物理的bundle不会生效，且不会产生缓存，即关闭后加载的带物理的bundle，即时再次开启，物理也不会生效，需要重新加载
+fuItemSetParamd(1, "enable_nvcloth", 1.0); 
+
+//这个参数和enable_nvcloth为并集，即enable_nvcloth为开启enable_single_nvcloth也为开启，物理才会运行
+//新加载道具enable_single_nvcloth为开启
+//单独开启指定句柄道具的物理效果，输入参数为道具句柄
+fuItemSetParamd(1, "enable_single_nvcloth", 2); 
+//单独关闭指定句柄道具的物理效果，输入参数为道具句柄
+fuItemSetParamd(1, "disable_single_nvcloth", 2); 
+
+//执行这行代码到下一帧之间执行的人物移动或者动画都不会使被布料NvCloth的模型产生位移效果。人物需要快速移动/旋转的时候强烈建议每帧开启这个，移动/旋转结束后再关闭，可以防止穿模和闪烁。
+//这个接口的参数没有意义，只是占位
+//这个接口不会立即执行，而是在下一帧渲染时执行
+fuItemSetParamd(1, "nvcloth_TeleportMode", 1.0); 
+
+//有些时候快速移动/旋转或者大幅度的动画都会导致某些刚体被卡住，这时候可以设置以下两个参数来恢复刚体默认位置。
+//这个接口的参数没有意义，只是占位
+//这个接口不会立即执行，而是在下一帧渲染时执行
+fuItemSetParamd(1, "nvcloth_Refresh", 1.0); 
 ```
 
 ------
@@ -174,20 +230,37 @@ fuItemSetParamd(1, "dynamicBone_Reset", 1.0);
 //0为透视投影，这时候fov起效，有近大远小的效果
 //1为平行投影，这时候render_orth_size起效，没有近大远小，物体远近不影响在屏幕上的大小，使用render_orth_size控制物体在屏幕上的大小
 fuItemSetParamd(1,"project_mode",0);
+int project_mode = fuItemGetParamd(1, "project_mode");
+
+//控制相机镜头焦点位置，默认值为[0, 140, 0]，单位为厘米，和模型在一个坐标系下
+fuItemSetParamdv(1,"render_center_position",[0, 140, 0]);
+fuItemGetParamdv(1, "render_center_position",buf,bufsize);
+
+//控制相机镜头位置，默认值为[0, 140, 300]，单位为厘米，和模型在一个坐标系下
+fuItemSetParamdv(1,"render_camera_position",[0, 140, 300]);
+fuItemGetParamdv(1, "render_camera_position",buf,bufsize);
+
+//控制相机镜头上位置，用于控制Z轴旋转，默认值为[0, 1, 0]，单位为厘米，和模型在一个坐标系下
+fuItemSetParamdv(1,"render_camera_up",[0, 1, 0]);
+fuItemGetParamdv(1, "render_camera_up",buf,bufsize);
 
 //控制相机镜头的fov，默认值为8.6，取值范围0~90，单位为度（角度）
 fuItemSetParamd(1,"render_fov",8.6);
+int render_fov = fuItemGetParamd(1, "render_fov");
 
 //控制相机镜头的渲染大小，默认值为100，单位为厘米，和模型在一个坐标系下
 fuItemSetParamd(1,"render_orth_size",100);
+int render_orth_size = fuItemGetParamd(1, "render_orth_size");
 
 //相机近平面，默认值为30，单位为厘米，和模型在一个坐标系下
 //离相机距离小于这个值的模型不会被显示
 fuItemSetParamd(1,"znear",30);
+int znear = fuItemGetParamd(1, "znear");
 
 //相机远平面，默认值为6000，单位为厘米，和模型在一个坐标系下
 //离相机距离大于这个值的模型不会被显示
 fuItemSetParamd(1,"zfar",6000);
+int zfar = fuItemGetParamd(1, "zfar");
 ```
 
 ## 相机动画控制
@@ -253,6 +326,9 @@ fuItemGetParamd(1, "{\"name\":\"get_camera_animation_transition_progress\"}");
 
 //获取句柄为2的相机动画的总帧数
 fuItemGetParamd(1, "{\"name\":\"get_camera_animation_frame_num\", \"anim_id\":2}"); 
+
+//打印当前相机动画系统状态
+fuItemSetParamd(1, "camera_clipmixer_Print", 1);
 ```
 ------
 ## 使用自定义的动画系统时间轴，必须按以下步骤
@@ -277,7 +353,7 @@ fuItemSetParamd(1,"reset_camera_animation",1);
 fuItemSetParamd(1, "enable_set_time", 0); 
 ```
 
-##2D动画控制
+## 2D动画控制
 
 ```C
 //参数范围为0~uv_anim_frame_num-1，这个参数用来控制播放哪帧动画
@@ -398,6 +474,20 @@ fuItemSetParamdv(1, "shadow_bias", [0.01, 0.1]);
 ```
 ------
 
+## 灯光控制
+
+```C
+// 切换灯光道具
+// 参数名为json结构，参数值为切换的过渡时间，单位秒
+{
+    "name":"switch_light", //固定
+    "param": 10, // 灯光道具handle id, 
+}
+
+fuItemSetParamd(1, "{\"name\":\"switch_light\",\"param\":10}", 1.0);
+```
+------
+
 ## 特殊模式
 
 ### 动画混合的头部跟踪模式
@@ -478,11 +568,27 @@ fuItemSetParamd(1, "set_face_processor_face_id", 0.0);
 //4.退出程序前，需要销毁Face Processor相关资源
 fuReleaseAIModel(FUAITYPE::FUAITYPE_FACEPROCESSOR);
 
-//5.根据面部追踪自动调整模型位置，达到近大远小的效果（AR模式下无效）
-//translation_scale_follow_face_processor 设置在XYZ三个方向上移动的敏感度
-//translation_offset_follow_face_processor 设置算法检测的参考位置
-fuItemSetParamdv(1, "translation_scale_follow_face_processor", [1.6,1.0,2.0]);
-fuItemSetParamdv(1, "translation_offset_follow_face_processor", [0.0, 0.0, -23.0]);
+//设置面部追踪时，是否旋转头（AR模式下无效）
+fuItemSetParamd(controller_bundle, "enable_face_processor_rotate_head", 1.0);
+
+//根据面部追踪调整模型大小，达到近大远小的效果（AR模式下无效）
+//head_ref_translation_follow_face_processor 设置算法检测的参考位置
+//head_scale_sensitivity_follow_face_processor 设置scale的敏感度
+fuItemSetParamdv(1, "head_ref_translation_follow_face_processor", [0.0, 0.0, -20.0]);
+fuItemSetParamdv(1, "head_scale_sensitivity_follow_face_processor", 0.5);
+
+//根据面部追踪自动调整模型仰角偏移量，达到修正仰角的目的 ([-20, 20]度)
+fuItemSetParamd(controller_bundle, "head_rot_delta_x", -10.0);
+fuItemSetParamd(controller_bundle, "eye_rot_delta_x", -10.0);
+
+//设置面部追踪头部的旋转是否绕头部的中心旋转还是绕脖子旋转（AR模式下无效）
+//value = 1.0 表示绕头部的中心旋转, value = 0.0 表示绕脖子旋转
+fuItemSetParamd(controller_bundle, "enable_rotation_by_center_face_processor", 1.0);
+
+//设置面部追踪人脸丢失恢复默认状态，使用的过渡缓冲的大小
+fuItemSetParamd(controller_bundle, "face_processor_rotation_filter_size", 10.0);
+fuItemSetParamd(controller_bundle, "face_processor_translation_filter_size", 10.0);
+fuItemSetParamd(controller_bundle, "face_processor_eye_rotation_filter_size", 10.0);
 
 ```
 ------

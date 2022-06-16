@@ -3119,7 +3119,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\necho \"copy DSYM！！！！\"\n\necho \"符号表路径:$DWARF_DSYM_FOLDER_PATH\"\n\nDSYMFILE=$DWARF_DSYM_FOLDER_PATH/$PRODUCT_NAME.app.dSYM\necho \"符号表文件名称:$DSYMFILE\"\n\nDESDYSMFILE=\"$HOME/Desktop/${PRODUCT_NAME}_dysm\"\necho \"dysm保存至:$DESDYSMFILE\"\n\nif [ ! -d \"$DESDYSMFILE\" ]; then\n    mkdir \"$DESDYSMFILE\"\nfi\n\nif [ -d \"$DSYMFILE\" ]; then\n    timeStr=$(date \"+%Y%m%d:%H%M%S\")\n    cp -R \"$DSYMFILE\" \"$DESDYSMFILE/${PRODUCT_NAME}_${timeStr}.app.dysm\"\nfi\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\necho \"copy DSYM！！！！\"\n\necho \"符号表路径:$DWARF_DSYM_FOLDER_PATH\"\n\nDSYMFILE=$DWARF_DSYM_FOLDER_PATH/$PRODUCT_NAME.app.dSYM\necho \"符号表文件名称:$DSYMFILE\"\n\nDESDSYMFILE=\"$HOME/Desktop/${PRODUCT_NAME}_dsym\"\necho \"dsym保存至:$DESDSYMFILE\"\n\nif [ ! -d \"$DESDSYMFILE\" ]; then\n    mkdir \"$DESDSYMFILE\"\nfi\n\nif [ -d \"$DSYMFILE\" ]; then\n    timeStr=$(date \"+%Y%m%d:%H%M%S\")\n    cp -R \"$DSYMFILE\" \"$DESDSYMFILE/${PRODUCT_NAME}_${timeStr}.app.dysm\"\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		66BB7B4A1EA8A5FFD00D0650 /* [CP] Embed Pods Frameworks */ = {
@@ -3526,8 +3526,8 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 61;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				CURRENT_PROJECT_VERSION = 62;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
 				ENABLE_BITCODE = NO;
@@ -3594,7 +3594,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 61;
+				CURRENT_PROJECT_VERSION = 62;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;

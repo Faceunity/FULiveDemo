@@ -134,7 +134,7 @@ This section describes the structure of the Demo file, the various directories, 
       -makeup_whole.json      //Makeup configuration
       -avatar.json            //Pinch face color, template profile
     +Resource               
-       +itmes                 //Prop resource 
+       +items                 //Prop resource 
     +Lib                    //Nama SDK  
       -authpack.h             //Permission file
       -FURenderKit.framework   //FURenderKit dynamic library      

@@ -57,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) double intensityChin;//下巴 取值范围 0.0-1.0,  0.5-0是变小，0.5-1是变大，默认值0.5
 @property (nonatomic, assign) double intensityForehead;//额头 取值范围 0.0-1.0,  0.5-0是变小，0.5-1是变大，默认值0.5
 @property (nonatomic, assign) double intensityNose;//瘦鼻 取值范围 0.0-1.0,  0.0为无效果，1.0为最大效果，默认值0.0
-@property (nonatomic, assign) double intensityMouth;//嘴型 取值范围 0.0-1.0,  0.5-0.0是变小，0.5-1.0是变大，默认值0.5
+@property (nonatomic, assign) double intensityMouth;//嘴型 取值范围 0.0-1.0,  0.5-0.0是变大，0.5-1.0是变小，默认值0.5
 @property (nonatomic, assign) double intensityCanthus;//开眼角 取值范围 0.0-1.0,  0.0为无效果，1.0为最大效果，默认值0.0
 @property (nonatomic, assign) double intensityEyeSpace;//眼距 取值范围 0.0-1.0,  0.5-0.0是变大，0.5-1.0是变小，默认值0.5
 @property (nonatomic, assign) double intensityEyeRotate;//眼睛角度 取值范围 0.0-1.0,  0.5-0.0逆时针旋转，0.5-1.0顺时针旋转，默认值0.5

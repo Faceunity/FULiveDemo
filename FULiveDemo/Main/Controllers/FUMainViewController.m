@@ -29,6 +29,7 @@
 #import "FUQStickersViewController.h"
 
 #import <SVProgressHUD.h>
+#import <Photos/Photos.h>
 
 static NSString *headerViewID = @"MGHeaderView";
 
@@ -67,6 +68,29 @@ static NSString *headerViewID = @"MGHeaderView";
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.collection.userInteractionEnabled = YES;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    AVAuthorizationStatus videoAuthStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+    if (videoAuthStatus == AVAuthorizationStatusNotDetermined) {
+        // 相机权限
+        [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+        }];
+    }
+    AVAuthorizationStatus audioAuthStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeAudio];
+    if (audioAuthStatus == AVAuthorizationStatusNotDetermined) {
+        // 麦克风权限
+        [AVCaptureDevice requestAccessForMediaType:AVMediaTypeAudio completionHandler:^(BOOL granted) {
+        }];
+    }
+    PHAuthorizationStatus photoAuthStatus = [PHPhotoLibrary authorizationStatus];
+    if (photoAuthStatus == PHAuthorizationStatusNotDetermined) {
+        // 相册权限
+        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+        }];
+    }
 }
 
 #pragma mark - UICollectionViewDataSource

@@ -3,6 +3,16 @@
 ------
 
 级别：Public   
+更新日期：2022-06-16
+SDK版本: 8.2.1
+
+### 最新更新内容：
+
+1）修复一些bug
+
+------
+
+级别：Public   
 更新日期：2022-04-15
 SDK版本: 8.2.0
 
@@ -150,7 +160,7 @@ SDK版本: 7.4.0
       -makeup.json             //美妆单个妆数组
       -makeup_whole.json      //美妆整体妆容配置
     +Resource               
-       +itmes                 //各个模块道具资源 
+       +items                 //各个模块道具资源 
     +Lib                    //nama SDK  
       -authpack.h             //权限文件
       -FURenderKit.framework   //动态库      
@@ -181,24 +191,24 @@ Xcode 8或更高版本
 Nama全功能版本（支持物理特效）：
 
 ```
-pod 'Nama', '8.2.0' 
+pod 'Nama', '8.2.1' 
 ```
 
 Nama-lite版本（体积更小，包含人脸相关的功能(海报换脸除外)）：
 
 ```
-pod 'Nama-lite', '8.2.0' 
+pod 'Nama-lite', '8.2.1' 
 ```
 FURenderKit全功能版本（支持物理特效）：
 
 ```
-pod 'FURenderKit', '8.2.0' 
+pod 'FURenderKit', '8.2.1' 
 ```
 
 FURenderKit-lite版本：
 
 ```
-pod 'FURenderKit-lite', '8.2.0' 
+pod 'FURenderKit-lite', '8.2.1' 
 ```
 
 接下来执行：
@@ -215,15 +225,15 @@ pod repo update 或 pod setup
 
 #### 3.2.2 直接下载
 
-Nama全功能版本（支持物理特效）：[FaceUnity-SDK-iOS-v8.2.0.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FaceUnity-SDK-iOS-v8.2.0.zip)
+Nama全功能版本（支持物理特效）：[FaceUnity-SDK-iOS-v8.2.1.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FaceUnity-SDK-iOS-v8.2.1.zip)
 
-Nama-lite版本： 版（体积更小，包含人脸相关的功能(海报换脸除外)）：[FaceUnity-SDK-iOS-v8.2.0-lite.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FaceUnity-SDK-iOS-v8.2.0-lite.zip)
+Nama-lite版本： 版（体积更小，包含人脸相关的功能(海报换脸除外)）：[FaceUnity-SDK-iOS-v8.2.1-lite.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FaceUnity-SDK-iOS-v8.2.1-lite.zip)
 
 FURenderKit全功能版本（支持物理特效）：
-    [FURenderKit-v8.2.0.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FURenderKit-v8.2.0.zip)
+    [FURenderKit-v8.2.1.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FURenderKit-v8.2.1.zip)
 
 FURenderKit-lite版本：
-    [FURenderKit-lite-v8.2.0.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FURenderKit-lite-v8.2.0.zip)
+    [FURenderKit-lite-v8.2.1.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FURenderKit-lite-v8.2.1.zip)
     
 
 下载完成并解压后将库文件夹拖入到工程中，并勾选上 Copy items if needed，如图：
