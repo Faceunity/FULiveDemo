@@ -159,7 +159,7 @@ ____
 | intensityChin        | double | 下巴调整程度范围0.0-1.0，0.5-0.0是变小，0.5-1.0是变大 默认0.5    | intensity_chin       |
 | intensityForehead    | double | 额头调整程度范围0.0-1.0，0.5-0.0是变小，0.5-1.0是变大 默认0.5    | intensity_forehead   |
 | intensityNose        | double | 瘦鼻程度范围0.0-1.0 1.0程度最强 默认0.0                    | intensity_nose       |
-| intensityMouth       | double | 嘴巴调整程度范围0.0-1.0，0.5-0.0是变小，0.5-1.0是变大 默认0.5    | intensity_mouth      |
+| intensityMouth       | double | 嘴型调整程度范围0.0-1.0，0.5-0.0是变大，0.5-1.0是变小 默认0.5    | intensity_mouth      |
 | intensityCanthus     | double | 开眼角程度范围0.0~1.0 1.0程度最强 默认0.0                    | intensity_canthus    |
 | intensityEyeSpace    | double | 眼距调节范围0.0~1.0，0.5-0.0是变大，0.5-1.0是变小 默认0.5       | intensity_eye_space  |
 | intensityEyeRotate   | double | 眼睛角度调节范围0.0~1.0，0.5-0.0逆时针旋转，0.5-1.0顺时针旋转 默认0.5 | intensity_eye_rotate |
@@ -276,7 +276,7 @@ ____
     * 设置部分美颜属性的mode，不同mode会有主观上会有不同效果
     * 必须在设置美颜各个属性值之前调用该接口
     **/
-    - (void)setBeautyMode:(FUBeautyPropertyMode)mode forKey:(NSString *)key;
+    - (void)addPropertyMode:(FUBeautyPropertyMode)mode forKey:(NSString *)key;
     
     ````
     * 支持的key和mode说明
@@ -309,7 +309,7 @@ ____
 | eyeEnlargingV2       | double | 大眼 取值范围 0.0-1.0,  0.0为无效果，1.0为最大效果，默认值0.0  |
 | intensityForeheadV2  | double | 额头 取值范围 0.0-1.0,  0.5-0是变小，0.5-1是变大，默认值0.5   |
 | intensityNoseV2      | double | 瘦鼻 取值范围 0.0-1.0,  0.0为无效果，1.0为最大效果，默认值0.0  |
-| intensityMouthV2     | double | 嘴型 取值范围 0.0-1.0,  0.5-0.0是变小，0.5-1.0是变大，默认值0.5  |
+| intensityMouthV2     | double | 嘴型 取值范围 0.0-1.0,  0.5-0.0是变大，0.5-1.0是变小，默认值0.5  |
 
 ----
 ·   

@@ -70,6 +70,7 @@ FUPopupMenuDelegate, FUCaptureCameraDataSource
     }
     
     [[FURenderKit shareRenderKit] startInternalCamera];
+    [[FURenderKit shareRenderKit].captureCamera addAudio];
     _isCameraRunning = YES;
     [FURenderKit shareRenderKit].captureCamera.dataSource = self;
     //把渲染的View 赋值给 FURenderKit，这样会在FURenderKit内部自动渲染
@@ -96,12 +97,12 @@ FUPopupMenuDelegate, FUCaptureCameraDataSource
     [self.baseManager setFaceProcessorDetectMode:FUFaceProcessorDetectModeVideo];
     if (_isFromOtherPage) {
         [[FURenderKit shareRenderKit] startInternalCamera];
+        [FURenderKit shareRenderKit].internalCameraSetting.position = self.baseManager.cameraPosition;
+        [FURenderKit shareRenderKit].glDisplayView = self.renderView;
         _isCameraRunning = YES;
         [self.baseManager loadItem];
-        [FURenderKit shareRenderKit].glDisplayView = self.renderView;
     }
     [FURenderKit shareRenderKit].pause = NO;
-    [FURenderKit shareRenderKit].internalCameraSetting.position = self.baseManager.cameraPosition;
     //不确定是不是小bug，每次重新回到页面分辨率都被设置成AVCaptureSessionPreset1280x720了，放到页面初始化地方去
 //    [FURenderKit shareRenderKit].internalCameraSetting.sessionPreset = AVCaptureSessionPreset1280x720;
 }
@@ -314,7 +315,6 @@ FUPopupMenuDelegate, FUCaptureCameraDataSource
 -(FUCaptureCamera *)mCamera {
     if (!_mCamera) {
         _mCamera = [FURenderKit shareRenderKit].captureCamera;
-        [_mCamera addAudio];
     }
     return _mCamera;
 }
@@ -410,6 +410,9 @@ static CFAbsoluteTime adjustTime = 0 ;
 /*  开始录像    */
 - (void)startRecord {
     NSString *videoPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.mp4", FUCurrentDateString()]];
+    if (!videoPath) {
+        return;
+    }
     [FURenderKit startRecordVideoWithFilePath:videoPath];
 }
 
@@ -417,6 +420,9 @@ static CFAbsoluteTime adjustTime = 0 ;
 - (void)stopRecord {
        __weak typeof(self)weakSelf  = self ;
     [FURenderKit stopRecordVideoComplention:^(NSString * _Nonnull filePath) {
+        if (!filePath) {
+            return;
+        }
         dispatch_async(dispatch_get_main_queue(), ^{
             UISaveVideoAtPathToSavedPhotosAlbum(filePath, weakSelf, @selector(video:didFinishSavingWithError:contextInfo:), NULL);
         });

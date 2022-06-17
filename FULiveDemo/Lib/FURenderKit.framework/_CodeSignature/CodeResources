@@ -6,7 +6,7 @@
 	<dict>
 		<key>FURenderKit快速集成文档.md</key>
 		<data>
-		rmM7aej46+2PiasPWftIO1d09p8=
+		SR2OnDNjYnehQKeSOOtrkWIr9fo=
 		</data>
 		<key>Headers/CNamaSDK.h</key>
 		<data>
@@ -58,11 +58,11 @@
 		</data>
 		<key>Headers/FUBeauty-Deprecated.h</key>
 		<data>
-		9YNFH0kdV6XbRthYAZxt//aEYw0=
+		p0nkR/gG30IT1HiYyY2JmLFQMic=
 		</data>
 		<key>Headers/FUBeauty.h</key>
 		<data>
-		J/WulV113ckbL+Y482iMf0W5QjI=
+		xsQ9dySmcDblhLjvF9JT6kOGk8M=
 		</data>
 		<key>Headers/FUBeautyPropertyModeDefine.h</key>
 		<data>
@@ -290,7 +290,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		S6mRcT+MMjdwDdbvIydr0/0oMX4=
+		3iP4PXaFRlL3mX9vfo1F184woQw=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -303,11 +303,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			rmM7aej46+2PiasPWftIO1d09p8=
+			SR2OnDNjYnehQKeSOOtrkWIr9fo=
 			</data>
 			<key>hash2</key>
 			<data>
-			qsbsgy52xRC+fnqx+GgJlqxFgC1IYQQ6sDsAtOQ+tEA=
+			xRk7JGj4csg/XwKcBev/DcnJrqyhaP41momgWBlZDVE=
 			</data>
 		</dict>
 		<key>Headers/CNamaSDK.h</key>
@@ -446,22 +446,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			9YNFH0kdV6XbRthYAZxt//aEYw0=
+			p0nkR/gG30IT1HiYyY2JmLFQMic=
 			</data>
 			<key>hash2</key>
 			<data>
-			7hkHDYupuD1xC7X9ZbGeHkoB4Va8Ba8cjSev3axCkak=
+			RsmbrfRfF/TLz+022WcCtMAg0RVlGaRj1CH7Nsdg8Lg=
 			</data>
 		</dict>
 		<key>Headers/FUBeauty.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			J/WulV113ckbL+Y482iMf0W5QjI=
+			xsQ9dySmcDblhLjvF9JT6kOGk8M=
 			</data>
 			<key>hash2</key>
 			<data>
-			5Bn3/64UWxu8WWgnb9PvR9qCs1XTtB+ZQ0N/EE2ud2g=
+			DlTfn2FqcNvB65Y2JjXG9aw3Hj5EKXouqkKN2J1aeAI=
 			</data>
 		</dict>
 		<key>Headers/FUBeautyPropertyModeDefine.h</key>

@@ -3,6 +3,16 @@
 ------
 
 级别：Public   
+更新日期：2022-06-16
+SDK版本: 8.2.1
+
+### 最新更新内容：
+
+1）修复一些bug
+
+------
+
+级别：Public   
 更新日期：2022-04-15
 SDK版本: 8.2.0
 
@@ -145,7 +155,7 @@ SDK版本: 7.4.0
       -makeup.json       	  //美妆单个妆数组
       -makeup_whole.json      //美妆整体妆容配置
     +Resource               
-       +itmes                 //各个模块道具资源 
+       +items                 //各个模块道具资源 
     +Lib                    //nama SDK  
       -authpack.h             //权限文件
       -FURenderKit.framework   //动态库      
