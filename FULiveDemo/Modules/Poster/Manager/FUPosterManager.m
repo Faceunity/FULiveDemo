@@ -24,8 +24,4 @@
     [FUAIKit resetTrackedResult];
 }
 
-
-- (void)dealloc {
-    
-}
 @end

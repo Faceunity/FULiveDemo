@@ -10,9 +10,11 @@
 #define PrefixHeader_pch
 
 #import "FULiveDefine.h"
+#import "FULandmarkManager.h"
 
 #import <Masonry.h>
 #import <MJExtension.h>
 #import <FURenderKit/FURenderKit.h>
+#import <FUCommonUIComponent/FUCommonUIComponent.h>
 
 #endif /* PrefixHeader_pch */

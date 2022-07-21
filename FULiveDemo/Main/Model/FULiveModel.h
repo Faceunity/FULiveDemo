@@ -8,28 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSUInteger, FULiveModelType) {
-    FULiveModelTypeBeautifyFace             = 0,
-    FULiveModelTypeMakeUp,
-    FULiveModelTypeItems,
-    FULiveModelTypeAnimoji,
-    FULiveModelTypeHair,
-    FULiveModelTypeLightMakeup,
-    FULiveModelTypeARMarsk,
-    FULiveModelTypeHilarious,
-    FULiveModelTypePoster,//海报换脸
-    FULiveModelTypeExpressionRecognition,
-    FULiveModelTypeMusicFilter,
-    FULiveModelTypeHahaMirror,
-    FULiveModelTypeBody,
-    FULiveModelTypeWholeAvatar,
-    FULiveModelTypeBGSegmentation,
-    FULiveModelTypeGestureRecognition,
-    FULiveModelTypeLvMu,
-    FULiveModelTypeQSTickers
-    
-};
-
 @interface FULiveModel : NSObject
 
 @property (nonatomic, assign) NSInteger maxFace ;
@@ -50,4 +28,5 @@ typedef NS_ENUM(NSUInteger, FULiveModelType) {
 
 @property (nonatomic, assign) BOOL animationIcon;
 @property (nonatomic, strong) NSString *animationNamed;
+
 @end

@@ -22,9 +22,9 @@
     if (self) {
         NSString *path = [[NSBundle mainBundle] pathForResource:@"green_screen" ofType:@"bundle"];
         self.greenScreen = [[FUGreenScreen alloc] initWithPath:path name:@"green_screen"];
-        self.greenScreen.chromaThres = 0.45;
-        self.greenScreen.chromaThrest = 0.30;
-        self.greenScreen.alphal = 0.2;
+        self.greenScreen.chromaThres = 0.5;
+        self.greenScreen.chromaThrest = 0.3;
+        self.greenScreen.alphal = 0.67;
         [self loadItem];
         
         self.dataArray = [self createUIData];
@@ -35,10 +35,10 @@
 
 - (NSArray *)createUIData {
     NSArray *prams = @[@(GREENSCREENTYPE_keyColor),@(GREENSCREENTYPE_chromaThres),@(GREENSCREENTYPE_chromaThresT),@(GREENSCREENTYPE_alphaL), @(GREENSCREENTYPE_safeArea)];
-    NSArray *titelArr = @[@"关键颜色", @"相似度", @"平滑", @"透明度", @"安全区域"];
+    NSArray *titelArr = @[@"关键颜色", @"相似度", @"平滑", @"祛色度", @"安全区域"];
     NSArray *imageArr = @[@"demo_icon_key_color", @"demo_icon_similarityr", @"demo_icon_smooth", @"demo_icon_transparency", @"demo_icon_safe_area"];
     
-    NSArray *defaultValueArr = @[@(0), @(0.45), @(0.30), @(0.20), @0];
+    NSArray *defaultValueArr = @[@(0), @(0.5), @(0.3), @(0.67), @0];
     
     NSMutableArray *tempArr = [NSMutableArray array];
     for (int i = 0; i < GREENSCREENTYPE_Max; i ++) {
@@ -106,6 +106,12 @@
     }
 }
 
+- (void)updateCurrentGreenScreen {
+    self.dataArray[GREENSCREENTYPE_chromaThres].value = @(self.greenScreen.chromaThres);
+    self.dataArray[GREENSCREENTYPE_chromaThresT].value = @(self.greenScreen.chromaThrest);
+    self.dataArray[GREENSCREENTYPE_alphaL].value = @(self.greenScreen.alphal);
+}
+
 //设置颜色值
 - (void)setGreenScreenWithColor:(UIColor *)color {
     if ([color isKindOfClass:[UIColor class]]) {
@@ -121,6 +127,9 @@
 
 - (void)loadItem {
     [FURenderKit shareRenderKit].greenScreen = self.greenScreen;
+    for (FUGreenScreenModel *model in self.dataArray) {
+        [self setGreenScreenModel:model];
+    }
 }
 
 - (void)releaseItem {

@@ -62,10 +62,5 @@
 - (void)loadItem {
     [FURenderKit shareRenderKit].bodyBeauty = self.bodyBeauty;
 }
-- (void)releaseItem {
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [FURenderKit shareRenderKit].bodyBeauty = nil;
-        self.bodyBeauty = nil;
-    });
-}
+
 @end

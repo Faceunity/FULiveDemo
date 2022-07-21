@@ -13,10 +13,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface FUAnimojiManager : FUMetaManager <FUStickerProtocol>
+
 @property (nonatomic, strong) FUAnimoji * _Nullable animoji;
 
-//加载抗锯齿道具
-- (void)loadAntiAliasing;
 @end
 
 NS_ASSUME_NONNULL_END

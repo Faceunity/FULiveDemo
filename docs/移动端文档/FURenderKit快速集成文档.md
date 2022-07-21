@@ -4,7 +4,7 @@
 ### 通过cocoapods集成
 
 ```
-pod 'FURenderKit', '8.2.1' 
+pod 'FURenderKit', '8.3.0' 
 ```
 
 接下来执行：
@@ -26,7 +26,7 @@ FURenderKit.framework是动态库，需要在General->Framworks，Libraries,and 
 ```objective-c
 // 初始化 FURenderKit 
 FUSetupConfig *setupConfig = [[FUSetupConfig alloc] init];
-setupConfig.authPack = FUAuthPackMake(g_auth_package, **sizeof**(g_auth_package));
+setupConfig.authPack = FUAuthPackMake(g_auth_package, sizeof(g_auth_package));
 [FURenderKit setupWithSetupConfig:setupConfig];
 ```
 
@@ -37,17 +37,14 @@ setupConfig.authPack = FUAuthPackMake(g_auth_package, **sizeof**(g_auth_package)
 NSString *faceAIPath = [[NSBundle mainBundle] pathForResource:@"ai_face_processor" ofType:@"bundle"];
 [FUAIKit loadAIModeWithAIType:FUAITYPE_FACEPROCESSOR dataPath:faceAIPath];
 
-// 加载身体 AI 模型
-NSString *bodyAIPath = [[NSBundle mainBundle] pathForResource:@"ai_human_processor" ofType:@"bundle"];
+// 加载身体 AI 模型，注意：高性能机型加载ai_human_processor_gpu.bundle
+NSString *humanBundleName = [FURenderKit devicePerformanceLevel] == FUDevicePerformanceLevelHigh ? @"ai_human_processor_gpu" : @"ai_human_processor";
+NSString *bodyAIPath = [[NSBundle mainBundle] pathForResource:humanBundleName ofType:@"bundle"];
 [FUAIKit loadAIModeWithAIType:FUAITYPE_HUMAN_PROCESSOR dataPath:bodyAIPath];
 
 // 加载手势 AI 模型
 NSString *handAIPath = [[NSBundle mainBundle] pathForResource:@"ai_hand_processor" ofType:@"bundle"];
 [FUAIKit loadAIModeWithAIType:FUAITYPE_HANDGESTURE dataPath:handAIPath];
-
-// 加载头发 AI 模型
-NSString *hairAIPath = [[NSBundle mainBundle] pathForResource:@"ai_hairseg" ofType:@"bundle"];
-[FUAIKit loadAIModeWithAIType:FUAITYPE_HAIRSEGMENTATION dataPath:hairAIPath];
 
 // 加载舌头 AI 模型
 NSString *path = [[NSBundle mainBundle] pathForResource:@"tongue" ofType:@"bundle"];        [FUAIKit loadTongueMode:path];
@@ -61,9 +58,7 @@ FURenderKit 提供了显示渲染结果的 FUGLDisplayView 类（如果使用自
 
 ```objective-c
 // set glDisplayView
-FUGLDisplayView *glDisplayView = [[FUGLDisplayView alloc] initWithFrame:self.view.bounds];
-[self.view addSubview:glDisplayView];
-[FURenderKit shareRenderKit].glDisplayView = glDisplayView;
+[FURenderKit shareRenderKit].glDisplayView = self.renderView;
 [FURenderKit shareRenderKit].glDisplayView.contentMode = FUGLDisplayViewContentModeScaleAspectFit; //设置图像适配模式
 ```
 
@@ -85,16 +80,35 @@ FURenderKit 提供了采集图像的 FUCaptureCamera 类（如果使用外部相
 
 ```objective-c
 @interface FUInternalCameraSetting : NSObject
-@property (nonatomic, assign) int format; //default kCVPixelFormatType_32BGRA
-@property (nonatomic, copy)  AVCaptureSessionPreset sessionPreset; // default AVCaptureSessionPreset1280x720
-@property (nonatomic, assign) AVCaptureDevicePosition position; // default AVCaptureDevicePositionFront
-@property (nonatomic, assign) int fps; // default 30
-// default NO, 需要注意的是，在打开内部虚拟相机时，用户如果使用Scene相关需要真实相机的功能，内部会自动开启真实相机，并且当用户关闭相关Scene功能时，内部会自动关闭。
-@property (nonatomic, assign) BOOL useVirtualCamera; 
+
+/// 相机采集格式
+/// 默认为kCVPixelFormatType_32BGRA
+@property (nonatomic, assign) int format;
+
+/// 相机分辨率
+/// 默认为AVCaptureSessionPreset1280x720
+@property (nonatomic, copy)  AVCaptureSessionPreset sessionPreset;
+
+/// 相机前后置摄像头
+/// 默认为AVCaptureDevicePositionFront
+@property (nonatomic, assign) AVCaptureDevicePosition position;
+
+/// 默认为30
+@property (nonatomic, assign) int fps;
+
+/// 是否打开内部虚拟相机
+/// 需要注意的是，在打开内部虚拟相机时，用户如果使用Scene相关需要真实相机的功能，内部会自动开启真实相机
+/// 并且当用户关闭相关Scene功能时，内部会自动关闭
+/// 默认为 NO
+@property (nonatomic, assign) BOOL useVirtualCamera; //
 
 /// 如果使用内部相机时，SDK会自动判断当前是否需要使用系统相机，如果不需相机，内部会模拟一个相机并循环输出图像。
 /// 该属性可以设置输出图像的宽高，默认宽高为：720x1280，如果设置为CGSizeZero,则会使用 sessionPreset 的宽高。
 @property (nonatomic, assign) CGSize virtualCameraResolution;
+
+/// 相机是否需要音频，默认为NO
+@property (nonatomic, assign) BOOL needsAudioTrack;
+
 @end
 ```
 
@@ -233,18 +247,6 @@ return renderOutput.pixelBuffer;
 
 
 
-## 开启关闭相机
-
-```objective-c
-#pragma mark - internalCamera
-
-- (void)startInternalCamera;
-
-- (void)stopInternalCamera;
-```
-
-
-
 ## 根据证书校验模块权限
 
 ```objective-c
@@ -304,7 +306,9 @@ AI能力相关的功能都通过FUAIKit 加载或获取
 
 @property (nonatomic, assign, readonly) int trackedFacesCount; // 跟踪到的人脸个数
 
-@property (nonatomic, assign) FUFaceProcessorDetectMode faceProcessorDetectMode; // 图像加载模式 default is FUFaceProcessorDetectModeVideo
+@property (nonatomic, assign) FUFaceProcessorDetectMode faceProcessorDetectMode; // 人脸检测模式 default is FUFaceProcessorDetectModeVideo
+
+@property (nonatomic, assign) FUHumanProcessorDetectMode humanProcessorDetectMode;  // 人体检测模式，default is FUHumanProcessorDetectModeVideo
 
 @property (nonatomic, assign) BOOL asyncTrackFace; //设置是否进行异步人脸跟踪
 
@@ -397,6 +401,8 @@ beauty.intensityCanthus = 0.5;
 beauty.intensityCheekbones = 0;
 beauty.intensityLowerJaw= 0.0;
 beauty.intensityEyeCircle = 0.0;
+beauty.intensityBrowHeight = 0.5;
+beauty.intensityBrowSpace = 0.5;
 ```
 
 
@@ -478,7 +484,7 @@ NSString *path = [[NSBundle mainBundle] pathForResource:@"change_face" ofType:@"
 FUPoster *poster = [[FUPoster alloc] initWithPath:path name:@"change_face"];
 poster.delegate = "具体实现代理的类";
 
-[poster renderWithInputImage:"需要换脸的image" templateImage: "海报image"]];
+[poster renderWithInputImage:"需要换脸的image" templateImage:"海报image"]];
 ```
 
 #### 接口说明
@@ -521,6 +527,11 @@ poster.delegate = "具体实现代理的类";
  * code: -1, 人脸异常（检测到人脸但是角度不对返回-1） 0: 未检测到人脸
  */
 - (void)poster:(FUPoster *)poster tempImageTrackErrorCode:(int)code;
+
+/**
+ * 输入照片检测到单人脸回调此方法
+ */
+- (void)poster:(FUPoster *)poster trackedFaceInfo:(FUFaceRectInfo *)faceInfo;
 
 /**
  * 输入照片检测到多张人脸回调此方法,用于UI层绘制多人脸 UI

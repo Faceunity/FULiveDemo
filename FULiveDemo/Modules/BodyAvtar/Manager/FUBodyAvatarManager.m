@@ -95,19 +95,6 @@
     [FURenderKit shareRenderKit].antiAliasing = [[FUItem alloc] initWithPath:path name:@"antiAliasing"];
 }
 
-- (void)releaseItem {
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [FURenderKit shareRenderKit].antiAliasing = nil;
-        if (self.currentAvatar) {
-            [self.scene removeAvatar:self.currentAvatar];
-            self.currentAvatar = nil;
-        }
-        [[FURenderKit shareRenderKit] removeScene:self.scene completion:^(BOOL success) {
-            [FURenderKit shareRenderKit].currentScene = nil;
-        }];
-    });
-}
-
 - (NSArray<FUAvatar *> *)avatars {
     if (!_avatars) {
         

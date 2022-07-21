@@ -59,9 +59,29 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-/* 不需要进入分辨率选择 */
--(BOOL)onlyJumpImage{
-    return YES;
+- (void)displayPromptText {
+    BOOL isHaveFace = [self.baseManager faceTrace];
+    if (!isHaveFace) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.noTrackLabel.text = FUNSLocalizedString(@"No_Face_Tracking",nil);
+            self.noTrackLabel.hidden = NO;
+        });
+    } else {
+        if (!self.baseManager.trackedFullFace) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.noTrackLabel.text = FUNSLocalizedString(@"Incomplete_face",nil);
+                self.noTrackLabel.hidden = NO;
+            });
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.noTrackLabel.hidden = YES;
+            });
+        }
+    }
+}
+
+- (BOOL)needsPresetSelections {
+    return NO;
 }
 
 #pragma  mark - 选择照片

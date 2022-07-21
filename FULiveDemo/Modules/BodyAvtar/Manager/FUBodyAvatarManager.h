@@ -12,9 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FUBodyAvatarManager : FUMetaManager
 
-//加载抗锯齿道具
-- (void)loadAntiAliasing;
-
 //加载身体组件
 - (void)loadAvatarWithIndex:(int)index;
 

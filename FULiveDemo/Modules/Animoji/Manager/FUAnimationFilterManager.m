@@ -43,18 +43,12 @@
 }
 
 - (void)loadItem {
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [FURenderKit shareRenderKit].comicFilter = self.comicFilter;
-    });
-}
-
-- (void)dealloc {
-    [self releaseItem];
+    [FURenderKit shareRenderKit].comicFilter = self.comicFilter;
 }
 
 - (void)releaseItem {
-    _comicFilter = nil;
     [FURenderKit shareRenderKit].comicFilter = nil;
+    _comicFilter = nil;
 }
 
 - (FUComicFilter *)comicFilter {

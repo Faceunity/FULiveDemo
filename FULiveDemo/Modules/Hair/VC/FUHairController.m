@@ -55,11 +55,6 @@
     self.photoBtn.transform = CGAffineTransformMakeTranslation(0, -100) ;
 }
 
-- (void)headButtonViewBackAction:(UIButton *)btn {
-    [super headButtonViewBackAction:btn];
-    [self.hairManager releaseItem];
-}
-
 #pragma mark - FUHairViewDelegate
 -(void)hairViewDidSelectedhairIndex:(NSInteger)index{
     if (index == -1) {

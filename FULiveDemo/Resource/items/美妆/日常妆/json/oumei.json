@@ -16,7 +16,7 @@
         1.0
     ],
     "tex_brow": "mu_style_eyebrow_01.png",
-    "brow_warp": 1.0,
+    "brow_warp": 0.0,
     "brow_warp_type": 0,
     "makeup_intensity_eyeBrow": 0.5,
     "makeup_eyeLash_color": [
@@ -52,7 +52,7 @@
         1.0
     ],
     "tex_eye_bundle": "mu_style_eyeshadow_04",
-    "tex_eye": "mu_style_eyeshadow_04.png",
+    "tex_eye": "mu_style_eyeshadow1_04.png",
     "tex_eye2": "mu_style_eyeshadow2_04.png",
     "makeup_intensity_eye": 0.800000011920929,
     "makeup_foundation_color": [
@@ -86,5 +86,6 @@
         1.0
     ],
     "lip_type": 0,
-    "makeup_intensity_lip": 0.8600000143051148
+    "makeup_intensity_lip": 0.8600000143051148,
+    "use_brow_v2": 1.0
 }

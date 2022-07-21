@@ -7,7 +7,6 @@
 //
 
 #import "FUAnimojiController.h"
-#import "FUSegmentBar.h"
 #import "FUItemsView.h"
 #import "FUAnimojiManager.h"
 #import "FUAnimationFilterManager.h"
@@ -39,15 +38,6 @@
     
     [self setupView];
     
-}
-
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-//    [[FUManager shareManager] set3DFlipH];
-    /*
-    抗锯齿
-    */
-    [self.animojManager loadAntiAliasing];
 }
 
 -(void)setupView{
@@ -86,12 +76,6 @@
     self.selAnmoji = self.itemsView.selectedItem;
     
     self.photoBtn.transform = CGAffineTransformMakeTranslation(0, -90) ;
-}
-
--(void)headButtonViewBackAction:(UIButton *)btn{
-    [super headButtonViewBackAction:btn];
-    [self.animojManager releaseItem];
-    [self.animationFilterManager releaseItem];
 }
 
 #pragma mark - FUItemsViewDelegate

@@ -51,6 +51,10 @@ typedef NS_ENUM( NSInteger, FUCaptureCameraFocusModel) {
 @property (copy  , nonatomic) dispatch_queue_t  audioCaptureQueue;//音频采集队列
 @property (copy  , nonatomic) dispatch_queue_t  tmpCaptureQueue;//视频采集的队列
 @property (assign, nonatomic) AVCaptureSessionPreset sessionPreset;
+@property (assign, nonatomic) BOOL needsAudioTrack;//是否需要音频，默认为NO
+
+/// 是否正在采集
+@property (assign, nonatomic) BOOL capturing;
 
 
 - (instancetype)initWithCameraPosition:(AVCaptureDevicePosition)cameraPosition captureFormat:(int)captureFormat;
@@ -66,10 +70,6 @@ typedef NS_ENUM( NSInteger, FUCaptureCameraFocusModel) {
 - (void)startRecord;
 
 - (void)stopRecordWithCompletionHandler:(void (^)(NSString *videoPath))handler;
-
-- (void)addAudio;
-
-- (void)removeAudio;
 
 /* 当前分辨率是否支持前后置 */
 -(BOOL)supportsAVCaptureSessionPreset:(BOOL)isFront;

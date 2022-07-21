@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// 获取当前View所在控制器
 - (UIViewController *)fu_targetViewController;
 
++ (UIViewController *)fu_topViewController:(UIViewController *)viewController;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -7,13 +7,10 @@
 //
 
 #import "FULvMuView.h"
-#import "FUSegmentBar.h"
 #import "FUBaseViewController.h"
 #import "FUSquareButton.h"
-#import "FUSlider.h"
 #import "FUBgCollectionView.h"
 #import "FUSafeAreaCollectionView.h"
-#import "FUTipHUD.h"
 
 #import "UIView+FU.h"
 #import "UIImage+FU.h"
@@ -84,10 +81,8 @@ typedef NS_ENUM(NSUInteger, FULvMuState) {
         }];
     }else{
         self.contentView.layer.borderWidth = 0;
-        //        [UIView animateWithDuration:0.25 animations:^{
         self.imageView.transform = CGAffineTransformIdentity;
         self.bgImageView.transform = CGAffineTransformIdentity;
-        //        }];
     }
 }
 @end
@@ -239,9 +234,11 @@ static NSString * const colorCellID = @"FULvMuColorCellID";
     UIColor *color0 = [UIColor clearColor];
     UIColor *color1 = [UIColor colorWithRed:0 green:1.0 blue:0 alpha:1.0];
     UIColor *color2 = [UIColor colorWithRed:0 green:0.0 blue:1 alpha:1.0];
+    UIColor *color3 = [UIColor colorWithRed:1 green:1 blue:1 alpha:1.0];
     [_colors addObject:color0];
     [_colors addObject:color1];
     [_colors addObject:color2];
+    [_colors addObject:color3];
 }
 
 
@@ -397,7 +394,7 @@ static NSString * const colorCellID = @"FULvMuColorCellID";
     if(collectionView == _mItemCollectionView ){
         return self.dataArray.count ;
     } else {
-        return 3;
+        return 4;
     }
 }
 
@@ -435,7 +432,7 @@ static NSString * const colorCellID = @"FULvMuColorCellID";
         
         cell.imageView.backgroundColor = _colors[indexPath.row];
         if(indexPath.row == 0){
-            cell.imageView.backgroundColor = [UIColor clearColor];
+            // cell.imageView.backgroundColor = [UIColor clearColor];
             if(_colorSelectedIndex != 0){
                 cell.imageView.image = [UIImage imageNamed:@"demo_icon_straw"];
                 
@@ -482,6 +479,7 @@ static NSString * const colorCellID = @"FULvMuColorCellID";
         self.mTakeColorView.hidden = indexPath.row == 0 ?NO:YES;
         
         if (indexPath.row == 0) {
+            [self setupData];
             self.mTakeColorView.perView.backgroundColor = [UIColor clearColor];
             [self changeTakeColorState:FUTakeColorStateRunning];
         }else{

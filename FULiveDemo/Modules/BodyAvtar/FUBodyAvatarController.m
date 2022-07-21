@@ -26,7 +26,8 @@
 @end
 
 @implementation FUBodyAvatarController
-- (BOOL)isNeedLoadBeauty {
+
+- (BOOL)needsLoadingBeauty {
     return NO;
 }
 
@@ -53,7 +54,8 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.headButtonView.switchBtn.selected = YES;
-     [self.mCamera changeCameraInputDeviceisFront:NO];
+    [self.mCamera changeCameraInputDeviceisFront:NO];
+    [FURenderKit shareRenderKit].internalCameraSetting.position = AVCaptureDevicePositionBack;
 }
 
 -(void)setupBodySubView{
@@ -140,27 +142,6 @@
      }else{//半身
         [self.bodyAvatarManager switchBodyTrackMode:FUBodyTrackModeHalf];
      }
-}
-
-/*
- 返回按钮
- */
--(void)headButtonViewBackAction:(UIButton *)btn{
-    [super headButtonViewBackAction:btn];
-    [self.bodyAvatarManager releaseItem];
-}
-
--(void)headButtonViewSwitchAction:(UIButton *)sender{
-    sender.userInteractionEnabled = NO ;
-    dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC);
-    dispatch_after(delayTime, dispatch_get_main_queue(), ^(void){
-        sender.userInteractionEnabled = YES ;
-    });
-    //TODO: todo 替换内部相机的时需要设置一下
-    [self.mCamera changeCameraInputDeviceisFront:sender.selected];
-    /**切换摄像头要调用此函数*/
-    [self.baseManager setOnCameraChange];
-    sender.selected = !sender.selected;
 }
 
 #pragma  mark -  手势

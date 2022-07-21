@@ -8,7 +8,6 @@
 
 #import "FUBodyBeautyView.h"
 #import "FUPositionCell.h"
-#import "FUSlider.h"
 #import "FUSquareButton.h"
 
 #import "UIView+FU.h"

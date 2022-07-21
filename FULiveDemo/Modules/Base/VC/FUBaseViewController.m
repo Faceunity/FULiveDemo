@@ -10,7 +10,6 @@
 #import "FUSelectedImageController.h"
 
 #import "FUPopupMenu.h"
-#import "FUTipHUD.h"
 
 #import "FULiveModel.h"
 
@@ -27,50 +26,61 @@ FURenderKitDelegate,
 FUPhotoButtonDelegate,
 FULightingViewDelegate,
 UINavigationControllerDelegate,
-UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate,
-FUPopupMenuDelegate, FUCaptureCameraDataSource
+UIImagePickerControllerDelegate,
+UINavigationControllerDelegate,
+UIImagePickerControllerDelegate,
+FUPopupMenuDelegate,
+FUCaptureCameraDataSource
 >
 {
-    dispatch_semaphore_t signal;
     dispatch_semaphore_t semaphore;
+    dispatch_semaphore_t signal;
     UIImage *mCaptureImage;
     float imageW ;
     float imageH;
 }
-@property (strong, nonatomic) FUCaptureCamera *mCamera ;
 
-@property (strong, nonatomic) FUInsertsLabel *buglyLabel;
-@property (strong, nonatomic) UIImageView *adjustImage;
-/* 分辨率 选中第几个项 */
-@property (assign, nonatomic) int selIndex;
+@property (nonatomic, strong) FUBaseViewControllerManager *baseManager;
+@property (nonatomic, strong) FUCaptureCamera *mCamera;
+@property (nonatomic, strong) FUHeadButtonView *headButtonView;
+@property (nonatomic, strong) FUPhotoButton *photoBtn;
+@property (nonatomic, strong) FUGLDisplayView *renderView;
+@property (nonatomic, strong) FULightingView *lightingView;
+@property (nonatomic, strong) UILabel *noTrackLabel;
+@property (nonatomic, strong) UILabel *tipLabel;
+@property (nonatomic, assign) BOOL isFromOtherPage;
 
+@property (nonatomic, strong) FUInsetsLabel *buglyLabel;
+@property (nonatomic, strong) UIImageView *adjustImage;
+/// 选中分辨率索引
+@property (nonatomic, assign) int selIndex;
 @property (nonatomic, assign) BOOL isCameraRunning;
 
 @end
 
 @implementation FUBaseViewController
 
-
-- (BOOL)prefersStatusBarHidden
-{
-    return YES;
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        [FUManager loadAIModelWithModuleType:[FUManager shareManager].currentModel.type];
+    }
+    return self;
 }
 
-//默认YES
-- (BOOL)isNeedLoadBeauty {
-    return YES;
-}
+#pragma mark - Life cycle
 
 -(void)viewDidLoad{
     [super viewDidLoad];
+    
     self.baseManager = [[FUBaseViewControllerManager alloc] init];
     
-    if ([self isNeedLoadBeauty]) {
+    if (self.needsLoadingBeauty) {
         [self.baseManager loadItem];
     }
-    
+    // 需要音频输入输出
+    [FURenderKit shareRenderKit].internalCameraSetting.needsAudioTrack = YES;
     [[FURenderKit shareRenderKit] startInternalCamera];
-    [[FURenderKit shareRenderKit].captureCamera addAudio];
     _isCameraRunning = YES;
     [FURenderKit shareRenderKit].captureCamera.dataSource = self;
     //把渲染的View 赋值给 FURenderKit，这样会在FURenderKit内部自动渲染
@@ -82,7 +92,7 @@ FUPopupMenuDelegate, FUCaptureCameraDataSource
     self.view.backgroundColor = [UIColor colorWithRed:17/255.0 green:18/255.0 blue:38/255.0 alpha:1.0];
 
     [self setupLightingValue];
-    /* 道具切信号 */
+    
     signal = dispatch_semaphore_create(1);
   
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchScreenAction:)];
@@ -93,6 +103,7 @@ FUPopupMenuDelegate, FUCaptureCameraDataSource
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
     // 设置图像加载模式为视频模式
     [self.baseManager setFaceProcessorDetectMode:FUFaceProcessorDetectModeVideo];
     if (_isFromOtherPage) {
@@ -100,20 +111,20 @@ FUPopupMenuDelegate, FUCaptureCameraDataSource
         [FURenderKit shareRenderKit].internalCameraSetting.position = self.baseManager.cameraPosition;
         [FURenderKit shareRenderKit].glDisplayView = self.renderView;
         _isCameraRunning = YES;
-        [self.baseManager loadItem];
+        if (self.needsLoadingBeauty) {
+            [self.baseManager loadItem];
+        }
     }
-    [FURenderKit shareRenderKit].pause = NO;
-    //不确定是不是小bug，每次重新回到页面分辨率都被设置成AVCaptureSessionPreset1280x720了，放到页面初始化地方去
-//    [FURenderKit shareRenderKit].internalCameraSetting.sessionPreset = AVCaptureSessionPreset1280x720;
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    
     _isFromOtherPage = YES;
     [self.mCamera resetFocusAndExposureModes];
     /* 清一下信息，防止快速切换有人脸信息缓存 */
     [self.baseManager setOnCameraChange];
-    [_photoBtn photoButtonFinishRecord];
+    [self.photoBtn photoButtonFinishRecord];
     //处理进入自定义视频/图片模块的问题，必须停止
     NSLog(@"viewWillDisappear : %@",self);
     
@@ -124,35 +135,15 @@ FUPopupMenuDelegate, FUCaptureCameraDataSource
     }
     
     self.baseManager.cameraPosition = [FURenderKit shareRenderKit].internalCameraSetting.position;
+    
 }
 
-#pragma  mark -  UI
-- (FUGLDisplayView *)renderView {
-    if (!_renderView) {
-        /* opengl */
-        _renderView = [[FUGLDisplayView alloc] initWithFrame:self.view.bounds];
-        _renderView.layer.masksToBounds = YES;
-        [self.view addSubview:_renderView];
-        [_renderView mas_makeConstraints:^(MASConstraintMaker *make) {
-             make.left.right.equalTo(self.view);
-             if (@available(iOS 11.0, *)) {
-                 make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop);
-                 if(iPhoneXStyle){
-                    make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom).mas_offset(-50);
-                 }else{
-                     make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
-                 }
-             } else {
-                 // Fallback on earlier versions
-                 make.top.equalTo(self.view.mas_top);
-                 make.bottom.equalTo(self.view.mas_bottom);
-             }
-            
-            make.left.right.equalTo(self.view);
-         }];
-    }
-    return _renderView;
+-(void)dealloc{
+    NSLog(@"----界面销毁");
 }
+
+
+#pragma  mark -  UI
 
 -(void)setupSubView{
     /* 顶部按钮 */
@@ -160,7 +151,7 @@ FUPopupMenuDelegate, FUCaptureCameraDataSource
     _headButtonView.delegate = self;
     _headButtonView.selectedImageBtn.hidden = YES;
     [self.view addSubview:_headButtonView];
-    [_headButtonView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.headButtonView mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(iOS 11.0, *)) {
             make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(15);
         } else {
@@ -171,7 +162,7 @@ FUPopupMenuDelegate, FUCaptureCameraDataSource
     }];
     
     /* bugly信息 */
-    _buglyLabel = [[FUInsertsLabel alloc] initWithFrame:CGRectZero insets:UIEdgeInsetsMake(5, 5, 5, 5)];
+    _buglyLabel = [[FUInsetsLabel alloc] initWithFrame:CGRectZero insets:UIEdgeInsetsMake(5, 5, 5, 5)];
     _buglyLabel.layer.masksToBounds = YES;
     _buglyLabel.layer.cornerRadius = 5;
     _buglyLabel.numberOfLines = 0;
@@ -224,7 +215,7 @@ FUPopupMenuDelegate, FUCaptureCameraDataSource
     _tipLabel.hidden = YES;
     [self.view addSubview:_tipLabel];
     [_tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.noTrackLabel.mas_bottom);
+        make.top.equalTo(_noTrackLabel.mas_bottom);
         make.centerX.equalTo(self.view);
         make.width.mas_equalTo(300);
         make.height.mas_equalTo(32);
@@ -246,8 +237,25 @@ FUPopupMenuDelegate, FUCaptureCameraDataSource
     _selIndex = self.model.type == FULiveModelTypeQSTickers ? 0 : 1;
 }
 
+#pragma mark - Private methods
 
--(void)setupLightingValue{
+//自动对焦
+- (void)autoFocus {
+    BOOL isHaveFace = [self.baseManager faceTrace];
+    CGPoint center = CGPointMake(0.5, 0.5);
+    if (isHaveFace) {
+        center = [self cameraFocusAndExposeFace];
+    }
+    self.baseManager.faceCenter = center; //在渲染线程获取人脸中心点是准确的，保存起来，让其他线程去访问。
+}
+
+
+-(CGPoint)cameraFocusAndExposeFace {
+    CGPoint center = [self.baseManager getFaceCenterInFrameSize:CGSizeMake(imageW, imageH)];
+    return CGPointMake(center.y, [FURenderKit shareRenderKit].internalCameraSetting.position == AVCaptureDevicePositionFront ? center.x : 1 - center.x);
+}
+
+-(void)setupLightingValue {
     //设置默认调节的区间
     self.lightingView.slider.minimumValue = -2;
     self.lightingView.slider.maximumValue = 2;
@@ -255,6 +263,7 @@ FUPopupMenuDelegate, FUCaptureCameraDataSource
 }
 
 #pragma  mark -  UI事件
+
 - (void)touchScreenAction:(UITapGestureRecognizer *)tap {
     if (tap.view == self.renderView) {
         // 聚焦
@@ -313,10 +322,7 @@ FUPopupMenuDelegate, FUCaptureCameraDataSource
 #pragma mark -  Loading
 
 -(FUCaptureCamera *)mCamera {
-    if (!_mCamera) {
-        _mCamera = [FURenderKit shareRenderKit].captureCamera;
-    }
-    return _mCamera;
+    return [FURenderKit shareRenderKit].captureCamera;
 }
 
 -(UIImage *)captureImage{
@@ -335,7 +341,7 @@ FUPopupMenuDelegate, FUCaptureCameraDataSource
 
 -(void)headButtonViewSelImageAction:(UIButton *)btn{
     
-    if ([self onlyJumpImage]) {
+    if (!self.needsPresetSelections) {
         [self fuPopupMenuDidSelectedImage];
         return;
     }
@@ -367,14 +373,16 @@ FUPopupMenuDelegate, FUCaptureCameraDataSource
         [self fuPopupMenuDidSelectedAtIndex:_selIndex];
     }
     
-     [self.mCamera changeCameraInputDeviceisFront:sender.selected];
+    [self.mCamera changeCameraInputDeviceisFront:sender.selected];
     [FURenderKit shareRenderKit].internalCameraSetting.position = self.mCamera.isFrontCamera?AVCaptureDevicePositionFront:AVCaptureDevicePositionBack;
     /**切换摄像头要调用此函数*/
     [self.baseManager setOnCameraChange];
     sender.selected = !sender.selected ;
 }
-static CFAbsoluteTime adjustTime = 0 ;
+
 #pragma mark - FULightingViewDelegate
+
+static CFAbsoluteTime adjustTime = 0;
 -(void)lightingViewValueDidChange:(float)value {
     adjustTime = CFAbsoluteTimeGetCurrent() ;
     [self hiddenAdjustViewWithTime:1.3];
@@ -467,7 +475,8 @@ static CFAbsoluteTime adjustTime = 0 ;
     return 0;
 }
 
-#pragma mark - FUCameraDelegate
+#pragma mark - FURenderKitDelegate
+
 static int rate = 0;
 static NSTimeInterval totalRenderTime = 0;
 static NSTimeInterval oldTime = 0;
@@ -533,7 +542,7 @@ static NSTimeInterval startTime = 0;
 #pragma  mark -  FUPopupMenuDelegate
 
 -(void)headButtonViewBackAction:(UIButton *)btn{
-    dispatch_semaphore_wait(signal, DISPATCH_TIME_FOREVER);
+    dispatch_semaphore_signal(signal);
     [[FURenderKit shareRenderKit] stopInternalCamera];
     _isCameraRunning  = NO;
     [FURenderKit shareRenderKit].glDisplayView = nil;
@@ -541,8 +550,7 @@ static NSTimeInterval startTime = 0;
     [FURenderKit shareRenderKit].internalCameraSetting.sessionPreset = AVCaptureSessionPreset1280x720;
     // 格式还原为kCVPixelFormatType_32BGRA
     [FURenderKit shareRenderKit].internalCameraSetting.format = kCVPixelFormatType_32BGRA;
-    [self.baseManager releaseItem];
-    [self.baseManager updateBeautyCache];
+    [self.baseManager clearItems];
     [self.navigationController popViewControllerAnimated:YES];
     dispatch_semaphore_signal(signal);
 }
@@ -567,6 +575,8 @@ static NSTimeInterval startTime = 0;
             break;
     }
     
+    [FURenderKit shareRenderKit].internalCameraSetting.sessionPreset = self.mCamera.sessionPreset;
+    
     if (!ret) {
         NSLog(@"摄像机不支持");
         [SVProgressHUD showInfoWithStatus:@"摄像机不支持"];
@@ -576,12 +586,12 @@ static NSTimeInterval startTime = 0;
 
 -(void)fuPopupMenuDidSelectedImage {
     //更新美颜参数,使得自定义照片和视频可以直接使用已经设置好的参数。
-    [self.baseManager updateBeautyCache];
+    [self.baseManager updateBeautyCache:NO];
     
     [self didClickSelPhoto];
 }
 
-#pragma  mark -  子类差异实现
+#pragma  mark - Override methods
 
 -(void)didClickSelPhoto{
     FUSelectedImageController *vc = [[FUSelectedImageController alloc] init];
@@ -591,37 +601,62 @@ static NSTimeInterval startTime = 0;
 -(void)displayPromptText {
     BOOL isHaveFace = [self.baseManager faceTrace];
     dispatch_async(dispatch_get_main_queue(), ^{
-       self.noTrackLabel.text = FUNSLocalizedString(@"No_Face_Tracking",nil);
-       self.noTrackLabel.hidden = isHaveFace;
+        self.noTrackLabel.text = FUNSLocalizedString(@"No_Face_Tracking",nil);
+        self.noTrackLabel.hidden = isHaveFace;
     });
 }
 
-//自动对焦
-- (void)autoFocus {
-    BOOL isHaveFace = [self.baseManager faceTrace];
-    CGPoint center = CGPointMake(0.5, 0.5);
-    if (isHaveFace) {
-        center = [self cameraFocusAndExposeFace];
+#pragma mark - Overriding
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
+- (BOOL)needsPresetSelections {
+    return YES;
+}
+
+- (BOOL)needsLoadingBeauty {
+    return YES;
+}
+
+#pragma mark -  Getters
+
+- (FUGLDisplayView *)renderView {
+    if (!_renderView) {
+        /* opengl */
+        _renderView = [[FUGLDisplayView alloc] initWithFrame:self.view.bounds];
+        _renderView.layer.masksToBounds = YES;
+        [self.view addSubview:_renderView];
+        [_renderView mas_makeConstraints:^(MASConstraintMaker *make) {
+             make.left.right.equalTo(self.view);
+             if (@available(iOS 11.0, *)) {
+                 make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop);
+                 if(iPhoneXStyle){
+                    make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom).mas_offset(-50);
+                 }else{
+                     make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
+                 }
+             } else {
+                 // Fallback on earlier versions
+                 make.top.equalTo(self.view.mas_top);
+                 make.bottom.equalTo(self.view.mas_bottom);
+             }
+            
+            make.left.right.equalTo(self.view);
+         }];
     }
-    self.baseManager.faceCenter = center; //在渲染线程获取人脸中心点是准确的，保存起来，让其他线程去访问。
+    return _renderView;
 }
 
-
--(CGPoint)cameraFocusAndExposeFace {
-   CGPoint center = [self.baseManager getFaceCenterInFrameSize:CGSizeMake(imageW, imageH)];
-   return  CGPointMake(center.y, self.mCamera.isFrontCamera ? center.x : 1 - center.x);
-}
-
--(BOOL)onlyJumpImage{
-    return NO;
-}
+#pragma mark - Memory warning
 
 - (void)didReceiveMemoryWarning {
     NSLog(@"*******************self == %@ didReceiveMemoryWarning *******************",self);
-}
-
--(void)dealloc{
-    NSLog(@"----界面销毁");
 }
 
 @end

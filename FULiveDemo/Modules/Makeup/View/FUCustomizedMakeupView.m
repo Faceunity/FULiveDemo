@@ -7,7 +7,6 @@
 //
 
 #import "FUCustomizedMakeupView.h"
-#import "FUSlider.h"
 #import "FUCustomizedMakeupCell.h"
 
 #import "FUMakeupModel.h"

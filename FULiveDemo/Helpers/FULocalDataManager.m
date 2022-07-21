@@ -7,6 +7,9 @@
 //
 
 #import "FULocalDataManager.h"
+#import <MJExtension.h>
+
+NSString * const FUPersistentBeautyKey = @"FUPersistentBeauty";
 
 @interface FULocalDataManager ()
 @property (nonatomic, strong) NSDictionary *stickTipsData;
@@ -31,8 +34,24 @@
     self = [super init];
     if (self) {
         self.stickTipsData = [self stickerTipsJsonData];
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:FUPersistentBeautyKey]) {
+            // 获取本地持久化数据
+            NSDictionary *beautyData = [[NSUserDefaults standardUserDefaults] objectForKey:FUPersistentBeautyKey];
+            self.persistentBeauty = [FUPersistentBeautyModel mj_objectWithKeyValues:beautyData];
+        } else {
+            self.persistentBeauty = [[FUPersistentBeautyModel alloc] init];
+        }
     }
     return self;
+}
+
+- (void)save {
+    if (!self.persistentBeauty.beautySkins || !self.persistentBeauty.beautyShapes || !self.persistentBeauty.beautyFilters) {
+        return;
+    }
+    NSDictionary *beautyData = self.persistentBeauty.mj_JSONObject;
+    [[NSUserDefaults standardUserDefaults] setObject:beautyData forKey:FUPersistentBeautyKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 + (NSDictionary *)stickerTipsJsonData {

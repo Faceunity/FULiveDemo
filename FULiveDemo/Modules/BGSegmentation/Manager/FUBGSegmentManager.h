@@ -11,7 +11,7 @@
 #import "FUManager.h"
 
 #define CUSTOMBG @"bg_segment"
-#define HUMANOUTLINE @"human_outline"
+#define HUMANOUTLINE @"human_outline_740"
 
 NS_ASSUME_NONNULL_BEGIN
 @class FUBGSaveModel, FUBGSaveModel;

@@ -1,6 +1,6 @@
 ----
 
-更新时间: 2022-04-15
+更新时间: 2022-07-21
 
 创建时间: 2020-01-22
 
@@ -602,7 +602,7 @@ ___
 | keyColor     | FUColor | 设置绿幕取色, 颜色值按照十六进制大小设置 ex: RGBA (255.0, 255.0, 255.0, 1.0) | key_color        |
 | chromaThres  | double  | 默认值为0.518,取值范围0.0-1.0，相似度：色度最大容差，色度最大容差值越大，更多幕景被抠除 | chroma_thres     |
 | chromaThrest | double  |  默认值为0.22,取值范围0.0-1.0，平滑：色度最小限差，值越大，更多幕景被扣除  | chroma_thres_T   |
-| alphal       | double  |  默认值为0.0,取值范围0.0-1.0，透明度：图像前后景透明度过度，值越大，两者边缘处透明过度更平滑  | alpha_L          |
+| alphal       | double  |  默认值为0.0,取值范围0.0-1.0，祛色度：图像前后景祛色度过度，值越大，两者边缘处透明过度更平滑  | alpha_L          |
 | center       | CGPoint | 当前图片偏移量                                               | start_x、start_y |
 | scale        | float   | 图片宽高放大值                                               | end_x、end_y     |
 | rotationMode | int     | 当前设备方向0、1、2、3                                       | rotation_mode    |

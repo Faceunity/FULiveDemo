@@ -8,7 +8,6 @@
 
 #import "FULightMakeupCollectionView.h"
 #import "FULightMakeupCell.h"
-#import "FUSlider.h"
 
 static NSString * const kFULightMakeupCellIdentifierKey = @"FULightMakeupCell";
 

@@ -1,0 +1,32 @@
+{
+  "name": "FURenderKit-assets-dev",
+  "module_name": "FURenderKit_Assets",
+  "version": "8.2.0",
+  "license": "MIT",
+  "summary": "Source code for faceUnity renderkit",
+  "description": "a seak and package for sticker object and user do not attention release the sticker. convenient and easy to user FaceUnity function.",
+  "homepage": "http://192.168.0.118/Terminal/iOS/FURenderKit",
+  "authors": {
+    "faceunity": "yangliu@faceunity.com"
+  },
+  "platforms": {
+    "ios": "9.0"
+  },
+  "source": {
+    "http": "git@192.168.0.118:Terminal/iOS/FURenderKit.git"
+  },
+  "default_subspecs": "SDKAssets",
+  "subspecs": [
+    {
+      "name": "SDKAssets",
+      "resources": "Resources/**/*.{bundle,h}"
+    },
+    {
+      "name": "nama",
+      "resources": [
+        "Resources/**/*.bundle"
+      ],
+      "source_files": "Resources/**/*.h"
+    }
+  ]
+}

@@ -8,7 +8,7 @@
 
 #import "FURenderMediaViewController.h"
 
-#import "FUVideoReader.h"
+#import <FUVideoComponent/FUVideoComponent.h>
 
 #import <SVProgressHUD.h>
 
@@ -34,7 +34,7 @@
 
 @property (nonatomic, strong) FUGLDisplayView *displayView;
 
-@property (nonatomic, strong) FUVideoReader *videoReader;
+@property (nonatomic, strong) FUVideoProcessor *videoProcessor;
 
 @property (nonatomic, assign) FURenderMediaType mediaType;
 
@@ -44,8 +44,10 @@
 
 @implementation FURenderMediaViewController {
     FUImageBuffer currentImageBuffer;
+    CMSampleBufferRef lastSampleBuffer;
     // 是否需要保存图片到相册
     BOOL needDownloadPicture;
+    BOOL videoProcessingFinished;
 }
 
 @synthesize stopRendering, needTrack, trackType;
@@ -84,6 +86,15 @@
     
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    // 添加点位测试开关
+    if (FUShowLandmark) {
+        [FULandmarkManager show];
+    }
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
@@ -101,11 +112,16 @@
     
     [self stop];
     
-    [self.baseManager updateBeautyCache];
+    [self.baseManager updateBeautyCache:NO];
     [self.baseManager releaseItem];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+    
+    // 移除点位测试开关
+    if (FUShowLandmark) {
+        [FULandmarkManager dismiss];
+    }
 }
 
 - (void)dealloc {
@@ -226,28 +242,77 @@
         // 取消所有任务
         [self.renderOperationQueue cancelAllOperations];
     } else {
-        [self.videoReader stopReading];
-        [self.videoReader destory];
-        self.videoReader = nil;
+        videoProcessingFinished = NO;
+        [self.videoProcessor cancelProcessing];
         [self.audioReader pause];
         self.audioReader = nil;
     }
 }
 
 - (void)startVideoReader {
-    if (self.videoReader) {
-        [self.videoReader setVideoURL:self.videoURL];
-    }else {
-        self.videoReader = [[FUVideoReader alloc] initWithVideoURL:self.videoURL];
-        self.videoReader.delegate = self;
-    }
+    self.videoProcessor = [[FUVideoProcessor alloc] initWithReadingURL:self.videoURL  writingURL:[NSURL fileURLWithPath:kFUFinalPath]];
+    @weakify(self)
+    self.videoProcessor.processingVideoBufferHandler = ^CVPixelBufferRef _Nonnull(CVPixelBufferRef  _Nonnull videoPixelBuffer) {
+        @strongify(self)
+        videoPixelBuffer = [self renderVideoPixelBuffer:videoPixelBuffer];
+        return videoPixelBuffer;
+    };
     
-    [self.videoReader startReadWithDestinationPath:kFUFinalPath];
-    self.displayView.origintation = (int)self.videoReader.videoOrientation;
+    self.videoProcessor.processingFinishedHandler = ^{
+        @strongify(self)
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.downloadButton.hidden = NO;
+            self.playVideoButton.hidden = NO;
+        });
+        self->videoProcessingFinished = YES;
+        // 获取最后视频帧，需要循环render
+        self->lastSampleBuffer = [self.videoProcessor.reader lastVideoSampleBuffer];
+        while (self->videoProcessingFinished && self->lastSampleBuffer != NULL) {
+            CVPixelBufferRef lastPixelBuffer = CMSampleBufferGetImageBuffer(self->lastSampleBuffer);
+            [self renderVideoPixelBuffer:lastPixelBuffer];
+            // 设置render时间间隔
+            usleep(1000000*0.033);
+        }
+    };
+    
+    [self.videoProcessor startProcessing];
+    
+    self.displayView.origintation = (int)self.videoProcessor.reader.videoOrientation;
     
     self.audioReader = [AVPlayer playerWithURL:self.videoURL];
     self.audioReader.actionAtItemEnd = AVPlayerActionAtItemEndNone;
     [self.audioReader play];
+}
+
+- (CVPixelBufferRef)renderVideoPixelBuffer:(CVPixelBufferRef)videoPixelBuffer {
+    if (!self.stopRendering) {
+        FURenderInput *input = [[FURenderInput alloc] init];
+        input.pixelBuffer = videoPixelBuffer;
+        input.renderConfig.imageOrientation = FUImageOrientationUP;
+        switch (self.videoProcessor.reader.videoOrientation) {
+            case FUVideoOrientationPortrait:
+                input.renderConfig.imageOrientation = FUImageOrientationUP;
+                break;
+            case FUVideoOrientationLandscapeRight:
+                input.renderConfig.imageOrientation = FUImageOrientationLeft;
+                break;
+            case FUVideoOrientationUpsideDown:
+                input.renderConfig.imageOrientation = FUImageOrientationDown;
+                break;
+            case FUVideoOrientationLandscapeLeft:
+                input.renderConfig.imageOrientation = FUImageOrientationRight;
+                break;
+        }
+        FURenderOutput *output =  [[FURenderKit shareRenderKit] renderWithInput:input];
+        videoPixelBuffer = output.pixelBuffer;
+    }
+    [self.displayView displayPixelBuffer:videoPixelBuffer];
+    if ([self conformsToProtocol:@protocol(FURenderMediaProtocol)] && [self respondsToSelector:@selector(renderMediaDidOutputPixelBuffer:)]) {
+        [self renderMediaDidOutputPixelBuffer:videoPixelBuffer];
+    }
+    [self resolveTrackResult];
+    
+    return videoPixelBuffer;
 }
 
 /// 处理人脸/人体检测结果
@@ -293,7 +358,7 @@
     sender.selected = YES;
     sender.hidden = YES;
     self.downloadButton.hidden = YES;
-    
+    videoProcessingFinished = NO;
     [self startVideoReader];
 }
 
@@ -386,49 +451,6 @@
 
 - (BOOL)isNeedTrack {
     return NO;
-}
-
-#pragma mark - FUVideoReaderDelegate
-
-- (CVPixelBufferRef)videoReaderDidReadVideoBuffer:(CVPixelBufferRef)pixelBuffer {
-    if (!self.stopRendering) {
-        FURenderInput *input = [[FURenderInput alloc] init];
-        input.pixelBuffer = pixelBuffer;
-        input.renderConfig.imageOrientation = 0;
-        switch (self.videoReader.videoOrientation) {
-            case FUVideoReaderOrientationPortrait:
-                input.renderConfig.imageOrientation = FUImageOrientationUP;
-                break;
-            case FUVideoReaderOrientationLandscapeRight:
-                input.renderConfig.imageOrientation = FUImageOrientationLeft;
-                break;
-            case FUVideoReaderOrientationUpsideDown:
-                input.renderConfig.imageOrientation = FUImageOrientationDown;
-                break;
-            case FUVideoReaderOrientationLandscapeLeft:
-                input.renderConfig.imageOrientation = FUImageOrientationRight;
-                break;
-            default:
-                input.renderConfig.imageOrientation = FUImageOrientationUP;
-                break;
-        }
-        FURenderOutput *output =  [[FURenderKit shareRenderKit] renderWithInput:input];
-        pixelBuffer = output.pixelBuffer;
-    }
-    [self.displayView displayPixelBuffer:pixelBuffer];
-    if ([self conformsToProtocol:@protocol(FURenderMediaProtocol)] && [self respondsToSelector:@selector(renderMediaDidOutputPixelBuffer:)]) {
-        [self renderMediaDidOutputPixelBuffer:pixelBuffer];
-    }
-    [self resolveTrackResult];
-    return pixelBuffer;
-}
-
-- (void)videoReaderDidFinishReadSuccess:(BOOL)success {
-    [self.videoReader startReadForLastFrame];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.downloadButton.hidden = NO;
-        self.playVideoButton.hidden = NO;
-    });
 }
 
 #pragma mark - Getters

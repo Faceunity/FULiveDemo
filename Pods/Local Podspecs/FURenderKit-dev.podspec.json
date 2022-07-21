@@ -1,0 +1,43 @@
+{
+  "name": "FURenderKit-dev",
+  "module_name": "FURenderKit",
+  "version": "8.2.0",
+  "license": "MIT",
+  "summary": "Source code for faceUnity renderkit",
+  "description": "a seak and package for sticker object and user do not attention release the sticker. convenient and easy to user FaceUnity function.",
+  "homepage": "http://192.168.0.118/Terminal/iOS/FURenderKit",
+  "authors": {
+    "faceunity": "yangliu@faceunity.com"
+  },
+  "platforms": {
+    "ios": "9.0"
+  },
+  "source": {
+    "http": "git@192.168.0.118:Terminal/iOS/FURenderKit.git"
+  },
+  "requires_arc": true,
+  "libraries": [
+    "stdc++"
+  ],
+  "pod_target_xcconfig": {
+    "ENABLE_BITCODE": "NO"
+  },
+  "default_subspecs": "FURenderKit",
+  "subspecs": [
+    {
+      "name": "FURenderKit",
+      "prefix_header_file": "FURenderKit/FURenderKit.pch",
+      "source_files": "FURenderKit/**/*.{h,m}",
+      "exclude_files": [
+        "FURenderKit/**/FaceUnity-SDK-iOS/**/*.h"
+      ],
+      "subspecs": [
+        {
+          "name": "SDK",
+          "vendored_libraries": "FURenderKit/**/*.a",
+          "source_files": "FURenderKit/**/FaceUnity-SDK-iOS/**/*.h"
+        }
+      ]
+    }
+  ]
+}

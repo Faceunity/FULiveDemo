@@ -21,45 +21,42 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FUBaseViewController : UIViewController<FUHeadButtonViewDelegate>
 
-@property (nonatomic, strong) FUBaseViewControllerManager *baseManager;
-
 @property (nonatomic, strong) FULiveModel *model;
 
-@property (strong, nonatomic,readonly) FUCaptureCamera *mCamera;
-@property (strong, nonatomic) FUHeadButtonView *headButtonView;
-@property (strong, nonatomic) FUPhotoButton *photoBtn;
+@property (nonatomic, strong, readonly) FUBaseViewControllerManager *baseManager;
+@property (nonatomic, strong, readonly) FUCaptureCamera *mCamera;
+@property (nonatomic, strong, readonly) FUHeadButtonView *headButtonView;
+@property (nonatomic, strong, readonly) FUPhotoButton *photoBtn;
+@property (nonatomic, strong, readonly) FUGLDisplayView *renderView;
+@property (nonatomic, strong, readonly) FULightingView *lightingView;
+@property (nonatomic, strong, readonly) UILabel *noTrackLabel;
+@property (nonatomic, strong, readonly) UILabel *tipLabel;
+/// 记录是否从其他控制器回到该控制器
+@property (nonatomic, assign, readonly) BOOL isFromOtherPage;
 
-@property (strong, nonatomic) FUGLDisplayView *renderView;
-@property (strong, nonatomic) UILabel *noTrackLabel;
-@property (strong, nonatomic) UILabel *tipLabel;
-/* 是否开启比对 */
-@property (assign, nonatomic) BOOL openComp;
+/// 是否开启效果对比
+@property (nonatomic, assign) BOOL openComp;
+/// 是否可以跳转到导入图片
+@property (nonatomic, assign) BOOL canPushImageSelView;
+/// 是否可选择分辨率
+@property (nonatomic, assign) BOOL needsPresetSelections;
+/// 是否需要加载美颜
+@property (nonatomic, assign) BOOL needsLoadingBeauty;
 
-/* 可以跳转到导入图片 */
-@property (assign, nonatomic) BOOL canPushImageSelView;
 
-@property (strong, nonatomic) FULightingView *lightingView;
-
-@property (nonatomic, assign) BOOL isFromOtherPage; //记录是否从其他控制器回到该控制器
-
-/* 子类重载，实现差异逻辑 */
--(void)takePhotoToSave:(UIImage *)image;//拍照保存
-
-//渲染之前的buffer
+#pragma mark - Override methods
 - (void)renderKitWillRenderFromRenderInput:(FURenderInput *)renderInput;
-//渲染之后的buffer
+
 - (void)renderKitDidRenderToOutput:(FURenderOutput *)renderOutput;
-
+/// 拍照保存
+-(void)takePhotoToSave:(UIImage *)image;
+/// 点击选择图片或视频
 -(void)didClickSelPhoto;
-
+/// 点击背景
+- (void)touchScreenAction:(UITapGestureRecognizer *)tap;
+/// 人脸/人体检测提示
 -(void)displayPromptText;
 
--(BOOL)onlyJumpImage;
-
-- (void)touchScreenAction:(UITapGestureRecognizer *)tap;
-
-//avatar 不需要加载美颜，所以通过重写方法来告知父类是否加载美颜
-- (BOOL)isNeedLoadBeauty;
 @end
 
 NS_ASSUME_NONNULL_END

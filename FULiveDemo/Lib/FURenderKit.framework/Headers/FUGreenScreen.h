@@ -50,8 +50,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) FUColor keyColor; //默认值为[0,255,0],取值范围[0-255,0-255,0-255],选取的颜色RGB,默认绿色可根据实际颜色进行调整
 @property (nonatomic, assign) double chromaThres; //默认值为0.518,取值范围0.0-1.0，相似度：色度最大容差，色度最大容差值越大，更多幕景被抠除
-@property (nonatomic, assign) double chromaThrest; //默认值为0.22,取值范围0.0-1.0，平滑：色度最小限差，值越大，更多幕景被扣除
-@property (nonatomic, assign) double alphal; //默认值为0.0,取值范围0.0-1.0，透明度：图像前后景透明度过度，值越大，两者边缘处透明过度更平滑
+@property (nonatomic, assign) double chromaThrest; //默认值为0.22,取值范围0.0-1.0，平滑度：色度最小限差，值越大，更多幕景被扣除
+@property (nonatomic, assign) double alphal; //默认值为0.0,取值范围0.0-1.0，祛色度：图像前后景祛色度过度，值越大，两者边缘处透明过度更平滑
 
 @property (nonatomic, assign) CGPoint center; //包含start_x和start_y
 @property (nonatomic, assign) float scale;

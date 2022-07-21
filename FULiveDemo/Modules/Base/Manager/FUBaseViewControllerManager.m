@@ -8,14 +8,14 @@
 
 #import "FUBaseViewControllerManager.h"
 #import "FUManager.h"
+#import "FULocalDataManager.h"
 #import "FUBeautyDefine.h"
 #import <FURenderKit/FUAIKit.h>
 #import <FURenderKit/FUGLContext.h>
 #import <FURenderKit/UIDevice+FURenderKit.h>
 
-@interface FUBaseViewControllerManager () {
-    BOOL _preFaceResult;
-}
+@interface FUBaseViewControllerManager ()
+
 /* 滤镜参数 */
 @property (nonatomic, strong) NSArray<FUBeautyModel *> *filters;
 /* 美肤参数 */
@@ -25,33 +25,32 @@
 /* 风格参数 ，用父类，因为View 用的就是父类泛型，后续需要优化*/
 @property (nonatomic, strong) NSArray<FUStyleModel *> *styleParams;
 
-/// 设备性能等级
-@property (nonatomic, assign) FUDevicePerformanceLevel performanceLevel;
-
 @end
 
 @implementation FUBaseViewControllerManager
 
-- (void)updateBeautyCache {
-    //更新缓存参数
-    NSArray *filters = [NSArray arrayWithArray:self.filters];
-    NSArray *skins = [NSArray arrayWithArray:self.skinParams];
-    NSArray *shape = [NSArray arrayWithArray:self.shapeParams];
-    NSArray *style = [NSArray arrayWithArray:self.styleParams];
-    NSArray *cache = @[skins, shape, filters, style];
-    [FUManager shareManager].beautyParams = cache;
-    [FUManager shareManager].seletedFliter = self.seletedFliter;
-    [FUManager shareManager].currentStyle = self.currentStyle;
+- (void)updateBeautyCache:(BOOL)isPersistent {
+    // 更新缓存参数
+    [FULocalDataManager shareManager].persistentBeauty.beautySkins = [self.skinParams copy];
+    [FULocalDataManager shareManager].persistentBeauty.beautyShapes = [self.shapeParams copy];
+    [FULocalDataManager shareManager].persistentBeauty.beautyFilters = [self.filters copy];
+    NSInteger index = [self.filters indexOfObject:self.seletedFliter];
+    [FULocalDataManager shareManager].persistentBeauty.selectedFilterIndex = index;
+    if (self.currentStyle) {
+        [FULocalDataManager shareManager].persistentBeauty.selectedStyleIndex = [self.styleParams indexOfObject:self.currentStyle];
+    }
+    if (isPersistent) {
+        // 本地持久化保存
+        [[FULocalDataManager shareManager] save];
+    }
 }
 
 - (instancetype)init {
     self = [super init];
     if (self) {
-        [self reloadBeautyParams];
         _cameraPosition = AVCaptureDevicePositionFront;
         [FURenderKit shareRenderKit].internalCameraSetting.position = _cameraPosition;
-        _performanceLevel = [FURenderKit devicePerformanceLevel];
-        [self initBeauty];
+        [self reloadBeautyParams];
     }
     return self;
 }
@@ -60,8 +59,6 @@
 - (void)initBeauty {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"face_beautification.bundle" ofType:nil];
     self.beauty = [[FUBeauty alloc] initWithPath:path name:@"FUBeauty"];
-//    [self.beauty addPropertyMode:FUBeautyPropertyMode1 forKey:FUModeKeyEyeEnlarging];
-//    [self.beauty addPropertyMode:FUBeautyPropertyMode1 forKey:FUModeKeyIntensityMouth];
     /* 默认均匀磨皮 */
     self.beauty.heavyBlur = 0;
     self.beauty.blurType = 3;
@@ -69,7 +66,7 @@
     self.beauty.faceShape = 4;
     
     // 高性能设备设置去黑眼圈、去法令纹、大眼、嘴型最新效果
-    if (_performanceLevel == FUDevicePerformanceLevelHigh) {
+    if ([FUManager shareManager].devicePerformanceLevel == FUDevicePerformanceLevelHigh) {
         [self.beauty addPropertyMode:FUBeautyPropertyMode2 forKey:FUModeKeyRemovePouchStrength];
         [self.beauty addPropertyMode:FUBeautyPropertyMode2 forKey:FUModeKeyRemoveNasolabialFoldsStrength];
         [self.beauty addPropertyMode:FUBeautyPropertyMode3 forKey:FUModeKeyEyeEnlarging];
@@ -84,6 +81,10 @@
     }
 }
 
+- (void)clearItems {
+    [FUAIKit unloadAllAIMode];
+    [FURenderKit clear];
+}
 
 - (void)setFaceProcessorDetectMode:(FUFaceProcessorDetectMode)mode {
     [FUAIKit shareKit].faceProcessorDetectMode = mode;
@@ -116,6 +117,12 @@
     // 获取人脸矩形框，坐标系原点为图像右下角，float数组为矩形框右下角及左上角两个点的x,y坐标（前两位为右下角的x,y信息，后两位为左上角的x,y信息）
     CGRect faceRect = [FUPoster cacluteRectWithIndex:0 height:frameSize.height width:frameSize.width];
     
+    if (faceRect.origin.x < 0 || faceRect.origin.y < 0 || (faceRect.origin.x + faceRect.size.width > frameSize.width) || (faceRect.origin.y + faceRect.size.height > frameSize.height)) {
+        self.trackedFullFace = NO;
+    } else {
+        self.trackedFullFace = YES;
+    }
+    
     // 计算出中心点的坐标值
     CGFloat centerX = (faceRect.origin.x + (faceRect.origin.x + faceRect.size.width)) * 0.5;
     CGFloat centerY = (faceRect.origin.y + (faceRect.origin.y + faceRect.size.height)) * 0.5;
@@ -132,24 +139,29 @@
 }
 
 - (void)reloadBeautyParams {
+    // 风格推荐数据固定
+    self.styleParams = [self getStyleData];
     //优先获取缓存的美颜参数
-    if ([FUManager shareManager].beautyParams.count == 4) {
-        NSArray *list = [FUManager shareManager].beautyParams;
-        self.skinParams = list[0];
-        self.shapeParams =  list[1];
-        self.filters =  list[2];
-        self.styleParams = list[3];
-        self.seletedFliter = [FUManager shareManager].seletedFliter;
-        if (!self.seletedFliter) {
+    FUPersistentBeautyModel *persistentBeautyModel = [FULocalDataManager shareManager].persistentBeauty;
+    if (persistentBeautyModel.beautySkins && persistentBeautyModel.beautyShapes && persistentBeautyModel.beautyFilters) {
+        // 存在缓存数据
+        self.skinParams = [persistentBeautyModel.beautySkins copy];
+        self.shapeParams = [persistentBeautyModel.beautyShapes copy];
+        self.filters = [persistentBeautyModel.beautyFilters copy];
+        if (persistentBeautyModel.selectedFilterIndex >= 0 && persistentBeautyModel.selectedFilterIndex < self.filters.count) {
+            self.seletedFliter = self.filters[persistentBeautyModel.selectedFilterIndex];
+        } else {
             self.seletedFliter = self.filters[2];
         }
-        self.currentStyle = [FUManager shareManager].currentStyle;
+        if (persistentBeautyModel.selectedStyleIndex >= 0 && persistentBeautyModel.selectedStyleIndex < self.styleParams.count) {
+            self.currentStyle = self.styleParams[persistentBeautyModel.selectedStyleIndex];
+        }
     } else {
+        // 不存在缓存数据
         self.filters = [self getFilterData];
         self.seletedFliter = self.filters[2];
         self.skinParams =  [self getSkinData];
         self.shapeParams =  [self getShapData];
-        self.styleParams = [self getStyleData];
     }
     
     //如果有设置默认风格，直接美颜、美肤、美型
@@ -162,12 +174,11 @@
 
 /**加载美颜道具到FURenderKit*/
 - (void)loadItem {
-    dispatch_async(self.loadQueue, ^{
-        CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
-        [FURenderKit shareRenderKit].beauty = self.beauty;
-        CFAbsoluteTime endTime = (CFAbsoluteTimeGetCurrent() - startTime);
-        NSLog(@"加载美颜道具耗时: %f ms", endTime * 1000.0);
-    });
+    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+    [self initBeauty];
+    [FURenderKit shareRenderKit].beauty = self.beauty;
+    CFAbsoluteTime endTime = (CFAbsoluteTimeGetCurrent() - startTime);
+    NSLog(@"加载美颜道具耗时: %f ms", endTime * 1000.0);
 }
 
 - (void)setBeautyParameters {
@@ -330,6 +341,14 @@
             self.beauty.intensitySmile = value;
         }
             break;
+        case FUBeautifyShapeIntensityBrowHeight: {
+            self.beauty.intensityBrowHeight = value;
+        }
+            break;
+        case FUBeautifyShapeIntensityBrowSpace: {
+            self.beauty.intensityBrowSpace = value;
+        }
+            break;
         default:
             break;
     }
@@ -341,10 +360,7 @@
 
 
 - (void)releaseItem {
-    //释放item，内部会自动清除句柄
     [FURenderKit shareRenderKit].beauty = nil;
-    //demo 是单例持有 beauty 所以必须主动设置nil, 如果是每个模块自己持有beauty 则随着模块的释放系统自动释放beauty，无需再设置
-//    self.beauty = nil;
 }
 
 - (BOOL)isDefaultSkinValue {
@@ -597,7 +613,9 @@
         @"intensity_eye_rotate",
         @"intensity_long_nose",
         @"intensity_philtrum",
-        @"intensity_smile"
+        @"intensity_smile",
+        @"intensity_brow_hight",
+        @"intensity_brow_space"
     ];
     NSDictionary *titelDic = @{
         @"cheek_thinning" : @"瘦脸",
@@ -618,7 +636,9 @@
         @"intensity_eye_rotate" : @"眼睛角度",
         @"intensity_long_nose" : @"长鼻",
         @"intensity_philtrum" : @"缩人中",
-        @"intensity_smile" : @"微笑嘴角"
+        @"intensity_smile" : @"微笑嘴角",
+        @"intensity_brow_hight" : @"眉毛上下",
+        @"intensity_brow_space" : @"眉间距"
     };
     NSDictionary *defaultValueDic = @{
         @"cheek_thinning":@(0),
@@ -639,15 +659,17 @@
         @"intensity_eye_rotate":@(0.5),
         @"intensity_long_nose":@(0.5),
         @"intensity_philtrum":@(0.5),
-        @"intensity_smile":@(0)
+        @"intensity_smile":@(0),
+        @"intensity_brow_hight":@(0.5),
+        @"intensity_brow_space":@(0.5)
     };
     
-    float ratio[FUBeautifyShapeMax] = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+    float ratio[FUBeautifyShapeMax] = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
     NSMutableArray *shapeParams = [NSMutableArray array];
     for (NSUInteger i = 0; i < FUBeautifyShapeMax; i ++) {
         BOOL isStyle101 = NO;
         NSString *str = prams[i];
-        if ([str isEqualToString:@"intensity_chin"] || [str isEqualToString:@"intensity_forehead"] || [str isEqualToString:@"intensity_mouth"] || [str isEqualToString:@"intensity_eye_space"] || [str isEqualToString:@"intensity_eye_rotate"] || [str isEqualToString:@"intensity_long_nose"] || [str isEqualToString:@"intensity_philtrum"]) {
+        if ([str isEqualToString:@"intensity_chin"] || [str isEqualToString:@"intensity_forehead"] || [str isEqualToString:@"intensity_mouth"] || [str isEqualToString:@"intensity_eye_space"] || [str isEqualToString:@"intensity_eye_rotate"] || [str isEqualToString:@"intensity_long_nose"] || [str isEqualToString:@"intensity_philtrum"] || [str isEqualToString:@"intensity_brow_hight"] || [str isEqualToString:@"intensity_brow_space"]) {
             isStyle101 = YES;
         }
         FUBeautyModel *model = [[FUBeautyModel alloc] init];
@@ -658,6 +680,10 @@
         model.defaultValue = model.mValue;
         model.iSStyle101 = isStyle101;
         model.ratio = ratio[i];
+        if ([FUManager shareManager].devicePerformanceLevel != FUDevicePerformanceLevelHigh && ([str isEqualToString:@"intensity_brow_hight"] || [str isEqualToString:@"intensity_brow_space"])) {
+            // 低性能手机禁用眉毛上下和眉间距
+            model.disabled = YES;
+        }
         [shapeParams addObject:model];
     }
     return [NSArray arrayWithArray:shapeParams];
@@ -709,7 +735,7 @@
     if (!self.beauty || !self.beauty.enable) {
         return;
     }
-    if (_performanceLevel == FUDevicePerformanceLevelHigh) {
+    if ([FUManager shareManager].devicePerformanceLevel == FUDevicePerformanceLevelHigh) {
         // 根据人脸置信度设置不同磨皮效果
         CGFloat score = [FUAIKit fuFaceProcessorGetConfidenceScore:0];
         if (score > 0.95) {

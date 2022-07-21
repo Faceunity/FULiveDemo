@@ -3,6 +3,21 @@
 ------
 
 级别：Public   
+更新日期：2022-07-21
+SDK版本: 8.3.0
+
+### 最新更新内容：
+
+1)优化人像分割效果：全面提升人像分割效果，优化了分割精度、迟滞感、边缘细腻度
+2)优化绿幕分割效果：全面提升绿幕、白幕分割效果，优化了绿幕场景下边缘泛绿、锯齿、抖动的问题；白幕场景下背景闪烁、轮廓不干净的问题
+3)优化手势识别效果：优化手势识别检出率，并针对性地解决一些误检问题
+4)优化美颜效果：优化瘦脸效果，新增眉毛上下、眉间距2个功能
+5)优化美妆效果：更新4款眉毛效果
+6)解决部分已知bug
+
+------
+
+级别：Public   
 更新日期：2022-06-16
 SDK版本: 8.2.1
 
@@ -139,8 +154,11 @@ SDK版本: 7.4.0
 
 本小节，描述Demo文件结构，各个目录，以及重要文件的功能。
 
-```
+```obj
 +FULiveDemo
+  +docs                     //文档
+  +FUCommonUIComponent      //UI组件
+  +FUVideoComponent         //视频解码编码组件
   +FULiveDemo                   //原代码目录
     +Main                     //主页模块(主页UI、主页模型、主页管理类) 
     +Modules                  //所有功能模块
@@ -191,24 +209,24 @@ Xcode 8或更高版本
 Nama全功能版本（支持物理特效）：
 
 ```
-pod 'Nama', '8.2.1' 
+pod 'Nama', '8.3.0' 
 ```
 
 Nama-lite版本（体积更小，包含人脸相关的功能(海报换脸除外)）：
 
 ```
-pod 'Nama-lite', '8.2.1' 
+pod 'Nama-lite', '8.3.0' 
 ```
 FURenderKit全功能版本（支持物理特效）：
 
 ```
-pod 'FURenderKit', '8.2.1' 
+pod 'FURenderKit', '8.3.0' 
 ```
 
 FURenderKit-lite版本：
 
 ```
-pod 'FURenderKit-lite', '8.2.1' 
+pod 'FURenderKit-lite', '8.3.0' 
 ```
 
 接下来执行：
@@ -225,15 +243,15 @@ pod repo update 或 pod setup
 
 #### 3.2.2 直接下载
 
-Nama全功能版本（支持物理特效）：[FaceUnity-SDK-iOS-v8.2.1.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FaceUnity-SDK-iOS-v8.2.1.zip)
+Nama全功能版本（支持物理特效）：[FaceUnity-SDK-iOS-v8.3.0.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FaceUnity-SDK-iOS-v8.3.0.zip)
 
-Nama-lite版本： 版（体积更小，包含人脸相关的功能(海报换脸除外)）：[FaceUnity-SDK-iOS-v8.2.1-lite.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FaceUnity-SDK-iOS-v8.2.1-lite.zip)
+Nama-lite版本： 版（体积更小，包含人脸相关的功能(海报换脸除外)）：[FaceUnity-SDK-iOS-lite-v8.3.0.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FaceUnity-SDK-iOS-lite-v8.3.0.zip)
 
 FURenderKit全功能版本（支持物理特效）：
-    [FURenderKit-v8.2.1.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FURenderKit-v8.2.1.zip)
+    [FURenderKit-v8.3.0.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FURenderKit-v8.3.0.zip)
 
 FURenderKit-lite版本：
-    [FURenderKit-lite-v8.2.1.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FURenderKit-lite-v8.2.1.zip)
+    [FURenderKit-lite-v8.3.0.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FURenderKit-lite-v8.3.0.zip)
     
 
 下载完成并解压后将库文件夹拖入到工程中，并勾选上 Copy items if needed，如图：

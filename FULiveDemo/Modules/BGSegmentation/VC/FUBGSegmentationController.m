@@ -7,6 +7,7 @@
 //
 
 #import "FUBGSegmentationController.h"
+#import "FUBGSegmentationRenderMediaViewController.h"
 #import "FUItemsView.h"
 #import "FUSelectedImageController.h"
 #import <CoreMotion/CoreMotion.h>
@@ -14,15 +15,20 @@
 #import "FUBGSaveModel.h"
 #import "UIImage+FU.h"
 #import <MobileCoreServices/MobileCoreServices.h>
+#import <Photos/Photos.h>
 
 @interface FUBGSegmentationController ()<FUItemsViewDelegate, FUImagePickerDataDelegate>
 @property (strong, nonatomic) FUItemsView *itemsView;
 @property (strong, nonatomic) FUBGSegmentManager *segmentManager;
 
 @property (strong, nonatomic) NSMutableArray *list;
+
+@property (nonatomic, assign) BOOL renderMedia;
+
 @end
 
 @implementation FUBGSegmentationController
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -47,13 +53,20 @@
     [self itemsViewDidSelectedItem:selectItem indexPath:nil];
     
     self.segmentManager.selectedItem = selectItem;
+    
+    // self.headButtonView.selectedImageBtn.hidden = NO;
+    // [self.headButtonView.selectedImageBtn setImage:[UIImage imageNamed:@"相册icon"] forState:UIControlStateNormal];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillResignActive) name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
 
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    /* 返回当前界面的时候，重新加载 */
+    _renderMedia = NO;
+    // 返回当前界面的时候，重新加载
     if (!self.itemsView.selectedItem) {
         self.itemsView.selectedItem = self.segmentManager.selectedItem;
     }else {
@@ -65,15 +78,6 @@
             }
         }
     }
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willResignActive) name:UIApplicationWillResignActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 -(void)setupView {
@@ -93,10 +97,9 @@
     self.photoBtn.transform = CGAffineTransformMakeTranslation(0, -36) ;
 }
 
-
--(void)headButtonViewBackAction:(UIButton *)btn {
-    [self.segmentManager releaseItem];
-    [super headButtonViewBackAction:btn];
+- (void)headButtonViewSelImageAction:(UIButton *)btn {
+    [super headButtonViewSelImageAction:btn];
+    _renderMedia = YES;
 }
 
 #pragma mark -  FUItemsViewDelegate
@@ -210,62 +213,105 @@
 
 #pragma  mark -  FUImagePickerDataDelegate
 -(void)imagePicker:(UIImagePickerController *)picker didFinishWithInfo:(NSDictionary<NSString *,id> *)info {
+    
+    if (_renderMedia) {
+        // 图片视频渲染
+        [picker dismissViewControllerAnimated:NO completion:^{
+            NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
+            if ([mediaType isEqualToString:(NSString *)kUTTypeMovie]){  //视频
+                NSURL *videoURL = info[UIImagePickerControllerMediaURL];
+                if (!videoURL) {
+                    return;
+                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    FUBGSegmentationRenderMediaViewController *renderMediaController = [[FUBGSegmentationRenderMediaViewController alloc] initWithVideoURL:videoURL];
+                    [self.navigationController pushViewController:renderMediaController animated:YES];
+                });
+            } else {
+                UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+                if (!image) {
+                    return;
+                }
+                CGFloat imagePixel = image.size.width * image.size.height;
+                // 超过限制像素需要压缩
+                if (imagePixel > FUPicturePixelMaxSize) {
+                    CGFloat ratio = FUPicturePixelMaxSize / imagePixel * 1.0;
+                    image = [image fu_compress:ratio];
+                }
+                // 图片转正
+                if (image.imageOrientation != UIImageOrientationUp && image.imageOrientation != UIImageOrientationUpMirrored) {
+                    image = [image fu_resetImageOrientationToUp];
+                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    FUBGSegmentationRenderMediaViewController *renderMediaController = [[FUBGSegmentationRenderMediaViewController alloc] initWithImage:image];
+                    [self.navigationController pushViewController:renderMediaController animated:YES];
+                });
+            }
+        }];
+        return;
+    }
+    [picker dismissViewControllerAnimated:NO completion:nil];
     if ([self.segmentManager isHaveCustItem]) {
         [_list removeObject:CUSTOMBG];
     }
     [self.segmentManager.segment stopVideoDecode];
-    
+    NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
+    if ([mediaType isEqualToString:(NSString *)kUTTypeMovie]){  //视频
+        __block NSURL *videoURL = info[UIImagePickerControllerMediaURL];
+        if (!videoURL) {
+            if (@available(iOS 11.0, *)) {
+                PHAsset *asset = info[UIImagePickerControllerPHAsset];
+                [[PHImageManager defaultManager] requestAVAssetForVideo:asset options:nil resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
+                    AVURLAsset *urlAsset = (AVURLAsset *)asset;
+                    videoURL = urlAsset.URL;
+                    [self selectVideo:videoURL];
+                }];
+            }
+        } else {
+            [self selectVideo:videoURL];
+        }
+    } else if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) { //照片
+        UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+        [self selectImage:image];
+    }
+}
+
+- (void)selectImage:(UIImage *)image {
     FUBGSaveModel *model = [[FUBGSaveModel alloc] init];
     model.pathName = CUSTOMBG;
-    [picker dismissViewControllerAnimated:NO completion:^{
-        NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
-        
-        if ([mediaType isEqualToString:(NSString *)kUTTypeMovie]){  //视频
-            NSURL *videoURL = info[UIImagePickerControllerMediaURL];
-            model.type = FUBGSaveModelTypeVideo;
-            model.url = videoURL;
+    CGFloat imagePixel = image.size.width * image.size.height;
+    // 超过限制像素需要压缩
+    if (imagePixel > FUPicturePixelMaxSize) {
+        CGFloat ratio = FUPicturePixelMaxSize / imagePixel * 1.0;
+        image = [image fu_compress:ratio];
+    }
+    // 图片转正
+    if (image.imageOrientation != UIImageOrientationUp && image.imageOrientation != UIImageOrientationUpMirrored) {
+        image = [image fu_resetImageOrientationToUp];
+    }
+    [self saveImg:image withName:CUSTOMBG];
+    model.type = FUBGSaveModelTypeImage;
+    [self.segmentManager saveModel: model];
+    [_list insertObject:CUSTOMBG atIndex:2];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.itemsView updateCollectionArray:_list];
+        self.itemsView.selectedItem = _list[2];
+        [self itemsViewDidSelectedItem:self.itemsView.selectedItem indexPath:nil];
+    });
+}
 
-//            [self.itemsView startAnimation];
-//            __weak typeof(self) weak = self;
-//            [self.segmentManager loadItem:CUSTOMBG completion:^(BOOL finished) {
-//                [weak.itemsView stopAnimation];
-//                weak.segmentManager.segment.videoPath = model.url;
-//                UIImage *image = [weak.segmentManager.segment readFirstFrame];
-//                if (image) {
-//                    [weak saveImg:image withName:CUSTOMBG];
-//                    model.iconImage = image;
-//                    [weak.segmentManager saveModel: model];
-//                    [weak.itemsView reloadData];
-//                }
-//            }];
-        } else if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) { //照片
-            
-            UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-            
-            CGFloat imagePixel = image.size.width * image.size.height;
-            // 超过限制像素需要压缩
-            if (imagePixel > FUPicturePixelMaxSize) {
-                CGFloat ratio = FUPicturePixelMaxSize / imagePixel * 1.0;
-                image = [image fu_compress:ratio];
-            }
-            
-            // 图片转正
-            if (image.imageOrientation != UIImageOrientationUp && image.imageOrientation != UIImageOrientationUpMirrored) {
-                image = [image fu_resetImageOrientationToUp];
-            }
-            
-            [self saveImg:image withName:CUSTOMBG];
-            
-            model.type = FUBGSaveModelTypeImage;
-        }
-        [self.segmentManager saveModel: model];
-        [_list insertObject:CUSTOMBG atIndex:2];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.itemsView updateCollectionArray:_list];
-            self.itemsView.selectedItem = _list[2];
-            [self itemsViewDidSelectedItem:self.itemsView.selectedItem indexPath:nil];
-        });
-    }];
+- (void)selectVideo:(NSURL *)videoURL {
+    FUBGSaveModel *model = [[FUBGSaveModel alloc] init];
+    model.pathName = CUSTOMBG;
+    model.type = FUBGSaveModelTypeVideo;
+    model.url = videoURL;
+    [self.segmentManager saveModel:model];
+    [_list insertObject:CUSTOMBG atIndex:2];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.itemsView updateCollectionArray:_list];
+        self.itemsView.selectedItem = _list[2];
+        [self itemsViewDidSelectedItem:self.itemsView.selectedItem indexPath:nil];
+    });
 }
 
 // 保存
@@ -299,16 +345,17 @@
 }
 
 
-- (void)willResignActive {
+- (void)applicationWillResignActive {
     [self.segmentManager.segment stopVideoDecode];
 }
 
-
-- (void)didBecomeActive {
+- (void)applicationDidBecomeActive {
     [self.segmentManager.segment startVideoDecode];
 }
 
 -(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
     NSLog(@"dealloc--------");
 }
 

@@ -137,10 +137,4 @@
     [FURenderKit shareRenderKit].lightMakeup = self.lightMakeup;
 }
 
-- (void)releaseItem {
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        self.lightMakeup = nil;
-        [FURenderKit shareRenderKit].lightMakeup = nil;
-    });
-}
 @end

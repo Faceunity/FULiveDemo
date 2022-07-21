@@ -52,6 +52,7 @@
     [super viewDidAppear:animated];
     
     [self lvmuViewShowTopView:YES];
+    [self.greenScreenManager loadItem];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -65,43 +66,6 @@
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
-}
-
-#pragma mark - Private methods
-
-- (CGPoint)currentTakePointWithImageWidth:(CGFloat)width imageHeight:(CGFloat)height {
-    CGFloat scale = [UIScreen mainScreen].scale;
-    CGFloat viewWidth = CGRectGetWidth(self.displayView.bounds) * scale;
-    CGFloat viewHeight = CGRectGetHeight(self.displayView.bounds) * scale;
-    
-    // 宽度比例
-    CGFloat widthRatio = width/viewWidth;
-    // 高度比例
-    CGFloat heightRatio = height/viewHeight;
-    // 图片实际在glView上的位置
-    CGRect imageRect;
-    // 展示图片的比例
-    CGFloat targetRatio;
-    // 对比高度比例和宽度比例决定高度充满还是宽度充满
-    if (widthRatio >= heightRatio) {
-        // 宽度充满
-        targetRatio = widthRatio;
-        CGFloat imageHeight = height / targetRatio;
-        imageRect = CGRectMake(0, viewHeight/2.f - imageHeight/2.0, viewWidth, imageHeight);
-    } else {
-        // 高度充满
-        targetRatio = heightRatio;
-        CGFloat imageWidth = width / targetRatio;
-        imageRect = CGRectMake(viewWidth/2.f - imageWidth/2.0, 0, imageWidth, viewHeight);
-    }
-    
-    CGPoint takePoint = CGPointZero;
-    if (CGRectContainsPoint(imageRect, CGPointMake(self.currentTouchPoint.x * scale, self.currentTouchPoint.y * scale))) {
-        // 点位在图片展示区域内，则获取实际点
-        CGPoint resultPoint = CGPointMake(self.currentTouchPoint.x - imageRect.origin.x / scale, self.currentTouchPoint.y - imageRect.origin.y / scale);
-        takePoint = CGPointMake(resultPoint.x * targetRatio, resultPoint.y * targetRatio);
-    }
-    return takePoint;
 }
 
 #pragma mark - Event response
@@ -162,15 +126,8 @@
 - (void)renderMediaDidOutputImage:(UIImage *)image {
     if (!CGPointEqualToPoint(CGPointZero, self.currentTouchPoint)) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            UIColor *color = [UIColor blackColor];
-            CGPoint takePoint = [self currentTakePointWithImageWidth:image.size.width imageHeight:image.size.height];
-            if (!CGPointEqualToPoint(CGPointZero, takePoint)) {
-                // 获取实际点的颜色
-                color = [FUGreenScreen pixelColorWithImage:image point:takePoint];
-            }
-            if (color) {
-                [self.greenScreenView setTakeColor:color];
-            }
+            UIColor *color = [self.displayView colorInPoint:self.currentTouchPoint];
+            [self.greenScreenView setTakeColor:color];
         });
     }
 }
@@ -178,15 +135,8 @@
 - (void)renderMediaDidOutputPixelBuffer:(CVPixelBufferRef)pixelBuffer {
     if (!CGPointEqualToPoint(CGPointZero, self.currentTouchPoint)) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            UIColor *color = [UIColor blackColor];
-            CGPoint takePoint = [self currentTakePointWithImageWidth:CVPixelBufferGetWidth(pixelBuffer) imageHeight:CVPixelBufferGetHeight(pixelBuffer)];
-            if (!CGPointEqualToPoint(CGPointZero, takePoint)) {
-                // 获取实际点的颜色
-                color = [FUGreenScreen pixelColorWithPixelBuffer:pixelBuffer point:takePoint];
-            }
-            if (color) {
-                [self.greenScreenView setTakeColor:color];
-            }
+            UIColor *color = [self.displayView colorInPoint:self.currentTouchPoint];
+            [self.greenScreenView setTakeColor:color];
         });
     }
 }
@@ -209,6 +159,10 @@
 
 - (void)colorDidSelected:(UIColor *)color {
     [self.greenScreenManager setGreenScreenWithColor:color];
+    // 设置关键颜色后FURenderKit层的相似度、平滑度、祛色度可能自动发生变化，所以需要更新程度值
+    [self.greenScreenManager updateCurrentGreenScreen];
+    // 刷新UI
+    [self.greenScreenView reloadDataSoure:self.greenScreenManager.dataArray];
 }
 
 - (void)lvmuViewShowTopView:(BOOL)shown {

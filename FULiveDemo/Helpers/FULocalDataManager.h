@@ -7,11 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "FUPersistentBeautyModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface FULocalDataManager : NSObject
+
+@property (nonatomic, strong) FUPersistentBeautyModel *persistentBeauty;
+
 + (instancetype)shareManager;
+
+- (void)save;
 
 //道具贴纸
 + (NSDictionary *)stickerTipsJsonData;

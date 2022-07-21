@@ -56,4 +56,8 @@ typedef NS_ENUM(NSInteger, FUGLDisplayViewContentMode) {
 
 - (void)displayTexture:(int)texture withTextureSize:(CGSize)textureSize;
 
+/// 点位取色
+/// @param point glView上的点坐标
+- (UIColor *)colorInPoint:(CGPoint)point;
+
 @end

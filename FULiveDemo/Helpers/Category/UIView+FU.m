@@ -20,5 +20,19 @@
     return nil;
 }
 
++ (UIViewController *)fu_topViewController:(UIViewController *)viewController {
+    if (viewController.presentedViewController) {
+        return [self fu_topViewController:viewController.presentingViewController];
+    } else if ([viewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *navigation = (UINavigationController *)viewController;
+        return [self fu_topViewController:navigation.visibleViewController];
+    } else if ([viewController isKindOfClass:[UITabBarController class]]) {
+        UITabBarController *tabBar = (UITabBarController *)viewController;
+        return [self fu_topViewController:tabBar.selectedViewController];
+    } else {
+        return viewController;
+    }
+}
+
 
 @end

@@ -33,7 +33,6 @@
 "开眼角"   = "Canthus";
 "眼距"   = "Eye distance";
 "眼睛角度"   = "Eye tilt";
-
 "长鼻"   = " Length";
 "缩人中"   = "Philtrum";
 "眼距"   = "Eye distance";
@@ -41,6 +40,8 @@
 "锐化"   =   "Sharpen";
 "瘦颧骨"    =   "Cheekbone";
 "瘦下颌骨"    =   "Jawbone";
+"眉毛上下"  = "Brow height";
+"眉间距"  = "Brow space";
 
 //滤镜
 "原图" = "Origin" ;
@@ -205,6 +206,7 @@
 
 "Performance_Preferred" = "Performance";
 "No_Face_Tracking"   = "No Face Tracking";
+"Incomplete_face"   = "Incomplete face";
 "sel_Photo"         =    "Photo";
 "Choose_photo_or_video_from_your_album"  = "Choose from your album";
 "sel_Video"              =  "Video";
@@ -295,6 +297,8 @@
 "人脸偏转角度过大，请重新选择"    =  "please face face shooting.";
 "知道了"    =  "OK";
 "未检测出人脸，请重新拍摄"    =  "No face detected, please re-shoot";
+"人脸不全，请重新拍摄" = "Incomplete face, please reshoot";
+"人脸不全，请重新选择" = "Incomplete face, please select again";
 
 /* 表情动图---异图 */
 "表情动图"                   =      "Emotional Motion Map";
@@ -427,7 +431,7 @@
 "关键颜色"    =   "Key Color";
 "相似度"    =   "Similarity";
 "平滑"    =   "Smoothness";
-"透明度"    =   "Transparency";
+"祛色度"    =   "Transparency";
 "背景"    =   "Background segmentation";
 "科技"    =   "Technology";
 
@@ -478,3 +482,5 @@
 
 "presets" = "Presets";
 "Content service" = "Content service";
+
+"该功能只支持在高端机使用" = "%@ is only supported on high-end devices";

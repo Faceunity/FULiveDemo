@@ -12,9 +12,6 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        NSString *hairAIPath = [[NSBundle mainBundle] pathForResource:@"ai_hairseg" ofType:@"bundle"];
-        [FUAIKit loadAIModeWithAIType:FUAITYPE_HAIRSEGMENTATION dataPath:hairAIPath];
-        
         NSString *path = [[NSBundle mainBundle] pathForResource:@"hair_gradient" ofType:@"bundle"];
         self.hair = [[FUHairBeauty alloc] initWithPath:path name:@"hair"];
         self.hair.index = 0;
@@ -34,10 +31,4 @@
     [self loadItem];
 }
 
-- (void)releaseItem {
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        self.hair = nil;
-        [FURenderKit shareRenderKit].hairBeauty = nil;
-    });
-}
 @end

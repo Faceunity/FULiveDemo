@@ -9,8 +9,6 @@
 #import "FUQStickersViewController.h"
 #import "FUStickersPageController.h"
 
-#import "FUSegmentBar.h"
-
 #import "FUStickerModel.h"
 
 #import "FUStickerHelper.h"
@@ -60,19 +58,6 @@ static NSString * const kFUStickerContentCollectionCellIdentifier = @"FUStickerC
     
     self.headButtonView.selectedImageBtn.hidden = NO;
     self.canPushImageSelView = NO;
-    
-    [self.view addSubview:self.bottomView];
-    [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.trailing.bottom.equalTo(self.view);
-        make.height.mas_offset(iPhoneXStyle ? 265 : 231);
-    }];
-
-
-    [self.photoBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
-        make.size.mas_offset(CGSizeMake(85, 85));
-        make.bottom.equalTo(self.bottomView.mas_top).mas_offset(-10);
-    }];
 
     if ([FUNetworkingHelper currentNetworkStatus] == FUNetworkStatusReachable) {
         // 有网络时请求接口
@@ -95,6 +80,13 @@ static NSString * const kFUStickerContentCollectionCellIdentifier = @"FUStickerC
 #pragma mark - UI
 
 - (void)setupContentView {
+    
+    [self.view addSubview:self.bottomView];
+    [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.trailing.bottom.equalTo(self.view);
+        make.height.mas_offset(iPhoneXStyle ? 265 : 231);
+    }];
+    
     [self.bottomView addSubview:self.bottom];
     [self.bottom mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.trailing.bottom.equalTo(self.bottomView);
@@ -105,6 +97,12 @@ static NSString * const kFUStickerContentCollectionCellIdentifier = @"FUStickerC
     [self.contentCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.trailing.top.equalTo(self.bottomView);
         make.bottom.equalTo(self.bottom.mas_top);
+    }];
+    
+    [self.photoBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view);
+        make.size.mas_offset(CGSizeMake(85, 85));
+        make.bottom.equalTo(self.bottomView.mas_top).mas_offset(-10);
     }];
     
     self.segmentsView.selectedIndex = _selectedIndex;
@@ -193,10 +191,7 @@ static NSString * const kFUStickerContentCollectionCellIdentifier = @"FUStickerC
     // 取消所有下载任务
     [FUStickerHelper cancelStickerHTTPTasks];
     [self.qualityStickerManager cancelDownloadingTasks];
-    [self.qualityStickerManager releaseItem];
     [super headButtonViewBackAction:btn];
-    
-    [FURenderKit clear];
 }
 
 - (void)cancelStickerAction {
@@ -337,7 +332,17 @@ static NSString * const kFUStickerContentCollectionCellIdentifier = @"FUStickerC
 
 - (FUSegmentBar *)segmentsView {
     if (!_segmentsView) {
-        _segmentsView = [[FUSegmentBar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame) - 57, 49) titles:self.tags configuration:[FUSegmentBarConfigurations new]];
+        NSMutableArray *segments = [[NSMutableArray alloc] init];
+        for (NSString *tag in self.tags) {
+            if ([tag componentsSeparatedByString:@"/"].count > 1) {
+                NSArray *titles = [tag componentsSeparatedByString:@"/"];
+                NSString *languageString = [[NSUserDefaults standardUserDefaults] objectForKey:@"appLanguage"];
+                [segments addObject: [languageString isEqualToString:@"zh-Hans"] ? titles[0] : titles[1]];
+            } else {
+                [segments addObject:tag];
+            }
+        }
+        _segmentsView = [[FUSegmentBar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame) - 57, 49) titles:[segments copy] configuration:[FUSegmentBarConfigurations new]];
         _segmentsView.segmentDelegate = self;
     }
     return _segmentsView;

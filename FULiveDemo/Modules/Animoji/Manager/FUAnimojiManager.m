@@ -12,12 +12,18 @@
 @synthesize selectedItem;
 @synthesize type;
 
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        [self loadAntiAliasing];
+    }
+    return self;
+}
+
 //加载抗锯齿道具
 - (void)loadAntiAliasing {
-    NSString *path = [[NSBundle mainBundle] pathForResource:[@"fxaa" stringByAppendingString:@".bundle"] ofType:nil];
-    dispatch_async(self.loadQueue, ^{
-        [FURenderKit shareRenderKit].antiAliasing = [[FUItem alloc] initWithPath:path name:@"antiAliasing"];
-    });
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"fxaa" ofType:@"bundle"];
+    [FURenderKit shareRenderKit].antiAliasing = [[FUItem alloc] initWithPath:path name:@"antiAliasing"];
 }
 
 - (void)loadItem:(NSString *)itemName
@@ -38,19 +44,15 @@
 
 - (void)loadItem {
     NSString *itemName = self.selectedItem;
-    NSString *path = [[NSBundle mainBundle] pathForResource:[itemName stringByAppendingString:@".bundle"] ofType:nil];
+    NSString *path = [[NSBundle mainBundle] pathForResource:itemName ofType:@"bundle"];
     FUAnimoji *newItem = [[FUAnimoji alloc] initWithPath:path name:@"animoji"];
     [[FURenderKit shareRenderKit].stickerContainer replaceSticker:self.animoji withSticker:newItem completion:nil];
     self.animoji = newItem;
 }
 
-//释放item，内部会自动清除相关资源文件
 - (void)releaseItem {
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [[FURenderKit shareRenderKit].stickerContainer removeSticker:self.animoji completion:nil];
-        self.animoji = nil;
-        [FURenderKit shareRenderKit].antiAliasing = nil;
-    });
+    [[FURenderKit shareRenderKit].stickerContainer removeSticker:self.animoji completion:nil];;
+    _animoji = nil;
 }
 
 @end

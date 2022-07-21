@@ -25,7 +25,7 @@
 
 @property (strong, nonatomic) UICollectionView *collection;
 
-@property (nonatomic, assign) id<FUItemsViewDelegate>delegate ;
+@property (nonatomic, weak) id<FUItemsViewDelegate>delegate ;
 
 
 -(void)updateCollectionArray:(NSArray *)itemArray;

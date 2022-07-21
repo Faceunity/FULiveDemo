@@ -73,7 +73,6 @@ static NSInteger const kFUDownloadTasksMaxNumber = 4;
 }
 
 - (void)releaseItem {
-    
     if (_scene) {
         [[FURenderKit shareRenderKit] removeScene:self.scene completion:^(BOOL success) {
             [FURenderKit shareRenderKit].currentScene = nil;
