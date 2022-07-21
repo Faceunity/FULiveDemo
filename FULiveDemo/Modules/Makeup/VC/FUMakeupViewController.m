@@ -44,13 +44,19 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
+    // 添加点位测试开关
+    if (FUShowLandmark) {
+        [FULandmarkManager show];
+    }
+    
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-}
-
-- (void)dealloc {
-    [self.makeupManager releaseItem];
+    
+    // 移除点位测试开关
+    if (FUShowLandmark) {
+        [FULandmarkManager dismiss];
+    }
 }
 
 #pragma mark - UI

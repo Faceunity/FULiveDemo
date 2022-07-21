@@ -11,6 +11,12 @@
 
 static FUManager *shareManager = NULL;
 
+@interface FUManager ()
+
+@property (nonatomic, assign) FUDevicePerformanceLevel devicePerformanceLevel;
+
+@end
+
 @implementation FUManager
 
 + (FUManager *)shareManager
@@ -24,7 +30,6 @@ static FUManager *shareManager = NULL;
 }
 
 - (void)setupRenderKit {
-    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
 
     NSString *controllerPath = [[NSBundle mainBundle] pathForResource:@"controller_cpp" ofType:@"bundle"];
     NSString *controllerConfigPath = [[NSBundle mainBundle] pathForResource:@"controller_config" ofType:@"bundle"];
@@ -36,48 +41,66 @@ static FUManager *shareManager = NULL;
     // 初始化 FURenderKit
     [FURenderKit setupWithSetupConfig:setupConfig];
     
-    [FURenderKit setLogLevel:FU_LOG_LEVEL_INFO];
+    [FURenderKit setLogLevel:FU_LOG_LEVEL_ERROR];
+    
+    // 设置缓存目录
+    [FURenderKit setCacheDirectory:FUDocumentPath];
     // 算法耗时统计
-//    [FURenderKit setupFrameTimeProfileEnable:YES];
+//    [FURenderKit setFrameTimeProfileEnable:YES];
+//    [FURenderKit setFrameTimeProfileReportDetailsEnable:YES];
 //    // 算法耗时统计输出到控制台
-//    [FURenderKit setupFrameTimeProfileAutoReportToConsole];
+//    [FURenderKit setFrameTimeProfileAutoReportToConsole];
 //    // 算法耗时统计输出到文件
-//    [FURenderKit setupFrameTimeProfileAutoReportToFile:[FUDocumentPath stringByAppendingPathComponent:[NSString stringWithFormat:@"FUFrameTime %@.txt", FUCurrentDateString()]]];
-        
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        // 加载人脸 AI 模型
-        NSString *faceAIPath = [[NSBundle mainBundle] pathForResource:@"ai_face_processor" ofType:@"bundle"];
-        [FUAIKit loadAIModeWithAIType:FUAITYPE_FACEPROCESSOR dataPath:faceAIPath];
-        
-        // 加载身体 AI 模型
-        NSString *bodyAIPath = [[NSBundle mainBundle] pathForResource:@"ai_human_processor" ofType:@"bundle"];
-        [FUAIKit loadAIModeWithAIType:FUAITYPE_HUMAN_PROCESSOR dataPath:bodyAIPath];
-        
-        NSString *handAIPath = [[NSBundle mainBundle] pathForResource:@"ai_hand_processor" ofType:@"bundle"];
-        [FUAIKit loadAIModeWithAIType:FUAITYPE_HANDGESTURE dataPath:handAIPath];
-        
-        NSString *hairAIPath = [[NSBundle mainBundle] pathForResource:@"ai_hairseg" ofType:@"bundle"];
-        [FUAIKit loadAIModeWithAIType:FUAITYPE_HANDGESTURE dataPath:hairAIPath];
-        
-        [FURenderKit shareRenderKit].internalCameraSetting.fps = 30;
-        
-        CFAbsoluteTime endTime = (CFAbsoluteTimeGetCurrent() - startTime);
-        
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"tongue" ofType:@"bundle"];
-        [FUAIKit loadTongueMode:path];
-        
-        //TODO: todo 是否需要用？？？？？
-        /* 设置嘴巴灵活度 默认= 0*/ //
-        float flexible = 0.5;
-        [FUAIKit setFaceTrackParam:@"mouth_expression_more_flexible" value:flexible];
-        NSLog(@"---%lf",endTime);
-        
-        // 设置人脸算法质量
-        [FUAIKit shareKit].faceProcessorFaceLandmarkQuality = [FURenderKit devicePerformanceLevel] == FUDevicePerformanceLevelHigh ? FUFaceProcessorFaceLandmarkQualityHigh : FUFaceProcessorFaceLandmarkQualityMedium;
-        
-        // 设置小脸检测是否打开
-        [FUAIKit shareKit].faceProcessorDetectSmallFace = [FURenderKit devicePerformanceLevel] == FUDevicePerformanceLevelHigh;
-    });
+//    [FURenderKit setFrameTimeProfileAutoReportToFile:[FUDocumentPath stringByAppendingPathComponent:[NSString stringWithFormat:@"FUFrameTime %@.txt", FUCurrentDateString()]]];
+    
+    // 舌头
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"tongue" ofType:@"bundle"];
+    [FUAIKit loadTongueMode:path];
+    
+    self.devicePerformanceLevel = [FURenderKit devicePerformanceLevel];
+}
+
++ (void)loadFaceAIModel {
+    NSString *faceAIPath = [[NSBundle mainBundle] pathForResource:@"ai_face_processor" ofType:@"bundle"];
+    [FUAIKit loadAIModeWithAIType:FUAITYPE_FACEPROCESSOR dataPath:faceAIPath];
+}
+
++ (void)loadHumanAIModel {
+    // 加载身体 AI 模型，注意：高性能机型加载ai_human_processor_gpu.bundle
+    NSString *humanBundleName = [FURenderKit devicePerformanceLevel] == FUDevicePerformanceLevelHigh ? @"ai_human_processor_gpu" : @"ai_human_processor";
+    NSString *bodyAIPath = [[NSBundle mainBundle] pathForResource:humanBundleName ofType:@"bundle"];
+    [FUAIKit loadAIModeWithAIType:FUAITYPE_HUMAN_PROCESSOR dataPath:bodyAIPath];
+}
+
++ (void)loadHandAIModel {
+    NSString *handAIPath = [[NSBundle mainBundle] pathForResource:@"ai_hand_processor" ofType:@"bundle"];
+    [FUAIKit loadAIModeWithAIType:FUAITYPE_HANDGESTURE dataPath:handAIPath];
+}
+
++ (void)loadAIModelWithModuleType:(FULiveModelType)moduleType {
+    [self loadFaceAIModel];
+    switch (moduleType) {
+        case FULiveModelTypeBody:
+        case FULiveModelTypeWholeAvatar:
+        case FULiveModelTypeBGSegmentation:{
+            [self loadHumanAIModel];
+        }
+            break;
+        case FULiveModelTypeGestureRecognition:
+        case FULiveModelTypeQSTickers:{
+            [self loadHandAIModel];
+            [self loadHumanAIModel];
+        }
+            break;
+        default:
+            break;
+    }
+    
+    // 设置人脸算法质量
+    [FUAIKit shareKit].faceProcessorFaceLandmarkQuality = [FURenderKit devicePerformanceLevel] == FUDevicePerformanceLevelHigh ? FUFaceProcessorFaceLandmarkQualityHigh : FUFaceProcessorFaceLandmarkQualityMedium;
+    
+    // 设置小脸检测是否打开
+    [FUAIKit shareKit].faceProcessorDetectSmallFace = [FURenderKit devicePerformanceLevel] == FUDevicePerformanceLevelHigh;
 }
 
 @end

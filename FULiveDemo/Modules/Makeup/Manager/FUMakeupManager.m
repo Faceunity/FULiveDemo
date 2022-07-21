@@ -166,8 +166,6 @@
             break;
         case FUSingleMakeupTypeEyebrow:{
             self.makeup.subEyebrow = item;
-            self.makeup.browWarp = model.isBrowWarp;
-            self.makeup.browWarpType = model.browWarpType;
         }
             break;
         case FUSingleMakeupTypeEyeshadow:{
@@ -383,12 +381,6 @@
         }
     }
     return YES;
-}
-
-#pragma mark - Override methods
-
-- (void)releaseItem {
-    [FURenderKit shareRenderKit].makeup = nil;
 }
 
 #pragma mark - Getters

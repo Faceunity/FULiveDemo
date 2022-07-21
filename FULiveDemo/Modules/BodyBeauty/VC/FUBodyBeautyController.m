@@ -66,12 +66,6 @@
 
 }
 
--(void)headButtonViewBackAction:(UIButton *)btn{
-    [super headButtonViewBackAction:btn];
-    [self.bodyBeautyManager releaseItem];
-}
-
-
 -(void)displayPromptText{
     BOOL result = [self.baseManager bodyTrace];
     dispatch_async(dispatch_get_main_queue(), ^{

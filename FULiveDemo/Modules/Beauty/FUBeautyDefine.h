@@ -37,7 +37,9 @@ typedef NS_ENUM(NSUInteger, FUBeautifyShape) {
     FUBeautifyShapeIntensityLongNose, //"intensity_long_nose",
     FUBeautifyShapeIntensityPhiltrum, //"intensity_philtrum",
     FUBeautifyShapeIntensitySmile, //"intensity_smile",
-    FUBeautifyShapeMax = 19
+    FUBeautifyShapeIntensityBrowHeight, //"intensity_brow_hight",
+    FUBeautifyShapeIntensityBrowSpace,   //"intensity_brow_space"
+    FUBeautifyShapeMax
 };
 
 typedef NS_ENUM(NSUInteger, FUBeautifySkin) {

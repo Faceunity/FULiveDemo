@@ -22,7 +22,7 @@
         0.0
     ],
     "tex_brow": "brow.png",
-    "brow_warp": 1.0,
+    "brow_warp": 0.0,
     "brow_warp_type": 3,
     "makeup_intensity_eyeBrow": 0.699999988079071,
     "makeup_eyeLash_color": [
@@ -90,5 +90,6 @@
     "tex_eye": "eye.png",
     "tex_eye2": "eye2.png",
     "tex_eye3": "eye3.png",
-    "makeup_intensity_eye": 1.0
+    "makeup_intensity_eye": 1.0,
+    "use_brow_v2": 1.0
 }

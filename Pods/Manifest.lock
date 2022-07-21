@@ -35,7 +35,7 @@ DEPENDENCIES:
   - SVProgressHUD
 
 SPEC REPOS:
-  trunk:
+  https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git:
     - AFNetworking
     - FLAnimatedImage
     - lottie-ios
@@ -55,6 +55,6 @@ SPEC CHECKSUMS:
   SSZipArchive: fe6a26b2a54d5a0890f2567b5cc6de5caa600aef
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: fd67fc11630e51cc13b9f00dfa2ab0c1b0b02f2f
+PODFILE CHECKSUM: 3b71152872b1f4f0c37ce27a3feb4bde27dcfe13
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3

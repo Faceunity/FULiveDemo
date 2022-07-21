@@ -8,7 +8,6 @@
 
 #import "FUCombinationMakeupView.h"
 #import "FUCombinationMakeupCell.h"
-#import "FUSlider.h"
 #import "FUSquareButton.h"
 
 #import "FUCombinationMakeupModel.h"

@@ -26,9 +26,34 @@
 
 #define FUNSLocalizedString(Context,comment)  [NSString stringWithFormat:@"%@", [[NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"appLanguage"]] ofType:@"lproj"]] localizedStringForKey:(Context) value:nil table:nil]]
 
+#define FUPicturePixelMaxSize ([FUManager shareManager].devicePerformanceLevel == FUDevicePerformanceLevelHigh ? 12746752 : 5760000)
+
 #pragma mark - 常量
 
-static float const FUPicturePixelMaxSize = 24000000;
+extern NSString * const FUPersistentBeautyKey;
+
+#pragma mark - 枚举
+
+typedef NS_ENUM(NSUInteger, FULiveModelType) {
+    FULiveModelTypeBeautifyFace             = 0,
+    FULiveModelTypeMakeUp,
+    FULiveModelTypeItems,
+    FULiveModelTypeAnimoji,
+    FULiveModelTypeHair,
+    FULiveModelTypeLightMakeup,
+    FULiveModelTypeARMarsk,
+    FULiveModelTypeHilarious,
+    FULiveModelTypePoster,//海报换脸
+    FULiveModelTypeExpressionRecognition,
+    FULiveModelTypeMusicFilter,
+    FULiveModelTypeHahaMirror,
+    FULiveModelTypeBody,
+    FULiveModelTypeWholeAvatar,
+    FULiveModelTypeBGSegmentation,
+    FULiveModelTypeGestureRecognition,
+    FULiveModelTypeLvMu,
+    FULiveModelTypeQSTickers
+};
 
 #pragma mark - 内联函数
 

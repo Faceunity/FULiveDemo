@@ -49,8 +49,10 @@
                                 @{@"key": @"眼睛角度",@"value":@0.5},
                                 @{@"key": @"长鼻",@"value":@0.5},
                                 @{@"key": @"缩人中",@"value":@0.5},
-                                @{@"key": @"微笑嘴角",@"value":@0.0}];
-    float shapeRatio[FUBeautifyShapeMax] = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+                                @{@"key": @"微笑嘴角",@"value":@0.0},
+                                @{@"key": @"眉毛上下",@"value":@0.5},
+                                @{@"key": @"眉间距",@"value":@0.5}];
+    float shapeRatio[FUBeautifyShapeMax] = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
     for (NSUInteger i = 0; i < FUBeautifyShapeMax; i ++) {
         NSDictionary *keyValues = [titleAndValues objectAtIndex:i];
         FUBeautyModel *model = [[FUBeautyModel alloc] init];

@@ -90,7 +90,7 @@
       "value": 0.7,
       "isSel": false,
       "makeupBundle": "ziyun",
-      "selectedFilter":"zhiganhui5"
+      "selectedFilter":"zhiganhui1"
     },
     {
       "name": "厌世猫",
@@ -114,7 +114,7 @@
       "value": 0.7,
       "isSel": false,
       "makeupBundle": "chuqiu",
-      "selectedFilter":"zhiganhi6"
+      "selectedFilter":"zhiganhui6"
     },
     {
       "name": "千纸鹤",
@@ -154,6 +154,7 @@
       "value": 0.7,
       "isSel": false,
       "makeupBundle": "xinggan",
+      "selectedFilter":"ziran4",
       "isAllowedEdit" : true
     },
     {
@@ -162,6 +163,7 @@
       "value": 0.7,
       "isSel": false,
       "makeupBundle": "tianmei",
+      "selectedFilter":"ziran4",
       "isAllowedEdit" : true
     },
     {
@@ -170,6 +172,7 @@
       "value": 0.7,
       "isSel": false,
       "makeupBundle": "linjia",
+      "selectedFilter":"ziran4",
       "isAllowedEdit" : true
     },
     {
@@ -178,6 +181,7 @@
       "value": 0.7,
       "isSel": false,
       "makeupBundle": "oumei",
+      "selectedFilter":"ziran4",
       "isAllowedEdit" : true
     },
     {
@@ -186,6 +190,7 @@
       "value": 0.7,
       "isSel": false,
       "makeupBundle": "wumei",
+      "selectedFilter":"ziran4",
       "isAllowedEdit" : true
     }
     

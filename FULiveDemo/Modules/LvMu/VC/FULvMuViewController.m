@@ -54,7 +54,6 @@
     }];
     
     self.headButtonView.selectedImageBtn.hidden = NO;
-    [self.headButtonView.selectedImageBtn setImage:[UIImage imageNamed:@"相册icon"] forState:UIControlStateNormal];
     
     /* 添加手势改变input size */
     [self initMovementGestures];
@@ -75,6 +74,13 @@
     [_lvmuEditeView reloadDataSoure:self.greenScreenManager.dataArray];
     [_lvmuEditeView reloadBgDataSource:self.greenScreenManager.bgDataArray];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground) name:UIApplicationDidBecomeActiveNotification object:nil];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -82,23 +88,17 @@
     [self.greenScreenManager loadItem];
     if (self.greenScreenManager.greenScreen.pause && self.greenScreenManager.greenScreen.path) {
         [self.greenScreenManager.greenScreen startVideoDecode];
-        // self.greenScreenManager.greenScreen.pause = NO;
     }
     [self lvmuViewShowTopView:!self.lvmuEditeView.isHidenTop];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
+    [self.greenScreenManager releaseItem];
     [self.lvmuEditeView destoryLvMuView];
     if (!self.greenScreenManager.greenScreen.pause && self.greenScreenManager.greenScreen.path) {
         self.greenScreenManager.greenScreen.pause = YES;
     }
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
 -(void)initMovementGestures {
@@ -136,7 +136,6 @@
 -(void)headButtonViewBackAction:(UIButton *)btn{
     [self.lvmuEditeView destoryLvMuView];
     [super headButtonViewBackAction:btn];
-    [self.greenScreenManager releaseItem];
 }
 
 - (void)didEnterBackground {
@@ -147,15 +146,13 @@
 
 - (void)willEnterForeground{
     if (self.greenScreenManager.greenScreen.pause && self.greenScreenManager.greenScreen.path) {
-        self.greenScreenManager.greenScreen.pause = NO;
+        [self.greenScreenManager.greenScreen startVideoDecode];
     }
 }
 
-/* 不需要进入分辨率选择 */
--(BOOL)onlyJumpImage{
+- (BOOL)needsPresetSelections {
     return YES;
 }
-
 
 #pragma  mark -  FULvMuViewDelegate
 
@@ -176,6 +173,10 @@
 -(void)colorDidSelected:(UIColor *)color {
     [self.greenScreenManager setGreenScreenWithColor:color];
     NSLog(@"取色值 %@",color);
+    // 设置关键颜色后FURenderKit层的相似度、平滑度、祛色度可能自动发生变化，所以需要更新程度值
+    [self.greenScreenManager updateCurrentGreenScreen];
+    // 刷新UI
+    [self.lvmuEditeView reloadDataSoure:self.greenScreenManager.dataArray];
 }
 
 -(void)lvmuViewShowTopView:(BOOL)shown{
@@ -196,18 +197,7 @@
 - (void)renderKitDidRenderToOutput:(FURenderOutput *)renderOutput {
     if (!CGPointEqualToPoint(CGPointZero, _currPoint)) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            CVPixelBufferRef pixelBuffer = renderOutput.pixelBuffer;
-            //转换为图片坐标
-            size_t width = CVPixelBufferGetWidth(pixelBuffer);
-            size_t height = CVPixelBufferGetHeight(pixelBuffer);
-            
-            int scale = (int)[UIScreen mainScreen].scale;
-            size_t viewWidth = CGRectGetWidth(self.renderView.bounds) * scale;
-            size_t viewHeight = CGRectGetHeight(self.renderView.bounds) * scale;
-            
-            CGPoint imagePoint;
-            imagePoint = CGPointMake(_currPoint.x * width / viewWidth, _currPoint.y * height / viewHeight);
-            UIColor *color = [FUGreenScreen pixelColorWithPixelBuffer:pixelBuffer point:imagePoint];
+            UIColor *color = [self.renderView colorInPoint:_currPoint];
             [self.lvmuEditeView setTakeColor:color];
         });
     }
@@ -291,9 +281,4 @@
     }
 }
 
-
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
-}
 @end

@@ -38,9 +38,14 @@ NS_ASSUME_NONNULL_BEGIN
 /// 缓存渲染线程的人脸中心点
 @property (nonatomic, assign) CGPoint faceCenter;
 
+/// 人脸是否完整（临时处理海报换脸问题）
+@property (nonatomic, assign) BOOL trackedFullFace;
+
 /// 当前页面绑定的相机朝向
 @property (assign, nonatomic) AVCaptureDevicePosition cameraPosition;
 
+/// 清除所有资源
+- (void)clearItems;
 
 - (void)setSkin:(double)value forKey:(FUBeautifySkin)key;
 
@@ -77,7 +82,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)resetDefaultParams:(FUBeautyDefine)type;
 
 /// 更新美颜参数到缓存
-- (void)updateBeautyCache;
+/// @param isPersistent 是否持久化
+- (void)updateBeautyCache:(BOOL)isPersistent;
 
 - (void)setStyleBeautyParams:(FUStyleModel *)styleModel;
 

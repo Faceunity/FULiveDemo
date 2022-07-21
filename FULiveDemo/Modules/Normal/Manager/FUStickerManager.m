@@ -38,7 +38,7 @@
  */
 - (void)loadItem:(NSString *)itemName
       completion:(void (^ __nullable)(BOOL finished))completion {
-    self.selectedItem = itemName ;
+    self.selectedItem = itemName;
     NSLog(@"道具名称=====%@",itemName);
     if (itemName != nil && ![itemName isEqual: @"resetItem"])  {
         [self loadItemWithCompletion:^{
@@ -88,18 +88,6 @@
 
 //释放item，内部会自动清除相关资源文件
 - (void)releaseItem {
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        switch (self.type) {
-            case FUStickerPropType:
-                self.curSticker = nil;
-                break;
-            case FUGestureType:
-                self.gestureItem = nil;
-                break;
-            default:
-                break;
-        }
-        [[FURenderKit shareRenderKit].stickerContainer removeAllSticks];
-    });
+    [[FURenderKit shareRenderKit].stickerContainer removeAllSticks];
 }
 @end

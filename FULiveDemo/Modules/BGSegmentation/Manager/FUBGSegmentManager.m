@@ -101,14 +101,11 @@
 }
 
 - (void)releaseItem {
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [[FURenderKit shareRenderKit].stickerContainer removeSticker:self.segment completion:^{
-            if (self.ComplentionBlock) {
-                self.ComplentionBlock(NO);
-            }
-        }];
-        self.segment = nil;
-    });
+    [[FURenderKit shareRenderKit].stickerContainer removeSticker:self.segment completion:^{
+        if (self.ComplentionBlock) {
+            self.ComplentionBlock(NO);
+        }
+    }];
 }
 
 @end

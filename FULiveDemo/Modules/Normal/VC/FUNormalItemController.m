@@ -30,14 +30,8 @@
     [self.headButtonView.selectedImageBtn setImage:[UIImage imageNamed:@"相册icon"] forState:UIControlStateNormal];
 }
 
-- (void)headButtonViewBackAction:(UIButton *)btn{
-    [super headButtonViewBackAction:btn];
-    [self.stickerManager releaseItem];
-}
-
-/* 不需要进入分辨率选择 */
--(BOOL)onlyJumpImage{
-    return YES;
+- (BOOL)needsPresetSelections {
+    return NO;
 }
 
 
@@ -71,10 +65,7 @@
             /* 初始状态 */
         NSString *selectItem = self.model.items.count > 0 ? self.model.items[1] : @"resetItem" ;
         self.itemsView.selectedItem = selectItem ;
-        dispatch_async(self.stickerManager.loadQueue, ^{
-            [self itemsViewDidSelectedItem:selectItem indexPath:nil];
-        });
-        
+        [self itemsViewDidSelectedItem:selectItem indexPath:nil];
     }else {
         [self.stickerManager loadItem:self.stickerManager.selectedItem completion:nil];
     }

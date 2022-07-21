@@ -19,6 +19,11 @@ typedef enum : NSUInteger {
 } FUFaceProcessorDetectMode;
 
 typedef enum : NSUInteger {
+    FUHumanProcessorDetectModeImage,
+    FUHumanProcessorDetectModeVideo
+} FUHumanProcessorDetectMode;
+
+typedef enum : NSUInteger {
     FUFaceProcessorFaceLandmarkQualityLow,
     FUFaceProcessorFaceLandmarkQualityMedium,
     FUFaceProcessorFaceLandmarkQualityHigh
@@ -32,7 +37,9 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, assign) int maxTrackBodies; // 设置最大的人体跟踪个数 default is 1
 
-@property (nonatomic, assign) FUFaceProcessorDetectMode faceProcessorDetectMode; // 图像加载模式 default is FUFaceProcessorDetectModeVideo
+@property (nonatomic, assign) FUFaceProcessorDetectMode faceProcessorDetectMode; // 人脸检测模式 default is FUFaceProcessorDetectModeVideo
+
+@property (nonatomic, assign) FUHumanProcessorDetectMode humanProcessorDetectMode;  // 人体检测模式，default is FUHumanProcessorDetectModeVideo
 
 @property (nonatomic, assign) BOOL faceProcessorDetectSmallFace; // 是否开启小脸检测，default is NO
 

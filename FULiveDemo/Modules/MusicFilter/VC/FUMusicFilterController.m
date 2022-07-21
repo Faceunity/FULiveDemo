@@ -21,12 +21,14 @@
     // Do any additional setup after loading the view.
     self.musicManager = [[FUMusicFilterManager alloc] init];
     [self setupView];
-    [self addObserver];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillResignActive) name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
-- (void)headButtonViewBackAction:(UIButton *)btn{
-    [super headButtonViewBackAction:btn];
-    [self.musicManager releaseItem];
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 -(void)setupView{
@@ -60,13 +62,6 @@
     }else {
         [self.musicManager loadItem:self.itemsView.selectedItem completion:nil];
     }
-    [self.musicManager.musicItem play];
-}
-
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    
-    [self.musicManager.musicItem stop];
 }
 
 #pragma mark -  FUItemsViewDelegate
@@ -80,6 +75,8 @@
     [self.musicManager.musicItem stop];
     if (![item isEqualToString:@"resetItem"]) {
         [self.musicManager.musicItem play];
+    } else {
+        [self.musicManager releaseItem];
     }
 }
 
@@ -90,28 +87,25 @@
 
 -(void)headButtonViewSwitchAction:(UIButton *)btn {
     [super headButtonViewSwitchAction:btn];
-    [self.musicManager.musicItem play];
+    if (self.musicManager.musicItem) {
+        [self.musicManager.musicItem play];
+    }
+}
+
+- (void)headButtonViewBackAction:(UIButton *)btn {
+    [super headButtonViewBackAction:btn];
+    [self.musicManager releaseItem];
 }
 
 #pragma mark --- Observer
 
-- (void)addObserver{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willResignActive) name:UIApplicationWillResignActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
+- (void)applicationWillResignActive{
+    [self.musicManager.musicItem stop];
 }
 
-- (void)willResignActive{
-    if (self.navigationController.visibleViewController == self) {
-        [self.musicManager.musicItem stop] ;
-    }
-}
-
-- (void)didBecomeActive{
-    
-    if (self.navigationController.visibleViewController == self) {
-        if (![self.musicManager.selectedItem isEqualToString:@"noitem"]) {
-            [self.musicManager.musicItem play];
-        }
+- (void)applicationDidBecomeActive {
+    if (![self.musicManager.selectedItem isEqualToString:@"noitem"]) {
+        [self.musicManager.musicItem play];
     }
 }
 @end

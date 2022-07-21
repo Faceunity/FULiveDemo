@@ -128,6 +128,7 @@
         [_beautyDemoBar reloadSkinView:self.baseManager.skinParams];
         [_beautyDemoBar reloadFilterView:self.baseManager.filters];
         [_beautyDemoBar reloadStyleView:self.baseManager.styleParams defaultStyle:self.baseManager.currentStyle];
+        [_beautyDemoBar setDefaultFilter:self.baseManager.seletedFliter];
     }
     return _beautyDemoBar;
 }

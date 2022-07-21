@@ -37,26 +37,6 @@
          </BuildableReference>
       </MacroExpansion>
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0B5A0CD72021913900AAD47D"
-               BuildableName = "FULiveDemoUITests.xctest"
-               BlueprintName = "FULiveDemoUITests"
-               ReferencedContainer = "container:FULiveDemo.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0B5A0CCC2021913900AAD47D"
-               BuildableName = "FULiveDemoTests.xctest"
-               BlueprintName = "FULiveDemoTests"
-               ReferencedContainer = "container:FULiveDemo.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

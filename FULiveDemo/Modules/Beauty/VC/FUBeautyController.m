@@ -11,8 +11,6 @@
 #import "FUSelectedImageController.h"
 #import "SVProgressHUD.h"
 
-#import "FULandmarkManager.h"
-
 @interface FUBeautyController ()<FUAPIDemoBarDelegate>
 
 @property (strong, nonatomic) FUAPIDemoBar *demoBar;
@@ -47,7 +45,7 @@
     [_demoBar reloadStyleView:self.baseManager.styleParams defaultStyle:self.baseManager.currentStyle];
     [_demoBar setDefaultFilter:self.baseManager.seletedFliter];
     
-    if (self.baseManager.currentStyle) {
+    if (self.baseManager.currentStyle && ![self.baseManager.currentStyle.mTitle isEqualToString:@"None"]) {
         // 当前已经选中了风格推荐时需要调整界面
         [self.demoBar updateSubviews:FUBeautyDefineStyle];
     }
@@ -107,17 +105,6 @@
         make.left.right.top.bottom.equalTo(_demoBar);
     }];
     
-//    UIBlurEffect *blur1 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-//    UIVisualEffectView *effectview1 = [[UIVisualEffectView alloc] initWithEffect:blur1];
-//    [_demoBar.bottomView addSubview:effectview1];
-//    [_demoBar.bottomView sendSubviewToBack:effectview1];
-//
-//    /* 磨玻璃 */
-//    [effectview1 mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.right.bottom.equalTo(_demoBar);
-//        make.height.mas_equalTo(_demoBar.bottomView.bounds.size.height);
-//    }];
-    
     if(iPhoneXStyle){
         UIBlurEffect *blur2 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
         UIVisualEffectView *effectview2 = [[UIVisualEffectView alloc] initWithEffect:blur2];
@@ -132,16 +119,15 @@
     
 }
 
-//-(void)setOrientation:(int)orientation{
-//    [super setOrientation:orientation];
-////    [self.baseManager setDefaultRotationMode:orientation];
-//}
-
 #pragma  mark -  按钮点击
 -(void)didClickSelPhoto{
     FUSelectedImageController *vc = [[FUSelectedImageController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
-    
+}
+
+- (void)headButtonViewBackAction:(UIButton *)btn {
+    [super headButtonViewBackAction:btn];
+    [self.baseManager updateBeautyCache:YES];
 }
 
 - (void)TouchDown{

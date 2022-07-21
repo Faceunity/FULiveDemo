@@ -20,17 +20,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSString *strValue;
 
-/* 双向的参数  0.5是原始值*/
+/// 双向的参数  0.5是原始值
 @property (nonatomic,assign) BOOL iSStyle101;
 
-/* 默认值用于，设置默认和恢复 */
+/// 默认值用于，设置默认和恢复
 @property (nonatomic, assign)float defaultValue;
 
-//参数强度取值比例 进度条因为是归一化 所以要 除以ratio
+/// 参数强度取值比例 进度条因为是归一化 所以要除以ratio
 @property (nonatomic, assign) float ratio;
 
-//标识类型
+/// 标识类型
 @property (nonatomic, assign) FUBeautyDefine type;
+
+/// 是否禁用
+@property (nonatomic, assign) BOOL disabled;
 
 @end
 

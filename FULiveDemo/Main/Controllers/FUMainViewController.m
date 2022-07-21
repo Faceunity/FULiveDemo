@@ -42,10 +42,6 @@ static NSString *headerViewID = @"MGHeaderView";
 
 @implementation FUMainViewController
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent ;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -68,29 +64,6 @@ static NSString *headerViewID = @"MGHeaderView";
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.collection.userInteractionEnabled = YES;
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-    AVAuthorizationStatus videoAuthStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-    if (videoAuthStatus == AVAuthorizationStatusNotDetermined) {
-        // 相机权限
-        [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
-        }];
-    }
-    AVAuthorizationStatus audioAuthStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeAudio];
-    if (audioAuthStatus == AVAuthorizationStatusNotDetermined) {
-        // 麦克风权限
-        [AVCaptureDevice requestAccessForMediaType:AVMediaTypeAudio completionHandler:^(BOOL granted) {
-        }];
-    }
-    PHAuthorizationStatus photoAuthStatus = [PHPhotoLibrary authorizationStatus];
-    if (photoAuthStatus == PHAuthorizationStatusNotDetermined) {
-        // 相册权限
-        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
-        }];
-    }
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -267,6 +240,13 @@ static NSString *headerViewID = @"MGHeaderView";
     collectionView.userInteractionEnabled = YES ;
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return NO;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

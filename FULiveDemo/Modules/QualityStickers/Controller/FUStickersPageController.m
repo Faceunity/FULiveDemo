@@ -15,7 +15,6 @@
 #import "FUQualityStickerManager.h"
 #import "FUNetworkingHelper.h"
 #import "FUManager.h"
-#import "FUTipHUD.h"
 
 #import <SVProgressHUD.h>
 

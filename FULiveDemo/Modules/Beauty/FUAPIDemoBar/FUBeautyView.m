@@ -35,36 +35,54 @@
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     FUBeautyCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FUBeautyCell" forIndexPath:indexPath];
-    FUBeautyModel *modle = self.dataArray[indexPath.row] ;
+    FUBeautyModel *model = self.dataArray[indexPath.row] ;
     NSString *imageName;
     UIColor *titleColor;
-    BOOL opened = YES;
-    
-    if (modle.iSStyle101) {
-        opened = fabs(modle.mValue - 0.5) > 0.01 ? YES : NO;
-    }else{
-        opened = fabs(modle.mValue - 0) > 0.01 ? YES : NO;
+    if (model.disabled) {
+        // 功能被禁用的情况
+        imageName = [model.mTitle stringByAppendingString:@"-0"];
+        titleColor = [UIColor whiteColor];
+    } else {
+        BOOL opened = YES;
+        if (model.iSStyle101) {
+            opened = fabs(model.mValue - 0.5) > 0.01 ? YES : NO;
+        }else{
+            opened = fabs(model.mValue - 0) > 0.01 ? YES : NO;
+        }
+        BOOL selected = _selectedIndex == indexPath.row ;
+        if (selected) {
+            imageName = opened ? [model.mTitle stringByAppendingString:@"-3"] : [model.mTitle stringByAppendingString:@"-2"];
+        }else {
+            imageName = opened ? [model.mTitle stringByAppendingString:@"-1"] : [model.mTitle stringByAppendingString:@"-0"] ;
+        }
+        titleColor = _selectedIndex == indexPath.row ? [UIColor colorWithHexColorString:@"5EC7FE"] : [UIColor whiteColor];
+        
     }
-    BOOL selected = _selectedIndex == indexPath.row ;
-    if (selected) {
-        imageName = opened ? [modle.mTitle stringByAppendingString:@"-3"] : [modle.mTitle stringByAppendingString:@"-2"];
-    }else {
-        imageName = opened ? [modle.mTitle stringByAppendingString:@"-1"] : [modle.mTitle stringByAppendingString:@"-0"] ;
-    }
-    titleColor = _selectedIndex == indexPath.row ? [UIColor colorWithHexColorString:@"5EC7FE"] : [UIColor whiteColor];
-    
     /* icon 未找到, 尝试处理 多语言图片 */
     UIImage *imageIcon = [UIImage imageWithName:imageName];
     if (imageIcon == nil) {
         imageIcon = [UIImage localizedImageWithName:imageName countrySimple:nil];
     }
     cell.imageView.image = imageIcon;
-    cell.titleLabel.text = FUNSLocalizedString(modle.mTitle, nil);
+    cell.titleLabel.text = FUNSLocalizedString(model.mTitle, nil);
     cell.titleLabel.textColor = titleColor;
-    return cell ;
+    cell.imageView.alpha = model.disabled ? 0.7 : 1;
+    cell.titleLabel.alpha = model.disabled ? 0.7 : 1;
+    return cell;
 }
 
 #pragma mark ---- UICollectionViewDelegate
+
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    FUBeautyModel *model = _dataArray[indexPath.row];
+    if (model.disabled) {
+        NSString *tipString = [NSString stringWithFormat:FUNSLocalizedString(@"该功能只支持在高端机使用", nil), FUNSLocalizedString(model.mTitle, nil)];
+        [FUTipHUD showTips:tipString dismissWithDelay:1];
+        return NO;
+    }
+    return YES;
+}
+
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     FUBeautyModel *model = _dataArray[indexPath.row];

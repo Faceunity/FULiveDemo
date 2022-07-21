@@ -65,6 +65,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) double intensityPhiltrum;//缩人中 取值范围 0.0-1.0,  0.5-0.0是变短，0.5-1.0是变长，默认值0.5
 @property (nonatomic, assign) double intensitySmile;//微笑嘴角 取值范围 0.0-1.0,  0.0为无效果，1.0为最大效果，默认值0.0
 @property (nonatomic, assign) double intensityEyeCircle;//圆眼 取值范围 0.0-1.0,  0.0为无效果，1.0为最大效果，默认值0.0
+@property (nonatomic, assign) double intensityBrowHeight;//眉毛上下 取值范围 0.0-1.0,  0.5-0是向上，0.5-1是向下，默认值0.5
+@property (nonatomic, assign) double intensityBrowSpace;//眉间距 取值范围 0.0-1.0, 默认值0.5
+
 @end
 
 @interface FUBeauty (Filter)

@@ -19,7 +19,7 @@ typedef NS_ENUM(NSUInteger, FUMakeupLipType) {
 typedef NS_ENUM(NSUInteger, FUMakeupBrowWarpType) {
     FUMakeupBrowWarpTypeArch = 0, //柳叶眉
     FUMakeupBrowWarpTypeSynophridia, //一字眉
-    FUMakeupBrowWarpTypeDistantMountains, //远山眉
+    FUMakeupBrowWarpTypeDistantMountains, //小山眉
     FUMakeupBrowWarpTypeStandard, //标准眉
     FUMakeupBrowWarpTypeHelpShape, //扶形眉
     FUMakeupBrowWarpTypeDaily, //日常风

@@ -52,8 +52,8 @@
 }
 
 - (void)releaseItem {
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [FURenderKit shareRenderKit].musicFilter = nil;
-    });
+    self.musicItem = nil;
+    [FURenderKit shareRenderKit].musicFilter = nil;
 }
+
 @end

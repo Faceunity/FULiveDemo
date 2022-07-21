@@ -30,6 +30,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)poster:(FUPoster *)poster tempImageTrackErrorCode:(int)code;
 
 /**
+ * 输入照片检测到单人脸回调此方法
+ */
+- (void)poster:(FUPoster *)poster trackedFaceInfo:(FUFaceRectInfo *)faceInfo;
+
+/**
  * 输入照片检测到多张人脸回调此方法,用于UI层绘制多人脸 UI
  */
 - (void)poster:(FUPoster *)poster trackedMultiFaceInfos:(NSArray <FUFaceRectInfo *> *)faceInfos;

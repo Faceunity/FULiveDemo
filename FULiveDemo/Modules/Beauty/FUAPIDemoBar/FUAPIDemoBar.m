@@ -8,7 +8,6 @@
 
 #import "FUAPIDemoBar.h"
 #import "FUFilterView.h"
-#import "FUSlider.h"
 #import "FUBeautyView.h"
 #import "FUSquareButton.h"
 #import "FUManager.h"
@@ -35,7 +34,7 @@
 @property (weak, nonatomic) IBOutlet FUBeautyView *shapeView;
 // 美肤页
 @property (weak, nonatomic) IBOutlet FUBeautyView *skinView;
-/* 格式 */
+// 风格推荐
 @property (weak, nonatomic) IBOutlet FUBeautyView *mStyleView;
 
 @property (weak, nonatomic) IBOutlet FUSquareButton *recoverButton;
@@ -175,6 +174,7 @@
     
     [self showTopViewWithAnimation:self.topView.isHidden];
     [self updateSliderType:_seletedParam];
+    
 }
 
 /// 滑条滑动
@@ -485,9 +485,7 @@
     _seletedParam = param;
     self.beautySlider.value = param.mValue / param.ratio;
     self.beautySlider.hidden = NO;
-    //有bug，数据修改未调用底层FURender库。
     [self updateSliderType:_seletedParam];
-    
 }
 
 #pragma mark - 截断点击事件方法！！！！！！

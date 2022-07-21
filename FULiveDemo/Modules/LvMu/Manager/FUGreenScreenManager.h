@@ -24,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setGreenScreenModel:(FUGreenScreenModel *)model;
 
+- (void)updateCurrentGreenScreen;
+
 //设置颜色值
 - (void)setGreenScreenWithColor:(UIColor *)color;
 

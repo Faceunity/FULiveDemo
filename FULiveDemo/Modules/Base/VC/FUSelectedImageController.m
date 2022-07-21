@@ -8,6 +8,7 @@
 
 #import "FUSelectedImageController.h"
 #import "FUBeautyRenderMediaViewController.h"
+#import "FUMakeupRenderMediaViewController.h"
 #import "FUNomalItemRenderMediaViewController.h"
 #import "FUGreenScreenRenderMediaViewController.h"
 #import "FUBodyBeautyRenderMediaViewController.h"
@@ -18,6 +19,7 @@
 #import "UIImage+FU.h"
 
 #import <MobileCoreServices/MobileCoreServices.h>
+#import <Photos/Photos.h>
 
 @interface FUSelectedImageController ()<UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property (strong, nonatomic) UIButton *mSelImageBtn;
@@ -123,33 +125,20 @@
         NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
         
         if ([mediaType isEqualToString:(NSString *)kUTTypeMovie]){  //视频
-            NSURL *videoURL = info[UIImagePickerControllerMediaURL];
+            __block NSURL *videoURL = info[UIImagePickerControllerMediaURL];
             if (!videoURL) {
-                return;
+                if (@available(iOS 11.0, *)) {
+                    PHAsset *asset = info[UIImagePickerControllerPHAsset];
+                    [[PHImageManager defaultManager] requestAVAssetForVideo:asset options:nil resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
+                        AVURLAsset *urlAsset = (AVURLAsset *)asset;
+                        videoURL = urlAsset.URL;
+                        [self selectVideo:videoURL];
+                    }];
+                }
+            } else {
+                [self selectVideo:videoURL];
             }
-            switch ([FUManager shareManager].currentModel.type) {
-                case FULiveModelTypeBeautifyFace:{
-                    FUBeautyRenderMediaViewController *renderController = [[FUBeautyRenderMediaViewController alloc] initWithVideoURL:videoURL];
-                    [self.navigationController pushViewController:renderController animated:YES];
-                }
-                    break;
-                case FULiveModelTypeLvMu: {
-                    FUGreenScreenRenderMediaViewController *renderController = [[FUGreenScreenRenderMediaViewController alloc] initWithVideoURL:videoURL];
-                    [self.navigationController pushViewController:renderController animated:YES];
-                }
-                    break;
-                case FULiveModelTypeBody: {
-                    FUBodyBeautyRenderMediaViewController *renderController = [[FUBodyBeautyRenderMediaViewController alloc] initWithVideoURL:videoURL];
-                    [self.navigationController pushViewController:renderController animated:YES];
-                }
-                    break;
-                default:{
-                    FUNomalItemRenderMediaViewController *renderController = [[FUNomalItemRenderMediaViewController alloc] initWithVideoURL:videoURL];
-                    [self.navigationController pushViewController:renderController animated:YES];
-                }
-                    break;
-            }
-        }else if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) { //照片
+        } else if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) { //照片
             
             UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
             
@@ -170,6 +159,11 @@
             switch ([FUManager shareManager].currentModel.type) {
                 case FULiveModelTypeBeautifyFace:{
                     FUBeautyRenderMediaViewController *renderController = [[FUBeautyRenderMediaViewController alloc] initWithImage:image];
+                    [self.navigationController pushViewController:renderController animated:YES];
+                }
+                    break;
+                case FULiveModelTypeMakeUp:{
+                    FUMakeupRenderMediaViewController *renderController = [[FUMakeupRenderMediaViewController alloc] initWithImage:image];
                     [self.navigationController pushViewController:renderController animated:YES];
                 }
                     break;
@@ -198,6 +192,38 @@
     
     // 关闭相册
     [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)selectVideo:(NSURL *)videoURL {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        switch ([FUManager shareManager].currentModel.type) {
+            case FULiveModelTypeBeautifyFace:{
+                FUBeautyRenderMediaViewController *renderController = [[FUBeautyRenderMediaViewController alloc] initWithVideoURL:videoURL];
+                [self.navigationController pushViewController:renderController animated:YES];
+            }
+                break;
+            case FULiveModelTypeMakeUp:{
+                FUMakeupRenderMediaViewController *renderController = [[FUMakeupRenderMediaViewController alloc] initWithVideoURL:videoURL];
+                [self.navigationController pushViewController:renderController animated:YES];
+            }
+                break;
+            case FULiveModelTypeLvMu: {
+                FUGreenScreenRenderMediaViewController *renderController = [[FUGreenScreenRenderMediaViewController alloc] initWithVideoURL:videoURL];
+                [self.navigationController pushViewController:renderController animated:YES];
+            }
+                break;
+            case FULiveModelTypeBody: {
+                FUBodyBeautyRenderMediaViewController *renderController = [[FUBodyBeautyRenderMediaViewController alloc] initWithVideoURL:videoURL];
+                [self.navigationController pushViewController:renderController animated:YES];
+            }
+                break;
+            default:{
+                FUNomalItemRenderMediaViewController *renderController = [[FUNomalItemRenderMediaViewController alloc] initWithVideoURL:videoURL];
+                [self.navigationController pushViewController:renderController animated:YES];
+            }
+                break;
+        }
+    });
 }
 
 - (void)showImagePickerWithMediaType:(NSString *)mediaType {

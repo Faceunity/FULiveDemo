@@ -37,6 +37,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *mDownLoadBtn;
 
 @property (strong, nonatomic) FUPosterManager *posterManager;
+/// 是否不完整人脸
+@property (nonatomic, assign) BOOL incompleteFace;
+
 @end
 
 @implementation FUEditImageViewController
@@ -100,7 +103,6 @@
 /* 人脸校验 */
 -(void)setupPhotoMake{
     _mImageView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
-
     [self.posterManager setOnCameraChange];
     FULiveModel *model = [FUManager shareManager].currentModel;
     [self.posterManager.poster renderWithInputImage:_mPhotoImage templateImage:[UIImage imageNamed:model.items[model.selIndex]]];
@@ -212,13 +214,6 @@
     mPhotoImage = [UIImage imageWithData:imageData];
     _mPhotoImage = mPhotoImage;
     self.mImageView.image = mPhotoImage;
-
-    if (_PushFrom == FUEditImagePushFromAlbum) {
-        _mTextLabel.text = FUNSLocalizedString(@"未检测出人脸，请重新上传",nil);
-    }else{
-        _mTextLabel.text = FUNSLocalizedString(@"未检测出人脸，请重新拍摄",nil);
-    }
-
 }
 
 
@@ -280,6 +275,22 @@
 }
 
 /**
+ * 输入照片检测到单人脸回调此方法
+ */
+- (void)poster:(FUPoster *)poster trackedFaceInfo:(FUFaceRectInfo *)faceInfo {
+    CGRect faceRect = faceInfo.rect;
+    if (faceRect.origin.x < 0 || faceRect.origin.y < 0 || (faceRect.origin.x + faceRect.size.width > self.mPhotoImage.size.width) || (faceRect.origin.y + faceRect.size.height > self.mPhotoImage.size.height)) {
+        self.incompleteFace = YES;
+        // 处理人脸不完整情况
+        self.mNoFaceView.hidden = NO;
+        self.mTextLabel.text = self.PushFrom == FUEditImagePushFromPhoto ? FUNSLocalizedString(@"人脸不全，请重新拍摄", nil) : FUNSLocalizedString(@"人脸不全，请重新选择", nil);
+    } else {
+        self.incompleteFace = NO;
+        self.mNoFaceView.hidden = YES;
+    }
+}
+
+/**
  * 输入照片检测到多张人脸回调此方法,用于UI层绘制多人脸 UI
  */
 - (void)poster:(FUPoster *)poster trackedMultiFaceInfos:(NSArray <FUFaceRectInfo *> *)faceInfos {
@@ -315,10 +326,9 @@
 
 - (void)poster:(FUPoster *)poster didRenderToImage:(UIImage *)image {
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.mImageView.image = image;
+        self.mImageView.image = self.incompleteFace ? self.mPhotoImage : image;
         self.loadingImage.hidden = YES;
         self.view.userInteractionEnabled = YES;
-        //
         [self.mItemView stopAnimation];
     });
 }

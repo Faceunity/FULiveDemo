@@ -63,11 +63,6 @@
     self.photoBtn.transform = CGAffineTransformConcat(CGAffineTransformMakeTranslation(0, -100), CGAffineTransformMakeScale(0.8, 0.8));
 }
 
-- (void)headButtonViewBackAction:(UIButton *)btn {
-    [super headButtonViewBackAction:btn];
-    [self.lightMakeupManager releaseItem];
-}
-
 #pragma  mark -  FULightMakeupCollectionViewDelegate
 -(void)lightMakeupCollectionView:(FULightModel *)model{
     /* 设置所有子妆容 */

@@ -10,9 +10,11 @@
 
 #import <SVProgressHUD/SVProgressHUD.h>
 #import <dlfcn.h>
+#import "UIView+FU.h"
+#import "FUBaseViewController.h"
 
 @interface AppDelegate ()
-@property (nonatomic, assign) double height;
+
 @end
 
 @implementation AppDelegate
@@ -42,8 +44,17 @@
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
-    
-    [FURenderKit shareRenderKit].pause = YES;
+    if ([FURenderKit shareRenderKit].captureCamera.capturing) {
+        [[FURenderKit shareRenderKit] stopInternalCamera];
+    }
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    UIViewController *viewController = [UIView fu_topViewController:[UIApplication sharedApplication].delegate.window.rootViewController];
+    if (!viewController || [viewController isKindOfClass:[FUBaseViewController class]]) {
+        [[FURenderKit shareRenderKit] startInternalCamera];
+    }
 }
 
 
@@ -60,11 +71,7 @@
 }
 
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    
-    [FURenderKit shareRenderKit].pause = NO;
-}
+
 
 
 - (void)applicationWillTerminate:(UIApplication *)application {
