@@ -283,15 +283,16 @@ ____
     
      | key      |   属性   |  支持的mode                                                        |
      | ------------- | -------- | ------------------------------------------------------------ |
-     | color_level    |   美白  | FUBeautyPropertyMode1，FUBeautyPropertyMode2(v8.2.0)        |
-     | remove_pouch_strength     |   去黑眼圈    | FUBeautyPropertyMode1，FUBeautyPropertyMode2(v8.2.0，高性能设备推荐)    |
-     | remove_nasolabial_folds_strength     |    去法令纹   | FUBeautyPropertyMode1，FUBeautyPropertyMode2(v8.2.0，高性能设备推荐)        |
-     | cheek_narrow    |  窄脸   | FUBeautyPropertyMode1，FUBeautyPropertyMode2(v8.0.0)     |
-     | cheek_small  |  小脸   | FUBeautyPropertyMode1，FUBeautyPropertyMode2(v8.0.0)    |
-     | eye_enlarging    | 大眼  | FUBeautyPropertyMode1，FUBeautyPropertyMode2(v8.0.0)，FUBeautyPropertyMode3(v8.2.0，高性能设备推荐)        |
-     | intensity_forehead    |   额头   | FUBeautyPropertyMode1，FUBeautyPropertyMode2(v8.0.0)     |
-     | intensity_nose  |   瘦鼻   | FUBeautyPropertyMode1，FUBeautyPropertyMode2(v8.0.0)    |
-     | intensity_mouth    |   嘴型   | FUBeautyPropertyMode1，FUBeautyPropertyMode2(v8.0.0)，FUBeautyPropertyMode3(v8.2.0，高性能设备推荐)       |
+     | color_level    |   美白  | FUBeautyPropertyMode1, FUBeautyPropertyMode2(v8.2.0)        |
+     | remove_pouch_strength     |   去黑眼圈    | FUBeautyPropertyMode1, FUBeautyPropertyMode2(v8.2.0, 高性能设备推荐)    |
+     | remove_nasolabial_folds_strength     |    去法令纹   | FUBeautyPropertyMode1, FUBeautyPropertyMode2(v8.2.0, 高性能设备推荐)        |
+     | cheek_thinning    |  瘦脸   | FUBeautyPropertyMode1, FUBeautyPropertyMode2(v8.3.0)     |
+     | cheek_narrow    |  窄脸   | FUBeautyPropertyMode1, FUBeautyPropertyMode2(v8.0.0)     |
+     | cheek_small  |  小脸   | FUBeautyPropertyMode1, FUBeautyPropertyMode2(v8.0.0)    |
+     | eye_enlarging    | 大眼  | FUBeautyPropertyMode1, FUBeautyPropertyMode2(v8.0.0), FUBeautyPropertyMode3(v8.2.0, 高性能设备推荐)        |
+     | intensity_forehead    |   额头   | FUBeautyPropertyMode1, FUBeautyPropertyMode2(v8.0.0)     |
+     | intensity_nose  |   瘦鼻   | FUBeautyPropertyMode1, FUBeautyPropertyMode2(v8.0.0)    |
+     | intensity_mouth    |   嘴型   | FUBeautyPropertyMode1, FUBeautyPropertyMode2(v8.0.0), FUBeautyPropertyMode3(v8.2.0, 高性能设备推荐)       |
     
 
 ----
