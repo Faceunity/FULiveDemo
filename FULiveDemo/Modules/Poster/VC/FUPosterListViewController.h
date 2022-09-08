@@ -7,10 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FULiveModel.h"
 
 @interface FUPosterListViewController : UIViewController
-@property (nonatomic, strong) FULiveModel *model ;
+
 @property (weak, nonatomic) IBOutlet UICollectionView *mPosterCollectionView;
 
 @end

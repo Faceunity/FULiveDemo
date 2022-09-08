@@ -54,7 +54,6 @@
 -(void)takePhotoToSave:(UIImage *)image{
     FUSaveViewController *vc = [[FUSaveViewController alloc] init];
     vc.view.backgroundColor = [UIColor whiteColor];
-    vc.type = self.model.type;
     vc.mImage = image;
     [self.navigationController pushViewController:vc animated:YES];
 }

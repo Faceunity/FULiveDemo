@@ -7,10 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FULiveModel.h"
 
 @interface FUSaveViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIImageView *mImageView;
 @property (strong, nonatomic) UIImage *mImage;
-@property (nonatomic, assign) FULiveModelType type;
 @end

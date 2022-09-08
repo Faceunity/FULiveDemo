@@ -15,7 +15,6 @@
 
 @implementation FUMusicFilterManager
 @synthesize selectedItem;
-@synthesize type;
 
 - (instancetype)init {
     self = [super init];
@@ -54,6 +53,13 @@
 - (void)releaseItem {
     self.musicItem = nil;
     [FURenderKit shareRenderKit].musicFilter = nil;
+}
+
+- (NSArray *)musicFilterItems {
+    if (!_musicFilterItems) {
+        _musicFilterItems = @[@"resetItem", @"douyin_01", @"douyin_02"];
+    }
+    return _musicFilterItems;
 }
 
 @end

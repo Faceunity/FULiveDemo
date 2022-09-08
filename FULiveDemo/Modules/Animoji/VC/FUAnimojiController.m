@@ -7,9 +7,10 @@
 //
 
 #import "FUAnimojiController.h"
-#import "FUItemsView.h"
 #import "FUAnimojiManager.h"
 #import "FUAnimationFilterManager.h"
+
+#import <FUCommonUIComponent/FUItemsView.h>
 
 @interface FUAnimojiController ()<FUItemsViewDelegate, FUSegmentBarDelegate>
 @property (strong,nonatomic) NSString *selAnmoji;
@@ -17,7 +18,6 @@
 @property (strong, nonatomic) FUItemsView *itemsView;
 /* 动漫滤镜分栏*/
 @property (strong, nonatomic) FUSegmentBar *segmentBarView;
-@property (strong, nonatomic) NSArray *comicItemArray;
 
 @property (strong, nonatomic) FUAnimojiManager *animojManager;
 
@@ -41,12 +41,8 @@
 }
 
 -(void)setupView{
-    /* 动漫data */
-    _comicItemArray = @[@"resetItem",@"fuzzytoonfilter1",@"fuzzytoonfilter2",@"fuzzytoonfilter3",@"fuzzytoonfilter4",@"fuzzytoonfilter5",@"fuzzytoonfilter6",@"fuzzytoonfilter7",@"fuzzytoonfilter8"];
-
     self.segmentBarView = [[FUSegmentBar alloc] initWithFrame:CGRectMake(0, 200,[UIScreen mainScreen].bounds.size.width, 49) titles:@[@"Animoji",FUNSLocalizedString(@"动漫滤镜",nil)] configuration:[FUSegmentBarConfigurations new]];
-    self.segmentBarView.segmentDelegate = self;
-    self.segmentBarView.selectedIndex = _currentIndex;
+    self.segmentBarView.delegate = self;
     [self.view addSubview:self.segmentBarView];
     
     [self.segmentBarView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -70,47 +66,48 @@
         make.height.mas_equalTo(84);
     }];
     
-    [self.itemsView updateCollectionArray:self.model.items];
+    self.itemsView.items = self.animojManager.animojiItems;
     /* 初始状态 */
-    self.itemsView.selectedItem = @"resetItem" ;
-    self.selAnmoji = self.itemsView.selectedItem;
+    self.selAnmoji = @"resetItem";
+    self.selComic = @"resetItem";
+    
+    self.segmentBarView.selectedIndex = _currentIndex;
     
     self.photoBtn.transform = CGAffineTransformMakeTranslation(0, -90) ;
 }
 
 #pragma mark - FUItemsViewDelegate
-- (void)itemsViewDidSelectedItem:(NSString *)item indexPath:(NSIndexPath *)indexPath {
-    [_itemsView startAnimation];
-    __weak typeof(self) weak = self;
+
+- (void)itemsView:(FUItemsView *)itemsView didSelectItemAtIndex:(NSInteger)index {
+    [self.itemsView startAnimation];
     if (self.currentIndex == 1){//动漫
-        _selComic = item;
+        _selComic = itemsView.items[index];
         NSArray *array = [_selComic componentsSeparatedByString:@"toonfilter"];
         int type = [array.lastObject intValue];
-        [self.animationFilterManager loadItem:item type:[self comicStyleIndex:type] completion:^(BOOL flag) {
-            [weak.itemsView stopAnimation];
+        [self.animationFilterManager loadItem:_selComic type:[self comicStyleIndex:type] completion:^(BOOL flag) {
+            [self.itemsView stopAnimation];
         }];
     }else{//anmoji
-        _selAnmoji = item;
-        [self.animojManager loadItem:item completion:^(BOOL finished) {
-            [weak.itemsView stopAnimation];
+        _selAnmoji = itemsView.items[index];;
+        [self.animojManager loadItem:_selAnmoji completion:^(BOOL finished) {
+            [self.itemsView stopAnimation];
         }];
     }
-
 }
+
+#pragma mark - FUSegmentBarDelegate
 
 - (void)segmentBar:(FUSegmentBar *)segmentsView didSelectItemAtIndex:(NSUInteger)index {
     if (index == 0) {
-        self.itemsView.selectedItem = self.selAnmoji;
-        [self.itemsView updateCollectionArray:self.model.items];
+        self.itemsView.items = self.animojManager.animojiItems;
+        self.itemsView.selectedIndex = [self.animojManager.animojiItems indexOfObject:self.selAnmoji];
     }else{
-        self.itemsView.selectedItem = self.selComic;
-        [self.itemsView updateCollectionArray:self.comicItemArray];
+        self.itemsView.items = self.animationFilterManager.comicFilterItems;
+        self.itemsView.selectedIndex = [self.animationFilterManager.comicFilterItems indexOfObject:self.selComic];
     }
     self.currentIndex = index;
     NSLog(@"选中---%lu",(unsigned long)index);
 }
-
-
 
 #pragma  mark -  动漫滤镜顺序
 -(int)comicStyleIndex:(NSInteger)index{

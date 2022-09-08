@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FUStickerDefine.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,8 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 /** 加载道具 */
 - (void)loadItem:(NSString *_Nullable)itemName
       completion:(void (^ __nullable)(BOOL finished))completion;
-
-@property (nonatomic, assign) FUStickerType type;
 
 /**选中的道具名称*/
 @property (nonatomic, strong) NSString * _Nullable selectedItem;

@@ -34,25 +34,59 @@ extern NSString * const FUPersistentBeautyKey;
 
 #pragma mark - 枚举
 
-typedef NS_ENUM(NSUInteger, FULiveModelType) {
-    FULiveModelTypeBeautifyFace             = 0,
-    FULiveModelTypeMakeUp,
-    FULiveModelTypeItems,
-    FULiveModelTypeAnimoji,
-    FULiveModelTypeHair,
-    FULiveModelTypeLightMakeup,
-    FULiveModelTypeARMarsk,
-    FULiveModelTypeHilarious,
-    FULiveModelTypePoster,//海报换脸
-    FULiveModelTypeExpressionRecognition,
-    FULiveModelTypeMusicFilter,
-    FULiveModelTypeHahaMirror,
-    FULiveModelTypeBody,
-    FULiveModelTypeWholeAvatar,
-    FULiveModelTypeBGSegmentation,
-    FULiveModelTypeGestureRecognition,
-    FULiveModelTypeLvMu,
-    FULiveModelTypeQSTickers
+typedef NS_ENUM(NSUInteger, FUGroupType) {
+    FUGroupTypeFace = 0,
+    FUGroupTypeBody,
+    FUGroupTypeContentService
+};
+
+//typedef NS_ENUM(NSUInteger, FULiveModelType) {
+//    FULiveModelTypeBeautifyFace             = 0,
+//    FULiveModelTypeMakeUp,
+//    FULiveModelTypeItems,
+//    FULiveModelTypeAnimoji,
+//    FULiveModelTypeHair,
+//    FULiveModelTypeLightMakeup,
+//    FULiveModelTypeARMarsk,
+//    FULiveModelTypeHilarious,
+//    FULiveModelTypePoster,//海报换脸
+//    FULiveModelTypeExpressionRecognition,
+//    FULiveModelTypeMusicFilter,
+//    FULiveModelTypeHahaMirror,
+//    FULiveModelTypeBody,
+//    FULiveModelTypeWholeAvatar,
+//    FULiveModelTypeBGSegmentation,
+//    FULiveModelTypeGestureRecognition,
+//    FULiveModelTypeLvMu,
+//    FULiveModelTypeQSTickers
+//};
+
+typedef NS_ENUM(NSUInteger, FUModuleType) {
+    FUModuleTypeBeauty = 0,
+    FUModuleTypeMakeup,
+    FUModuleTypeSticker,
+    FUModuleTypeAnimoji,
+    FUModuleTypeHair,
+    FUModuleTypeLightMakeup,
+    FUModuleTypeARMask,
+    FUModuleTypeHilarious,
+    FUModuleTypePoster,
+    FUModuleTypeExpressionRecognition,
+    FUModuleTypeMusicFilter,
+    FUModuleTypeDistortingMirror,
+    FUModuleTypeBody,
+    FUModuleTypeWholeAvatar,
+    FUModuleTypeSegmentation,
+    FUModuleTypeGestureRecognition,
+    FUModuleTypeGreenScreen,
+    FUModuleTypeQualityTicker
+};
+
+/// AI模型分类
+typedef NS_OPTIONS(NSUInteger, FUAIModelType) {
+    FUAIModelTypeFace     = 1 << 0,     // 人脸
+    FUAIModelTypeHuman    = 1 << 1,     // 人体
+    FUAIModelTypeHand     = 1 << 2      // 手势
 };
 
 #pragma mark - 内联函数

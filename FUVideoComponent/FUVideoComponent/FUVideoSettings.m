@@ -18,6 +18,7 @@
 }
 
 - (void)resetToDefault {
+    self.readingAutomatically = NO;
     self.needsAudioTrack = YES;
     self.readAtVideoRate = YES;
     self.needsRepeat = NO;

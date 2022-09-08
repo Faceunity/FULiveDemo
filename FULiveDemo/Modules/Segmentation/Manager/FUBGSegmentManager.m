@@ -1,0 +1,119 @@
+//
+//  FUBGSegmentManager.m
+//  FULiveDemo
+//
+//  Created by Chen on 2021/2/25.
+//  Copyright © 2021 FaceUnity. All rights reserved.
+//
+
+#import "FUBGSegmentManager.h"
+#import "FUBGSaveModel.h"
+@interface FUBGSegmentManager ()
+@property (nonatomic, copy) void(^ComplentionBlock)(BOOL finished);
+@end
+
+@implementation FUBGSegmentManager
+@synthesize selectedItem;
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        
+    }
+    return self;
+}
+
+//是否有自定的数据要添加
+- (NSArray *)additionalItems {
+    NSMutableArray *arr = [NSMutableArray arrayWithObject:@"resetItem"];
+    [arr addObject:@"icon_yitu_add"];
+    if ([self isHaveCustItem]) {
+        [arr addObject:CUSTOMBG];
+    }
+    return [NSArray arrayWithArray:arr];
+}
+
+-(NSString *)filePath {
+    NSString *path = [FUDocumentPath stringByAppendingPathComponent:@"FUBGSaveModel.data"];
+    return path;
+}
+
+- (BOOL)saveModel:(FUBGSaveModel *)model {
+    NSString *path = [self filePath];
+    BOOL success =  [NSKeyedArchiver archiveRootObject:model toFile:path];
+    return success;
+}
+
+
+- (BOOL)isHaveCustItem {
+    FUBGSaveModel *model = [self getSaveModel];
+    if (model) {
+        return YES;
+    }else{
+        return NO;
+    }
+}
+
+- (FUBGSaveModel *)getSaveModel {
+    NSString *path = [self filePath];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        return nil;
+    }
+    
+    FUBGSaveModel *model = nil;
+    @try {
+        model = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+    } @catch (NSException *exception) {
+        [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
+    } @finally {
+    }
+    return model;
+}
+
+
+- (void)setSegment:(FUAISegment *)segment {
+    _segment = segment;
+}
+
+- (void)loadItem:(NSString *)itemName
+      completion:(void (^ __nullable)(BOOL finished))completion {
+    self.selectedItem = itemName;
+    [self.segment stopVideoDecode];//内部会判断，存在视频解码就释放不存在不操作直接返回。
+    self.ComplentionBlock = completion;
+    if (itemName != nil && ![itemName isEqual: @"resetItem"])  {
+        [self loadItem];
+    } else {
+        [self releaseItem];
+    }
+}
+
+- (void)loadItem {
+    NSString *itemName = self.selectedItem;
+    NSString *path = [[NSBundle mainBundle] pathForResource:[itemName stringByAppendingString:@".bundle"] ofType:nil];
+    FUAISegment *newItem = [[FUAISegment alloc] initWithPath:path name:@"segment"];
+    [[FURenderKit shareRenderKit].stickerContainer replaceSticker:self.segment withSticker:newItem completion:^{
+        if (self.ComplentionBlock) {
+            self.ComplentionBlock(YES);
+        }
+    }];
+    self.segment = newItem;
+}
+
+- (void)releaseItem {
+    [self.segment stopVideoDecode];
+    [[FURenderKit shareRenderKit].stickerContainer removeSticker:self.segment completion:^{
+        if (self.ComplentionBlock) {
+            self.ComplentionBlock(NO);
+        }
+    }];
+}
+
+
+- (NSArray *)items {
+    if (!_items) {
+        _items = @[@"human_outline_740", @"boyfriend1_740", @"boyfriend3_740", @"boyfriend2_740", @"hez_ztt_fu", @"gufeng_zh_fu", @"xiandai_ztt_fu", @"sea_lm_fu", @"ice_lm_fu"];
+    }
+    return _items;
+}
+
+@end

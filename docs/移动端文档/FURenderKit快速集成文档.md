@@ -4,7 +4,7 @@
 ### 通过cocoapods集成
 
 ```
-pod 'FURenderKit', '8.3.0' 
+pod 'FURenderKit', '8.3.1' 
 ```
 
 接下来执行：
@@ -314,26 +314,67 @@ AI能力相关的功能都通过FUAIKit 加载或获取
 
 @property (nonatomic, assign) FUFaceProcessorFaceLandmarkQuality faceProcessorFaceLandmarkQuality;  // 人脸算法质量
 
-//加载 AI bundle
+/// 加载AI模型
+/// @param type AI类型
+/// @param dataPath 模型路径
 + (void)loadAIModeWithAIType:(FUAITYPE)type dataPath:(NSString *)dataPath;
-//卸载 AI bundle
+
+/// 卸载AI模型
+/// @param type AI 类型
 + (void)unloadAIModeForAIType:(FUAITYPE)type;
-//卸载所有 AI bundle
+
+/// 卸载所有的AI模型
 + (void)unloadAllAIMode;
 
+/// 判断某 AI 模型是否加载
+/// @param type AI 类型
 + (BOOL)loadedAIType:(FUAITYPE)type;
-//加载舌头驱动
+
+/// 加载舌头模型
+/// @param modePath 舌头模型地址
 + (void)loadTongueMode:(NSString *)modePath;
-//脸部类型 单独加载
+
+/// 设置 AI 识别类型
+/// @param type AI 识别类型
 + (void)setTrackFaceAIType:(FUAITYPE)type;
 
+/// 设置跟踪到人脸时每次检测的间隔帧数
+/// @param frames 帧数
+/// @note 底层默认间隔帧数为7
++ (void)setFaceProcessorDetectEveryFramesWhenFace:(int)frames;
+
+/// 设置未跟踪到人脸时每次检测的间隔帧数
+/// @param frames 帧数
+/// @note 底层默认间隔帧数为7
++ (void)setFaceProcessorDetectEveryFramesWhenNoFace:(int)frames;
+
+/// 对输入的图像进行 AI 识别，支持人脸、身体、手指能类型的识别
 + (int)trackFaceWithInput:(FUTrackFaceInput *)trackFaceInput;
-// Reset ai model HumanProcessor's tracking state.
+
+/// 重置身体识别
 + (void)resetHumanProcessor;
-//get ai model HumanProcessor's tracking result.
+
+/// 跟踪到的人体数量
 + (int)aiHumanProcessorNums;
-//人脸检测置信度
+
+/// 跟踪到的人脸数量
++ (int)aiFaceProcessorNums;
+
+/// 人脸检测置信度
 + (float)fuFaceProcessorGetConfidenceScore:(int)index;
+
+/// ai手势识别
++ (int)aiHandDistinguishNums;
+
+/// 手势识别：获取手势类型
+/// @param handIndex aiHandDistinguishNums返回手的索引
++ (FUAIGESTURETYPE)fuHandDetectorGetResultGestureType:(int)handIndex;
+
+/// 动作识别： actionId index of fuHumanProcessorGetNumResults
++ (int)fuHumanProcessorGetResultActionType:(int)actionId;
+
+/// 设置面部参数
++ (void)setFaceTrackParam:(NSString *)param value:(int)value;
 ```
 
 其他接口参考  FUAIKit.h 

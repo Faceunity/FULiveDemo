@@ -1,4 +1,17 @@
-# SDK集成指导文档-iOS  
+# SDK集成指导文档-iOS 
+
+------
+
+级别：Public   
+更新日期：2022-09-09
+SDK版本: 8.3.1
+
+### 最新更新内容：
+
+1)适配Mac M系列平台
+2)鉴权模块升级
+3)新增表情系数映射接口、人脸检测频率接口
+4)修复一些bug 
 
 ------
 
@@ -160,10 +173,9 @@ SDK版本: 7.4.0
   +FUCommonUIComponent      //UI组件
   +FUVideoComponent         //视频解码编码组件
   +FULiveDemo                   //原代码目录
-    +Main                     //主页模块(主页UI、主页模型、主页管理类) 
     +Modules                  //所有功能模块
-      +Base                    //所有模块控制器、管理类的基类
-      +Normal                   //普通道具模块
+      +Homepage                 //主页模块
+      +Render                   //特效渲染基础模块
       +Beauty                   //美颜模块
         ...
     +Helpers                //主要业务管理类  
@@ -243,15 +255,15 @@ pod repo update 或 pod setup
 
 #### 3.2.2 直接下载
 
-Nama全功能版本（支持物理特效）：[FaceUnity-SDK-iOS-v8.3.0.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FaceUnity-SDK-iOS-v8.3.0.zip)
+Nama全功能版本（支持物理特效）：[FaceUnity-SDK-iOS-v8.3.1.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FaceUnity-SDK-iOS-v8.3.1.zip)
 
-Nama-lite版本： 版（体积更小，包含人脸相关的功能(海报换脸除外)）：[FaceUnity-SDK-iOS-lite-v8.3.0.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FaceUnity-SDK-iOS-lite-v8.3.0.zip)
+Nama-lite版本： 版（体积更小，包含人脸相关的功能(海报换脸除外)）：[FaceUnity-SDK-iOS-lite-v8.3.1.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FaceUnity-SDK-iOS-lite-v8.3.1.zip)
 
 FURenderKit全功能版本（支持物理特效）：
-    [FURenderKit-v8.3.0.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FURenderKit-v8.3.0.zip)
+    [FURenderKit-v8.3.1.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FURenderKit-v8.3.1.zip)
 
 FURenderKit-lite版本：
-    [FURenderKit-lite-v8.3.0.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FURenderKit-lite-v8.3.0.zip)
+    [FURenderKit-lite-v8.3.1.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FURenderKit-lite-v8.3.1.zip)
     
 
 下载完成并解压后将库文件夹拖入到工程中，并勾选上 Copy items if needed，如图：

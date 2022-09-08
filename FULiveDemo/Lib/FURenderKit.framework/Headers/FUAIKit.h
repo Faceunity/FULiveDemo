@@ -49,6 +49,9 @@ typedef enum : NSUInteger {
 
 + (instancetype)shareKit;
 
+/// 加载AI模型
+/// @param type AI类型
+/// @param dataPath 模型路径
 + (void)loadAIModeWithAIType:(FUAITYPE)type dataPath:(NSString *)dataPath;
 
 + (void)unloadAIModeForAIType:(FUAITYPE)type;
@@ -60,6 +63,16 @@ typedef enum : NSUInteger {
 + (void)loadTongueMode:(NSString *)modePath;
 
 + (void)setTrackFaceAIType:(FUAITYPE)type;
+
+/// 设置跟踪到人脸时每次检测的间隔帧数
+/// @param frames 帧数
+/// @note 底层默认间隔帧数为7
++ (void)setFaceProcessorDetectEveryFramesWhenFace:(int)frames;
+
+/// 设置未跟踪到人脸时每次检测的间隔帧数
+/// @param frames 帧数
+/// @note 底层默认间隔帧数为7
++ (void)setFaceProcessorDetectEveryFramesWhenNoFace:(int)frames;
 
 + (int)trackFaceWithInput:(FUTrackFaceInput *)trackFaceInput;
 
@@ -80,7 +93,6 @@ typedef enum : NSUInteger {
 
 //动作识别： actionId index of fuHumanProcessorGetNumResults
 + (int)fuHumanProcessorGetResultActionType:(int)actionId;
-
 
 //设置面部参数
 + (void)setFaceTrackParam:(NSString *)param value:(int)value;

@@ -4,6 +4,10 @@
 <dict>
 	<key>files</key>
 	<dict>
+		<key>.DS_Store</key>
+		<data>
+		VRY8RsuvbNTNncrcK7U5EE+u/2Y=
+		</data>
 		<key>FURenderKit快速集成文档.md</key>
 		<data>
 		8dHMUJm+KaN09cUbANkMVijG3IE=
@@ -18,7 +22,7 @@
 		</data>
 		<key>Headers/FUAIKit.h</key>
 		<data>
-		UIU4YJIl4fbi/bORbiFyivdFr5Q=
+		+umrX2Ocsyy/rlzlcVq1igY0Sc0=
 		</data>
 		<key>Headers/FUAISegment.h</key>
 		<data>
@@ -154,7 +158,7 @@
 		</data>
 		<key>Headers/FUImageHelper.h</key>
 		<data>
-		VnepRbqiiFUxZgbW0wa8TKKayc8=
+		nKnNPNgd/1Y/l/AIsZbPoELuvAM=
 		</data>
 		<key>Headers/FUInternalCameraSetting.h</key>
 		<data>
@@ -242,7 +246,7 @@
 		</data>
 		<key>Headers/FURenderKit.h</key>
 		<data>
-		YbS2JsvTSDcF5fuKTaXISD21sms=
+		TyFS5QZJ7yS2Su29jPku8sr1T0Y=
 		</data>
 		<key>Headers/FURenderableObject.h</key>
 		<data>
@@ -290,7 +294,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		lUiBck8IBDT2yR9/5KZYyodMpP4=
+		zCyRK2rSR3etPdr1fzVnU4X6kCY=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -336,11 +340,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			UIU4YJIl4fbi/bORbiFyivdFr5Q=
+			+umrX2Ocsyy/rlzlcVq1igY0Sc0=
 			</data>
 			<key>hash2</key>
 			<data>
-			B9EKzVHpNbJuDrzeDN0/W4gWZVsJBRUGGU7MHy7Yz2s=
+			AgGI8sZwfOywh1SFJrCq8zttB0yIXeOVkjpzYYB7SpY=
 			</data>
 		</dict>
 		<key>Headers/FUAISegment.h</key>
@@ -710,11 +714,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			VnepRbqiiFUxZgbW0wa8TKKayc8=
+			nKnNPNgd/1Y/l/AIsZbPoELuvAM=
 			</data>
 			<key>hash2</key>
 			<data>
-			q2qzVfo0bMpfviwTMxxy4acBUWq+luro1z5bKSKSTgo=
+			7p8xejTUTiHp0vXRPlb0beWdzET0XCFpQYUmCTWhOYM=
 			</data>
 		</dict>
 		<key>Headers/FUInternalCameraSetting.h</key>
@@ -952,11 +956,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			YbS2JsvTSDcF5fuKTaXISD21sms=
+			TyFS5QZJ7yS2Su29jPku8sr1T0Y=
 			</data>
 			<key>hash2</key>
 			<data>
-			OMz/8P0yxLTA7gNgIyfyu1kdDfzUsQX1GaQ5uiXpeWM=
+			hSM/P0dj0vHp9yVCYGRj8PF9RFhXsq3DOnkrA1DXZSU=
 			</data>
 		</dict>
 		<key>Headers/FURenderableObject.h</key>

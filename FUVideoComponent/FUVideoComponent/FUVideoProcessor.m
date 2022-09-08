@@ -56,22 +56,27 @@
 #pragma mark - Instance methods
 
 - (void)startProcessing {
-    [self.reader start:NO];
     @weakify(self)
-    self.writer.videoInputReadyHandler = ^BOOL{
-        @strongify(self)
-        return [self.reader readNextVideoBuffer];
-    };
-    self.writer.audioInputReadyHandler = ^BOOL{
-        @strongify(self)
-        return [self.reader readNextAudioBuffer];
-    };
-    [self.writer start];
+    [self.reader startWithCompletion:^(BOOL success) {
+        if (success) {
+            self.writer.videoInputReadyHandler = ^BOOL{
+                @strongify(self)
+                return [self.reader readNextVideoBuffer];
+            };
+            self.writer.audioInputReadyHandler = ^BOOL{
+                @strongify(self)
+                return [self.reader readNextAudioBuffer];
+            };
+            [self.writer start];
+        }
+    }];
 }
 
 - (void)cancelProcessing {
     [self.writer cancel];
+    self.writer = nil;
     [self.reader cancel];
+    self.reader = nil;
 }
 
 #pragma mark - FUVideoReaderDelegate

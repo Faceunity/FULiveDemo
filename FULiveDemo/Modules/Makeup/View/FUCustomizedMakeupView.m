@@ -12,7 +12,6 @@
 #import "FUMakeupModel.h"
 #import "FUSingleMakeupModel.h"
 
-#import "UIColor+FU.h"
 #import "FUMakeupDefine.h"
 
 static NSString * const kFUCustomizedMakeupItemCellIdentifierKey = @"FUCustomizedMakeupItemCell";

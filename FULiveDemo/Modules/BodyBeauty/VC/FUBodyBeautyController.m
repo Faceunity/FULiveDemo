@@ -66,6 +66,8 @@
 
 }
 
+#pragma mark - Overriding
+
 -(void)displayPromptText{
     BOOL result = [self.baseManager bodyTrace];
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -74,9 +76,14 @@
     }) ;
 }
 
+- (FUAIModelType)necessaryAIModelTypes {
+    return FUAIModelTypeFace | FUAIModelTypeHuman;
+}
+
 #pragma  mark -  按钮点击
 -(void)didClickSelPhoto{
     FUSelectedImageController *vc = [[FUSelectedImageController alloc] init];
+    vc.type = FUModuleTypeBody;
     [self.navigationController pushViewController:vc animated:YES];
     
 }
@@ -91,14 +98,5 @@
     [self.bodyBeautyManager setBodyBeautyModel:position];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

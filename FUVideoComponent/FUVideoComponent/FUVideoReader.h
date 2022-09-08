@@ -10,8 +10,6 @@
 #import "FUVideoComponentDefines.h"
 #import "FUVideoSettings.h"
 
-@class FUVideoWriter;
-
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol FUVideoReaderDelegate <NSObject>
@@ -62,9 +60,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithAsset:(AVAsset *)asset settings:(nullable FUVideoReaderSettings *)settings;
 
-/// 开始解码
-/// @param automatic 是否自动完整解码，如果为NO，可以调用readNextVideoBuffer和readNextAudioBuffer方法手动逐帧解码
-- (void)start:(BOOL)automatic;
+/// 解码器启动
+/// @note 内部为异步启动
+/// @param completionHandler 异步回调
+- (void)startWithCompletion:(nullable void (^)(BOOL success))completionHandler;
 
 - (void)cancel;
 

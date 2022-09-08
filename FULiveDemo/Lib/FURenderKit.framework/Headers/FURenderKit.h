@@ -152,9 +152,14 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return 第一次鉴权成功后的文件
 + (NSData *)setupLocalWithSetupConfig:(FUSetupConfig *)setupConfig;
 
-/// 内部调用fuSetupInternalCheck 去初始化鉴权
+/// 内部调用fuSetupInternalCheck 初始化鉴权
 /// @return NO 失败， YES成功
 + (BOOL)setupInternalCheckWithSetupConfig:(FUSetupConfig *)setupConfig;
+
+/// 内部调用fuSetupInternalCheckPackageBind 初始化鉴权
+/// @param setupConfig 初始化配置
+/// @return NO 失败， YES成功
++ (BOOL)setupInternalCheckPackageBindWithSetupConfig:(FUSetupConfig *)setupConfig;
 
 /// 销毁 FURenderKit，释放内存，同时会清空所有的特效模型。
 + (void)destroy;

@@ -18,10 +18,9 @@ const float kFUReaderFrameDuration = (1.0/30);
 @property (nonatomic, strong) AVAssetReaderOutput *videoOutput;
 @property (nonatomic, strong) AVAssetReaderOutput *audioOutput;
 @property (nonatomic, strong) AVAssetTrack *videoTrack;
-@property (nonatomic, strong) NSURL *videoURL;
 @property (nonatomic, strong) AVAsset *asset;
-@property (nonatomic, assign) BOOL readingAutomatically;
 @property (nonatomic, strong) dispatch_queue_t readingQueue;
+@property (nonatomic, copy) void (^completionHandler)(BOOL success);
 
 @end
 
@@ -47,21 +46,9 @@ const float kFUReaderFrameDuration = (1.0/30);
 }
 
 - (instancetype)initWithURL:(NSURL *)URL settings:(FUVideoReaderSettings *)settings {
-    
-    self = [super init];
-    if (self) {
-        NSAssert(URL, @"URL cannot be nil!");
-        self.videoURL = URL;
-        NSDictionary *options = @{AVURLAssetPreferPreciseDurationAndTimingKey : @YES};
-        // 初始化asset
-        self.asset = [[AVURLAsset alloc] initWithURL:self.videoURL options:options];
-        if (!settings) {
-            self.readerSettings = [[FUVideoReaderSettings alloc] init];
-        } else {
-            self.readerSettings = settings;
-        }
-    }
-    return self;
+    NSAssert(URL, @"URL cannot be nil!");
+    NSDictionary *options = @{AVURLAssetPreferPreciseDurationAndTimingKey : @YES};
+    return [self initWithAsset:[[AVURLAsset alloc] initWithURL:URL options:options] settings:settings];
 }
 
 - (instancetype)initWithAsset:(AVAsset *)asset {
@@ -71,7 +58,7 @@ const float kFUReaderFrameDuration = (1.0/30);
 - (instancetype)initWithAsset:(AVAsset *)asset settings:(FUVideoReaderSettings *)settings {
     self = [super init];
     if (self) {
-        NSAssert(asset, @"URL cannot be nil!");
+        NSAssert(asset, @"Asset cannot be nil!");
         self.asset = asset;
         if (!settings) {
             self.readerSettings = [[FUVideoReaderSettings alloc] init];
@@ -84,14 +71,25 @@ const float kFUReaderFrameDuration = (1.0/30);
 
 #pragma mark - Instance methods
 
-- (void)start:(BOOL)automatic {
-    
-    _readingAutomatically = automatic;
-    
+- (void)startWithCompletion:(void (^)(BOOL))completionHandler {
+    self.completionHandler = completionHandler;
     videoReadingFinished = NO;
     audioReadingFinished = NO;
     savedFirstSampleBuffer = NO;
     
+    [self.asset loadValuesAsynchronouslyForKeys:@[@"tracks"] completionHandler:^{
+        NSError *error = nil;
+        AVKeyValueStatus tracksStatus = [self.asset statusOfValueForKey:@"tracks" error:&error];
+        if (tracksStatus != AVKeyValueStatusLoaded) {
+            return;
+        }
+        [self asynchronousBlockOnReadingQueue:^{
+            [self process];
+        }];
+    }];
+}
+
+- (void)process {
     self.reader = [self createReader];
     for (AVAssetReaderOutput *output in self.reader.outputs) {
         if ([output.mediaType isEqualToString:AVMediaTypeVideo]) {
@@ -100,16 +98,15 @@ const float kFUReaderFrameDuration = (1.0/30);
             self.audioOutput = output;
         }
     }
-    
     self.isReading = [self.reader startReading];
     if (!self.isReading) {
         NSLog(@"FUVideoComponent: Start reading failed!");
-        return;
-    }
-    
-    if (automatic) {
-        [self asynchronousBlockOnReadingQueue:^{
-            while (self.reader.status == AVAssetReaderStatusReading) {
+        !self.completionHandler ?: self.completionHandler(NO);
+    } else {
+        !self.completionHandler ?: self.completionHandler(YES);
+        if (self.readerSettings.readingAutomatically) {
+            // 自动开始解码
+            while (self.reader.status == AVAssetReaderStatusReading && self.isReading) {
                 if (!self->videoReadingFinished) {
                     [self readNextVideoBuffer];
                 }
@@ -118,21 +115,22 @@ const float kFUReaderFrameDuration = (1.0/30);
                 }
             }
             [self finish];
-        }];
+        }
     }
 }
 
-
 - (void)cancel {
+    videoReadingFinished = YES;
+    audioReadingFinished = YES;
+    self.isReading = NO;
     if (self.reader) {
         [self.reader cancelReading];
-        self->_reader = nil;
+        _reader = nil;
     }
-    self.isReading = NO;
 }
 
 - (BOOL)readNextVideoBuffer {
-    if (self.reader.status == AVAssetReaderStatusReading && !videoReadingFinished) {
+    if (self.reader.status == AVAssetReaderStatusReading && !videoReadingFinished && self.isReading) {
         CMSampleBufferRef sampleBuffer = [self.videoOutput copyNextSampleBuffer];
         if (sampleBuffer != NULL) {
             if (!savedFirstSampleBuffer) {
@@ -160,7 +158,7 @@ const float kFUReaderFrameDuration = (1.0/30);
                 CMTime timeStampDifference = CMTimeSubtract(presentationTimeStamp, lastFrameTimeStamp);
                 // 获取秒级时间差
                 CGFloat secondsTimeDifference =  CMTimeGetSeconds(timeStampDifference);
-                
+
                 if (secondsTimeDifference > difference) {
                     // 需要sleep等待
                     usleep(1000000 * (secondsTimeDifference - difference));
@@ -175,29 +173,41 @@ const float kFUReaderFrameDuration = (1.0/30);
                 }
                 lastFrameAbsoluteTime = CFAbsoluteTimeGetCurrent();
             }
-            if (self.delegate && [self.delegate respondsToSelector:@selector(videoReaderDidOutputVideoSampleBuffer:)]) {
+            if (self.isReading && self.delegate && [self.delegate respondsToSelector:@selector(videoReaderDidOutputVideoSampleBuffer:)]) {
                 [self.delegate videoReaderDidOutputVideoSampleBuffer:sampleBuffer];
             }
             return YES;
         } else {
             // 视频解码完成
-            [self finishVideoReading];
+            videoReadingFinished = YES;
+            if (self.delegate && [self.delegate respondsToSelector:@selector(videoReaderDidFinishVideoReading)]) {
+                [self.delegate videoReaderDidFinishVideoReading];
+            }
+            if (!self.readerSettings.readingAutomatically) {
+                [self finish];
+            }
         }
     }
     return NO;
 }
 
 - (BOOL)readNextAudioBuffer {
-    if (self.reader.status == AVAssetReaderStatusReading && !audioReadingFinished) {
+    if (self.reader.status == AVAssetReaderStatusReading && !audioReadingFinished && self.isReading) {
         CMSampleBufferRef sampleBuffer = [self.audioOutput copyNextSampleBuffer];
         if (sampleBuffer != NULL) {
-            if (self.delegate && [self.delegate respondsToSelector:@selector(videoReaderDidOutputAudioSampleBuffer:)]) {
+            if (self.isReading && self.delegate && [self.delegate respondsToSelector:@selector(videoReaderDidOutputAudioSampleBuffer:)]) {
                 [self.delegate videoReaderDidOutputAudioSampleBuffer:sampleBuffer];
             }
             return YES;
         } else {
             // 音频解码完成
-            [self finishAudioReading];
+            audioReadingFinished = YES;
+            if (self.delegate && [self.delegate respondsToSelector:@selector(videoReaderDidFinishAudioReading)]) {
+                [self.delegate videoReaderDidFinishAudioReading];
+            }
+            if (!self.readerSettings.readingAutomatically) {
+                [self finish];
+            }
         }
     }
     return NO;
@@ -236,22 +246,6 @@ const float kFUReaderFrameDuration = (1.0/30);
     }
 }
 
-- (void)finishVideoReading {
-    videoReadingFinished = YES;
-    if (self.delegate && [self.delegate respondsToSelector:@selector(videoReaderDidFinishVideoReading)]) {
-        [self.delegate videoReaderDidFinishVideoReading];
-    }
-    [self finish];
-}
-
-- (void)finishAudioReading {
-    audioReadingFinished = YES;
-    if (self.delegate && [self.delegate respondsToSelector:@selector(videoReaderDidFinishAudioReading)]) {
-        [self.delegate videoReaderDidFinishAudioReading];
-    }
-    [self finish];
-}
-
 - (void)finish {
     BOOL finished = NO;
     if (self.reader.status == AVAssetReaderStatusCompleted) {
@@ -260,17 +254,17 @@ const float kFUReaderFrameDuration = (1.0/30);
         }
     }
     if (finished) {
-        [self.reader cancelReading];
+        [self cancel];
         if (self.delegate && [self.delegate respondsToSelector:@selector(videoReaderDidFinishReading)]) {
             [self.delegate videoReaderDidFinishReading];
         }
         if (self.readerSettings.needsRepeat) {
             // 从头开始读取
-            self.reader = nil;
-            [self start:_readingAutomatically];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self startWithCompletion:self.completionHandler];
+            });
         }
     }
-    
 }
 
 #pragma mark - Getters

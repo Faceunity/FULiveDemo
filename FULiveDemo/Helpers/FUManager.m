@@ -40,6 +40,7 @@ static FUManager *shareManager = NULL;
     
     // 初始化 FURenderKit
     [FURenderKit setupWithSetupConfig:setupConfig];
+    // [FURenderKit setupInternalCheckPackageBindWithSetupConfig:setupConfig];
     
     [FURenderKit setLogLevel:FU_LOG_LEVEL_ERROR];
     
@@ -60,6 +61,13 @@ static FUManager *shareManager = NULL;
     self.devicePerformanceLevel = [FURenderKit devicePerformanceLevel];
 }
 
+- (void)setDevicePerformanceDetails {
+    // 设置人脸算法质量
+    [FUAIKit shareKit].faceProcessorFaceLandmarkQuality = self.devicePerformanceLevel == FUDevicePerformanceLevelHigh ? FUFaceProcessorFaceLandmarkQualityHigh : FUFaceProcessorFaceLandmarkQualityMedium;
+    // 设置小脸检测是否打开
+    [FUAIKit shareKit].faceProcessorDetectSmallFace = self.devicePerformanceLevel == FUDevicePerformanceLevelHigh;
+}
+
 + (void)loadFaceAIModel {
     NSString *faceAIPath = [[NSBundle mainBundle] pathForResource:@"ai_face_processor" ofType:@"bundle"];
     [FUAIKit loadAIModeWithAIType:FUAITYPE_FACEPROCESSOR dataPath:faceAIPath];
@@ -77,30 +85,46 @@ static FUManager *shareManager = NULL;
     [FUAIKit loadAIModeWithAIType:FUAITYPE_HANDGESTURE dataPath:handAIPath];
 }
 
-+ (void)loadAIModelWithModuleType:(FULiveModelType)moduleType {
-    [self loadFaceAIModel];
-    switch (moduleType) {
-        case FULiveModelTypeBody:
-        case FULiveModelTypeWholeAvatar:
-        case FULiveModelTypeBGSegmentation:{
-            [self loadHumanAIModel];
-        }
-            break;
-        case FULiveModelTypeGestureRecognition:
-        case FULiveModelTypeQSTickers:{
-            [self loadHandAIModel];
-            [self loadHumanAIModel];
-        }
-            break;
-        default:
-            break;
++ (BOOL)faceTracked {
+    return [FUAIKit aiFaceProcessorNums] > 0;
+}
+
++ (BOOL)humanTracked {
+    return [FUAIKit aiHumanProcessorNums] > 0;
+}
+
++ (BOOL)handTracked {
+    return [FUAIKit aiHandDistinguishNums] > 0;
+}
+
++ (void)updateBeautyBlurEffect {
+    if (![FURenderKit shareRenderKit].beauty || ![FURenderKit shareRenderKit].beauty.enable) {
+        return;
     }
-    
-    // 设置人脸算法质量
-    [FUAIKit shareKit].faceProcessorFaceLandmarkQuality = [FURenderKit devicePerformanceLevel] == FUDevicePerformanceLevelHigh ? FUFaceProcessorFaceLandmarkQualityHigh : FUFaceProcessorFaceLandmarkQualityMedium;
-    
-    // 设置小脸检测是否打开
-    [FUAIKit shareKit].faceProcessorDetectSmallFace = [FURenderKit devicePerformanceLevel] == FUDevicePerformanceLevelHigh;
+    if ([FUManager shareManager].devicePerformanceLevel == FUDevicePerformanceLevelHigh) {
+        // 根据人脸置信度设置不同磨皮效果
+        CGFloat score = [FUAIKit fuFaceProcessorGetConfidenceScore:0];
+        if (score > 0.95) {
+            [FURenderKit shareRenderKit].beauty.blurType = 3;
+            [FURenderKit shareRenderKit].beauty.blurUseMask = YES;
+        } else {
+            [FURenderKit shareRenderKit].beauty.blurType = 2;
+            [FURenderKit shareRenderKit].beauty.blurUseMask = NO;
+        }
+    } else {
+        // 设置精细磨皮效果
+        [FURenderKit shareRenderKit].beauty.blurType = 2;
+        [FURenderKit shareRenderKit].beauty.blurUseMask = NO;
+    }
+}
+
++ (void)resetTrackedResult {
+    [FUAIKit resetTrackedResult];
+}
+
++ (void)clearItems {
+    [FUAIKit unloadAllAIMode];
+    [FURenderKit clear];
 }
 
 @end

@@ -12,7 +12,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface FUMusicFilterManager : FUMetaManager <FUStickerProtocol>
+
 @property (nonatomic, strong, nullable) FUMusicFilter *musicItem;
+
+@property (nonatomic, copy) NSArray *musicFilterItems;
 
 @end
 
