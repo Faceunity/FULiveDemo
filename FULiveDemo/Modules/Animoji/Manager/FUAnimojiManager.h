@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) FUAnimoji * _Nullable animoji;
 
+@property (nonatomic, copy) NSArray *animojiItems;
+
 @end
 
 NS_ASSUME_NONNULL_END

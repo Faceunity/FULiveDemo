@@ -7,8 +7,8 @@
 //
 
 #import "FUMusicFilterController.h"
-#import "FUItemsView.h"
 #import "FUMusicFilterManager.h"
+#import <FUCommonUIComponent/FUItemsView.h>
 
 @interface FUMusicFilterController ()<FUItemsViewDelegate>
 @property (strong, nonatomic) FUItemsView *itemsView;
@@ -35,7 +35,7 @@
     self.itemsView = [[FUItemsView alloc] init];
     self.itemsView.delegate = self;
     [self.view addSubview:self.itemsView];
-    [self.itemsView updateCollectionArray:self.model.items];
+    self.itemsView.items = self.musicManager.musicFilterItems;
     [self.itemsView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view.mas_bottom);
         make.left.right.equalTo(self.view);
@@ -47,8 +47,8 @@
     }];
     
     /* 初始状态 */
-    NSString *selectItem = self.model.items.count > 0 ? self.model.items[1] : @"resetItem" ;
-    self.itemsView.selectedItem = selectItem ;
+    NSInteger selectedIndex = self.musicManager.musicFilterItems.count > 0 ? 1 : 0;
+    self.itemsView.selectedIndex = selectedIndex ;
     
     self.photoBtn.transform = CGAffineTransformMakeTranslation(0, -36) ;
 }
@@ -57,23 +57,24 @@
     [super viewWillAppear:animated];
     
     /* 返回当前界面的时候，重新加载 */
-    if (!self.itemsView.selectedItem) {
-        self.itemsView.selectedItem = self.musicManager.selectedItem ;
+    if (self.itemsView.selectedIndex < 0) {
+        self.itemsView.selectedIndex = [self.musicManager.musicFilterItems indexOfObject:self.musicManager.selectedItem];
     }else {
-        [self.musicManager loadItem:self.itemsView.selectedItem completion:nil];
+        [self.musicManager loadItem:self.itemsView.items[self.itemsView.selectedIndex] completion:nil];
     }
 }
 
 #pragma mark -  FUItemsViewDelegate
-- (void)itemsViewDidSelectedItem:(NSString *)item indexPath:(NSIndexPath *)indexPath {
-    __weak typeof(self) weak = self;
+
+- (void)itemsView:(FUItemsView *)itemsView didSelectItemAtIndex:(NSInteger)index {
     [self.itemsView startAnimation];
-    [self.musicManager loadItem:self.itemsView.selectedItem completion:^(BOOL finished) {
-        [weak.itemsView stopAnimation];
+    NSString *item = itemsView.items[index];
+    [self.musicManager loadItem:item completion:^(BOOL finished) {
+        [self.itemsView stopAnimation];
     }];
 
     [self.musicManager.musicItem stop];
-    if (![item isEqualToString:@"resetItem"]) {
+    if (index > 0) {
         [self.musicManager.musicItem play];
     } else {
         [self.musicManager releaseItem];

@@ -10,7 +10,6 @@
 
 @implementation FUAnimojiManager
 @synthesize selectedItem;
-@synthesize type;
 
 - (instancetype)init {
     self = [super init];
@@ -53,6 +52,13 @@
 - (void)releaseItem {
     [[FURenderKit shareRenderKit].stickerContainer removeSticker:self.animoji completion:nil];;
     _animoji = nil;
+}
+
+- (NSArray *)animojiItems {
+    if (!_animojiItems) {
+        _animojiItems = @[@"resetItem", @"cartoon_princess_Animoji", @"qgirl_Animoji", @"kaola_Animoji", @"wuxia_Animoji", @"baihu_Animoji", @"frog_Animoji", @"huangya_Animoji", @"hetun_Animoji", @"douniuquan_Animoji", @"hashiqi_Animoji", @"baimao_Animoji", @"kuloutou_Animoji"];
+    }
+    return _animojiItems;
 }
 
 @end

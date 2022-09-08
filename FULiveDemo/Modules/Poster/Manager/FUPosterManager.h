@@ -11,9 +11,19 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface FUPosterManager : FUMetaManager
-@property (strong, nonatomic, nullable) FUPoster *poster;
 
-- (void)setOnCameraChange;
++ (instancetype)sharedManager;
+
++ (void)destory;
+
+@property (nonatomic, copy, readonly) NSArray<NSString *> *posterItems;
+
+@property (nonatomic, copy, readonly) NSArray<NSString *> *posterIcons;
+
+@property (nonatomic, copy, readonly) NSArray<NSString *> *posterList;
+
+@property (nonatomic, assign) NSInteger selectedIndex;
+
 @end
 
 NS_ASSUME_NONNULL_END

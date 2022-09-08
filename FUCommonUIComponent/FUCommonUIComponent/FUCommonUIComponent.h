@@ -10,6 +10,10 @@
 #import "FUTipHUD.h"
 #import "FUInsetsLabel.h"
 #import "FUSlider.h"
+#import "FUItemsView.h"
+#import "FUItemCell.h"
+#import "FUSquareButton.h"
+#import "FUAlertManager.h"
 
 
 //! Project version number for FUCommonUIComponent.

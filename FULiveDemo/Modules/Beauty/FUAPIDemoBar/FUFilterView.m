@@ -7,7 +7,6 @@
 //
 
 #import "FUFilterView.h"
-#import "UIColor+FU.h"
 #import "UIImage+demobar.h"
 
 @interface FUFilterView ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>

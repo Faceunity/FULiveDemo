@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E3406A45288AAC5000373612 /* FUSquareButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E3406A43288AAC5000373612 /* FUSquareButton.m */; };
+		E3406A46288AAC5000373612 /* FUSquareButton.h in Headers */ = {isa = PBXBuildFile; fileRef = E3406A44288AAC5000373612 /* FUSquareButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E34CFFA02892873900712C63 /* FUAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = E34CFF9C2892873800712C63 /* FUAlertController.m */; };
+		E34CFFA12892873900712C63 /* FUAlertManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E34CFF9D2892873900712C63 /* FUAlertManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E34CFFA22892873900712C63 /* FUAlertManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E34CFF9E2892873900712C63 /* FUAlertManager.m */; };
+		E34CFFA32892873900712C63 /* FUAlertController.h in Headers */ = {isa = PBXBuildFile; fileRef = E34CFF9F2892873900712C63 /* FUAlertController.h */; };
+		E35333632865AEDF00FFED9D /* FUItemsView.h in Headers */ = {isa = PBXBuildFile; fileRef = E35333612865AEDF00FFED9D /* FUItemsView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E35333642865AEDF00FFED9D /* FUItemsView.m in Sources */ = {isa = PBXBuildFile; fileRef = E35333622865AEDF00FFED9D /* FUItemsView.m */; };
+		E35333672865AF7600FFED9D /* FUItemCell.h in Headers */ = {isa = PBXBuildFile; fileRef = E35333652865AF7600FFED9D /* FUItemCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E35333682865AF7600FFED9D /* FUItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E35333662865AF7600FFED9D /* FUItemCell.m */; };
 		E36A0825285C895900A83553 /* FUCommonUIComponent.h in Headers */ = {isa = PBXBuildFile; fileRef = E36A0824285C895900A83553 /* FUCommonUIComponent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E36A082D285C89C200A83553 /* FUSegmentBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E36A082B285C89C200A83553 /* FUSegmentBar.m */; };
 		E36A082E285C89C200A83553 /* FUSegmentBar.h in Headers */ = {isa = PBXBuildFile; fileRef = E36A082C285C89C200A83553 /* FUSegmentBar.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -21,6 +31,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E3406A43288AAC5000373612 /* FUSquareButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUSquareButton.m; sourceTree = "<group>"; };
+		E3406A44288AAC5000373612 /* FUSquareButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUSquareButton.h; sourceTree = "<group>"; };
+		E34CFF9C2892873800712C63 /* FUAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUAlertController.m; sourceTree = "<group>"; };
+		E34CFF9D2892873900712C63 /* FUAlertManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUAlertManager.h; sourceTree = "<group>"; };
+		E34CFF9E2892873900712C63 /* FUAlertManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUAlertManager.m; sourceTree = "<group>"; };
+		E34CFF9F2892873900712C63 /* FUAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUAlertController.h; sourceTree = "<group>"; };
+		E35333612865AEDF00FFED9D /* FUItemsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUItemsView.h; sourceTree = "<group>"; };
+		E35333622865AEDF00FFED9D /* FUItemsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUItemsView.m; sourceTree = "<group>"; };
+		E35333652865AF7600FFED9D /* FUItemCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUItemCell.h; sourceTree = "<group>"; };
+		E35333662865AF7600FFED9D /* FUItemCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUItemCell.m; sourceTree = "<group>"; };
 		E36A0821285C895900A83553 /* FUCommonUIComponent.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FUCommonUIComponent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E36A0824285C895900A83553 /* FUCommonUIComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUCommonUIComponent.h; sourceTree = "<group>"; };
 		E36A082B285C89C200A83553 /* FUSegmentBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUSegmentBar.m; sourceTree = "<group>"; };
@@ -46,6 +66,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E3406A42288AAC3F00373612 /* FUSquareButton */ = {
+			isa = PBXGroup;
+			children = (
+				E3406A44288AAC5000373612 /* FUSquareButton.h */,
+				E3406A43288AAC5000373612 /* FUSquareButton.m */,
+			);
+			path = FUSquareButton;
+			sourceTree = "<group>";
+		};
+		E34CFF9B2892871E00712C63 /* FUAlert */ = {
+			isa = PBXGroup;
+			children = (
+				E34CFF9F2892873900712C63 /* FUAlertController.h */,
+				E34CFF9C2892873800712C63 /* FUAlertController.m */,
+				E34CFF9D2892873900712C63 /* FUAlertManager.h */,
+				E34CFF9E2892873900712C63 /* FUAlertManager.m */,
+			);
+			path = FUAlert;
+			sourceTree = "<group>";
+		};
+		E35333602865AD1200FFED9D /* FUItemsView */ = {
+			isa = PBXGroup;
+			children = (
+				E35333612865AEDF00FFED9D /* FUItemsView.h */,
+				E35333622865AEDF00FFED9D /* FUItemsView.m */,
+				E35333652865AF7600FFED9D /* FUItemCell.h */,
+				E35333662865AF7600FFED9D /* FUItemCell.m */,
+			);
+			path = FUItemsView;
+			sourceTree = "<group>";
+		};
 		E36A0817285C895900A83553 = {
 			isa = PBXGroup;
 			children = (
@@ -65,8 +116,11 @@
 		E36A0823285C895900A83553 /* FUCommonUIComponent */ = {
 			isa = PBXGroup;
 			children = (
+				E34CFF9B2892871E00712C63 /* FUAlert */,
+				E3406A42288AAC3F00373612 /* FUSquareButton */,
+				E35333602865AD1200FFED9D /* FUItemsView */,
 				E3FF963028605F24004B13D7 /* FUTipHUD */,
-				E3FF962B28605C79004B13D7 /* FUInsetLabel */,
+				E3FF962B28605C79004B13D7 /* FUInsetsLabel */,
 				E3FF962A28605B8C004B13D7 /* FUSegmentBar */,
 				E3FF962928605B86004B13D7 /* FUSlider */,
 				E3FF96252860596A004B13D7 /* Resource */,
@@ -102,13 +156,13 @@
 			path = FUSegmentBar;
 			sourceTree = "<group>";
 		};
-		E3FF962B28605C79004B13D7 /* FUInsetLabel */ = {
+		E3FF962B28605C79004B13D7 /* FUInsetsLabel */ = {
 			isa = PBXGroup;
 			children = (
 				E3FF962C28605CA5004B13D7 /* FUInsetsLabel.h */,
 				E3FF962D28605CA5004B13D7 /* FUInsetsLabel.m */,
 			);
-			path = FUInsetLabel;
+			path = FUInsetsLabel;
 			sourceTree = "<group>";
 		};
 		E3FF963028605F24004B13D7 /* FUTipHUD */ = {
@@ -128,9 +182,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				E3FF96242860591F004B13D7 /* FUSlider.h in Headers */,
+				E34CFFA32892873900712C63 /* FUAlertController.h in Headers */,
 				E36A0825285C895900A83553 /* FUCommonUIComponent.h in Headers */,
 				E3FF962E28605CA5004B13D7 /* FUInsetsLabel.h in Headers */,
+				E35333632865AEDF00FFED9D /* FUItemsView.h in Headers */,
+				E3406A46288AAC5000373612 /* FUSquareButton.h in Headers */,
+				E35333672865AF7600FFED9D /* FUItemCell.h in Headers */,
 				E3FF966628606435004B13D7 /* FUCommonUIDefine.h in Headers */,
+				E34CFFA12892873900712C63 /* FUAlertManager.h in Headers */,
 				E36A082E285C89C200A83553 /* FUSegmentBar.h in Headers */,
 				E3FF963428605F66004B13D7 /* FUTipHUD.h in Headers */,
 			);
@@ -205,10 +264,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E35333642865AEDF00FFED9D /* FUItemsView.m in Sources */,
 				E36A082D285C89C200A83553 /* FUSegmentBar.m in Sources */,
+				E34CFFA22892873900712C63 /* FUAlertManager.m in Sources */,
 				E3FF96232860591F004B13D7 /* FUSlider.m in Sources */,
+				E35333682865AF7600FFED9D /* FUItemCell.m in Sources */,
+				E34CFFA02892873900712C63 /* FUAlertController.m in Sources */,
 				E3FF963328605F66004B13D7 /* FUTipHUD.m in Sources */,
 				E3FF962F28605CA5004B13D7 /* FUInsetsLabel.m in Sources */,
+				E3406A45288AAC5000373612 /* FUSquareButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -27,8 +27,10 @@ static NSString * const kFUSegmentCellIdentifierKey = @"FUSegmentCellIdentifier"
 
 @interface FUSegmentBar ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
-@property (nonatomic, copy) NSArray *titles;
+@property (nonatomic, strong) UICollectionView *collectionView;
+
 @property (nonatomic, strong) FUSegmentBarConfigurations *configuration;
+@property (nonatomic, copy) NSArray *titles;
 
 /// cell宽度数组
 @property (nonatomic, copy) NSArray *itemWidths;
@@ -40,16 +42,9 @@ static NSString * const kFUSegmentCellIdentifierKey = @"FUSegmentCellIdentifier"
 #pragma mark - Initializer
 
 - (instancetype)initWithFrame:(CGRect)frame titles:(NSArray<NSString *> *)titles configuration:(FUSegmentBarConfigurations *)configuration {
-    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-    flowLayout.minimumInteritemSpacing = 0;
-    flowLayout.minimumLineSpacing = 0;
-    flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    self = [super initWithFrame:frame collectionViewLayout:flowLayout];
+    self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor colorWithRed:5/255.0 green:15/255.0 blue:20/255.0 alpha:1.0];
-        self.showsHorizontalScrollIndicator = NO;
-        self.showsVerticalScrollIndicator = NO;
-        
         self.titles = [titles copy];
         self.configuration = configuration;
         if (!self.configuration) {
@@ -58,7 +53,7 @@ static NSString * const kFUSegmentCellIdentifierKey = @"FUSegmentCellIdentifier"
         
         // 计算宽度
         NSMutableArray *tempWidths = [NSMutableArray arrayWithCapacity:self.titles.count];
-        if (self.titles.count < 6) {
+        if (self.titles.count < 7) {
             // 平均分配宽度
             CGFloat width = CGRectGetWidth(frame) / self.titles.count * 1.0;
             for (NSInteger i = 0; i < self.titles.count; i++) {
@@ -73,12 +68,9 @@ static NSString * const kFUSegmentCellIdentifierKey = @"FUSegmentCellIdentifier"
         }
         self.itemWidths = [tempWidths copy];
         
-        self.dataSource = self;
-        self.delegate = self;
-        
-        [self registerClass:[FUSegmentsBarCell class] forCellWithReuseIdentifier:kFUSegmentCellIdentifierKey];
-        
         _selectedIndex = -1;
+        
+        [self addSubview:self.collectionView];
     }
     return self;
 }
@@ -90,11 +82,17 @@ static NSString * const kFUSegmentCellIdentifierKey = @"FUSegmentCellIdentifier"
         return;
     }
     if (selectedIndex == -1) {
-        [self deselectItemAtIndexPath:[NSIndexPath indexPathForItem:_selectedIndex inSection:0] animated:NO];
+        [self.collectionView deselectItemAtIndexPath:[NSIndexPath indexPathForItem:_selectedIndex inSection:0] animated:NO];
+        _selectedIndex = -1;
     } else {
-        [self selectItemAtIndexPath:[NSIndexPath indexPathForItem:selectedIndex inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+        _selectedIndex = selectedIndex;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.collectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:selectedIndex inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+            if (self.delegate && [self.delegate respondsToSelector:@selector(segmentBar:didSelectItemAtIndex:)]) {
+                [self.delegate segmentBar:self didSelectItemAtIndex:selectedIndex];
+            }
+        });
     }
-    _selectedIndex = selectedIndex;
 }
 
 #pragma mark - Collection view data source
@@ -116,14 +114,14 @@ static NSString * const kFUSegmentCellIdentifierKey = @"FUSegmentCellIdentifier"
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     _selectedIndex = indexPath.item;
-    if (self.segmentDelegate && [self.segmentDelegate respondsToSelector:@selector(segmentBar:didSelectItemAtIndex:)]) {
-        [self.segmentDelegate segmentBar:self didSelectItemAtIndex:indexPath.item];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(segmentBar:didSelectItemAtIndex:)]) {
+        [self.delegate segmentBar:self didSelectItemAtIndex:indexPath.item];
     }
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.segmentDelegate && [self.segmentDelegate respondsToSelector:@selector(segmentBar:shouldSelectItemAtIndex:)]) {
-        return [self.segmentDelegate segmentBar:self shouldSelectItemAtIndex:indexPath.item];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(segmentBar:shouldSelectItemAtIndex:)]) {
+        return [self.delegate segmentBar:self shouldSelectItemAtIndex:indexPath.item];
     }
     return YES;
 }
@@ -132,6 +130,26 @@ static NSString * const kFUSegmentCellIdentifierKey = @"FUSegmentCellIdentifier"
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     return CGSizeMake([self.itemWidths[indexPath.item] floatValue], CGRectGetHeight(self.frame));
+}
+
+#pragma mark - Getters
+
+- (UICollectionView *)collectionView {
+    if (!_collectionView) {
+        UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+        flowLayout.minimumInteritemSpacing = 0;
+        flowLayout.minimumLineSpacing = 0;
+        flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame), 49.f) collectionViewLayout:flowLayout];
+        _collectionView.backgroundColor = [UIColor clearColor];
+        _collectionView.showsHorizontalScrollIndicator = NO;
+        _collectionView.showsVerticalScrollIndicator = NO;
+        _collectionView.dataSource = self;
+        _collectionView.delegate = self;
+        
+        [_collectionView registerClass:[FUSegmentsBarCell class] forCellWithReuseIdentifier:kFUSegmentCellIdentifierKey];
+    }
+    return _collectionView;
 }
 
 @end

@@ -6,28 +6,47 @@
 //  Copyright © 2017年 刘洋. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 
-@class FULiveModel;
-
-/**
- * 暂时作为加载FURenderKit的入口和记录当前模块数据的作用
- */
 @interface FUManager : NSObject
 
 + (FUManager *)shareManager;
 
+/// 保存的设备性能等级
 @property (nonatomic, assign, readonly) FUDevicePerformanceLevel devicePerformanceLevel;
-
-@property (nonatomic, strong) FULiveModel *currentModel;
 
 /// 初始化FURenderKit
 - (void)setupRenderKit;
 
-/// 加载AI模型
-/// @param moduleType 模块
-+ (void)loadAIModelWithModuleType:(FULiveModelType)moduleType;
+/// 设置设备性能相关细项
+- (void)setDevicePerformanceDetails;
+
+/// 加载人脸AI模型
++ (void)loadFaceAIModel;
+
+/// 加载人体AI模型
++ (void)loadHumanAIModel;
+
+/// 加载手势AI模型
++ (void)loadHandAIModel;
+
+/// 检测是否有人脸
++ (BOOL)faceTracked;
+
+/// 检测是否有人体
++ (BOOL)humanTracked;
+
+/// 检测是否有手势
++ (BOOL)handTracked;
+
+/// 更新美颜磨皮效果（根据人脸检测置信度设置不同磨皮效果）
++ (void)updateBeautyBlurEffect;
+
+/// 重置面部跟踪结果
++ (void)resetTrackedResult;
+
+/// 清除所有资源
++ (void)clearItems;
 
 @end

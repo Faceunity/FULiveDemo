@@ -112,7 +112,7 @@
 			<integer>0</integer>
 			<key>modules</key>
 			<array>
-				<integer>1048576</integer>
+				<real>1048576</real>
 			</array>
 			<key>items</key>
 			<array>

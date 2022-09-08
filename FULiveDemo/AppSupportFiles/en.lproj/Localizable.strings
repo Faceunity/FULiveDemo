@@ -5,10 +5,9 @@
   Created by L on 2018/7/10.
   Copyright © 2018年 L. All rights reserved.
 */
-/* demobar  */
-//"清晰磨皮" = "Light Blur" ;
-//"朦胧磨皮" = "Heavy Blur" ;
-//"精细磨皮" = "Fine Smooth" ;
+
+"FU Live Demo 特效版" = "FU Live Demo effects version";
+
 "磨皮" = "Fine Blur" ;
 "锐化" = "sharpen";
 "美白" = "Whiten" ;
@@ -36,7 +35,6 @@
 "长鼻"   = " Length";
 "缩人中"   = "Philtrum";
 "眼距"   = "Eye distance";
-"微笑嘴角"   = "Smile";
 "锐化"   =   "Sharpen";
 "瘦颧骨"    =   "Cheekbone";
 "瘦下颌骨"    =   "Jawbone";

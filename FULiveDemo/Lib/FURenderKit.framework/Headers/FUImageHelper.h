@@ -6,7 +6,7 @@
 //  Copyright © 2018年 L. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <AVFoundation/AVFoundation.h>
 #import <UIKit/UIKit.h>
 
 @interface FUImageHelper : NSObject
@@ -41,5 +41,9 @@
 + (UIColor *)getPixelColorWithPixelBuff:(CVPixelBufferRef)pixelBuffer point:(CGPoint)point;
 
 + (UIImage*)rotateImageWithAngle:(UIImage*)vImg Angle:(NSInteger)vAngle IsExpand:(BOOL)vIsExpand;
+
+/// 获取视频第一帧图片
+/// @param videoURL 视频URL
++ (UIImage *)getPreviewImageWithVideoURL:(NSURL *)videoURL;
 
 @end

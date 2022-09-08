@@ -122,6 +122,7 @@
 #pragma  mark -  按钮点击
 -(void)didClickSelPhoto{
     FUSelectedImageController *vc = [[FUSelectedImageController alloc] init];
+    vc.type = FUModuleTypeBeauty;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

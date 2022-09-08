@@ -7,7 +7,7 @@
 //
 
 #import "FUBodyCollectionView.h"
-#import "FUItemsViewCell.h"
+// #import "FUItemsViewCell.h"
 
 @interface FUBodyCollectionView ()<UICollectionViewDelegate,UICollectionViewDataSource>
 
@@ -91,23 +91,23 @@
     return self.itemsArray.count;
 }
 
-- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    FUItemsViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FUItemsViewCell" forIndexPath:indexPath];
-
-    NSString *imageName = self.itemsArray[indexPath.row];
-    cell.imageView.image = [UIImage imageNamed:imageName] ;
-    
-    if (_selIndex ==  (int)indexPath.row) {
-        cell.imageView.layer.borderWidth = 3.0 ;
-        cell.imageView.layer.borderColor = [UIColor colorWithRed:94/255.0 green:199/255.0 blue:254/255.0 alpha:1.0].CGColor;
-    } else {
-          cell.imageView.layer.borderWidth = 0.0 ;
-          cell.imageView.layer.borderColor = [UIColor clearColor].CGColor;
-    }
-    
-    return cell;
-}
+//- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+//
+//    FUItemsViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FUItemsViewCell" forIndexPath:indexPath];
+//
+//    NSString *imageName = self.itemsArray[indexPath.row];
+//    cell.imageView.image = [UIImage imageNamed:imageName] ;
+//
+//    if (_selIndex ==  (int)indexPath.row) {
+//        cell.imageView.layer.borderWidth = 3.0 ;
+//        cell.imageView.layer.borderColor = [UIColor colorWithRed:94/255.0 green:199/255.0 blue:254/255.0 alpha:1.0].CGColor;
+//    } else {
+//          cell.imageView.layer.borderWidth = 0.0 ;
+//          cell.imageView.layer.borderColor = [UIColor clearColor].CGColor;
+//    }
+//
+//    return cell;
+//}
 
 #pragma mark --- UICollectionViewDelegateFlowLayout
 

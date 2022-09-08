@@ -6,7 +6,7 @@
 //  Copyright © 2020 FaceUnity. All rights reserved.
 //
 
-#import "FUNormalItemController.h"
+#import "FUBaseViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

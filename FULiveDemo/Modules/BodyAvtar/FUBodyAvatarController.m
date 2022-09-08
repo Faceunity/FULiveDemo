@@ -8,10 +8,12 @@
 
 #import "FUBodyAvatarController.h"
 #import "FUSwitch.h"
-#import "FUBodyCollectionView.h"
+// #import "FUBodyCollectionView.h"
 #import "FUBodyAvatarManager.h"
 
-@interface FUBodyAvatarController ()<FUBodyItemsDelegate>
+#import <FUCommonUIComponent/FUItemsView.h>
+
+@interface FUBodyAvatarController ()<FUItemsViewDelegate>
 
 @property(nonatomic,strong)NSMutableDictionary *itemsHache;
 
@@ -20,7 +22,7 @@
 @property (strong, nonatomic) FUSwitch *mSwitch;
 
 @property(strong, nonatomic) NSArray <NSString *>*mItmsArray;
-@property(strong, nonatomic) FUBodyCollectionView *bodyItemsView;
+@property(strong, nonatomic) FUItemsView *bodyItemsView;
 
 @property (nonatomic, strong) FUBodyAvatarManager *bodyAvatarManager;
 @end
@@ -47,7 +49,7 @@
     
     [self setupBodySubView];
     
-    [self bodyDidSelectedItemsIndex:0];
+    [self itemsView:self.bodyItemsView didSelectItemAtIndex:0];
     
 }
 
@@ -67,12 +69,11 @@
      [_mPerView addGestureRecognizer:panGestureRecognizer];
      [self.view addSubview:_mPerView];
     
-    _bodyItemsView = [[FUBodyCollectionView alloc] init];
+    _bodyItemsView = [[FUItemsView alloc] init];
     _bodyItemsView.delegate = self;
-    [_bodyItemsView updateCollectionAndSel:0];
+    _bodyItemsView.items = self.mItmsArray;
+    _bodyItemsView.selectedIndex = 0;
     [self.view addSubview:_bodyItemsView];
-    [_bodyItemsView setItemsArray:self.mItmsArray];
-    _bodyItemsView.backgroundColor = [UIColor clearColor];
     [_bodyItemsView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view.mas_bottom);
         make.left.right.equalTo(self.view);
@@ -82,17 +83,6 @@
             make.height.mas_equalTo(80);
         }
     }];
-    
-    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-    UIVisualEffectView *effectview = [[UIVisualEffectView alloc] initWithEffect:blur];
-    effectview.alpha = 1.0;
-    [_bodyItemsView addSubview:effectview];
-    [_bodyItemsView sendSubviewToBack:effectview];
-    /* 磨玻璃 */
-    [effectview mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.bottom.equalTo(_bodyItemsView);
-    }];
-    
     
     _mSwitch = [[FUSwitch alloc] initWithFrame:CGRectMake(60, 150, 86, 32) onColor:[UIColor colorWithRed:31 / 255.0 green:178 / 255.0 blue:255 / 255.0 alpha:1.0] offColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:12] ballSize:30];
     _mSwitch.onText = FUNSLocalizedString(@"全身驱动", nil);
@@ -109,6 +99,8 @@
     }];
 
 }
+
+#pragma mark - Overriding
 
 - (void)renderKitWillRenderFromRenderInput:(FURenderInput *)renderInput {
     [super renderKitWillRenderFromRenderInput:renderInput];
@@ -128,13 +120,18 @@
     }) ;
 }
 
-#pragma  mark -  UI Action
-
-/* UI 点击 */
--(void)bodyDidSelectedItemsIndex:(int)index{
-    [self switchSex:self.mSwitch];
-    [self.bodyAvatarManager loadAvatarWithIndex:index];
+- (FUAIModelType)necessaryAIModelTypes {
+    return FUAIModelTypeFace | FUAIModelTypeHuman;
 }
+
+#pragma mark - FUItemsViewDelegate
+
+- (void)itemsView:(FUItemsView *)itemsView didSelectItemAtIndex:(NSInteger)index {
+    [self switchSex:self.mSwitch];
+    [self.bodyAvatarManager loadAvatarWithIndex:(int)index];
+}
+
+#pragma  mark -  UI Action
 
 -(void)switchSex:(FUSwitch *)mSwitch{
     if (mSwitch.on) {//全

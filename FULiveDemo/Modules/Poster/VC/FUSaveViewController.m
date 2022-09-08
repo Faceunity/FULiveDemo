@@ -45,8 +45,8 @@
     FUEditImageViewController *vc = [[FUEditImageViewController alloc] initWithNibName:@"FUEditImageViewController" bundle:nil];
     vc.view.backgroundColor = [UIColor blackColor];
     vc.PushFrom = FUEditImagePushFromPhoto;
-    [self.navigationController pushViewController:vc animated:YES];
     vc.mPhotoImage = self.mImageView.image;
+    [self.navigationController pushViewController:vc animated:YES];
     if (self.mImageView.image) {
         UIImageWriteToSavedPhotosAlbum(self.mImageView.image, self, nil, NULL);
     }

@@ -8,7 +8,6 @@
 
 #import "FUBeautyView.h"
 #import "UIImage+demobar.h"
-#import "UIColor+FU.h"
 
 @interface FUBeautyView ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @end

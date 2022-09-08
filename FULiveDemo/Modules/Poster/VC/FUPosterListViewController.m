@@ -8,21 +8,20 @@
 
 #import "FUPosterListViewController.h"
 #import "FUPosterCell.h"
-#import "FUManager.h"
 #import "FUPosterController.h"
+#import "FUPosterManager.h"
 
 @interface FUPosterListViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
-
-/* 图片数组 */
-@property (nonatomic, strong) NSArray <NSString *>*dataArray ;
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
 @property (nonatomic, assign) float itemW;
 @property (nonatomic, assign) float itemH;
+
 @end
 
 static NSString *registerID = @"PosterCell";
+
 @implementation FUPosterListViewController
 
 - (void)viewDidLoad {
@@ -38,12 +37,6 @@ static NSString *registerID = @"PosterCell";
     _mPosterCollectionView.delegate = self;
     _mPosterCollectionView.dataSource = self;
     
-    NSMutableArray *array = [NSMutableArray array];
-    for (NSString *str in _model.items) {
-        [array addObject:[NSString stringWithFormat:@"%@_list",str]];
-    }
-    _dataArray = array;
-    
     _itemW = ([UIScreen mainScreen].bounds.size.width - 17 * 3) / 2;
     _itemH = _itemW/324 * 358;
     
@@ -52,6 +45,10 @@ static NSString *registerID = @"PosterCell";
     
     [self prefersStatusBarHidden];
     [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
+}
+
+- (void)dealloc {
+    [FUPosterManager destory];
 }
 
 
@@ -72,14 +69,13 @@ static NSString *registerID = @"PosterCell";
 
 //每个section的item个数
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return _dataArray.count;
+    return [FUPosterManager sharedManager].posterList.count;
     
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     FUPosterCell *cell = (FUPosterCell *)[collectionView dequeueReusableCellWithReuseIdentifier:registerID forIndexPath:indexPath];
-    //cell.contentView.backgroundColor = [UIColor redColor];
-    cell.mImageView.image = [UIImage imageNamed:_dataArray[indexPath.row]];
+    cell.mImageView.image = [UIImage imageNamed:[FUPosterManager sharedManager].posterList[indexPath.row]];
     return cell;
 }
 
@@ -107,21 +103,15 @@ static NSString *registerID = @"PosterCell";
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
     FUPosterController *vc = [[FUPosterController alloc] init];
-    _model.selIndex = (int)indexPath.row;
-    vc.model = _model;
+    [FUPosterManager sharedManager].selectedIndex = indexPath.item;
     [self.navigationController pushViewController:vc animated:YES];
-    
-    
 }
 
 #pragma  mark ----  重载系统方法  -----
+
 - (BOOL)prefersStatusBarHidden
 {
     return YES;//隐藏为YES，显示为NO
 }
 
-
--(void)dealloc{
-   
-}
 @end

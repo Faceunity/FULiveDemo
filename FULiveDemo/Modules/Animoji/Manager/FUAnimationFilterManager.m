@@ -11,7 +11,6 @@
 
 @implementation FUAnimationFilterManager
 @synthesize selectedItem;
-@synthesize type;
 
 - (instancetype)init {
     self = [super init];
@@ -58,4 +57,12 @@
     }
     return _comicFilter;
 }
+
+- (NSArray *)comicFilterItems {
+    if (!_comicFilterItems) {
+        _comicFilterItems = @[@"resetItem", @"fuzzytoonfilter1", @"fuzzytoonfilter2", @"fuzzytoonfilter3", @"fuzzytoonfilter4", @"fuzzytoonfilter5", @"fuzzytoonfilter6", @"fuzzytoonfilter7", @"fuzzytoonfilter8"];
+    }
+    return _comicFilterItems;
+}
+
 @end

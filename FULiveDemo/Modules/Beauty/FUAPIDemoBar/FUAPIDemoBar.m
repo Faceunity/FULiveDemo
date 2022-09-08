@@ -9,8 +9,6 @@
 #import "FUAPIDemoBar.h"
 #import "FUFilterView.h"
 #import "FUBeautyView.h"
-#import "FUSquareButton.h"
-#import "FUManager.h"
 #import "SVProgressHUD.h"
 
 #import "UIView+FU.h"

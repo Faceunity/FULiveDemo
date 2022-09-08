@@ -8,11 +8,7 @@
 
 #import "FUCombinationMakeupView.h"
 #import "FUCombinationMakeupCell.h"
-#import "FUSquareButton.h"
-
 #import "FUCombinationMakeupModel.h"
-
-#import "UIColor+FU.h"
 
 static NSString * const kFUCombinationMakeupCellIdentifierKey = @"FUCombinationMakeupCell";
 

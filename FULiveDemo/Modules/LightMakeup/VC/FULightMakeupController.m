@@ -8,7 +8,6 @@
 
 #import "FULightMakeupController.h"
 #import "FULightMakeupCollectionView.h"
-#import "FUManager.h"
 #import "FULightMakeupManager.h"
 
 @interface FULightMakeupController ()<FULightMakeupCollectionViewDelegate>

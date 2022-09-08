@@ -7,19 +7,17 @@
 //
 
 #import "FUEditImageViewController.h"
-#import "FUNoNullItemsView.h"
-#import "FUManager.h"
-#import "FULiveModel.h"
 #import "SVProgressHUD.h"
-#import <FLAnimatedImage/FLAnimatedImage.h>
-#import <math.h>
 #import "FUBaseViewController.h"
 #import "FUPosterManager.h"
+
+#import <FLAnimatedImage/FLAnimatedImage.h>
+#import <math.h>
 
 @interface FUEditImageViewController ()<FUItemsViewDelegate, FUPosterProtocol> {
     float photoLandmarks[239*2];
 }
-@property (strong, nonatomic) FUNoNullItemsView *mItemView;
+@property (strong, nonatomic) FUItemsView *mItemView;
 @property (weak, nonatomic) IBOutlet FLAnimatedImageView *loadingImage;
 @property (weak, nonatomic) IBOutlet UIView *mNoFaceView;
 @property (weak, nonatomic) IBOutlet UILabel *mTextLabel;
@@ -40,18 +38,16 @@
 /// 是否不完整人脸
 @property (nonatomic, assign) BOOL incompleteFace;
 
+@property (nonatomic, strong) FUPoster *poster;
+
 @end
 
 @implementation FUEditImageViewController
-- (void)dealloc {
-    
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.posterManager = [[FUPosterManager alloc] init];
-    self.posterManager.poster.delegate = self;
+    self.posterManager = [FUPosterManager sharedManager];
     _faceInfoArray = [NSMutableArray array]; //多人脸信息存放
     [self initializationView];
 }
@@ -74,27 +70,17 @@
     [self prefersStatusBarHidden];
     [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
 
-    FULiveModel *model = [FUManager shareManager].currentModel;
-    NSMutableArray *array = [NSMutableArray array];
-    for (NSString *str in [FUManager shareManager].currentModel.items) {
-        [array addObject:[NSString stringWithFormat:@"%@_icon",str]];
-    }
-    self.mImageView.image = [UIImage imageNamed:model.items[model.selIndex]];
+    self.mImageView.image = [UIImage imageNamed:self.posterManager.posterList[self.posterManager.selectedIndex]];
     
-    _mItemView = [[FUNoNullItemsView alloc] init];
+    _mItemView = [[FUItemsView alloc] init];
     _mItemView.delegate = self;
-    _mItemView.selectedItem = [NSString stringWithFormat:@"%@_icon",model.items[model.selIndex]];
+    _mItemView.items = self.posterManager.posterIcons;
+    _mItemView.selectedIndex = self.posterManager.selectedIndex;
     [self.view addSubview:_mItemView];
-    _mItemView.backgroundColor = [UIColor clearColor];
-    [_mItemView updateCollectionArray:array];
     [_mItemView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view.mas_bottom);
         make.left.right.equalTo(self.view);
-        if (iPhoneXStyle) {
-            make.height.mas_equalTo(84 + 34);
-        }else{
-            make.height.mas_equalTo(84);
-        }
+        make.height.mas_offset(FUHeightIncludeBottomSafeArea(84));
     }];
 }
 
@@ -102,10 +88,9 @@
 #pragma  mark ----  校验 & push处理  -----
 /* 人脸校验 */
 -(void)setupPhotoMake{
-    _mImageView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
-    [self.posterManager setOnCameraChange];
-    FULiveModel *model = [FUManager shareManager].currentModel;
-    [self.posterManager.poster renderWithInputImage:_mPhotoImage templateImage:[UIImage imageNamed:model.items[model.selIndex]]];
+    [FUManager resetTrackedResult];
+    UIImage *image = [UIImage imageNamed:self.posterManager.posterItems[self.posterManager.selectedIndex]];
+    [self.poster renderWithInputImage:self.mPhotoImage templateImage:image];
 }
 
 // 选择某一张脸
@@ -115,7 +100,7 @@
         CGRect rect = [info rect];
         if (CGRectContainsPoint(rect, point)) {
             [_maskView removeFromSuperview];//chooseFaceIds
-            [self.posterManager.poster chooseFaceID: info.faceId];
+            [self.poster chooseFaceID: info.faceId];
         }
     }
 }
@@ -201,11 +186,15 @@
 }
 
 #pragma  mark ---- FUItemsViewDelegate   -----
--(void)itemsViewDidSelectedItem:(NSString *)item indexPath:(NSIndexPath *)indexPath {
+- (void)itemsView:(FUItemsView *)itemsView didSelectItemAtIndex:(NSInteger)index {
+    if (index == self.posterManager.selectedIndex) {
+        return;
+    }
     _isSave = NO;
-    NSArray *array = [item componentsSeparatedByString:@"_"];
     [self.mItemView startAnimation];
-    [self.posterManager.poster changeTempImage:[UIImage imageNamed:array[0]]];
+    self.posterManager.selectedIndex = index;
+    UIImage *image = [UIImage imageNamed:self.posterManager.posterItems[self.posterManager.selectedIndex]];
+    [self.poster changeTempImage:image];
 }
 
 #pragma  mark ----  SET  -----
@@ -334,8 +323,7 @@
 }
 
 - (NSNumber *)renderOfWarp {
-    FULiveModel *model = [FUManager shareManager].currentModel;
-    id warpValue = model.selIndex == 5 ? @0.2 : nil;
+    id warpValue = [FUPosterManager sharedManager].selectedIndex == 5 ? @0.2 : nil;
     return warpValue;
 }
 
@@ -350,5 +338,14 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+- (FUPoster *)poster {
+    if (!_poster) {
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"change_face" ofType:@"bundle"];
+        _poster = [[FUPoster alloc] initWithPath:path name:@"change_face"];
+        _poster.delegate = self;
+    }
+    return _poster;
+}
 
 @end

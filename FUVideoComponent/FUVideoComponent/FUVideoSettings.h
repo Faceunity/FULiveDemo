@@ -12,6 +12,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FUVideoReaderSettings : NSObject
 
+/// 是否自动解码，默认为NO
+/// @note 如果为NO，可以调用FUVideoReader实例的readNextVideoBuffer和readNextAudioBuffer方法逐帧读取
+@property (nonatomic, assign) BOOL readingAutomatically;
+
 /// 是否需要音频轨道，默认为YES
 @property (nonatomic, assign) BOOL needsAudioTrack;
 
