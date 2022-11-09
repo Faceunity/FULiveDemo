@@ -800,7 +800,7 @@ load the prop `tongue.bundle`,
 
 ```objective-c
 NSData *tongueData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"tongue.bundle" ofType:nil]];
-int ret0 = fuLoadTongueModel((void *)tongueData.bytes, (int)tongueData.length) ;
+int ret0 = fuLoadTongueModel((void *)tongueData.bytes, (int)tongueData.length);
 ```
 
 ### 4.10 Face Fusion

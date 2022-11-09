@@ -2,15 +2,15 @@
 //  FUStickerViewController.h
 //  FULiveDemo
 //
-//  Created by 项林平 on 2022/7/15.
-//  Copyright © 2022 FaceUnity. All rights reserved.
+//  Created by 项林平 on 2022/7/26.
 //
 
-#import "FUBaseViewController.h"
+#import "FURenderViewController.h"
+#import "FUStickerViewModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface FUStickerViewController : FUBaseViewController
+@interface FUStickerViewController : FURenderViewController
 
 @end
 

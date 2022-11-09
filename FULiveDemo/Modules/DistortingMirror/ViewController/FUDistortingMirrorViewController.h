@@ -6,11 +6,12 @@
 //  Copyright © 2022 FaceUnity. All rights reserved.
 //
 
-#import "FUBaseViewController.h"
+#import "FURenderViewController.h"
+#import "FUDistortingMirrorViewModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface FUDistortingMirrorViewController : FUBaseViewController
+@interface FUDistortingMirrorViewController : FURenderViewController
 
 @end
 

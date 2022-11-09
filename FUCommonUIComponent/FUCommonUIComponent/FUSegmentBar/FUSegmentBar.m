@@ -16,6 +16,7 @@
         // 默认选中/未选中颜色
         self.selectedTitleColor = [UIColor colorWithRed:94/255.0f green:199/255.0f blue:254/255.0f alpha:1.0];
         self.normalTitleColor = [UIColor whiteColor];
+        self.disabledTitleColor = [UIColor colorWithWhite:1 alpha:0.6];
         self.titleFont = [UIFont systemFontOfSize:13];
     }
     return self;
@@ -95,6 +96,15 @@ static NSString * const kFUSegmentCellIdentifierKey = @"FUSegmentCellIdentifier"
     }
 }
 
+- (void)refresh {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.collectionView reloadData];
+        if (self.selectedIndex >= 0) {
+            [self.collectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:self.selectedIndex inSection:0] animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+        }
+    });
+}
+
 #pragma mark - Collection view data source
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -107,6 +117,11 @@ static NSString * const kFUSegmentCellIdentifierKey = @"FUSegmentCellIdentifier"
     cell.segmentTitleLabel.font = self.configuration.titleFont;
     cell.segmentNormalTitleColor = self.configuration.normalTitleColor;
     cell.segmentSelectedTitleColor = self.configuration.selectedTitleColor;
+    if (self.delegate && [self.delegate respondsToSelector:@selector(segmentBar:shouldDisableItemAtIndex:)]) {
+        if ([self.delegate segmentBar:self shouldDisableItemAtIndex:indexPath.item]) {
+            cell.segmentTitleLabel.textColor = self.configuration.disabledTitleColor;
+        }
+    }
     return cell;
 }
 
@@ -129,7 +144,19 @@ static NSString * const kFUSegmentCellIdentifierKey = @"FUSegmentCellIdentifier"
 #pragma mark - Collection view delegate flow layout
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake([self.itemWidths[indexPath.item] floatValue], CGRectGetHeight(self.frame));
+    return CGSizeMake([self.itemWidths[indexPath.item] floatValue], CGRectGetHeight(collectionView.frame));
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    return UIEdgeInsetsZero;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return 0;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+    return 0;
 }
 
 #pragma mark - Getters
@@ -137,8 +164,6 @@ static NSString * const kFUSegmentCellIdentifierKey = @"FUSegmentCellIdentifier"
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        flowLayout.minimumInteritemSpacing = 0;
-        flowLayout.minimumLineSpacing = 0;
         flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame), 49.f) collectionViewLayout:flowLayout];
         _collectionView.backgroundColor = [UIColor clearColor];

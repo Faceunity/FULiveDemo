@@ -10,6 +10,10 @@
 
 @interface FUExpressionRecognitionViewModel ()
 
+@property (nonatomic, copy) NSArray<NSString *> *expressionRecognitionItems;
+
+@property (nonatomic, copy) NSDictionary<NSString *, NSString *> *expressionRecognitionTips;
+
 @property (nonatomic, strong) FUSticker *currentItem;
 
 @end
@@ -37,9 +41,30 @@
 
 - (NSArray<NSString *> *)expressionRecognitionItems {
     if (!_expressionRecognitionItems) {
-        _expressionRecognitionItems = @[@"resetItem", @"future_warrior", @"jet_mask", @"sdx2", @"luhantongkuan_ztt_fu", @"qingqing_ztt_fu", @"xiaobianzi_zh_fu", @"xiaoxueshen_ztt_fu"];
+        _expressionRecognitionItems = @[@"reset_item", @"future_warrior", @"jet_mask", @"sdx2", @"luhantongkuan_ztt_fu", @"qingqing_ztt_fu", @"xiaobianzi_zh_fu", @"xiaoxueshen_ztt_fu"];
     }
     return _expressionRecognitionItems;
+}
+
+- (NSDictionary<NSString *,NSString *> *)expressionRecognitionTips {
+    if (!_expressionRecognitionTips) {
+        _expressionRecognitionTips = @{
+            @"future_warrior" : @"张嘴试试",
+            @"jet_mask" : @"鼓腮帮子",
+            @"sdx2" : @"皱眉触发",
+            @"luhantongkuan_ztt_fu" : @"眨一眨眼",
+            @"qingqing_ztt_fu" : @"嘟嘴试试",
+            @"xiaobianzi_zh_fu" : @"微笑触发",
+            @"xiaoxueshen_ztt_fu" : @"吹气触发"
+        };
+    }
+    return _expressionRecognitionTips;
+}
+
+#pragma mark - Overriding
+
+- (FUModule)module {
+    return FUModuleExpressionRecognition;
 }
 
 @end

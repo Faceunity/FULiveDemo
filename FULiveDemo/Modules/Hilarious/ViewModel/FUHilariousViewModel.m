@@ -10,7 +10,11 @@
 
 @interface FUHilariousViewModel ()
 
-@property (nonatomic, strong) FUSticker *currentSticker;
+@property (nonatomic, strong) FUSticker *currentItem;
+
+@property (nonatomic, copy,) NSArray<NSString *> *hilariousItems;
+
+@property (nonatomic, copy) NSDictionary<NSString *, NSString *> *hilariousTips;
 
 @end
 
@@ -22,24 +26,39 @@
     }
     NSString *path = [[NSBundle mainBundle] pathForResource:item ofType:@"bundle"];
     FUSticker *sticker = [FUSticker itemWithPath:path name:@"FUHilarious"];
-    if (!self.currentSticker) {
+    if (!self.currentItem) {
         [[FURenderKit shareRenderKit].stickerContainer addSticker:sticker completion:completion];
     } else {
-        [[FURenderKit shareRenderKit].stickerContainer replaceSticker:self.currentSticker withSticker:sticker completion:completion];
+        [[FURenderKit shareRenderKit].stickerContainer replaceSticker:self.currentItem withSticker:sticker completion:completion];
     }
-    self.currentSticker = sticker;
+    self.currentItem = sticker;
 }
 
 - (void)releaseItem {
     [[FURenderKit shareRenderKit].stickerContainer removeAllSticks];
-    self.currentSticker = nil;
+    self.currentItem = nil;
 }
 
 - (NSArray<NSString *> *)hilariousItems {
     if (!_hilariousItems) {
-        _hilariousItems = @[@"resetItem", @"big_head_facewarp1", @"big_head_facewarp2", @"big_head_facewarp4", @"big_head_facewarp5", @"big_head_facewarp6", @"big_head_facewarp3"];
+        _hilariousItems = @[@"reset_item", @"big_head_facewarp1", @"big_head_facewarp2", @"big_head_facewarp4", @"big_head_facewarp5", @"big_head_facewarp6", @"big_head_facewarp3"];
     }
     return _hilariousItems;
+}
+
+- (NSDictionary<NSString *,NSString *> *)hilariousTips {
+    if (!_hilariousTips) {
+        _hilariousTips = @{
+            @"big_head_facewarp3" : @"微笑触发"
+        };
+    }
+    return _hilariousTips;
+}
+
+#pragma mark - Overriding
+
+- (FUModule)module {
+    return FUModuleHilarious;
 }
 
 @end

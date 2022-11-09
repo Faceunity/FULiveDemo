@@ -7,6 +7,13 @@
 //
 
 #import "FUHomepageViewModel.h"
+#import "FUHomepageModel.h"
+
+@interface FUHomepageViewModel ()
+
+@property (nonatomic, copy) NSArray<FUHomepageGroup *> *dataSource;
+
+@end
 
 @implementation FUHomepageViewModel
 
@@ -24,6 +31,38 @@
         }
     }
     return self;
+}
+
+- (NSString *)groupNameOfGroup:(NSUInteger)group {
+    return FULocalizedString(self.dataSource[group].name);
+}
+
+- (NSUInteger)modulesCountOfGroup:(NSUInteger)group {
+    return self.dataSource[group].modules.count;
+}
+
+- (FUModule)moduleAtIndex:(NSUInteger)index group:(NSUInteger)group {
+    return self.dataSource[group].modules[index].module;
+}
+
+- (UIImage *)moduleIconAtIndex:(NSUInteger)index group:(NSUInteger)group {
+    FUHomepageModule *module = self.dataSource[group].modules[index];
+    return [UIImage imageNamed:module.title];
+}
+
+- (NSString *)moduleTitleAtIndex:(NSUInteger)index group:(NSUInteger)group {
+    FUHomepageModule *module = self.dataSource[group].modules[index];
+    return FULocalizedString(module.title);
+}
+
+- (UIImage *)moduleBottomBackgroundImageAtIndex:(NSUInteger)index group:(NSUInteger)group {
+    FUHomepageModule *module = self.dataSource[group].modules[index];
+    return module.enable ? [UIImage imageNamed:@"homepage_cell_bottom_image"] : [UIImage imageNamed:@"homepage_cell_bottom_image_gray"];
+}
+
+- (BOOL)moduleEnableStatusAtIndex:(NSUInteger)index group:(NSUInteger)group {
+    FUHomepageModule *module = self.dataSource[group].modules[index];
+    return module.enable;
 }
 
 - (NSArray<FUHomepageGroup *> *)dataSource {

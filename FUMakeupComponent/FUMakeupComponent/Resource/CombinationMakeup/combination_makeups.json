@@ -1,0 +1,173 @@
+[
+    {
+      "name": "卸妆",
+      "icon": "makeup_noitem",
+      "value": 0.0,
+      "bundleName": "xiezhuan",
+      "isAllowedEdit" : true
+    },
+    {
+      "name": "嗲嗲兔",
+      "icon": "demo_combination_rabbit",
+      "value": 0.7,
+      "bundleName": "diadiatu",
+      "isCombined" : true,
+      "selectedFilterLevel" : 0.68
+    },
+    {
+      "name": "冻龄",
+      "icon": "demo_combination_freezing_age",
+      "value": 0.7,
+      "bundleName": "dongling",
+      "isCombined" : true,
+      "selectedFilterLevel" : 0.68
+    },
+    {
+      "name": "国风",
+      "icon": "demo_combination_guo_feng",
+      "value": 0.7,
+      "bundleName": "guofeng",
+      "isCombined" : true,
+      "selectedFilterLevel" : 0.6
+    },
+    {
+      "name": "混血",
+      "icon": "demo_combination_mixed_race",
+      "value": 0.7,
+      "bundleName": "hunxue",
+      "isCombined" : true,
+      "selectedFilterLevel" : 0.6
+    },
+    {
+      "name": "减龄",
+      "icon": "demo_combination_age",
+      "value": 0.7,
+      "bundleName": "jianling",
+      "selectedFilter":"zhiganhui1"
+    },
+    {
+      "name": "暖冬",
+      "icon": "demo_combination_warm_winter",
+      "value": 0.7,
+      "bundleName": "nuandong",
+      "selectedFilter":"zhiganhui2"
+    },
+    {
+      "name": "红枫",
+      "icon": "demo_combination_red_maple",
+      "value": 0.7,
+      "bundleName": "hongfeng",
+      "selectedFilter":"zhiganhui3"
+    },
+    {
+      "name": "Rose",
+      "icon": "demo_combination_rose",
+      "value": 0.7,
+      "bundleName": "rose",
+      "selectedFilter":"zhiganhui2"
+    },
+    {
+      "name": "少女",
+      "icon": "demo_combination_girl",
+      "value": 0.7,
+      "bundleName": "shaonv",
+      "selectedFilter":"zhiganhui4"
+    },
+    {
+      "name": "紫韵",
+      "icon": "demo_combination_purple_rhyme",
+      "value": 0.7,
+      "bundleName": "ziyun",
+      "selectedFilter":"zhiganhui1"
+    },
+    {
+      "name": "厌世猫",
+      "icon": "demo_combination_bored_cat",
+      "value": 0.7,
+      "bundleName": "yanshimao",
+      "selectedFilter":"zhiganhui5"
+    },
+    {
+      "name": "人鱼",
+      "icon": "demo_combination_mermaid",
+      "value": 0.7,
+      "bundleName": "renyu",
+      "selectedFilter":"zhiganhui1"
+    },
+    {
+      "name": "初秋",
+      "icon": "demo_combination_early_autumn",
+      "value": 0.7,
+      "bundleName": "chuqiu",
+      "selectedFilter":"zhiganhui6"
+    },
+    {
+      "name": "千纸鹤",
+      "icon": "demo_combination_paper_cranes",
+      "value": 0.7,
+      "bundleName": "qianzhihe",
+      "selectedFilter":"zhiganhui2"
+    },
+    {
+      "name": "超模",
+      "icon": "demo_combination_supermodel",
+      "value": 0.7,
+      "bundleName": "chaomo",
+      "selectedFilter":"zhiganhui7"
+    },
+    {
+      "name": "雏菊",
+      "icon": "demo_combination_daisy",
+      "value": 0.7,
+      "bundleName": "chuju",
+      "selectedFilter":"zhiganhui8"
+    },
+    {
+      "name": "港风",
+      "icon": "demo_combination_harbour_wind",
+      "value": 0.7,
+      "bundleName": "gangfeng",
+      "selectedFilter":"ziran8"
+    },
+    {
+      "name": "性感",
+      "icon": "demo_combination_sexy",
+      "value": 0.7,
+      "bundleName": "xinggan",
+      "selectedFilter":"ziran4",
+      "isAllowedEdit" : true
+    },
+    {
+      "name": "甜美",
+      "icon": "demo_combination_sweet",
+      "value": 0.7,
+      "bundleName": "tianmei",
+      "selectedFilter":"ziran4",
+      "isAllowedEdit" : true
+    },
+    {
+      "name": "邻家",
+      "icon": "demo_combination_neighbor_girl",
+      "value": 0.7,
+      "bundleName": "linjia",
+      "selectedFilter":"ziran4",
+      "isAllowedEdit" : true
+    },
+    {
+      "name": "欧美",
+      "icon": "demo_combination_occident",
+      "value": 0.7,
+      "bundleName": "oumei",
+      "selectedFilter":"ziran4",
+      "isAllowedEdit" : true
+    },
+    {
+      "name": "妩媚",
+      "icon": "demo_combination_charming",
+      "value": 0.7,
+      "bundleName": "wumei",
+      "selectedFilter":"ziran4",
+      "isAllowedEdit" : true
+    }
+    
+]

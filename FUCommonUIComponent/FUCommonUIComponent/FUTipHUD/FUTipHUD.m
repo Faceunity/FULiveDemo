@@ -16,6 +16,10 @@
 }
 
 + (void)showTips:(NSString *)tipsString dismissWithDelay:(NSTimeInterval)delay {
+    [self showTips:tipsString dismissWithDelay:delay position:FUTipHUDPositionTop];
+}
+
++ (void)showTips:(NSString *)tipsString dismissWithDelay:(NSTimeInterval)delay position:(FUTipHUDPosition)position {
     UIWindow *window = [UIApplication sharedApplication].delegate.window;
     // 避免重复生成label
     NSArray<UIView *> *views = window.subviews;
@@ -38,16 +42,34 @@
     [window addSubview:tipLabel];
     
     CGFloat tipWidth = [tipsString sizeWithAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:13]}].width;
-    if (tipWidth + 50 > CGRectGetWidth(window.bounds)) {
-        NSLayoutConstraint *centerYConstraint = [NSLayoutConstraint constraintWithItem:tipLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:window attribute:NSLayoutAttributeCenterY multiplier:1 constant:0];
-        NSLayoutConstraint *leadingConstraint = [NSLayoutConstraint constraintWithItem:tipLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:window attribute:NSLayoutAttributeLeading multiplier:1.0 constant:5];
-        NSLayoutConstraint *trailingConstraint = [NSLayoutConstraint constraintWithItem:tipLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:window attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-5];
-        [window addConstraints:@[centerYConstraint, leadingConstraint, trailingConstraint]];
+    if (position == FUTipHUDPositionTop) {
+        CGFloat topConstant = 0;
+        if (@available(iOS 11.0, *)) {
+            topConstant = window.safeAreaInsets.top;
+        }
+        NSLayoutConstraint *topConstraint = [NSLayoutConstraint constraintWithItem:tipLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:window attribute:NSLayoutAttributeTop multiplier:1 constant:84 + topConstant];
+        [window addConstraint:topConstraint];
+        if (tipWidth + 50 > CGRectGetWidth(window.bounds)) {
+            NSLayoutConstraint *leadingConstraint = [NSLayoutConstraint constraintWithItem:tipLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:window attribute:NSLayoutAttributeLeading multiplier:1.0 constant:5];
+            NSLayoutConstraint *trailingConstraint = [NSLayoutConstraint constraintWithItem:tipLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:window attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-5];
+            [window addConstraints:@[leadingConstraint, trailingConstraint]];
+        } else {
+            NSLayoutConstraint *centerXConstraint = [NSLayoutConstraint constraintWithItem:tipLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:window attribute:NSLayoutAttributeCenterX multiplier:1 constant:0];
+            [window addConstraint:centerXConstraint];
+        }
     } else {
         NSLayoutConstraint *centerYConstraint = [NSLayoutConstraint constraintWithItem:tipLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:window attribute:NSLayoutAttributeCenterY multiplier:1 constant:0];
-        NSLayoutConstraint *centerXConstraint = [NSLayoutConstraint constraintWithItem:tipLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:window attribute:NSLayoutAttributeCenterX multiplier:1 constant:0];
-        [window addConstraints:@[centerXConstraint, centerYConstraint]];
+        [window addConstraint:centerYConstraint];
+        if (tipWidth + 50 > CGRectGetWidth(window.bounds)) {
+            NSLayoutConstraint *leadingConstraint = [NSLayoutConstraint constraintWithItem:tipLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:window attribute:NSLayoutAttributeLeading multiplier:1.0 constant:5];
+            NSLayoutConstraint *trailingConstraint = [NSLayoutConstraint constraintWithItem:tipLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:window attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-5];
+            [window addConstraints:@[leadingConstraint, trailingConstraint]];
+        } else {
+            NSLayoutConstraint *centerXConstraint = [NSLayoutConstraint constraintWithItem:tipLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:window attribute:NSLayoutAttributeCenterX multiplier:1 constant:0];
+            [window addConstraint:centerXConstraint];
+        }
     }
+    
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [UIView animateWithDuration:0.3 animations:^{
             tipLabel.alpha = 0;

@@ -32,8 +32,9 @@
 @protocol LOTImageCache <NSObject>
 
 @required
-- (LOTImage *)imageForKey:(NSString *)key;
-- (void)setImage:(LOTImage *)image forKey:(NSString *)key;
+- (LOTImage *)lotImageForKey:(NSString *)key;
+
+- (void)setLOTImage:(LOTImage *)image forKey:(NSString *)key;
 
 @end
 

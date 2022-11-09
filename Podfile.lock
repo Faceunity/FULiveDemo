@@ -17,10 +17,10 @@ PODS:
   - FLAnimatedImage (1.0.16)
   - lottie-ios (2.5.3)
   - Masonry (1.1.0)
-  - MJExtension (3.3.0)
-  - SDWebImage (5.12.1):
-    - SDWebImage/Core (= 5.12.1)
-  - SDWebImage/Core (5.12.1)
+  - MJExtension (3.4.1)
+  - SDWebImage (5.13.1):
+    - SDWebImage/Core (= 5.13.1)
+  - SDWebImage/Core (5.13.1)
   - SSZipArchive (2.4.3)
   - SVProgressHUD (2.2.5)
 
@@ -35,7 +35,7 @@ DEPENDENCIES:
   - SVProgressHUD
 
 SPEC REPOS:
-  https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git:
+  trunk:
     - AFNetworking
     - FLAnimatedImage
     - lottie-ios
@@ -50,11 +50,11 @@ SPEC CHECKSUMS:
   FLAnimatedImage: 8f3e854ebf9680b71f0b6e700939687fc4d82b4b
   lottie-ios: a50d5c0160425cd4b01b852bb9578963e6d92d31
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  MJExtension: 01704cca2b60a214c10761b6491eab74069d68a9
-  SDWebImage: 4dc3e42d9ec0c1028b960a33ac6b637bb432207b
+  MJExtension: 21c5f6f8c4d5d8844b7ae8fbae08fed0b501f961
+  SDWebImage: fb26a455eeda4c7a55e4dcb6172dbb258af7a4ca
   SSZipArchive: fe6a26b2a54d5a0890f2567b5cc6de5caa600aef
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: 3b71152872b1f4f0c37ce27a3feb4bde27dcfe13
+PODFILE CHECKSUM: 810786eceef5557119a3be1afae173f3395a20cd
 
 COCOAPODS: 1.11.3

@@ -1,0 +1,98 @@
+/* 
+  FUMakeupComponent.strings
+  FUMakeupComponent
+
+  Created by 项林平 on 2022/9/9.
+  
+*/
+
+"自定义" = "Custom";
+"卸妆" = "Remove";
+
+"嗲嗲兔" = "Rabbit";
+"冻龄" = "Freezing Age";
+"国风" = "Chinese Style";
+"混血" = "Mixed Race";
+"减龄"  = "Tender";
+"暖冬"  = "Warm";
+"红枫"  = "Maple";
+"Rose" = "Rose";
+"少女"  = "Maiden";
+"紫韵"  = "Purple";
+"厌世猫"  = "Cat";
+"人鱼"  = "Mermaid";
+"初秋"  = "Autumn";
+"千纸鹤"  = "Crane";
+"超模"  = "Model";
+"雏菊"  = "Daisy";
+"港风"  = "HK Style";
+"性感" =  "Sexy";
+"甜美" =  "Sweet";
+"邻家" =  "Next-door";
+"欧美" =  "European";
+"妩媚" =  "Charming";
+
+"粉底" =  "Foundation";
+"口红" = "Lipstick";
+"腮红" = "Blusher";
+"眉毛" = "Eyebrow";
+"眼影" = "Eye Shadow";
+"眼线" = "Eyeliner";
+"睫毛" = "Eyelash";
+"高光" =  "Highlight";
+"阴影" = "Shadow";
+"美瞳" = "Contact Lens";
+
+"雾面" = "Matte";
+"润泽Ⅰ" = "Moist Ⅰ";
+"润泽Ⅱ" = "Moist Ⅱ";
+"珠光" = "Pearl";
+"咬唇" = "Bite Lip";
+
+"苹果肌" =  "Apple Muscle";
+"扇形" =  "Sector";
+"眼角" =  "Canthus";
+"微醺" =  "Tipsy";
+
+"柳叶眉" = "Willow";
+"野生眉" = "Wild";
+"古典眉" = "Classical";
+"标准眉" = "Standard";
+
+"单色眼影" =  "Monochrome";
+"双色眼影Ⅰ" =  "Dichromatic Ⅰ";
+"双色眼影Ⅱ" =  "Dichromatic Ⅱ";
+"双色眼影Ⅲ" =  "Dichromatic Ⅲ";
+"三色眼影Ⅰ" =  "Tricolor Ⅰ";
+"三色眼影Ⅱ" =  "Tricolor Ⅱ";
+"三色眼影Ⅲ" =  "Tricolor Ⅲ";
+
+"猫眼" = "Cats Eye";
+"下垂眼" = "Drooping Eye";
+"拉开眼距" = "Expand Eye Distance";
+"拉近眼距" = "Shorten Eye Distance";
+"长眼" =  "Long Eye";
+"圆眼" =  "Round Eye";
+
+"自然型Ⅰ" = "Natural Ⅰ";
+"自然型Ⅱ" = "Natural Ⅱ";
+"浓密型Ⅰ" = "Denseness Ⅰ";
+"浓密型Ⅱ" = "Denseness Ⅱ";
+"夸张型Ⅰ" = "Hyperbole Ⅰ";
+"夸张型Ⅱ" = "Hyperbole Ⅱ";
+
+"高光Ⅰ" = "Highlight I";
+"高光Ⅱ" = "Highlight Ⅱ";
+
+"阴影Ⅰ" = "Shadow I";
+
+"蜜糖" = "Honey";
+"奶茶" = "Milk Tea";
+"水波" = "Ripple";
+"鎏金" = "Gilding";
+"孔雀" = "Peacock";
+"星河" = "Milky Way";
+"落目" = "Curtain";
+"极光" = "Aurora";
+
+

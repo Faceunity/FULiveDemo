@@ -56,26 +56,23 @@
 #pragma mark - Instance methods
 
 - (void)startProcessing {
-    @weakify(self)
-    [self.reader startWithCompletion:^(BOOL success) {
-        if (success) {
-            self.writer.videoInputReadyHandler = ^BOOL{
-                @strongify(self)
-                return [self.reader readNextVideoBuffer];
-            };
-            self.writer.audioInputReadyHandler = ^BOOL{
-                @strongify(self)
-                return [self.reader readNextAudioBuffer];
-            };
-            [self.writer start];
-        }
-    }];
+    [self.reader start];
+    @FUWeakify(self)
+    self.writer.videoInputReadyHandler = ^BOOL{
+        @FUStrongify(self)
+        return [self.reader readNextVideoBuffer];
+    };
+    self.writer.audioInputReadyHandler = ^BOOL{
+        @FUStrongify(self)
+        return [self.reader readNextAudioBuffer];
+    };
+    [self.writer start];
 }
 
 - (void)cancelProcessing {
-    [self.writer cancel];
+    [self.writer stop];
     self.writer = nil;
-    [self.reader cancel];
+    [self.reader stop];
     self.reader = nil;
 }
 
@@ -85,7 +82,7 @@
     if (self.processingVideoBufferHandler) {
         CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(videoSampleBuffer);
         CMTime timeStamp = CMSampleBufferGetPresentationTimeStamp(videoSampleBuffer);
-        pixelBuffer = self.processingVideoBufferHandler(pixelBuffer);
+        pixelBuffer = self.processingVideoBufferHandler(pixelBuffer, CMTimeGetSeconds(timeStamp));
         if (self.writer.videoInput.isReadyForMoreMediaData) {
             [self.writer appendPixelBuffer:pixelBuffer time:timeStamp];
         }
@@ -122,10 +119,11 @@
 }
 
 - (void)videoReaderDidFinishReading {
-    [self.writer finishWritingWithCompletion:nil];
-    if (self.processingFinishedHandler) {
-        self.processingFinishedHandler();
-    }
+    [self.writer finishWritingWithCompletion:^{
+        if (self.processingFinishedHandler) {
+            self.processingFinishedHandler();
+        }
+    }];
 }
 
 @end

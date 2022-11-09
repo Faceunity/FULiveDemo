@@ -19,14 +19,18 @@ NS_ASSUME_NONNULL_BEGIN
 @optional
 - (BOOL)segmentBar:(FUSegmentBar *)segmentBar shouldSelectItemAtIndex:(NSInteger)index;
 
+- (BOOL)segmentBar:(FUSegmentBar *)segmentBar shouldDisableItemAtIndex:(NSInteger)index;
+
 @end
 
 @interface FUSegmentBarConfigurations : NSObject
 
 /// 普通颜色
 @property (nonatomic, strong) UIColor *normalTitleColor;
-/// 选中颜色
+/// 选中状态颜色
 @property (nonatomic, strong) UIColor *selectedTitleColor;
+/// 无法选中状态颜色
+@property (nonatomic, strong) UIColor *disabledTitleColor;
 /// 字体
 @property (nonatomic, strong) UIFont *titleFont;
 
@@ -53,6 +57,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param titles SegmentsTitle数组
 /// @param configuration 配置信息
 - (instancetype)initWithFrame:(CGRect)frame titles:(NSArray<NSString *> *)titles configuration:(nullable FUSegmentBarConfigurations *)configuration;
+
+- (void)refresh;
 
 @end
 

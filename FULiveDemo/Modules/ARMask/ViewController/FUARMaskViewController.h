@@ -6,11 +6,12 @@
 //  Copyright © 2022 FaceUnity. All rights reserved.
 //
 
-#import "FUBaseViewController.h"
+#import "FURenderViewController.h"
+#import "FUARMaskViewModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface FUARMaskViewController : FUBaseViewController
+@interface FUARMaskViewController : FURenderViewController
 
 @end
 

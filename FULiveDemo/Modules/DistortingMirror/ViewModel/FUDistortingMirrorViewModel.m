@@ -10,6 +10,8 @@
 
 @interface FUDistortingMirrorViewModel ()
 
+@property (nonatomic, copy) NSArray<NSString *> *distortingMirrorItems;
+
 @property (nonatomic, strong) FUSticker *currentItem;
 
 @end
@@ -37,9 +39,15 @@
 
 - (NSArray<NSString *> *)distortingMirrorItems {
     if (!_distortingMirrorItems) {
-        _distortingMirrorItems = @[@"resetItem", @"facewarp2", @"facewarp3", @"facewarp4", @"facewarp5", @"facewarp6"];
+        _distortingMirrorItems = @[@"reset_item", @"facewarp2", @"facewarp3", @"facewarp4", @"facewarp5", @"facewarp6"];
     }
     return _distortingMirrorItems;
+}
+
+#pragma mark - Overriding
+
+- (FUModule)module {
+    return FUModuleDistortingMirror;
 }
 
 @end

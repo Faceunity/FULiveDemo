@@ -1,5 +1,3 @@
-source 'https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git'
-
 platform :ios, '9.0'
 
 use_frameworks!
@@ -28,10 +26,10 @@ target 'FULiveDemo' do
     pod 'SSZipArchive'
     
     # FURenderKit开发库
-    #pod 'FURenderKit-dev', :path => '../FURenderKit'
+    #pod 'FURenderKit-dev', :path => '/Users/sunmu/Desktop/集成/GitLab/FURenderKit'
     
     # FURenderKit库资源
-    #pod 'FURenderKit-assets-dev', :path => '../FURenderKit'
+    #pod 'FURenderKit-assets-dev', :path => '/Users/sunmu/Desktop/集成/GitLab/FURenderKit'
     
     #pod 'FURenderKit-dev', :git => 'git@192.168.0.118:liuyang/FURenderKit_Release.git', :branch => 'nama-dev-xlp'
     

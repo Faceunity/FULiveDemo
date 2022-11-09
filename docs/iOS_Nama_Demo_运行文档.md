@@ -3,6 +3,20 @@
 ------
 
 级别：Public   
+更新日期：2022-11-09
+SDK版本: 8.4.0
+
+### 最新更新内容：
+1)【美颜】新增眉毛粗细、眼睛位置、眼睑下至、嘴唇厚度、五官立体功能，优化瘦脸、下巴功能
+2)【美妆】新增嘴唇遮挡分割算法，实现口红遮挡不穿帮
+3)【人脸关键点】算法升级，全面优化点位稳定性
+4)【人像分割】新增会议场景专用模式
+5)【人体检测】全平台模型检出率提升
+6)【手势识别】全平台模型检出率及误检率优化
+
+------
+
+级别：Public   
 更新日期：2022-09-09
 SDK版本: 8.3.1
 
@@ -167,33 +181,36 @@ SDK版本: 7.4.0
   +docs                     //文档
   +FUCommonUIComponent      //UI组件
   +FUVideoComponent         //视频解码编码组件
+  +FUBeautyComponent        //美颜组件（UI和加载逻辑）
+  +FUMakeupComponent        //美妆组件（UI和加载逻辑）
+  +FUGreenScreenComponent   //绿幕组件（UI和加载逻辑）
   +FULiveDemo 			  	//原代码目录
-    +Modules                  //所有功能模块
-      +Homepage                 //主页模块
-      +Render                   //特效渲染基础模块
-      +Beauty                   //美颜模块
+    +Homepage                   //主页模块
+    +Render                     //相机、视频、图片渲染模块，所有特效渲染模块基于此模块
+    +MediaPicker                //视频、图片选择模块
+    +Modules                    //所有特效功能模块
+        +Beauty                       //美颜模块
+        +Makeup                       //美妆模块
         ...
-    +Helpers                //主要业务管理类  
-      +UI                   //公共UI控件
-      +Protocol             //接口文件
-      +Category              //类别
-      -FUManager              //Nama业务管理类
-      	...   
-    +Config					//配置文件目录
-      -FULiveDefine.h         //宏、常量声明
-      -DataSource             //主界面，权限，item 道具配置类 
-      -makeup.json       	  //美妆单个妆数组
-      -makeup_whole.json      //美妆整体妆容配置
-    +Resource               
-       +items                 //各个模块道具资源 
-    +Lib                    //nama SDK  
-      -authpack.h             //权限文件
-      -FURenderKit.framework   //动态库      
-      +Resources               //各个能力相关的资源
-  +docs						//文档目录
-  +Pods                     //三方库管理
-  -FULiveDemo.xcworkspace   //工程文件
-  
+    +Helper                     //工具类  
+        +Category                     //类别
+        -FULiveDefine                 //宏、枚举、内联函数等
+        -FUNetworkingHelper           //网络请求工具
+        -FUUtility                    //共用方法类
+    +Resource                   //资源文件（JSON、Bundle）              
+        +Homepage                    //主页模块资源
+        +Render                      //相机、视频、图片渲染模块资源
+        +Sticker                     //贴纸模块资源
+        ...
+    +Application                //工程文件  
+        -Assets                       //图片资源
+        -Localizable.strings          //国际化支持字符串文件      
+        ...
+    +FURenderKit
+        +FURenderKit.framework  //FURenderKit动态库
+        +Resources              //FURenderKit必要资源
+        -FURenderKitManger      //FURenderKit管理类
+        -authpack.h             //鉴权文件（需要替换自己的鉴权文件）
 ```
 
 ------

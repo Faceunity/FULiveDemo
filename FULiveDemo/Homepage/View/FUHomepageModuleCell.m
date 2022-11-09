@@ -33,7 +33,7 @@
 }
 
 - (void)configureUI {
-    self.backgroundColor = [UIColor colorWithHexColorString:@"1F1D35"];
+    self.backgroundColor = FUColorFromHex(0x1F1D35);
     self.layer.masksToBounds = YES;
     self.layer.cornerRadius = 5.0;
     
@@ -108,7 +108,5 @@
     }
     return _animationView;
 }
-
-
 
 @end

@@ -9,30 +9,29 @@
 #import "FUHomepageViewController.h"
 #import "FUHomepageModuleCell.h"
 #import "FUHomepageHeaderView.h"
-
 #import "FUHomepageViewModel.h"
 
-#import "FUBeautyController.h"
+#import "FUBeautyViewController.h"
 #import "FUMakeupViewController.h"
 #import "FUStickerViewController.h"
-#import "FUAnimojiController.h"
-#import "FUHairController.h"
-#import "FULightMakeupController.h"
+#import "FUAnimojiViewController.h"
+#import "FUHairBeautyViewController.h"
+#import "FULightMakeupViewController.h"
 #import "FUARMaskViewController.h"
 #import "FUHilariousViewController.h"
-#import "FUPosterListViewController.h"
+#import "FUFaceFusionCollectionViewController.h"
 #import "FUExpressionRecognitionViewController.h"
-#import "FUMusicFilterController.h"
+#import "FUMusicFilterViewController.h"
 #import "FUDistortingMirrorViewController.h"
-#import "FUBGSegmentationController.h"
+#import "FUSegmentationViewController.h"
 #import "FUGestureRecognitionViewController.h"
-#import "FUBodyBeautyController.h"
-#import "FUBodyAvatarController.h"
-#import "FULvMuViewController.h"
-#import "FUQStickersViewController.h"
+#import "FUBodyBeautyViewController.h"
+#import "FUBodyAvatarViewController.h"
+#import "FUGreenScreenViewController.h"
+#import "FUQualityStickerViewController.h"
 
-NSString * const kFUHomepageModuleCellIdentifier = @"FUHomepageModuleCell";
-NSString * const kFUHomepageHeaderViewIdentifier = @"FUHomepageHeaderView";
+static NSString * const kFUHomepageModuleCellIdentifier = @"FUHomepageModuleCell";
+static NSString * const kFUHomepageHeaderViewIdentifier = @"FUHomepageHeaderView";
 
 @interface FUHomepageViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
@@ -51,7 +50,7 @@ NSString * const kFUHomepageHeaderViewIdentifier = @"FUHomepageHeaderView";
     [super viewDidLoad];
     
     // 初始化FURenderKit
-    [[FUManager shareManager] setupRenderKit];
+    [[FURenderKitManager sharedManager] setupRenderKit];
     
     [self configureUI];
 }
@@ -59,7 +58,7 @@ NSString * const kFUHomepageHeaderViewIdentifier = @"FUHomepageHeaderView";
 #pragma mark - UI
 
 - (void)configureUI {
-    self.view.backgroundColor = [UIColor colorWithHexColorString:@"090017"];
+    self.view.backgroundColor = FUColorFromHex(0x090017);
     
     [self.view addSubview:self.navigationView];
     [self.navigationView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -80,7 +79,7 @@ NSString * const kFUHomepageHeaderViewIdentifier = @"FUHomepageHeaderView";
     
     CGFloat offsetHeight = CGRectGetWidth(self.view.bounds) * 456 / 750;
     self.collectionView.contentInset = UIEdgeInsetsMake(offsetHeight, 0, 0, 0);
-    UIImageView *topImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"homeview_background_top.png"]];
+    UIImageView *topImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"homepage_background_top"]];
     topImageView.frame = CGRectMake(0, -offsetHeight, CGRectGetWidth(self.view.bounds), offsetHeight);
     [self.collectionView addSubview:topImageView];
 }
@@ -92,20 +91,20 @@ NSString * const kFUHomepageHeaderViewIdentifier = @"FUHomepageHeaderView";
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.viewModel.dataSource[section].modules.count;
+    return [self.viewModel modulesCountOfGroup:section];
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     FUHomepageModuleCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kFUHomepageModuleCellIdentifier forIndexPath:indexPath];
-    FUHomepageModule *module = self.viewModel.dataSource[indexPath.section].modules[indexPath.item];
-    cell.iconImageView.image = [UIImage imageNamed:module.title];
-    cell.titleLabel.text = FUNSLocalizedString(module.title, nil);
-    cell.bottomImageView.image = module.enable ? [UIImage imageNamed:@"bottomImage"] : [UIImage imageNamed:@"bottomImage_gray"];
-    if (module.type == FUModuleTypeQualityTicker) {
+    cell.iconImageView.image = [self.viewModel moduleIconAtIndex:indexPath.item group:indexPath.section];
+    cell.titleLabel.text = [self.viewModel moduleTitleAtIndex:indexPath.item group:indexPath.section];
+    cell.bottomImageView.image =
+    cell.bottomImageView.image = [self.viewModel moduleBottomBackgroundImageAtIndex:indexPath.item group:indexPath.section];
+    if ([self.viewModel moduleAtIndex:indexPath.item group:indexPath.section] == FUModuleQualityTicker) {
         // 精品贴纸特殊效果
         cell.backgroundImageView.hidden = NO;
         cell.animationView.hidden = NO;
-        cell.backgroundImageView.image = [UIImage imageNamed:@"bg_card_small_elements"];
+        cell.backgroundImageView.image = [UIImage imageNamed:@"homepage_cell_background"];
         [cell.animationView setAnimationNamed:@"tiezhi_data"];
         cell.animationView.loopAnimation = YES;
         [cell.animationView play];
@@ -119,8 +118,7 @@ NSString * const kFUHomepageHeaderViewIdentifier = @"FUHomepageHeaderView";
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     if ([kind isEqualToString:UICollectionElementKindSectionHeader]){
         FUHomepageHeaderView *header = (FUHomepageHeaderView *)[collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kFUHomepageHeaderViewIdentifier forIndexPath:indexPath];
-        FUHomepageGroup *group = self.viewModel.dataSource[indexPath.section];
-        header.titleLabel.text = FUNSLocalizedString(group.name, nil);
+        header.titleLabel.text = [self.viewModel groupNameOfGroup:indexPath.section];
         return header;
     }
     return nil;
@@ -128,86 +126,83 @@ NSString * const kFUHomepageHeaderViewIdentifier = @"FUHomepageHeaderView";
 
 #pragma mark - Collection view delegate
 
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    return [self.viewModel moduleEnableStatusAtIndex:indexPath.item group:indexPath.section];
+}
+
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    FUHomepageModule *module = self.viewModel.dataSource[indexPath.section].modules[indexPath.item];
-    if (!module.enable) {
-        return;
-    }
     UIViewController *controller;
-    switch (module.type) {
-        case FUModuleTypeBeauty:{
-            controller = [[FUBeautyController alloc] init];
+    switch ([self.viewModel moduleAtIndex:indexPath.item group:indexPath.section]) {
+        case FUModuleBeauty:{
+            controller = [[FUBeautyViewController alloc] initWithViewModel:[[FUBeautyViewModel alloc] init]];
         }
             break;
-        case FUModuleTypeMakeup:{
-            controller = [[FUMakeupViewController alloc] init];
+        case FUModuleMakeup:{
+            controller = [[FUMakeupViewController alloc] initWithViewModel:[[FUMakeupViewModel alloc] init]];
         }
             break;
-        case FUModuleTypeSticker:{
-            controller = [[FUStickerViewController alloc] init];
+        case FUModuleSticker:{
+            controller = [[FUStickerViewController alloc] initWithViewModel:[[FUStickerViewModel alloc] init]];
         }
             break;
-        case FUModuleTypeAnimoji:{
-            controller = [[FUAnimojiController alloc] init];
+        case FUModuleAnimoji:{
+            controller = [[FUAnimojiViewController alloc] initWithViewModel:[[FUAnimojiViewModel alloc] init]];
         }
             break;
-        case FUModuleTypeHair:{
-            controller = [[FUHairController alloc] init];
+        case FUModuleHairBeauty:{
+            controller = [[FUHairBeautyViewController alloc] initWithViewModel:[[FUHairBeautyViewModel alloc] init]];
         }
             break;
-        case FUModuleTypeLightMakeup:{
-            controller = [[FULightMakeupController alloc] init];
+        case FUModuleLightMakeup:{
+            controller = [[FULightMakeupViewController alloc] initWithViewModel:[[FULightMakeupViewModel alloc] init]];
         }
             break;
-        case FUModuleTypeARMask: {
-            controller = [[FUARMaskViewController alloc] init];
+        case FUModuleARMask: {
+            controller = [[FUARMaskViewController alloc] initWithViewModel:[[FUARMaskViewModel alloc] init]];
         }
             break;
-        case FUModuleTypeHilarious: {
-            controller = [[FUHilariousViewController alloc] init];
+        case FUModuleHilarious: {
+            controller = [[FUHilariousViewController alloc] initWithViewModel:[[FUHilariousViewModel alloc] init]];
         }
             break;
-        case FUModuleTypePoster:{
-            controller = [[FUPosterListViewController alloc] init];
+        case FUModuleFaceFusion:{
+            controller = [[FUFaceFusionCollectionViewController alloc] init];
         }
             break;
-        case FUModuleTypeExpressionRecognition: {
-            controller = [[FUExpressionRecognitionViewController alloc] init];
+        case FUModuleExpressionRecognition: {
+            controller = [[FUExpressionRecognitionViewController alloc] initWithViewModel:[[FUExpressionRecognitionViewModel alloc] init]];
         }
             break;
-        case FUModuleTypeMusicFilter:{
-            controller = [[FUMusicFilterController alloc] init];
+        case FUModuleMusicFilter:{
+            controller = [[FUMusicFilterViewController alloc] initWithViewModel:[[FUMusicFilterViewModel alloc] init]];
         }
             break;
-        case FUModuleTypeDistortingMirror:{
-            controller = [[FUDistortingMirrorViewController alloc] init];
+        case FUModuleDistortingMirror:{
+            controller = [[FUDistortingMirrorViewController alloc] initWithViewModel:[[FUDistortingMirrorViewModel alloc] init]];
         }
             break;
-        case FUModuleTypeBody:{
-            controller = [[FUBodyBeautyController alloc] init];
+        case FUModuleBodyBeauty:{
+            controller = [[FUBodyBeautyViewController alloc] initWithViewModel:[[FUBodyBeautyViewModel alloc] init]];
         }
             break;
-        case FUModuleTypeWholeAvatar:{
-            controller = [[FUBodyAvatarController alloc] init];
+        case FUModuleBodyAvatar:{
+            controller = [[FUBodyAvatarViewController alloc] initWithViewModel:[[FUBodyAvatarViewModel alloc] init]];
         }
             break;
-        case FUModuleTypeSegmentation:{
-            controller = [[FUBGSegmentationController alloc] init];
+        case FUModuleSegmentation:{
+            controller = [[FUSegmentationViewController alloc] initWithViewModel:[[FUSegmentationViewModel alloc] init]];
         }
             break;
-        case FUModuleTypeGestureRecognition:{
-            controller = [[FUGestureRecognitionViewController alloc] init];
+        case FUModuleGestureRecognition:{
+            controller = [[FUGestureRecognitionViewController alloc] initWithViewModel:[[FUGestureRecognitionViewModel alloc] init]];
         }
             break;
-        case FUModuleTypeGreenScreen:{
-            controller = [[FULvMuViewController alloc] init];
+        case FUModuleGreenScreen:{
+            controller = [[FUGreenScreenViewController alloc] initWithViewModel:[[FUGreenScreenViewModel alloc] init]];
         }
                 break;
-        case FUModuleTypeQualityTicker:{
-            controller = [[FUQStickersViewController alloc] init];
-        }
-            break;
-        default:{
+        case FUModuleQualityTicker:{
+            controller = [[FUQualityStickerViewController alloc] initWithViewModel:[[FUQualityStickerViewModel alloc] init]];
         }
             break;
     }
@@ -232,8 +227,7 @@ NSString * const kFUHomepageHeaderViewIdentifier = @"FUHomepageHeaderView";
     // 长宽固定比例
     CGFloat width = (CGRectGetWidth(self.view.frame) - 72) / 3.0;
     CGFloat height = width / 101.0 * 122.0;
-    FUHomepageGroup *group = self.viewModel.dataSource[indexPath.section];
-    if (group.type == FUGroupTypeContentService) {
+    if (indexPath.section == FUGroupContentService) {
         // 内容服务（精品贴纸）设置全屏宽度，宽度不变
         width = CGRectGetWidth(self.view.frame) - 32;
     }
@@ -249,19 +243,19 @@ NSString * const kFUHomepageHeaderViewIdentifier = @"FUHomepageHeaderView";
 - (UIView *)navigationView {
     if (!_navigationView) {
         _navigationView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 44)];
-        _navigationView.backgroundColor = [UIColor colorWithHexColorString:@"030010"];
+        _navigationView.backgroundColor = FUColorFromHex(0x030010);
         
         UILabel *titleLabel = [[UILabel alloc] init];
-        titleLabel.text = FUNSLocalizedString(@"FU Live Demo 特效版", nil);
+        titleLabel.text = FULocalizedString(@"FU Live Demo 特效版");
         titleLabel.font = [UIFont boldSystemFontOfSize:17];
         titleLabel.textColor = [UIColor whiteColor];
         [_navigationView addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.equalTo(_navigationView);
         }];
-        
+
         UIView *line = [[UIView alloc] init];
-        line.backgroundColor = [UIColor colorWithHexColorString:@"302D33"];
+        line.backgroundColor = FUColorFromHex(0x302D33);
         [_navigationView addSubview:line];
         [line mas_makeConstraints:^(MASConstraintMaker *make) {
             make.leading.trailing.bottom.equalTo(_navigationView);
@@ -275,7 +269,7 @@ NSString * const kFUHomepageHeaderViewIdentifier = @"FUHomepageHeaderView";
     if (!_collectionView) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-        _collectionView.backgroundColor = [UIColor colorWithHexColorString:@"090017"];
+        _collectionView.backgroundColor = FUColorFromHex(0x090017);
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
         [_collectionView registerClass:[FUHomepageModuleCell class] forCellWithReuseIdentifier:kFUHomepageModuleCellIdentifier];
@@ -290,6 +284,8 @@ NSString * const kFUHomepageHeaderViewIdentifier = @"FUHomepageHeaderView";
     }
     return _viewModel;
 }
+
+#pragma mark - Overriding
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;

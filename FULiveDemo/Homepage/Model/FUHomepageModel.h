@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FUHomepageModule : NSObject
 
-@property (nonatomic, assign) FUModuleType type;
+@property (nonatomic, assign) FUModule module;
 
 @property (nonatomic, copy) NSString *title;
 /// 是否有使用权限
@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FUHomepageGroup : NSObject
 
-@property (nonatomic, assign) FUGroupType type;
+@property (nonatomic, assign) FUGroup group;
 
 @property (nonatomic, copy) NSString *name;
 

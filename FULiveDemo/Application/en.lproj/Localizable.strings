@@ -1,0 +1,129 @@
+/*
+  Localizable.strings
+  FULiveDemo
+
+  Created by L on 2018/7/10.
+  Copyright © 2018年 L. All rights reserved.
+*/
+
+"FU Live Demo 特效版" = "FU Live Demo effects version";
+"人脸特效" =  "Face effects";
+"人体特效"  = "Body effects";
+"内容服务" = "Content service";
+
+"载入图片或视频" = "Load picture or video";
+"设备不支持该分辨率" = "The device does not support the resolution";
+
+"美颜" = "Beautification";
+"美妆"  =  "Makeup";
+"道具贴纸" = "Sticker";
+"Animoji" = "Animoji";
+"美发" = "Hair Color";
+"轻美妆" = "Light Makeup";
+"AR面具" = "AR Mesh";
+"表情识别" = "Expression";
+"音乐滤镜" = "Music Filter";
+"人像分割" = "Portrait Segmentation";
+"手势识别" = "Gesture";
+"哈哈镜" = "Face Warp";
+"海报换脸" = "Face Fusion";
+"搞笑大头"  = "Funny Big Head";
+"全身Avatar"  = "Whole-body Avatar";
+"美体" =  "Body Shape";
+"绿幕抠像"    =   "Green Screen Key";
+"精品贴纸" = "Exquisite sticker";
+
+"张嘴试试" = "Open Your Mouth";
+"鼓腮帮子" = "Puff Your Cheeks";
+"皱眉触发" = "Frown";
+"眨一眨眼" = "Blink";
+"嘟嘴试试" = "Give me a kiss";
+"微笑触发" = "Have a smile";
+"吹气触发" = "Whistle";
+
+"单手手指比心" = "Finger heart";
+"双手抱拳" = "Fist";
+"双手合十" = "Namaste";
+"双手比心" = "Hand to heart";
+"竖个拇指" = "Thumbs up";
+"比个六" = "Shaka sign";
+"推出手掌" = "High five";
+
+"动漫滤镜" = "Cartoon Filter";
+
+"双拳靠近脸颊卖萌" = "Holding fist";
+"转头触发" = "Swivel";
+
+"Performance_Preferred" = "Performance";
+"Incomplete_face"   = "Incomplete face";
+"请从相册中选择图片或视频"  = "Choose from your album";
+"选择图片" = "Photo";
+"选择视频" = "Video";
+
+"卸妆" = "Remove";
+
+"保存图片失败" = "Failed";
+"图片已保存到相册" = "Successful";
+"保存视频失败" = "Failed";
+"视频已保存到相册" = "Successful";
+
+//海报融合
+"对准线框 正脸拍摄"    =  "Please take photos by positive face.";
+"未检测出人脸，请重新上传"    =  "No face detected, please re-upload";
+"检测到多人，请选择一人进行换脸"    =  "Please select a face.";
+"人脸偏转角度过大，请重新拍摄"    =  "please face face shooting.";
+"人脸偏转角度过大，请重新选择"    =  "please face face shooting.";
+"知道了"    =  "OK";
+"未检测出人脸，请重新拍摄"    =  "No face detected, please re-shoot";
+"人脸不全，请重新拍摄" = "Incomplete face, please reshoot";
+"人脸不全，请重新选择" = "Incomplete face, please select again";
+
+//美体
+"瘦身"  = "Body";
+"长腿"  = "Leg";
+"细腰"  = "Waist";
+"美肩"  = "Shoulder";
+"美臀"  = "Hip";
+"小头" =  "Head shrink";
+"瘦腿"    =   "Thin leg";
+
+"是否将所有参数恢复到默认值" = "Reset all parameters to default?";
+
+//轻美妆
+"桃花" = "Peach";
+"西柚" = "Grapefruit";
+"清透" = "Clear";
+"男友" = "Boyfriend";
+
+"半身驱动" = "Half";
+"全身驱动" = "whole";
+
+"请使用纯色背景拍摄，推荐绿色幕布效果最佳"    =   "Please use a solid background, a green screen is recommended for the best effect.";
+"我知道了"    =   "I know.";
+
+"下载失败" = "Download failed";
+
+"To use, cancel Presets first." = "To use %@, cancel \'Presets\' first.";
+
+"None" = "无";
+"Style1" = "Style1";
+"Style2" = "Style2";
+"Style3" = "Style3";
+"Style4" = "Style4";
+"Style5" = "Style5";
+"Style6" = "Style6";
+"Style7" = "Style7";
+
+"presets" = "Presets";
+"Content service" = "Content service";
+
+"未检测到人脸" = "No face detected";
+"未检测到人体" = "No body detected";
+"未检测到手势" = "No gesture detected";
+
+// Segmentation
+"通用分割版" = "Generic";
+"视频会议版" = "Video Conference";
+
+"请使用纯色背景拍摄，推荐绿色幕布效果最佳" = "Please use a solid background, a green screen is recommended for the best effect.";
+
