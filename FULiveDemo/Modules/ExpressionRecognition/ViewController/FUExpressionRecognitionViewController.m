@@ -7,18 +7,17 @@
 //
 
 #import "FUExpressionRecognitionViewController.h"
-#import "FUExpressionRecognitionViewModel.h"
-#import "FULocalDataManager.h"
-#import <FUCommonUIComponent/FUItemsView.h>
 
 @interface FUExpressionRecognitionViewController ()<FUItemsViewDelegate>
 
 @property (nonatomic, strong) FUItemsView *itemsView;
-@property (nonatomic, strong) FUExpressionRecognitionViewModel *viewModel;
+@property (nonatomic, strong, readonly) FUExpressionRecognitionViewModel *viewModel;
 
 @end
 
 @implementation FUExpressionRecognitionViewController
+
+@dynamic viewModel;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -27,19 +26,13 @@
     [self.itemsView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view.mas_bottom);
         make.left.right.equalTo(self.view);
-        if (iPhoneXStyle) {
-            make.height.mas_equalTo(84 + 34);
-        }else{
-            make.height.mas_equalTo(84);
-        }
+        make.height.mas_equalTo(FUHeightIncludeBottomSafeArea(84));
     }];
     
     self.itemsView.items = self.viewModel.expressionRecognitionItems;
     self.itemsView.selectedIndex = 1;
-    
-    [self.viewModel loadItem:self.viewModel.expressionRecognitionItems[1] completion:nil];
 
-    self.photoBtn.transform = CGAffineTransformMakeTranslation(0, -36) ;
+    [self updateBottomConstraintsOfCaptureButton:FUHeightIncludeBottomSafeArea(84) + 10 animated:NO];
 }
 
 - (void)itemsView:(FUItemsView *)itemsView didSelectItemAtIndex:(NSInteger)index {
@@ -54,11 +47,11 @@
         }];
     }
     // 道具提示处理
-    NSString *hint = [FULocalDataManager stickerTipsJsonData][item];
-    if (hint && hint.length != 0) {
+    if (self.viewModel.expressionRecognitionTips[item]) {
+        NSString *hint = self.viewModel.expressionRecognitionTips[item];
         dispatch_async(dispatch_get_main_queue(), ^{
             self.tipLabel.hidden = NO;
-            self.tipLabel.text = FUNSLocalizedString(hint, nil);
+            self.tipLabel.text = FULocalizedString(hint);
             [FUExpressionRecognitionViewController cancelPreviousPerformRequestsWithTarget:self selector:@selector(dismissTipLabel) object:nil];
             [self performSelector:@selector(dismissTipLabel) withObject:nil afterDelay:1];
         });
@@ -75,13 +68,6 @@
         _itemsView.delegate = self;
     }
     return _itemsView;
-}
-
-- (FUExpressionRecognitionViewModel *)viewModel {
-    if (!_viewModel) {
-        _viewModel = [[FUExpressionRecognitionViewModel alloc] init];
-    }
-    return _viewModel;
 }
 
 @end

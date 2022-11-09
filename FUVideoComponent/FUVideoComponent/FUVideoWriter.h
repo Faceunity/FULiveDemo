@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)start;
 
-- (void)cancel;
+- (void)stop;
 
 /// 写入完成后必须调用该方法
 - (void)finishWritingWithCompletion:(nullable void (^)(void))completion;

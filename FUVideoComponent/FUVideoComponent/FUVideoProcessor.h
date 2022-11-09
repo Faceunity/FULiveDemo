@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface FUVideoProcessor : NSObject
 
 /// 视频帧编码前处理，不设置则直接编码
-@property (nonatomic, copy) CVPixelBufferRef (^processingVideoBufferHandler)(CVPixelBufferRef videoPixelBuffer);
+@property (nonatomic, copy) CVPixelBufferRef (^processingVideoBufferHandler)(CVPixelBufferRef videoPixelBuffer, CGFloat time);
 
 /// 音频帧编码前处理，不设置则直接编码
 @property (nonatomic, copy) CMSampleBufferRef (^processingAudioBufferHandler)(CMSampleBufferRef audioSampleBuffer);

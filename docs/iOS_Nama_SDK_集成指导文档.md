@@ -1,162 +1,6 @@
 # SDK集成指导文档-iOS 
 
 ------
-
-级别：Public   
-更新日期：2022-09-09
-SDK版本: 8.3.1
-
-### 最新更新内容：
-
-1)适配Mac M系列平台
-2)鉴权模块升级
-3)新增表情系数映射接口、人脸检测频率接口
-4)修复一些bug 
-
-------
-
-级别：Public   
-更新日期：2022-07-21
-SDK版本: 8.3.0
-
-### 最新更新内容：
-
-1)优化人像分割效果：全面提升人像分割效果，优化了分割精度、迟滞感、边缘细腻度
-2)优化绿幕分割效果：全面提升绿幕、白幕分割效果，优化了绿幕场景下边缘泛绿、锯齿、抖动的问题；白幕场景下背景闪烁、轮廓不干净的问题
-3)优化手势识别效果：优化手势识别检出率，并针对性地解决一些误检问题
-4)优化美颜效果：优化瘦脸效果，新增眉毛上下、眉间距2个功能
-5)优化美妆效果：更新4款眉毛效果
-6)解决部分已知bug
-
-------
-
-级别：Public   
-更新日期：2022-06-16
-SDK版本: 8.2.1
-
-### 最新更新内容：
-
-1）修复一些bug
-
-------
-
-级别：Public   
-更新日期：2022-04-15
-SDK版本: 8.2.0
-
-### 最新更新内容：
-
-1）提升美颜效果，包括6大功能维度：祛黑眼圈功能保留卧蚕，优化祛黑效果；祛法令纹改善涂抹问题；嘴型功能、大眼功能优化等比例问题；小脸功能优化侧脸自然度问题；新增粉嫩透亮的美白功能
-2）提高人脸检测功能小人脸模型的检出率，更好地支持远距离场景
-3）提高人脸基础关键点稳定性
-4）解决部分bug
-
-------
-
-级别：Public   
-更新日期：2022-01-27
-SDK版本: 8.1.0
-
-### 最新更新内容：
-
-1）更新人脸检测模型为全角度,高端机可自由选择是否启动小人脸检测
-2）更新PTA侧驱动相关接口
-3）解决部分已知bug
-
-------
-
-级别：Public   
-更新日期：2021-12-24 
-SDK版本: 8.0.2
-
-### 最新更新内容：
-
-1）解决部分bug
-
-------
-
-级别：Public   
-更新日期：2021-11-17 
-SDK版本: 8.0.1
-
-### 最新更新内容：
-
-1）解决部分bug
-
-------
-
-级别：Public   
-更新日期：2021-10-27 
-SDK版本: 8.0.0
-
-### 最新更新内容：
-
-1）美颜特效优化，优化了磨皮、大眼、脸型等8大功能，对皮肤细节、轮廓线条、变形比例等多维度的效果进行提升
-2）新增分机型适配策略，在高端机上使用效果更佳的均匀磨皮，中低端机上使用性能效果均衡的精细磨皮，提高整体设备的利用率
-3）美妆优化，优化了口红、眉毛、睫毛、美瞳的自然度，新增了口红质地和风格组合妆
-4）人脸检测算法优化，优化了检出率及误检率
-5）人像分割算法优化，优化PC端半身场景下，分割准确性、分割边缘平滑度、背景误识别等问题
-6）新增绿幕安全区域功能，支持根据模板对制定区域进行绿幕抠像，模板支持客户自定义
-7）优化多个功能混用时的渲染时序问题
-8）解决一些bug
-
-------
-
-级别：Public   
-更新日期：2021-07-09 
-SDK版本: 7.4.1
-
-### 最新更新内容：
-
-1）更新精品贴纸8款，包含2款PK游戏，5款装饰及互动贴纸，1款全身驱动道具
-2）更新2款中国风Animoji模型
-3）修复人像分割贴纸效果问题，修复后人像分割结果和贴纸效果会同时出现
-4）修复一些bug，包括高分辨率磨皮效果问题，人脸检测与贴纸绘制的时序问题
-
-------
-
-级别：Public   
-更新日期：2021-04-19 
-SDK版本: 7.4.0  
-
-------
-
-### 最新更新内容：
-
-2021-04-19  7.4.0更新说明
-1）【Demo层】重构特效Demo，将面向过程变成改为面向对象，整体结构逻辑更清晰，客户调用更便捷。同时具有节省内存、优化itemID自动销毁逻辑、精简用户传入信息过程，低耦合性提高架构灵活度等多方优势
-2）新增情绪识别功能，支持8种基本的饱满情绪检测
-3）新增内容服务模块，展示游戏道具及精品贴纸，主要包括游戏类、情节类、头饰类、氛围类等丰富的特效道具
-4）新增异步接口，改善用户在低端设备上帧率不足问题
-5）优化美体性能，Android端帧率上升24%，iOS端耗时下降13%
-6）优化人像分割性能，Andriod端帧率上升39%，iOS耗时下降39%
-7）优化人像分割效果，主要包括优化缝隙问题，使人像分割更加贴合人体，不会有明显空隙；提升人体分割准确性，减少背景误识别情况
-8）增加人像分割新玩法，开放用户自定义背景接口，便于用户快速换背景；支持人像描边玩法，可自定义描边的宽度、距离、颜色
-9）增加Animoji无尾熊模型；优化Animoji面部驱动效果，提升驱动后模型的稳定性和灵敏度
-10）优化美妆效果，主要包括唇部遮挡时口红不再显现；提升美瞳的贴合度；增加多款美瞳素材
-
-------
-
-### 最新更新内容：
-
-**2021-1-25 v7.3.2:  **
-
-更新内容  
-
-- 优化人脸表情跟踪驱动性能。
-- fuSetup 函数改为线程安全。
-- fuSetUp 、fuCreateItemFromPackage、fuLoadAIModel函数增加异常处理，增强鲁棒性。
-- 修复自定义哈哈镜功能效果问题。
-- 修复SDK在Mac 10.11上crash问题。
-- 修复SDK在贴纸和Animoji混用时crash问题。
-
-------
-## 目录：
-本文档内容目录：
-
-[TOC]
-
-------
 ## 1. 简介 
 本文档旨在说明如何将Faceunity Nama SDK集成宿主APP中。  
 
@@ -172,33 +16,36 @@ SDK版本: 7.4.0
   +docs                     //文档
   +FUCommonUIComponent      //UI组件
   +FUVideoComponent         //视频解码编码组件
+  +FUBeautyComponent        //美颜组件（UI和加载逻辑）
+  +FUMakeupComponent        //美妆组件（UI和加载逻辑）
+  +FUGreenScreenComponent   //绿幕组件（UI和加载逻辑）
   +FULiveDemo                   //原代码目录
-    +Modules                  //所有功能模块
-      +Homepage                 //主页模块
-      +Render                   //特效渲染基础模块
-      +Beauty                   //美颜模块
+    +Homepage                   //主页模块
+    +Render                     //相机、视频、图片渲染模块，所有特效渲染模块基于此模块
+    +MediaPicker                //视频、图片选择模块
+    +Modules                    //所有特效功能模块
+        +Beauty                       //美颜模块
+        +Makeup                       //美妆模块
         ...
-    +Helpers                //主要业务管理类  
-      +UI                   //公共UI控件
-      +Protocol             //接口文件
-      +Category              //类别
-      -FUManager              //Nama业务管理类
-          ...   
-    +Config                    //配置文件目录
-      -FULiveDefine.h         //宏、常量声明
-      -DataSource             //主界面，权限，item 道具配置类 
-      -makeup.json             //美妆单个妆数组
-      -makeup_whole.json      //美妆整体妆容配置
-    +Resource               
-       +items                 //各个模块道具资源 
-    +Lib                    //nama SDK  
-      -authpack.h             //权限文件
-      -FURenderKit.framework   //动态库      
-      +Resources               //各个能力相关的资源
-  +docs                        //文档目录
-  +Pods                     //三方库管理
-  -FULiveDemo.xcworkspace   //工程文件
-  
+    +Helper                     //工具类  
+        +Category                     //类别
+        -FULiveDefine                 //宏、枚举、内联函数等
+        -FUNetworkingHelper           //网络请求工具
+        -FUUtility                    //共用方法类
+    +Resource                   //资源文件（JSON、Bundle）              
+        +Homepage                    //主页模块资源
+        +Render                      //相机、视频、图片渲染模块资源
+        +Sticker                     //贴纸模块资源
+        ...
+    +Application                //工程文件  
+        -Assets                       //图片资源
+        -Localizable.strings          //国际化支持字符串文件      
+        ...
+    +FURenderKit
+        +FURenderKit.framework  //FURenderKit动态库
+        +Resources              //FURenderKit必要资源
+        -FURenderKitManger      //FURenderKit管理类
+        -authpack.h             //鉴权文件（需要替换自己的鉴权文件）
 ```
 
 ------
@@ -221,24 +68,24 @@ Xcode 8或更高版本
 Nama全功能版本（支持物理特效）：
 
 ```
-pod 'Nama', '8.3.0' 
+pod 'Nama', '8.4.0' 
 ```
 
 Nama-lite版本（体积更小，包含人脸相关的功能(海报换脸除外)）：
 
 ```
-pod 'Nama-lite', '8.3.0' 
+pod 'Nama-lite', '8.4.0' 
 ```
 FURenderKit全功能版本（支持物理特效）：
 
 ```
-pod 'FURenderKit', '8.3.0' 
+pod 'FURenderKit', '8.4.0' 
 ```
 
 FURenderKit-lite版本：
 
 ```
-pod 'FURenderKit-lite', '8.3.0' 
+pod 'FURenderKit-lite', '8.4.0' 
 ```
 
 接下来执行：
@@ -255,15 +102,15 @@ pod repo update 或 pod setup
 
 #### 3.2.2 直接下载
 
-Nama全功能版本（支持物理特效）：[FaceUnity-SDK-iOS-v8.3.1.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FaceUnity-SDK-iOS-v8.3.1.zip)
+Nama全功能版本（支持物理特效）：[FaceUnity-SDK-iOS-v8.4.0.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FaceUnity-SDK-iOS-v8.4.0.zip)
 
-Nama-lite版本： 版（体积更小，包含人脸相关的功能(海报换脸除外)）：[FaceUnity-SDK-iOS-lite-v8.3.1.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FaceUnity-SDK-iOS-lite-v8.3.1.zip)
+Nama-lite版本： 版（体积更小，包含人脸相关的功能(海报换脸除外)）：[FaceUnity-SDK-iOS-lite-v8.4.0.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FaceUnity-SDK-iOS-lite-v8.4.0.zip)
 
 FURenderKit全功能版本（支持物理特效）：
-    [FURenderKit-v8.3.1.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FURenderKit-v8.3.1.zip)
+    [FURenderKit-v8.4.0.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FURenderKit-v8.4.0.zip)
 
 FURenderKit-lite版本：
-    [FURenderKit-lite-v8.3.1.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FURenderKit-lite-v8.3.1.zip)
+    [FURenderKit-lite-v8.4.0.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FURenderKit-lite-v8.4.0.zip)
     
 
 下载完成并解压后将库文件夹拖入到工程中，并勾选上 Copy items if needed，如图：
@@ -780,7 +627,7 @@ int itemHandle = [FURenderer itemWithContentsOfFile:path];
 
 ```objective-c
 NSData *tongueData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"tongue.bundle" ofType:nil]];
-int ret0 = fuLoadTongueModel((void *)tongueData.bytes, (int)tongueData.length) ;
+int ret0 = fuLoadTongueModel((void *)tongueData.bytes, (int)tongueData.length);
 ```
 
 ### 4.8 海报换脸

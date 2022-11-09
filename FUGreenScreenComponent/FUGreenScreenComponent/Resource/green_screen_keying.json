@@ -1,0 +1,37 @@
+[
+    {
+        "name":"关键颜色",
+        "icon":"demo_icon_key_color",
+        "type":0,
+        "currentValue":0.0,
+        "defaultValue":0.0
+    },
+    {
+        "name":"相似度",
+        "icon":"demo_icon_similarityr",
+        "type":1,
+        "currentValue":0.5,
+        "defaultValue":0.5
+    },
+    {
+        "name":"平滑",
+        "icon":"demo_icon_smooth",
+        "type":2,
+        "currentValue":0.3,
+        "defaultValue":0.3
+    },
+    {
+        "name":"祛色度",
+        "icon":"demo_icon_transparency",
+        "type":3,
+        "currentValue":0.67,
+        "defaultValue":0.67
+    },
+    {
+        "name":"安全区域",
+        "icon":"demo_icon_safe_area",
+        "type":4,
+        "currentValue":0.0,
+        "defaultValue":0.0
+    }
+]

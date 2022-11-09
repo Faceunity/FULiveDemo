@@ -8,7 +8,7 @@
 #import "FUItemsView.h"
 #import "FUItemCell.h"
 
-NSString * const kFUItemCellIdentifier = @"FUItemCell";
+static NSString * const kFUItemCellIdentifier = @"FUItemCell";
 
 @interface FUItemsView ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
@@ -165,12 +165,12 @@ NSString * const kFUItemCellIdentifier = @"FUItemCell";
 }
 
 - (void)setSelectedIndex:(NSInteger)selectedIndex {
-    if (_selectedIndex == selectedIndex || selectedIndex < 0 || selectedIndex >= self.items.count) {
+    if (selectedIndex < 0 || selectedIndex >= self.items.count) {
         return;
     }
     _selectedIndex = selectedIndex;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.collectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:selectedIndex inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+        [self.collectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:selectedIndex inSection:0] animated:NO scrollPosition:UICollectionViewScrollPositionNone];
         if (self.delegate && [self.delegate respondsToSelector:@selector(itemsView:didSelectItemAtIndex:)]) {
             [self.delegate itemsView:self didSelectItemAtIndex:selectedIndex];
         }

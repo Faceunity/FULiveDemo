@@ -7,18 +7,18 @@
 //
 
 #import "FUDistortingMirrorViewController.h"
-#import "FUDistortingMirrorViewModel.h"
-#import "FULocalDataManager.h"
-#import <FUCommonUIComponent/FUItemsView.h>
 
 @interface FUDistortingMirrorViewController ()<FUItemsViewDelegate>
 
 @property (nonatomic, strong) FUItemsView *itemsView;
-@property (nonatomic, strong) FUDistortingMirrorViewModel *viewModel;
+
+@property (nonatomic, strong, readonly) FUDistortingMirrorViewModel *viewModel;
 
 @end
 
 @implementation FUDistortingMirrorViewController
+
+@dynamic viewModel;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -27,19 +27,13 @@
     [self.itemsView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view.mas_bottom);
         make.left.right.equalTo(self.view);
-        if (iPhoneXStyle) {
-            make.height.mas_equalTo(84 + 34);
-        }else{
-            make.height.mas_equalTo(84);
-        }
+        make.height.mas_equalTo(FUHeightIncludeBottomSafeArea(84));
     }];
     
     self.itemsView.items = self.viewModel.distortingMirrorItems;
     self.itemsView.selectedIndex = 1;
-    
-    [self.viewModel loadItem:self.viewModel.distortingMirrorItems[1] completion:nil];
 
-    self.photoBtn.transform = CGAffineTransformMakeTranslation(0, -36) ;
+    [self updateBottomConstraintsOfCaptureButton:FUHeightIncludeBottomSafeArea(84) + 10 animated:NO];
 }
 
 - (void)itemsView:(FUItemsView *)itemsView didSelectItemAtIndex:(NSInteger)index {
@@ -62,12 +56,4 @@
     }
     return _itemsView;
 }
-
-- (FUDistortingMirrorViewModel *)viewModel {
-    if (!_viewModel) {
-        _viewModel = [[FUDistortingMirrorViewModel alloc] init];
-    }
-    return _viewModel;
-}
-
 @end

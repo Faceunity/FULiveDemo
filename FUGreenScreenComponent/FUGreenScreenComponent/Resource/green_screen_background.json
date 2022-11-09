@@ -1,0 +1,31 @@
+[
+    {
+        "name":"取消",
+        "icon":"demo_icon_cancel",
+    },
+    {
+        "name":"科技",
+        "icon":"demo_bg_science",
+        "videoName":"science"
+    },
+    {
+        "name":"沙滩",
+        "icon":"demo_bg_beach",
+        "videoName":"beach"
+    },
+    {
+        "name":"教室",
+        "icon":"demo_bg_classroom",
+        "videoName":"classroom"
+    },
+    {
+        "name":"水墨画",
+        "icon":"demo_bg_ink",
+        "videoName":"inkPainting"
+    },
+    {
+        "name":"森林",
+        "icon":"demo_bg_forest",
+        "videoName":"springForest"
+    }
+]

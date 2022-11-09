@@ -9,8 +9,6 @@
 
 @interface FUVideoWriter ()
 
-@property (nonatomic, assign) BOOL isWriting;
-
 @property (nonatomic, strong) AVAssetWriter *writer;
 @property (nonatomic, strong) AVAssetWriterInput *videoInput;
 @property (nonatomic, strong) AVAssetWriterInput *audioInput;
@@ -20,14 +18,15 @@
 @property (nonatomic, assign) CGSize videoSize;
 @property (nonatomic, strong) FUVideoWriterSettings *writerSettings;
 
+@property (nonatomic, strong) dispatch_queue_t processQueue;
+
 @end
 
 @implementation FUVideoWriter {
     BOOL videoWritingFinished, audioWritingFinished;
     CMTime startWritingTime;
     
-    dispatch_queue_t operationQueue, videoQueue, audioQueue;
-    void *operationQueueKey;
+    dispatch_queue_t videoQueue, audioQueue;
 }
 
 #pragma mark - Initializer
@@ -64,31 +63,31 @@
     }
     self.writer = [self createWriter];
     if (![self.writer startWriting]) {
-        NSLog(@"FUVideoComponent: Start writing failed!");
+        NSLog(@"FUVideoWriter: Start writing failed!");
         return;
     }
     [self.writer startSessionAtSourceTime:kCMTimeZero];
-    [self requestForWritingData];
-    self.isWriting = YES;
+    dispatch_async(self.processQueue, ^{
+        [self requestForWritingData];
+    });
 }
 
-- (void)cancel {
+- (void)stop {
+    videoWritingFinished = YES;
+    audioWritingFinished = YES;
+    startWritingTime = kCMTimeInvalid;
     if (self.writer) {
         if (self.writer.status == AVAssetWriterStatusWriting) {
             [self.writer cancelWriting];
+            _writer = nil;
         }
-        self->_writer = nil;
     }
-    startWritingTime = kCMTimeInvalid;
-    self.isWriting = NO;
-    self->videoWritingFinished = YES;
-    self->audioWritingFinished = YES;
 }
 
 /// 请求写入数据
 - (void)requestForWritingData {
     if (self.videoInputReadyHandler) {
-        videoQueue = dispatch_queue_create("com.faceunity.FUVideoComponent.videoQueue", DISPATCH_QUEUE_SERIAL);
+        videoQueue = dispatch_queue_create("com.faceunity.FUVideoWriter.videoQueue", DISPATCH_QUEUE_SERIAL);
         [self.videoInput requestMediaDataWhenReadyOnQueue:videoQueue usingBlock:^{
             while (self.videoInput.isReadyForMoreMediaData) {
                 if (!self.videoInputReadyHandler() && !self->videoWritingFinished) {
@@ -100,7 +99,7 @@
         }];
     }
     if (self.audioInputReadyHandler && self.writerSettings.needsAudioTrack) {
-        audioQueue = dispatch_queue_create("com.faceunity.FUVideoComponent.audioQueue", DISPATCH_QUEUE_SERIAL);
+        audioQueue = dispatch_queue_create("com.faceunity.FUVideoWriter.audioQueue", DISPATCH_QUEUE_SERIAL);
         [self.audioInput requestMediaDataWhenReadyOnQueue:audioQueue usingBlock:^{
             while (self.audioInput.isReadyForMoreMediaData) {
                 if (!self.audioInputReadyHandler() && !self->audioWritingFinished) {
@@ -114,7 +113,6 @@
 }
 
 - (void)finishWritingWithCompletion:(void (^)(void))completion {
-    self.isWriting = NO;
     if (self.writer.status == AVAssetWriterStatusCompleted || self.writer.status == AVAssetWriterStatusCancelled || self.writer.status == AVAssetWriterStatusUnknown) {
         NSLog(@"FUVideoWriter: Completion!");
         if (completion) {
@@ -123,18 +121,19 @@
         return;
     }
     if (self.writer.status == AVAssetWriterStatusWriting) {
-        if (!self->videoWritingFinished) {
+        if (!videoWritingFinished) {
             // 标记视频输入完成
             [self.videoInput markAsFinished];
-            self->videoWritingFinished = YES;
+            videoWritingFinished = YES;
         }
-        if (self.writerSettings.needsAudioTrack && !self->audioWritingFinished) {
+        if (self.writerSettings.needsAudioTrack && !audioWritingFinished) {
             // 标记音频输入完成
             [self.audioInput markAsFinished];
-            self->audioWritingFinished = YES;
+            audioWritingFinished = YES;
         }
         [self.writer finishWritingWithCompletionHandler:^{
             NSLog(@"FUVideoWriter: Completion!");
+            [self stop];
             if (completion) {
                 completion();
             }
@@ -144,51 +143,55 @@
 
 - (void)appendVideoSampleBuffer:(CMSampleBufferRef)sampleBuffer {
     if (!self.videoInput.isReadyForMoreMediaData || videoWritingFinished) {
-        NSLog(@"FUVideoComponent: video input is not ready");
+        NSLog(@"FUVideoWriter: video input is not ready");
         return;
     }
     if (self.writer.status == AVAssetWriterStatusWriting) {
         if (![self.videoInput appendSampleBuffer:sampleBuffer]) {
-            NSLog(@"FUVideoComponent: Append video sample buffer failed!");
+            NSLog(@"FUVideoWriter: Append video sample buffer failed!");
         }
     } else {
-        NSLog(@"FUVideoComponent: Could not write video sample buffer");
+        NSLog(@"FUVideoWriter: Could not write video sample buffer");
     }
 }
 
 - (void)appendPixelBuffer:(CVPixelBufferRef)pixelBuffer time:(CMTime)timeStamp {
     if (!self.videoInput.isReadyForMoreMediaData || videoWritingFinished) {
-        NSLog(@"FUVideoComponent: video input is not ready");
+        NSLog(@"FUVideoWriter: video input is not ready");
         return;
     }
     if (self.writer.status == AVAssetWriterStatusWriting) {
         if (![self.pixelBufferInput appendPixelBuffer:pixelBuffer withPresentationTime:timeStamp]) {
-            NSLog(@"FUVideoComponent: Append pixel buffer failed!");
+            NSLog(@"FUVideoWriter: Append pixel buffer failed!");
         }
     } else {
-        NSLog(@"FUVideoComponent: Could not write pixel buffer");
+        NSLog(@"FUVideoWriter: Could not write pixel buffer");
     }
 }
 
 - (void)appendAudioSampleBuffer:(CMSampleBufferRef)sampleBuffer {
     if (!self.writerSettings.needsAudioTrack) {
-        NSLog(@"FUVideoComponent: needsWriteAudio is NO");
+        NSLog(@"FUVideoWriter: needsWriteAudio is NO");
         return;
     }
     if (!self.audioInput.isReadyForMoreMediaData || audioWritingFinished) {
-        NSLog(@"FUVideoComponent: audio input is not ready");
+        NSLog(@"FUVideoWriter: audio input is not ready");
         return;
     }
     if (self.writer.status == AVAssetWriterStatusWriting) {
         if (![self.audioInput appendSampleBuffer:sampleBuffer]) {
-            NSLog(@"FUVideoComponent: Append audio sample buffer failed!");
+            NSLog(@"FUVideoWriter: Append audio sample buffer failed!");
         }
     } else {
-        NSLog(@"FUVideoComponent: Could not write audio sample buffer");
+        NSLog(@"FUVideoWriter: Could not write audio sample buffer");
     }
 }
 
 #pragma mark - Getters
+
+- (BOOL)isWriting {
+    return self.writer.status == AVAssetWriterStatusWriting;
+}
 
 - (AVAssetWriter *)createWriter {
     NSError *error = nil;
@@ -252,9 +255,16 @@
     };
     // 使用默认设置
     AVAssetWriterInput *input = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeAudio outputSettings:settings];
-    // 视频文件编码不需要实时处理
+    // 音频文件编码是否需要实时处理
     input.expectsMediaDataInRealTime = self.writerSettings.isRealTimeData;
     return input;
+}
+
+- (dispatch_queue_t)processQueue {
+    if (!_processQueue) {
+        _processQueue = dispatch_queue_create("com.faceunity.FUVideoWriter.processQueue", DISPATCH_QUEUE_SERIAL);
+    }
+    return _processQueue;
 }
 
 @end

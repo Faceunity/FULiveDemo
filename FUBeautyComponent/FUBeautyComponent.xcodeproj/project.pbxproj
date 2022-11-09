@@ -1,0 +1,546 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E30500B42891364700C9408B /* FUBeautySkinViewModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E30500B22891364700C9408B /* FUBeautySkinViewModel.h */; };
+		E30500B52891364700C9408B /* FUBeautySkinViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E30500B32891364700C9408B /* FUBeautySkinViewModel.m */; };
+		E30500B82891365300C9408B /* FUBeautyShapeViewModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E30500B62891365300C9408B /* FUBeautyShapeViewModel.h */; };
+		E30500B92891365300C9408B /* FUBeautyShapeViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E30500B72891365300C9408B /* FUBeautyShapeViewModel.m */; };
+		E32C6DCE2877DEDC008A9C08 /* FUBeautySkinModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E32C6DCC2877DEDC008A9C08 /* FUBeautySkinModel.h */; };
+		E32C6DCF2877DEDC008A9C08 /* FUBeautySkinModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E32C6DCD2877DEDC008A9C08 /* FUBeautySkinModel.m */; };
+		E32C6DD22877DEEC008A9C08 /* FUBeautyShapeModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E32C6DD02877DEEC008A9C08 /* FUBeautyShapeModel.h */; };
+		E32C6DD32877DEEC008A9C08 /* FUBeautyShapeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E32C6DD12877DEEC008A9C08 /* FUBeautyShapeModel.m */; };
+		E32C6DD62877E114008A9C08 /* FUBeautyShapeView.h in Headers */ = {isa = PBXBuildFile; fileRef = E32C6DD42877E114008A9C08 /* FUBeautyShapeView.h */; };
+		E32C6DD72877E114008A9C08 /* FUBeautyShapeView.m in Sources */ = {isa = PBXBuildFile; fileRef = E32C6DD52877E114008A9C08 /* FUBeautyShapeView.m */; };
+		E32D08E928758C5600884AE5 /* FUBeautyComponentManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E32D08E828758C5600884AE5 /* FUBeautyComponentManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E32D09192876CEF300884AE5 /* FUBeautyFilterViewModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E32D09172876CEF300884AE5 /* FUBeautyFilterViewModel.h */; };
+		E32D091A2876CEF300884AE5 /* FUBeautyFilterViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E32D09182876CEF300884AE5 /* FUBeautyFilterViewModel.m */; };
+		E32D091D2876CF0F00884AE5 /* FUBeautyFilterModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E32D091B2876CF0F00884AE5 /* FUBeautyFilterModel.h */; };
+		E32D091E2876CF0F00884AE5 /* FUBeautyFilterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E32D091C2876CF0F00884AE5 /* FUBeautyFilterModel.m */; };
+		E32D09222876CFDE00884AE5 /* beauty_filter.json in Resources */ = {isa = PBXBuildFile; fileRef = E32D09212876CFDE00884AE5 /* beauty_filter.json */; };
+		E32D09242876D01C00884AE5 /* beauty_skin.json in Resources */ = {isa = PBXBuildFile; fileRef = E32D09232876D01C00884AE5 /* beauty_skin.json */; };
+		E32D09262876D02E00884AE5 /* beauty_shape.json in Resources */ = {isa = PBXBuildFile; fileRef = E32D09252876D02E00884AE5 /* beauty_shape.json */; };
+		E33834A12861772B0023482D /* FUBeautySkinView.h in Headers */ = {isa = PBXBuildFile; fileRef = E338349F2861772B0023482D /* FUBeautySkinView.h */; };
+		E33834A22861772B0023482D /* FUBeautySkinView.m in Sources */ = {isa = PBXBuildFile; fileRef = E33834A02861772B0023482D /* FUBeautySkinView.m */; };
+		E33834A52861838A0023482D /* FUBeautyStyleModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E33834A32861838A0023482D /* FUBeautyStyleModel.h */; };
+		E33834A62861838A0023482D /* FUBeautyStyleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E33834A42861838A0023482D /* FUBeautyStyleModel.m */; };
+		E33834A8286186880023482D /* beauty_style.json in Resources */ = {isa = PBXBuildFile; fileRef = E33834A7286186880023482D /* beauty_style.json */; };
+		E33834AB286192A60023482D /* FUBeautyStyleViewModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E33834A9286192A60023482D /* FUBeautyStyleViewModel.h */; };
+		E33834AC286192A60023482D /* FUBeautyStyleViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E33834AA286192A60023482D /* FUBeautyStyleViewModel.m */; };
+		E33834BA2861BE8C0023482D /* FUBeautyFilterView.h in Headers */ = {isa = PBXBuildFile; fileRef = E33834B82861BE8C0023482D /* FUBeautyFilterView.h */; };
+		E33834BB2861BE8C0023482D /* FUBeautyFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = E33834B92861BE8C0023482D /* FUBeautyFilterView.m */; };
+		E33834BE2861BE990023482D /* FUBeautyStyleView.h in Headers */ = {isa = PBXBuildFile; fileRef = E33834BC2861BE990023482D /* FUBeautyStyleView.h */; };
+		E33834BF2861BE990023482D /* FUBeautyStyleView.m in Sources */ = {isa = PBXBuildFile; fileRef = E33834BD2861BE990023482D /* FUBeautyStyleView.m */; };
+		E34C47EE285338080040093C /* FUBeautyComponent.h in Headers */ = {isa = PBXBuildFile; fileRef = E34C47ED285338080040093C /* FUBeautyComponent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E34C47FC2853381E0040093C /* FUBeautyDefine.h in Headers */ = {isa = PBXBuildFile; fileRef = E34C47F52853381E0040093C /* FUBeautyDefine.h */; };
+		E34C4804285338550040093C /* FUBeautyComponent.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E34C4803285338550040093C /* FUBeautyComponent.xcassets */; };
+		E34C48052853387A0040093C /* FUBeautyComponent.strings in Resources */ = {isa = PBXBuildFile; fileRef = E34C48072853387A0040093C /* FUBeautyComponent.strings */; };
+		E34C4831285347100040093C /* FUBeautyComponentManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E34C482F285347100040093C /* FUBeautyComponentManager.m */; };
+		E3618FEC28583B9B00E7D8D2 /* FUBeautyDefine.m in Sources */ = {isa = PBXBuildFile; fileRef = E3618FEB28583B9B00E7D8D2 /* FUBeautyDefine.m */; };
+		E369F8D028D851550036AC5A /* FURenderKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E369F8CF28D851550036AC5A /* FURenderKit.framework */; };
+		E3DC948D28900EE60016C9B1 /* FUCommonUIComponent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E338349B286173C10023482D /* FUCommonUIComponent.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		E30500B22891364700C9408B /* FUBeautySkinViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUBeautySkinViewModel.h; sourceTree = "<group>"; };
+		E30500B32891364700C9408B /* FUBeautySkinViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUBeautySkinViewModel.m; sourceTree = "<group>"; };
+		E30500B62891365300C9408B /* FUBeautyShapeViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUBeautyShapeViewModel.h; sourceTree = "<group>"; };
+		E30500B72891365300C9408B /* FUBeautyShapeViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUBeautyShapeViewModel.m; sourceTree = "<group>"; };
+		E32C6DCC2877DEDC008A9C08 /* FUBeautySkinModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUBeautySkinModel.h; sourceTree = "<group>"; };
+		E32C6DCD2877DEDC008A9C08 /* FUBeautySkinModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUBeautySkinModel.m; sourceTree = "<group>"; };
+		E32C6DD02877DEEC008A9C08 /* FUBeautyShapeModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUBeautyShapeModel.h; sourceTree = "<group>"; };
+		E32C6DD12877DEEC008A9C08 /* FUBeautyShapeModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUBeautyShapeModel.m; sourceTree = "<group>"; };
+		E32C6DD42877E114008A9C08 /* FUBeautyShapeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUBeautyShapeView.h; sourceTree = "<group>"; };
+		E32C6DD52877E114008A9C08 /* FUBeautyShapeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUBeautyShapeView.m; sourceTree = "<group>"; };
+		E32D08E828758C5600884AE5 /* FUBeautyComponentManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUBeautyComponentManager.h; sourceTree = "<group>"; };
+		E32D09172876CEF300884AE5 /* FUBeautyFilterViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUBeautyFilterViewModel.h; sourceTree = "<group>"; };
+		E32D09182876CEF300884AE5 /* FUBeautyFilterViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUBeautyFilterViewModel.m; sourceTree = "<group>"; };
+		E32D091B2876CF0F00884AE5 /* FUBeautyFilterModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUBeautyFilterModel.h; sourceTree = "<group>"; };
+		E32D091C2876CF0F00884AE5 /* FUBeautyFilterModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUBeautyFilterModel.m; sourceTree = "<group>"; };
+		E32D09212876CFDE00884AE5 /* beauty_filter.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = beauty_filter.json; sourceTree = "<group>"; };
+		E32D09232876D01C00884AE5 /* beauty_skin.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = beauty_skin.json; sourceTree = "<group>"; };
+		E32D09252876D02E00884AE5 /* beauty_shape.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = beauty_shape.json; sourceTree = "<group>"; };
+		E338349B286173C10023482D /* FUCommonUIComponent.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FUCommonUIComponent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E338349F2861772B0023482D /* FUBeautySkinView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUBeautySkinView.h; sourceTree = "<group>"; };
+		E33834A02861772B0023482D /* FUBeautySkinView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUBeautySkinView.m; sourceTree = "<group>"; };
+		E33834A32861838A0023482D /* FUBeautyStyleModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUBeautyStyleModel.h; sourceTree = "<group>"; };
+		E33834A42861838A0023482D /* FUBeautyStyleModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUBeautyStyleModel.m; sourceTree = "<group>"; };
+		E33834A7286186880023482D /* beauty_style.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = beauty_style.json; sourceTree = "<group>"; };
+		E33834A9286192A60023482D /* FUBeautyStyleViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUBeautyStyleViewModel.h; sourceTree = "<group>"; };
+		E33834AA286192A60023482D /* FUBeautyStyleViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUBeautyStyleViewModel.m; sourceTree = "<group>"; };
+		E33834B82861BE8C0023482D /* FUBeautyFilterView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUBeautyFilterView.h; sourceTree = "<group>"; };
+		E33834B92861BE8C0023482D /* FUBeautyFilterView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUBeautyFilterView.m; sourceTree = "<group>"; };
+		E33834BC2861BE990023482D /* FUBeautyStyleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUBeautyStyleView.h; sourceTree = "<group>"; };
+		E33834BD2861BE990023482D /* FUBeautyStyleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUBeautyStyleView.m; sourceTree = "<group>"; };
+		E34C47EA285338080040093C /* FUBeautyComponent.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FUBeautyComponent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E34C47ED285338080040093C /* FUBeautyComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUBeautyComponent.h; sourceTree = "<group>"; };
+		E34C47F52853381E0040093C /* FUBeautyDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUBeautyDefine.h; sourceTree = "<group>"; };
+		E34C4803285338550040093C /* FUBeautyComponent.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = FUBeautyComponent.xcassets; sourceTree = "<group>"; };
+		E34C48062853387A0040093C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/FUBeautyComponent.strings; sourceTree = "<group>"; };
+		E34C4808285338920040093C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/FUBeautyComponent.strings"; sourceTree = "<group>"; };
+		E34C482F285347100040093C /* FUBeautyComponentManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUBeautyComponentManager.m; sourceTree = "<group>"; };
+		E3618FEB28583B9B00E7D8D2 /* FUBeautyDefine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUBeautyDefine.m; sourceTree = "<group>"; };
+		E369F8CF28D851550036AC5A /* FURenderKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FURenderKit.framework; path = ../FULiveDemo/FURenderKit/FURenderKit.framework; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E34C47E7285338080040093C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E369F8D028D851550036AC5A /* FURenderKit.framework in Frameworks */,
+				E3DC948D28900EE60016C9B1 /* FUCommonUIComponent.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E338349A286173C10023482D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E369F8CF28D851550036AC5A /* FURenderKit.framework */,
+				E338349B286173C10023482D /* FUCommonUIComponent.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E34C47E0285338080040093C = {
+			isa = PBXGroup;
+			children = (
+				E34C47EC285338080040093C /* FUBeautyComponent */,
+				E34C47EB285338080040093C /* Products */,
+				E338349A286173C10023482D /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		E34C47EB285338080040093C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E34C47EA285338080040093C /* FUBeautyComponent.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E34C47EC285338080040093C /* FUBeautyComponent */ = {
+			isa = PBXGroup;
+			children = (
+				E34C47F42853381E0040093C /* Model */,
+				E34C47F92853381E0040093C /* View */,
+				E34C47F62853381E0040093C /* ViewModel */,
+				E3A787302859AB0000FBDAFF /* Resource */,
+				E34C47F52853381E0040093C /* FUBeautyDefine.h */,
+				E3618FEB28583B9B00E7D8D2 /* FUBeautyDefine.m */,
+				E32D08E828758C5600884AE5 /* FUBeautyComponentManager.h */,
+				E34C482F285347100040093C /* FUBeautyComponentManager.m */,
+				E34C47ED285338080040093C /* FUBeautyComponent.h */,
+			);
+			path = FUBeautyComponent;
+			sourceTree = "<group>";
+		};
+		E34C47F42853381E0040093C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E32C6DCC2877DEDC008A9C08 /* FUBeautySkinModel.h */,
+				E32C6DCD2877DEDC008A9C08 /* FUBeautySkinModel.m */,
+				E32C6DD02877DEEC008A9C08 /* FUBeautyShapeModel.h */,
+				E32C6DD12877DEEC008A9C08 /* FUBeautyShapeModel.m */,
+				E32D091B2876CF0F00884AE5 /* FUBeautyFilterModel.h */,
+				E32D091C2876CF0F00884AE5 /* FUBeautyFilterModel.m */,
+				E33834A32861838A0023482D /* FUBeautyStyleModel.h */,
+				E33834A42861838A0023482D /* FUBeautyStyleModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		E34C47F62853381E0040093C /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				E30500B22891364700C9408B /* FUBeautySkinViewModel.h */,
+				E30500B32891364700C9408B /* FUBeautySkinViewModel.m */,
+				E30500B62891365300C9408B /* FUBeautyShapeViewModel.h */,
+				E30500B72891365300C9408B /* FUBeautyShapeViewModel.m */,
+				E32D09172876CEF300884AE5 /* FUBeautyFilterViewModel.h */,
+				E32D09182876CEF300884AE5 /* FUBeautyFilterViewModel.m */,
+				E33834A9286192A60023482D /* FUBeautyStyleViewModel.h */,
+				E33834AA286192A60023482D /* FUBeautyStyleViewModel.m */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		E34C47F92853381E0040093C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E338349F2861772B0023482D /* FUBeautySkinView.h */,
+				E33834A02861772B0023482D /* FUBeautySkinView.m */,
+				E32C6DD42877E114008A9C08 /* FUBeautyShapeView.h */,
+				E32C6DD52877E114008A9C08 /* FUBeautyShapeView.m */,
+				E33834B82861BE8C0023482D /* FUBeautyFilterView.h */,
+				E33834B92861BE8C0023482D /* FUBeautyFilterView.m */,
+				E33834BC2861BE990023482D /* FUBeautyStyleView.h */,
+				E33834BD2861BE990023482D /* FUBeautyStyleView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E3A787302859AB0000FBDAFF /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				E34C48072853387A0040093C /* FUBeautyComponent.strings */,
+				E34C4803285338550040093C /* FUBeautyComponent.xcassets */,
+				E32D09232876D01C00884AE5 /* beauty_skin.json */,
+				E32D09252876D02E00884AE5 /* beauty_shape.json */,
+				E32D09212876CFDE00884AE5 /* beauty_filter.json */,
+				E33834A7286186880023482D /* beauty_style.json */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		E34C47E5285338080040093C /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E30500B82891365300C9408B /* FUBeautyShapeViewModel.h in Headers */,
+				E30500B42891364700C9408B /* FUBeautySkinViewModel.h in Headers */,
+				E33834BE2861BE990023482D /* FUBeautyStyleView.h in Headers */,
+				E32D08E928758C5600884AE5 /* FUBeautyComponentManager.h in Headers */,
+				E33834AB286192A60023482D /* FUBeautyStyleViewModel.h in Headers */,
+				E32C6DD22877DEEC008A9C08 /* FUBeautyShapeModel.h in Headers */,
+				E33834A52861838A0023482D /* FUBeautyStyleModel.h in Headers */,
+				E32C6DCE2877DEDC008A9C08 /* FUBeautySkinModel.h in Headers */,
+				E32C6DD62877E114008A9C08 /* FUBeautyShapeView.h in Headers */,
+				E33834BA2861BE8C0023482D /* FUBeautyFilterView.h in Headers */,
+				E32D09192876CEF300884AE5 /* FUBeautyFilterViewModel.h in Headers */,
+				E33834A12861772B0023482D /* FUBeautySkinView.h in Headers */,
+				E34C47FC2853381E0040093C /* FUBeautyDefine.h in Headers */,
+				E32D091D2876CF0F00884AE5 /* FUBeautyFilterModel.h in Headers */,
+				E34C47EE285338080040093C /* FUBeautyComponent.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		E34C47E9285338080040093C /* FUBeautyComponent */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E34C47F1285338080040093C /* Build configuration list for PBXNativeTarget "FUBeautyComponent" */;
+			buildPhases = (
+				E34C47E5285338080040093C /* Headers */,
+				E34C47E6285338080040093C /* Sources */,
+				E34C47E7285338080040093C /* Frameworks */,
+				E34C47E8285338080040093C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FUBeautyComponent;
+			productName = FUBeautyComponent;
+			productReference = E34C47EA285338080040093C /* FUBeautyComponent.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E34C47E1285338080040093C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1330;
+				TargetAttributes = {
+					E34C47E9285338080040093C = {
+						CreatedOnToolsVersion = 13.3.1;
+					};
+				};
+			};
+			buildConfigurationList = E34C47E4285338080040093C /* Build configuration list for PBXProject "FUBeautyComponent" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				"zh-Hans",
+				Base,
+			);
+			mainGroup = E34C47E0285338080040093C;
+			productRefGroup = E34C47EB285338080040093C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E34C47E9285338080040093C /* FUBeautyComponent */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E34C47E8285338080040093C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E33834A8286186880023482D /* beauty_style.json in Resources */,
+				E32D09242876D01C00884AE5 /* beauty_skin.json in Resources */,
+				E32D09222876CFDE00884AE5 /* beauty_filter.json in Resources */,
+				E34C4804285338550040093C /* FUBeautyComponent.xcassets in Resources */,
+				E34C48052853387A0040093C /* FUBeautyComponent.strings in Resources */,
+				E32D09262876D02E00884AE5 /* beauty_shape.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E34C47E6285338080040093C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E34C4831285347100040093C /* FUBeautyComponentManager.m in Sources */,
+				E33834A62861838A0023482D /* FUBeautyStyleModel.m in Sources */,
+				E32C6DD32877DEEC008A9C08 /* FUBeautyShapeModel.m in Sources */,
+				E33834A22861772B0023482D /* FUBeautySkinView.m in Sources */,
+				E32D091A2876CEF300884AE5 /* FUBeautyFilterViewModel.m in Sources */,
+				E33834AC286192A60023482D /* FUBeautyStyleViewModel.m in Sources */,
+				E32D091E2876CF0F00884AE5 /* FUBeautyFilterModel.m in Sources */,
+				E30500B92891365300C9408B /* FUBeautyShapeViewModel.m in Sources */,
+				E30500B52891364700C9408B /* FUBeautySkinViewModel.m in Sources */,
+				E33834BB2861BE8C0023482D /* FUBeautyFilterView.m in Sources */,
+				E32C6DCF2877DEDC008A9C08 /* FUBeautySkinModel.m in Sources */,
+				E32C6DD72877E114008A9C08 /* FUBeautyShapeView.m in Sources */,
+				E33834BF2861BE990023482D /* FUBeautyStyleView.m in Sources */,
+				E3618FEC28583B9B00E7D8D2 /* FUBeautyDefine.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		E34C48072853387A0040093C /* FUBeautyComponent.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E34C48062853387A0040093C /* en */,
+				E34C4808285338920040093C /* zh-Hans */,
+			);
+			name = FUBeautyComponent.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E34C47EF285338080040093C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		E34C47F0285338080040093C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		E34C47F2285338080040093C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 35A6KD62ZJ;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../FULiveDemo/FURenderKit",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = faceunity.FUBeautyComponent;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E34C47F3285338080040093C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 35A6KD62ZJ;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../FULiveDemo/FURenderKit",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = faceunity.FUBeautyComponent;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E34C47E4285338080040093C /* Build configuration list for PBXProject "FUBeautyComponent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E34C47EF285338080040093C /* Debug */,
+				E34C47F0285338080040093C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E34C47F1285338080040093C /* Build configuration list for PBXNativeTarget "FUBeautyComponent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E34C47F2285338080040093C /* Debug */,
+				E34C47F3285338080040093C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E34C47E1285338080040093C /* Project object */;
+}

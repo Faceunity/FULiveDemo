@@ -40,7 +40,7 @@
                     confirm();
                 }
             }];
-            [confirmAction setValue:[UIColor colorWithRed:31/255.0 green:178/255.0 blue:255/255.0 alpha:1.0] forKey:@"titleTextColor"];
+            [confirmAction setValue:[UIColor colorWithRed:94/255.0 green:199/255.0 blue:254/255.0 alpha:1.0] forKey:@"titleTextColor"];
             [items addObject:confirmAction];
         }
         if (!currentViewController) {

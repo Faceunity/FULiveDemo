@@ -43,6 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) FUVideoOrientation videoOrientation;
 /// 当前视频是否包含音频轨道
 @property (nonatomic, assign, readonly) BOOL containAudioTrack;
+/// 视频时长，单位秒
+@property (nonatomic, assign, readonly) CGFloat duration;
 
 @property (nonatomic, weak) id<FUVideoReaderDelegate> delegate;
 
@@ -60,22 +62,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithAsset:(AVAsset *)asset settings:(nullable FUVideoReaderSettings *)settings;
 
-/// 解码器启动
-/// @note 内部为异步启动
-/// @param completionHandler 异步回调
-- (void)startWithCompletion:(nullable void (^)(BOOL success))completionHandler;
+/// 开始解码
+/// @note 内部自动解码为异步
+- (void)start;
 
-- (void)cancel;
+/// 停止解码
+- (void)stop;
 
 - (BOOL)readNextVideoBuffer;
 
 - (BOOL)readNextAudioBuffer;
-
-/// 获取第一个视频帧，需要在解码开始之后调用
-- (CMSampleBufferRef)firstVideoSampleBuffer;
-
-/// 获取最后一个视频帧，需要在解码完成之后调用
-- (CMSampleBufferRef)lastVideoSampleBuffer;
 
 @end
 

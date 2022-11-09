@@ -13,11 +13,14 @@
 @interface FUARMaskViewController ()<FUItemsViewDelegate>
 
 @property (nonatomic, strong) FUItemsView *itemsView;
-@property (nonatomic, strong) FUARMaskViewModel *viewModel;
+
+@property (nonatomic, strong, readonly) FUARMaskViewModel *viewModel;
 
 @end
 
 @implementation FUARMaskViewController
+
+@dynamic viewModel;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -25,20 +28,14 @@
     [self.view addSubview:self.itemsView];
     [self.itemsView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view.mas_bottom);
-        make.left.right.equalTo(self.view);
-        if (iPhoneXStyle) {
-            make.height.mas_equalTo(84 + 34);
-        }else{
-            make.height.mas_equalTo(84);
-        }
+        make.leading.trailing.equalTo(self.view);
+        make.height.mas_equalTo(FUHeightIncludeBottomSafeArea(84));
     }];
     
     self.itemsView.items = self.viewModel.maskItems;
     self.itemsView.selectedIndex = 1;
     
-    [self.viewModel loadItem:self.viewModel.maskItems[1] completion:nil];
-
-    self.photoBtn.transform = CGAffineTransformMakeTranslation(0, -36) ;
+    [self updateBottomConstraintsOfCaptureButton:FUHeightIncludeBottomSafeArea(84) + 10 animated:NO];
 }
 
 - (void)itemsView:(FUItemsView *)itemsView didSelectItemAtIndex:(NSInteger)index {
@@ -59,13 +56,6 @@
         _itemsView.delegate = self;
     }
     return _itemsView;
-}
-
-- (FUARMaskViewModel *)viewModel {
-    if (!_viewModel) {
-        _viewModel = [[FUARMaskViewModel alloc] init];
-    }
-    return _viewModel;
 }
 
 @end

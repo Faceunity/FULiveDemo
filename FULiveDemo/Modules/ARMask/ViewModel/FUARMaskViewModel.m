@@ -10,7 +10,9 @@
 
 @interface FUARMaskViewModel ()
 
-@property (nonatomic, strong) FUSticker *currentSticker;
+@property (nonatomic, copy) NSArray<NSString *> *maskItems;
+
+@property (nonatomic, strong) FUSticker *currentItem;
 
 @end
 
@@ -22,24 +24,30 @@
     }
     NSString *path = [[NSBundle mainBundle] pathForResource:item ofType:@"bundle"];
     FUSticker *sticker = [FUSticker itemWithPath:path name:@"FUARMask"];
-    if (!self.currentSticker) {
+    if (!self.currentItem) {
         [[FURenderKit shareRenderKit].stickerContainer addSticker:sticker completion:completion];
     } else {
-        [[FURenderKit shareRenderKit].stickerContainer replaceSticker:self.currentSticker withSticker:sticker completion:completion];
+        [[FURenderKit shareRenderKit].stickerContainer replaceSticker:self.currentItem withSticker:sticker completion:completion];
     }
-    self.currentSticker = sticker;
+    self.currentItem = sticker;
 }
 
 - (void)releaseItem {
     [[FURenderKit shareRenderKit].stickerContainer removeAllSticks];
-    self.currentSticker = nil;
+    self.currentItem = nil;
 }
 
 - (NSArray<NSString *> *)maskItems {
     if (!_maskItems) {
-        _maskItems = @[@"resetItem", @"bluebird", @"lanhudie", @"fenhudie", @"tiger_huang", @"tiger_bai", @"baozi", @"tiger", @"xiongmao"];
+        _maskItems = @[@"reset_item", @"bluebird", @"lanhudie", @"fenhudie", @"tiger_huang", @"tiger_bai", @"baozi", @"tiger", @"xiongmao"];
     }
     return _maskItems;
+}
+
+#pragma mark - Overriding
+
+- (FUModule)module {
+    return FUModuleARMask;
 }
 
 @end
