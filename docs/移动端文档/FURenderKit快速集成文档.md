@@ -4,7 +4,7 @@
 ### 通过cocoapods集成
 
 ```
-pod 'FURenderKit', '8.4.0' 
+pod 'FURenderKit'
 ```
 
 接下来执行：

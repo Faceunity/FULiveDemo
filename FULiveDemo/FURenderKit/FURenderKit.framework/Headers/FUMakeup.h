@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL isClearMakeup;
 
 /// 美妆分割，YES为开，NO为关，默认NO
+/// @note 建议在高端机型中使用
 @property (nonatomic, assign) BOOL makeupSegmentation;
 
 /// 口红类型

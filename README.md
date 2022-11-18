@@ -10,9 +10,10 @@ FULiveDemo 是 iOS 平台上，集成相芯人脸跟踪及视频特效开发包�
 
 相关文档位于本项目docs目录，包括:
 
-1. [iOS_Nama_Demo_运行文档.md](./docs/iOS_Nama_Demo_运行文档.md)，介绍如何运行demo。  
-2. [iOS_Nama_SDK_集成指导文档.md](./docs/iOS_Nama_SDK_集成指导文档.md)，介绍如何在宿主APP中集成Nama SDK。   
-3. [iOS_Nama_OC_API_参考文档.md](./docs/iOS_Nama_OC_API_参考文档.md)，Nama SDK OC接口定义。  
+1. [iOS_Nama_Demo_版本更新文档](./docs/iOS_Nama_Demo_版本更新文档.md)，介绍各版本更新内容。
+2. [iOS_Nama_Demo_运行文档.md](./docs/iOS_Nama_Demo_运行文档.md)，介绍如何运行demo。  
+3. [iOS_Nama_SDK_集成指导文档.md](./docs/iOS_Nama_SDK_集成指导文档.md)，介绍如何在宿主APP中集成Nama SDK。   
+4. [iOS_Nama_OC_API_参考文档.md](./docs/iOS_Nama_OC_API_参考文档.md)，Nama SDK OC接口定义。  
 
 ## English
 

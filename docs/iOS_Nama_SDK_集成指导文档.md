@@ -68,24 +68,24 @@ Xcode 8或更高版本
 Nama全功能版本（支持物理特效）：
 
 ```
-pod 'Nama', '8.4.0' 
+pod 'Nama'
 ```
 
 Nama-lite版本（体积更小，包含人脸相关的功能(海报换脸除外)）：
 
 ```
-pod 'Nama-lite', '8.4.0' 
+pod 'Nama-lite'
 ```
 FURenderKit全功能版本（支持物理特效）：
 
 ```
-pod 'FURenderKit', '8.4.0' 
+pod 'FURenderKit'
 ```
 
 FURenderKit-lite版本：
 
 ```
-pod 'FURenderKit-lite', '8.4.0' 
+pod 'FURenderKit-lite'
 ```
 
 接下来执行：
@@ -102,18 +102,9 @@ pod repo update 或 pod setup
 
 #### 3.2.2 直接下载
 
-Nama全功能版本（支持物理特效）：[FaceUnity-SDK-iOS-v8.4.0.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FaceUnity-SDK-iOS-v8.4.0.zip)
+1、前往[SDK下载页面](https://github.com/Faceunity/FULiveDemo/releases)，获取需要的版本
 
-Nama-lite版本： 版（体积更小，包含人脸相关的功能(海报换脸除外)）：[FaceUnity-SDK-iOS-lite-v8.4.0.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FaceUnity-SDK-iOS-lite-v8.4.0.zip)
-
-FURenderKit全功能版本（支持物理特效）：
-    [FURenderKit-v8.4.0.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FURenderKit-v8.4.0.zip)
-
-FURenderKit-lite版本：
-    [FURenderKit-lite-v8.4.0.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FURenderKit-lite-v8.4.0.zip)
-    
-
-下载完成并解压后将库文件夹拖入到工程中，并勾选上 Copy items if needed，如图：
+2、下载完成并解压后将库文件夹拖入到工程中，并勾选上 Copy items if needed，如图：
 
 ------
 
