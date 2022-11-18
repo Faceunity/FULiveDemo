@@ -40,9 +40,17 @@ static NSString * const kFUCombinationMakeupCellIdentifierKey = @"FUCombinationM
         self.viewModel = viewModel;
         self.backgroundColor = [UIColor clearColor];
         [self configureUI];
+        
         // 默认选中
         [self.collectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:self.viewModel.selectedIndex inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
-        [self refreshSubviews];
+        [self.viewModel selectCombinationMakeupAtIndex:self.viewModel.selectedIndex complectionHandler:^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self refreshSubviews];
+                self.collectionView.userInteractionEnabled = YES;
+                self.slider.userInteractionEnabled = YES;
+                self.customizeButton.userInteractionEnabled = YES;
+            });
+        }];
     }
     return self;
 }
@@ -98,8 +106,9 @@ static NSString * const kFUCombinationMakeupCellIdentifierKey = @"FUCombinationM
     }
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.collectionView deselectItemAtIndexPath:[NSIndexPath indexPathForItem:self.viewModel.selectedIndex inSection:0] animated:NO];
-        [self.viewModel selectCombinationMakeupAtIndex:-1 complectionHandler:nil];
-        [self refreshSubviews];
+        [self.viewModel selectCombinationMakeupAtIndex:-1 complectionHandler:^{
+            [self refreshSubviews];
+        }];
     });
 }
 
@@ -170,6 +179,7 @@ static NSString * const kFUCombinationMakeupCellIdentifierKey = @"FUCombinationM
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     collectionView.userInteractionEnabled = NO;
     self.slider.userInteractionEnabled = NO;
+    self.customizeButton.userInteractionEnabled = NO;
     FUCombinationMakeupCell *selectedCell = (FUCombinationMakeupCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
     [selectedCell.indicatorView startAnimating];
     [self.viewModel selectCombinationMakeupAtIndex:indexPath.item complectionHandler:^{
@@ -178,6 +188,7 @@ static NSString * const kFUCombinationMakeupCellIdentifierKey = @"FUCombinationM
             [self refreshSubviews];
             collectionView.userInteractionEnabled = YES;
             self.slider.userInteractionEnabled = YES;
+            self.customizeButton.userInteractionEnabled = YES;
         });
     }];
 }
@@ -212,6 +223,7 @@ static NSString * const kFUCombinationMakeupCellIdentifierKey = @"FUCombinationM
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
         _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
+        _collectionView.userInteractionEnabled = NO;
         [_collectionView registerClass:[FUCombinationMakeupCell class] forCellWithReuseIdentifier:kFUCombinationMakeupCellIdentifierKey];
     }
     return _collectionView;

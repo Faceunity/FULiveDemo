@@ -43,13 +43,11 @@
         NSAssert(!CGSizeEqualToSize(size, CGSizeZero), @"size cannot be 0!");
         
         self.videoURL = URL;
-        
         self.videoSize = size;
         if (!settings) {
             settings = [[FUVideoWriterSettings alloc] init];
-        } else {
-            self.writerSettings = settings;
         }
+        self.writerSettings = settings;
     }
     return self;
 }

@@ -118,7 +118,7 @@ static dispatch_once_t onceToken;
 
 - (void)customizedMakeupViewDidClickBack {
     // 返回组合妆时需要判断子妆是否变化
-    if ([self combinationMakeupIsChangedByCustoming]) {
+    if (self.combinationMakeupViewModel.selectedIndex >= 0 && [self combinationMakeupIsChangedByCustoming]) {
         [self.combinationMakeupView deselectCurrentCombinationMakeup];
     }
     self.colorPicker.hidden = YES;

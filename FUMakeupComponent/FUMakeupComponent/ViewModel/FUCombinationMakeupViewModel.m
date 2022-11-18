@@ -27,7 +27,7 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        [self selectCombinationMakeupAtIndex:1 complectionHandler:nil];
+        _selectedIndex = 1;
     }
     return self;
 }
@@ -35,10 +35,10 @@
 #pragma mark - Instance methods
 
 - (void)selectCombinationMakeupAtIndex:(NSInteger)index complectionHandler:(void (^)(void))complection {
-    if (index == self.selectedIndex) {
-        !complection ?: complection();
-        return;
-    }
+//    if (index == self.selectedIndex) {
+//        !complection ?: complection();
+//        return;
+//    }
     if (index < 0 || index >= self.combinationMakeups.count) {
         self.selectedIndex = -1;
         !complection ?: complection();

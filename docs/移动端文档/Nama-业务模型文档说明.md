@@ -1,6 +1,6 @@
 ----
 
-更新时间: 2022-10-28
+更新时间: 2022-11-09
 
 创建时间: 2020-01-22
 
@@ -333,7 +333,7 @@ ___
 | ------------- | ---- | ------------------------------------------------------------ | --------------- |
 | isMakeUpOn    | BOOL  | 美妆开关，1开 0关                                            | is_makeup_on    |
 | isClearMakeup | BOOL  | 在解绑妆容时是否清空除口红以外的妆容，0表示不清空，1表示清空，口红可由强度进行设置 | is_clear_makeup |
-| makeupSegmentation    | BOOL  | 美妆分割，1开 0关                                            | machine_level    |
+| makeupSegmentation    | BOOL  | 美妆分割，1开 0关，建议在高端机型中使用       | machine_level    |
 | lipType       | int  | 口红类型 0雾面 2润泽Ⅰ 3珠光 6高性能（不支持双色）7润泽Ⅱ            | lip_type        |
 | isLipHighlightOn       | BOOL  | 是否开启口红高光 1开 0关             | makeup_lip_highlight_enable        |
 | isTwoColor    | int  | 口红双色开关，0为关闭，1为开启，如果想使用咬唇，开启双色开关，并且将makeup_lip_color2的值都设置为0 | is_two_color    |

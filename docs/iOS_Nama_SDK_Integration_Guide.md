@@ -158,24 +158,24 @@ Xcode 8 or above
 Nama full version:
 
 ```
-pod 'Nama', '8.0.2' 
+pod 'Nama'
 ```
 
 Nama version without physical engine:
 
 ```
-pod 'Nama-lite', '8.0.2' 
+pod 'Nama-lite'
 ```
 FURenderKit full version:
 
 ```
-pod 'FURenderKit', '8.0.2' 
+pod 'FURenderKit'
 ```
 
 FURenderKit version without physical engine:
 
 ```
-pod 'FURenderKit-lite', '8.0.2' 
+pod 'FURenderKit-lite'
 ```
 
 Then execute:
@@ -192,17 +192,9 @@ pod repo update or pod setup
 
 #### 3.2.1 Integration via GitHub
 
-Nama full version:[FaceUnity-SDK-iOS-v8.0.2.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FaceUnity-SDK-iOS-v8.0.2.zip)
+1、Download[SDK](https://github.com/Faceunity/FULiveDemo/releases)
 
-Nama version without physical engine(lite version):[FaceUnity-SDK-iOS-v8.0.2-lite.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FaceUnity-SDK-iOS-v8.0.2-lite.zip)
-
-FURenderKit full version:
-    [FURenderKit-v8.0.2.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FURenderKit-v8.0.2.zip)
-
-FURenderKit without physical engine(lite version)：
-    [FURenderKit-lite-v8.0.2.zip](https://fu-sdk.oss-cn-hangzhou.aliyuncs.com/FURenderKit-lite-v8.0.2.zip)
-
-After downloading and uncompressing, please drag Nama SDK files to your own project and check 'Copy items if needed' as picture below:
+2、After downloading and uncompressing, please drag Nama SDK files to your own project and check 'Copy items if needed' as picture below:
 
 ------
 
