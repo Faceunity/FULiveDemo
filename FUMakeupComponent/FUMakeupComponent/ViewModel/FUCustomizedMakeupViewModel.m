@@ -29,6 +29,16 @@
     FUSubMakeupModel *subModel = model.subMakeups[index];
     subModel.value = index == 0 ? 0.0 : value;
     subModel.defaultColorIndex = colorIndex;
+    // 恢复所有其他未选择子妆程度值和颜色
+    for (FUSubMakeupModel *subMakeupModel in model.subMakeups) {
+        if (subMakeupModel.index != index && subMakeupModel.index != 0) {
+            subMakeupModel.value = 1.0;
+            if (subMakeupModel.type != FUSubMakeupTypeFoundation) {
+                // 恢复默认选中的子妆颜色（粉底特殊处理）
+                subMakeupModel.defaultColorIndex = 0;
+            }
+        }
+    }
 }
 
 - (NSUInteger)subMakeupIndexWithType:(FUSubMakeupType)type {
@@ -76,7 +86,7 @@
         // 粉底不需要icon
         return nil;
     } else {
-        return FUMakeupImageNamed(subMakeupModel.icon);
+        return [UIImage imageNamed:subMakeupModel.icon];
     }
 }
 
@@ -87,15 +97,14 @@
     if (!model.bundleName) {
         return;
     }
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
     if (![FURenderKit shareRenderKit].makeup) {
         NSString *path = [[NSBundle mainBundle] pathForResource:@"face_makeup" ofType:@"bundle"];
         FUMakeup *makeup = [[FUMakeup alloc] initWithPath:path name:@"makeup"];
-        // 高端机打开口红遮挡
+        // 高端机打开全脸分割
         makeup.makeupSegmentation = [FURenderKit devicePerformanceLevel] == FUDevicePerformanceLevelHigh;
         [FURenderKit shareRenderKit].makeup = makeup;
     }
-    NSString *subPath = [bundle pathForResource:model.bundleName ofType:@"bundle"];
+    NSString *subPath = [[NSBundle mainBundle] pathForResource:model.bundleName ofType:@"bundle"];
     FUItem *item = [[FUItem alloc] initWithPath:subPath name:model.bundleName];
     switch (model.type) {
         case FUSubMakeupTypeFoundation:{

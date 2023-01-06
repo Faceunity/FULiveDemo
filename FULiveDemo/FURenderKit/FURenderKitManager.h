@@ -29,12 +29,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// 设置设备性能相关细项
 - (void)setDevicePerformanceDetails;
 
-/// 开始FURenderKit内部渲染
-+ (void)start;
-
-/// 暂停FURenderKit内部渲染
-+ (void)pause;
-
 /// 加载人脸AI模型
 + (void)loadFaceAIModel;
 

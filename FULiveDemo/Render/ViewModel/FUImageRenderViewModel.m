@@ -132,4 +132,8 @@
     return FUAIModelTypeFace;
 }
 
+- (CGFloat)downloadButtonBottomConstant {
+    return FUHeightIncludeBottomSafeArea(10);
+}
+
 @end

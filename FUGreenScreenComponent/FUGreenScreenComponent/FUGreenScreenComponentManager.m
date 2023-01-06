@@ -73,6 +73,7 @@ static dispatch_once_t onceToken;
     NSAssert(view != nil, @"FUGreenScreenComponent: view can not be nil!");
     
     self.targetView = view;
+    [self removeComponentView];
     [self.targetView addSubview:self.keyingView];
     [self.targetView addSubview:self.backgroundView];
     [self.targetView addSubview:self.safeAreaView];
@@ -105,8 +106,12 @@ static dispatch_once_t onceToken;
     if (self.colorPicker.superview) {
         [self.colorPicker removeFromSuperview];
     }
-    [self.targetView removeGestureRecognizer:self.panGesture];
-    [self.targetView removeGestureRecognizer:self.pinchGesture];
+    if (self.panGesture.view) {
+        [self.targetView removeGestureRecognizer:self.panGesture];
+    }
+    if (self.pinchGesture.view) {
+        [self.targetView removeGestureRecognizer:self.pinchGesture];
+    }
 }
 
 - (void)loadGreenScreen {
@@ -178,31 +183,35 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Private methods
 
-- (void)showEffectView:(UIView *)view animated:(BOOL)animated {
+- (void)showEffectView:(UIView *)view animated:(BOOL)animated completion:(void (^)(void))completion {
     view.hidden = NO;
     if (animated) {
         [UIView animateWithDuration:0.2 animations:^{
             view.transform = CGAffineTransformMakeTranslation(0, -CGRectGetHeight(view.frame));
         } completion:^(BOOL finished) {
+            !completion ?: completion();
         }];
     } else {
         view.transform = CGAffineTransformMakeTranslation(0, -CGRectGetHeight(view.frame));
+        !completion ?: completion();
     }
     if (self.delegate && [self.delegate respondsToSelector:@selector(greenScreenComponentViewHeightDidChange:)]) {
         [self.delegate greenScreenComponentViewHeightDidChange:CGRectGetHeight(view.frame) + CGRectGetHeight(self.segmentBar.frame)];
     }
 }
 
-- (void)hideEffectView:(UIView *)view animated:(BOOL)animated {
+- (void)hideEffectView:(UIView *)view animated:(BOOL)animated completion:(void (^)(void))completion {
     if (animated) {
         [UIView animateWithDuration:0.2 animations:^{
             view.transform = CGAffineTransformIdentity;
         } completion:^(BOOL finished) {
             view.hidden = YES;
+            !completion ?: completion();
         }];
     } else {
         view.transform = CGAffineTransformIdentity;
         view.hidden = YES;
+        !completion ?: completion();
     }
 }
 
@@ -221,20 +230,26 @@ static dispatch_once_t onceToken;
 - (void)segmentBar:(FUSegmentBar *)segmentBar didSelectItemAtIndex:(NSUInteger)index {
     if (index == self.selectedIndex) {
         // 隐藏当前显示视图
-        [self hideEffectView:[self showingView] animated:YES];
-        segmentBar.selectedIndex = -1;
+        segmentBar.userInteractionEnabled = NO;
+        [self hideEffectView:[self showingView] animated:YES completion:^{
+            segmentBar.userInteractionEnabled = YES;
+        }];
+        [segmentBar selectItemAtIndex:-1];
         self.selectedIndex = FUGreenScreenCategoryNone;
         if (self.delegate && [self.delegate respondsToSelector:@selector(greenScreenComponentViewHeightDidChange:)]) {
             [self.delegate greenScreenComponentViewHeightDidChange:CGRectGetHeight(self.segmentBar.frame)];
         }
     } else {
+        segmentBar.userInteractionEnabled = NO;
         if (self.selectedIndex != FUGreenScreenCategoryNone) {
             // 先隐藏当前显示视图
-            [self hideEffectView:[self showingView] animated:NO];
+            [self hideEffectView:[self showingView] animated:NO completion:nil];
         }
         self.selectedIndex = index;
         // 再显示需要的视图
-        [self showEffectView:[self showingView] animated:YES];
+        [self showEffectView:[self showingView] animated:YES completion:^{
+            segmentBar.userInteractionEnabled = YES;
+        }];
     }
 }
 
@@ -277,9 +292,9 @@ static dispatch_once_t onceToken;
 }
 
 - (void)keyingViewDidSelectSafeArea {
-    [self hideEffectView:self.keyingView animated:NO];
+    [self hideEffectView:self.keyingView animated:NO completion:nil];
     self.isShowingSafeAreaSelection = YES;
-    [self showEffectView:self.safeAreaView animated:YES];
+    [self showEffectView:self.safeAreaView animated:YES completion:nil];
 }
 
 - (void)keyingViewDidRecoverToDefault {
@@ -292,8 +307,8 @@ static dispatch_once_t onceToken;
 - (void)safeAreaCollectionViewDidClickBack {
     self.isShowingSafeAreaSelection = NO;
     [self.keyingView refreshKeyingCollectionView];
-    [self hideEffectView:self.safeAreaView animated:NO];
-    [self showEffectView:self.keyingView animated:YES];
+    [self hideEffectView:self.safeAreaView animated:NO completion:nil];
+    [self showEffectView:self.keyingView animated:YES completion:nil];
 }
 
 - (void)safeAreaCollectionViewDidClickCancel {
@@ -332,6 +347,10 @@ static dispatch_once_t onceToken;
     [self.keyingView refreshPickerColor:color];
     // 取色结束设置关键颜色给绿幕
     [self.keyingViewModel setCurrentKeyColor:color];
+    // 更新颜色数据
+    self.keyingViewModel.keyColorArray[0] = color;
+    // 更新视图
+    [self.keyingView refreshKeyingCollectionView];
 }
 
 #pragma mark - Gesture recognizer delegate
@@ -353,14 +372,14 @@ static dispatch_once_t onceToken;
     if (!_segmentBar) {
         _segmentBar = [[FUSegmentBar alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.targetView.bounds) - FUGreenScreenHeightIncludeBottomSafeArea(49.f), CGRectGetWidth(self.targetView.bounds), FUGreenScreenHeightIncludeBottomSafeArea(49.f)) titles:@[FUGreenScreenStringWithKey(@"抠像"), FUGreenScreenStringWithKey(@"背景")] configuration:[FUSegmentBarConfigurations new]];
         _segmentBar.delegate = self;
-        _segmentBar.selectedIndex = FUGreenScreenCategoryKeying;
+        [_segmentBar selectItemAtIndex:FUGreenScreenCategoryKeying];
     }
     return _segmentBar;
 }
 
 - (FUGreenScreenKeyingView *)keyingView {
     if (!_keyingView) {
-        _keyingView = [[FUGreenScreenKeyingView alloc] initWithFrame:CGRectMake(0, CGRectGetMinY(self.segmentBar.frame), CGRectGetWidth(self.targetView.bounds), FUGreenScreenFunctionViewOverallHeight) viewModel:self.keyingViewModel];
+        _keyingView = [[FUGreenScreenKeyingView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.targetView.bounds) - FUGreenScreenHeightIncludeBottomSafeArea(49.f), CGRectGetWidth(self.targetView.bounds), FUGreenScreenFunctionViewOverallHeight) viewModel:self.keyingViewModel];
         _keyingView.delegate = self;
     }
     return _keyingView;
@@ -368,7 +387,7 @@ static dispatch_once_t onceToken;
 
 - (FUGreenScreenSafeAreaView *)safeAreaView {
     if (!_safeAreaView) {
-        _safeAreaView = [[FUGreenScreenSafeAreaView alloc] initWithFrame:CGRectMake(0, CGRectGetMinY(self.segmentBar.frame), CGRectGetWidth(self.targetView.bounds), FUGreenScreenFunctionViewHeight) viewModel:self.keyingViewModel.safeAreaViewModel];
+        _safeAreaView = [[FUGreenScreenSafeAreaView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.targetView.bounds) - FUGreenScreenHeightIncludeBottomSafeArea(49.f), CGRectGetWidth(self.targetView.bounds), FUGreenScreenFunctionViewHeight) viewModel:self.keyingViewModel.safeAreaViewModel];
         _safeAreaView.hidden = YES;
         _safeAreaView.delegate = self;
     }
@@ -377,7 +396,7 @@ static dispatch_once_t onceToken;
 
 - (FUGreenScreenBackgroundView *)backgroundView {
     if (!_backgroundView) {
-        _backgroundView = [[FUGreenScreenBackgroundView alloc] initWithFrame:CGRectMake(0, CGRectGetMinY(self.segmentBar.frame), CGRectGetWidth(self.targetView.bounds), FUFUGreenScreenBackgroundViewHeight) viewModel:self.backgroundViewModel];
+        _backgroundView = [[FUGreenScreenBackgroundView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.targetView.bounds) - FUGreenScreenHeightIncludeBottomSafeArea(49.f), CGRectGetWidth(self.targetView.bounds), FUFUGreenScreenBackgroundViewHeight) viewModel:self.backgroundViewModel];
         _backgroundView.hidden = YES;
     }
     return _backgroundView;

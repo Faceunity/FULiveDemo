@@ -9,7 +9,5 @@
 	</dict>
 	<key>UIFileSharingEnabled</key>
 	<true/>
-	<key>UIStatusBarStyle</key>
-	<string>UIStatusBarStyleDefault</string>
 </dict>
 </plist>

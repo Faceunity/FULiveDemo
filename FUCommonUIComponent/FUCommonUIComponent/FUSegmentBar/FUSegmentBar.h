@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 当前选中项索引
 /// @discussion 默认为-1，-1为取消选中
-@property (nonatomic, assign) NSInteger selectedIndex;
+@property (nonatomic, assign, readonly) NSInteger selectedIndex;
 
 /// Unavailable initializer
 
@@ -57,6 +57,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param titles SegmentsTitle数组
 /// @param configuration 配置信息
 - (instancetype)initWithFrame:(CGRect)frame titles:(NSArray<NSString *> *)titles configuration:(nullable FUSegmentBarConfigurations *)configuration;
+
+/// 选中指定索引项
+/// @param index 索引
+- (void)selectItemAtIndex:(NSInteger)index;
 
 - (void)refresh;
 

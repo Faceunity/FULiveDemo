@@ -11,6 +11,8 @@
 #ifndef FUGreenScreenDefine_h
 #define FUGreenScreenDefine_h
 
+#define FUGreenScreenStringWithKey(aKey) NSLocalizedString(aKey, nil)
+
 #pragma mark - Const
 
 extern const CGFloat FUGreenScreenCategoryViewHeight;
@@ -50,22 +52,6 @@ static inline UIImage * FUGreenScreenImageNamed(NSString *name) {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"FUGreenScreenComponent" ofType:@"framework" inDirectory:@"Frameworks"];
     NSBundle *bundle = [NSBundle bundleWithPath:path];
     return [UIImage imageNamed:name inBundle:bundle compatibleWithTraitCollection:nil];;
-}
-
-static inline NSString * FUGreenScreenStringWithKey(NSString *key) {
-    NSString *framePath = [[NSBundle mainBundle] pathForResource:@"FUGreenScreenComponent" ofType:@"framework" inDirectory:@"Frameworks"];
-    NSBundle *frameBundle = [NSBundle bundleWithPath:framePath];
-    NSArray *languages = [NSLocale preferredLanguages];
-    NSString *currentLanguage = languages.firstObject;
-    if ([currentLanguage hasPrefix:@"zh-Hans"]) {
-        currentLanguage =@"zh-Hans";
-    } else {
-        currentLanguage = @"en";
-    }
-    NSString *path = [frameBundle pathForResource:currentLanguage ofType:@"lproj"];
-    NSBundle *bundle = [NSBundle bundleWithPath:path];
-    NSString *value = [bundle localizedStringForKey:key value:nil table:@"FUGreenScreenComponent"];
-    return value;
 }
 
 #endif /* FUGreenScreenDefine_h */

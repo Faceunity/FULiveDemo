@@ -67,8 +67,6 @@ static NSString * const kFUSegmentationCellIdentifier = @"FUSegmentationCell";
         make.leading.trailing.top.equalTo(bottomView);
         make.height.mas_offset(84);
     }];
-    
-    [self updateBottomConstraintsOfCaptureButton:FUHeightIncludeBottomSafeArea(84) + 10 animated:NO];
 }
 
 - (void)refreshSubviews {
@@ -163,6 +161,7 @@ static NSString * const kFUSegmentationCellIdentifier = @"FUSegmentationCell";
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     FUItemCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kFUSegmentationCellIdentifier forIndexPath:indexPath];
+    cell.imageView.contentMode = UIViewContentModeScaleAspectFill;
     FUSegmentationModel *model = self.viewModel.segmentationItems[indexPath.item];
     if (model.isCustom && model.image) {
         // 自定义

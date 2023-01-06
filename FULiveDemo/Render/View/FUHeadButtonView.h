@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FUSegmentedControl.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,17 +19,17 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)headButtonViewSelImageAction:(UIButton *)btn;
 -(void)headButtonViewBuglyAction:(UIButton *)btn;
 -(void)headButtonViewSwitchAction:(UIButton *)btn;
--(void)headButtonViewSegmentedChange:(UISegmentedControl *)sender;
+-(void)headButtonViewSegmentedChange:(NSUInteger)index;
 
 @end
 
 @interface FUHeadButtonView : UIView
 
-@property (strong, nonatomic) UIButton *mHomeBtn;
-@property (strong, nonatomic) UIButton *selectedImageBtn;
-@property (strong, nonatomic) UIButton *switchBtn;
-@property (strong, nonatomic) UIButton *bulyBtn;
-@property (strong, nonatomic) UISegmentedControl *inputSegm;
+@property (strong, nonatomic) UIButton *homeButton;
+@property (strong, nonatomic) UIButton *selectedImageButton;
+@property (strong, nonatomic) UIButton *switchButton;
+@property (strong, nonatomic) UIButton *bulyButton;
+@property (strong, nonatomic) FUSegmentedControl *segmentedControl;
 
 @property (weak, nonatomic) id <FUHeadButtonViewDelegate>delegate;
 

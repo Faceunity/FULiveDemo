@@ -16,6 +16,7 @@
 @property (nonatomic, strong) UIButton *saveButton;
 @property (nonatomic, strong) UIImageView *effectImageView;
 @property (nonatomic, strong) FUItemsView *itemsView;
+@property (nonatomic, strong) UIView *tipBackgroundView;
 @property (nonatomic, strong) FUFaceFusionTipView *tipView;
 @property (nonatomic, strong) UIView *maskView;
 
@@ -80,11 +81,7 @@
         make.height.mas_offset(FUHeightIncludeBottomSafeArea(84));
     }];
     
-    [self.view addSubview:self.tipView];
-    [self.tipView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.view);
-        make.size.mas_offset(CGSizeMake(245, 225));
-    }];
+    [self.view addSubview:self.tipBackgroundView];
 }
 
 #pragma mark - Private methods
@@ -109,13 +106,13 @@
 - (void)addMasksWithFaces:(NSArray<FUFaceRectInfo *> *)infos {
     [self.view addSubview:self.maskView];
     
-    UIButton *tipButton = [[UIButton alloc] initWithFrame:CGRectMake((CGRectGetWidth(self.maskView.frame) - 200)/2, 0, 200, 40)];
+    UIButton *tipButton = [[UIButton alloc] initWithFrame:CGRectMake((CGRectGetWidth(self.maskView.frame) - 211)/2, 0, 211, 40)];
     [tipButton setTitle:FULocalizedString(@"检测到多人，请选择一人进行换脸")  forState:UIControlStateNormal];
     [tipButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    tipButton.titleLabel.font = [UIFont systemFontOfSize:12];
+    tipButton.titleLabel.font = [UIFont systemFontOfSize:12 weight:UIFontWeightMedium];
     tipButton.contentEdgeInsets = UIEdgeInsetsMake(6, 0, 0, 0);
     [tipButton setBackgroundImage:[UIImage imageNamed:@"face_fusion_tip"] forState:UIControlStateNormal];
-    tipButton.enabled = NO;
+    tipButton.userInteractionEnabled = NO;
     [self.maskView addSubview:tipButton];
     
     UIBezierPath *path = [UIBezierPath bezierPathWithRect:self.maskView.bounds];
@@ -124,6 +121,15 @@
         CGRect rect = [self faceRectWithRect:info.rect];
         UIBezierPath *path1 =  [[UIBezierPath bezierPathWithOvalInRect:rect] bezierPathByReversingPath];
         [path appendPath:path1];
+        
+        // 描边
+        CAShapeLayer *ovalLayer = [CAShapeLayer layer];
+        ovalLayer.path = path1.CGPath;
+        ovalLayer.lineWidth = 2;
+        ovalLayer.lineDashPattern = @[@8, @4];
+        ovalLayer.strokeColor = [UIColor whiteColor].CGColor;
+        [self.maskView.layer addSublayer:ovalLayer];
+        
         if (CGRectGetMaxY(rect) > tipButton.frame.origin.y) {
             tipButton.frame = CGRectMake((self.maskView.frame.size.width - 200)/2, CGRectGetMaxY(rect) + 20, 200, 40);
         }
@@ -180,9 +186,9 @@
 
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
     if (error) {
-        [SVProgressHUD showError:FULocalizedString(@"保存图片失败")];
+        [FUTipHUD showTips:FULocalizedString(@"保存图片失败") dismissWithDelay:1.5];
     } else {
-        [SVProgressHUD showSuccess:FULocalizedString(@"图片已保存到相册")];
+        [FUTipHUD showTips:FULocalizedString(@"图片已保存到相册") dismissWithDelay:1.5];
     }
 }
 
@@ -223,11 +229,11 @@
         if (faceRect.origin.x < 0 || faceRect.origin.y < 0 || (faceRect.origin.x + faceRect.size.width > image.size.width) || (faceRect.origin.y + faceRect.size.height > image.size.height)) {
             self.incompleteFace = YES;
             // 处理人脸不完整情况
-            self.tipView.hidden = NO;
-            self.tipView.tipLabel.text = [FUFaceFusionManager sharedManager].imageSource == FUFaceFusionImageSourceCamera ? FULocalizedString(@"人脸不全，请重新拍摄") : FULocalizedString(@"人脸不全，请重新选择");
+            self.tipBackgroundView.hidden = NO;
+            self.tipView.tipLabel.text = [FUFaceFusionManager sharedManager].imageSource == FUFaceFusionImageSourceCamera ? FULocalizedString(@"人脸不全，请重新拍摄") : FULocalizedString(@"人脸不全，请重新上传");
         } else {
             self.incompleteFace = NO;
-            self.tipView.hidden = YES;
+            self.tipBackgroundView.hidden = YES;
         }
     });
 }
@@ -240,31 +246,34 @@
 
 - (void)poster:(FUPoster *)poster inputImageTrackErrorCode:(int)code {
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.tipView.hidden = NO;
+        self.tipBackgroundView.hidden = NO;
+        self.backButton.hidden = YES;
         self.saveButton.hidden = YES;
         if (code == -1) {
-            self.tipView.tipLabel.text = [FUFaceFusionManager sharedManager].imageSource == FUFaceFusionImageSourceCamera ? FULocalizedString(@"人脸偏转角度过大，请重新拍摄") : FULocalizedString(@"人脸偏转角度过大，请重新选择");
+            self.tipView.tipLabel.text = [FUFaceFusionManager sharedManager].imageSource == FUFaceFusionImageSourceCamera ? FULocalizedString(@"人脸偏转角度过大，请重新拍摄") : FULocalizedString(@"人脸偏转角度过大，请重新上传");
         } else {
-            self.tipView.tipLabel.text = [FUFaceFusionManager sharedManager].imageSource == FUFaceFusionImageSourceCamera ? FULocalizedString(@"未检测到人脸，请重新拍摄") : FULocalizedString(@"未检测到人脸，请重新选择");
+            self.tipView.tipLabel.text = [FUFaceFusionManager sharedManager].imageSource == FUFaceFusionImageSourceCamera ? FULocalizedString(@"未检测到人脸，请重新拍摄") : FULocalizedString(@"未检测到人脸，请重新上传");
         }
     });
 }
 
 - (void)poster:(FUPoster *)poster tempImageTrackErrorCode:(int)code {
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.tipView.hidden = NO;
+        self.tipBackgroundView.hidden = NO;
+        self.backButton.hidden = YES;
         self.saveButton.hidden = YES;
         if (code == -1) {
-            self.tipView.tipLabel.text = [FUFaceFusionManager sharedManager].imageSource == FUFaceFusionImageSourceCamera ? FULocalizedString(@"人脸偏转角度过大，请重新拍摄") : FULocalizedString(@"人脸偏转角度过大，请重新选择");
+            self.tipView.tipLabel.text = [FUFaceFusionManager sharedManager].imageSource == FUFaceFusionImageSourceCamera ? FULocalizedString(@"人脸偏转角度过大，请重新拍摄") : FULocalizedString(@"人脸偏转角度过大，请重新上传");
         } else {
-            self.tipView.tipLabel.text = [FUFaceFusionManager sharedManager].imageSource == FUFaceFusionImageSourceCamera ? FULocalizedString(@"未检测到人脸，请重新拍摄") : FULocalizedString(@"未检测到人脸，请重新选择");
+            self.tipView.tipLabel.text = [FUFaceFusionManager sharedManager].imageSource == FUFaceFusionImageSourceCamera ? FULocalizedString(@"未检测到人脸，请重新拍摄") : FULocalizedString(@"未检测到人脸，请重新上传");
         }
     });
 }
 
 - (void)poster:(FUPoster *)poster didRenderToImage:(UIImage *)image {
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.saveButton.hidden = NO;
+        self.backButton.hidden = self.incompleteFace;
+        self.saveButton.hidden = self.incompleteFace;
         self.effectImageView.image = self.incompleteFace ? [FUFaceFusionManager sharedManager].image : image;
         [self.itemsView stopAnimation];
     });
@@ -288,6 +297,7 @@
         _backButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_backButton setImage:[UIImage imageNamed:@"face_fusion_back"] forState:UIControlStateNormal];
         [_backButton addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
+        _backButton.hidden = YES;
     }
     return _backButton;
 }
@@ -320,11 +330,24 @@
     return _itemsView;
 }
 
+- (UIView *)tipBackgroundView {
+    if (!_tipBackgroundView) {
+        _tipBackgroundView = [[UIView alloc] initWithFrame:self.view.bounds];
+        _tipBackgroundView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6];
+        [_tipBackgroundView addSubview:self.tipView];
+        [self.tipView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(_tipBackgroundView);
+            make.size.mas_offset(CGSizeMake(245, 225));
+        }];
+        _tipBackgroundView.hidden = YES;
+    }
+    return _tipBackgroundView;
+}
+
 - (FUFaceFusionTipView *)tipView {
     if (!_tipView) {
         _tipView = [[FUFaceFusionTipView alloc] init];
         _tipView.delegate = self;
-        _tipView.hidden = YES;
     }
     return _tipView;
 }

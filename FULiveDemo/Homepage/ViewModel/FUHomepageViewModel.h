@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy, readonly) NSArray<FUHomepageGroup *> *dataSource;
 
+@property (nonatomic, copy, readonly) NSArray<UIImage *> *animationImages;
+
 - (NSString *)groupNameOfGroup:(NSUInteger)group;
 
 - (NSUInteger)modulesCountOfGroup:(NSUInteger)group;

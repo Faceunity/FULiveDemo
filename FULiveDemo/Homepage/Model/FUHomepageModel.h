@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <YYModel.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,13 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// 是否有使用权限
 @property (nonatomic, assign) BOOL enable;
 /// 权限码
-@property (nonatomic, assign) NSInteger permissionCode;
-/// 模块编码（0或者1）
-@property (nonatomic, assign) NSInteger moduleCode;
+@property (nonatomic, copy) NSString *authCode;
 
 @end
 
-@interface FUHomepageGroup : NSObject
+@interface FUHomepageGroup : NSObject<YYModel>
 
 @property (nonatomic, assign) FUGroup group;
 

@@ -83,9 +83,7 @@
 - (NSArray<FUBodyBeautyModel *> *)bodyBeautyItems {
     if (!_bodyBeautyItems) {
         NSString *path = [[NSBundle mainBundle] pathForResource:@"body_beauty" ofType:@"json"];
-        NSData *data = [NSData dataWithContentsOfFile:path];
-        NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-        _bodyBeautyItems = [FUBodyBeautyModel mj_objectArrayWithKeyValuesArray:jsonArray];
+        _bodyBeautyItems = [FUBodyBeautyModel modelArrayWithJSON:[NSData dataWithContentsOfFile:path]];
     }
     return _bodyBeautyItems;
 }
@@ -113,6 +111,10 @@
 
 - (FUDetectingParts)detectingParts {
     return FUDetectingPartsHuman;
+}
+
+- (CGFloat)captureButtonBottomConstant {
+    return FUHeightIncludeBottomSafeArea(141);
 }
 
 @end

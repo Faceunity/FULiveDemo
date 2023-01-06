@@ -28,6 +28,7 @@
         // 默认加载抗锯齿道具
         NSString *path = [[NSBundle mainBundle] pathForResource:@"fxaa" ofType:@"bundle"];
         [FURenderKit shareRenderKit].antiAliasing = [[FUItem alloc] initWithPath:path name:@"antiAliasing"];
+        _currentIndex = -1;
     }
     return self;
 }
@@ -102,9 +103,7 @@
 - (NSArray<FUComicFilterModel *> *)comicFilterItems {
     if (!_comicFilterItems) {
         NSString *path = [[NSBundle mainBundle] pathForResource:@"comic_filter" ofType:@"json"];
-        NSData *data = [NSData dataWithContentsOfFile:path];
-        NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-        _comicFilterItems = [FUComicFilterModel mj_objectArrayWithKeyValuesArray:jsonArray];
+        _comicFilterItems = [FUComicFilterModel modelArrayWithJSON:[NSData dataWithContentsOfFile:path]];
     }
     return _comicFilterItems;
 }
@@ -124,6 +123,10 @@
 
 - (FUModule)module {
     return FUModuleAnimoji;
+}
+
+- (CGFloat)captureButtonBottomConstant {
+    return FUHeightIncludeBottomSafeArea(133);
 }
 
 @end

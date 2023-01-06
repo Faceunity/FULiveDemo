@@ -8,6 +8,12 @@
 
 #import "FUSegmentBar.h"
 
+@interface FUSegmentBar ()
+
+@property (nonatomic, assign) NSInteger selectedIndex;
+
+@end
+
 @implementation FUSegmentBarConfigurations
 
 - (instancetype)init {
@@ -78,22 +84,31 @@ static NSString * const kFUSegmentCellIdentifierKey = @"FUSegmentCellIdentifier"
 
 #pragma mark - Instance methods
 
-- (void)setSelectedIndex:(NSInteger)selectedIndex {
-    if (_selectedIndex == selectedIndex) {
+- (void)selectItemAtIndex:(NSInteger)index {
+    NSInteger count = self.titles.count;
+    if (index >= count) {
         return;
     }
-    if (selectedIndex == -1) {
-        [self.collectionView deselectItemAtIndexPath:[NSIndexPath indexPathForItem:_selectedIndex inSection:0] animated:NO];
-        _selectedIndex = -1;
-    } else {
-        _selectedIndex = selectedIndex;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.collectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:selectedIndex inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
-            if (self.delegate && [self.delegate respondsToSelector:@selector(segmentBar:didSelectItemAtIndex:)]) {
-                [self.delegate segmentBar:self didSelectItemAtIndex:selectedIndex];
-            }
-        });
+    if (self.selectedIndex == index) {
+        // 目标索引和当前选中索引相同时，不需要处理界面逻辑，只要触发回调即可
+        if (self.delegate && [self.delegate respondsToSelector:@selector(segmentBar:didSelectItemAtIndex:)]) {
+            [self.delegate segmentBar:self didSelectItemAtIndex:index];
+        }
+        return;
     }
+    if (index == -1) {
+        // 取消选中时只需要更新界面
+        [self.collectionView deselectItemAtIndexPath:[NSIndexPath indexPathForItem:self.selectedIndex inSection:0] animated:NO];
+        self.selectedIndex = -1;
+    } else {
+        // 正常选中需要处理界面逻辑并触发回调
+        [self.collectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(segmentBar:didSelectItemAtIndex:)]) {
+            [self.delegate segmentBar:self didSelectItemAtIndex:index];
+        }
+        self.selectedIndex = index;
+    }
+    
 }
 
 - (void)refresh {

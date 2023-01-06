@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface FUMusicFilter : FUSticker
 /**
- * 设置音乐文件路径，但不播放，等到乐滤镜在底层库渲染时自动播放音乐
+ * 设置音乐文件路径，但不播放，等到音乐滤镜在底层库渲染时自动播放音乐
  * 同步音乐和渲染效果
  */
 @property (nonatomic, strong) NSString *musicPath;

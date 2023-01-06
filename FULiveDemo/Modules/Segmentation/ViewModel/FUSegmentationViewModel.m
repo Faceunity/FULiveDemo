@@ -81,16 +81,14 @@ static NSString * const kFUCustomSegmentationVideoURL = @"FUCustomSegmentationVi
 
 - (void)reloadSegmentationData {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"segmentation" ofType:@"json"];
-    NSData *data = [NSData dataWithContentsOfFile:path];
-    NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-    self.segmentationItems = [[FUSegmentationModel mj_objectArrayWithKeyValuesArray:jsonArray] mutableCopy];
+    self.segmentationItems = [[FUSegmentationModel modelArrayWithJSON:[NSData dataWithContentsOfFile:path]] mutableCopy];
     if ([[NSUserDefaults standardUserDefaults] objectForKey:kFUCustomSegmentationVideoURL]) {
         // 存在自定义视频
         FUSegmentationModel *model = [[FUSegmentationModel alloc] init];
         model.type = FUSegmentationTypeVideo;
         model.isCustom = YES;
         model.videoURL = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:kFUCustomSegmentationVideoURL]];
-        model.image = [FUImageHelper getPreviewImageWithVideoURL:model.videoURL];
+        model.image = [FUUtility previewImageFromVideoURL:model.videoURL preferredTrackTransform:YES];
         if (model.videoURL && model.image) {
             [self.segmentationItems insertObject:model atIndex:2];
             self.customized = YES;
@@ -193,6 +191,10 @@ static NSString * const kFUCustomSegmentationVideoURL = @"FUCustomSegmentationVi
 
 - (FUDetectingParts)detectingParts {
     return FUDetectingPartsHuman;
+}
+
+- (CGFloat)captureButtonBottomConstant {
+    return FUHeightIncludeBottomSafeArea(84);
 }
 
 @end

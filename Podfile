@@ -3,13 +3,7 @@ platform :ios, '9.0'
 use_frameworks!
 
 target 'FULiveDemo' do
-    # 加载提示框
-    pod 'SVProgressHUD'
-    
-    # 动画
-    pod 'FLAnimatedImage'
-    pod 'lottie-ios', '~> 2.5.3'
-    
+  
     # AutoLayout
     pod 'Masonry'
     
@@ -20,16 +14,16 @@ target 'FULiveDemo' do
     pod 'SDWebImage'
     
     # 数据模型
-    pod 'MJExtension'
+    pod 'YYModel'
     
     # 解压缩工具
     pod 'SSZipArchive'
     
     # FURenderKit开发库
-    #pod 'FURenderKit-dev', :path => '/Users/sunmu/Desktop/集成/GitLab/FURenderKit'
+    #pod 'FURenderKit-dev', :path => '/Users/xiang/Desktop/集成/GitLab/FURenderKit'
     
     # FURenderKit库资源
-    #pod 'FURenderKit-assets-dev', :path => '/Users/sunmu/Desktop/集成/GitLab/FURenderKit'
+    #pod 'FURenderKit-assets-dev', :path => '/Users/xiang/Desktop/集成/GitLab/FURenderKit'
     
     #pod 'FURenderKit-dev', :git => 'git@192.168.0.118:liuyang/FURenderKit_Release.git', :branch => 'nama-dev-xlp'
     

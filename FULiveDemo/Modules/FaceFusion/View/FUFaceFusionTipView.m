@@ -46,7 +46,7 @@
     
     [self addSubview:self.tipLabel];
     [self.tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.tipButton.mas_top).mas_offset(-12);
+        make.bottom.equalTo(self.tipButton.mas_top).mas_offset(-30);
         make.centerX.equalTo(self);
     }];
     
@@ -76,7 +76,7 @@
     if (!_tipLabel) {
         _tipLabel = [[UILabel alloc] init];
         _tipLabel.font = [UIFont systemFontOfSize:14 weight:UIFontWeightMedium];
-        _tipLabel.textColor = FUColorFromHex(0x495562);
+        _tipLabel.textColor = FUColorFromHex(0x31373E);
     }
     return _tipLabel;
 }
@@ -84,7 +84,19 @@
 - (UIButton *)tipButton {
     if (!_tipButton) {
         _tipButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _tipButton.backgroundColor = FUColorFromHex(0x5E2EAA);
+        _tipButton.frame = CGRectMake(0, 0, 245, 45);
+        CAGradientLayer *gl = [CAGradientLayer layer];
+        gl.frame = CGRectMake(0, 0, 245, 45);
+        gl.startPoint = CGPointMake(0, 0);
+        gl.endPoint = CGPointMake(1, 1);
+        gl.colors = @[
+            (__bridge id)[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0].CGColor,
+            (__bridge id)[UIColor colorWithRed:125/255.0 green:33/255.0 blue:158/255.0 alpha:1.0].CGColor,
+            (__bridge id)[UIColor colorWithRed:122/255.0 green:28/255.0 blue:142/255.0 alpha:1.0].CGColor,
+            (__bridge id)[UIColor colorWithRed:104/255.0 green:46/255.0 blue:184/255.0 alpha:1.0].CGColor
+        ];
+        gl.locations = @[@(0.0), @(0.0), @(0.0), @(1.0f)];
+        [_tipButton.layer addSublayer:gl];
         [_tipButton setTitle:FULocalizedString(@"知道了") forState:UIControlStateNormal];
         [_tipButton addTarget:self action:@selector(tipAction) forControlEvents:UIControlEventTouchUpInside];
     }

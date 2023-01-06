@@ -42,8 +42,6 @@
     }];
     
     self.itemsView.selectedIndex = 1;
-    
-    [self updateBottomConstraintsOfCaptureButton:FUHeightIncludeBottomSafeArea(84) + 10 animated:NO];
 }
 
 - (void)applicationWillResignActive {
@@ -73,8 +71,8 @@
     }
 }
 
-- (void)headButtonViewSegmentedChange:(UISegmentedControl *)sender {
-    [super headButtonViewSegmentedChange:sender];
+- (void)headButtonViewSegmentedChange:(NSUInteger)index {
+    [super headButtonViewSegmentedChange:index];
     if ([FURenderKit shareRenderKit].musicFilter) {
         [[FURenderKit shareRenderKit].musicFilter play];
     }

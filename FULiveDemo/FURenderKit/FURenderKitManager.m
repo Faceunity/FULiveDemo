@@ -28,17 +28,16 @@
 }
 
 - (void)setupRenderKit {
+    [FURenderKit setLogLevel:FU_LOG_LEVEL_ERROR];
+    
     FUSetupConfig *setupConfig = [[FUSetupConfig alloc] init];
     setupConfig.authPack = FUAuthPackMake(g_auth_package, sizeof(g_auth_package));
     NSString *controllerPath = [[NSBundle mainBundle] pathForResource:@"controller_cpp" ofType:@"bundle"];
     NSString *controllerConfigPath = [[NSBundle mainBundle] pathForResource:@"controller_config" ofType:@"bundle"];
     setupConfig.controllerPath = controllerPath;
     setupConfig.controllerConfigPath = controllerConfigPath;
-    
     // 初始化 FURenderKit
     [FURenderKit setupWithSetupConfig:setupConfig];
-    
-    [FURenderKit setLogLevel:FU_LOG_LEVEL_ERROR];
     
     // 设置缓存目录
     [FURenderKit setCacheDirectory:FUDocumentPath];
@@ -66,14 +65,6 @@
     [FUAIKit shareKit].faceProcessorFaceLandmarkQuality = self.devicePerformanceLevel == FUDevicePerformanceLevelHigh ? FUFaceProcessorFaceLandmarkQualityHigh : FUFaceProcessorFaceLandmarkQualityMedium;
     // 设置小脸检测是否打开
     [FUAIKit shareKit].faceProcessorDetectSmallFace = self.devicePerformanceLevel == FUDevicePerformanceLevelHigh;
-}
-
-+ (void)start {
-    [FURenderKit shareRenderKit].pause = NO;
-}
-
-+ (void)pause {
-    [FURenderKit shareRenderKit].pause = YES;
 }
 
 + (void)loadFaceAIModel {

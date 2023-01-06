@@ -5,11 +5,11 @@
 //  Created by 项林平 on 2022/8/8.
 //
 
-#import <Foundation/Foundation.h>
+#import "FURenderModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface FUSingleLightMakeupModel : NSObject
+@interface FUSingleLightMakeupModel : FURenderModel
 /// 子妆容类型
 @property (nonatomic, assign) FUSingleMakeupType type;
 /// 加载到子妆的图片或者bundle
@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface FULightMakeupModel : NSObject
+@interface FULightMakeupModel : FURenderModel
 
 /// 妆容名称
 @property (nonatomic, copy) NSString *name;

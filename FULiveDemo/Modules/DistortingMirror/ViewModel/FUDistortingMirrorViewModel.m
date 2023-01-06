@@ -50,4 +50,8 @@
     return FUModuleDistortingMirror;
 }
 
+- (CGFloat)captureButtonBottomConstant {
+    return FUHeightIncludeBottomSafeArea(84);
+}
+
 @end

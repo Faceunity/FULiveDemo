@@ -33,6 +33,229 @@
 "绿幕抠像"    =   "Green Screen Key";
 "精品贴纸" = "Exquisite sticker";
 
+"skin" = "Beauty effects";
+"shape" = "Face shaping";
+"filter" = "Filter";
+
+/// Skin
+"磨皮" = "Fine Blur";
+"美白" = "Whiten";
+"红润" = "Ruddy";
+"锐化" = "Sharpen";
+"五官立体" = "Face Threed";
+"亮眼" = "Eye Brighten";
+"美牙" = "Tooth Whiten";
+"去黑眼圈" = "Circles";
+"去法令纹" = "Wrinkles";
+
+/// Shape
+"瘦脸" = "Cheek Thin";
+"v脸" = "Cheek V";
+"窄脸" = "Cheek Narrow";
+"短脸" = "Cheek Short";
+"小脸" = "Cheek Small";
+"瘦颧骨" = "Cheekbones";
+"瘦下颌骨" = "Lower Jaw";
+"圆眼" = "Eye Circle";
+"大眼" = "Eye Enlarge";
+"下巴" = "Chin";
+"额头" = "Forehead";
+"瘦鼻" = "Nose";
+"嘴型" = "Mouth";
+"嘴唇厚度" = "Lip Thick";
+"眼睛位置" = "Eye Height";
+"开眼角" = "Canthus";
+"眼睑下至" = "Eye Lid";
+"眼距" = "Eye Space";
+"眼睛角度" = "Eye Rotate";
+"长鼻" = "Long Nose";
+"缩人中" = "Philtrum";
+"微笑嘴角" = "Smile";
+"眉毛上下" = "Brow Height";
+"眉间距" = "Brow Space";
+"眉毛粗细" = "Brow Thick";
+
+/// Filter
+"origin" = "原图";
+"ziran1" = "Nature1";
+"ziran2" = "Nature2";
+"ziran3" = "Nature3";
+"ziran4" = "Nature4";
+"ziran5" = "Nature5";
+"ziran6" = "Nature6";
+"ziran7" = "Nature7";
+"ziran8" = "Nature8";
+"ziran9" = "Nature9";
+"ziran10" = "Nature10";
+"ziran11" = "Nature11";
+"ziran12" = "Nature12";
+
+"bailiang1" = "Bright1";
+"bailiang2" = "Bright2";
+"bailiang3" = "Bright3";
+"bailiang4" = "Bright4";
+"bailiang5" = "Bright5";
+"bailiang6" = "Bright6";
+"bailiang7" = "Bright7";
+
+"fennen1" = "Pink1";
+"fennen2" = "Pink2";
+"fennen3" = "Pink3";
+"fennen4" = "Pink4";
+"fennen5" = "Pink5";
+"fennen6" = "Pink6";
+"fennen7" = "Pink7";
+"fennen8" = "Pink8";
+
+"lengsediao1"= "Cold tone1";
+"lengsediao2"= "Cold tone2";
+"lengsediao3"= "Cold tone3";
+"lengsediao4"= "Cold tone4";
+"lengsediao5"= "Cold tone5";
+"lengsediao6"= "Cold tone6";
+"lengsediao7"= "Cold tone7";
+"lengsediao8"= "Cold tone8";
+"lengsediao9"= "Cold tone9";
+"lengsediao10"= "Cold tone10";
+"lengsediao11"= "Cold tone11";
+
+"nuansediao1"= "Warm tone1";
+"nuansediao2"= "Warm tone2";
+
+"gexing1"  = "Personality1";
+"gexing2"  = "Personality2";
+"gexing3"  = "Personality3";
+"gexing4"  = "Personality4";
+"gexing5"  = "Personality5";
+"gexing6"  = "Personality6";
+"gexing7"  = "Personality7";
+"gexing8"  = "Personality8";
+"gexing9"  = "Personality9";
+"gexing10"  = "Personality10";
+"gexing11"  = "Personality11";
+
+"xiaoqingxin1"  = "Fresh1";
+"xiaoqingxin2"  = "Fresh2";
+"xiaoqingxin3"  = "Fresh3";
+"xiaoqingxin4"  = "Fresh4";
+"xiaoqingxin5"  = "Fresh5";
+"xiaoqingxin6"  = "Fresh6";
+
+"heibai1" = "Fade1";
+"heibai2" = "Fade2";
+"heibai3" = "Fade3";
+"heibai4" = "Fade4";
+
+"zhiganhui1" = "Texture grey1";
+"zhiganhui2" = "Texture grey2";
+"zhiganhui3" = "Texture grey3";
+"zhiganhui4" = "Texture grey4";
+"zhiganhui5" = "Texture grey5";
+"zhiganhui6" = "Texture grey6";
+"zhiganhui7" = "Texture grey7";
+"zhiganhui8" = "Texture grey8";
+
+"mitao1" = "Peach1";
+"mitao2" = "Peach2";
+"mitao3" = "Peach3";
+"mitao4" = "Peach4";
+"mitao5" = "Peach5";
+"mitao6" = "Peach6";
+"mitao7" = "Peach7";
+"mitao8" = "Peach8";
+
+"该功能只支持在高端机上使用" = "%@ is only supported on high-end devices";
+"是否将所有参数恢复到默认值" = "Reset all parameters to default?";
+
+"自定义" = "Custom";
+"卸妆" = "Remove";
+
+"嗲嗲兔" = "Rabbit";
+"冻龄" = "Freezing Age";
+"国风" = "Chinese Style";
+"混血" = "Mixed Race";
+"减龄"  = "Tender";
+"暖冬"  = "Warm";
+"红枫"  = "Maple";
+"Rose" = "Rose";
+"少女"  = "Maiden";
+"紫韵"  = "Purple";
+"厌世猫"  = "Cat";
+"人鱼"  = "Mermaid";
+"初秋"  = "Autumn";
+"千纸鹤"  = "Crane";
+"超模"  = "Model";
+"雏菊"  = "Daisy";
+"港风"  = "HK Style";
+"性感" =  "Sexy";
+"甜美" =  "Sweet";
+"邻家" =  "Next-door";
+"欧美" =  "European";
+"妩媚" =  "Charming";
+
+"粉底" =  "Foundation";
+"口红" = "Lipstick";
+"腮红" = "Blusher";
+"眉毛" = "Eyebrow";
+"眼影" = "Eye Shadow";
+"眼线" = "Eyeliner";
+"睫毛" = "Eyelash";
+"高光" =  "Highlight";
+"阴影" = "Shadow";
+"美瞳" = "Contact Lens";
+
+"雾面" = "Matte";
+"润泽Ⅰ" = "Moist Ⅰ";
+"润泽Ⅱ" = "Moist Ⅱ";
+"珠光" = "Pearl";
+"咬唇" = "Bite Lip";
+
+"苹果肌" =  "Apple Muscle";
+"扇形" =  "Sector";
+"眼角" =  "Canthus";
+"微醺" =  "Tipsy";
+
+"柳叶眉" = "Willow";
+"野生眉" = "Wild";
+"古典眉" = "Classical";
+"标准眉" = "Standard";
+
+"单色眼影" =  "Monochrome";
+"双色眼影Ⅰ" =  "Dichromatic Ⅰ";
+"双色眼影Ⅱ" =  "Dichromatic Ⅱ";
+"双色眼影Ⅲ" =  "Dichromatic Ⅲ";
+"三色眼影Ⅰ" =  "Tricolor Ⅰ";
+"三色眼影Ⅱ" =  "Tricolor Ⅱ";
+"三色眼影Ⅲ" =  "Tricolor Ⅲ";
+
+"猫眼" = "Cats Eye";
+"下垂眼" = "Drooping Eye";
+"拉开眼距" = "Expand Eye Distance";
+"拉近眼距" = "Shorten Eye Distance";
+"长眼" =  "Long Eye";
+"圆眼" =  "Round Eye";
+
+"自然型Ⅰ" = "Natural Ⅰ";
+"自然型Ⅱ" = "Natural Ⅱ";
+"浓密型Ⅰ" = "Denseness Ⅰ";
+"浓密型Ⅱ" = "Denseness Ⅱ";
+"夸张型Ⅰ" = "Hyperbole Ⅰ";
+"夸张型Ⅱ" = "Hyperbole Ⅱ";
+
+"高光Ⅰ" = "Highlight I";
+"高光Ⅱ" = "Highlight Ⅱ";
+
+"阴影Ⅰ" = "Shadow I";
+
+"蜜糖" = "Honey";
+"奶茶" = "Milk Tea";
+"水波" = "Ripple";
+"鎏金" = "Gilding";
+"孔雀" = "Peacock";
+"星河" = "Milky Way";
+"落目" = "Curtain";
+"极光" = "Aurora";
+
 "张嘴试试" = "Open Your Mouth";
 "鼓腮帮子" = "Puff Your Cheeks";
 "皱眉触发" = "Frown";
@@ -69,14 +292,14 @@
 
 //海报融合
 "对准线框 正脸拍摄"    =  "Please take photos by positive face.";
-"未检测出人脸，请重新上传"    =  "No face detected, please re-upload";
+"未检测到人脸，请重新上传"    =  "No face detected, please re-upload";
 "检测到多人，请选择一人进行换脸"    =  "Please select a face.";
-"人脸偏转角度过大，请重新拍摄"    =  "please face face shooting.";
-"人脸偏转角度过大，请重新选择"    =  "please face face shooting.";
+"人脸偏转角度过大，请重新拍摄"    =  "please re-shoot.";
+"人脸偏转角度过大，请重新上传"    =  "please re-upload.";
 "知道了"    =  "OK";
 "未检测出人脸，请重新拍摄"    =  "No face detected, please re-shoot";
 "人脸不全，请重新拍摄" = "Incomplete face, please reshoot";
-"人脸不全，请重新选择" = "Incomplete face, please select again";
+"人脸不全，请重新上传" = "Incomplete face, please re-upload";
 
 //美体
 "瘦身"  = "Body";
@@ -87,8 +310,6 @@
 "小头" =  "Head shrink";
 "瘦腿"    =   "Thin leg";
 
-"是否将所有参数恢复到默认值" = "Reset all parameters to default?";
-
 //轻美妆
 "桃花" = "Peach";
 "西柚" = "Grapefruit";
@@ -98,21 +319,30 @@
 "半身驱动" = "Half";
 "全身驱动" = "whole";
 
-"请使用纯色背景拍摄，推荐绿色幕布效果最佳"    =   "Please use a solid background, a green screen is recommended for the best effect.";
+//绿幕抠像
+"抠像" = "Keying";
+"背景" = "Background segmentation";
+"关键颜色" = "Key Color";
+"相似度" = "Similarity";
+"平滑" = "Smoothness";
+"祛色度" = "Transparency";
+"安全区域" = "Safe area";
+"白色区域为安全区域，不参与绿幕抠像" = "The white area is a safe area and does not participate in the green screen keying";
+
+"科技" = "Technology";
+"沙滩" = "Sand";
+"教室" = "Classroom";
+"水墨画" = "Ink";
+"森林" = "Forest";
+
+"green_screen_effect_tips" = "Please use a solid background, a green screen is recommended for the best effect.";
 "我知道了"    =   "I know.";
 
-"下载失败" = "Download failed";
+"网络异常，请检测网络重试" = "Network exception, please check the network and try again";
 
 "To use, cancel Presets first." = "To use %@, cancel \'Presets\' first.";
 
-"None" = "无";
-"Style1" = "Style1";
-"Style2" = "Style2";
-"Style3" = "Style3";
-"Style4" = "Style4";
-"Style5" = "Style5";
-"Style6" = "Style6";
-"Style7" = "Style7";
+"cancel_item" = "None";
 
 "presets" = "Presets";
 "Content service" = "Content service";
@@ -125,5 +355,29 @@
 "通用分割版" = "Generic";
 "视频会议版" = "Video Conference";
 
-"请使用纯色背景拍摄，推荐绿色幕布效果最佳" = "Please use a solid background, a green screen is recommended for the best effect.";
+// Style
+"风格推荐" = "Classic Style";
+"妆容" = "Makeup";
+"关闭" = "Turn off";
+"打开" = "Turn on";
+"气质" = "Temperament";
+"学姐" = "Senior sister";
+"智雅" = "Jiah";
+"淡颜" = "Elegant";
+"质感" = "Quality";
+"学妹" = "Schoolgirl";
+"爱凌" = "Eileen";
+"原生" = "Natural";
+"经典" = "Classic";
+"女神" = "Beauty";
+"男神" = "Demigod";
 
+"recover_style_tips" = "Whether or not reset all parameters of the Classic Style to the default?";
+"turn_off_skin_effect_tips" = "Beauty Effects turned off";
+"turn_off_shape_effect_tips" = "Face Shaping turned off";
+
+"恢复" = "Recover";
+"取消" = "Cancel";
+"确认" = "Confirm";
+"exporting_video_tips" = "Trying to export video, please don't exit app or lock screen";
+"photo_library_authorization_tips" = "Please open album permission in settings first";

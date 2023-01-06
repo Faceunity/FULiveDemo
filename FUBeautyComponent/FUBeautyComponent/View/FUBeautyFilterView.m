@@ -78,7 +78,7 @@ static NSString * const kFUBeautyFilterCellIdentifier = @"FUBeautyFilterCell";
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     FUBeautyFilterCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kFUBeautyFilterCellIdentifier forIndexPath:indexPath];
     FUBeautyFilterModel *filter = self.viewModel.beautyFilters[indexPath.item];
-    cell.imageView.image = FUBeautyImageNamed(filter.filterName);
+    cell.imageView.image = [UIImage imageNamed:filter.filterName];
     cell.textLabel.text = FUBeautyStringWithKey(filter.filterName);
     return cell;
 }

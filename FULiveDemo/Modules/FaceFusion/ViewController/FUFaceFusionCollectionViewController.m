@@ -83,7 +83,7 @@ static NSString * const kFUFaceFusionCellIdentifier = @"FUFaceFusionCell";
         _navigationView.backgroundColor = FUColorFromHex(0x030010);
         
         UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [backButton setImage:[UIImage imageNamed:@"back_item"] forState:UIControlStateNormal];
+        [backButton setImage:[UIImage imageNamed:@"render_back_home"] forState:UIControlStateNormal];
         [backButton addTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];
         [_navigationView addSubview:backButton];
         [backButton mas_makeConstraints:^(MASConstraintMaker *make) {

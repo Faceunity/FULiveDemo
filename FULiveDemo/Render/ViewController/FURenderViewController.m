@@ -96,13 +96,6 @@
     }
 }
 
-- (void)dealloc {
-    if (self.viewModel.needsLoadingBeauty) {
-        [FUBeautyComponentManager destory];
-    }
-}
-
-
 #pragma mark - UI
 
 - (void)configureUI {
@@ -159,22 +152,20 @@
     [self.view addSubview:self.captureButton];
     [self.captureButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
-        make.bottom.equalTo(self.view.mas_bottom).mas_offset(-FUHeightIncludeBottomSafeArea(10));
+        make.bottom.equalTo(self.view.mas_bottom).mas_offset(-self.viewModel.captureButtonBottomConstant - 10);
         make.size.mas_offset(CGSizeMake(81, 81));
     }];
 }
 
 #pragma mark - Instance methods
 
-- (void)updateBottomConstraintsOfCaptureButton:(CGFloat)constant animated:(BOOL)animated {
+- (void)updateBottomConstraintsOfCaptureButton:(CGFloat)constant {
     [self.captureButton mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view.mas_bottom).mas_offset(-constant);
+        make.bottom.equalTo(self.view.mas_bottom).mas_offset(-constant-10);
     }];
-    if (animated) {
-        [UIView animateWithDuration:0.15 animations:^{
-            [self.view layoutIfNeeded];
-        }];
-    }
+    [UIView animateWithDuration:0.15 animations:^{
+        [self.view layoutIfNeeded];
+    }];
 }
 
 #pragma mark - Private methods
@@ -198,13 +189,14 @@
     self.adjustImageView.hidden = NO;
     [self.viewModel switchCameraFocusMode:FUCaptureCameraFocusModeChangeless];
     CGPoint center = [tap locationInView:self.renderView];
-    self.adjustImageView.center = center;
+    CGPoint imageCenter = [tap locationInView:self.view];
+    self.adjustImageView.center = imageCenter;
     // 缩放动画
     self.adjustImageView.transform = CGAffineTransformIdentity;
     [UIView animateWithDuration:0.3 animations:^{
         self.adjustImageView.transform = CGAffineTransformMakeScale(0.67, 0.67);
     } completion:^(BOOL finished) {
-        [self hideFocusAndLightingViewAfterDelay:1.1];
+        [self hideFocusAndLightingViewAfterDelay:1.0];
     }];
     // 根据renderView的填充模式计算图像中心点
     CGPoint pictureCenter;
@@ -238,17 +230,17 @@
 
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *) contextInfo {
     if (error) {
-        [SVProgressHUD showError:FULocalizedString(@"保存图片失败")];
+        [FUTipHUD showTips:FULocalizedString(@"保存图片失败") dismissWithDelay:1.5];
     } else {
-        [SVProgressHUD showSuccess:FULocalizedString(@"图片已保存到相册")];
+        [FUTipHUD showTips:FULocalizedString(@"图片已保存到相册") dismissWithDelay:1.5];
     }
 }
 
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
     if (error) {
-        [SVProgressHUD showError:FULocalizedString(@"保存视频失败")];
+        [FUTipHUD showTips:FULocalizedString(@"保存视频失败") dismissWithDelay:1.5];
     } else {
-        [SVProgressHUD showSuccess:FULocalizedString(@"视频已保存到相册")];
+        [FUTipHUD showTips:FULocalizedString(@"视频已保存到相册") dismissWithDelay:1.5];
     }
 }
 
@@ -298,6 +290,9 @@
 #pragma mark - FUHeadButtonViewDelegate
 
 - (void)headButtonViewBackAction:(UIButton *)btn {
+    if (self.viewModel.needsLoadingBeauty) {
+        [FUBeautyComponentManager destory];
+    }
     // 恢复相机曝光度
     [self.viewModel setCameraExposureValue:0];
     [self.viewModel stopCamera];
@@ -306,8 +301,10 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)headButtonViewSegmentedChange:(UISegmentedControl *)sender {
-    [self.viewModel switchCameraOutputFormat];
+- (void)headButtonViewSegmentedChange:(NSUInteger)index {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self.viewModel switchCameraOutputFormat];
+    });
 }
 
 - (void)headButtonViewSelImageAction:(UIButton *)btn {
@@ -344,12 +341,9 @@
         btn.userInteractionEnabled = YES;
     });
     [self.viewModel switchCameraBetweenFrontAndRear:self.viewModel.captureDevicePostion != AVCaptureDevicePositionFront unsupportedPresetHandler:^{
-        // 硬件不支持当前分辨率，则降低一个分辨率
-        NSInteger currentIndex = [self.viewModel.presets indexOfObject:self.viewModel.capturePreset];
-        if (currentIndex < 1) {
-            return;
-        }
-        [self fuPopupMenuDidSelectedAtIndex:currentIndex - 1];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [FUTipHUD showTips:FULocalizedString(@"设备不支持该分辨率") dismissWithDelay:1.5];
+        });
     }];
 }
 
@@ -358,16 +352,26 @@
 /// 选择图片或视频
 - (void)fuPopupMenuDidSelectedImage {
     // 直接进入图片和视频选择页面
-    FUMediaPickerViewController *picker = [[FUMediaPickerViewController alloc] initWithViewModel:[[FUMediaPickerViewModel alloc] initWithModule:self.viewModel.module]];
-    [self.navigationController pushViewController:picker animated:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        FUMediaPickerViewController *picker = [[FUMediaPickerViewController alloc] initWithViewModel:[[FUMediaPickerViewModel alloc] initWithModule:self.viewModel.module]];
+        [self.navigationController pushViewController:picker animated:YES];
+    });
 }
 
 /// 分辨率切换
-- (void)fuPopupMenuDidSelectedAtIndex:(NSInteger)index {
+- (void)fuPopupMenuSegment:(FUSegmentedControl *)segment didSelectedAtIndex:(NSInteger)index {
+    segment.userInteractionEnabled = NO;
     AVCaptureSessionPreset selectedPreset = self.viewModel.presets[index];
-    [self.viewModel switchCapturePreset:selectedPreset unsupportedPresetHandler:^{
-        [SVProgressHUD showInfo:FULocalizedString(@"设备不支持该分辨率")];
-    }];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self.viewModel switchCapturePreset:selectedPreset unsupportedPresetHandler:^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [FUTipHUD showTips:FULocalizedString(@"设备不支持该分辨率") dismissWithDelay:1.5];
+            });
+        }];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            segment.userInteractionEnabled = YES;
+        });
+    });
 }
 
 #pragma mark - FUCaptureButtonDelegate
@@ -414,10 +418,10 @@
     if (!_headButtonView) {
         _headButtonView = [[FUHeadButtonView alloc] init];
         _headButtonView.delegate = self;
-        _headButtonView.selectedImageBtn.hidden = (!self.viewModel.supportMediaRendering && !self.viewModel.supportPresetSelection);
-        _headButtonView.inputSegm.hidden = !self.viewModel.supportSwitchingOutputFormat;
+        _headButtonView.selectedImageButton.hidden = (!self.viewModel.supportMediaRendering && !self.viewModel.supportPresetSelection);
+        _headButtonView.segmentedControl.hidden = !self.viewModel.supportSwitchingOutputFormat;
         if (!_headButtonView.hidden) {
-            [_headButtonView.selectedImageBtn setImage:self.viewModel.supportPresetSelection ? [UIImage imageNamed:@"render_more"] : [UIImage imageNamed:@"render_picture"] forState:UIControlStateNormal];
+            [_headButtonView.selectedImageButton setImage:self.viewModel.supportPresetSelection ? [UIImage imageNamed:@"render_more"] : [UIImage imageNamed:@"render_picture"] forState:UIControlStateNormal];
         }
     }
     return _headButtonView;

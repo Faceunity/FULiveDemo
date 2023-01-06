@@ -198,7 +198,7 @@ static NSString * const kFUBeautyShapeCellIdentifier = @"FUBeautyShapeCell";
     if (!_recoverButton) {
         _recoverButton = [[FUSquareButton alloc] initWithFrame:CGRectMake(0, 0, 44, 74)];
         [_recoverButton setTitle:FUBeautyStringWithKey(@"恢复") forState:UIControlStateNormal];
-        [_recoverButton setImage:FUBeautyImageNamed(@"恢复") forState:UIControlStateNormal];
+        [_recoverButton setImage:[UIImage imageNamed:@"recover_item"] forState:UIControlStateNormal];
         _recoverButton.alpha = 0.6;
         _recoverButton.userInteractionEnabled = NO;
         [_recoverButton addTarget:self action:@selector(recoverAction) forControlEvents:UIControlEventTouchUpInside];
@@ -252,7 +252,7 @@ static NSString * const kFUBeautyShapeCellIdentifier = @"FUBeautyShapeCell";
 - (void)setSelected:(BOOL)selected {
     [super setSelected:selected];
     if (self.disabled) {
-        self.imageView.image = FUBeautyImageNamed([NSString stringWithFormat:@"%@-0", self.imageName]);
+        self.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@-0", self.imageName]];
         self.imageView.alpha = 0.7;
         self.textLabel.alpha = 0.7;
     } else {
@@ -265,10 +265,10 @@ static NSString * const kFUBeautyShapeCellIdentifier = @"FUBeautyShapeCell";
             changed = self.currentValue > 0.01;
         }
         if (selected) {
-            self.imageView.image = changed ? FUBeautyImageNamed([NSString stringWithFormat:@"%@-3", self.imageName]) : FUBeautyImageNamed([NSString stringWithFormat:@"%@-2", self.imageName]);
+            self.imageView.image = changed ? [UIImage imageNamed:[NSString stringWithFormat:@"%@-3", self.imageName]] : [UIImage imageNamed:[NSString stringWithFormat:@"%@-2", self.imageName]];
             self.textLabel.textColor = [UIColor colorWithRed:94/255.f green:199/255.f blue:254/255.f alpha:1];
         } else {
-            self.imageView.image = changed ? FUBeautyImageNamed([NSString stringWithFormat:@"%@-1", self.imageName]) : FUBeautyImageNamed([NSString stringWithFormat:@"%@-0", self.imageName]);
+            self.imageView.image = changed ? [UIImage imageNamed:[NSString stringWithFormat:@"%@-1", self.imageName]] : [UIImage imageNamed:[NSString stringWithFormat:@"%@-0", self.imageName]];
             self.textLabel.textColor = [UIColor whiteColor];
         }
     }

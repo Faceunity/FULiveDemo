@@ -11,6 +11,8 @@
 #ifndef FUMakeupDefine_h
 #define FUMakeupDefine_h
 
+#define FUMakeupStringWithKey(aKey) NSLocalizedString(aKey, nil)
+
 #pragma mark - ENUM
 
 /// 子妆容类型
@@ -40,22 +42,6 @@ static inline UIImage * FUMakeupImageNamed(NSString *name) {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"FUMakeupComponent" ofType:@"framework" inDirectory:@"Frameworks"];
     NSBundle *bundle = [NSBundle bundleWithPath:path];
     return [UIImage imageNamed:name inBundle:bundle compatibleWithTraitCollection:nil];;
-}
-
-static inline NSString * FUMakeupStringWithKey(NSString *key) {
-    NSString *framePath = [[NSBundle mainBundle] pathForResource:@"FUMakeupComponent" ofType:@"framework" inDirectory:@"Frameworks"];
-    NSBundle *frameBundle = [NSBundle bundleWithPath:framePath];
-    NSArray *languages = [NSLocale preferredLanguages];
-    NSString *currentLanguage = languages.firstObject;
-    if ([currentLanguage hasPrefix:@"zh-Hans"]) {
-        currentLanguage =@"zh-Hans";
-    } else {
-        currentLanguage = @"en";
-    }
-    NSString *path = [frameBundle pathForResource:currentLanguage ofType:@"lproj"];
-    NSBundle *bundle = [NSBundle bundleWithPath:path];
-    NSString *value = [bundle localizedStringForKey:key value:nil table:@"FUMakeupComponent"];
-    return value;
 }
 
 #endif /* FUMakeupDefine_h */

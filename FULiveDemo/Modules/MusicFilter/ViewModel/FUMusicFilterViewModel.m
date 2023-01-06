@@ -44,4 +44,8 @@
     return FUModuleMusicFilter;
 }
 
+- (CGFloat)captureButtonBottomConstant {
+    return FUHeightIncludeBottomSafeArea(84);
+}
+
 @end

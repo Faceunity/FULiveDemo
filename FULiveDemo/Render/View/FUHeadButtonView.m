@@ -8,7 +8,6 @@
 
 #import "FUHeadButtonView.h"
 
-
 @implementation FUHeadButtonView
 
 
@@ -22,67 +21,77 @@
 }
 
 -(void)setupSubView{
-    _mHomeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_mHomeBtn setImage:[UIImage imageNamed:@"render_back_home"] forState:UIControlStateNormal];
-    [_mHomeBtn addTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:_mHomeBtn];
+    _homeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_homeButton setImage:[UIImage imageNamed:@"render_back_home"] forState:UIControlStateNormal];
+    [_homeButton addTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:_homeButton];
     
-    _selectedImageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_selectedImageBtn setImage:[UIImage imageNamed:@"render_more"] forState:UIControlStateNormal];
-    [_selectedImageBtn addTarget:self action:@selector(selImageAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:_selectedImageBtn];
+    _selectedImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_selectedImageButton setImage:[UIImage imageNamed:@"render_more"] forState:UIControlStateNormal];
+    [_selectedImageButton addTarget:self action:@selector(selImageAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:_selectedImageButton];
     
-    _bulyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_bulyBtn setImage:[UIImage imageNamed:@"render_bugly"] forState:UIControlStateNormal];
-    [_bulyBtn addTarget:self action:@selector(buglyAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:_bulyBtn];
+    _bulyButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_bulyButton setImage:[UIImage imageNamed:@"render_bugly"] forState:UIControlStateNormal];
+    [_bulyButton addTarget:self action:@selector(buglyAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:_bulyButton];
     
-    _switchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_switchBtn setImage:[UIImage imageNamed:@"render_camera_switch"] forState:UIControlStateNormal];
-    [_switchBtn addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:_switchBtn];
+    _switchButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_switchButton setImage:[UIImage imageNamed:@"render_camera_switch"] forState:UIControlStateNormal];
+    [_switchButton addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:_switchButton];
     
     //先创建一个数组用于设置标题
     NSArray *arr = [[NSArray alloc]initWithObjects:@"BGRA",@"YUV", nil];
-    _inputSegm = [[UISegmentedControl alloc] initWithItems:arr];
-    _inputSegm.tintColor = [UIColor whiteColor];
-    _inputSegm.selectedSegmentIndex = 0;
-    [_inputSegm addTarget:self action:@selector(change:) forControlEvents:UIControlEventValueChanged];
-    [self addSubview:_inputSegm];
+    _segmentedControl = [[FUSegmentedControl alloc] initWithFrame:CGRectMake(0, 0, 77, 27) items:arr];
+    _segmentedControl.selectedTitleColor = FUColorFromHex(0x2C2E30);
+    _segmentedControl.layer.masksToBounds = YES;
+    _segmentedControl.layer.cornerRadius = 4;
+    _segmentedControl.layer.borderWidth = 1.5;
+    _segmentedControl.layer.borderColor = [UIColor whiteColor].CGColor;
+    _segmentedControl.selectedIndex = 0;
+    @FUWeakify(self);
+    _segmentedControl.selectHandler = ^(NSUInteger index) {
+        @FUStrongify(self);
+        if ([self.delegate respondsToSelector:@selector(headButtonViewSegmentedChange:)]) {
+            [self.delegate headButtonViewSegmentedChange:index];
+        }
+    };
+    [self addSubview:_segmentedControl];
 }
 
 -(void)addLayoutConstraint{
-    [_mHomeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_homeButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self);
         make.leading.equalTo(self).offset(10);
         make.height.width.mas_equalTo(44);
     
     }];
     
-    [_inputSegm mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.mHomeBtn);
-        make.leading.equalTo(self.mHomeBtn.mas_trailing).offset(12);
-        make.width.mas_equalTo(96);
+    [_segmentedControl mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.homeButton);
+        make.leading.equalTo(self.homeButton.mas_trailing).offset(12);
+        make.width.mas_equalTo(77);
         make.height.mas_equalTo(27);
     }];
     
-    [_switchBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_switchButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.trailing.equalTo(self).offset(-10);
-        make.centerY.equalTo(self.mHomeBtn);
+        make.centerY.equalTo(self.homeButton);
         make.height.width.mas_equalTo(44);
         
     }];
     
-    [_bulyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.trailing.equalTo(self.switchBtn.mas_leading).offset(-10);
-        make.centerY.equalTo(self.mHomeBtn);
+    [_bulyButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.trailing.equalTo(self.switchButton.mas_leading).offset(-10);
+        make.centerY.equalTo(self.homeButton);
         make.height.width.mas_equalTo(44);
         
     }];
     
-    [_selectedImageBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.trailing.equalTo(self.bulyBtn.mas_leading).offset(-10);
-        make.centerY.equalTo(self.mHomeBtn);
+    [_selectedImageButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.trailing.equalTo(self.bulyButton.mas_leading).offset(-10);
+        make.centerY.equalTo(self.homeButton);
         make.height.width.mas_equalTo(44);
         
     }];
@@ -113,15 +122,5 @@
         [_delegate headButtonViewSwitchAction:btn];
     }
 }
-
-
--(void)change:(UISegmentedControl *)sender{
-    if ([_delegate respondsToSelector:@selector(headButtonViewSegmentedChange:)]) {
-        [_delegate headButtonViewSegmentedChange:sender];
-    }
-}
-
-
-
 
 @end

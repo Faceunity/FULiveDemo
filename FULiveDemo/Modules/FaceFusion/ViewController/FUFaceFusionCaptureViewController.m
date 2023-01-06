@@ -10,7 +10,6 @@
 #import "FUFaceFusionEffectViewController.h"
 
 #import "FUFaceFusionManager.h"
-#import "UIImage+FU.h"
 
 #import <MobileCoreServices/MobileCoreServices.h>
 
@@ -22,6 +21,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self.headButtonView.homeButton setImage:[UIImage imageNamed:@"back_item"] forState:UIControlStateNormal];
     
     // 人脸区域视图
     UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"face_fusion_contour"]];
@@ -36,7 +37,7 @@
     [self.view addSubview:tips];
     [tips mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
-        make.top.equalTo(self.noTrackLabel.mas_bottom).mas_offset(100);
+        make.centerY.equalTo(self.view.mas_centerY).mas_offset(160);
     }];
 }
 

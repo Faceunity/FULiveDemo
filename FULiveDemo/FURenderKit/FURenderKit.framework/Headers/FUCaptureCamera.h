@@ -94,11 +94,8 @@ typedef NS_ENUM( NSInteger, FUCaptureCameraFocusMode) {
  */
 - (void)resetFocusAndExposureModes;
 
-/**
- 修改采集分辨率
-
- @param sessionPreset string constants
- */
+/// 修改采集分辨率
+/// @param sessionPreset 分辨率
 - (BOOL)changeSessionPreset:(AVCaptureSessionPreset)sessionPreset;
 
 

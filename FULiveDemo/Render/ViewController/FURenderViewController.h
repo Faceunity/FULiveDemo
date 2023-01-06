@@ -32,8 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithViewModel:(FURenderViewModel *)viewModel;
 
 /// 更新拍照/录制按钮到屏幕底部的距离
-/// @param animated 是否需要动画
-- (void)updateBottomConstraintsOfCaptureButton:(CGFloat)constant animated:(BOOL)animated;
+- (void)updateBottomConstraintsOfCaptureButton:(CGFloat)constant;
 
 @end
 

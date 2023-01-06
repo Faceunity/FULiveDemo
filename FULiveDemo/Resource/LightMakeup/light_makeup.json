@@ -62,7 +62,7 @@
     {
         "name": "桃花",
         "imageStr": "demo_makeup_peachblossom",
-        "value": 1.0,
+        "value": 0.9,
         "selectedFilter": "fennen3",
         "selectedFilterLevel": 1.0,
         "isSel": false,
@@ -132,7 +132,44 @@
         }
         ]
     },
-    
+    {
+        "name": "清透",
+        "imageStr": "demo_makeup_clear",
+        "value": 0.9,
+        "selectedFilter": "xiaoqingxin6",
+        "selectedFilterLevel": 0.8,
+        "isSel": false,
+        "makeups": [{
+            "makeType": 1,
+            "namaValueStr": "makeup_intensity_lip",
+            "value": 0.7,
+            "colorStr": "makeup_lip_color",
+            "colorStrV": [0.89, 0.59, 0.58, 0.50],
+            "colorStr2": "makeup_lip_color2",
+            "colorStr2V": "",
+            "is_two_color": 0,
+            "lip_type": 1
+        },
+        {
+            "makeType": 2,
+            "namaBundle": "mu_blush_22",
+            "namaValueStr": "makeup_intensity_blusher",
+            "value": 0.7
+        },
+        {
+            "makeType": 3,
+            "namaBundle": "mu_eyebrow_18",
+            "namaValueStr": "makeup_intensity_eyeBrow",
+            "value": 0.5
+        },
+        {
+            "makeType": 4,
+            "namaBundle": "mu_eyeshadow_20",
+            "namaValueStr": "makeup_intensity_eye",
+            "value": 0.7
+        }
+        ]
+    },
     {
         "name": "男友",
         "imageStr": "demo_makeup_boyfriend",
@@ -164,44 +201,6 @@
         {
             "makeType": 4,
             "namaBundle": "mu_eyeshadow_18",
-            "namaValueStr": "makeup_intensity_eye",
-            "value": 0.7
-        }
-        ]
-    },
-    {
-        "name": "清透",
-        "imageStr": "demo_makeup_clear",
-        "value": 1.0,
-        "selectedFilter": "xiaoqingxin6",
-        "selectedFilterLevel": 0.8,
-        "isSel": false,
-        "makeups": [{
-            "makeType": 1,
-            "namaValueStr": "makeup_intensity_lip",
-            "value": 0.7,
-            "colorStr": "makeup_lip_color",
-            "colorStrV": [0.89, 0.59, 0.58, 0.50],
-            "colorStr2": "makeup_lip_color2",
-            "colorStr2V": "",
-            "is_two_color": 0,
-            "lip_type": 1
-        },
-        {
-            "makeType": 2,
-            "namaBundle": "mu_blush_22",
-            "namaValueStr": "makeup_intensity_blusher",
-            "value": 0.7
-        },
-        {
-            "makeType": 3,
-            "namaBundle": "mu_eyebrow_18",
-            "namaValueStr": "makeup_intensity_eyeBrow",
-            "value": 0.5
-        },
-        {
-            "makeType": 4,
-            "namaBundle": "mu_eyeshadow_20",
             "namaValueStr": "makeup_intensity_eye",
             "value": 0.7
         }

@@ -63,6 +63,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (FUDeviceModelType)fu_deviceModelType;
 
+- (NSString *)fu_deviceModelString;
+
 - (FUDevicePerformanceLevel)fu_devicePerformanceLevel;
 
 @end

@@ -18,7 +18,7 @@
 
 @property (nonatomic, strong) UIImageView *bottomImageView;
 
-@property (nonatomic, strong) LOTAnimationView *animationView;
+@property (nonatomic, strong) UIImageView *animationImageView;
 
 @end
 
@@ -60,8 +60,8 @@
         make.height.equalTo(self.bottomImageView.mas_height);
     }];
     
-    [self.contentView addSubview:self.animationView];
-    [self.animationView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.contentView addSubview:self.animationImageView];
+    [self.animationImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.contentView);
         make.centerY.equalTo(self.contentView.mas_centerY).mas_offset(-2);
         make.size.mas_offset(CGSizeMake(101, 122));
@@ -101,12 +101,17 @@
     return _bottomImageView;
 }
 
-- (LOTAnimationView *)animationView {
-    if (!_animationView) {
-        _animationView = [[LOTAnimationView alloc] init];
-        _animationView.frame = CGRectMake(0, 0, 101, 122);
+- (UIImageView *)animationImageView {
+    if (!_animationImageView) {
+        _animationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 101, 122)];
     }
-    return _animationView;
+    return _animationImageView;
 }
+
+#pragma mark - Overriding（避免点击时动画暂停）
+
+- (void)setSelected:(BOOL)selected {}
+
+- (void)setHighlighted:(BOOL)highlighted {}
 
 @end

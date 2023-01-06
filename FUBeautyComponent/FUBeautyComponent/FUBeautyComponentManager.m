@@ -11,7 +11,6 @@
 #import "FUBeautySkinView.h"
 #import "FUBeautyShapeView.h"
 #import "FUBeautyFilterView.h"
-#import "FUBeautyStyleView.h"
 
 #import <FUCommonUIComponent/FUCommonUIComponent.h>
 #import <FURenderKit/FURenderKit.h>
@@ -19,7 +18,7 @@
 static FUBeautyComponentManager *beautyComponentManager = nil;
 static dispatch_once_t onceToken;
 
-@interface FUBeautyComponentManager ()<FUSegmentBarDelegate, FUBeautyFilterViewDelegate, FUBeautyStyleViewDelegate>
+@interface FUBeautyComponentManager ()<FUSegmentBarDelegate, FUBeautyFilterViewDelegate>
 
 @property (nonatomic, weak) UIView *targetView;
 
@@ -29,12 +28,10 @@ static dispatch_once_t onceToken;
 @property (nonatomic, strong) FUBeautySkinView *beautySkinView;
 @property (nonatomic, strong) FUBeautyShapeView *beautyShapeView;
 @property (nonatomic, strong) FUBeautyFilterView *beautyFilterView;
-@property (nonatomic, strong) FUBeautyStyleView *beautyStyleView;
 
 @property (nonatomic, strong) FUBeautySkinViewModel *beautySkinViewModel;
 @property (nonatomic, strong) FUBeautyShapeViewModel *beautyShapeViewModel;
 @property (nonatomic, strong) FUBeautyFilterViewModel *beautyFilterViewModel;
-@property (nonatomic, strong) FUBeautyStyleViewModel *beautyStyleViewModel;
 
 @property (nonatomic, assign) NSInteger selectedIndex;
 
@@ -71,17 +68,12 @@ static dispatch_once_t onceToken;
 - (void)addComponentViewToView:(UIView *)view {
     NSAssert(view != nil, @"FUBeautyComponent: view can not be nil!");
     self.targetView = view;
+    [self removeComponentView];
     [self.targetView addSubview:self.compareButton];
     [self.targetView addSubview:self.beautySkinView];
     [self.targetView addSubview:self.beautyShapeView];
     [self.targetView addSubview:self.beautyFilterView];
-    [self.targetView addSubview:self.beautyStyleView];
     [self.targetView addSubview:self.categoryView];
-    
-    if (self.beautyStyleViewModel.selectedIndex > 0) {
-        // 选中了风格推荐
-        self.categoryView.selectedIndex = FUBeautyCategoryPreset;
-    }
 }
 
 - (void)removeComponentView {
@@ -97,9 +89,6 @@ static dispatch_once_t onceToken;
     if (self.beautyFilterView.superview) {
         [self.beautyFilterView removeFromSuperview];
     }
-    if (self.beautyStyleView.superview) {
-        [self.beautyStyleView removeFromSuperview];
-    }
     if (self.categoryView.superview) {
         [self.categoryView removeFromSuperview];
     }
@@ -110,16 +99,10 @@ static dispatch_once_t onceToken;
         FUBeauty *beauty = [self defaultBeauty];
         [FURenderKit shareRenderKit].beauty = beauty;
     }
-    // 设置当前美颜数据
-    if (self.beautyStyleViewModel.selectedIndex > 0) {
-        // 选择了风格推荐，只需要设置风格推荐
-        self.beautyStyleViewModel.selectedIndex = self.beautyStyleViewModel.selectedIndex;
-    } else {
-        // 分别设置美肤、美型、滤镜
-        [self.beautySkinViewModel setAllSkinValues];
-        [self.beautyShapeViewModel setAllShapeValues];
-        [self.beautyFilterViewModel setCurrentFilter];
-    }
+    // 分别设置美肤、美型、滤镜
+    [self.beautySkinViewModel setAllSkinValues];
+    [self.beautyShapeViewModel setAllShapeValues];
+    [self.beautyFilterViewModel setCurrentFilter];
 }
 
 - (void)unloadBeauty {
@@ -130,7 +113,6 @@ static dispatch_once_t onceToken;
     [self.beautySkinViewModel saveSkinsPersistently];
     [self.beautyShapeViewModel saveShapesPersistently];
     [self.beautyFilterViewModel saveFitersPersistently];
-    [self.beautyStyleViewModel saveStylesPersistently];
 }
 
 #pragma mark - Private methods
@@ -154,7 +136,7 @@ static dispatch_once_t onceToken;
     return beauty;
 }
 
-- (void)showEffectView:(UIView *)view animated:(BOOL)animated {
+- (void)showEffectView:(UIView *)view animated:(BOOL)animated completion:(void (^)(void))completion {
     view.hidden = NO;
     self.compareButton.hidden = NO;
     if (animated) {
@@ -162,26 +144,30 @@ static dispatch_once_t onceToken;
             view.transform = CGAffineTransformMakeTranslation(0, -CGRectGetHeight(view.frame));
             self.compareButton.transform = CGAffineTransformMakeTranslation(0, -CGRectGetHeight(view.frame));
         } completion:^(BOOL finished) {
+            !completion ?: completion();
         }];
     } else {
         view.transform = CGAffineTransformMakeTranslation(0, -CGRectGetHeight(view.frame));
         self.compareButton.transform = CGAffineTransformMakeTranslation(0, -CGRectGetHeight(view.frame));
+        !completion ?: completion();
     }
     if (self.delegate && [self.delegate respondsToSelector:@selector(beautyComponentViewHeightDidChange:)]) {
         [self.delegate beautyComponentViewHeightDidChange:CGRectGetHeight(view.frame) + CGRectGetHeight(self.categoryView.frame)];
     }
 }
 
-- (void)hideEffectView:(UIView *)view animated:(BOOL)animated {
+- (void)hideEffectView:(UIView *)view animated:(BOOL)animated completion:(void (^)(void))completion {
     if (animated) {
         [UIView animateWithDuration:0.2 animations:^{
             view.transform = CGAffineTransformIdentity;
         } completion:^(BOOL finished) {
             view.hidden = YES;
+            !completion ?: completion();
         }];
     } else {
         view.transform = CGAffineTransformIdentity;
         view.hidden = YES;
+        !completion ?: completion();
     }
 }
 
@@ -198,10 +184,6 @@ static dispatch_once_t onceToken;
             break;
         case FUBeautyCategoryFilter:{
             view = self.beautyFilterView;
-        }
-            break;
-        case FUBeautyCategoryPreset:{
-            view = self.beautyStyleView;
         }
             break;
         default:
@@ -226,38 +208,29 @@ static dispatch_once_t onceToken;
 
 #pragma mark - FUSegmentBarDelegate
 
-- (BOOL)segmentBar:(FUSegmentBar *)segmentBar shouldSelectItemAtIndex:(NSInteger)index {
-    if (self.beautyStyleViewModel.selectedIndex > 0 && index < FUBeautyCategoryPreset) {
-        // 取消风格推荐提示
-        NSArray<NSString *> *categories = @[FUBeautyStringWithKey(@"skin"), FUBeautyStringWithKey(@"shape"), FUBeautyStringWithKey(@"filter")];
-        NSString *tipString = [NSString stringWithFormat:FUBeautyStringWithKey(@"To use, cancel Presets first."), categories[index]];
-        [FUTipHUD showTips:tipString dismissWithDelay:1.5];
-        return NO;
-    }
-    return YES;
-}
-
-- (BOOL)segmentBar:(FUSegmentBar *)segmentBar shouldDisableItemAtIndex:(NSInteger)index {
-    return self.beautyStyleViewModel.selectedIndex > 0 && index < FUBeautyCategoryPreset;
-}
-
 - (void)segmentBar:(FUSegmentBar *)segmentBar didSelectItemAtIndex:(NSUInteger)index {
     if (index == self.selectedIndex) {
         // 隐藏
-        [self hideEffectView:[self showingView] animated:YES];
+        segmentBar.userInteractionEnabled = NO;
+        [self hideEffectView:[self showingView] animated:YES completion:^{
+            segmentBar.userInteractionEnabled = YES;
+        }];
         self.compareButton.transform = CGAffineTransformIdentity;
         self.compareButton.hidden = YES;
-        segmentBar.selectedIndex = -1;
+        [segmentBar selectItemAtIndex:-1];
         self.selectedIndex = FUBeautyCategoryNone;
         if (self.delegate && [self.delegate respondsToSelector:@selector(beautyComponentViewHeightDidChange:)]) {
             [self.delegate beautyComponentViewHeightDidChange:CGRectGetHeight(self.categoryView.frame)];
         }
     } else {
+        segmentBar.userInteractionEnabled = NO;
         if (self.selectedIndex > FUBeautyCategoryNone) {
-            [self hideEffectView:[self showingView] animated:NO];
+            [self hideEffectView:[self showingView] animated:NO completion:nil];
         }
         self.selectedIndex = index;
-        [self showEffectView:[self showingView] animated:YES];
+        [self showEffectView:[self showingView] animated:YES completion:^{
+            segmentBar.userInteractionEnabled = YES;
+        }];
     }
 }
 
@@ -287,7 +260,7 @@ static dispatch_once_t onceToken;
 
 - (FUSegmentBar *)categoryView {
     if (!_categoryView) {
-        NSArray<NSString *> *categories = @[FUBeautyStringWithKey(@"skin"), FUBeautyStringWithKey(@"shape"), FUBeautyStringWithKey(@"filter"), FUBeautyStringWithKey(@"preset")];
+        NSArray<NSString *> *categories = @[FUBeautyStringWithKey(@"skin"), FUBeautyStringWithKey(@"shape"), FUBeautyStringWithKey(@"filter")];
         FUSegmentBarConfigurations *configurations = [[FUSegmentBarConfigurations alloc] init];
         configurations.titleFont = [UIFont systemFontOfSize:15];
         _categoryView = [[FUSegmentBar alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.targetView.bounds) - FUBeautyHeightIncludeBottomSafeArea(FUBeautyCategoryViewHeight), CGRectGetWidth(self.targetView.bounds), FUBeautyHeightIncludeBottomSafeArea(FUBeautyCategoryViewHeight)) titles:categories configuration:configurations];
@@ -300,7 +273,7 @@ static dispatch_once_t onceToken;
     if (!_compareButton) {
         _compareButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _compareButton.frame = CGRectMake(15, CGRectGetMinY(self.categoryView.frame) - 54, 44, 44);
-        [_compareButton setImage:FUBeautyImageNamed(@"demo_icon_contrast") forState:UIControlStateNormal];
+        [_compareButton setImage:[UIImage imageNamed:@"compare_item"] forState:UIControlStateNormal];
         [_compareButton addTarget:self action:@selector(compareTouchDownAction) forControlEvents:UIControlEventTouchDown];
         [_compareButton addTarget:self action:@selector(compareTouchUpAction) forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchUpOutside];
         _compareButton.hidden = YES;
@@ -333,15 +306,6 @@ static dispatch_once_t onceToken;
     return _beautyFilterView;
 }
 
-- (FUBeautyStyleView *)beautyStyleView {
-    if (!_beautyStyleView) {
-        _beautyStyleView = [[FUBeautyStyleView alloc] initWithFrame:CGRectMake(0, CGRectGetMinY(self.categoryView.frame), CGRectGetWidth(self.targetView.bounds), FUBeautyFunctionViewOverallHeight) viewModel:self.beautyStyleViewModel];
-        _beautyStyleView.hidden = YES;
-        _beautyStyleView.delegate = self;
-    }
-    return _beautyStyleView;
-}
-
 - (FUBeautySkinViewModel *)beautySkinViewModel {
     if (!_beautySkinViewModel) {
         _beautySkinViewModel = [[FUBeautySkinViewModel alloc] init];
@@ -361,13 +325,6 @@ static dispatch_once_t onceToken;
         _beautyFilterViewModel = [[FUBeautyFilterViewModel alloc] init];
     }
     return _beautyFilterViewModel;
-}
-
-- (FUBeautyStyleViewModel *)beautyStyleViewModel {
-    if (!_beautyStyleViewModel) {
-        _beautyStyleViewModel = [[FUBeautyStyleViewModel alloc] init];
-    }
-    return _beautyStyleViewModel;
 }
 
 - (CGFloat)componentViewHeight {

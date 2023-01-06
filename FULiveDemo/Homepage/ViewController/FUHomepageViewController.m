@@ -13,6 +13,7 @@
 
 #import "FUBeautyViewController.h"
 #import "FUMakeupViewController.h"
+#import "FUStyleViewController.h"
 #import "FUStickerViewController.h"
 #import "FUAnimojiViewController.h"
 #import "FUHairBeautyViewController.h"
@@ -103,14 +104,14 @@ static NSString * const kFUHomepageHeaderViewIdentifier = @"FUHomepageHeaderView
     if ([self.viewModel moduleAtIndex:indexPath.item group:indexPath.section] == FUModuleQualityTicker) {
         // 精品贴纸特殊效果
         cell.backgroundImageView.hidden = NO;
-        cell.animationView.hidden = NO;
         cell.backgroundImageView.image = [UIImage imageNamed:@"homepage_cell_background"];
-        [cell.animationView setAnimationNamed:@"tiezhi_data"];
-        cell.animationView.loopAnimation = YES;
-        [cell.animationView play];
+        cell.animationImageView.hidden = NO;
+        cell.animationImageView.animationImages = self.viewModel.animationImages;
+        cell.animationImageView.animationDuration = 2.5;
+        [cell.animationImageView startAnimating];
     } else {
         cell.backgroundImageView.hidden = YES;
-        cell.animationView.hidden = YES;
+        cell.animationImageView.hidden = YES;
     }
     return cell;
 }
@@ -121,7 +122,7 @@ static NSString * const kFUHomepageHeaderViewIdentifier = @"FUHomepageHeaderView
         header.titleLabel.text = [self.viewModel groupNameOfGroup:indexPath.section];
         return header;
     }
-    return nil;
+    return [UICollectionReusableView new];
 }
 
 #pragma mark - Collection view delegate
@@ -139,6 +140,10 @@ static NSString * const kFUHomepageHeaderViewIdentifier = @"FUHomepageHeaderView
             break;
         case FUModuleMakeup:{
             controller = [[FUMakeupViewController alloc] initWithViewModel:[[FUMakeupViewModel alloc] init]];
+        }
+            break;
+        case FUModuleStyle:{
+            controller = [[FUStyleViewController alloc] initWithViewModel:[[FUStyleViewModel alloc] init]];
         }
             break;
         case FUModuleSticker:{

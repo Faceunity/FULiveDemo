@@ -52,6 +52,7 @@ typedef NS_ENUM(NSUInteger, FUGroup) {
 typedef NS_ENUM(NSUInteger, FUModule) {
     FUModuleBeauty = 0,
     FUModuleMakeup,
+    FUModuleStyle,
     FUModuleSticker,
     FUModuleAnimoji,
     FUModuleHairBeauty,

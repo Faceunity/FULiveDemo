@@ -6,10 +6,11 @@
 //
 
 #import "FUVideoRenderViewController.h"
+#import "FUExportVideoView.h"
 
 #import "FULandmarkManager.h"
 
-@interface FUVideoRenderViewController ()
+@interface FUVideoRenderViewController ()<FUExportVideoViewDelegate>
 
 @property (nonatomic, strong) FUGLDisplayView *renderView;
 
@@ -20,6 +21,8 @@
 @property (nonatomic, strong) UILabel *noTrackLabel;
 
 @property (nonatomic, strong) UILabel *tipLabel;
+
+@property (nonatomic, strong) FUExportVideoView *exportingView;
 
 @property (nonatomic, strong) NSURL *videoURL;
 
@@ -47,12 +50,10 @@
     
     [self configureUI];
     
-    [self playVideoAction:self.playVideoButton];
-    
-    self.renderView.origintation = (FUGLDisplayViewOrientation)self.viewModel.videoOrientation;
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillResignActive) name:UIApplicationWillResignActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
+    
+    [self.viewModel startPreviewing];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -64,6 +65,7 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
     // 移除点位测试开关
     if ([FURenderKitManager sharedManager].showsLandmarks) {
         [FULandmarkManager dismiss];
@@ -132,7 +134,7 @@
     
     [self.view addSubview:self.downloadButton];
     [self.downloadButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view.mas_bottom).offset(-FUHeightIncludeBottomSafeArea(69));
+        make.bottom.equalTo(self.view.mas_bottom).offset(-self.viewModel.downloadButtonBottomConstant - 10);
         make.centerX.equalTo(self.view);
         make.size.mas_offset(CGSizeMake(85, 85));
     }];
@@ -141,56 +143,93 @@
 
 #pragma mark - Instance methods
 
-- (void)updateBottomConstraintsOfDownloadButton:(CGFloat)constraints hidden:(BOOL)isHidden animated:(BOOL)animated {
+- (void)updateBottomConstraintsOfDownloadButton:(CGFloat)constraints {
     [self.downloadButton mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view.mas_bottom).mas_offset(-constraints);
+        make.bottom.equalTo(self.view.mas_bottom).mas_offset(-constraints-10);
     }];
-    if (animated) {
-        [UIView animateWithDuration:0.15 animations:^{
-            self.downloadButton.transform = isHidden ? CGAffineTransformIdentity : CGAffineTransformMakeScale(0.9, 0.9);
-            [self.view layoutIfNeeded];
-        }];
-    } else {
-        self.downloadButton.transform = isHidden ? CGAffineTransformIdentity : CGAffineTransformMakeScale(0.9, 0.9);
-    }
+    [UIView animateWithDuration:0.15 animations:^{
+        [self.view layoutIfNeeded];
+    }];
+}
+
+#pragma mark - Private methods
+
+- (void)showExportVideoView {
+    [self.view addSubview:self.exportingView];
+}
+
+- (void)hideExportVideoView {
+    [UIView animateWithDuration:0.3 animations:^{
+        self.exportingView.alpha = 0;
+    } completion:^(BOOL finished) {
+        [self.exportingView removeFromSuperview];
+        self.exportingView.alpha = 1;
+        [self.exportingView setExportProgress:0];
+        // 显示播放按钮
+        if (self.playVideoButton.hidden) {
+            self.playVideoButton.hidden = NO;
+        }
+    }];
 }
 
 #pragma mark - Event response
 
 - (void)backAction:(UIButton *)sender {
-    [self.viewModel stop];
+    [self.viewModel destroy];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)playVideoAction:(UIButton *)sender {
-    sender.selected = YES;
     sender.hidden = YES;
-    self.downloadButton.hidden = YES;
-    [self.viewModel start];
+    [self.viewModel startReading];
 }
 
 - (void)downloadAction:(UIButton *)sender {
-    // 保存视频到相册
-    UISaveVideoAtPathToSavedPhotosAlbum(kFUFinalPath, self, @selector(video:didFinishSavingWithError:contextInfo:), NULL);
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.downloadButton.hidden = YES;
-    });
+    // 隐藏播放按钮
+    if (!self.playVideoButton.hidden) {
+        self.playVideoButton.hidden = YES;
+    }
+    // 显示导出进度视图
+    [self showExportVideoView];
+    
+    if (self.viewModel.isReading) {
+        // 停止播放
+        [self.viewModel stopReading];
+    }
+    if (self.viewModel.isPreviewing) {
+        // 停止预览
+        [self.viewModel stopPreviewing];
+    }
+    // 开始重新解码编码
+    [self.viewModel startProcessing];
 }
 
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
     if (error) {
-        [SVProgressHUD showError:FULocalizedString(@"保存视频失败")];
+        [FUTipHUD showTips:FULocalizedString(@"保存视频失败") dismissWithDelay:1.5];
     } else {
-        [SVProgressHUD showSuccess:FULocalizedString(@"视频已保存到相册")];
+        [FUTipHUD showTips:FULocalizedString(@"视频已保存到相册") dismissWithDelay:1.5];
     }
+    [self hideExportVideoView];
+    [self.viewModel startPreviewing];
 }
 
 - (void)applicationWillResignActive {
-    [self.viewModel stop];
+    if (self.viewModel.isReading) {
+        [self.viewModel stopReading];
+        self.playVideoButton.hidden = NO;
+    }
+    if (self.viewModel.isPreviewing) {
+        [self.viewModel stopPreviewing];
+    }
+    if (self.viewModel.isProcessing) {
+        [self.viewModel stopProcessing];
+        [self hideExportVideoView];
+    }
 }
 
 - (void)applicationDidBecomeActive {
-    [self playVideoAction:self.playVideoButton];
+    [self.viewModel startPreviewing];
 }
 
 #pragma mark - FUVideoRenderViewModelDelegate
@@ -199,10 +238,23 @@
     [self.renderView displayPixelBuffer:pixelBuffer];
 }
 
-- (void)videoRenderDidFinishProcessing {
+- (void)videoRenderDidFinishReading {
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.downloadButton.hidden = NO;
         self.playVideoButton.hidden = NO;
+    });
+}
+
+- (void)videoRenderDidFinishProcessing {
+    // 保存视频到相册
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.exportingView setExportProgress:1];
+        UISaveVideoAtPathToSavedPhotosAlbum(kFUFinalPath, self, @selector(video:didFinishSavingWithError:contextInfo:), NULL);
+    });
+}
+
+- (void)videoRenderProcessingProgress:(CGFloat)progress {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.exportingView setExportProgress:progress];
     });
 }
 
@@ -231,14 +283,20 @@
     }
 }
 
+#pragma mark - FUExportVideoViewDelegate
+
+- (void)exportVideoViewDidClickCancel {
+    [self.viewModel stopProcessing];
+    [self hideExportVideoView];
+    [self.viewModel startPreviewing];
+}
+
 #pragma mark - Getters
 
 - (UIButton *)playVideoButton {
     if (!_playVideoButton) {
         _playVideoButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_playVideoButton setBackgroundImage:[UIImage imageNamed:@"render_play"] forState:UIControlStateNormal];
-        [_playVideoButton setBackgroundImage:[UIImage imageNamed:@"render_replay"] forState:UIControlStateSelected];
-        _playVideoButton.hidden = YES;
         [_playVideoButton addTarget:self action:@selector(playVideoAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _playVideoButton;
@@ -247,11 +305,11 @@
 - (UIButton *)downloadButton {
     if (!_downloadButton) {
         _downloadButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _downloadButton.frame = CGRectMake(CGRectGetWidth(self.view.bounds) / 2.0 - 42.5, CGRectGetHeight(self.view.bounds) - 85 - FUHeightIncludeBottomSafeArea(10), 85, 85);
         _downloadButton.backgroundColor = [UIColor whiteColor];
         _downloadButton.layer.cornerRadius = 42.5;
         [_downloadButton setBackgroundImage:[UIImage imageNamed:@"render_save"] forState:UIControlStateNormal];
         [_downloadButton addTarget:self action:@selector(downloadAction:) forControlEvents:UIControlEventTouchUpInside];
-        _downloadButton.hidden = YES;
     }
     return _downloadButton;
 }
@@ -282,8 +340,17 @@
     if (!_renderView) {
         _renderView = [[FUGLDisplayView alloc] initWithFrame:self.view.bounds];
         _renderView.contentMode = FUGLDisplayViewContentModeScaleAspectFit;
+        _renderView.origintation = (FUGLDisplayViewOrientation)self.viewModel.videoOrientation;
     }
     return _renderView;
+}
+
+- (FUExportVideoView *)exportingView {
+    if (!_exportingView) {
+        _exportingView = [[FUExportVideoView alloc] initWithFrame:self.view.bounds];
+        _exportingView.delegate = self;
+    }
+    return _exportingView;
 }
 
 #pragma mark - Override methods

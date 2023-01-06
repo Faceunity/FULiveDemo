@@ -25,11 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithViewModel:(FUImageRenderViewModel *)viewModel;
 
 /// 更新保存按钮距离屏幕底部的距离
-/// @param isHidden 是否隐藏视图
-/// @param animated 是否需要动画
-- (void)updateBottomConstraintsOfDownloadButton:(CGFloat)constant
-                                         hidden:(BOOL)isHidden
-                                       animated:(BOOL)animated;
+- (void)updateBottomConstraintsOfDownloadButton:(CGFloat)constant;
 
 @end
 

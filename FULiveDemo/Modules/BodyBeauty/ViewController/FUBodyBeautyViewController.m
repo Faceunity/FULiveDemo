@@ -31,8 +31,6 @@ static NSString * const kFUBodyBeautyCellIdentifier = @"FUBodyBeautyCell";
     
     [self configureSubviews];
     [self refreshSubviews];
-    
-    [self updateBottomConstraintsOfCaptureButton:FUHeightIncludeBottomSafeArea(141) + 10 animated:NO];
 }
 
 #pragma mark - UI

@@ -6,74 +6,67 @@
             {
                 "module":0,
                 "title":"美颜",
-                "moduleCode":0,
-                "permissionCode":1
+                "authCode":"1-0"
             },
             {
                 "module":1,
                 "title":"美妆",
-                "moduleCode":0,
-                "permissionCode":524288
+                "authCode":"524288-0"
             },
             {
                 "module":2,
-                "title":"道具贴纸",
-                "moduleCode":0,
-                "permissionCode":110
+                "title":"风格推荐",
+                "authCode":"0-1048576"
             },
             {
                 "module":3,
-                "title":"Animoji",
-                "moduleCode":0,
-                "permissionCode":16
+                "title":"道具贴纸",
+                "authCode":"110-0"
             },
             {
                 "module":4,
-                "title":"美发",
-                "moduleCode":0,
-                "permissionCode":1048576
+                "title":"Animoji",
+                "authCode":"16-0"
             },
             {
                 "module":5,
-                "title":"轻美妆",
-                "moduleCode":1,
-                "permissionCode":8
+                "title":"美发",
+                "authCode":"1048576-0"
             },
             {
                 "module":6,
-                "title":"AR面具",
-                "moduleCode":0,
-                "permissionCode":96
+                "title":"轻美妆",
+                "authCode":"0-8"
             },
             {
                 "module":7,
-                "title":"搞笑大头",
-                "moduleCode":1,
-                "permissionCode":32768
+                "title":"AR面具",
+                "authCode":"96-0"
             },
             {
                 "module":8,
-                "title":"海报换脸",
-                "moduleCode":0,
-                "permissionCode":8388608
+                "title":"搞笑大头",
+                "authCode":"0-32768"
             },
             {
                 "module":9,
-                "title":"表情识别",
-                "moduleCode":0,
-                "permissionCode":2058
+                "title":"海报换脸",
+                "authCode":"8388608-0"
             },
             {
                 "module":10,
-                "title":"音乐滤镜",
-                "moduleCode":0,
-                "permissionCode":131072
+                "title":"表情识别",
+                "authCode":"2058-0"
             },
             {
                 "module":11,
+                "title":"音乐滤镜",
+                "authCode":"131072-0"
+            },
+            {
+                "module":12,
                 "title":"哈哈镜",
-                "moduleCode":0,
-                "permissionCode":65536
+                "authCode":"65536-0"
             }
         ]
     },
@@ -82,34 +75,29 @@
         "name":"人体特效",
         "modules":[
             {
-                "module":12,
-                "title":"美体",
-                "moduleCode":1,
-                "permissionCode":32
-            },
-            {
                 "module":13,
-                "title":"全身Avatar",
-                "moduleCode":1,
-                "permissionCode":448
+                "title":"美体",
+                "authCode":"0-32"
             },
             {
                 "module":14,
-                "title":"人像分割",
-                "moduleCode":0,
-                "permissionCode":256
+                "title":"全身Avatar",
+                "authCode":"0-448"
             },
             {
                 "module":15,
-                "title":"手势识别",
-                "moduleCode":0,
-                "permissionCode":512
+                "title":"人像分割",
+                "authCode":"256-0"
             },
             {
                 "module":16,
+                "title":"手势识别",
+                "authCode":"512-0"
+            },
+            {
+                "module":17,
                 "title":"绿幕抠像",
-                "moduleCode":1,
-                "permissionCode":512
+                "authCode":"0-512"
             }
         ]
     },
@@ -118,10 +106,8 @@
         "name":"内容服务",
         "modules":[
             {
-                "module":17,
-                "title":"精品贴纸",
-                "moduleCode":0,
-                "permissionCode":110
+                "module":18,
+                "title":"精品贴纸"
             }
         ]
     }

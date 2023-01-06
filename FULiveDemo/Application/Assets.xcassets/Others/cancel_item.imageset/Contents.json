@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "makeup_noitem.png",
+      "filename" : "cancel_item.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "makeup_noitem@2x.png",
+      "filename" : "cancel_item@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "makeup_noitem@3x.png",
+      "filename" : "cancel_item@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
