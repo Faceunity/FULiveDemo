@@ -62,6 +62,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) CGFloat inputBufferWidth;
 /// 输入buffer高度
 @property (nonatomic, assign, readonly) CGFloat inputBufferHeight;
+/// 拍照和录制视频按钮到屏幕底部距离
+@property (nonatomic, assign, readonly) CGFloat captureButtonBottomConstant;
 
 @property (nonatomic, weak) id<FURenderViewModelDelegate> delegate;
 

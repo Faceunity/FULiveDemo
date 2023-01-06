@@ -15,14 +15,6 @@
 
 @implementation FULightMakeupViewModel
 
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        self.selectedIndex = 0;
-    }
-    return self;
-}
-
 - (void)setLightMakeupValue:(double)value {
     FULightMakeupModel *model = self.lightMakeups[self.selectedIndex];
     model.value = value;
@@ -111,7 +103,6 @@
 /// 设置图片
 - (void)setImage:(NSString *)imageName type:(FUSingleMakeupType)type {
     if (!imageName) {
-        NSLog(@"%@:%s图片名称不正确",self.class,__func__);
         return;
     }
     UIImage *image = [UIImage imageNamed:imageName];
@@ -150,9 +141,7 @@
 - (NSArray<FULightMakeupModel *> *)lightMakeups {
     if (!_lightMakeups) {
         NSString *lightMakeupPath = [[NSBundle mainBundle] pathForResource:@"light_makeup" ofType:@"json"];
-        NSData *lightMakeupData = [[NSData alloc] initWithContentsOfFile:lightMakeupPath];
-        NSArray *jsonArray = (NSArray *)[NSJSONSerialization JSONObjectWithData:lightMakeupData options:NSJSONReadingMutableContainers error:nil];
-        _lightMakeups = [FULightMakeupModel mj_objectArrayWithKeyValuesArray:jsonArray];
+        _lightMakeups = [FULightMakeupModel modelArrayWithJSON:[NSData dataWithContentsOfFile:lightMakeupPath]];
     }
     return _lightMakeups;
 }
@@ -161,6 +150,10 @@
 
 - (FUModule)module {
     return FUModuleLightMakeup;
+}
+
+- (CGFloat)captureButtonBottomConstant {
+    return FUHeightIncludeBottomSafeArea(134);
 }
 
 @end

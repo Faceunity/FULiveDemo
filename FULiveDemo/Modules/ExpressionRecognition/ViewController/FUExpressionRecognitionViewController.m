@@ -31,8 +31,6 @@
     
     self.itemsView.items = self.viewModel.expressionRecognitionItems;
     self.itemsView.selectedIndex = 1;
-
-    [self updateBottomConstraintsOfCaptureButton:FUHeightIncludeBottomSafeArea(84) + 10 animated:NO];
 }
 
 - (void)itemsView:(FUItemsView *)itemsView didSelectItemAtIndex:(NSInteger)index {

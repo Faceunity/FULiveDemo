@@ -24,14 +24,7 @@
     [[FUMakeupComponentManager sharedManager] addComponentViewToView:self.view];
     [FUMakeupComponentManager sharedManager].delegate = self;
     // 更新保存按钮位置
-    [self updateBottomConstraintsOfDownloadButton:[FUMakeupComponentManager sharedManager].componentViewHeight + 10 hidden:NO animated:NO];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    
-    [[FUMakeupComponentManager sharedManager] removeComponentView];
-    [FUMakeupComponentManager sharedManager].delegate = nil;
+    [self updateBottomConstraintsOfDownloadButton:[FUMakeupComponentManager sharedManager].componentViewHeight];
 }
 
 #pragma mark - Event response
@@ -44,7 +37,7 @@
 
 - (void)makeupComponentViewHeightDidChange:(CGFloat)height {
     // 美妆视图高度变化时需要更新保存按钮位置
-    [self updateBottomConstraintsOfDownloadButton:height + 10 hidden:NO animated:YES];
+    [self updateBottomConstraintsOfDownloadButton:height];
 }
 
 - (void)makeupComponentNeedsDisplayPromptContent:(NSString *)content {

@@ -37,10 +37,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 眉毛变形类型
 /// @see FUMakeupBrowWarpType
-/// @note 如果browWarp为NO，眉毛变形自动失效
+/// @note 如果browWarp为NO，眉毛变形类型设置失效
 @property (nonatomic, assign) FUMakeupBrowWarpType browWarpType;
 
-/// 是否使用眉毛变形 YES为开 NO为关
+/// 是否使用眉毛变形 YES为开 NO为关，默认为NO
 @property (nonatomic, assign) BOOL browWarp;
 
 @end
@@ -164,14 +164,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// 美瞳颜色
 @property (nonatomic, assign) FUColor pupilColor;
 
-/**
- * 眼影特殊处理
- * //如果is_two_color为1，会启用这个颜色，外圈颜色为makeup_lip_color2，内圈颜色为makeup_lip_color，如果makeup_lip_color2都为0，则外圈为透明，即为咬唇效果
- * makeup_eye_color:[0.0,0.0,0.0,0.0],//第一层眼影调色参数，数组的第四个值（对应alpha）为0时，会关闭这层的调色功能，大于0时会开启
- * makeup_eye_color2:[0.0,0.0,0.0,0.0],//第二层眼影调色参数，数组的第四个值（对应alpha）为0时，会关闭这层的调色功能，大于0时会开启
- * makeup_eye_color3:[0.0,0.0,0.0,0.0],//第三层眼影调色参数，数组的第四个值（对应alpha）为0时，会关闭这层的调色功能，大于0时会开启
- * makeup_eye_color4:[0.0,0.0,0.0,0.0],//第四层眼影调色参数，数组的第四个值（对应alpha）为0时，会关闭这层的调色功能，大于0时会开启
- */
+/// 眼影特殊处理
+/// @note 如果is_two_color为1，会启用这个颜色，外圈颜色为color2，内圈颜色为color，如果color都为0，则外圈为透明，即为咬唇效果
+/// - Parameters:
+///   - color: 第一层眼影调色参数，数组的第四个值（对应alpha）为0时，会关闭这层的调色功能，大于0时会开启
+///   - color1: 第二层眼影调色参数，数组的第四个值（对应alpha）为0时，会关闭这层的调色功能，大于0时会开启，内部暂时未处理，使用color2和color3
+///   - color2: 第三层眼影调色参数，数组的第四个值（对应alpha）为0时，会关闭这层的调色功能，大于0时会开启
+///   - color3: 第四层眼影调色参数，数组的第四个值（对应alpha）为0时，会关闭这层的调色功能，大于0时会开启
 - (void)setEyeColor:(FUColor)color
              color1:(FUColor)color1
              color2:(FUColor)color2

@@ -11,7 +11,7 @@
 @interface FUAnimojiViewController ()<FUItemsViewDelegate, FUSegmentBarDelegate>
 
 @property (strong, nonatomic) FUItemsView *itemsView;
-/* 动漫滤镜分栏*/
+
 @property (strong, nonatomic) FUSegmentBar *segmentBarView;
 
 @property (nonatomic, strong, readonly) FUAnimojiViewModel *viewModel;
@@ -25,10 +25,28 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.view addSubview:self.segmentBarView];
     [self.view addSubview:self.itemsView];
-    
-    [self updateBottomConstraintsOfCaptureButton:FUHeightIncludeBottomSafeArea(133) + 10 animated:NO];
+    [self.view addSubview:self.segmentBarView];
+}
+
+#pragma mark - Private methods
+
+- (void)showEffectViewWithComplection:(void (^)(void))completion {
+    self.itemsView.hidden = NO;
+    [UIView animateWithDuration:0.2 animations:^{
+        self.itemsView.transform = CGAffineTransformIdentity;
+    } completion:^(BOOL finished) {
+        !completion ?: completion();
+    }];
+}
+
+- (void)hideEffectViewWithComplection:(void (^)(void))completion {
+    [UIView animateWithDuration:0.2 animations:^{
+        self.itemsView.transform = CGAffineTransformMakeTranslation(0, 84);
+    } completion:^(BOOL finished) {
+        self.itemsView.hidden = YES;
+        !completion ?: completion();
+    }];
 }
 
 #pragma mark - FUItemsViewDelegate
@@ -52,15 +70,27 @@
 
 - (void)segmentBar:(FUSegmentBar *)segmentsView didSelectItemAtIndex:(NSUInteger)index {
     if (index == self.viewModel.currentIndex) {
-        return;
-    }
-    self.viewModel.currentIndex = index;
-    if (index == 0) {
-        self.itemsView.items = self.viewModel.animojiItems;
-        self.itemsView.selectedIndex = self.viewModel.selectedAnimojiIndex;
-    }else{
-        self.itemsView.items = self.viewModel.comicFilterIcons;
-        self.itemsView.selectedIndex = self.viewModel.selectedComicFilterIndex;
+        segmentsView.userInteractionEnabled = NO;
+        [self hideEffectViewWithComplection:^{
+            segmentsView.userInteractionEnabled = YES;
+        }];
+        self.viewModel.currentIndex = -1;
+        [segmentsView selectItemAtIndex:-1];
+    } else {
+        if (self.viewModel.currentIndex == -1) {
+            segmentsView.userInteractionEnabled = NO;
+            [self showEffectViewWithComplection:^{
+                segmentsView.userInteractionEnabled = YES;
+            }];
+        }
+        self.viewModel.currentIndex = index;
+        if (index == 0) {
+            self.itemsView.items = self.viewModel.animojiItems;
+            self.itemsView.selectedIndex = self.viewModel.selectedAnimojiIndex;
+        } else {
+            self.itemsView.items = self.viewModel.comicFilterIcons;
+            self.itemsView.selectedIndex = self.viewModel.selectedComicFilterIndex;
+        }
     }
 }
 
@@ -70,7 +100,7 @@
     if (!_segmentBarView) {
         _segmentBarView = [[FUSegmentBar alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.view.bounds) - FUHeightIncludeBottomSafeArea(49.f), CGRectGetWidth(self.view.bounds), FUHeightIncludeBottomSafeArea(49.f)) titles:@[FULocalizedString(@"Animoji"), FULocalizedString(@"动漫滤镜")] configuration:[FUSegmentBarConfigurations new]];
         _segmentBarView.delegate = self;
-        _segmentBarView.selectedIndex = 0;
+        [_segmentBarView selectItemAtIndex:0];
     }
     return _segmentBarView;
 }
@@ -80,7 +110,6 @@
         _itemsView = [[FUItemsView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.view.bounds) - FUHeightIncludeBottomSafeArea(49.f) - 84, CGRectGetWidth(self.view.bounds), 84)];
         _itemsView.delegate = self;
         _itemsView.items = self.viewModel.animojiItems;
-        _itemsView.selectedIndex = 0;
     }
     return _itemsView;
 }

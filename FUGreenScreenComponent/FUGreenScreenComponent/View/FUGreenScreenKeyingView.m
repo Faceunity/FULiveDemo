@@ -176,10 +176,10 @@ static NSString * const kFUGreenScreenColorCellIdentifier = @"FUGreenScreenColor
         cell.imageView.backgroundColor = self.viewModel.keyColorArray[indexPath.item];
         cell.backgroundImageView.hidden = indexPath.item != 0;
         // 处理自定义取色cell未选中时展示取色icon，选中时隐藏取色icon的情况
-        cell.pickerColorImage = indexPath.item == 0 ? FUGreenScreenImageNamed(@"demo_icon_straw") : nil;
+        cell.pickerColorImage = indexPath.item == 0 ? [UIImage imageNamed:@"demo_icon_straw"] : nil;
         BOOL cellSelected = indexPath.item == self.viewModel.selectedColorIndex;
         if (indexPath.item == 0 && !cellSelected) {
-            cell.imageView.image = FUGreenScreenImageNamed(@"demo_icon_straw");
+            cell.imageView.image = [UIImage imageNamed:@"demo_icon_straw"];
         } else {
             cell.imageView.image = nil;
         }
@@ -282,7 +282,7 @@ static NSString * const kFUGreenScreenColorCellIdentifier = @"FUGreenScreenColor
     if (!_recoverButton) {
         _recoverButton = [[FUSquareButton alloc] initWithFrame:CGRectMake(0, 0, 44, 74)];
         [_recoverButton setTitle:FUGreenScreenStringWithKey(@"恢复") forState:UIControlStateNormal];
-        [_recoverButton setImage:FUGreenScreenImageNamed(@"demo_icon_recover") forState:UIControlStateNormal];
+        [_recoverButton setImage:[UIImage imageNamed:@"demo_icon_recover"] forState:UIControlStateNormal];
         _recoverButton.alpha = 0.6;
         _recoverButton.userInteractionEnabled = NO;
         [_recoverButton addTarget:self action:@selector(recoverAction) forControlEvents:UIControlEventTouchUpInside];
@@ -337,10 +337,10 @@ static NSString * const kFUGreenScreenColorCellIdentifier = @"FUGreenScreenColor
     [super setSelected:selected];
     BOOL changed = self.currentValue > 0.01;
     if (selected) {
-        self.imageView.image = changed ? FUGreenScreenImageNamed([NSString stringWithFormat:@"%@_sel_open", self.imageName]) : FUGreenScreenImageNamed([NSString stringWithFormat:@"%@_sel", self.imageName]);
+        self.imageView.image = changed ? [UIImage imageNamed:[NSString stringWithFormat:@"%@_sel_open", self.imageName]] : [UIImage imageNamed:[NSString stringWithFormat:@"%@_sel", self.imageName]];
         self.textLabel.textColor = [UIColor colorWithRed:94/255.f green:199/255.f blue:254/255.f alpha:1];
     } else {
-        self.imageView.image = changed ? FUGreenScreenImageNamed([NSString stringWithFormat:@"%@_nor_open", self.imageName]) : FUGreenScreenImageNamed([NSString stringWithFormat:@"%@_nor", self.imageName]);
+        self.imageView.image = changed ? [UIImage imageNamed:[NSString stringWithFormat:@"%@_nor_open", self.imageName]] : [UIImage imageNamed:[NSString stringWithFormat:@"%@_nor", self.imageName]];
         self.textLabel.textColor = [UIColor whiteColor];
     }
 }
@@ -414,7 +414,7 @@ static NSString * const kFUGreenScreenColorCellIdentifier = @"FUGreenScreenColor
 - (UIImageView *)backgroundImageView {
     if (!_backgroundImageView) {
         _backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(1, 1, CGRectGetWidth(self.frame) - 2, CGRectGetHeight(self.frame) - 2)];
-        _backgroundImageView.image = FUGreenScreenImageNamed(@"demo_bg_transparent");
+        _backgroundImageView.image = [UIImage imageNamed:@"demo_bg_transparent"];
         _backgroundImageView.layer.cornerRadius = CGRectGetWidth(_backgroundImageView.frame) / 2.0;
     }
     return _backgroundImageView;

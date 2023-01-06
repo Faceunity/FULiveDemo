@@ -11,6 +11,9 @@
 #ifndef FUBeautyDefine_h
 #define FUBeautyDefine_h
 
+
+#define FUBeautyStringWithKey(aKey) NSLocalizedString(aKey, nil)
+
 #pragma mark - Const
 
 extern const CGFloat FUBeautyCategoryViewHeight;
@@ -27,7 +30,6 @@ extern NSString * const FUPersistentBeautyFilterKey;
 
 extern NSString * const FUPersistentBeautySelectedFilterIndexKey;
 
-extern NSString * const FUPersistentBeautySelectedStyleIndexKey;
 
 #pragma mark - Enum
 
@@ -35,8 +37,7 @@ typedef NS_ENUM(NSInteger, FUBeautyCategory) {
     FUBeautyCategoryNone = -1,
     FUBeautyCategorySkin = 0,       //美肤
     FUBeautyCategoryShape = 1,      //美型
-    FUBeautyCategoryFilter = 2,     //滤镜
-    FUBeautyCategoryPreset = 3      //风格推荐
+    FUBeautyCategoryFilter = 2      //滤镜
 };
 
 typedef NS_ENUM(NSUInteger, FUBeautySkin) {
@@ -92,22 +93,6 @@ static inline UIImage * FUBeautyImageNamed(NSString *name) {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"FUBeautyComponent" ofType:@"framework" inDirectory:@"Frameworks"];
     NSBundle *bundle = [NSBundle bundleWithPath:path];
     return [UIImage imageNamed:name inBundle:bundle compatibleWithTraitCollection:nil];;
-}
-
-static inline NSString * FUBeautyStringWithKey(NSString *key) {
-    NSString *framePath = [[NSBundle mainBundle] pathForResource:@"FUBeautyComponent" ofType:@"framework" inDirectory:@"Frameworks"];
-    NSBundle *frameBundle = [NSBundle bundleWithPath:framePath];
-    NSArray *languages = [NSLocale preferredLanguages];
-    NSString *currentLanguage = languages.firstObject;
-    if ([currentLanguage hasPrefix:@"zh-Hans"]) {
-        currentLanguage =@"zh-Hans";
-    } else {
-        currentLanguage = @"en";
-    }
-    NSString *path = [frameBundle pathForResource:currentLanguage ofType:@"lproj"];
-    NSBundle *bundle = [NSBundle bundleWithPath:path];
-    NSString *value = [bundle localizedStringForKey:key value:nil table:@"FUBeautyComponent"];
-    return value;
 }
 
 #endif /* FUBeautyDefine_h */

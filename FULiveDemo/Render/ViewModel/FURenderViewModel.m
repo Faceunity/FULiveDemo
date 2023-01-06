@@ -39,8 +39,6 @@
         if (self.necessaryAIModelTypes & FUAIModelTypeFace) {
             // 加载人脸AI模型
             [FURenderKitManager loadFaceAIModel];
-            // 开启人脸离开延迟
-            // [FUAIKit setFaceDelayLeaveEnable:YES];
         }
         if (self.necessaryAIModelTypes & FUAIModelTypeHuman) {
             // 加载人体AI模型
@@ -102,8 +100,9 @@
         if (handler) {
             handler();
         }
+    } else {
+        [FURenderKit shareRenderKit].internalCameraSetting.position = front ? AVCaptureDevicePositionFront : AVCaptureDevicePositionBack;
     }
-    [FURenderKit shareRenderKit].internalCameraSetting.position = front ? AVCaptureDevicePositionFront : AVCaptureDevicePositionBack;
 }
 
 - (void)switchCameraFocusMode:(FUCaptureCameraFocusMode)mode {
@@ -186,8 +185,10 @@
 
 - (void)renderKitWillRenderFromRenderInput:(FURenderInput *)renderInput {
     if (renderInput.pixelBuffer != NULL) {
+        CVPixelBufferLockBaseAddress(renderInput.pixelBuffer, 0);
         self.inputBufferWidth = CVPixelBufferGetWidth(renderInput.pixelBuffer);
         self.inputBufferHeight = CVPixelBufferGetHeight(renderInput.pixelBuffer);
+        CVPixelBufferUnlockBaseAddress(renderInput.pixelBuffer, 0);
     }
     [FURenderKitManager updateBeautyBlurEffect];
     if (self.delegate && [self.delegate respondsToSelector:@selector(renderWillInputPixelBuffer:)]) {
@@ -297,6 +298,10 @@
 
 - (BOOL)needsLoadingBeauty {
     return YES;
+}
+
+- (CGFloat)captureButtonBottomConstant {
+    return FUHeightIncludeBottomSafeArea(10);
 }
 
 #pragma mark - Getters

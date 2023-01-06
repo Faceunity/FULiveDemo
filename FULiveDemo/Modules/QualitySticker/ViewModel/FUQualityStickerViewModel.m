@@ -181,6 +181,10 @@ static NSInteger const kFUDownloadTasksMaxNumber = 4;
     return YES;
 }
 
+- (NSArray<AVCaptureSessionPreset> *)presets {
+    return @[AVCaptureSessionPreset1280x720, AVCaptureSessionPreset1920x1080];;
+}
+
 - (FUAIModelType)necessaryAIModelTypes {
     return FUAIModelTypeFace | FUAIModelTypeHuman | FUAIModelTypeHand;
 }

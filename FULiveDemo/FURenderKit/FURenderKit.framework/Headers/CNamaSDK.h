@@ -76,6 +76,7 @@ typedef enum FUAITYPE {
 #define FUAITYPE_HUMAN_PROCESSOR_2D_IMGSLIM 34359738368            // 1<<35
 #define FUAITYPE_IMAGE_BEAUTY_UNKNOW 68719476736                   // 1<<36
 #define FUAITYPE_FACEPROCESSOR_LIPSOCCUSEGMENT 137438953472        // 1<<37
+#define FUAITYPE_FACEPROCESSOR_FACEOCCUSEGMENT 274877906944        // 1<<38
 
 typedef enum FUAIGESTURETYPE {
   FUAIGESTURE_NO_HAND = -1,
@@ -441,6 +442,7 @@ FUNAMA_API bool fuDestroyGLContext();
   \warning experimental API
 */
 FUNAMA_API bool fuMakeGLContextCurrent();
+FUNAMA_API void* fuGetCurrentGLContext();
 
 /**
  \brief Initialize and authenticate your SDK instance to the FaceUnity server,
@@ -1754,6 +1756,16 @@ FUNAMA_API const float* fuHumanProcessorGetResultHumanMask(int index,
 */
 FUNAMA_API float fuHumanActionMatchDistance(const float* src_pose, int sz_src,
                                             const float* ref_pose, int sz_ref);
+
+/**
+ \brief calculate action distance with left and right.
+ \return score of distance, range [0,1], 1 for fully match.
+*/
+FUNAMA_API float fuHumanActionMatchLeftRightHandDistance(const float* src_pose,
+                                                         int sz_src,
+                                                         const float* ref_pose,
+                                                         int sz_ref,
+                                                         bool mirror);
 
 /**
  \brief get hand detector's tracking results.

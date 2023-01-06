@@ -11,15 +11,15 @@
 @implementation FUUtility
 
 + (void)requestVideoURLFromInfo:(NSDictionary<NSString *,id> *)info resultHandler:(void (^)(NSURL * _Nonnull))handler {
-    if (info[UIImagePickerControllerMediaURL]) {
-        !handler ?: handler(info[UIImagePickerControllerMediaURL]);
-    } else if (info[UIImagePickerControllerReferenceURL]) {
+    if (info[UIImagePickerControllerReferenceURL]) {
         NSURL *refrenceURL = info[UIImagePickerControllerReferenceURL];
         PHFetchResult<PHAsset *> *assets = [PHAsset fetchAssetsWithALAssetURLs:@[refrenceURL] options:nil];
         [[PHImageManager defaultManager] requestAVAssetForVideo:assets.firstObject options:nil resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
             AVURLAsset *urlAsset = (AVURLAsset *)asset;
             !handler ?: handler(urlAsset.URL);
         }];
+    } else if (info[UIImagePickerControllerMediaURL]) {
+        !handler ?: handler(info[UIImagePickerControllerMediaURL]);
     } else {
         if (@available(iOS 11.0, *)) {
             PHAsset *asset = info[UIImagePickerControllerPHAsset];

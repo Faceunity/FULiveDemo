@@ -13,6 +13,8 @@
 
 @property (nonatomic, copy) NSArray<FUHomepageGroup *> *dataSource;
 
+@property (nonatomic, copy) NSArray<UIImage *> *animationImages;
+
 @end
 
 @implementation FUHomepageViewModel
@@ -21,14 +23,29 @@
     self = [super init];
     if (self) {
         // 处理模块权限
+        NSInteger moduleCode0 = [FURenderKit getModuleCode:0];
+        NSInteger moduleCode1 = [FURenderKit getModuleCode:1];
         for (FUHomepageGroup *group in self.dataSource) {
             for (FUHomepageModule *module in group.modules) {
-                // 获取模块权限码
-                int permission = [FURenderKit getModuleCode:(int)module.moduleCode];
-                // 判断是否有权限
-                module.enable = permission & module.permissionCode;
+                if (!module.authCode) {
+                    module.enable = YES;
+                } else {
+                    NSString *authCodeString = module.authCode;
+                    // 分割权限码
+                    NSArray *authCodes = [authCodeString componentsSeparatedByString:@"-"];
+                    NSInteger code0 = [authCodes[0] integerValue], code1 = [authCodes[1] integerValue];
+                    // 判断是否有权限(moduleCode0对比code0，moduleCode1对比code1)
+                    module.enable = (moduleCode0 & code0) || (moduleCode1 & code1);
+                }
             }
         }
+        NSMutableArray<UIImage *> *images = [[NSMutableArray alloc] init];
+        for (NSUInteger i = 0; i < 83; i++) {
+            NSString *path = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"animation_icon_%@", @(i)] ofType:@"png"];
+            UIImage *image = [UIImage imageWithContentsOfFile:path];
+            [images addObject:image];
+        }
+        self.animationImages = [images copy];
     }
     return self;
 }
@@ -70,7 +87,7 @@
         NSString *path = [[NSBundle mainBundle] pathForResource:@"homepage_data_source" ofType:@"json"];
         NSData *jsonData = [NSData dataWithContentsOfFile:path];
         NSArray *jsonArray = (NSArray *)[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
-        NSArray *models = [FUHomepageGroup mj_objectArrayWithKeyValuesArray:jsonArray];
+        NSArray *models = [NSArray yy_modelArrayWithClass:[FUHomepageGroup class] json:jsonArray];
         _dataSource = [models copy];
     }
     return _dataSource;

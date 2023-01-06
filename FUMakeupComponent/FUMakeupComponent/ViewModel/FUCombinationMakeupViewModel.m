@@ -35,10 +35,6 @@
 #pragma mark - Instance methods
 
 - (void)selectCombinationMakeupAtIndex:(NSInteger)index complectionHandler:(void (^)(void))complection {
-//    if (index == self.selectedIndex) {
-//        !complection ?: complection();
-//        return;
-//    }
     if (index < 0 || index >= self.combinationMakeups.count) {
         self.selectedIndex = -1;
         !complection ?: complection();
@@ -53,15 +49,17 @@
     }
     NSInteger currentIndex = self.selectedIndex;
     self.selectedIndex = index;
+    if ([FURenderKit shareRenderKit].makeup) {
+        [FURenderKit shareRenderKit].makeup.enable = NO;
+    }
     dispatch_async(self.loadingQueue, ^{
         FUCombinationMakeupModel *model = self.combinationMakeups[index];
         // @note 嗲嗲兔、冻龄、国风、混血是8.0.0新加的四个组合妆，新组合妆只需要直接加载bundle，不需要绑定到face_makeup.bundle
         if (model.isCombined) {
             // 新组合妆，每次加载必须重新初始化
-            NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-            NSString *path = [bundle pathForResource:model.bundleName ofType:@"bundle"];
+            NSString *path = [[NSBundle mainBundle] pathForResource:model.bundleName ofType:@"bundle"];
             FUMakeup *makeup = [[FUMakeup alloc] initWithPath:path name:@"makeup"];
-            // 高端机打开口红遮挡
+            // 高端机打开全脸分割
             makeup.makeupSegmentation = [FURenderKit devicePerformanceLevel] == FUDevicePerformanceLevelHigh;
             [FURenderKit shareRenderKit].makeup = makeup;
         } else {
@@ -69,7 +67,7 @@
                 // 当前选择的是新组合装或者当前未加载美妆，需要重新初始化
                 NSString *path = [[NSBundle mainBundle] pathForResource:@"face_makeup" ofType:@"bundle"];
                 FUMakeup *makeup = [[FUMakeup alloc] initWithPath:path name:@"makeup"];
-                // 高端机打开口红遮挡
+                // 高端机打开全脸分割
                 makeup.makeupSegmentation = [FURenderKit devicePerformanceLevel] == FUDevicePerformanceLevelHigh;
                 [FURenderKit shareRenderKit].makeup = makeup;
             }
@@ -77,6 +75,7 @@
         }
         [self updateFilterOfCombinationMakeup:model];
         [self updateIntensityOfCombinationMakeup:model];
+        [FURenderKit shareRenderKit].makeup.enable = YES;
         !complection ?: complection();
     });
 }
@@ -88,7 +87,7 @@
 
 - (UIImage *)combinationMakeupIconAtIndex:(NSUInteger)index {
     FUCombinationMakeupModel *model = self.combinationMakeups[index];
-    return FUMakeupImageNamed(model.icon);
+    return [UIImage imageNamed:model.icon];
 }
 
 - (NSUInteger)subMakeupIndexOfSelectedCombinationMakeupWithType:(FUSubMakeupType)type {
@@ -217,8 +216,7 @@
 
 /// 绑定组合妆到face_makeup.bundle（老组合妆方法）
 - (void)bindCombinationMakeupWithBundleName:(NSString *)bundleName {
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    NSString *path = [bundle pathForResource:bundleName ofType:@"bundle"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:bundleName ofType:@"bundle"];
     FUItem *item = [[FUItem alloc] initWithPath:path name:bundleName];
     [[FURenderKit shareRenderKit].makeup updateMakeupPackage:item needCleanSubItem:YES];
 }
@@ -301,7 +299,7 @@
             [model setValuesForKeysWithDictionary:dictionary];
             if (![model.name isEqualToString:@"卸妆"]) {
                 // 解析对应组合妆的json文件
-                NSString *combinationPath = [bundle pathForResource:model.bundleName ofType:@"json"];
+                NSString *combinationPath = [[NSBundle mainBundle] pathForResource:model.bundleName ofType:@"json"];
                 NSDictionary *combinationDictionary = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:combinationPath] options:NSJSONReadingMutableContainers error:nil];
                 // 设置子妆内容
                 FUSubMakeupModel *foundation = [[FUSubMakeupModel alloc] init];

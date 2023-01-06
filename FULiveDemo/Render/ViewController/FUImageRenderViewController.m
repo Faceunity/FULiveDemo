@@ -58,6 +58,7 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
     // 移除点位测试开关
     if ([FURenderKitManager sharedManager].showsLandmarks) {
         [FULandmarkManager dismiss];
@@ -123,7 +124,7 @@
     
     [self.view addSubview:self.downloadButton];
     [self.downloadButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view.mas_bottom).offset(-FUHeightIncludeBottomSafeArea(69));
+        make.bottom.equalTo(self.view.mas_bottom).offset(-self.viewModel.downloadButtonBottomConstant - 10);
         make.centerX.equalTo(self.view);
         make.size.mas_offset(CGSizeMake(85, 85));
     }];
@@ -131,18 +132,13 @@
 
 #pragma mark - Instance methods
 
-- (void)updateBottomConstraintsOfDownloadButton:(CGFloat)constraints hidden:(BOOL)isHidden animated:(BOOL)animated {
+- (void)updateBottomConstraintsOfDownloadButton:(CGFloat)constraints {
     [self.downloadButton mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view.mas_bottom).mas_offset(-constraints);
+        make.bottom.equalTo(self.view.mas_bottom).mas_offset(-constraints-10);
     }];
-    if (animated) {
-        [UIView animateWithDuration:0.15 animations:^{
-            self.downloadButton.transform = isHidden ? CGAffineTransformIdentity : CGAffineTransformMakeScale(0.9, 0.9);
-            [self.view layoutIfNeeded];
-        }];
-    } else {
-        self.downloadButton.transform = isHidden ? CGAffineTransformIdentity : CGAffineTransformMakeScale(0.9, 0.9);
-    }
+    [UIView animateWithDuration:0.15 animations:^{
+        [self.view layoutIfNeeded];
+    }];
 }
 
 #pragma mark - Event response
@@ -163,9 +159,9 @@
 
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
     if (error) {
-        [SVProgressHUD showError:FULocalizedString(@"保存图片失败")];
+        [FUTipHUD showTips:FULocalizedString(@"保存图片失败") dismissWithDelay:1.5];
     } else {
-        [SVProgressHUD showSuccess:FULocalizedString(@"图片已保存到相册")];
+        [FUTipHUD showTips:FULocalizedString(@"图片已保存到相册") dismissWithDelay:1.5];
     }
 }
 
@@ -213,6 +209,7 @@
 - (UIButton *)downloadButton {
     if (!_downloadButton) {
         _downloadButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _downloadButton.frame = CGRectMake(CGRectGetWidth(self.view.bounds) / 2.0 - 42.5, CGRectGetHeight(self.view.bounds) - 85 - FUHeightIncludeBottomSafeArea(10), 85, 85);
         _downloadButton.backgroundColor = [UIColor whiteColor];
         _downloadButton.layer.cornerRadius = 42.5;
         [_downloadButton setBackgroundImage:[UIImage imageNamed:@"render_save"] forState:UIControlStateNormal];

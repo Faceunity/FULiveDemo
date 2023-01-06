@@ -6,7 +6,7 @@
 //  Copyright © 2018年 faceUnity. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "FURenderModel.h"
 
 /// 精品贴纸类型
 typedef NS_ENUM(NSUInteger, FUQualityStickerType) {
@@ -14,7 +14,7 @@ typedef NS_ENUM(NSUInteger, FUQualityStickerType) {
     FUQualityStickerTypeAvatar          // Avatar
 };
 
-@interface FUQualityStickerModel : NSObject<NSCoding>
+@interface FUQualityStickerModel : FURenderModel
 
 @property (nonatomic, assign) FUQualityStickerType type;
 

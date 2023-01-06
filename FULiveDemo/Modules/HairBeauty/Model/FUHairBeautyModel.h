@@ -5,11 +5,11 @@
 //  Created by 项林平 on 2022/9/26.
 //
 
-#import <Foundation/Foundation.h>
+#import "FURenderModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface FUHairBeautyModel : NSObject
+@interface FUHairBeautyModel : FURenderModel
 
 @property (nonatomic, copy) NSString *icon;
 /// 程度值

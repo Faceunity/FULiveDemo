@@ -43,10 +43,9 @@ static NSString * const kFULightMakeupCellIdentifier = @"FULightMakeupCell";
         make.height.mas_offset(98);
     }];
     
+    self.viewModel.selectedIndex = 1;
     [self.collectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:self.viewModel.selectedIndex inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
-    self.slider.hidden = self.viewModel.selectedIndex == 0;
-    
-    [self updateBottomConstraintsOfCaptureButton:FUHeightIncludeBottomSafeArea(134) + 10 animated:NO];
+    self.slider.value = self.viewModel.lightMakeups[self.viewModel.selectedIndex].value;
 }
 
 #pragma mark - Event response

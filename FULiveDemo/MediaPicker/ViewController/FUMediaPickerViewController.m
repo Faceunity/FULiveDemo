@@ -10,12 +10,14 @@
 #import "FUBeautyVideoRenderViewController.h"
 #import "FUMakeupImageRenderViewController.h"
 #import "FUMakeupVideoRenderViewController.h"
+#import "FUStyleImageRenderViewController.h"
+#import "FUStyleVideoRenderViewController.h"
 #import "FUStickerImageRenderViewController.h"
 #import "FUStickerVideoRenderViewController.h"
 #import "FUGreenScreenImageRenderViewController.h"
 #import "FUGreenScreenVideoRenderViewController.h"
 
-#import "UIImage+FU.h"
+#import <Photos/Photos.h>
 
 @interface FUMediaPickerViewController ()<UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
@@ -85,7 +87,7 @@
     [self.view addSubview:self.messageLabel];
     [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
-        make.bottom.equalTo(self.imageSelectionButton.mas_top).mas_offset(-44);
+        make.bottom.equalTo(self.imageSelectionButton.mas_top).mas_offset(-74);
     }];
 }
 
@@ -96,27 +98,47 @@
 }
 
 - (void)imageSelectionAction:(UIButton *)sender {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-        picker.delegate = self;
-        picker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
-        picker.allowsEditing = NO;
-        picker.mediaTypes = @[(NSString *)kUTTypeImage];
-        picker.modalPresentationStyle = UIModalPresentationFullScreen;
-        [self presentViewController:picker animated:YES completion:nil];
-    });
+    [self selectWithMediaType:(NSString *)kUTTypeImage];
 }
 
 - (void)videoSelectionAction:(UIButton *)sender {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-        picker.delegate = self;
-        picker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
-        picker.allowsEditing = NO;
-        picker.mediaTypes = @[(NSString *)kUTTypeMovie];
-        picker.modalPresentationStyle = UIModalPresentationFullScreen;
-        [self presentViewController:picker animated:YES completion:nil];
-    });
+    [self selectWithMediaType:(NSString *)kUTTypeMovie];
+}
+
+- (void)selectWithMediaType:(NSString *)type {
+    if (@available(iOS 14, *)) {
+        [PHPhotoLibrary requestAuthorizationForAccessLevel:PHAccessLevelReadWrite handler:^(PHAuthorizationStatus status) {
+            [self handleAuthorizationStatus:status mediaType:type];
+        }];
+    } else {
+        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+            [self handleAuthorizationStatus:status mediaType:type];
+        }];
+    }
+}
+
+- (void)handleAuthorizationStatus:(PHAuthorizationStatus)status mediaType:(NSString *)type {
+    if (status == PHAuthorizationStatusAuthorized) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+            picker.delegate = self;
+            picker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+            picker.allowsEditing = NO;
+            picker.mediaTypes = @[type];
+            picker.modalPresentationStyle = UIModalPresentationFullScreen;
+            [self presentViewController:picker animated:YES completion:nil];
+        });
+    } else {
+        // 需要用户主动打开相册权限
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [FUAlertManager showAlertWithTitle:nil message:FULocalizedString(@"photo_library_authorization_tips") cancel:FULocalizedString(@"取消") confirm:FULocalizedString(FULocalizedString(@"确定")) inController:self confirmHandler:^{
+                NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+                if ([[UIApplication sharedApplication] canOpenURL:url]) {
+                    [[UIApplication sharedApplication] openURL:url];
+                }
+            } cancelHandler:nil];
+        });
+    }
 }
 
 #pragma mark - UIImagePickerControllerDelegate
@@ -136,7 +158,9 @@
         } else {
             // 获取视频地址
             [FUUtility requestVideoURLFromInfo:info resultHandler:^(NSURL * _Nonnull videoURL) {
-                [self pushToVideoRender:videoURL];
+                if (videoURL) {
+                    [self pushToVideoRender:videoURL];
+                }
             }];
         }
     }
@@ -152,6 +176,10 @@
                 break;
             case FUModuleMakeup:{
                 controller = [[FUMakeupImageRenderViewController alloc] initWithViewModel:[[FUMakeupImageRenderViewModel alloc] initWithImage:image]];
+            }
+                break;
+            case FUModuleStyle:{
+                controller = [[FUStyleImageRenderViewController alloc] initWithViewModel:[[FUStyleImageRenderViewModel alloc] initWithImage:image]];
             }
                 break;
             case FUModuleSticker:{
@@ -179,6 +207,10 @@
                 break;
             case FUModuleMakeup:{
                 controller = [[FUMakeupVideoRenderViewController alloc] initWithViewModel:[[FUMakeupVideoRenderViewModel alloc] initWithVideoURL:videoURL]];
+            }
+                break;
+            case FUModuleStyle:{
+                controller = [[FUStyleVideoRenderViewController alloc] initWithViewModel:[[FUStyleVideoRenderViewModel alloc] initWithVideoURL:videoURL]];
             }
                 break;
             case FUModuleSticker:{

@@ -31,19 +31,10 @@
 		E3A58CFC28A3CE5900941101 /* FUGreenScreenColorPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A58CF428A3CE5900941101 /* FUGreenScreenColorPicker.m */; };
 		E3A58D6028A4AEF500941101 /* FUGreenScreenDefine.h in Headers */ = {isa = PBXBuildFile; fileRef = E3A58D5E28A4AEF500941101 /* FUGreenScreenDefine.h */; };
 		E3A58D6128A4AEF500941101 /* FUGreenScreenDefine.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A58D5F28A4AEF500941101 /* FUGreenScreenDefine.m */; };
-		E3A58D8428A4B4F000941101 /* inkPainting.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E3A58D7A28A4B4EF00941101 /* inkPainting.mp4 */; };
-		E3A58D8528A4B4F000941101 /* beach.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E3A58D7B28A4B4EF00941101 /* beach.mp4 */; };
 		E3A58D8628A4B4F000941101 /* green_screen_keying.json in Resources */ = {isa = PBXBuildFile; fileRef = E3A58D7C28A4B4EF00941101 /* green_screen_keying.json */; };
-		E3A58D8728A4B4F000941101 /* classroom.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E3A58D7D28A4B4EF00941101 /* classroom.mp4 */; };
-		E3A58D8928A4B4F000941101 /* safe_area_2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E3A58D7F28A4B4EF00941101 /* safe_area_2.jpg */; };
-		E3A58D8A28A4B4F000941101 /* safe_area_1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E3A58D8028A4B4EF00941101 /* safe_area_1.jpg */; };
-		E3A58D8B28A4B4F000941101 /* springForest.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E3A58D8128A4B4EF00941101 /* springForest.mp4 */; };
-		E3A58D8C28A4B4F000941101 /* science.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E3A58D8228A4B4F000941101 /* science.mp4 */; };
 		E3A58D8D28A4B4F000941101 /* green_screen_background.json in Resources */ = {isa = PBXBuildFile; fileRef = E3A58D8328A4B4F000941101 /* green_screen_background.json */; };
 		E3A58D9028A4B5ED00941101 /* FUGreenScreenComponentManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E3A58D8E28A4B5ED00941101 /* FUGreenScreenComponentManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E3A58D9128A4B5ED00941101 /* FUGreenScreenComponentManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A58D8F28A4B5ED00941101 /* FUGreenScreenComponentManager.m */; };
-		E3A58DA428A4ED5100941101 /* FUGreenScreenComponent.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3A58DA628A4ED5100941101 /* FUGreenScreenComponent.strings */; };
-		E3A58DA928A4ED8000941101 /* FUGreenScreen.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E3A58DA828A4ED8000941101 /* FUGreenScreen.xcassets */; };
 		E3A58DB628A4F9A100941101 /* FUCommonUIComponent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3A58D6828A4B07D00941101 /* FUCommonUIComponent.framework */; };
 /* End PBXBuildFile section */
 
@@ -74,20 +65,10 @@
 		E3A58D5E28A4AEF500941101 /* FUGreenScreenDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUGreenScreenDefine.h; sourceTree = "<group>"; };
 		E3A58D5F28A4AEF500941101 /* FUGreenScreenDefine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUGreenScreenDefine.m; sourceTree = "<group>"; };
 		E3A58D6828A4B07D00941101 /* FUCommonUIComponent.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FUCommonUIComponent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E3A58D7A28A4B4EF00941101 /* inkPainting.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = inkPainting.mp4; sourceTree = "<group>"; };
-		E3A58D7B28A4B4EF00941101 /* beach.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = beach.mp4; sourceTree = "<group>"; };
 		E3A58D7C28A4B4EF00941101 /* green_screen_keying.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = green_screen_keying.json; sourceTree = "<group>"; };
-		E3A58D7D28A4B4EF00941101 /* classroom.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = classroom.mp4; sourceTree = "<group>"; };
-		E3A58D7F28A4B4EF00941101 /* safe_area_2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = safe_area_2.jpg; sourceTree = "<group>"; };
-		E3A58D8028A4B4EF00941101 /* safe_area_1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = safe_area_1.jpg; sourceTree = "<group>"; };
-		E3A58D8128A4B4EF00941101 /* springForest.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = springForest.mp4; sourceTree = "<group>"; };
-		E3A58D8228A4B4F000941101 /* science.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = science.mp4; sourceTree = "<group>"; };
 		E3A58D8328A4B4F000941101 /* green_screen_background.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = green_screen_background.json; sourceTree = "<group>"; };
 		E3A58D8E28A4B5ED00941101 /* FUGreenScreenComponentManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUGreenScreenComponentManager.h; sourceTree = "<group>"; };
 		E3A58D8F28A4B5ED00941101 /* FUGreenScreenComponentManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUGreenScreenComponentManager.m; sourceTree = "<group>"; };
-		E3A58DA528A4ED5100941101 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/FUGreenScreenComponent.strings; sourceTree = "<group>"; };
-		E3A58DA728A4ED6200941101 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/FUGreenScreenComponent.strings"; sourceTree = "<group>"; };
-		E3A58DA828A4ED8000941101 /* FUGreenScreen.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = FUGreenScreen.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,17 +161,8 @@
 		E3A58CD328A3CD4200941101 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				E3A58DA628A4ED5100941101 /* FUGreenScreenComponent.strings */,
-				E3A58DA828A4ED8000941101 /* FUGreenScreen.xcassets */,
-				E3A58D7B28A4B4EF00941101 /* beach.mp4 */,
-				E3A58D7D28A4B4EF00941101 /* classroom.mp4 */,
 				E3A58D8328A4B4F000941101 /* green_screen_background.json */,
 				E3A58D7C28A4B4EF00941101 /* green_screen_keying.json */,
-				E3A58D7A28A4B4EF00941101 /* inkPainting.mp4 */,
-				E3A58D8028A4B4EF00941101 /* safe_area_1.jpg */,
-				E3A58D7F28A4B4EF00941101 /* safe_area_2.jpg */,
-				E3A58D8228A4B4F000941101 /* science.mp4 */,
-				E3A58D8128A4B4EF00941101 /* springForest.mp4 */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -286,17 +258,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E3A58D8C28A4B4F000941101 /* science.mp4 in Resources */,
-				E3A58DA928A4ED8000941101 /* FUGreenScreen.xcassets in Resources */,
 				E3A58D8628A4B4F000941101 /* green_screen_keying.json in Resources */,
 				E3A58D8D28A4B4F000941101 /* green_screen_background.json in Resources */,
-				E3A58D8428A4B4F000941101 /* inkPainting.mp4 in Resources */,
-				E3A58D8528A4B4F000941101 /* beach.mp4 in Resources */,
-				E3A58D8928A4B4F000941101 /* safe_area_2.jpg in Resources */,
-				E3A58D8B28A4B4F000941101 /* springForest.mp4 in Resources */,
-				E3A58D8A28A4B4F000941101 /* safe_area_1.jpg in Resources */,
-				E3A58D8728A4B4F000941101 /* classroom.mp4 in Resources */,
-				E3A58DA428A4ED5100941101 /* FUGreenScreenComponent.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -323,18 +286,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		E3A58DA628A4ED5100941101 /* FUGreenScreenComponent.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E3A58DA528A4ED5100941101 /* en */,
-				E3A58DA728A4ED6200941101 /* zh-Hans */,
-			);
-			name = FUGreenScreenComponent.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		E3A58CCB28A3CCA100941101 /* Debug */ = {

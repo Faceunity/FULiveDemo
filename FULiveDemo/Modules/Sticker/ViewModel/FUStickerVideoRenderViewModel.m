@@ -9,4 +9,8 @@
 
 @implementation FUStickerVideoRenderViewModel
 
+- (CGFloat)downloadButtonBottomConstant {
+    return FUHeightIncludeBottomSafeArea(84);
+}
+
 @end

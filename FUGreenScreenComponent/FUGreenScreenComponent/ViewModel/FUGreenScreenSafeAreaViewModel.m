@@ -93,8 +93,7 @@
             // 本地自定义安全区域
             [self updateSafeAreaImage:self.localSafeAreaImage];
         } else {
-            NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-            UIImage *image = [UIImage imageWithContentsOfFile:[bundle pathForResource:safeArea.imageName ofType:@"jpg"]];
+            UIImage *image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:safeArea.imageName ofType:@"jpg"]];
             [self updateSafeAreaImage:image];
         }
     }
@@ -121,7 +120,7 @@
     if (safeArea.isLocal && self.localSafeAreaImage) {
         return self.localSafeAreaImage;
     } else {
-        return FUGreenScreenImageNamed(safeArea.iconName);
+        return [UIImage imageNamed:safeArea.iconName];
     }
 }
 

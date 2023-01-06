@@ -6,6 +6,7 @@
 //
 
 #import "UIButton+FU.h"
+#import <objc/runtime.h>
 
 static char kFUDelayActionHandler, kFUDelayTime;
 

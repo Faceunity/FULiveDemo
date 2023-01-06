@@ -13,13 +13,13 @@
 - (instancetype)initWithCoder:(NSCoder *)coder {
     self = [super init];
     if (self) {
-        [self mj_decode:coder];
+        [self yy_modelInitWithCoder:coder];
     }
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
-    [self mj_encode:coder];
+    [self yy_modelEncodeWithCoder:coder];
 }
 
 @end

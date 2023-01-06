@@ -10,7 +10,6 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <FUGreenScreenComponent/FUGreenScreenComponentManager.h>
 
-#import "UIImage+FU.h"
 
 @interface FUGreenScreenVideoRenderViewController ()<FUGreenScreenComponentDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
@@ -32,16 +31,7 @@
     [FUGreenScreenComponentManager sharedManager].displayView = self.renderView;
     [FUGreenScreenComponentManager sharedManager].delegate = self;
     // 更新保存按钮位置
-    [self updateBottomConstraintsOfDownloadButton:[FUGreenScreenComponentManager sharedManager].componentViewHeight + 10 hidden:[FUGreenScreenComponentManager sharedManager].selectedIndex == -1 animated:NO];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    
-    // 移除绿幕视图
-    [[FUGreenScreenComponentManager sharedManager] removeComponentView];
-    [FUGreenScreenComponentManager sharedManager].displayView = nil;
-    [FUGreenScreenComponentManager sharedManager].delegate = nil;
+    [self updateBottomConstraintsOfDownloadButton:[FUGreenScreenComponentManager sharedManager].componentViewHeight];
 }
 
 #pragma mark - FUGreenScreenComponentDelegate
@@ -58,7 +48,7 @@
 
 - (void)greenScreenComponentViewHeightDidChange:(CGFloat)height {
     // 绿幕视图高度变化时需要更新拍照/录制按钮的位置
-    [self updateBottomConstraintsOfDownloadButton:height + 10 hidden:[FUGreenScreenComponentManager sharedManager].selectedIndex == -1 animated:YES];
+    [self updateBottomConstraintsOfDownloadButton:height];
 }
 
 #pragma mark - UIImagePickerControllerDelegate

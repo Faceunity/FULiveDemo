@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) NSInteger selectedAnimojiIndex;
 
 @property (nonatomic, assign, readonly) NSInteger selectedComicFilterIndex;
-/// 当前特效视图索引
+/// 当前特效视图索引，-1为隐藏所有视图
 @property (nonatomic, assign) NSInteger currentIndex;
 
 - (void)loadAnimojiAtIndex:(NSInteger)index completion:(nullable void (^)(void))complection;

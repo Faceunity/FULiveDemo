@@ -18,8 +18,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [self updateBottomConstraintsOfCaptureButton:FUHeightIncludeBottomSafeArea(84) + 10 animated:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -28,14 +26,11 @@
     [[FUStickerComponentManager sharedManager] addComponentViewToView:self.view];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    
-    [[FUStickerComponentManager sharedManager] removeComponentView];
-}
+#pragma mark - FUHeadButtonViewDelegate
 
-- (void)dealloc {
+- (void)headButtonViewBackAction:(UIButton *)btn {
     [FUStickerComponentManager destory];
+    [super headButtonViewBackAction:btn];
 }
 
 @end

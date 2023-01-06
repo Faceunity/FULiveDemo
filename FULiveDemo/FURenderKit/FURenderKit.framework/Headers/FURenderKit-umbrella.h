@@ -76,6 +76,10 @@
 #import "FUOvonicMap.h"
 #import "FUCLIColor.h"
 #import "FUAvatarCheck.h"
+#import "FUVideoComponentDefines.h"
+#import "FUVideoReader.h"
+#import "FUVideoWriter.h"
+#import "FUVideoProcessor.h"
 
 #import "UIImage+FURenderKit.h"
 #import "FUItem+createTexture.h"

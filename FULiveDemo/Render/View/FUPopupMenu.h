@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FUSegmentedControl.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  点击事件回调
  */
-- (void)fuPopupMenuDidSelectedAtIndex:(NSInteger)index;
+- (void)fuPopupMenuSegment:(FUSegmentedControl *)segment didSelectedAtIndex:(NSInteger)index;
 - (void)fuPopupMenuDidSelectedImage;
 @end
 

@@ -37,8 +37,7 @@
         greenScreen.videoPath = nil;
     } else {
         FUGreenScreenBackgroundModel *backgroundModel = self.backgroundArray[selectedIndex];
-        NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-        NSString *URLString = [bundle pathForResource:backgroundModel.videoName ofType:@"mp4"];
+        NSString *URLString = [[NSBundle mainBundle] pathForResource:backgroundModel.videoName ofType:@"mp4"];
         greenScreen.videoPath = URLString;
     }
     _selectedIndex = selectedIndex;
@@ -46,7 +45,7 @@
 
 - (UIImage *)backgroundIconAtIndex:(NSInteger)index {
     FUGreenScreenBackgroundModel *model = self.backgroundArray[index];
-    return FUGreenScreenImageNamed(model.icon);
+    return [UIImage imageNamed:model.icon];
 }
 
 - (NSString *)backgroundNameAtIndex:(NSInteger)index {

@@ -26,20 +26,8 @@
     [[FUMakeupComponentManager sharedManager] addComponentViewToView:self.view];
     [FUMakeupComponentManager sharedManager].delegate = self;
     // 更新拍照/录制按钮位置
-    [self updateBottomConstraintsOfCaptureButton:[FUMakeupComponentManager sharedManager].componentViewHeight + 10 animated:NO];
+    [self updateBottomConstraintsOfCaptureButton:[FUMakeupComponentManager sharedManager].componentViewHeight];
 }
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    
-    [[FUMakeupComponentManager sharedManager] removeComponentView];
-    [FUMakeupComponentManager sharedManager].delegate = nil;
-}
-
-- (void)dealloc {
-    [FUMakeupComponentManager destory];
-}
-
 
 #pragma mark - Event response
 
@@ -51,7 +39,7 @@
 
 - (void)makeupComponentViewHeightDidChange:(CGFloat)height {
     // 美妆视图高度变化时需要更新拍照/录制按钮的位置
-    [self updateBottomConstraintsOfCaptureButton:height + 10 animated:YES];
+    [self updateBottomConstraintsOfCaptureButton:height];
 }
 
 - (void)makeupComponentNeedsDisplayPromptContent:(NSString *)content {
@@ -64,6 +52,13 @@
         [FUMakeupViewController cancelPreviousPerformRequestsWithTarget:self selector:@selector(dismissTipLabel) object:nil];
         [self performSelector:@selector(dismissTipLabel) withObject:nil afterDelay:1];
     });
+}
+
+#pragma mark - FUHeadButtonViewDelegate
+
+- (void)headButtonViewBackAction:(UIButton *)btn {
+    [FUMakeupComponentManager destory];
+    [super headButtonViewBackAction:btn];
 }
 
 @end

@@ -18,20 +18,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [self updateBottomConstraintsOfDownloadButton:FUHeightIncludeBottomSafeArea(84) + 10 hidden:NO animated:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     [[FUStickerComponentManager sharedManager] addComponentViewToView:self.view];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    
-    [[FUStickerComponentManager sharedManager] removeComponentView];
 }
 
 @end

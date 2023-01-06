@@ -73,9 +73,7 @@
 - (NSArray<FUHairBeautyModel *> *)hairItems {
     if (!_hairItems) {
         NSString *path = [[NSBundle mainBundle] pathForResource:@"hair_beauty" ofType:@"json"];
-        NSData *data = [NSData dataWithContentsOfFile:path];
-        NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-        _hairItems = [FUHairBeautyModel mj_objectArrayWithKeyValuesArray:jsonArray];
+        _hairItems = [FUHairBeautyModel modelArrayWithJSON:[NSData dataWithContentsOfFile:path]];
     }
     return _hairItems;
 }
@@ -106,6 +104,10 @@
 
 - (FUModule)module {
     return FUModuleHairBeauty;
+}
+
+- (CGFloat)captureButtonBottomConstant {
+    return FUHeightIncludeBottomSafeArea(134);
 }
 
 @end

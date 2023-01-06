@@ -21,5 +21,3 @@ NSString * const FUPersistentBeautyFilterKey = @"FUPersistentBeautyFilter";
 
 NSString * const FUPersistentBeautySelectedFilterIndexKey = @"FUPersistentBeautySelectedFilterIndex";
 
-NSString * const FUPersistentBeautySelectedStyleIndexKey = @"FUPersistentBeautySelectedStyleIndex";
-

@@ -11,14 +11,13 @@
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 #import <Masonry.h>
-#import <MJExtension.h>
 #import <FURenderKit/FURenderKit.h>
+#import <FURenderKit/FUVideoComponentDefines.h>
 #import <FUCommonUIComponent/FUCommonUIComponent.h>
-#import <FUVideoComponent/FUVideoComponent.h>
 
 #import "FULiveDefine.h"
 #import "FUUtility.h"
 #import "FURenderKitManager.h"
-#import "SVProgressHUD+FU.h"
+#import "UIImage+FU.h"
 
 #endif /* PrefixHeader_pch */

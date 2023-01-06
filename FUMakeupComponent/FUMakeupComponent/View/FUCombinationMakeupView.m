@@ -134,7 +134,7 @@ static NSString * const kFUCombinationMakeupCellIdentifierKey = @"FUCombinationM
     if (self.viewModel.selectedIndex <= 0) {
         dispatch_async(dispatch_get_main_queue(), ^{
             // 自定义按钮状态
-            self.customizeButton.enabled = YES;
+            self.customizeButton.enabled = self.viewModel.selectedIndex == 0;
             // slider状态
             self.slider.hidden = YES;
         });
@@ -177,6 +177,9 @@ static NSString * const kFUCombinationMakeupCellIdentifierKey = @"FUCombinationM
 #pragma mark - Collection view delegate
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.item == self.viewModel.selectedIndex) {
+        return;
+    }
     collectionView.userInteractionEnabled = NO;
     self.slider.userInteractionEnabled = NO;
     self.customizeButton.userInteractionEnabled = NO;
@@ -243,7 +246,7 @@ static NSString * const kFUCombinationMakeupCellIdentifierKey = @"FUCombinationM
     if (!_customizeButton) {
         _customizeButton = [[FUSquareButton alloc] initWithFrame:CGRectMake(0, 0, 54, 70) interval:6];
         _customizeButton.translatesAutoresizingMaskIntoConstraints = NO;
-        [_customizeButton setImage:FUMakeupImageNamed(@"makeup_custom") forState:UIControlStateNormal];
+        [_customizeButton setImage:[UIImage imageNamed:@"makeup_custom"] forState:UIControlStateNormal];
         [_customizeButton setTitle:FUMakeupStringWithKey(@"自定义") forState:UIControlStateNormal];
         [_customizeButton setTitleColor:[UIColor colorWithWhite:1 alpha:0.5] forState:UIControlStateDisabled];
         [_customizeButton addTarget:self action:@selector(customizeAction) forControlEvents:UIControlEventTouchUpInside];

@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <LOTAnimationView.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, readonly) UIImageView *bottomImageView;
 /// 动画视图
-@property (nonatomic, strong, readonly) LOTAnimationView *animationView;
+@property (nonatomic, strong, readonly) UIImageView *animationImageView;
 
 @end
 

@@ -5,7 +5,7 @@
 //  Created by 项林平 on 2022/8/16.
 //
 
-#import <Foundation/Foundation.h>
+#import "FURenderModel.h"
 
 typedef NS_ENUM(NSUInteger, FUSegmentationType) {
     FUSegmentationTypeDefault = 0,  // 默认本地加载
@@ -15,7 +15,7 @@ typedef NS_ENUM(NSUInteger, FUSegmentationType) {
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface FUSegmentationModel : NSObject
+@interface FUSegmentationModel : FURenderModel
 
 @property (nonatomic, assign) FUSegmentationType type;
 

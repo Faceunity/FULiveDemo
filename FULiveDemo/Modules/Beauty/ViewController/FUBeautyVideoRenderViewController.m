@@ -25,13 +25,7 @@
     [FUBeautyComponentManager sharedManager].delegate = self;
     
     // 更新保存按钮位置
-    [self updateBottomConstraintsOfDownloadButton:[FUBeautyComponentManager sharedManager].componentViewHeight + 10 hidden:[FUBeautyComponentManager sharedManager].selectedIndex == -1 animated:NO];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    [[FUBeautyComponentManager sharedManager] removeComponentView];
-    [FUBeautyComponentManager sharedManager].delegate = nil;
+    [self updateBottomConstraintsOfDownloadButton:[FUBeautyComponentManager sharedManager].componentViewHeight];
 }
 
 #pragma mark - Event response
@@ -45,7 +39,7 @@
 
 - (void)beautyComponentViewHeightDidChange:(CGFloat)height {
     // 美颜视图高度变化时需要更新拍照/录制按钮的位置
-    [self updateBottomConstraintsOfDownloadButton:height + 10 hidden:[FUBeautyComponentManager sharedManager].selectedIndex == -1 animated:YES];
+    [self updateBottomConstraintsOfDownloadButton:height];
 }
 
 - (void)beautyComponentDidTouchDownComparison {

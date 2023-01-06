@@ -14,7 +14,7 @@
 
 @implementation FUHomepageGroup
 
-+ (NSDictionary *)mj_objectClassInArray {
++ (NSDictionary<NSString *,id> *)modelContainerPropertyGenericClass {
     return @{@"modules" : [FUHomepageModule class]};
 }
 

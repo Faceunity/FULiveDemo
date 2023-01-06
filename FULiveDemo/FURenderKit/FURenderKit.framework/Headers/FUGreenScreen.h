@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface FUGreenScreen : FUItem
 
 /// 背景图片
-@property (nonatomic, strong) UIImage *backgroundImage;
+@property (nonatomic, strong, nullable) UIImage *backgroundImage;
 
 /// 背景视频URLString
 /// @note 设置之后自动开始播放，若设置为nil，自动停止
@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 关键颜色
 /// 默认值为[0,255,0]，取值范围[0-255,0-255,0-255]
+/// @note 设置关键颜色后会自动改变相似度、平滑度和祛色度的值
 @property (nonatomic, assign) FUColor keyColor;
 
 /// 相似度：色度最大容差

@@ -25,8 +25,6 @@
     [super viewDidLoad];
     
     [self.view addSubview:self.hairView];
-    
-    [self updateBottomConstraintsOfCaptureButton:CGRectGetHeight(self.hairView.frame) + 10 animated:NO];
 }
 
 - (void)itemsView:(FUItemsView *)itemsView didSelectItemAtIndex:(NSInteger)index {

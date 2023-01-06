@@ -28,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 需要加载的AI模型，默认为FUAIModelTypeFace
 @property (nonatomic, assign, readonly) FUAIModelType necessaryAIModelTypes;
+/// 保存按钮到屏幕底部距离
+@property (nonatomic, assign, readonly) CGFloat downloadButtonBottomConstant;
 
 @property (nonatomic, weak) id<FUImageRenderViewModelDelegate> delegate;
 
@@ -38,10 +40,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)start;
 
 - (void)stop;
-
-//- (UIImage *)captureImage;
-//
-//- (void)captureImageWithCompletion:(void (^)(UIImage *image))completionHandler;
 
 @end
 

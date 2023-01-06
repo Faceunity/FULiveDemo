@@ -25,7 +25,7 @@
     if (self) {
         // 固定图片
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.preview.frame];
-        imageView.image = FUGreenScreenImageNamed(@"demo_bg_transparent");
+        imageView.image = [UIImage imageNamed:@"demo_bg_transparent"];
         [self addSubview:imageView];
         
         // 预览颜色视图
@@ -99,7 +99,7 @@
 - (UIImageView *)anchorImageView {
     if (!_anchorImageView) {
         _anchorImageView = [[UIImageView alloc] initWithFrame:CGRectMake(8, CGRectGetHeight(self.frame) - 20, 20, 20)];
-        _anchorImageView.image = FUGreenScreenImageNamed(@"aiming_point");
+        _anchorImageView.image = [UIImage imageNamed:@"aiming_point"];
     }
     return _anchorImageView;
 }

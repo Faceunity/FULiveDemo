@@ -51,6 +51,7 @@ static dispatch_once_t onceToken;
 - (void)addComponentViewToView:(UIView *)view {
     NSAssert(view != nil, @"FUMakeupComponent: view can not be nil!");
     self.targetView = view;
+    [self removeComponentView];
     [self.targetView addSubview:self.combinationMakeupView];
     [self.targetView addSubview:self.customizedMakeupView];
     [self.targetView addSubview:self.colorPicker];
@@ -117,8 +118,9 @@ static dispatch_once_t onceToken;
 #pragma mark - FUCustomizedMakeupViewDelegate
 
 - (void)customizedMakeupViewDidClickBack {
-    // 返回组合妆时需要判断子妆是否变化
+    // 选中卸妆返回时需要判断子妆是否变化
     if (self.combinationMakeupViewModel.selectedIndex >= 0 && [self combinationMakeupIsChangedByCustoming]) {
+        // 取消选中卸妆
         [self.combinationMakeupView deselectCurrentCombinationMakeup];
     }
     self.colorPicker.hidden = YES;

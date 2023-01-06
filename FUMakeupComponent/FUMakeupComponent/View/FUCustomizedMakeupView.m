@@ -70,7 +70,7 @@ static NSString * const kFUCustomizedMakeupCategoryCellIdentifierKey = @"FUCusto
 
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     backButton.frame = CGRectMake(16, CGRectGetMinY(horizontalLine.frame) - 76, 54, 54);
-    [backButton setImage:FUMakeupImageNamed(@"makeup_back") forState:UIControlStateNormal];
+    [backButton setImage:[UIImage imageNamed:@"makeup_back"] forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:backButton];
     

@@ -10,8 +10,6 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <FUGreenScreenComponent/FUGreenScreenComponentManager.h>
 
-#import "UIImage+FU.h"
-
 
 @interface FUGreenScreenViewController ()<FUGreenScreenComponentDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
@@ -31,7 +29,7 @@
     // 加载绿幕
     [[FUGreenScreenComponentManager sharedManager] loadGreenScreen];
     
-    [FUAlertManager showAlertWithTitle:nil message:FULocalizedString(@"请使用纯色背景拍摄，推荐绿色幕布效果最佳") cancel:nil confirm:FULocalizedString(@"我知道了") inController:self confirmHandler:nil cancelHandler:nil];
+    [FUTipHUD showTips:FULocalizedString(@"green_screen_effect_tips")];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -39,21 +37,10 @@
     
     // 添加绿幕视图
     [[FUGreenScreenComponentManager sharedManager] addComponentViewToView:self.view];
+    [FUGreenScreenComponentManager sharedManager].displayView = self.renderView;
     [FUGreenScreenComponentManager sharedManager].delegate = self;
     // 更新拍照/录制按钮位置
-    [self updateBottomConstraintsOfCaptureButton:[FUGreenScreenComponentManager sharedManager].componentViewHeight + 10 animated:NO];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    
-    // 移除绿幕视图
-    [[FUGreenScreenComponentManager sharedManager] removeComponentView];
-    [FUGreenScreenComponentManager sharedManager].delegate = nil;
-}
-
-- (void)dealloc {
-    [FUGreenScreenComponentManager destory];
+    [self updateBottomConstraintsOfCaptureButton:[FUGreenScreenComponentManager sharedManager].componentViewHeight];
 }
 
 #pragma mark - FUGreenScreenComponentDelegate
@@ -70,7 +57,7 @@
 
 - (void)greenScreenComponentViewHeightDidChange:(CGFloat)height {
     // 绿幕视图高度变化时需要更新拍照/录制按钮的位置
-    [self updateBottomConstraintsOfCaptureButton:height + 10 animated:YES];
+    [self updateBottomConstraintsOfCaptureButton:height];
 }
 
 #pragma mark - UIImagePickerControllerDelegate
@@ -85,6 +72,13 @@
         // 保存自定义安全区域图片
         [[FUGreenScreenComponentManager sharedManager] saveCustomSafeArea:image];
     }];
+}
+
+#pragma mark - FUHeadButtonViewDelegate
+
+- (void)headButtonViewBackAction:(UIButton *)btn {
+    [FUGreenScreenComponentManager destory];
+    [super headButtonViewBackAction:btn];
 }
 
 @end

@@ -67,4 +67,8 @@
     return FUModuleExpressionRecognition;
 }
 
+- (CGFloat)captureButtonBottomConstant {
+    return FUHeightIncludeBottomSafeArea(84);
+}
+
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "FUPopupMenu.h"
+#import "FUSegmentedControl.h"
 
 #define FUMainWindow  [UIApplication sharedApplication].delegate.window
 #define  LeftView 10.0f
@@ -53,17 +54,26 @@
     
     /* 分段控制器 */
     NSArray *array = self.dataSource.count > 0 ? self.dataSource : [NSArray arrayWithObjects:@"480×640",@"720×1280",@"1080×1920", nil];
-    UISegmentedControl *segment = [[UISegmentedControl alloc]initWithItems:array];
-    segment.frame = CGRectMake(25, 28, self.frame.size.width-50, 32);
-    segment.selectedSegmentIndex = _selIndex;
-    segment.tintColor = [UIColor whiteColor];
-    [segment addTarget:self action:@selector(selectItem:) forControlEvents:UIControlEventValueChanged];
+    FUSegmentedControl *segment = [[FUSegmentedControl alloc] initWithFrame:CGRectMake(25, 28, self.frame.size.width-50, 32) items:array];
+    segment.layer.masksToBounds = YES;
+    segment.layer.cornerRadius = 4;
+    segment.layer.borderWidth = 0.5;
+    segment.layer.borderColor = [UIColor whiteColor].CGColor;
+    segment.titleFont = [UIFont systemFontOfSize:13 weight:UIFontWeightMedium];
+    segment.selectedIndex = _selIndex;
+    @FUWeakify(segment)
+    segment.selectHandler = ^(NSUInteger index) {
+        @FUStrongify(segment)
+        if ([self.delegate respondsToSelector:@selector(fuPopupMenuSegment:didSelectedAtIndex:)]) {
+            [self.delegate fuPopupMenuSegment:segment didSelectedAtIndex:index];
+        }
+    };
     [self addSubview:segment];
     
     if (!_onlyTop) {
         UIView *view = [[UIView alloc] init];
-        view.frame = CGRectMake(25,80,self.frame.size.width-50,0.5);
-        view.layer.backgroundColor = [UIColor colorWithRed:229/255.0 green:229/255.0 blue:229/255.0 alpha:1.0].CGColor;
+        view.frame = CGRectMake(25 ,80, self.frame.size.width - 50, 0.5);
+        view.layer.backgroundColor = [UIColor colorWithRed:229/255.0 green:229/255.0 blue:229/255.0 alpha:0.2].CGColor;
         [self addSubview:view];
         
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -77,7 +87,6 @@
 
         btn.imageEdgeInsets = UIEdgeInsetsMake(0, btn.frame.size.width - btn.imageView.frame.size.width , 0, 0);
         btn.titleEdgeInsets = UIEdgeInsetsMake(0, - btn.frame.size.width - btn.imageView.frame.size.width + btn.titleLabel.frame.size.width, 0, 0);
-
         [self addSubview:btn];
     }
 
@@ -136,12 +145,6 @@
     if ([self.delegate respondsToSelector:@selector(fuPopupMenuDidSelectedImage)]) {
         [self.delegate fuPopupMenuDidSelectedImage];
         [self dismiss];
-    }
-}
-
-- (void)selectItem:(UISegmentedControl *)sender {
-    if ([self.delegate respondsToSelector:@selector(fuPopupMenuDidSelectedAtIndex:)]) {
-        [self.delegate fuPopupMenuDidSelectedAtIndex:sender.selectedSegmentIndex];
     }
 }
 

@@ -9,7 +9,7 @@
 
 @implementation FUSingleLightMakeupModel
 
-+ (NSDictionary *)mj_replacedKeyFromPropertyName {
++ (NSDictionary<NSString *,id> *)modelCustomPropertyMapper {
     return @{
         @"type" : @"makeType",
         @"bundleName" : @"namaBundle",
@@ -23,9 +23,9 @@
 
 @implementation FULightMakeupModel
 
-+ (NSDictionary *)mj_objectClassInArray {
++ (NSDictionary<NSString *,id> *)modelContainerPropertyGenericClass {
     return @{
-        @"makeups" : @"FUSingleLightMakeupModel"
+        @"makeups" : [FUSingleLightMakeupModel class]
     };
 }
 
