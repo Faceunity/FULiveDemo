@@ -36,6 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) FUModule module;
 /// 需要加载的AI模型，默认为FUAIModelTypeFace
 @property (nonatomic, assign, readonly) FUAIModelType necessaryAIModelTypes;
+/// 是否自动加载AI模型，默认为YES
+@property (nonatomic, assign, readonly) BOOL loadAIModelAutomatically;
 /// 是否支持拍照和视频录制，默认YES
 @property (nonatomic, assign, readonly) BOOL supportCaptureAndRecording;
 /// 是否支持图片或者视频渲染，默认为NO

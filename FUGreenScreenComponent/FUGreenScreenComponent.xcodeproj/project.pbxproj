@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E3381CB528DC1698005C2E57 /* FURenderKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3381CB428DC1698005C2E57 /* FURenderKit.framework */; };
 		E3A58CCA28A3CCA100941101 /* FUGreenScreenComponent.h in Headers */ = {isa = PBXBuildFile; fileRef = E3A58CC928A3CCA100941101 /* FUGreenScreenComponent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E3A58CDB28A3CE0A00941101 /* FUGreenScreenKeyingViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A58CD528A3CE0900941101 /* FUGreenScreenKeyingViewModel.m */; };
 		E3A58CDC28A3CE0A00941101 /* FUGreenScreenSafeAreaViewModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E3A58CD628A3CE0900941101 /* FUGreenScreenSafeAreaViewModel.h */; };
@@ -35,7 +34,6 @@
 		E3A58D8D28A4B4F000941101 /* green_screen_background.json in Resources */ = {isa = PBXBuildFile; fileRef = E3A58D8328A4B4F000941101 /* green_screen_background.json */; };
 		E3A58D9028A4B5ED00941101 /* FUGreenScreenComponentManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E3A58D8E28A4B5ED00941101 /* FUGreenScreenComponentManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E3A58D9128A4B5ED00941101 /* FUGreenScreenComponentManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A58D8F28A4B5ED00941101 /* FUGreenScreenComponentManager.m */; };
-		E3A58DB628A4F9A100941101 /* FUCommonUIComponent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3A58D6828A4B07D00941101 /* FUCommonUIComponent.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,8 +74,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E3381CB528DC1698005C2E57 /* FURenderKit.framework in Frameworks */,
-				E3A58DB628A4F9A100941101 /* FUCommonUIComponent.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

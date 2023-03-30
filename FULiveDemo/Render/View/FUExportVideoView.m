@@ -36,9 +36,12 @@
     label.text = FULocalizedString(@"exporting_video_tips");
     label.font = [UIFont systemFontOfSize:13 weight:UIFontWeightMedium];
     label.textColor = [UIColor whiteColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.numberOfLines = 0;
     [self addSubview:label];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self);
+        make.leading.equalTo(self.mas_leading).mas_offset(20);
+        make.trailing.equalTo(self.mas_trailing).mas_offset(-20);
         make.centerY.equalTo(self.mas_centerY).mas_offset(-3);
     }];
     

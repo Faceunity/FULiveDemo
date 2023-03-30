@@ -177,6 +177,11 @@ code_sign_if_enabled() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/FUBeautyComponent/FUBeautyComponent.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/FUCommonUIComponent/FUCommonUIComponent.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/FUGreenScreenComponent/FUGreenScreenComponent.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/FUMakeupComponent/FUMakeupComponent.framework"
+  install_framework "${PODS_ROOT}/../FURenderKit/FURenderKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework"
@@ -184,6 +189,11 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/FUBeautyComponent/FUBeautyComponent.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/FUCommonUIComponent/FUCommonUIComponent.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/FUGreenScreenComponent/FUGreenScreenComponent.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/FUMakeupComponent/FUMakeupComponent.framework"
+  install_framework "${PODS_ROOT}/../FURenderKit/FURenderKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework"

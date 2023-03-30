@@ -47,7 +47,8 @@
     [self addSubview:self.tipLabel];
     [self.tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.tipButton.mas_top).mas_offset(-30);
-        make.centerX.equalTo(self);
+        make.leading.equalTo(self.mas_leading).mas_offset(10);
+        make.trailing.equalTo(self.mas_trailing).mas_offset(-10);
     }];
     
     [self addSubview:self.tipImageView];
@@ -77,6 +78,8 @@
         _tipLabel = [[UILabel alloc] init];
         _tipLabel.font = [UIFont systemFontOfSize:14 weight:UIFontWeightMedium];
         _tipLabel.textColor = FUColorFromHex(0x31373E);
+        _tipLabel.numberOfLines = 2;
+        _tipLabel.textAlignment = NSTextAlignmentCenter;
     }
     return _tipLabel;
 }

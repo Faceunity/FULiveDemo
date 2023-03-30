@@ -1,0 +1,20 @@
+{
+  "name": "FUCommonUIComponent",
+  "version": "1.0",
+  "license": "MIT",
+  "summary": "UI components",
+  "description": "Some UI components of FULiveDemo.",
+  "homepage": "https://github.com/Faceunity/FULiveDemo",
+  "authors": {
+    "faceunity": "dev@faceunity.com"
+  },
+  "platforms": {
+    "ios": "9.0"
+  },
+  "source": {
+    "http": "https://github.com/Faceunity/FULiveDemo"
+  },
+  "source_files": "**/*.{h,m}",
+  "resources": "FUCommonUIComponent/Resource/**/*.{png,xcassets}",
+  "requires_arc": true
+}
