@@ -51,6 +51,10 @@ static NSString * const kFUFaceFusionCellIdentifier = @"FUFaceFusionCell";
 #pragma mark - Event response
 
 - (void)backAction:(UIButton *)sender {
+    if ([FURenderKit shareRenderKit].internalCameraSetting.position != AVCaptureDevicePositionFront) {
+        [FURenderKit shareRenderKit].internalCameraSetting.position = AVCaptureDevicePositionFront;
+    }
+    [FURenderKitManager clearItems];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

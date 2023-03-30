@@ -43,6 +43,9 @@
     if (index == 0) {
         // 卸妆
         [FURenderKit shareRenderKit].makeup = nil;
+        // 恢复美颜滤镜为原图效果
+        [FURenderKit shareRenderKit].beauty.filterName = @"origin";
+        [FURenderKit shareRenderKit].beauty.filterLevel = 0;
         self.selectedIndex = 0;
         !complection ?: complection();
         return;

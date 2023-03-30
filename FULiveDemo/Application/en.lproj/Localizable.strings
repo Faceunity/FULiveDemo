@@ -6,77 +6,78 @@
   Copyright © 2018年 L. All rights reserved.
 */
 
-"FU Live Demo 特效版" = "FU Live Demo effects version";
-"人脸特效" =  "Face effects";
-"人体特效"  = "Body effects";
-"内容服务" = "Content service";
+"FU Live Demo 特效版" = "FULiveDemo Effects Version";
+"人脸特效" =  "Face Effects";
+"人体特效"  = "Body Effects";
+"内容服务" = "Content Service";
 
-"载入图片或视频" = "Load picture or video";
-"设备不支持该分辨率" = "The device does not support the resolution";
+"载入图片或视频" = "Load image or video";
+"设备不支持该分辨率" = "The device does not support this resolution";
 
-"美颜" = "Beautification";
+"美颜" = "Beauty";
 "美妆"  =  "Makeup";
 "道具贴纸" = "Sticker";
 "Animoji" = "Animoji";
-"美发" = "Hair Color";
+"美发" = "Hair Dye";
 "轻美妆" = "Light Makeup";
-"AR面具" = "AR Mesh";
+"AR面具" = "AR Mask";
 "表情识别" = "Expression";
 "音乐滤镜" = "Music Filter";
-"人像分割" = "Portrait Segmentation";
-"手势识别" = "Gesture";
-"哈哈镜" = "Face Warp";
-"海报换脸" = "Face Fusion";
+"人像分割" = "Segmentation";
+"手势识别" = "Gesture Recognition";
+"哈哈镜" = "Distorting Mirror";
+"动漫滤镜" = "Cartoon Filter";
+"海报换脸" = "Face Swap Poster";
 "搞笑大头"  = "Funny Big Head";
-"全身Avatar"  = "Whole-body Avatar";
-"美体" =  "Body Shape";
-"绿幕抠像"    =   "Green Screen Key";
-"精品贴纸" = "Exquisite sticker";
+"全身Avatar"  = "Whole Body Avatar";
+"美体" =  "Body Beauty";
+"绿幕抠像"    =   "Chroma Keying";
+"精品贴纸" = "Boutique Stickers";
 
-"skin" = "Beauty effects";
-"shape" = "Face shaping";
+"skin" = "Beauty Effects";
+"shape" = "Face Shaping";
 "filter" = "Filter";
 
 /// Skin
-"磨皮" = "Fine Blur";
-"美白" = "Whiten";
-"红润" = "Ruddy";
+"磨皮" = "Buffing";
+"美白" = "Skin Tone";
+"红润" = "Rosy";
 "锐化" = "Sharpen";
-"五官立体" = "Face Threed";
-"亮眼" = "Eye Brighten";
-"美牙" = "Tooth Whiten";
-"去黑眼圈" = "Circles";
-"去法令纹" = "Wrinkles";
+"五官立体" = "Contouring";
+"亮眼" = "Brighen";
+"美牙" = "Whiten";
+"去黑眼圈" = "Dark Circles";
+"去法令纹" = "Laugh Line";
 
 /// Shape
-"瘦脸" = "Cheek Thin";
-"v脸" = "Cheek V";
-"窄脸" = "Cheek Narrow";
-"短脸" = "Cheek Short";
-"小脸" = "Cheek Small";
-"瘦颧骨" = "Cheekbones";
-"瘦下颌骨" = "Lower Jaw";
-"圆眼" = "Eye Circle";
-"大眼" = "Eye Enlarge";
-"下巴" = "Chin";
-"额头" = "Forehead";
-"瘦鼻" = "Nose";
-"嘴型" = "Mouth";
-"嘴唇厚度" = "Lip Thick";
-"眼睛位置" = "Eye Height";
-"开眼角" = "Canthus";
-"眼睑下至" = "Eye Lid";
-"眼距" = "Eye Space";
-"眼睛角度" = "Eye Rotate";
-"长鼻" = "Long Nose";
-"缩人中" = "Philtrum";
+"瘦脸" = "Lower Width";
+"v脸" = "V Shape";
+"窄脸" = "Upper Width";
+"短脸" = "Short Face";
+"小脸" = "Size Face";
+"瘦颧骨" = "Cheek";
+"瘦下颌骨" = "Jaw";
+"圆眼" = "Round";
+"大眼" = "Enlarge";
+"下巴" = "Chin Length";
+"额头" = "Hairline";
+"瘦鼻" = "Nose Size";
+"嘴型" = "Mouth Size";
+"嘴唇厚度" = "Thick Lips";
+"眼睛位置" = "Eye Position";
+"开眼角" = "Inner Corner";
+"眼睑下至" = "Eye Downturn";
+"眼距" = "Eye Distance";
+"眼睛角度" = "Eye Upturn";
+"长鼻" = "Nose Lift";
+"缩人中" = "Mouth Position";
 "微笑嘴角" = "Smile";
-"眉毛上下" = "Brow Height";
-"眉间距" = "Brow Space";
-"眉毛粗细" = "Brow Thick";
+"眉毛上下" = "Brow Position";
+"眉间距" = "Brow Distance";
+"眉毛粗细" = "Brow Thickness";
 
 /// Filter
-"origin" = "原图";
+"origin" = "Origin";
 "ziran1" = "Nature1";
 "ziran2" = "Nature2";
 "ziran3" = "Nature3";
@@ -146,14 +147,14 @@
 "heibai3" = "Fade3";
 "heibai4" = "Fade4";
 
-"zhiganhui1" = "Texture grey1";
-"zhiganhui2" = "Texture grey2";
-"zhiganhui3" = "Texture grey3";
-"zhiganhui4" = "Texture grey4";
-"zhiganhui5" = "Texture grey5";
-"zhiganhui6" = "Texture grey6";
-"zhiganhui7" = "Texture grey7";
-"zhiganhui8" = "Texture grey8";
+"zhiganhui1" = "Grey1";
+"zhiganhui2" = "Grey2";
+"zhiganhui3" = "Grey3";
+"zhiganhui4" = "Grey4";
+"zhiganhui5" = "Grey5";
+"zhiganhui6" = "Grey6";
+"zhiganhui7" = "Grey7";
+"zhiganhui8" = "Grey8";
 
 "mitao1" = "Peach1";
 "mitao2" = "Peach2";
@@ -164,183 +165,178 @@
 "mitao7" = "Peach7";
 "mitao8" = "Peach8";
 
-"该功能只支持在高端机上使用" = "%@ is only supported on high-end devices";
-"是否将所有参数恢复到默认值" = "Reset all parameters to default?";
+"该功能只支持在高端机上使用" = "%@ is only supported on high-performance mobile phones";
+"是否将所有参数恢复到默认值" = "Whether to restore all parameters to default values";
 
 "自定义" = "Custom";
-"卸妆" = "Remove";
+"卸妆" = "None";
 
 "嗲嗲兔" = "Rabbit";
-"冻龄" = "Freezing Age";
+"冻龄" = "Ageless";
 "国风" = "Chinese Style";
 "混血" = "Mixed Race";
 "减龄"  = "Tender";
 "暖冬"  = "Warm";
 "红枫"  = "Maple";
 "Rose" = "Rose";
-"少女"  = "Maiden";
-"紫韵"  = "Purple";
-"厌世猫"  = "Cat";
+"少女"  = "Girl";
+"紫韵"  = "Purple Rhyme";
+"厌世猫"  = "Ennui Cat";
 "人鱼"  = "Mermaid";
-"初秋"  = "Autumn";
-"千纸鹤"  = "Crane";
-"超模"  = "Model";
+"初秋"  = "Early Autumn";
+"千纸鹤"  = "Paper Crane";
+"超模"  = "Supermodel";
 "雏菊"  = "Daisy";
-"港风"  = "HK Style";
+"港风"  = "Hong Kong Style";
 "性感" =  "Sexy";
 "甜美" =  "Sweet";
-"邻家" =  "Next-door";
-"欧美" =  "European";
+"邻家" =  "Girl Most Likely";
+"欧美" =  "Western";
 "妩媚" =  "Charming";
 
 "粉底" =  "Foundation";
 "口红" = "Lipstick";
 "腮红" = "Blusher";
-"眉毛" = "Eyebrow";
-"眼影" = "Eye Shadow";
+"眉毛" = "Eyebrows";
+"眼影" = "Eyeshadow";
 "眼线" = "Eyeliner";
 "睫毛" = "Eyelash";
 "高光" =  "Highlight";
 "阴影" = "Shadow";
-"美瞳" = "Contact Lens";
+"美瞳" = "Pupil";
 
 "雾面" = "Matte";
 "润泽Ⅰ" = "Moist Ⅰ";
 "润泽Ⅱ" = "Moist Ⅱ";
-"珠光" = "Pearl";
+"珠光" = "Pearlescent";
 "咬唇" = "Bite Lip";
 
 "苹果肌" =  "Apple Muscle";
 "扇形" =  "Sector";
-"眼角" =  "Canthus";
-"微醺" =  "Tipsy";
+"眼角" =  "Corner Of Eye";
+"微醺" =  "Slightly Drunk";
 
-"柳叶眉" = "Willow";
-"野生眉" = "Wild";
-"古典眉" = "Classical";
-"标准眉" = "Standard";
+"柳叶眉" = "Willow Eyebrow";
+"野生眉" = "Wild Eyebrow";
+"古典眉" = "Classical Eyebrow";
+"标准眉" = "Standard Eyebrow";
 
-"单色眼影" =  "Monochrome";
-"双色眼影Ⅰ" =  "Dichromatic Ⅰ";
-"双色眼影Ⅱ" =  "Dichromatic Ⅱ";
-"双色眼影Ⅲ" =  "Dichromatic Ⅲ";
-"三色眼影Ⅰ" =  "Tricolor Ⅰ";
-"三色眼影Ⅱ" =  "Tricolor Ⅱ";
-"三色眼影Ⅲ" =  "Tricolor Ⅲ";
+"单色眼影" =  "Monochrome Eyeshadow";
+"双色眼影Ⅰ" =  "Two-Color I Eyeshadow";
+"双色眼影Ⅱ" =  "Two-Color Ⅱ Eyeshadow";
+"双色眼影Ⅲ" =  "Two-Color Ⅲ Eyeshadow";
+"三色眼影Ⅰ" =  "Tricolor Ⅰ Eyeshadow";
+"三色眼影Ⅱ" =  "Tricolor Ⅱ Eyeshadow";
+"三色眼影Ⅲ" =  "Tricolor Ⅲ Eyeshadow";
 
-"猫眼" = "Cats Eye";
-"下垂眼" = "Drooping Eye";
-"拉开眼距" = "Expand Eye Distance";
-"拉近眼距" = "Shorten Eye Distance";
+"猫眼" = "Cat Eye";
+"下垂眼" = "Drooping Eyes";
+"拉开眼距" = "Expand eye-distance";
+"拉近眼距" = "Narrow eye-distance";
 "长眼" =  "Long Eye";
-"圆眼" =  "Round Eye";
+"圆眼睛" = "Round Eye";
 
-"自然型Ⅰ" = "Natural Ⅰ";
-"自然型Ⅱ" = "Natural Ⅱ";
-"浓密型Ⅰ" = "Denseness Ⅰ";
-"浓密型Ⅱ" = "Denseness Ⅱ";
-"夸张型Ⅰ" = "Hyperbole Ⅰ";
-"夸张型Ⅱ" = "Hyperbole Ⅱ";
+"自然型Ⅰ" = "Nature Ⅰ";
+"自然型Ⅱ" = "Nature Ⅱ";
+"浓密型Ⅰ" = "Dense Ⅰ";
+"浓密型Ⅱ" = "Dense Ⅱ";
+"夸张型Ⅰ" = "Exaggerate Ⅰ";
+"夸张型Ⅱ" = "Exaggerate Ⅱ";
 
 "高光Ⅰ" = "Highlight I";
 "高光Ⅱ" = "Highlight Ⅱ";
 
 "阴影Ⅰ" = "Shadow I";
 
-"蜜糖" = "Honey";
+"蜜糖" = "Sugar";
 "奶茶" = "Milk Tea";
-"水波" = "Ripple";
-"鎏金" = "Gilding";
+"水波" = "Water Waves";
+"鎏金" = "Gilt";
 "孔雀" = "Peacock";
-"星河" = "Milky Way";
-"落目" = "Curtain";
+"星河" = "Galaxy";
+"落目" = "Sunset";
 "极光" = "Aurora";
 
-"张嘴试试" = "Open Your Mouth";
-"鼓腮帮子" = "Puff Your Cheeks";
-"皱眉触发" = "Frown";
-"眨一眨眼" = "Blink";
-"嘟嘴试试" = "Give me a kiss";
-"微笑触发" = "Have a smile";
-"吹气触发" = "Whistle";
+"张嘴试试" = "Mouth Open";
+"鼓腮帮子" = "Blow Cheeks Up";
+"皱眉触发" = "Eyebrow Raise";
+"眨一眨眼" = "Blinking";
+"嘟嘴试试" = "Pout";
+"微笑触发" = "Smile";
+"吹气触发" = "Blowing";
 
-"单手手指比心" = "Finger heart";
+"单手手指比心" = "Korheart";
 "双手抱拳" = "Fist";
-"双手合十" = "Namaste";
-"双手比心" = "Hand to heart";
-"竖个拇指" = "Thumbs up";
-"比个六" = "Shaka sign";
-"推出手掌" = "High five";
+"双手合十" = "Merge";
+"双手比心" = "Heart";
+"竖个拇指" = "Thumb";
+"比个六" = "666";
+"推出手掌" = "Palm";
 
-"动漫滤镜" = "Cartoon Filter";
+"双拳靠近脸颊卖萌" = "Fist";
+"转头触发" = "Turn Head";
 
-"双拳靠近脸颊卖萌" = "Holding fist";
-"转头触发" = "Swivel";
-
-"Performance_Preferred" = "Performance";
+"Performance_Preferred" = "Performance first";
 "Incomplete_face"   = "Incomplete face";
-"请从相册中选择图片或视频"  = "Choose from your album";
-"选择图片" = "Photo";
-"选择视频" = "Video";
-
-"卸妆" = "Remove";
+"请从相册中选择图片或视频"  = "Please select an image or video from your photo album";
+"选择图片" = "Select Image";
+"选择视频" = "Select Video";
 
 "保存图片失败" = "Failed";
-"图片已保存到相册" = "Successful";
+"图片已保存到相册" = "Saved";
 "保存视频失败" = "Failed";
-"视频已保存到相册" = "Successful";
+"视频已保存到相册" = "Saved";
 
 //海报融合
-"对准线框 正脸拍摄"    =  "Please take photos by positive face.";
-"未检测到人脸，请重新上传"    =  "No face detected, please re-upload";
-"检测到多人，请选择一人进行换脸"    =  "Please select a face.";
-"人脸偏转角度过大，请重新拍摄"    =  "please re-shoot.";
-"人脸偏转角度过大，请重新上传"    =  "please re-upload.";
+"对准线框 正脸拍摄"    =  "Align the wireframe and shoot from the front";
+"未检测到人脸，请重新上传"    =  "No face detected, please upload again";
+"未检测到人脸，请重新拍摄"    =  "No face detected, please try again";
+"检测到多人，请选择一人进行换脸"    =  "Multiple people detected, please select one person to change face";
+"人脸偏转角度过大，请重新拍摄"    =  "The face deflection angle is too large，please try again";
+"人脸偏转角度过大，请重新上传"    =  "The face deflection angle is too large, please upload again";
 "知道了"    =  "OK";
-"未检测出人脸，请重新拍摄"    =  "No face detected, please re-shoot";
-"人脸不全，请重新拍摄" = "Incomplete face, please reshoot";
-"人脸不全，请重新上传" = "Incomplete face, please re-upload";
+"未检测出人脸，请重新拍摄"    =  "No face detected, please try again";
+"人脸不全，请重新拍摄" = "The face is incomplete, please try again";
+"人脸不全，请重新上传" = "The face is incomplete, please upload again";
 
 //美体
-"瘦身"  = "Body";
-"长腿"  = "Leg";
+"瘦身"  = "Body Slim";
+"长腿"  = "Legs Length";
 "细腰"  = "Waist";
-"美肩"  = "Shoulder";
-"美臀"  = "Hip";
-"小头" =  "Head shrink";
-"瘦腿"    =   "Thin leg";
+"美肩"  = "Shoulders";
+"美臀"  = "Hips";
+"小头" = "Head";
+"瘦腿" = "Legs Width";
 
 //轻美妆
-"桃花" = "Peach";
+"桃花" = "Peach Blossom";
 "西柚" = "Grapefruit";
 "清透" = "Clear";
 "男友" = "Boyfriend";
 
-"半身驱动" = "Half";
-"全身驱动" = "whole";
+"半身驱动" = "Up-Body";
+"全身驱动" = "Whole Body";
 
 //绿幕抠像
 "抠像" = "Keying";
-"背景" = "Background segmentation";
+"背景" = "Background";
 "关键颜色" = "Key Color";
 "相似度" = "Similarity";
-"平滑" = "Smoothness";
-"祛色度" = "Transparency";
-"安全区域" = "Safe area";
-"白色区域为安全区域，不参与绿幕抠像" = "The white area is a safe area and does not participate in the green screen keying";
+"平滑" = "Smooth";
+"祛色度" = "Discoloration";
+"安全区域" = "Safe Area";
+"白色区域为安全区域，不参与绿幕抠像" = "The white area is a safe area and does not participate chroma keying";
 
 "科技" = "Technology";
-"沙滩" = "Sand";
+"沙滩" = "Beach";
 "教室" = "Classroom";
-"水墨画" = "Ink";
+"水墨画" = "Ink Painting";
 "森林" = "Forest";
 
-"green_screen_effect_tips" = "Please use a solid background, a green screen is recommended for the best effect.";
-"我知道了"    =   "I know.";
+"green_screen_effect_tips" = "Please use a solid color background, the green screen is recommended for the best results";
+"我知道了"    =   "I learned";
 
-"网络异常，请检测网络重试" = "Network exception, please check the network and try again";
-
-"To use, cancel Presets first." = "To use %@, cancel \'Presets\' first.";
+"网络异常，请检测网络重试" = "The network is abnormal, please check the network and try again";
 
 "cancel_item" = "None";
 
@@ -352,16 +348,16 @@
 "未检测到手势" = "No gesture detected";
 
 // Segmentation
-"通用分割版" = "Generic";
-"视频会议版" = "Video Conference";
+"通用分割版" = "Universal Version";
+"视频会议版" = "Video Conferencing Version";
 
 // Style
 "风格推荐" = "Classic Style";
 "妆容" = "Makeup";
 "关闭" = "Turn off";
-"打开" = "Turn on";
+"开启" = "Turn on";
 "气质" = "Temperament";
-"学姐" = "Senior sister";
+"学姐" = "Senior Sister";
 "智雅" = "Jiah";
 "淡颜" = "Elegant";
 "质感" = "Quality";
@@ -372,12 +368,13 @@
 "女神" = "Beauty";
 "男神" = "Demigod";
 
-"recover_style_tips" = "Whether or not reset all parameters of the Classic Style to the default?";
+"recover_style_tips" = "Whether or not reset all parameters of the Classic Style to the default";
 "turn_off_skin_effect_tips" = "Beauty Effects turned off";
 "turn_off_shape_effect_tips" = "Face Shaping turned off";
 
-"恢复" = "Recover";
+"恢复" = "Restore";
 "取消" = "Cancel";
 "确认" = "Confirm";
-"exporting_video_tips" = "Trying to export video, please don't exit app or lock screen";
-"photo_library_authorization_tips" = "Please open album permission in settings first";
+"确定" = "Confirm";
+"exporting_video_tips" = "Trying to export the video, please do not exit the app or lock the screen";
+"photo_library_authorization_tips" = "Please turn on the album permission in the settings first";

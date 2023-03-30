@@ -1,5 +1,10 @@
 ${PODS_ROOT}/Target Support Files/Pods-FULiveDemo/Pods-FULiveDemo-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework
+${BUILT_PRODUCTS_DIR}/FUBeautyComponent/FUBeautyComponent.framework
+${BUILT_PRODUCTS_DIR}/FUCommonUIComponent/FUCommonUIComponent.framework
+${BUILT_PRODUCTS_DIR}/FUGreenScreenComponent/FUGreenScreenComponent.framework
+${BUILT_PRODUCTS_DIR}/FUMakeupComponent/FUMakeupComponent.framework
+${PODS_ROOT}/../FURenderKit/FURenderKit.framework
 ${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework
 ${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework
 ${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework

@@ -36,15 +36,15 @@
         [FURenderKit shareRenderKit].delegate = self;
         [FURenderKit shareRenderKit].captureCamera.dataSource = self;
         
-        if (self.necessaryAIModelTypes & FUAIModelTypeFace) {
+        if ((self.necessaryAIModelTypes & FUAIModelTypeFace) && self.loadAIModelAutomatically) {
             // 加载人脸AI模型
             [FURenderKitManager loadFaceAIModel];
         }
-        if (self.necessaryAIModelTypes & FUAIModelTypeHuman) {
+        if ((self.necessaryAIModelTypes & FUAIModelTypeHuman) && self.loadAIModelAutomatically) {
             // 加载人体AI模型
-            [FURenderKitManager loadHumanAIModel];
+            [FURenderKitManager loadHumanAIModel:FUHumanSegmentationModeCPUCommon];
         }
-        if (self.necessaryAIModelTypes & FUAIModelTypeHand) {
+        if ((self.necessaryAIModelTypes & FUAIModelTypeHand) && self.loadAIModelAutomatically) {
             // 加载手势AI模型
             [FURenderKitManager loadHandAIModel];
             // 设置未跟踪到手势时每次检测的间隔帧数为3
@@ -256,6 +256,10 @@
 
 - (FUAIModelType)necessaryAIModelTypes {
     return FUAIModelTypeFace;
+}
+
+- (BOOL)loadAIModelAutomatically {
+    return YES;
 }
 
 - (BOOL)supportCaptureAndRecording {

@@ -231,6 +231,7 @@ static NSString * const kFUStyleCellIdentifierKey = @"FUStyleCellIdentifier";
         [_filterButton setTitleColor:[UIColor colorWithWhite:1 alpha:0.6] forState:UIControlStateNormal];
         [_filterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
         _filterButton.titleLabel.font = [UIFont systemFontOfSize:12 weight:UIFontWeightMedium];
+        _filterButton.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         _filterButton.hidden = YES;
         [_filterButton addTarget:self action:@selector(filterAction) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -244,6 +245,8 @@ static NSString * const kFUStyleCellIdentifierKey = @"FUStyleCellIdentifier";
         [_makeupButton setTitleColor:[UIColor colorWithWhite:1 alpha:0.6] forState:UIControlStateNormal];
         [_makeupButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
         _makeupButton.titleLabel.font = [UIFont systemFontOfSize:12 weight:UIFontWeightMedium];
+        _makeupButton.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+        _makeupButton.titleLabel.adjustsFontSizeToFitWidth = YES;
         _makeupButton.hidden = YES;
         [_makeupButton addTarget:self action:@selector(makeupAction) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -348,6 +351,7 @@ static NSString * const kFUStyleCellIdentifierKey = @"FUStyleCellIdentifier";
         _textLabel.textColor = [UIColor whiteColor];
         _textLabel.font = [UIFont systemFontOfSize:10 weight:UIFontWeightMedium];
         _textLabel.textAlignment = NSTextAlignmentCenter;
+        _textLabel.adjustsFontSizeToFitWidth = YES;
         _textLabel.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _textLabel;

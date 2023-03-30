@@ -56,8 +56,8 @@
     
     [self.contentView addSubview:self.titleLabel];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.trailing.bottom.equalTo(self.contentView);
-        make.height.equalTo(self.bottomImageView.mas_height);
+        make.centerY.equalTo(self.bottomImageView);
+        make.leading.trailing.equalTo(self.contentView);
     }];
     
     [self.contentView addSubview:self.animationImageView];
@@ -90,6 +90,7 @@
         _titleLabel.font = [UIFont systemFontOfSize:13];
         _titleLabel.textColor = [UIColor whiteColor];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
+        _titleLabel.adjustsFontSizeToFitWidth = YES;
     }
     return _titleLabel;
 }

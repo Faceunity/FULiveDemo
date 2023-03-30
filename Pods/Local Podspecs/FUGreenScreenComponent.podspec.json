@@ -1,0 +1,28 @@
+{
+  "name": "FUGreenScreenComponent",
+  "version": "1.0",
+  "license": "MIT",
+  "summary": "Green screen component",
+  "description": "The green screen component of FULiveDemo.",
+  "homepage": "https://github.com/Faceunity/FULiveDemo",
+  "authors": {
+    "faceunity": "dev@faceunity.com"
+  },
+  "platforms": {
+    "ios": "9.0"
+  },
+  "source": {
+    "http": "https://github.com/Faceunity/FULiveDemo"
+  },
+  "source_files": "**/*.{h,m}",
+  "resources": "FUGreenScreenComponent/Resource/**/*.{json}",
+  "requires_arc": true,
+  "dependencies": {
+    "FURenderKit": [
+
+    ],
+    "FUCommonUIComponent": [
+
+    ]
+  }
+}

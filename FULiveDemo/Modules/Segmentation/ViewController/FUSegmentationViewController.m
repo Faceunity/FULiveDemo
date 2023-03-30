@@ -32,11 +32,15 @@ static NSString * const kFUSegmentationCellIdentifier = @"FUSegmentationCell";
     [self configureSubviews];
     [self refreshSubviews];
     
+    [FURenderKitManager loadFaceAIModel];
+    
     if ([FURenderKitManager sharedManager].devicePerformanceLevel == FUDevicePerformanceLevelHigh) {
         // 高端机需要选择分割版本
         [self.view addSubview:self.versionSelectionView];
         [self.view bringSubviewToFront:self.headButtonView];
     } else {
+        // 设置分割模式为CPU普通模式
+        [FURenderKitManager loadHumanAIModel:FUHumanSegmentationModeCPUCommon];
         // 默认选中
         if (self.viewModel.customized) {
             [self.viewModel selectSegmentationAtIndex:3 completionHandler:nil];
@@ -81,7 +85,7 @@ static NSString * const kFUSegmentationCellIdentifier = @"FUSegmentationCell";
 #pragma mark - Event response
 
 - (void)genericAction:(UIButton *)sender {
-    [FUAIKit setHumanSegmentationSceneType:FUHumanSegmentationSceneTypeCommon];
+    [FURenderKitManager loadHumanAIModel:FUHumanSegmentationModeGPUCommon];
     [UIView animateWithDuration:0.3 animations:^{
         self.versionSelectionView.alpha = 0;
     } completion:^(BOOL finished) {
@@ -97,7 +101,7 @@ static NSString * const kFUSegmentationCellIdentifier = @"FUSegmentationCell";
 }
 
 - (void)videoConferenceAction:(UIButton *)sender {
-    [FUAIKit setHumanSegmentationSceneType:FUHumanSegmentationSceneTypeMeeting];
+    [FURenderKitManager loadHumanAIModel:FUHumanSegmentationModeGPUMeeting];
     [UIView animateWithDuration:0.3 animations:^{
         self.versionSelectionView.alpha = 0;
     } completion:^(BOOL finished) {

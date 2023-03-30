@@ -36,7 +36,8 @@
         self.sceneBackground = [[FUBackground alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"default_bg" ofType:@"bundle"] name:@"scene_background"];
         
         // 初始化FUScene
-        self.scene = [[FUScene alloc] init];
+        NSString *controllerConfigPath = [[NSBundle mainBundle] pathForResource:@"controller_config" ofType:@"bundle"];
+        self.scene = [[FUScene alloc] initWithControllerConfigPath:controllerConfigPath];
         self.scene.AIConfig.bodyTrackEnable = YES;
         self.scene.AIConfig.avatarTranslationScale = FUPositionMake(0, 0, 0);
         [self.scene.AIConfig setAvatarAnimFilter:5 pos:0 angle:0];

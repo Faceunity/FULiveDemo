@@ -14,11 +14,6 @@
 ```obj
 +FULiveDemo
   +docs                     //文档
-  +FUCommonUIComponent      //UI组件
-  +FUVideoComponent         //视频解码编码组件
-  +FUBeautyComponent        //美颜组件（UI和加载逻辑）
-  +FUMakeupComponent        //美妆组件（UI和加载逻辑）
-  +FUGreenScreenComponent   //绿幕组件（UI和加载逻辑）
   +FULiveDemo                   //原代码目录
     +Homepage                   //主页模块
     +Render                     //相机、视频、图片渲染模块，所有特效渲染模块基于此模块
@@ -29,9 +24,12 @@
         ...
     +Helper                     //工具类  
         +Category                     //类别
+        -authpack.h                   //相芯特效鉴权文件（需要替换自己的鉴权文件）
         -FULiveDefine                 //宏、枚举、内联函数等
+        -FURenderKitManger      //FURenderKit管理类
         -FUNetworkingHelper           //网络请求工具
         -FUUtility                    //共用方法类
+        ...
     +Resource                   //资源文件（JSON、Bundle）              
         +Homepage                    //主页模块资源
         +Render                      //相机、视频、图片渲染模块资源
@@ -41,11 +39,17 @@
         -Assets                       //图片资源
         -Localizable.strings          //国际化支持字符串文件      
         ...
-    +FURenderKit
-        +FURenderKit.framework  //FURenderKit动态库
-        +Resources              //FURenderKit必要资源
-        -FURenderKitManger      //FURenderKit管理类
-        -authpack.h             //鉴权文件（需要替换自己的鉴权文件）
++Pods
+    +Development Pods
+        +FUCommonUIComponent      //UI组件
+        +FUVideoComponent         //视频解码编码组件
+        +FUBeautyComponent        //美颜组件（UI和加载逻辑）
+        +FUMakeupComponent        //美妆组件（UI和加载逻辑）
+        +FUGreenScreenComponent   //绿幕组件（UI和加载逻辑）
+        +FURenderKit
+            +FURenderKit.framework  //FURenderKit动态库
+            +Resources              //FURenderKit必要资源
+    
 ```
 
 ------
@@ -70,8 +74,7 @@ Nama全功能版本（支持物理特效）：
 ```
 pod 'Nama'
 ```
-
-Nama-lite版本（体积更小，包含人脸相关的功能(海报换脸除外)）：
+Nama-lite版本（体积更小，包含人脸相关的功能(海报换脸除外)，8.5.0版本后不再更新）：
 
 ```
 pod 'Nama-lite'
@@ -82,10 +85,34 @@ FURenderKit全功能版本（支持物理特效）：
 pod 'FURenderKit'
 ```
 
-FURenderKit-lite版本：
+FURenderKit-lite版本（8.5.0版本后不再更新）：
 
 ```
 pod 'FURenderKit-lite'
+```
+
+FURenderKit人脸特效版本：
+
+```
+pod 'FURenderKit_FAUL'
+```
+
+FURenderKit人体特效版本：
+
+```
+pod 'FURenderKit_BAUL'
+```
+
+FURenderKit美颜+贴纸道具版本：
+
+```
+pod 'FURenderKit_FBFS'
+```
+
+FURenderKit人像分割+绿幕抠像版本：
+
+```
+pod 'FURenderKit_BSEG'
 ```
 
 接下来执行：

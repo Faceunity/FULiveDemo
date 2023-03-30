@@ -3,8 +3,33 @@
 ## 导入SDK 
 ### 通过cocoapods集成
 
+FURenderKit全功能版本：
 ```
 pod 'FURenderKit'
+```
+
+FURenderKit人脸特效版本：
+
+```
+pod 'FURenderKit_FAUL'
+```
+
+FURenderKit人体特效版本：
+
+```
+pod 'FURenderKit_BAUL'
+```
+
+FURenderKit美颜+贴纸道具版本：
+
+```
+pod 'FURenderKit_FBFS'
+```
+
+FURenderKit人像分割+绿幕抠像版本：
+
+```
+pod 'FURenderKit_BSEG'
 ```
 
 接下来执行：
@@ -37,17 +62,19 @@ setupConfig.authPack = FUAuthPackMake(g_auth_package, sizeof(g_auth_package));
 NSString *faceAIPath = [[NSBundle mainBundle] pathForResource:@"ai_face_processor" ofType:@"bundle"];
 [FUAIKit loadAIModeWithAIType:FUAITYPE_FACEPROCESSOR dataPath:faceAIPath];
 
-// 加载身体 AI 模型，注意：高性能机型加载ai_human_processor_gpu.bundle
-NSString *humanBundleName = [FURenderKit devicePerformanceLevel] == FUDevicePerformanceLevelHigh ? @"ai_human_processor_gpu" : @"ai_human_processor";
-NSString *bodyAIPath = [[NSBundle mainBundle] pathForResource:humanBundleName ofType:@"bundle"];
+NSString *bodyAIPath = [[NSBundle mainBundle] pathForResource:@"ai_human_processor" ofType:@"bundle"];
+// 加载人体 AI 模型（一般方式）
 [FUAIKit loadAIModeWithAIType:FUAITYPE_HUMAN_PROCESSOR dataPath:bodyAIPath];
+// 加载人体 AI 模型（可设置人体分割模式）
+[FUAIKit loadAIHumanModelWithDataPath:bodyAIPath segmentationMode:mode];
 
 // 加载手势 AI 模型
 NSString *handAIPath = [[NSBundle mainBundle] pathForResource:@"ai_hand_processor" ofType:@"bundle"];
 [FUAIKit loadAIModeWithAIType:FUAITYPE_HANDGESTURE dataPath:handAIPath];
 
 // 加载舌头 AI 模型
-NSString *path = [[NSBundle mainBundle] pathForResource:@"tongue" ofType:@"bundle"];        [FUAIKit loadTongueMode:path];
+NSString *path = [[NSBundle mainBundle] pathForResource:@"tongue" ofType:@"bundle"];        
+[FUAIKit loadTongueMode:path];
 ```
 
 
@@ -319,6 +346,12 @@ AI能力相关的功能都通过FUAIKit 加载或获取
 /// @param dataPath 模型路径
 + (void)loadAIModeWithAIType:(FUAITYPE)type dataPath:(NSString *)dataPath;
 
+/// 加载人体AI模型
+/// @param dataPath 模型路径
+/// @param mode 人体分割模式
+/// @note 使用 loadAIModeWithAIType:dataPath: 接口加载人体模型时默认的分割模式为 FUHumanSegmentationModeCPUCommon
++ (void)loadAIHumanModelWithDataPath:(NSString *)dataPath segmentationMode:(FUHumanSegmentationMode)mode;
+
 /// 卸载AI模型
 /// @param type AI 类型
 + (void)unloadAIModeForAIType:(FUAITYPE)type;
@@ -385,8 +418,8 @@ AI能力相关的功能都通过FUAIKit 加载或获取
 /// 重置身体识别
 + (void)resetHumanProcessor;
 
-/// 设置人体分割场景类型
-+ (void)setHumanSegmentationSceneType:(FUHumanSegmentationSceneType)type;
+/// 设置人体分割场景类型，该方法已被弃用
++ (void)setHumanSegmentationSceneType:(FUHumanSegmentationSceneType)type __attribute__((deprecated("Use loadAIHumanModelWithDataPath: segmentationMode: instead.")))
 
 /// 跟踪到的手势数量
 + (int)aiHandDistinguishNums;

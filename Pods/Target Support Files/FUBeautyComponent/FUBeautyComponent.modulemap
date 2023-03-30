@@ -1,0 +1,6 @@
+framework module FUBeautyComponent {
+  umbrella header "FUBeautyComponent-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -314,6 +314,7 @@
     _onLabel.textColor = _textColor;
     _onLabel.font = _font;
     _onLabel.text = _onText;
+    _onLabel.adjustsFontSizeToFitWidth = YES;
     [_onContentView addSubview:_onLabel];
     
     _offLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -322,6 +323,7 @@
     _offLabel.textColor = _textColor;
     _offLabel.font = _font;
     _offLabel.text = _offText;
+    _offLabel.adjustsFontSizeToFitWidth = YES;
     [_offContentView addSubview:_offLabel];
     
 //    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self

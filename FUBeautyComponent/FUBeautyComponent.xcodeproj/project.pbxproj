@@ -33,8 +33,6 @@
 		E34C47FC2853381E0040093C /* FUBeautyDefine.h in Headers */ = {isa = PBXBuildFile; fileRef = E34C47F52853381E0040093C /* FUBeautyDefine.h */; };
 		E34C4831285347100040093C /* FUBeautyComponentManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E34C482F285347100040093C /* FUBeautyComponentManager.m */; };
 		E3618FEC28583B9B00E7D8D2 /* FUBeautyDefine.m in Sources */ = {isa = PBXBuildFile; fileRef = E3618FEB28583B9B00E7D8D2 /* FUBeautyDefine.m */; };
-		E369F8D028D851550036AC5A /* FURenderKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E369F8CF28D851550036AC5A /* FURenderKit.framework */; };
-		E3DC948D28900EE60016C9B1 /* FUCommonUIComponent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E338349B286173C10023482D /* FUCommonUIComponent.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,8 +72,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E369F8D028D851550036AC5A /* FURenderKit.framework in Frameworks */,
-				E3DC948D28900EE60016C9B1 /* FUCommonUIComponent.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

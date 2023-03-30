@@ -29,6 +29,12 @@ target 'FULiveDemo' do
     
     #pod 'FURenderKit-assets-dev', :git => 'git@192.168.0.118:liuyang/FURenderKit_Release.git', :branch => 'nama-dev-xlp'
     
+    pod 'FURenderKit', :path => 'FURenderKit/'
+    pod 'FUCommonUIComponent', :path => 'FUCommonUIComponent/'
+    pod 'FUBeautyComponent', :path => 'FUBeautyComponent/'
+    pod 'FUMakeupComponent', :path => 'FUMakeupComponent/'
+    pod 'FUGreenScreenComponent', :path => 'FUGreenScreenComponent/'
+    
 end
 
 

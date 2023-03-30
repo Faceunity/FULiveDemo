@@ -110,6 +110,7 @@
     [tipButton setTitle:FULocalizedString(@"检测到多人，请选择一人进行换脸")  forState:UIControlStateNormal];
     [tipButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     tipButton.titleLabel.font = [UIFont systemFontOfSize:12 weight:UIFontWeightMedium];
+    tipButton.titleLabel.numberOfLines = 2;
     tipButton.contentEdgeInsets = UIEdgeInsetsMake(6, 0, 0, 0);
     [tipButton setBackgroundImage:[UIImage imageNamed:@"face_fusion_tip"] forState:UIControlStateNormal];
     tipButton.userInteractionEnabled = NO;
@@ -128,6 +129,7 @@
         ovalLayer.lineWidth = 2;
         ovalLayer.lineDashPattern = @[@8, @4];
         ovalLayer.strokeColor = [UIColor whiteColor].CGColor;
+        ovalLayer.fillColor = NULL;
         [self.maskView.layer addSublayer:ovalLayer];
         
         if (CGRectGetMaxY(rect) > tipButton.frame.origin.y) {
@@ -138,6 +140,9 @@
     }
     CAShapeLayer *shapeLayer = [CAShapeLayer layer];
     shapeLayer.path = path.CGPath;
+    shapeLayer.lineWidth = 2;
+    shapeLayer.lineDashPattern = @[@8, @4];
+    shapeLayer.strokeColor = [UIColor whiteColor].CGColor;
     self.maskView.layer.mask = shapeLayer;
 }
 

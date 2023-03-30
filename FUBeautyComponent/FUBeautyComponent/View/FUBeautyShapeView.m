@@ -242,9 +242,9 @@ static NSString * const kFUBeautyShapeCellIdentifier = @"FUBeautyShapeCell";
         
         [self.contentView addSubview:self.textLabel];
         NSLayoutConstraint *textTop = [NSLayoutConstraint constraintWithItem:self.textLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.imageView attribute:NSLayoutAttributeBottom multiplier:1 constant:7];
-        
-        NSLayoutConstraint *textCenterX = [NSLayoutConstraint constraintWithItem:self.textLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterX multiplier:1 constant:0];
-        [self.contentView addConstraints:@[textTop, textCenterX]];
+        NSLayoutConstraint *textLeading = [NSLayoutConstraint constraintWithItem:self.textLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1 constant:0];
+        NSLayoutConstraint *textTrailing = [NSLayoutConstraint constraintWithItem:self.textLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTrailing multiplier:1 constant:0];
+        [self.contentView addConstraints:@[textTop, textLeading, textTrailing]];
     }
     return self;
 }
@@ -287,6 +287,8 @@ static NSString * const kFUBeautyShapeCellIdentifier = @"FUBeautyShapeCell";
         _textLabel = [[UILabel alloc] init];
         _textLabel.font = [UIFont systemFontOfSize:10];
         _textLabel.textColor = [UIColor whiteColor];
+        _textLabel.textAlignment = NSTextAlignmentCenter;
+        _textLabel.adjustsFontSizeToFitWidth = YES;
         _textLabel.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _textLabel;

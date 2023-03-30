@@ -121,6 +121,7 @@ static NSString * const kFUGreenScreenBackgroundCellIdentifier = @"FUGreenScreen
         _textLabel.textColor = [UIColor whiteColor];
         _textLabel.font = [UIFont systemFontOfSize:10];
         _textLabel.textAlignment = NSTextAlignmentCenter;
+        _textLabel.adjustsFontSizeToFitWidth = YES;
     }
     return _textLabel;
 }

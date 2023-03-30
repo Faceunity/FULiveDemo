@@ -86,7 +86,8 @@
     
     [self.view addSubview:self.messageLabel];
     [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
+        make.leading.equalTo(self.view.mas_leading).mas_offset(20);
+        make.trailing.equalTo(self.view.mas_trailing).mas_offset(-20);
         make.bottom.equalTo(self.imageSelectionButton.mas_top).mas_offset(-74);
     }];
 }
@@ -266,6 +267,8 @@
         _messageLabel.textColor = [UIColor whiteColor];
         _messageLabel.font = [UIFont systemFontOfSize:17];
         _messageLabel.text = FULocalizedString(@"请从相册中选择图片或视频");
+        _messageLabel.numberOfLines = 0;
+        _messageLabel.textAlignment = NSTextAlignmentCenter;
     }
     return _messageLabel;
 }

@@ -192,6 +192,7 @@ static NSString * const kFUBeautyFilterCellIdentifier = @"FUBeautyFilterCell";
         _textLabel.textColor = [UIColor whiteColor];
         _textLabel.font = [UIFont systemFontOfSize:10];
         _textLabel.textAlignment = NSTextAlignmentCenter;
+        _textLabel.adjustsFontSizeToFitWidth = YES;
         _textLabel.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _textLabel;

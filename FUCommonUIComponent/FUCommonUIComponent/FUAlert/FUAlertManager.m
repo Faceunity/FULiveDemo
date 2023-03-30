@@ -98,7 +98,7 @@
 
 + (UIViewController *)currentViewControllerWithRootViewController:(UIViewController *)viewController {
     if (viewController.presentedViewController) {
-        return [self currentViewControllerWithRootViewController:viewController.presentingViewController];
+        return [self currentViewControllerWithRootViewController:viewController.presentedViewController];
     } else if ([viewController isKindOfClass:[UINavigationController class]]) {
         UINavigationController *navigation = (UINavigationController *)viewController;
         return [self currentViewControllerWithRootViewController:navigation.visibleViewController];

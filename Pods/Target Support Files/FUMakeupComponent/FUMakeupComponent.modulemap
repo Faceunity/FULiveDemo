@@ -1,0 +1,6 @@
+framework module FUMakeupComponent {
+  umbrella header "FUMakeupComponent-umbrella.h"
+
+  export *
+  module * { export * }
+}

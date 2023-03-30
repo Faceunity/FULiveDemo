@@ -189,6 +189,10 @@ static NSString * const kFUCustomSegmentationVideoURL = @"FUCustomSegmentationVi
     return FUAIModelTypeFace | FUAIModelTypeHuman;
 }
 
+- (BOOL)loadAIModelAutomatically {
+    return NO;
+}
+
 - (FUDetectingParts)detectingParts {
     return FUDetectingPartsHuman;
 }

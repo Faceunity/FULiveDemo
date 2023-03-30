@@ -1,0 +1,14 @@
+/* 
+  InfoPlist.strings
+  FULiveDemo
+
+  Created by 项林平 on 2023/2/20.
+  
+*/
+
+{
+    "NSCameraUsageDescription" = "FULiveDemo needs your permission to use camera function";
+    "NSPhotoLibraryUsageDescription" = "FULiveDemo needs your permission to access the album";
+    "NSMicrophoneUsageDescription" = "FULiveDemo requires your consent to record";
+    "NSPhotoLibraryAddUsageDescription" = "FULiveDemo needs your permission to save photos to album";
+}
