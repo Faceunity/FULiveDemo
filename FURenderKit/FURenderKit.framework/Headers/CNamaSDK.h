@@ -210,6 +210,11 @@ typedef enum FUAIHUMANSEGMODE {
   FUAIHUMAN_SEG_GPU_MEETING = 0x02
 } FUAIHUMANSEGMODE;
 
+typedef enum FUAIMACHINETYPE {
+  FUAIMACHINE_LOW = 0,  //  low machine
+  FUAIMACHINE_HIGH = 1,//  high machine
+} FUAIMACHINETYPE;
+
 typedef enum TRANSFORM_MATRIX {
   /*
    * 8 base orientation cases, first do counter-clockwise rotation in degree,
@@ -1848,6 +1853,8 @@ FUNAMA_API void fuSetHumanSegScene(FUAIHUMANSEGSCENETYPE seg_scene);
 FUNAMA_API void fuSetHandDetectEveryNFramesWhenNoHand(int frame_num);
 
 FUNAMA_API void fuSetHumanSegMode(FUAIHUMANSEGMODE flag);
+
+FUNAMA_API void fuSetMachineType(FUAIMACHINETYPE flag);
 
 #ifdef __cplusplus
 }

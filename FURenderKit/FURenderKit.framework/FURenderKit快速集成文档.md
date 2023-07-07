@@ -3,8 +3,33 @@
 ## 导入SDK 
 ### 通过cocoapods集成
 
+FURenderKit全功能版本：
 ```
 pod 'FURenderKit'
+```
+
+FURenderKit人脸特效版本：
+
+```
+pod 'FURenderKit_FAUL'
+```
+
+FURenderKit人体特效版本：
+
+```
+pod 'FURenderKit_BAUL'
+```
+
+FURenderKit美颜+贴纸道具版本：
+
+```
+pod 'FURenderKit_FBFS'
+```
+
+FURenderKit人像分割+绿幕抠像版本：
+
+```
+pod 'FURenderKit_BSEG'
 ```
 
 接下来执行：
@@ -393,8 +418,8 @@ AI能力相关的功能都通过FUAIKit 加载或获取
 /// 重置身体识别
 + (void)resetHumanProcessor;
 
-/// 设置人体分割场景类型
-+ (void)setHumanSegmentationSceneType:(FUHumanSegmentationSceneType)type;
+/// 设置人体分割场景类型，该方法已被弃用
++ (void)setHumanSegmentationSceneType:(FUHumanSegmentationSceneType)type __attribute__((deprecated("Use loadAIHumanModelWithDataPath: segmentationMode: instead.")))
 
 /// 跟踪到的手势数量
 + (int)aiHandDistinguishNums;

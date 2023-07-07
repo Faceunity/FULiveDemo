@@ -240,7 +240,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// 设备性能分级
 + (FUDevicePerformanceLevel)devicePerformanceLevel;
 
-
 #pragma mark - frame time profile
 
 /// 开启/关闭算法耗时统计功能，默认关闭

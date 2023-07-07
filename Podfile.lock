@@ -34,10 +34,10 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (~> 4.0.0)
-  - FUBeautyComponent (from `FUBeautyComponent/`)
-  - FUCommonUIComponent (from `FUCommonUIComponent/`)
-  - FUGreenScreenComponent (from `FUGreenScreenComponent/`)
-  - FUMakeupComponent (from `FUMakeupComponent/`)
+  - "FUBeautyComponent (from `git@192.168.0.118:xiangxiaopenyou/FUBeautyComponent.git`)"
+  - "FUCommonUIComponent (from `git@192.168.0.118:xiangxiaopenyou/FUCommonUIComponent.git`)"
+  - "FUGreenScreenComponent (from `git@192.168.0.118:xiangxiaopenyou/FUGreenScreenComponent.git`)"
+  - "FUMakeupComponent (from `git@192.168.0.118:xiangxiaopenyou/FUMakeupComponent.git`)"
   - FURenderKit (from `FURenderKit/`)
   - Masonry
   - SDWebImage
@@ -54,15 +54,29 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   FUBeautyComponent:
-    :path: FUBeautyComponent/
+    :git: "git@192.168.0.118:xiangxiaopenyou/FUBeautyComponent.git"
   FUCommonUIComponent:
-    :path: FUCommonUIComponent/
+    :git: "git@192.168.0.118:xiangxiaopenyou/FUCommonUIComponent.git"
   FUGreenScreenComponent:
-    :path: FUGreenScreenComponent/
+    :git: "git@192.168.0.118:xiangxiaopenyou/FUGreenScreenComponent.git"
   FUMakeupComponent:
-    :path: FUMakeupComponent/
+    :git: "git@192.168.0.118:xiangxiaopenyou/FUMakeupComponent.git"
   FURenderKit:
     :path: FURenderKit/
+
+CHECKOUT OPTIONS:
+  FUBeautyComponent:
+    :commit: 729d3f8ea6e7479d4ac6666a83636dbdbf000a28
+    :git: "git@192.168.0.118:xiangxiaopenyou/FUBeautyComponent.git"
+  FUCommonUIComponent:
+    :commit: 8d3fa3bd8d119a647c8376558ee6370f89f6d4d4
+    :git: "git@192.168.0.118:xiangxiaopenyou/FUCommonUIComponent.git"
+  FUGreenScreenComponent:
+    :commit: 1a439cc22aba99304e2fac535762feafa6e81397
+    :git: "git@192.168.0.118:xiangxiaopenyou/FUGreenScreenComponent.git"
+  FUMakeupComponent:
+    :commit: 921a67b7bcfef0ffb753299d1427edfca63492dd
+    :git: "git@192.168.0.118:xiangxiaopenyou/FUMakeupComponent.git"
 
 SPEC CHECKSUMS:
   AFNetworking: 3bd23d814e976cd148d7d44c3ab78017b744cd58
@@ -76,6 +90,6 @@ SPEC CHECKSUMS:
   SSZipArchive: fe6a26b2a54d5a0890f2567b5cc6de5caa600aef
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: 12344084fae4fa8c899286c074bd0f9dde073d2a
+PODFILE CHECKSUM: 7f20aa813ae523eca5863869615e13f914b98889
 
 COCOAPODS: 1.11.3
