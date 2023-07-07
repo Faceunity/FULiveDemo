@@ -35,7 +35,7 @@
                     NSArray *authCodes = [authCodeString componentsSeparatedByString:@"-"];
                     NSInteger code0 = [authCodes[0] integerValue], code1 = [authCodes[1] integerValue];
                     // 判断是否有权限(moduleCode0对比code0，moduleCode1对比code1)
-                    //module.enable = (moduleCode0 & code0) || (moduleCode1 & code1);
+                    module.enable = (moduleCode0 & code0) || (moduleCode1 & code1);
                     module.enable = YES;
                 }
             }

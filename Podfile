@@ -28,13 +28,24 @@ target 'FULiveDemo' do
     #pod 'FURenderKit-dev', :git => 'git@192.168.0.118:liuyang/FURenderKit_Release.git', :branch => 'nama-dev-xlp'
     
     #pod 'FURenderKit-assets-dev', :git => 'git@192.168.0.118:liuyang/FURenderKit_Release.git', :branch => 'nama-dev-xlp'
-    
+
     pod 'FURenderKit', :path => 'FURenderKit/'
-    pod 'FUCommonUIComponent', :path => 'FUCommonUIComponent/'
-    pod 'FUBeautyComponent', :path => 'FUBeautyComponent/'
-    pod 'FUMakeupComponent', :path => 'FUMakeupComponent/'
-    pod 'FUGreenScreenComponent', :path => 'FUGreenScreenComponent/'
+    pod 'FUCommonUIComponent', :git => 'git@192.168.0.118:xiangxiaopenyou/FUCommonUIComponent.git'
+    pod 'FUBeautyComponent', :git => 'git@192.168.0.118:xiangxiaopenyou/FUBeautyComponent.git'
+    pod 'FUMakeupComponent', :git => 'git@192.168.0.118:xiangxiaopenyou/FUMakeupComponent.git'
+    pod 'FUGreenScreenComponent', :git => 'git@192.168.0.118:xiangxiaopenyou/FUGreenScreenComponent.git'
     
+end
+
+post_install do |installer|
+  installer.generated_projects.each do |project|
+    project.targets.each do |target|
+        target.build_configurations.each do |config|
+            config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
+            config.build_settings['ENABLE_BITCODE'] = 'NO'
+         end
+    end
+  end
 end
 
 

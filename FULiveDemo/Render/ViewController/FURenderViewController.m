@@ -228,7 +228,7 @@
     [self.viewModel setCameraFocusPoint:pictureCenter];
 }
 
-- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *) contextInfo {
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
     if (error) {
         [FUTipHUD showTips:FULocalizedString(@"保存图片失败") dismissWithDelay:1.5];
     } else {
