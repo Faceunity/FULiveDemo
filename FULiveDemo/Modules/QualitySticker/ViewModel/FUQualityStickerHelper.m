@@ -64,6 +64,13 @@
                     model.needClick = NO;
                     model.is3DFlipH = NO;
                 }
+                // toast
+                if (doc[@"tool"][@"eventToast"]) {
+                    model.toast = doc[@"tool"][@"eventToast"];
+                }
+                if (doc[@"tool"][@"eventToastEn"]) {
+                    model.toastEn = doc[@"tool"][@"eventToastEn"];
+                }
                 [resultArray addObject:model];
             }
         }

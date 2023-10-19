@@ -8,8 +8,11 @@
 
 #import "FUHeadButtonView.h"
 
-@implementation FUHeadButtonView
+@interface FUHeadButtonView () <FUSegmentedControlDelegate>
 
+@end
+
+@implementation FUHeadButtonView
 
 -(instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
@@ -50,13 +53,7 @@
     _segmentedControl.layer.borderWidth = 1.5;
     _segmentedControl.layer.borderColor = [UIColor whiteColor].CGColor;
     _segmentedControl.selectedIndex = 0;
-    @FUWeakify(self);
-    _segmentedControl.selectHandler = ^(NSUInteger index) {
-        @FUStrongify(self);
-        if ([self.delegate respondsToSelector:@selector(headButtonViewSegmentedChange:)]) {
-            [self.delegate headButtonViewSegmentedChange:index];
-        }
-    };
+    _segmentedControl.delegate = self;
     [self addSubview:_segmentedControl];
 }
 
@@ -97,6 +94,11 @@
     }];
 }
 
+- (void)segmentedControlDidSelectAtIndex:(NSUInteger)index {
+    if ([self.delegate respondsToSelector:@selector(headButtonViewSegmentedChange:)]) {
+        [self.delegate headButtonViewSegmentedChange:index];
+    }
+}
 
 #pragma  mark -  UI 交互
 -(void)backAction:(UIButton *)btn{

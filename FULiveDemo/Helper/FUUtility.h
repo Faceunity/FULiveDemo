@@ -6,10 +6,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Photos/Photos.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface FUUtility : NSObject
+
+/// 请求相册权限
+/// - Parameter handler: 回调
++ (void)requestPhotoLibraryAuthorization:(void (^)(PHAuthorizationStatus status))handler;
 
 /// 获取本地视频地址
 /// - Parameters:

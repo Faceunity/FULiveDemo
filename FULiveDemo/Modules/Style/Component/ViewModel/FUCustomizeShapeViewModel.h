@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSInteger selectedIndex;
 /// 是否关闭效果
 @property (nonatomic, assign, getter=isEffectDisabled) BOOL effectDisabled;
-/// 美型属性需要根据高低端机适配
+/// 属性需要根据高低端机适配
 @property (nonatomic, assign, readonly) FUDevicePerformanceLevel performanceLevel;
 
 - (void)setShapeValue:(double)value;

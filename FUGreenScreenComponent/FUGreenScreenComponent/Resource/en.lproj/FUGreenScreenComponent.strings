@@ -1,0 +1,22 @@
+/* 
+  FUGreenScreenComponent.strings
+  FUGreenScreenComponent
+
+  Created by 项林平 on 2023/7/27.
+  
+*/
+
+"抠像" = "Keying";
+"背景" = "Background";
+"关键颜色" = "Key Color";
+"相似度" = "Similarity";
+"平滑" = "Smooth";
+"祛色度" = "Discoloration";
+"安全区域" = "Safe Area";
+"白色区域为安全区域，不参与绿幕抠像" = "The white area is a safe area and does not participate chroma keying";
+
+"科技" = "Technology";
+"沙滩" = "Beach";
+"教室" = "Classroom";
+"水墨画" = "Ink Painting";
+"森林" = "Forest";

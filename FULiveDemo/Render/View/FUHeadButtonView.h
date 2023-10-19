@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FUSegmentedControl.h"
+#import <FUCommonUIComponent/FUCommonUIComponent.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

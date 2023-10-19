@@ -102,8 +102,16 @@ typedef NS_ENUM(NSUInteger, FUSingleMakeupType) {
 
 #pragma mark - 内联函数
 
-static inline BOOL FUDeviceIsiPhoneXStyle() {
+static inline UIWindow * FUKeyWindow(void) {
     UIWindow *keyWindow = [UIApplication sharedApplication].delegate.window;
+    if (!keyWindow) {
+        keyWindow = [UIApplication sharedApplication].windows.firstObject;
+    }
+    return keyWindow;
+}
+
+static inline BOOL FUDeviceIsiPhoneXStyle(void) {
+    UIWindow *keyWindow = FUKeyWindow();
     if (@available(iOS 11.0, *)) {
         CGFloat bottomInsets = keyWindow.safeAreaInsets.bottom;
         if (bottomInsets > 0) {
@@ -115,19 +123,19 @@ static inline BOOL FUDeviceIsiPhoneXStyle() {
 
 static inline CGFloat FUHeightIncludeBottomSafeArea(CGFloat height) {
     if (@available(iOS 11.0, *)) {
-        height += [UIApplication sharedApplication].delegate.window.safeAreaInsets.bottom;
+        height += FUKeyWindow().safeAreaInsets.bottom;
     }
     return height;
 }
 
 static inline CGFloat FUHeightIncludeTopSafeArea(CGFloat height) {
     if (@available(iOS 11.0, *)) {
-        height += [UIApplication sharedApplication].delegate.window.safeAreaInsets.top;
+        height += FUKeyWindow().safeAreaInsets.top;
     }
     return height;
 }
 
-static inline NSString * FUCurrentDateString() {
+static inline NSString * FUCurrentDateString(void) {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat = @"YYYYMMddhhmmssSS";
     NSDate *date = [NSDate date];

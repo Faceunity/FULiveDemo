@@ -1,0 +1,144 @@
+/* 
+  FUBeautyComponent.strings
+  FUBeautyComponent
+
+  Created by 项林平 on 2023/7/27.
+  
+*/
+
+"skin" = "Beauty Effects";
+"shape" = "Face Shaping";
+"filter" = "Filter";
+
+/// Skin
+"磨皮" = "Buffing";
+"祛斑痘" = "Acne Removal";
+"美白" = "Skin Tone";
+"红润" = "Rosy";
+"清晰" = "Clarity";
+"锐化" = "Sharpen";
+"五官立体" = "Contouring";
+"亮眼" = "Brighen";
+"美牙" = "Whiten";
+"去黑眼圈" = "Dark Circles";
+"去法令纹" = "Laugh Line";
+
+/// Shape
+"瘦脸" = "Lower Width";
+"v脸" = "V Shape";
+"窄脸" = "Upper Width";
+"短脸" = "Short Face";
+"小脸" = "Size Face";
+"瘦颧骨" = "Cheek";
+"瘦下颌骨" = "Jaw";
+"圆眼" = "Round";
+"大眼" = "Enlarge";
+"下巴" = "Chin Length";
+"额头" = "Hairline";
+"瘦鼻" = "Nose Size";
+"嘴型" = "Mouth Size";
+"嘴唇厚度" = "Thick Lips";
+"眼睛位置" = "Eye Position";
+"开眼角" = "Inner Corner";
+"眼睑下至" = "Eye Downturn";
+"眼距" = "Eye Distance";
+"眼睛角度" = "Eye Upturn";
+"长鼻" = "Nose Lift";
+"缩人中" = "Mouth Position";
+"微笑嘴角" = "Smile";
+"眉毛上下" = "Brow Position";
+"眉间距" = "Brow Distance";
+"眉毛粗细" = "Brow Thickness";
+
+/// Filter
+"origin" = "Origin";
+"ziran1" = "Nature1";
+"ziran2" = "Nature2";
+"ziran3" = "Nature3";
+"ziran4" = "Nature4";
+"ziran5" = "Nature5";
+"ziran6" = "Nature6";
+"ziran7" = "Nature7";
+"ziran8" = "Nature8";
+"ziran9" = "Nature9";
+"ziran10" = "Nature10";
+"ziran11" = "Nature11";
+"ziran12" = "Nature12";
+
+"bailiang1" = "Bright1";
+"bailiang2" = "Bright2";
+"bailiang3" = "Bright3";
+"bailiang4" = "Bright4";
+"bailiang5" = "Bright5";
+"bailiang6" = "Bright6";
+"bailiang7" = "Bright7";
+
+"fennen1" = "Pink1";
+"fennen2" = "Pink2";
+"fennen3" = "Pink3";
+"fennen4" = "Pink4";
+"fennen5" = "Pink5";
+"fennen6" = "Pink6";
+"fennen7" = "Pink7";
+"fennen8" = "Pink8";
+
+"lengsediao1"= "Cold tone1";
+"lengsediao2"= "Cold tone2";
+"lengsediao3"= "Cold tone3";
+"lengsediao4"= "Cold tone4";
+"lengsediao5"= "Cold tone5";
+"lengsediao6"= "Cold tone6";
+"lengsediao7"= "Cold tone7";
+"lengsediao8"= "Cold tone8";
+"lengsediao9"= "Cold tone9";
+"lengsediao10"= "Cold tone10";
+"lengsediao11"= "Cold tone11";
+
+"nuansediao1"= "Warm tone1";
+"nuansediao2"= "Warm tone2";
+
+"gexing1"  = "Personality1";
+"gexing2"  = "Personality2";
+"gexing3"  = "Personality3";
+"gexing4"  = "Personality4";
+"gexing5"  = "Personality5";
+"gexing6"  = "Personality6";
+"gexing7"  = "Personality7";
+"gexing8"  = "Personality8";
+"gexing9"  = "Personality9";
+"gexing10"  = "Personality10";
+"gexing11"  = "Personality11";
+
+"xiaoqingxin1"  = "Fresh1";
+"xiaoqingxin2"  = "Fresh2";
+"xiaoqingxin3"  = "Fresh3";
+"xiaoqingxin4"  = "Fresh4";
+"xiaoqingxin5"  = "Fresh5";
+"xiaoqingxin6"  = "Fresh6";
+
+"heibai1" = "Fade1";
+"heibai2" = "Fade2";
+"heibai3" = "Fade3";
+"heibai4" = "Fade4";
+
+"zhiganhui1" = "Grey1";
+"zhiganhui2" = "Grey2";
+"zhiganhui3" = "Grey3";
+"zhiganhui4" = "Grey4";
+"zhiganhui5" = "Grey5";
+"zhiganhui6" = "Grey6";
+"zhiganhui7" = "Grey7";
+"zhiganhui8" = "Grey8";
+
+"mitao1" = "Peach1";
+"mitao2" = "Peach2";
+"mitao3" = "Peach3";
+"mitao4" = "Peach4";
+"mitao5" = "Peach5";
+"mitao6" = "Peach6";
+"mitao7" = "Peach7";
+"mitao8" = "Peach8";
+
+"该功能只支持在高端机上使用" = "%@ is only supported on high-performance mobile phones";
+"功能仅支持iPhoneXR及以上机型使用" = "%@ is only supported on iPhoneXR and above models";
+"是否将所有参数恢复到默认值" = "Whether to restore all parameters to default values";

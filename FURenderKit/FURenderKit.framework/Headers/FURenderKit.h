@@ -35,6 +35,7 @@
 #import "UIImage+FURenderKit.h"
 #import "FUImageHelper.h"
 #import "UIDevice+FURenderKit.h"
+#import "FURenderQueue.h"
 
 #import "FUAIKit.h"
 
@@ -215,7 +216,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return 输出图像结果，类型为 FURenderOutput
 - (FURenderOutput *)renderWithInput:(FURenderInput *)input;
 
-#pragma mark - Other API
+#pragma mark - Others
 
 /// 获取证书里面的模块权限
 /// @return code get i-th code, currently available for 0 and 1
@@ -239,6 +240,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 设备性能分级
 + (FUDevicePerformanceLevel)devicePerformanceLevel;
+
+/// 美妆效果覆盖开关，默认打开
+/// @note 当多个包含美妆效果的 bundle 互相影响时可以调用该接口设置为 YES，否则可以设为 NO
++ (void)setMakeupCoverResourceEnabled:(BOOL)enabled;
 
 #pragma mark - frame time profile
 

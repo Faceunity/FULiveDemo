@@ -89,7 +89,7 @@ typedef struct FUTexture FUTexture;
 /// 设置输入纹理的旋转及镜像信息，设置该属性会影响输出纹理的方向。默认基于 CPU 图像创建的纹理与CPU 图像成上下镜像关系，此时 textureTransform 对应的值为 DEFAULT，以此类推，如果对默认生成的纹理做了其他变换，则将该参数设置为对应的变换即可。
 @property (nonatomic, assign) TRANSFORM_MATRIX textureTransform;
 
-/// 设置输入pixelBuffer/imageBuffer的旋转方向，以使buffer数据与textureTransform作用后纹理的方向一致，该参数仅用于AI算法检测，不会改变buffer的方向或镜像属性
+/// 设置输出pixelBuffer/imageBuffer的旋转方向，以使buffer数据与textureTransform作用后纹理的方向一致，该参数仅用于AI算法检测，不会改变buffer的方向或镜像属性
 @property (nonatomic, assign) TRANSFORM_MATRIX outputTransform;
 
 /// 是否渲染到当前的FBO，设置为YES时，返回的 FURenderOutput 内的所有数据均为空值。

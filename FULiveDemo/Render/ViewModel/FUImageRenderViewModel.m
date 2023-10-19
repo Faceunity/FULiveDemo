@@ -17,9 +17,8 @@
 
 @end
 
-@implementation FUImageRenderViewModel {
-    FUImageBuffer currentImageBuffer;
-}
+@implementation FUImageRenderViewModel
+
 
 #pragma mark - Initializer
 
@@ -40,9 +39,7 @@
 }
 
 - (void)dealloc {
-    if (&currentImageBuffer != NULL) {
-        [UIImage freeImageBuffer:&currentImageBuffer];
-    }
+    NSLog(@"FUImageRenderViewModel dealloc");
 }
 
 #pragma mark - Instance methods
@@ -70,7 +67,7 @@
     [self.renderOperationQueue addOperationWithBlock:^{
         [FURenderKitManager updateBeautyBlurEffect];
         @autoreleasepool {
-            self->currentImageBuffer = [self.renderImage getImageBuffer];
+            CVPixelBufferRef buffer = [FUImageHelper pixelBufferFromImage:self.renderImage];
             if (self.isRendering) {
                 FURenderInput *input = [[FURenderInput alloc] init];
                 switch (self.renderImage.imageOrientation) {
@@ -91,22 +88,16 @@
                         input.renderConfig.imageOrientation = FUImageOrientationLeft;
                         break;
                 }
-                input.imageBuffer = self->currentImageBuffer;
+                input.pixelBuffer = buffer;
                 FURenderOutput *output = [[FURenderKit shareRenderKit] renderWithInput:input];
-                self->currentImageBuffer = output.imageBuffer;
+                [self processOutputResult:output.pixelBuffer];
+            } else {
+                // 原图
+                [self processOutputResult:buffer];
             }
-            if (self.captureImageHandler) {
-                UIImage *captureImage = [UIImage imageWithRGBAImageBuffer:&self->currentImageBuffer autoFreeBuffer:NO];
-                self.captureImageHandler(captureImage);
-                self.captureImageHandler = nil;
-            }
-            if (self.delegate && [self.delegate respondsToSelector:@selector(imageRenderDidOutputImageBuffer:)]) {
-                [self.delegate imageRenderDidOutputImageBuffer:self->currentImageBuffer];
-            }
-            // 释放内存
-            [UIImage freeImageBuffer:&self->currentImageBuffer];
+            CVPixelBufferRelease(buffer);
         }
-        
+
         if (self.detectingParts != FUDetectingPartsNone) {
             // 需要检查人脸/人体/手势检测状态
             if (self.delegate && [self.delegate respondsToSelector:@selector(imageRenderShouldCheckDetectingStatus:)]) {
@@ -114,6 +105,21 @@
             }
         }
     }];
+}
+
+- (void)processOutputResult:(CVPixelBufferRef)pixelBuffer {
+    if (!pixelBuffer) {
+        return;
+    }
+    if (self.delegate && [self.delegate respondsToSelector:@selector(imageRenderDidOutputPixelBuffer:)]) {
+        [self.delegate imageRenderDidOutputPixelBuffer:pixelBuffer];
+    }
+    if (self.captureImageHandler) {
+        // 保存图片
+        UIImage *captureImage = [FUImageHelper imageFromPixelBuffer:pixelBuffer];
+        self.captureImageHandler(captureImage);
+        self.captureImageHandler = nil;
+    }
 }
 
 #pragma mark - Getters

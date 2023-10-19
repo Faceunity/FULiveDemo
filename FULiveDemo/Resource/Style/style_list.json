@@ -11,63 +11,91 @@
                 "type":0,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":6
+                "ratio":6,
+                "differentiateDevicePerformance":false
+            },
+            {
+                "name":"祛斑痘",
+                "type":9,
+                "currentValue":0.0,
+                "defaultValue":0.0,
+                "defaultValueInMiddle":false,
+                "ratio":1,
+                "differentiateDevicePerformance":true,
+                "needsNPUSupport":true
             },
             {
                 "name":"美白",
                 "type":1,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"红润",
                 "type":2,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
+            },
+            {
+                "name":"清晰",
+                "type":10,
+                "currentValue":0.0,
+                "defaultValue":0.0,
+                "defaultValueInMiddle":false,
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"锐化",
                 "type":3,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"五官立体",
                 "type":4,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"亮眼",
                 "type":5,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"美牙",
                 "type":6,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"去黑眼圈",
                 "type":7,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"去法令纹",
                 "type":8,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             }
         ],
         "shapes":[
@@ -290,63 +318,91 @@
                 "type":0,
                 "currentValue":3.0,
                 "defaultValue":3.0,
-                "ratio":6
+                "ratio":6,
+                "differentiateDevicePerformance":false
+            },
+            {
+                "name":"祛斑痘",
+                "type":9,
+                "currentValue":0.0,
+                "defaultValue":0.0,
+                "defaultValueInMiddle":false,
+                "ratio":1,
+                "differentiateDevicePerformance":true,
+                "needsNPUSupport":true
             },
             {
                 "name":"美白",
                 "type":1,
                 "currentValue":0.3,
                 "defaultValue":0.3,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"红润",
                 "type":2,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
+            },
+            {
+                "name":"清晰",
+                "type":10,
+                "currentValue":0.0,
+                "defaultValue":0.0,
+                "defaultValueInMiddle":false,
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"锐化",
                 "type":3,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"五官立体",
                 "type":4,
                 "currentValue":1.0,
                 "defaultValue":1.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"亮眼",
                 "type":5,
                 "currentValue":0.2,
                 "defaultValue":0.2,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"美牙",
                 "type":6,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"去黑眼圈",
                 "type":7,
                 "currentValue":0.5,
                 "defaultValue":0.5,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"去法令纹",
                 "type":8,
                 "currentValue":0.3,
                 "defaultValue":0.3,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             }
         ],
         "shapes":[
@@ -569,63 +625,91 @@
                 "type":0,
                 "currentValue":2.7,
                 "defaultValue":2.7,
-                "ratio":6
+                "ratio":6,
+                "differentiateDevicePerformance":false
+            },
+            {
+                "name":"祛斑痘",
+                "type":9,
+                "currentValue":0.0,
+                "defaultValue":0.0,
+                "defaultValueInMiddle":false,
+                "ratio":1,
+                "differentiateDevicePerformance":true,
+                "needsNPUSupport":true
             },
             {
                 "name":"美白",
                 "type":1,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"红润",
                 "type":2,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
+            },
+            {
+                "name":"清晰",
+                "type":10,
+                "currentValue":0.0,
+                "defaultValue":0.0,
+                "defaultValueInMiddle":false,
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"锐化",
                 "type":3,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"五官立体",
                 "type":4,
                 "currentValue":0.6,
                 "defaultValue":0.6,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"亮眼",
                 "type":5,
                 "currentValue":0.3,
                 "defaultValue":0.3,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"美牙",
                 "type":6,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"去黑眼圈",
                 "type":7,
                 "currentValue":0.7,
                 "defaultValue":0.7,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"去法令纹",
                 "type":8,
                 "currentValue":0.5,
                 "defaultValue":0.5,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             }
         ],
         "shapes":[
@@ -848,63 +932,91 @@
                 "type":0,
                 "currentValue":3.9,
                 "defaultValue":3.9,
-                "ratio":6
+                "ratio":6,
+                "differentiateDevicePerformance":false
+            },
+            {
+                "name":"祛斑痘",
+                "type":9,
+                "currentValue":0.0,
+                "defaultValue":0.0,
+                "defaultValueInMiddle":false,
+                "ratio":1,
+                "differentiateDevicePerformance":true,
+                "needsNPUSupport":true
             },
             {
                 "name":"美白",
                 "type":1,
                 "currentValue":0.6,
                 "defaultValue":0.6,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"红润",
                 "type":2,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
+            },
+            {
+                "name":"清晰",
+                "type":10,
+                "currentValue":0.0,
+                "defaultValue":0.0,
+                "defaultValueInMiddle":false,
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"锐化",
                 "type":3,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"五官立体",
                 "type":4,
                 "currentValue":0.5,
                 "defaultValue":0.5,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"亮眼",
                 "type":5,
                 "currentValue":0.3,
                 "defaultValue":0.3,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"美牙",
                 "type":6,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"去黑眼圈",
                 "type":7,
                 "currentValue":0.7,
                 "defaultValue":0.7,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"去法令纹",
                 "type":8,
                 "currentValue":0.3,
                 "defaultValue":0.3,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             }
         ],
         "shapes":[
@@ -1127,63 +1239,91 @@
                 "type":0,
                 "currentValue":1.8,
                 "defaultValue":1.8,
-                "ratio":6
+                "ratio":6,
+                "differentiateDevicePerformance":false
+            },
+            {
+                "name":"祛斑痘",
+                "type":9,
+                "currentValue":0.0,
+                "defaultValue":0.0,
+                "defaultValueInMiddle":false,
+                "ratio":1,
+                "differentiateDevicePerformance":true,
+                "needsNPUSupport":true
             },
             {
                 "name":"美白",
                 "type":1,
                 "currentValue":0.4,
                 "defaultValue":0.4,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"红润",
                 "type":2,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
+            },
+            {
+                "name":"清晰",
+                "type":10,
+                "currentValue":0.0,
+                "defaultValue":0.0,
+                "defaultValueInMiddle":false,
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"锐化",
                 "type":3,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"五官立体",
                 "type":4,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"亮眼",
                 "type":5,
                 "currentValue":0.3,
                 "defaultValue":0.3,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"美牙",
                 "type":6,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"去黑眼圈",
                 "type":7,
                 "currentValue":0.5,
                 "defaultValue":0.5,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"去法令纹",
                 "type":8,
                 "currentValue":0.3,
                 "defaultValue":0.3,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             }
         ],
         "shapes":[
@@ -1406,63 +1546,91 @@
                 "type":0,
                 "currentValue":3.6,
                 "defaultValue":3.6,
-                "ratio":6
+                "ratio":6,
+                "differentiateDevicePerformance":false
+            },
+            {
+                "name":"祛斑痘",
+                "type":9,
+                "currentValue":0.0,
+                "defaultValue":0.0,
+                "defaultValueInMiddle":false,
+                "ratio":1,
+                "differentiateDevicePerformance":true,
+                "needsNPUSupport":true
             },
             {
                 "name":"美白",
                 "type":1,
                 "currentValue":0.25,
                 "defaultValue":0.25,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"红润",
                 "type":2,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
+            },
+            {
+                "name":"清晰",
+                "type":10,
+                "currentValue":0.0,
+                "defaultValue":0.0,
+                "defaultValueInMiddle":false,
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"锐化",
                 "type":3,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"五官立体",
                 "type":4,
                 "currentValue":0.4,
                 "defaultValue":0.4,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"亮眼",
                 "type":5,
                 "currentValue":0.25,
                 "defaultValue":0.25,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"美牙",
                 "type":6,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"去黑眼圈",
                 "type":7,
                 "currentValue":0.6,
                 "defaultValue":0.6,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"去法令纹",
                 "type":8,
                 "currentValue":0.4,
                 "defaultValue":0.4,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             }
         ],
         "shapes":[
@@ -1685,63 +1853,91 @@
                 "type":0,
                 "currentValue":3.0,
                 "defaultValue":3.0,
-                "ratio":6
+                "ratio":6,
+                "differentiateDevicePerformance":false
+            },
+            {
+                "name":"祛斑痘",
+                "type":9,
+                "currentValue":0.0,
+                "defaultValue":0.0,
+                "defaultValueInMiddle":false,
+                "ratio":1,
+                "differentiateDevicePerformance":true,
+                "needsNPUSupport":true
             },
             {
                 "name":"美白",
                 "type":1,
                 "currentValue":0.1,
                 "defaultValue":0.1,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"红润",
                 "type":2,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
+            },
+            {
+                "name":"清晰",
+                "type":10,
+                "currentValue":0.0,
+                "defaultValue":0.0,
+                "defaultValueInMiddle":false,
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"锐化",
                 "type":3,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"五官立体",
                 "type":4,
                 "currentValue":0.6,
                 "defaultValue":0.6,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"亮眼",
                 "type":5,
                 "currentValue":0.4,
                 "defaultValue":0.4,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"美牙",
                 "type":6,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"去黑眼圈",
                 "type":7,
                 "currentValue":0.7,
                 "defaultValue":0.7,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"去法令纹",
                 "type":8,
                 "currentValue":0.3,
                 "defaultValue":0.3,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             }
         ],
         "shapes":[
@@ -1964,63 +2160,91 @@
                 "type":0,
                 "currentValue":1.8,
                 "defaultValue":1.8,
-                "ratio":6
+                "ratio":6,
+                "differentiateDevicePerformance":false
+            },
+            {
+                "name":"祛斑痘",
+                "type":9,
+                "currentValue":0.0,
+                "defaultValue":0.0,
+                "defaultValueInMiddle":false,
+                "ratio":1,
+                "differentiateDevicePerformance":true,
+                "needsNPUSupport":true
             },
             {
                 "name":"美白",
                 "type":1,
                 "currentValue":0.2,
                 "defaultValue":0.2,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"红润",
                 "type":2,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
+            },
+            {
+                "name":"清晰",
+                "type":10,
+                "currentValue":0.0,
+                "defaultValue":0.0,
+                "defaultValueInMiddle":false,
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"锐化",
                 "type":3,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"五官立体",
                 "type":4,
                 "currentValue":0.6,
                 "defaultValue":0.6,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"亮眼",
                 "type":5,
                 "currentValue":0.3,
                 "defaultValue":0.3,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"美牙",
                 "type":6,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"去黑眼圈",
                 "type":7,
                 "currentValue":0.6,
                 "defaultValue":0.6,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"去法令纹",
                 "type":8,
                 "currentValue":0.3,
                 "defaultValue":0.3,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             }
         ],
         "shapes":[
@@ -2244,63 +2468,91 @@
                 "type":0,
                 "currentValue":1.8,
                 "defaultValue":1.8,
-                "ratio":6
+                "ratio":6,
+                "differentiateDevicePerformance":false
+            },
+            {
+                "name":"祛斑痘",
+                "type":9,
+                "currentValue":0.0,
+                "defaultValue":0.0,
+                "defaultValueInMiddle":false,
+                "ratio":1,
+                "differentiateDevicePerformance":true,
+                "needsNPUSupport":true
             },
             {
                 "name":"美白",
                 "type":1,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"红润",
                 "type":2,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
+            },
+            {
+                "name":"清晰",
+                "type":10,
+                "currentValue":0.0,
+                "defaultValue":0.0,
+                "defaultValueInMiddle":false,
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"锐化",
                 "type":3,
                 "currentValue":0.2,
                 "defaultValue":0.2,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"五官立体",
                 "type":4,
                 "currentValue":0.5,
                 "defaultValue":0.5,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"亮眼",
                 "type":5,
                 "currentValue":0.3,
                 "defaultValue":0.3,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"美牙",
                 "type":6,
                 "currentValue":0.2,
                 "defaultValue":0.2,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"去黑眼圈",
                 "type":7,
                 "currentValue":0.45,
                 "defaultValue":0.45,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"去法令纹",
                 "type":8,
                 "currentValue":0.35,
                 "defaultValue":0.35,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             }
         ],
         "shapes":[
@@ -2523,63 +2775,91 @@
                 "type":0,
                 "currentValue":3.3,
                 "defaultValue":3.3,
-                "ratio":6
+                "ratio":6,
+                "differentiateDevicePerformance":false
+            },
+            {
+                "name":"祛斑痘",
+                "type":9,
+                "currentValue":0.0,
+                "defaultValue":0.0,
+                "defaultValueInMiddle":false,
+                "ratio":1,
+                "differentiateDevicePerformance":true,
+                "needsNPUSupport":true
             },
             {
                 "name":"美白",
                 "type":1,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"红润",
                 "type":2,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
+            },
+            {
+                "name":"清晰",
+                "type":10,
+                "currentValue":0.0,
+                "defaultValue":0.0,
+                "defaultValueInMiddle":false,
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"锐化",
                 "type":3,
                 "currentValue":0.2,
                 "defaultValue":0.2,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"五官立体",
                 "type":4,
                 "currentValue":0.5,
                 "defaultValue":0.5,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"亮眼",
                 "type":5,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"美牙",
                 "type":6,
                 "currentValue":0.2,
                 "defaultValue":0.2,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"去黑眼圈",
                 "type":7,
                 "currentValue":0.5,
                 "defaultValue":0.5,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"去法令纹",
                 "type":8,
                 "currentValue":0.3,
                 "defaultValue":0.3,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             }
         ],
         "shapes":[
@@ -2803,63 +3083,91 @@
                 "type":0,
                 "currentValue":3.9,
                 "defaultValue":3.9,
-                "ratio":6
+                "ratio":6,
+                "differentiateDevicePerformance":false
+            },
+            {
+                "name":"祛斑痘",
+                "type":9,
+                "currentValue":0.0,
+                "defaultValue":0.0,
+                "defaultValueInMiddle":false,
+                "ratio":1,
+                "differentiateDevicePerformance":true,
+                "needsNPUSupport":true
             },
             {
                 "name":"美白",
                 "type":1,
                 "currentValue":0.1,
                 "defaultValue":0.1,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"红润",
                 "type":2,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
+            },
+            {
+                "name":"清晰",
+                "type":10,
+                "currentValue":0.0,
+                "defaultValue":0.0,
+                "defaultValueInMiddle":false,
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"锐化",
                 "type":3,
                 "currentValue":0.2,
                 "defaultValue":0.2,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"五官立体",
                 "type":4,
                 "currentValue":0.5,
                 "defaultValue":0.5,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"亮眼",
                 "type":5,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"美牙",
                 "type":6,
                 "currentValue":0.2,
                 "defaultValue":0.2,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"去黑眼圈",
                 "type":7,
                 "currentValue":0.55,
                 "defaultValue":0.55,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"去法令纹",
                 "type":8,
                 "currentValue":0.3,
                 "defaultValue":0.3,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             }
         ],
         "shapes":[
@@ -3083,63 +3391,91 @@
                 "type":0,
                 "currentValue":2.7,
                 "defaultValue":2.7,
-                "ratio":6
+                "ratio":6,
+                "differentiateDevicePerformance":false
+            },
+            {
+                "name":"祛斑痘",
+                "type":9,
+                "currentValue":0.0,
+                "defaultValue":0.0,
+                "defaultValueInMiddle":false,
+                "ratio":1,
+                "differentiateDevicePerformance":true,
+                "needsNPUSupport":true
             },
             {
                 "name":"美白",
                 "type":1,
                 "currentValue":0.1,
                 "defaultValue":0.1,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"红润",
                 "type":2,
                 "currentValue":0.0,
                 "defaultValue":0.0,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
+            },
+            {
+                "name":"清晰",
+                "type":10,
+                "currentValue":0.0,
+                "defaultValue":0.0,
+                "defaultValueInMiddle":false,
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"锐化",
                 "type":3,
                 "currentValue":0.3,
                 "defaultValue":0.3,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"五官立体",
                 "type":4,
                 "currentValue":0.6,
                 "defaultValue":0.6,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"亮眼",
                 "type":5,
                 "currentValue":0.3,
                 "defaultValue":0.3,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"美牙",
                 "type":6,
                 "currentValue":0.15,
                 "defaultValue":0.15,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"去黑眼圈",
                 "type":7,
                 "currentValue":0.4,
                 "defaultValue":0.4,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             },
             {
                 "name":"去法令纹",
                 "type":8,
                 "currentValue":0.5,
                 "defaultValue":0.5,
-                "ratio":1
+                "ratio":1,
+                "differentiateDevicePerformance":false
             }
         ],
         "shapes":[

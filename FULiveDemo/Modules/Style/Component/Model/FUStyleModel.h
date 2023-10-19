@@ -21,6 +21,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) double currentValue;
 /// 实际值对应0.0-1.0的倍率
 @property (nonatomic, assign) NSUInteger ratio;
+/// 是否区分设备性能
+@property (nonatomic, assign) BOOL differentiateDevicePerformance;
+/// 是否需要 NPU 支持（ iPhoneXR 机型及以上 ）
+@property (nonatomic, assign) BOOL needsNPUSupport;
 
 @end
 

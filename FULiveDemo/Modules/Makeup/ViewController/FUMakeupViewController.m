@@ -18,13 +18,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [[FUMakeupComponentManager sharedManager] loadMakeupForFilePath:[[NSBundle mainBundle] pathForResource:@"face_makeup" ofType:@"bundle"]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [[FUMakeupComponentManager sharedManager] addComponentViewToView:self.view];
     [FUMakeupComponentManager sharedManager].delegate = self;
+    [[FUMakeupComponentManager sharedManager] addComponentViewToView:self.view];
     // 更新拍照/录制按钮位置
     [self updateBottomConstraintsOfCaptureButton:[FUMakeupComponentManager sharedManager].componentViewHeight];
 }

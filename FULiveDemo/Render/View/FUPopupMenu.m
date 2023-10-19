@@ -7,12 +7,12 @@
 //
 
 #import "FUPopupMenu.h"
-#import "FUSegmentedControl.h"
+#import <FUCommonUIComponent/FUCommonUIComponent.h>
 
-#define FUMainWindow  [UIApplication sharedApplication].delegate.window
 #define  LeftView 10.0f
 #define  TopToView 10.0f
-@interface FUPopupMenu()
+@interface FUPopupMenu() <FUSegmentedControlDelegate>
+
 @property (nonatomic, strong) UIView      * menuBackView;
 
 @property (nonatomic) CGPoint               point;
@@ -20,6 +20,8 @@
 @property (nonatomic,assign) int               onlyTop;
 
 @property (nonatomic, copy) NSArray *dataSource;
+
+@property (nonatomic, strong) FUSegmentedControl *segment;
 
 @end
 @implementation FUPopupMenu
@@ -38,7 +40,6 @@
 
 
 - (void)setupView{
-    
     _menuBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, FUScreenWidth, FUScreenHeight)];
     _menuBackView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.1];
     _menuBackView.alpha = 0;
@@ -54,21 +55,15 @@
     
     /* 分段控制器 */
     NSArray *array = self.dataSource.count > 0 ? self.dataSource : [NSArray arrayWithObjects:@"480×640",@"720×1280",@"1080×1920", nil];
-    FUSegmentedControl *segment = [[FUSegmentedControl alloc] initWithFrame:CGRectMake(25, 28, self.frame.size.width-50, 32) items:array];
-    segment.layer.masksToBounds = YES;
-    segment.layer.cornerRadius = 4;
-    segment.layer.borderWidth = 0.5;
-    segment.layer.borderColor = [UIColor whiteColor].CGColor;
-    segment.titleFont = [UIFont systemFontOfSize:13 weight:UIFontWeightMedium];
-    segment.selectedIndex = _selIndex;
-    @FUWeakify(segment)
-    segment.selectHandler = ^(NSUInteger index) {
-        @FUStrongify(segment)
-        if ([self.delegate respondsToSelector:@selector(fuPopupMenuSegment:didSelectedAtIndex:)]) {
-            [self.delegate fuPopupMenuSegment:segment didSelectedAtIndex:index];
-        }
-    };
-    [self addSubview:segment];
+    self.segment = [[FUSegmentedControl alloc] initWithFrame:CGRectMake(25, 28, self.frame.size.width-50, 32) items:array];
+    self.segment.layer.masksToBounds = YES;
+    self.segment.layer.cornerRadius = 4;
+    self.segment.layer.borderWidth = 0.5;
+    self.segment.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.segment.titleFont = [UIFont systemFontOfSize:13 weight:UIFontWeightMedium];
+    self.segment.selectedIndex = _selIndex;
+    self.segment.delegate = self;
+    [self addSubview:self.segment];
     
     if (!_onlyTop) {
         UIView *view = [[UIView alloc] init];
@@ -98,7 +93,7 @@
 }
 
 + (FUPopupMenu *)showRelyOnView:(UIView *)view frame:(CGRect)frame defaultSelectedAtIndex:(int)index onlyTop:(BOOL)onlyTop dataSource:(NSArray *)dataSource delegate:(id<FUPopupMenuDelegate>)delegate {
-    CGRect absoluteRect = [view convertRect:view.bounds toView:FUMainWindow];
+    CGRect absoluteRect = [view convertRect:view.bounds toView:FUKeyWindow()];
     CGPoint relyPoint = CGPointMake(absoluteRect.origin.x + absoluteRect.size.width / 2, absoluteRect.origin.y + absoluteRect.size.height);
     FUPopupMenu *popupMenu = [[FUPopupMenu alloc] initWithFrame:frame  onlyTop:(BOOL)onlyTop defaultSelectedAtIndex:(int)index dataSource:dataSource];
     popupMenu.delegate = delegate;
@@ -110,11 +105,17 @@
     return popupMenu;
 }
 
+- (void)segmentedControlDidSelectAtIndex:(NSUInteger)index {
+    if ([self.delegate respondsToSelector:@selector(fuPopupMenuSegment:didSelectedAtIndex:)]) {
+        [self.delegate fuPopupMenuSegment:self.segment didSelectedAtIndex:index];
+    }
+}
+
 #pragma mark - privates
 - (void)show
 {
-    [FUMainWindow addSubview:_menuBackView];
-    [FUMainWindow addSubview:self];
+    [FUKeyWindow() addSubview:_menuBackView];
+    [FUKeyWindow() addSubview:self];
     self.layer.affineTransform = CGAffineTransformMakeScale(0.1, 0.1);
     [UIView animateWithDuration: 0.25 animations:^{
         self.layer.affineTransform = CGAffineTransformMakeScale(1.0, 1.0);

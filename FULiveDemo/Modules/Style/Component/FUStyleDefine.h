@@ -19,7 +19,9 @@ typedef NS_ENUM(NSUInteger, FUStyleCustomizingSkinType) {
     FUStyleCustomizingSkinTypeEyeBright,
     FUStyleCustomizingSkinTypeToothWhiten,
     FUStyleCustomizingSkinTypeRemovePouchStrength,
-    FUStyleCustomizingSkinTypeRemoveNasolabialFoldsStrength
+    FUStyleCustomizingSkinTypeRemoveNasolabialFoldsStrength,
+    FUStyleCustomizingSkinTypeAntiAcneSpot,
+    FUStyleCustomizingSkinTypeClarity
 };
 
 typedef NS_ENUM(NSUInteger, FUStyleCustomizingShapeType) {

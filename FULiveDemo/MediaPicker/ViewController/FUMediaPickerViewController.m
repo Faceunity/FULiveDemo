@@ -17,8 +17,6 @@
 #import "FUGreenScreenImageRenderViewController.h"
 #import "FUGreenScreenVideoRenderViewController.h"
 
-#import <Photos/Photos.h>
-
 @interface FUMediaPickerViewController ()<UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
 @property (strong, nonatomic) UIButton *imageSelectionButton;
@@ -107,15 +105,9 @@
 }
 
 - (void)selectWithMediaType:(NSString *)type {
-    if (@available(iOS 14, *)) {
-        [PHPhotoLibrary requestAuthorizationForAccessLevel:PHAccessLevelReadWrite handler:^(PHAuthorizationStatus status) {
-            [self handleAuthorizationStatus:status mediaType:type];
-        }];
-    } else {
-        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
-            [self handleAuthorizationStatus:status mediaType:type];
-        }];
-    }
+    [FUUtility requestPhotoLibraryAuthorization:^(PHAuthorizationStatus status) {
+        [self handleAuthorizationStatus:status mediaType:type];
+    }];
 }
 
 - (void)handleAuthorizationStatus:(PHAuthorizationStatus)status mediaType:(NSString *)type {

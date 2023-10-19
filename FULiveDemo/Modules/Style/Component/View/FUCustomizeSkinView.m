@@ -7,6 +7,9 @@
 
 #import "FUCustomizeSkinView.h"
 
+#import <FURenderKit/UIDevice+FURenderKit.h>
+#import <FUCommonUIComponent/FUCommonUIComponent.h>
+
 static NSString * const kFUCustomizeSkinCellIdentifier = @"FUCustomizeSkinCell";
 
 @interface FUCustomizeSkinView ()<UICollectionViewDataSource, UICollectionViewDelegate>
@@ -137,6 +140,7 @@ static NSString * const kFUCustomizeSkinCellIdentifier = @"FUCustomizeSkinCell";
     [self refreshSubviews];
 }
 
+
 #pragma mark - Collection view data source
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -149,7 +153,22 @@ static NSString * const kFUCustomizeSkinCellIdentifier = @"FUCustomizeSkinCell";
     cell.imageName = [self.viewModel nameAtIndex:indexPath.item];
     cell.defaultValue = [self.viewModel defaultValueAtIndex:indexPath.item];
     cell.currentValue = [self.viewModel currentValueAtIndex:indexPath.item];
-    cell.disabled = self.viewModel.isEffectDisabled;
+    if (self.viewModel.isEffectDisabled) {
+        // 直接禁用
+        cell.disabled = YES;
+    } else {
+        if ([self.viewModel isNeedsNPUSupportsAtIndex:indexPath.item]) {
+            // iPhoneXR 以下机型不支持
+            cell.disabled = [UIDevice currentDevice].fu_deviceModelType <  FUDeviceModelTypeiPhoneXR;
+        } else {
+            // 处理低性能手机禁用特效
+            if ([self.viewModel isDifferentiateDevicePerformanceAtIndex:indexPath.item]) {
+                cell.disabled = self.viewModel.performanceLevel != FUDevicePerformanceLevelHigh;
+            } else {
+                cell.disabled = NO;
+            }
+        }
+    }
     cell.selected = indexPath.item == self.viewModel.selectedIndex;
     return cell;
 }
@@ -157,7 +176,31 @@ static NSString * const kFUCustomizeSkinCellIdentifier = @"FUCustomizeSkinCell";
 #pragma mark - Collection view delegate
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return !self.viewModel.effectDisabled;
+    BOOL should = YES;
+    if (self.viewModel.isEffectDisabled) {
+        should = NO;
+    } else {
+        if ([self.viewModel isNeedsNPUSupportsAtIndex:indexPath.item] && [UIDevice currentDevice].fu_deviceModelType < FUDeviceModelTypeiPhoneXR) {
+            // 处理仅支持iPhoneXR及以上机型的功能项
+            [FUTipHUD showTips:[NSString stringWithFormat:FULocalizedString(@"功能仅支持iPhoneXR及以上机型使用"), FULocalizedString([self.viewModel nameAtIndex:indexPath.item])] dismissWithDelay:1];
+            should = NO;
+        } else {
+            if ([self.viewModel isDifferentiateDevicePerformanceAtIndex:indexPath.item]) {
+                if (self.viewModel.performanceLevel != FUDevicePerformanceLevelHigh) {
+                    [FUTipHUD showTips:[NSString stringWithFormat:FULocalizedString(@"该功能只支持在高端机上使用"), FULocalizedString([self.viewModel nameAtIndex:indexPath.item])] dismissWithDelay:1];
+                    should = NO;
+                }
+            }
+        }
+    }
+    if (!should) {
+        // 刷新视图
+        [self.skinCollectionView reloadData];
+        if (self.viewModel.selectedIndex >= 0) {
+            [self.skinCollectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:self.viewModel.selectedIndex inSection:0] animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+        }
+    }
+    return should;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {

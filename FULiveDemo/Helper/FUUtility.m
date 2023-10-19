@@ -10,6 +10,18 @@
 
 @implementation FUUtility
 
++ (void)requestPhotoLibraryAuthorization:(void (^)(PHAuthorizationStatus))handler {
+    if (@available(iOS 14, *)) {
+        [PHPhotoLibrary requestAuthorizationForAccessLevel:PHAccessLevelReadWrite handler:^(PHAuthorizationStatus status) {
+            !handler ?: handler(status);
+        }];
+    } else {
+        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+            !handler ?: handler(status);
+        }];
+    }
+}
+
 + (void)requestVideoURLFromInfo:(NSDictionary<NSString *,id> *)info resultHandler:(void (^)(NSURL * _Nonnull))handler {
     if (info[UIImagePickerControllerReferenceURL]) {
         NSURL *refrenceURL = info[UIImagePickerControllerReferenceURL];

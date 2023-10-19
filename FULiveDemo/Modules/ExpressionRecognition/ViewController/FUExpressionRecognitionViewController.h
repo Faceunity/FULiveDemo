@@ -7,7 +7,7 @@
 //
 
 #import "FURenderViewController.h"
-#import "FUExpressionRecognitionViewModel.h""
+#import "FUExpressionRecognitionViewModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

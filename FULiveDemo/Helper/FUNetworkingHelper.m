@@ -20,7 +20,7 @@
 //
 //#endif
 
-// static NSString * const FUBaseURLString = @"http://192.168.0.122:8089/api/";
+//static NSString * const FUBaseURLString = @"http://192.168.0.122:8089/api/";
 static NSString * const FUBaseURLString = @"https://items.faceunity.com:4006/api/";
 
 @interface FUNetworkingHelper ()

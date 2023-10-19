@@ -79,6 +79,9 @@ typedef enum FUAITYPE {
 #define FUAITYPE_IMAGE_BEAUTY_UNKNOW 68719476736                   // 1<<36
 #define FUAITYPE_FACEPROCESSOR_LIPSOCCUSEGMENT 137438953472        // 1<<37
 #define FUAITYPE_FACEPROCESSOR_FACEOCCUSEGMENT 274877906944        // 1<<38
+#define FUAITYPE_FACEPROCESSOR_SKINSEGMENT 549755813888            // 1<<39
+#define FUAITYPE_FACEPROCESSOR_DELSPOT 1099511627776               // 1<<40
+#define FUAITYPE_FACEPROCESSOR_ARMESHV2 2199023255552              // 1<<41
 
 typedef enum FUAIGESTURETYPE {
   FUAIGESTURE_NO_HAND = -1,
@@ -1855,6 +1858,8 @@ FUNAMA_API void fuSetHandDetectEveryNFramesWhenNoHand(int frame_num);
 FUNAMA_API void fuSetHumanSegMode(FUAIHUMANSEGMODE flag);
 
 FUNAMA_API void fuSetMachineType(FUAIMACHINETYPE flag);
+
+FUNAMA_API void fuSetMakeupCoverResource(bool is_cover);
 
 #ifdef __cplusplus
 }

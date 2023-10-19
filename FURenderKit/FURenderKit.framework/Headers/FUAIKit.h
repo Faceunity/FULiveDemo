@@ -167,6 +167,7 @@ typedef enum : NSUInteger {
                    number:(int)number;
 
 /// 人脸检测置信度
+/// @param index 人脸索引
 + (float)fuFaceProcessorGetConfidenceScore:(int)index;
 
 /// 设置跟踪到人脸时每次检测的间隔帧数

@@ -227,7 +227,7 @@ static NSString * const kFUStyleCellIdentifierKey = @"FUStyleCellIdentifier";
 - (FUStyleFunctionButton *)filterButton {
     if (!_filterButton) {
         _filterButton = [[FUStyleFunctionButton alloc] initWithFrame:CGRectMake(0, 0, 40, 32)];
-        [_filterButton setTitle:FULocalizedString(@"filter") forState:UIControlStateNormal];
+        [_filterButton setTitle:FULocalizedString(@"滤镜") forState:UIControlStateNormal];
         [_filterButton setTitleColor:[UIColor colorWithWhite:1 alpha:0.6] forState:UIControlStateNormal];
         [_filterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
         _filterButton.titleLabel.font = [UIFont systemFontOfSize:12 weight:UIFontWeightMedium];
