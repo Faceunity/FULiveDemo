@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol FUImageRenderViewModelDelegate <NSObject>
 
-- (void)imageRenderDidOutputImageBuffer:(FUImageBuffer)imageBuffer;
+- (void)imageRenderDidOutputPixelBuffer:(CVPixelBufferRef)imageBuffer;
 
 @optional
 /// 跟踪状态

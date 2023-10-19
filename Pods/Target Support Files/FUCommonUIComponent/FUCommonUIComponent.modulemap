@@ -1,6 +1,0 @@
-framework module FUCommonUIComponent {
-  umbrella header "FUCommonUIComponent-umbrella.h"
-
-  export *
-  module * { export * }
-}

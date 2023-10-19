@@ -1,23 +1,27 @@
 platform :ios, '9.0'
 
+inhibit_all_warnings!
+
 use_frameworks!
+
+workspace 'FULiveDemo.xcworkspace'
 
 target 'FULiveDemo' do
   
     # AutoLayout
-    pod 'Masonry'
+    pod 'Masonry', '1.1.0'
     
     # 网络请求工具
-    pod 'AFNetworking', '~> 4.0.0'
+    pod 'AFNetworking', '4.0.1'
     
     # 网络图片展示
-    pod 'SDWebImage'
+    pod 'SDWebImage', '5.13.1'
     
     # 数据模型
-    pod 'YYModel'
+    pod 'YYModel', '1.0.4'
     
     # 解压缩工具
-    pod 'SSZipArchive'
+    pod 'SSZipArchive', '2.4.3'
     
     # FURenderKit开发库
     #pod 'FURenderKit-dev', :path => '/Users/xiang/Desktop/集成/GitLab/FURenderKit'
@@ -30,11 +34,52 @@ target 'FULiveDemo' do
     #pod 'FURenderKit-assets-dev', :git => 'git@192.168.0.118:liuyang/FURenderKit_Release.git', :branch => 'nama-dev-xlp'
 
     pod 'FURenderKit', :path => 'FURenderKit/'
-    pod 'FUCommonUIComponent', :git => 'git@192.168.0.118:xiangxiaopenyou/FUCommonUIComponent.git'
-    pod 'FUBeautyComponent', :git => 'git@192.168.0.118:xiangxiaopenyou/FUBeautyComponent.git'
-    pod 'FUMakeupComponent', :git => 'git@192.168.0.118:xiangxiaopenyou/FUMakeupComponent.git'
-    pod 'FUGreenScreenComponent', :git => 'git@192.168.0.118:xiangxiaopenyou/FUGreenScreenComponent.git'
+#    pod 'FURenderKit'
+#    pod 'FURenderKit-lite'
+#    pod 'FURenderKit_FAUL'
+#    pod 'FURenderKit_BAUL'
+#    pod 'FURenderKit_FBFS'
+#    pod 'FURenderKit_BSEG'
     
+end
+
+target 'FUBeautyComponent' do
+  project 'FUBeautyComponent/FUBeautyComponent.xcodeproj'
+  
+  pod 'FURenderKit', :path => 'FURenderKit/'
+  #    pod 'FURenderKit'
+  #    pod 'FURenderKit-lite'
+  #    pod 'FURenderKit_FAUL'
+  #    pod 'FURenderKit_BAUL'
+  #    pod 'FURenderKit_FBFS'
+  #    pod 'FURenderKit_BSEG'
+  
+end
+
+target 'FUMakeupComponent' do
+  project 'FUMakeupComponent/FUMakeupComponent.xcodeproj'
+  
+  pod 'FURenderKit', :path => 'FURenderKit/'
+  #    pod 'FURenderKit'
+  #    pod 'FURenderKit-lite'
+  #    pod 'FURenderKit_FAUL'
+  #    pod 'FURenderKit_BAUL'
+  #    pod 'FURenderKit_FBFS'
+  #    pod 'FURenderKit_BSEG'
+  
+end
+
+target 'FUGreenScreenComponent' do
+  project 'FUGreenScreenComponent/FUGreenScreenComponent.xcodeproj'
+  
+  pod 'FURenderKit', :path => 'FURenderKit/'
+  #    pod 'FURenderKit'
+  #    pod 'FURenderKit-lite'
+  #    pod 'FURenderKit_FAUL'
+  #    pod 'FURenderKit_BAUL'
+  #    pod 'FURenderKit_FBFS'
+  #    pod 'FURenderKit_BSEG'
+  
 end
 
 post_install do |installer|

@@ -1,0 +1,619 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C7C4458766AC6F1371FCF57B /* Pods_FUGreenScreenComponent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C0D781C287D443236B05246 /* Pods_FUGreenScreenComponent.framework */; };
+		E37D9E2C2A5FB46B00AC7BF4 /* FUCommonUIComponent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E37D9E2B2A5FB46B00AC7BF4 /* FUCommonUIComponent.framework */; };
+		E3A58CCA28A3CCA100941101 /* FUGreenScreenComponent.h in Headers */ = {isa = PBXBuildFile; fileRef = E3A58CC928A3CCA100941101 /* FUGreenScreenComponent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E3A58CDB28A3CE0A00941101 /* FUGreenScreenKeyingViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A58CD528A3CE0900941101 /* FUGreenScreenKeyingViewModel.m */; };
+		E3A58CDC28A3CE0A00941101 /* FUGreenScreenSafeAreaViewModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E3A58CD628A3CE0900941101 /* FUGreenScreenSafeAreaViewModel.h */; };
+		E3A58CDD28A3CE0A00941101 /* FUGreenScreenBackgroundViewModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E3A58CD728A3CE0900941101 /* FUGreenScreenBackgroundViewModel.h */; };
+		E3A58CDE28A3CE0A00941101 /* FUGreenScreenSafeAreaViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A58CD828A3CE0A00941101 /* FUGreenScreenSafeAreaViewModel.m */; };
+		E3A58CDF28A3CE0A00941101 /* FUGreenScreenBackgroundViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A58CD928A3CE0A00941101 /* FUGreenScreenBackgroundViewModel.m */; };
+		E3A58CE028A3CE0A00941101 /* FUGreenScreenKeyingViewModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E3A58CDA28A3CE0A00941101 /* FUGreenScreenKeyingViewModel.h */; };
+		E3A58CE728A3CE3100941101 /* FUGreenScreenKeyingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A58CE128A3CE3000941101 /* FUGreenScreenKeyingModel.m */; };
+		E3A58CE828A3CE3100941101 /* FUGreenScreenSafeAreaModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E3A58CE228A3CE3100941101 /* FUGreenScreenSafeAreaModel.h */; };
+		E3A58CE928A3CE3100941101 /* FUGreenScreenKeyingModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E3A58CE328A3CE3100941101 /* FUGreenScreenKeyingModel.h */; };
+		E3A58CEA28A3CE3100941101 /* FUGreenScreenBackgroundModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E3A58CE428A3CE3100941101 /* FUGreenScreenBackgroundModel.h */; };
+		E3A58CEB28A3CE3100941101 /* FUGreenScreenBackgroundModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A58CE528A3CE3100941101 /* FUGreenScreenBackgroundModel.m */; };
+		E3A58CEC28A3CE3100941101 /* FUGreenScreenSafeAreaModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A58CE628A3CE3100941101 /* FUGreenScreenSafeAreaModel.m */; };
+		E3A58CF528A3CE5900941101 /* FUGreenScreenSafeAreaView.h in Headers */ = {isa = PBXBuildFile; fileRef = E3A58CED28A3CE5900941101 /* FUGreenScreenSafeAreaView.h */; };
+		E3A58CF628A3CE5900941101 /* FUGreenScreenKeyingView.h in Headers */ = {isa = PBXBuildFile; fileRef = E3A58CEE28A3CE5900941101 /* FUGreenScreenKeyingView.h */; };
+		E3A58CF728A3CE5900941101 /* FUGreenScreenColorPicker.h in Headers */ = {isa = PBXBuildFile; fileRef = E3A58CEF28A3CE5900941101 /* FUGreenScreenColorPicker.h */; };
+		E3A58CF828A3CE5900941101 /* FUGreenScreenBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A58CF028A3CE5900941101 /* FUGreenScreenBackgroundView.m */; };
+		E3A58CF928A3CE5900941101 /* FUGreenScreenKeyingView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A58CF128A3CE5900941101 /* FUGreenScreenKeyingView.m */; };
+		E3A58CFA28A3CE5900941101 /* FUGreenScreenBackgroundView.h in Headers */ = {isa = PBXBuildFile; fileRef = E3A58CF228A3CE5900941101 /* FUGreenScreenBackgroundView.h */; };
+		E3A58CFB28A3CE5900941101 /* FUGreenScreenSafeAreaView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A58CF328A3CE5900941101 /* FUGreenScreenSafeAreaView.m */; };
+		E3A58CFC28A3CE5900941101 /* FUGreenScreenColorPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A58CF428A3CE5900941101 /* FUGreenScreenColorPicker.m */; };
+		E3A58D6028A4AEF500941101 /* FUGreenScreenDefine.h in Headers */ = {isa = PBXBuildFile; fileRef = E3A58D5E28A4AEF500941101 /* FUGreenScreenDefine.h */; };
+		E3A58D6128A4AEF500941101 /* FUGreenScreenDefine.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A58D5F28A4AEF500941101 /* FUGreenScreenDefine.m */; };
+		E3A58D8628A4B4F000941101 /* green_screen_keying.json in Resources */ = {isa = PBXBuildFile; fileRef = E3A58D7C28A4B4EF00941101 /* green_screen_keying.json */; };
+		E3A58D8D28A4B4F000941101 /* green_screen_background.json in Resources */ = {isa = PBXBuildFile; fileRef = E3A58D8328A4B4F000941101 /* green_screen_background.json */; };
+		E3A58D9028A4B5ED00941101 /* FUGreenScreenComponentManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E3A58D8E28A4B5ED00941101 /* FUGreenScreenComponentManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E3A58D9128A4B5ED00941101 /* FUGreenScreenComponentManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A58D8F28A4B5ED00941101 /* FUGreenScreenComponentManager.m */; };
+		E3DF309B2A6A65E100AF24A3 /* green_screen_740.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3DF309A2A6A65D700AF24A3 /* green_screen_740.bundle */; };
+		E3DF309C2A6A65F100AF24A3 /* classroom.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E3DF30932A6A659E00AF24A3 /* classroom.mp4 */; };
+		E3DF309D2A6A65F400AF24A3 /* beach.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E3DF30962A6A659F00AF24A3 /* beach.mp4 */; };
+		E3DF309E2A6A65F700AF24A3 /* inkPainting.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E3DF30992A6A65A000AF24A3 /* inkPainting.mp4 */; };
+		E3DF309F2A6A65FA00AF24A3 /* safe_area_1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E3DF30982A6A65A000AF24A3 /* safe_area_1.jpg */; };
+		E3DF30A02A6A65FD00AF24A3 /* safe_area_2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E3DF30942A6A659E00AF24A3 /* safe_area_2.jpg */; };
+		E3DF30A12A6A65FF00AF24A3 /* science.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E3DF30972A6A659F00AF24A3 /* science.mp4 */; };
+		E3DF30A22A6A660200AF24A3 /* springForest.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E3DF30952A6A659E00AF24A3 /* springForest.mp4 */; };
+		E3DF30A42A6A675700AF24A3 /* FUGreenScreen.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E3DF30A32A6A675700AF24A3 /* FUGreenScreen.xcassets */; };
+		E3DF30FA2A72513B00AF24A3 /* FUGreenScreenComponent.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3DF30FC2A72513B00AF24A3 /* FUGreenScreenComponent.strings */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2C0D781C287D443236B05246 /* Pods_FUGreenScreenComponent.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FUGreenScreenComponent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3EC66D3557622630370742E6 /* Pods-FUGreenScreenComponent.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FUGreenScreenComponent.release.xcconfig"; path = "Target Support Files/Pods-FUGreenScreenComponent/Pods-FUGreenScreenComponent.release.xcconfig"; sourceTree = "<group>"; };
+		E3381CB428DC1698005C2E57 /* FURenderKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FURenderKit.framework; path = ../FULiveDemo/FURenderKit/FURenderKit.framework; sourceTree = "<group>"; };
+		E37D9E2B2A5FB46B00AC7BF4 /* FUCommonUIComponent.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FUCommonUIComponent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E3A58CC628A3CCA100941101 /* FUGreenScreenComponent.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FUGreenScreenComponent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E3A58CC928A3CCA100941101 /* FUGreenScreenComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUGreenScreenComponent.h; sourceTree = "<group>"; };
+		E3A58CD528A3CE0900941101 /* FUGreenScreenKeyingViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUGreenScreenKeyingViewModel.m; sourceTree = "<group>"; };
+		E3A58CD628A3CE0900941101 /* FUGreenScreenSafeAreaViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUGreenScreenSafeAreaViewModel.h; sourceTree = "<group>"; };
+		E3A58CD728A3CE0900941101 /* FUGreenScreenBackgroundViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUGreenScreenBackgroundViewModel.h; sourceTree = "<group>"; };
+		E3A58CD828A3CE0A00941101 /* FUGreenScreenSafeAreaViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUGreenScreenSafeAreaViewModel.m; sourceTree = "<group>"; };
+		E3A58CD928A3CE0A00941101 /* FUGreenScreenBackgroundViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUGreenScreenBackgroundViewModel.m; sourceTree = "<group>"; };
+		E3A58CDA28A3CE0A00941101 /* FUGreenScreenKeyingViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUGreenScreenKeyingViewModel.h; sourceTree = "<group>"; };
+		E3A58CE128A3CE3000941101 /* FUGreenScreenKeyingModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUGreenScreenKeyingModel.m; sourceTree = "<group>"; };
+		E3A58CE228A3CE3100941101 /* FUGreenScreenSafeAreaModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUGreenScreenSafeAreaModel.h; sourceTree = "<group>"; };
+		E3A58CE328A3CE3100941101 /* FUGreenScreenKeyingModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUGreenScreenKeyingModel.h; sourceTree = "<group>"; };
+		E3A58CE428A3CE3100941101 /* FUGreenScreenBackgroundModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUGreenScreenBackgroundModel.h; sourceTree = "<group>"; };
+		E3A58CE528A3CE3100941101 /* FUGreenScreenBackgroundModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUGreenScreenBackgroundModel.m; sourceTree = "<group>"; };
+		E3A58CE628A3CE3100941101 /* FUGreenScreenSafeAreaModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUGreenScreenSafeAreaModel.m; sourceTree = "<group>"; };
+		E3A58CED28A3CE5900941101 /* FUGreenScreenSafeAreaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUGreenScreenSafeAreaView.h; sourceTree = "<group>"; };
+		E3A58CEE28A3CE5900941101 /* FUGreenScreenKeyingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUGreenScreenKeyingView.h; sourceTree = "<group>"; };
+		E3A58CEF28A3CE5900941101 /* FUGreenScreenColorPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUGreenScreenColorPicker.h; sourceTree = "<group>"; };
+		E3A58CF028A3CE5900941101 /* FUGreenScreenBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUGreenScreenBackgroundView.m; sourceTree = "<group>"; };
+		E3A58CF128A3CE5900941101 /* FUGreenScreenKeyingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUGreenScreenKeyingView.m; sourceTree = "<group>"; };
+		E3A58CF228A3CE5900941101 /* FUGreenScreenBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUGreenScreenBackgroundView.h; sourceTree = "<group>"; };
+		E3A58CF328A3CE5900941101 /* FUGreenScreenSafeAreaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUGreenScreenSafeAreaView.m; sourceTree = "<group>"; };
+		E3A58CF428A3CE5900941101 /* FUGreenScreenColorPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUGreenScreenColorPicker.m; sourceTree = "<group>"; };
+		E3A58D5E28A4AEF500941101 /* FUGreenScreenDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUGreenScreenDefine.h; sourceTree = "<group>"; };
+		E3A58D5F28A4AEF500941101 /* FUGreenScreenDefine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUGreenScreenDefine.m; sourceTree = "<group>"; };
+		E3A58D6828A4B07D00941101 /* FUCommonUIComponent.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FUCommonUIComponent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E3A58D7C28A4B4EF00941101 /* green_screen_keying.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = green_screen_keying.json; sourceTree = "<group>"; };
+		E3A58D8328A4B4F000941101 /* green_screen_background.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = green_screen_background.json; sourceTree = "<group>"; };
+		E3A58D8E28A4B5ED00941101 /* FUGreenScreenComponentManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUGreenScreenComponentManager.h; sourceTree = "<group>"; };
+		E3A58D8F28A4B5ED00941101 /* FUGreenScreenComponentManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUGreenScreenComponentManager.m; sourceTree = "<group>"; };
+		E3DF30932A6A659E00AF24A3 /* classroom.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = classroom.mp4; sourceTree = "<group>"; };
+		E3DF30942A6A659E00AF24A3 /* safe_area_2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = safe_area_2.jpg; sourceTree = "<group>"; };
+		E3DF30952A6A659E00AF24A3 /* springForest.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = springForest.mp4; sourceTree = "<group>"; };
+		E3DF30962A6A659F00AF24A3 /* beach.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = beach.mp4; sourceTree = "<group>"; };
+		E3DF30972A6A659F00AF24A3 /* science.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = science.mp4; sourceTree = "<group>"; };
+		E3DF30982A6A65A000AF24A3 /* safe_area_1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = safe_area_1.jpg; sourceTree = "<group>"; };
+		E3DF30992A6A65A000AF24A3 /* inkPainting.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = inkPainting.mp4; sourceTree = "<group>"; };
+		E3DF309A2A6A65D700AF24A3 /* green_screen_740.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = green_screen_740.bundle; sourceTree = "<group>"; };
+		E3DF30A32A6A675700AF24A3 /* FUGreenScreen.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = FUGreenScreen.xcassets; sourceTree = "<group>"; };
+		E3DF30FB2A72513B00AF24A3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/FUGreenScreenComponent.strings; sourceTree = "<group>"; };
+		E3DF30FD2A72513F00AF24A3 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/FUGreenScreenComponent.strings"; sourceTree = "<group>"; };
+		F9EA06DDE155F790D888CA60 /* Pods-FUGreenScreenComponent.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FUGreenScreenComponent.debug.xcconfig"; path = "Target Support Files/Pods-FUGreenScreenComponent/Pods-FUGreenScreenComponent.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E3A58CC328A3CCA100941101 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E37D9E2C2A5FB46B00AC7BF4 /* FUCommonUIComponent.framework in Frameworks */,
+				C7C4458766AC6F1371FCF57B /* Pods_FUGreenScreenComponent.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4D42022F9F64ECC8A1583A85 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F9EA06DDE155F790D888CA60 /* Pods-FUGreenScreenComponent.debug.xcconfig */,
+				3EC66D3557622630370742E6 /* Pods-FUGreenScreenComponent.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../Pods;
+			sourceTree = "<group>";
+		};
+		E3A58CBC28A3CCA100941101 = {
+			isa = PBXGroup;
+			children = (
+				E3A58CC828A3CCA100941101 /* FUGreenScreenComponent */,
+				E3A58CC728A3CCA100941101 /* Products */,
+				E3A58D5928A4AEA900941101 /* Frameworks */,
+				4D42022F9F64ECC8A1583A85 /* Pods */,
+			);
+			sourceTree = "<group>";
+		};
+		E3A58CC728A3CCA100941101 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E3A58CC628A3CCA100941101 /* FUGreenScreenComponent.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E3A58CC828A3CCA100941101 /* FUGreenScreenComponent */ = {
+			isa = PBXGroup;
+			children = (
+				E3A58CD228A3CD3C00941101 /* Model */,
+				E3A58CD128A3CD3800941101 /* View */,
+				E3A58CD028A3CD3400941101 /* ViewModel */,
+				E3A58CD328A3CD4200941101 /* Resource */,
+				E3A58CC928A3CCA100941101 /* FUGreenScreenComponent.h */,
+				E3A58D5E28A4AEF500941101 /* FUGreenScreenDefine.h */,
+				E3A58D5F28A4AEF500941101 /* FUGreenScreenDefine.m */,
+				E3A58D8E28A4B5ED00941101 /* FUGreenScreenComponentManager.h */,
+				E3A58D8F28A4B5ED00941101 /* FUGreenScreenComponentManager.m */,
+			);
+			path = FUGreenScreenComponent;
+			sourceTree = "<group>";
+		};
+		E3A58CD028A3CD3400941101 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				E3A58CD728A3CE0900941101 /* FUGreenScreenBackgroundViewModel.h */,
+				E3A58CD928A3CE0A00941101 /* FUGreenScreenBackgroundViewModel.m */,
+				E3A58CDA28A3CE0A00941101 /* FUGreenScreenKeyingViewModel.h */,
+				E3A58CD528A3CE0900941101 /* FUGreenScreenKeyingViewModel.m */,
+				E3A58CD628A3CE0900941101 /* FUGreenScreenSafeAreaViewModel.h */,
+				E3A58CD828A3CE0A00941101 /* FUGreenScreenSafeAreaViewModel.m */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		E3A58CD128A3CD3800941101 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E3A58CF228A3CE5900941101 /* FUGreenScreenBackgroundView.h */,
+				E3A58CF028A3CE5900941101 /* FUGreenScreenBackgroundView.m */,
+				E3A58CEF28A3CE5900941101 /* FUGreenScreenColorPicker.h */,
+				E3A58CF428A3CE5900941101 /* FUGreenScreenColorPicker.m */,
+				E3A58CEE28A3CE5900941101 /* FUGreenScreenKeyingView.h */,
+				E3A58CF128A3CE5900941101 /* FUGreenScreenKeyingView.m */,
+				E3A58CED28A3CE5900941101 /* FUGreenScreenSafeAreaView.h */,
+				E3A58CF328A3CE5900941101 /* FUGreenScreenSafeAreaView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E3A58CD228A3CD3C00941101 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E3A58CE428A3CE3100941101 /* FUGreenScreenBackgroundModel.h */,
+				E3A58CE528A3CE3100941101 /* FUGreenScreenBackgroundModel.m */,
+				E3A58CE328A3CE3100941101 /* FUGreenScreenKeyingModel.h */,
+				E3A58CE128A3CE3000941101 /* FUGreenScreenKeyingModel.m */,
+				E3A58CE228A3CE3100941101 /* FUGreenScreenSafeAreaModel.h */,
+				E3A58CE628A3CE3100941101 /* FUGreenScreenSafeAreaModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		E3A58CD328A3CD4200941101 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				E3DF309A2A6A65D700AF24A3 /* green_screen_740.bundle */,
+				E3DF30962A6A659F00AF24A3 /* beach.mp4 */,
+				E3DF30932A6A659E00AF24A3 /* classroom.mp4 */,
+				E3DF30992A6A65A000AF24A3 /* inkPainting.mp4 */,
+				E3DF30982A6A65A000AF24A3 /* safe_area_1.jpg */,
+				E3DF30942A6A659E00AF24A3 /* safe_area_2.jpg */,
+				E3DF30972A6A659F00AF24A3 /* science.mp4 */,
+				E3DF30952A6A659E00AF24A3 /* springForest.mp4 */,
+				E3A58D8328A4B4F000941101 /* green_screen_background.json */,
+				E3A58D7C28A4B4EF00941101 /* green_screen_keying.json */,
+				E3DF30A32A6A675700AF24A3 /* FUGreenScreen.xcassets */,
+				E3DF30FC2A72513B00AF24A3 /* FUGreenScreenComponent.strings */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		E3A58D5928A4AEA900941101 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E37D9E2B2A5FB46B00AC7BF4 /* FUCommonUIComponent.framework */,
+				E3381CB428DC1698005C2E57 /* FURenderKit.framework */,
+				E3A58D6828A4B07D00941101 /* FUCommonUIComponent.framework */,
+				2C0D781C287D443236B05246 /* Pods_FUGreenScreenComponent.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		E3A58CC128A3CCA100941101 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E3A58CFA28A3CE5900941101 /* FUGreenScreenBackgroundView.h in Headers */,
+				E3A58CF528A3CE5900941101 /* FUGreenScreenSafeAreaView.h in Headers */,
+				E3A58CEA28A3CE3100941101 /* FUGreenScreenBackgroundModel.h in Headers */,
+				E3A58CDC28A3CE0A00941101 /* FUGreenScreenSafeAreaViewModel.h in Headers */,
+				E3A58CF728A3CE5900941101 /* FUGreenScreenColorPicker.h in Headers */,
+				E3A58CE828A3CE3100941101 /* FUGreenScreenSafeAreaModel.h in Headers */,
+				E3A58D9028A4B5ED00941101 /* FUGreenScreenComponentManager.h in Headers */,
+				E3A58CE928A3CE3100941101 /* FUGreenScreenKeyingModel.h in Headers */,
+				E3A58CCA28A3CCA100941101 /* FUGreenScreenComponent.h in Headers */,
+				E3A58CDD28A3CE0A00941101 /* FUGreenScreenBackgroundViewModel.h in Headers */,
+				E3A58CE028A3CE0A00941101 /* FUGreenScreenKeyingViewModel.h in Headers */,
+				E3A58D6028A4AEF500941101 /* FUGreenScreenDefine.h in Headers */,
+				E3A58CF628A3CE5900941101 /* FUGreenScreenKeyingView.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		E3A58CC528A3CCA100941101 /* FUGreenScreenComponent */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E3A58CCD28A3CCA100941101 /* Build configuration list for PBXNativeTarget "FUGreenScreenComponent" */;
+			buildPhases = (
+				F4B00D626F9AFE6E5E906DD4 /* [CP] Check Pods Manifest.lock */,
+				E3A58CC128A3CCA100941101 /* Headers */,
+				E3A58CC228A3CCA100941101 /* Sources */,
+				E3A58CC328A3CCA100941101 /* Frameworks */,
+				E3A58CC428A3CCA100941101 /* Resources */,
+				CB3C804027054480691E2BC1 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FUGreenScreenComponent;
+			productName = FUGreenScreenComponent;
+			productReference = E3A58CC628A3CCA100941101 /* FUGreenScreenComponent.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E3A58CBD28A3CCA100941101 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1340;
+				TargetAttributes = {
+					E3A58CC528A3CCA100941101 = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
+				};
+			};
+			buildConfigurationList = E3A58CC028A3CCA100941101 /* Build configuration list for PBXProject "FUGreenScreenComponent" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				"zh-Hans",
+			);
+			mainGroup = E3A58CBC28A3CCA100941101;
+			productRefGroup = E3A58CC728A3CCA100941101 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E3A58CC528A3CCA100941101 /* FUGreenScreenComponent */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E3A58CC428A3CCA100941101 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E3DF309E2A6A65F700AF24A3 /* inkPainting.mp4 in Resources */,
+				E3DF30FA2A72513B00AF24A3 /* FUGreenScreenComponent.strings in Resources */,
+				E3DF30A42A6A675700AF24A3 /* FUGreenScreen.xcassets in Resources */,
+				E3DF30A12A6A65FF00AF24A3 /* science.mp4 in Resources */,
+				E3DF309B2A6A65E100AF24A3 /* green_screen_740.bundle in Resources */,
+				E3A58D8628A4B4F000941101 /* green_screen_keying.json in Resources */,
+				E3A58D8D28A4B4F000941101 /* green_screen_background.json in Resources */,
+				E3DF309C2A6A65F100AF24A3 /* classroom.mp4 in Resources */,
+				E3DF309F2A6A65FA00AF24A3 /* safe_area_1.jpg in Resources */,
+				E3DF30A02A6A65FD00AF24A3 /* safe_area_2.jpg in Resources */,
+				E3DF309D2A6A65F400AF24A3 /* beach.mp4 in Resources */,
+				E3DF30A22A6A660200AF24A3 /* springForest.mp4 in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		CB3C804027054480691E2BC1 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FUGreenScreenComponent/Pods-FUGreenScreenComponent-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FUGreenScreenComponent/Pods-FUGreenScreenComponent-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FUGreenScreenComponent/Pods-FUGreenScreenComponent-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F4B00D626F9AFE6E5E906DD4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FUGreenScreenComponent-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E3A58CC228A3CCA100941101 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E3A58CDF28A3CE0A00941101 /* FUGreenScreenBackgroundViewModel.m in Sources */,
+				E3A58CE728A3CE3100941101 /* FUGreenScreenKeyingModel.m in Sources */,
+				E3A58CFB28A3CE5900941101 /* FUGreenScreenSafeAreaView.m in Sources */,
+				E3A58CF928A3CE5900941101 /* FUGreenScreenKeyingView.m in Sources */,
+				E3A58D9128A4B5ED00941101 /* FUGreenScreenComponentManager.m in Sources */,
+				E3A58D6128A4AEF500941101 /* FUGreenScreenDefine.m in Sources */,
+				E3A58CDE28A3CE0A00941101 /* FUGreenScreenSafeAreaViewModel.m in Sources */,
+				E3A58CDB28A3CE0A00941101 /* FUGreenScreenKeyingViewModel.m in Sources */,
+				E3A58CEC28A3CE3100941101 /* FUGreenScreenSafeAreaModel.m in Sources */,
+				E3A58CF828A3CE5900941101 /* FUGreenScreenBackgroundView.m in Sources */,
+				E3A58CFC28A3CE5900941101 /* FUGreenScreenColorPicker.m in Sources */,
+				E3A58CEB28A3CE3100941101 /* FUGreenScreenBackgroundModel.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		E3DF30FC2A72513B00AF24A3 /* FUGreenScreenComponent.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E3DF30FB2A72513B00AF24A3 /* en */,
+				E3DF30FD2A72513F00AF24A3 /* zh-Hans */,
+			);
+			name = FUGreenScreenComponent.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E3A58CCB28A3CCA100941101 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		E3A58CCC28A3CCA100941101 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		E3A58CCE28A3CCA100941101 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F9EA06DDE155F790D888CA60 /* Pods-FUGreenScreenComponent.debug.xcconfig */;
+			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO;
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../FULiveDemo/FURenderKit",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = faceunity.FUGreenScreenComponent;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E3A58CCF28A3CCA100941101 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3EC66D3557622630370742E6 /* Pods-FUGreenScreenComponent.release.xcconfig */;
+			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO;
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../FULiveDemo/FURenderKit",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = faceunity.FUGreenScreenComponent;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E3A58CC028A3CCA100941101 /* Build configuration list for PBXProject "FUGreenScreenComponent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E3A58CCB28A3CCA100941101 /* Debug */,
+				E3A58CCC28A3CCA100941101 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E3A58CCD28A3CCA100941101 /* Build configuration list for PBXNativeTarget "FUGreenScreenComponent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E3A58CCE28A3CCA100941101 /* Debug */,
+				E3A58CCF28A3CCA100941101 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E3A58CBD28A3CCA100941101 /* Project object */;
+}

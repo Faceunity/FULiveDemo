@@ -41,7 +41,7 @@ install_framework()
 
   if [ -L "${source}" ]; then
     echo "Symlinked..."
-    source="$(readlink "${source}")"
+    source="$(readlink -f "${source}")"
   fi
 
   if [ -d "${source}/${BCSYMBOLMAP_DIR}" ]; then
@@ -177,10 +177,6 @@ code_sign_if_enabled() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/FUBeautyComponent/FUBeautyComponent.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/FUCommonUIComponent/FUCommonUIComponent.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/FUGreenScreenComponent/FUGreenScreenComponent.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/FUMakeupComponent/FUMakeupComponent.framework"
   install_framework "${PODS_ROOT}/../FURenderKit/FURenderKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework"
@@ -189,10 +185,6 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/FUBeautyComponent/FUBeautyComponent.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/FUCommonUIComponent/FUCommonUIComponent.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/FUGreenScreenComponent/FUGreenScreenComponent.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/FUMakeupComponent/FUMakeupComponent.framework"
   install_framework "${PODS_ROOT}/../FURenderKit/FURenderKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework"

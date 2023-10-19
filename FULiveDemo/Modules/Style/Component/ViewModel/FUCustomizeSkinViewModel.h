@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "FUStyleDefine.h"
 
 @class FUStyleSkinModel;
 
@@ -18,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSInteger selectedIndex;
 /// 是否关闭效果
 @property (nonatomic, assign, getter=isEffectDisabled) BOOL effectDisabled;
+/// 属性需要根据高低端机适配
+@property (nonatomic, assign, readonly) FUDevicePerformanceLevel performanceLevel;
 
 - (void)setSkinValue:(double)value;
 
@@ -28,6 +31,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (double)currentValueAtIndex:(NSUInteger)index;
 
 - (NSUInteger)ratioAtIndex:(NSUInteger)index;
+
+- (FUStyleCustomizingSkinType)typeAtIndex:(NSUInteger)index;
+
+- (BOOL)isDifferentiateDevicePerformanceAtIndex:(NSUInteger)index;
+
+- (BOOL)isNeedsNPUSupportsAtIndex:(NSUInteger)index;
 
 @end
 

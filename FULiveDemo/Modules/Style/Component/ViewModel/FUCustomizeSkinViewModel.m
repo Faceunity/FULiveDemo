@@ -8,12 +8,19 @@
 #import "FUCustomizeSkinViewModel.h"
 #import "FUStyleModel.h"
 
+@interface FUCustomizeSkinViewModel ()
+
+@property (nonatomic, assign) FUDevicePerformanceLevel performanceLevel;
+
+@end
+
 @implementation FUCustomizeSkinViewModel
 
 - (instancetype)init {
     self = [super init];
     if (self) {
         self.selectedIndex = -1;
+        self.performanceLevel = [FURenderKit devicePerformanceLevel];
     }
     return self;
 }
@@ -43,6 +50,18 @@
 
 - (NSUInteger)ratioAtIndex:(NSUInteger)index {
     return self.skins[index].ratio;
+}
+
+- (FUStyleCustomizingSkinType)typeAtIndex:(NSUInteger)index {
+    return self.skins[index].type;
+}
+
+- (BOOL)isDifferentiateDevicePerformanceAtIndex:(NSUInteger)index {
+    return self.skins[index].differentiateDevicePerformance;
+}
+
+- (BOOL)isNeedsNPUSupportsAtIndex:(NSUInteger)index {
+    return self.skins[index].needsNPUSupport;
 }
 
 #pragma mark - Private methods
@@ -75,6 +94,12 @@
             break;
         case FUStyleCustomizingSkinTypeRemoveNasolabialFoldsStrength:
             [FURenderKit shareRenderKit].beauty.removeNasolabialFoldsStrength = value;
+            break;
+        case FUStyleCustomizingSkinTypeAntiAcneSpot:
+            [FURenderKit shareRenderKit].beauty.antiAcneSpot = value;
+            break;
+        case FUStyleCustomizingSkinTypeClarity:
+            [FURenderKit shareRenderKit].beauty.clarity = value;
             break;
     }
 }

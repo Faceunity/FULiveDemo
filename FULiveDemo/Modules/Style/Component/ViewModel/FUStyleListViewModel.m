@@ -17,8 +17,6 @@ static NSString * const FUPersistentSelectedStyleIndexKey = @"FUPersistentSelect
 
 @property (nonatomic, assign) FUDevicePerformanceLevel performanceLevel;
 
-@property (nonatomic, strong) dispatch_queue_t loadingQueue;
-
 @end
 
 @implementation FUStyleListViewModel
@@ -35,8 +33,8 @@ static NSString * const FUPersistentSelectedStyleIndexKey = @"FUPersistentSelect
             FUBeauty *beauty = [[FUBeauty alloc] initWithPath:path name:@"FUBeauty"];
             // 默认均匀磨皮
             beauty.blurType = 3;
-            // 高性能设备设置去黑眼圈、去法令纹、大眼、嘴型最新效果
             if ([FURenderKit devicePerformanceLevel] == FUDevicePerformanceLevelHigh) {
+                // 高性能设备设置去黑眼圈、去法令纹、大眼、嘴型最新效果
                 [beauty addPropertyMode:FUBeautyPropertyMode2 forKey:FUModeKeyRemovePouchStrength];
                 [beauty addPropertyMode:FUBeautyPropertyMode2 forKey:FUModeKeyRemoveNasolabialFoldsStrength];
                 [beauty addPropertyMode:FUBeautyPropertyMode3 forKey:FUModeKeyEyeEnlarging];
@@ -67,7 +65,8 @@ static NSString * const FUPersistentSelectedStyleIndexKey = @"FUPersistentSelect
     }
     _selectedIndex = index;
     FUStyleModel *style = self.styles[index];
-    dispatch_async(self.loadingQueue, ^{
+    
+    [FURenderQueue async:^{
         // 妆容
         if (style.makeupModel.bundleName) {
             FUMakeup *makeup = [[FUMakeup alloc] initWithPath:[[NSBundle mainBundle] pathForResource:style.makeupModel.bundleName ofType:@"bundle"] name:@"style_makeup"];
@@ -86,9 +85,15 @@ static NSString * const FUPersistentSelectedStyleIndexKey = @"FUPersistentSelect
             }
         } else {
             for (FUStyleSkinModel *skin in style.skins) {
-                [self setSkinValue:skin.currentValue forType:skin.type];
+                if (skin.differentiateDevicePerformance && self.performanceLevel != FUDevicePerformanceLevelHigh) {
+                    // 当前为低端机时将有机型要求的属性设置为默认值
+                    [self setSkinValue:0 forType:skin.type];
+                } else {
+                    [self setSkinValue:skin.currentValue forType:skin.type];
+                }
             }
         }
+        
         // 美型
         if (style.isShapeDisabled) {
             for (FUStyleShapeModel *model in style.shapes) {
@@ -104,8 +109,10 @@ static NSString * const FUPersistentSelectedStyleIndexKey = @"FUPersistentSelect
                 }
             }
         }
+        
+        
         !completion ?: completion();
-    });
+    }];
 }
 
 - (void)resetToDefault {
@@ -169,6 +176,12 @@ static NSString * const FUPersistentSelectedStyleIndexKey = @"FUPersistentSelect
             break;
         case FUStyleCustomizingSkinTypeRemoveNasolabialFoldsStrength:
             [FURenderKit shareRenderKit].beauty.removeNasolabialFoldsStrength = value;
+            break;
+        case FUStyleCustomizingSkinTypeAntiAcneSpot:
+            [FURenderKit shareRenderKit].beauty.antiAcneSpot = value;
+            break;
+        case FUStyleCustomizingSkinTypeClarity:
+            [FURenderKit shareRenderKit].beauty.clarity = value;
             break;
     }
 }
@@ -333,13 +346,6 @@ static NSString * const FUPersistentSelectedStyleIndexKey = @"FUPersistentSelect
         }
     }];
     return result;
-}
-
-- (dispatch_queue_t)loadingQueue {
-    if (_loadingQueue == NULL) {
-        _loadingQueue = dispatch_queue_create("com.faceunity.style.loadingQueue", DISPATCH_QUEUE_SERIAL);
-    }
-    return _loadingQueue;
 }
 
 @end

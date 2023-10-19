@@ -175,8 +175,8 @@
 
 #pragma mark - FUImageRenderViewModelDelegate
 
-- (void)imageRenderDidOutputImageBuffer:(FUImageBuffer)imageBuffer {
-    [self.renderView displayImageData:imageBuffer.buffer0 withSize:imageBuffer.size];
+- (void)imageRenderDidOutputPixelBuffer:(CVPixelBufferRef)imageBuffer {
+    [self.renderView displayPixelBuffer:imageBuffer];
 }
 
 - (void)imageRenderShouldCheckDetectingStatus:(FUDetectingParts)parts {

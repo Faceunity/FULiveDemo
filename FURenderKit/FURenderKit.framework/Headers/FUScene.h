@@ -110,7 +110,7 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, assign) BOOL enableCameraAnimationLerp;
 
-///// 相机动画列表
+/// 相机动画列表
 @property (nonatomic, copy, readonly) NSArray<FUCameraAnimation *> *cameraAnimations;
 /// 当前正在播放的相机动画
 @property (nonatomic, strong, readonly) FUCameraAnimation *currentCameraAnimation;

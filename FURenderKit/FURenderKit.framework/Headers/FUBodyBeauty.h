@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface FUBodyBeauty : FUItem
 @property (nonatomic, assign) double bodySlimStrength; //瘦身
 @property (nonatomic, assign) double legSlimStrength;  //长腿
-@property (nonatomic, assign) double waistSlimStrength; //瘦腰:
+@property (nonatomic, assign) double waistSlimStrength; //瘦腰
 @property (nonatomic, assign) double shoulderSlimStrength; //美肩
 @property (nonatomic, assign) double hipSlimStrength; //美臀
 @property (nonatomic, assign) double headSlim;  //小头

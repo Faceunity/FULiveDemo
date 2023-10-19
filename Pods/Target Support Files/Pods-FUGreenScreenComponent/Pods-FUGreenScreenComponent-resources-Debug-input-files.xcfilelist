@@ -1,0 +1,11 @@
+${PODS_ROOT}/Target Support Files/Pods-FUGreenScreenComponent/Pods-FUGreenScreenComponent-resources.sh
+${PODS_ROOT}/../FURenderKit/Resources/graphics/body_slim.bundle
+${PODS_ROOT}/../FURenderKit/Resources/graphics/controller_cpp.bundle
+${PODS_ROOT}/../FURenderKit/Resources/graphics/face_beautification.bundle
+${PODS_ROOT}/../FURenderKit/Resources/graphics/face_makeup.bundle
+${PODS_ROOT}/../FURenderKit/Resources/graphics/fuzzytoonfilter.bundle
+${PODS_ROOT}/../FURenderKit/Resources/graphics/fxaa.bundle
+${PODS_ROOT}/../FURenderKit/Resources/graphics/tongue.bundle
+${PODS_ROOT}/../FURenderKit/Resources/model/ai_face_processor.bundle
+${PODS_ROOT}/../FURenderKit/Resources/model/ai_hand_processor.bundle
+${PODS_ROOT}/../FURenderKit/Resources/model/ai_human_processor.bundle

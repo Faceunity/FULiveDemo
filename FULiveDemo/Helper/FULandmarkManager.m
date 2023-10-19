@@ -22,10 +22,7 @@
     static FULandmarkManager *landmarkView;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        CGFloat top = 0;
-        if (@available(iOS 11.0, *)) {
-            top = [UIApplication sharedApplication].delegate.window.safeAreaInsets.top;
-        }
+        CGFloat top = FUHeightIncludeTopSafeArea(0);
         landmarkView = [[self alloc] initWithFrame:CGRectMake(10, top + 60, 50, 30)];
     });
     [landmarkView addTarget:self action:@selector(landmarkSwitchAction:) forControlEvents:UIControlEventValueChanged];
@@ -33,7 +30,7 @@
 }
 
 + (void)show {
-    [[UIApplication sharedApplication].delegate.window addSubview:[self shared]];
+    [FUKeyWindow() addSubview:[self shared]];
 }
 
 + (void)dismiss {

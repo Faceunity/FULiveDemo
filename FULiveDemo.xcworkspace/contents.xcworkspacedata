@@ -5,6 +5,18 @@
       location = "group:FULiveDemo.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:FUCommonUIComponent/FUCommonUIComponent.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:FUGreenScreenComponent/FUGreenScreenComponent.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:FUBeautyComponent/FUBeautyComponent.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:FUMakeupComponent/FUMakeupComponent.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>

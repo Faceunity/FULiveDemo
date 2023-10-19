@@ -41,5 +41,9 @@ typedef NS_ENUM(NSUInteger, FUQualityStickerType) {
 @property (nonatomic, assign) BOOL is3DFlipH;
 /// 是否被选中
 @property (nonatomic, assign, getter=isSelected) BOOL selected;
+/// 中文提示
+@property (nonatomic, copy) NSString *toast;
+/// 英文提示
+@property (nonatomic, copy) NSString *toastEn;
 
 @end

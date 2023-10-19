@@ -162,8 +162,16 @@ static NSString * const kFUStickerContentCollectionCellIdentifier = @"FUStickerC
     [self updateBottomConstraintsOfCaptureButton:isShow ? FUHeightIncludeBottomSafeArea(231) : FUHeightIncludeBottomSafeArea(49)];
 }
 
-#pragma mark - Overriding
+- (void)showToast:(NSString *)toastString {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.tipLabel.hidden = NO;
+        self.tipLabel.text = toastString;
+        [FUQualityStickerViewController cancelPreviousPerformRequestsWithTarget:self selector:@selector(dismissTipLabel) object:nil];
+        [self performSelector:@selector(dismissTipLabel) withObject:nil afterDelay:3];
+    });
+}
 
+#pragma mark - Overriding
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     // 隐藏贴纸视图
@@ -185,6 +193,11 @@ static NSString * const kFUStickerContentCollectionCellIdentifier = @"FUStickerC
     [self.viewModel releaseItem];
 }
 
+- (void)dismissTipLabel {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.tipLabel.hidden = YES;
+    });
+}
 
 #pragma mark - FUSegmentBarDelegate
 
@@ -226,6 +239,18 @@ static NSString * const kFUStickerContentCollectionCellIdentifier = @"FUStickerC
     if (sticker.type == FUQualityStickerTypeAvatar) {
         // 自动隐藏选择视图
         [self changeStickerViewStatus:NO];
+    }
+    NSString *language = [[NSLocale preferredLanguages] firstObject];
+    if (sticker.toast && [language hasPrefix:@"zh-Hans"]) {
+        // 中文提示
+        [self showToast:sticker.toast];
+    } else if (sticker.toastEn && ![language hasPrefix:@"zh-Hans"]) {
+        // 英文提示
+        [self showToast:sticker.toastEn];
+    } else {
+        if (!self.tipLabel.hidden) {
+            [self dismissTipLabel];
+        }
     }
 }
 
@@ -326,7 +351,7 @@ static NSString * const kFUStickerContentCollectionCellIdentifier = @"FUStickerC
             if ([tag componentsSeparatedByString:@"/"].count > 1) {
                 NSArray *titles = [tag componentsSeparatedByString:@"/"];
                 NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
-                [segments addObject: [language hasPrefix:@"zh-Hans"] ? titles[0] : titles[1]];
+                [segments addObject:[language hasPrefix:@"zh-Hans"] ? titles[0] : titles[1]];
             } else {
                 [segments addObject:tag];
             }

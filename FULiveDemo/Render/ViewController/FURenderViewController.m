@@ -60,7 +60,7 @@
     
     // 加载美颜
     if (self.viewModel.needsLoadingBeauty) {
-        [[FUBeautyComponentManager sharedManager] loadBeauty];
+        [[FUBeautyComponentManager sharedManager] loadBeautyForFilePath:[[NSBundle mainBundle] pathForResource:@"face_beautification" ofType:@"bundle"]];
     }
     
     [self configureUI];
@@ -146,7 +146,8 @@
     [self.view addSubview:self.tipLabel];
     [self.tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.view.mas_centerY).mas_offset(24);
-        make.centerX.equalTo(self.view);
+        make.leading.mas_offset(10);
+        make.trailing.mas_offset(-10);
     }];
     
     [self.view addSubview:self.captureButton];
@@ -377,17 +378,26 @@
 #pragma mark - FUCaptureButtonDelegate
 
 - (void)captureButtonDidTakePhoto {
-    UIImage *image = [FURenderKit captureImage];
-    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+    [FUUtility requestPhotoLibraryAuthorization:^(PHAuthorizationStatus status) {
+        if (status == PHAuthorizationStatusAuthorized) {
+            UIImage *image = [FURenderKit captureImage];
+            UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+        }
+    }];
     
 }
 
 - (void)captureButtonDidStartRecording {
-    NSString *videoPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.mp4", FUCurrentDateString()]];
-    if (!videoPath) {
-        return;
-    }
-    [FURenderKit startRecordVideoWithFilePath:videoPath];
+    [FUUtility requestPhotoLibraryAuthorization:^(PHAuthorizationStatus status) {
+        if (status == PHAuthorizationStatusAuthorized) {
+            NSString *videoPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.mp4", FUCurrentDateString()]];
+            if (!videoPath) {
+                return;
+            }
+            [FURenderKit startRecordVideoWithFilePath:videoPath];
+        }
+    }];
+    
 }
 
 - (void)captureButtonDidFinishRecording {
@@ -484,6 +494,7 @@
         _tipLabel.textColor = [UIColor whiteColor];
         _tipLabel.font = [UIFont systemFontOfSize:32];
         _tipLabel.textAlignment = NSTextAlignmentCenter;
+        _tipLabel.numberOfLines = 0;
         _tipLabel.hidden = YES;
     }
     return _tipLabel;

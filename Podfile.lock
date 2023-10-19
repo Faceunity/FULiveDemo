@@ -14,16 +14,6 @@ PODS:
   - AFNetworking/Serialization (4.0.1)
   - AFNetworking/UIKit (4.0.1):
     - AFNetworking/NSURLSession
-  - FUBeautyComponent (1.0):
-    - FUCommonUIComponent
-    - FURenderKit
-  - FUCommonUIComponent (1.0)
-  - FUGreenScreenComponent (1.0):
-    - FUCommonUIComponent
-    - FURenderKit
-  - FUMakeupComponent (1.0):
-    - FUCommonUIComponent
-    - FURenderKit
   - FURenderKit (1.0)
   - Masonry (1.1.0)
   - SDWebImage (5.13.1):
@@ -33,16 +23,12 @@ PODS:
   - YYModel (1.0.4)
 
 DEPENDENCIES:
-  - AFNetworking (~> 4.0.0)
-  - "FUBeautyComponent (from `git@192.168.0.118:xiangxiaopenyou/FUBeautyComponent.git`)"
-  - "FUCommonUIComponent (from `git@192.168.0.118:xiangxiaopenyou/FUCommonUIComponent.git`)"
-  - "FUGreenScreenComponent (from `git@192.168.0.118:xiangxiaopenyou/FUGreenScreenComponent.git`)"
-  - "FUMakeupComponent (from `git@192.168.0.118:xiangxiaopenyou/FUMakeupComponent.git`)"
+  - AFNetworking (= 4.0.1)
   - FURenderKit (from `FURenderKit/`)
-  - Masonry
-  - SDWebImage
-  - SSZipArchive
-  - YYModel
+  - Masonry (= 1.1.0)
+  - SDWebImage (= 5.13.1)
+  - SSZipArchive (= 2.4.3)
+  - YYModel (= 1.0.4)
 
 SPEC REPOS:
   trunk:
@@ -53,43 +39,17 @@ SPEC REPOS:
     - YYModel
 
 EXTERNAL SOURCES:
-  FUBeautyComponent:
-    :git: "git@192.168.0.118:xiangxiaopenyou/FUBeautyComponent.git"
-  FUCommonUIComponent:
-    :git: "git@192.168.0.118:xiangxiaopenyou/FUCommonUIComponent.git"
-  FUGreenScreenComponent:
-    :git: "git@192.168.0.118:xiangxiaopenyou/FUGreenScreenComponent.git"
-  FUMakeupComponent:
-    :git: "git@192.168.0.118:xiangxiaopenyou/FUMakeupComponent.git"
   FURenderKit:
     :path: FURenderKit/
 
-CHECKOUT OPTIONS:
-  FUBeautyComponent:
-    :commit: 729d3f8ea6e7479d4ac6666a83636dbdbf000a28
-    :git: "git@192.168.0.118:xiangxiaopenyou/FUBeautyComponent.git"
-  FUCommonUIComponent:
-    :commit: 8d3fa3bd8d119a647c8376558ee6370f89f6d4d4
-    :git: "git@192.168.0.118:xiangxiaopenyou/FUCommonUIComponent.git"
-  FUGreenScreenComponent:
-    :commit: 1a439cc22aba99304e2fac535762feafa6e81397
-    :git: "git@192.168.0.118:xiangxiaopenyou/FUGreenScreenComponent.git"
-  FUMakeupComponent:
-    :commit: 921a67b7bcfef0ffb753299d1427edfca63492dd
-    :git: "git@192.168.0.118:xiangxiaopenyou/FUMakeupComponent.git"
-
 SPEC CHECKSUMS:
   AFNetworking: 3bd23d814e976cd148d7d44c3ab78017b744cd58
-  FUBeautyComponent: 998c6203baab91feb8504a381dc0aa9d0ed35604
-  FUCommonUIComponent: dfff1a65a75d6abf937ca0fce1b0a2803ccd4f58
-  FUGreenScreenComponent: 366915234321070af348af576794a107096742b9
-  FUMakeupComponent: a9cafeb1a4032876a8b6a848b074adf6c460e155
   FURenderKit: 6cc43d5a100b0793dc801c7d8ed5b133a4379a7d
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   SDWebImage: fb26a455eeda4c7a55e4dcb6172dbb258af7a4ca
   SSZipArchive: fe6a26b2a54d5a0890f2567b5cc6de5caa600aef
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: 7f20aa813ae523eca5863869615e13f914b98889
+PODFILE CHECKSUM: e4a784c2d9ecd8fdf5a908f57672a7080a4e6ba9
 
 COCOAPODS: 1.11.3

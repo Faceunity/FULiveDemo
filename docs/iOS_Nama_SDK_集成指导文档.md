@@ -39,13 +39,12 @@
         -Assets                       //图片资源
         -Localizable.strings          //国际化支持字符串文件      
         ...
++FUCommonUIComponent            //UI组件
++FUBeautyComponent        //美颜组件（UI和加载逻辑）
++FUMakeupComponent        //美妆组件（UI和加载逻辑）
++FUGreenScreenComponent   //绿幕组件（UI和加载逻辑）
 +Pods
     +Development Pods
-        +FUCommonUIComponent      //UI组件
-        +FUVideoComponent         //视频解码编码组件
-        +FUBeautyComponent        //美颜组件（UI和加载逻辑）
-        +FUMakeupComponent        //美妆组件（UI和加载逻辑）
-        +FUGreenScreenComponent   //绿幕组件（UI和加载逻辑）
         +FURenderKit
             +FURenderKit.framework  //FURenderKit动态库
             +Resources              //FURenderKit必要资源

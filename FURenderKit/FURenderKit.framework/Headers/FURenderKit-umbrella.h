@@ -70,6 +70,7 @@
 #import "FUCaptureCamera.h"
 #import "FUGLDisplayView.h"
 #import "FUGLContext.h"
+#import "FURenderQueue.h"
 
 #import "metamacros.h"
 #import "FUImageHelper.h"
