@@ -48,7 +48,7 @@
         return;
     }
     NSMutableArray *filters = [[NSMutableArray alloc] init];
-    for (FUBeautyFilterModel *model in self. beautyFilters) {
+    for (FUBeautyFilterModel *model in self.beautyFilters) {
         NSDictionary *dictionary = [model dictionaryWithValuesForKeys:@[@"filterIndex", @"filterName", @"filterLevel"]];
         [filters addObject:dictionary];
     }
