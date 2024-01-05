@@ -64,7 +64,7 @@
             NSString *path = [FUMakeupBundle() pathForResource:model.bundleName ofType:@"bundle"];
             FUMakeup *makeup = [[FUMakeup alloc] initWithPath:path name:@"makeup"];
             // 高端机打开全脸分割
-            makeup.makeupSegmentation = [FURenderKit devicePerformanceLevel] == FUDevicePerformanceLevelHigh;
+            makeup.makeupSegmentation = [FURenderKit devicePerformanceLevel] >= FUDevicePerformanceLevelHigh;
             [FURenderKit shareRenderKit].makeup = makeup;
         } else {
             if (currentIndex == -1 || self.combinationMakeups[currentIndex].isCombined || ![FURenderKit shareRenderKit].makeup) {
@@ -72,7 +72,7 @@
                 NSString *path = self.faceMakeupPath.length > 0 ? self.faceMakeupPath : [[NSBundle mainBundle] pathForResource:@"face_makeup" ofType:@"bundle"];
                 FUMakeup *makeup = [[FUMakeup alloc] initWithPath:path name:@"makeup"];
                 // 高端机打开全脸分割
-                makeup.makeupSegmentation = [FURenderKit devicePerformanceLevel] == FUDevicePerformanceLevelHigh;
+                makeup.makeupSegmentation = [FURenderKit devicePerformanceLevel] >= FUDevicePerformanceLevelHigh;
                 [FURenderKit shareRenderKit].makeup = makeup;
             }
             [self bindCombinationMakeupWithBundleName:model.bundleName];

@@ -22,6 +22,9 @@
 "美牙" = "Whiten";
 "去黑眼圈" = "Dark Circles";
 "去法令纹" = "Laugh Line";
+"全局" = "Overall";
+"仅皮肤" = "Skin";
+"皮肤美白" = "Skin Tone";
 
 /// Shape
 "瘦脸" = "Lower Width";
@@ -141,4 +144,5 @@
 
 "该功能只支持在高端机上使用" = "%@ is only supported on high-performance mobile phones";
 "功能仅支持iPhoneXR及以上机型使用" = "%@ is only supported on iPhoneXR and above models";
+"功能仅支持iPhone11及以上机型使用" = "%@ is only supported on iPhone11 and above models";
 "是否将所有参数恢复到默认值" = "Whether to restore all parameters to default values";

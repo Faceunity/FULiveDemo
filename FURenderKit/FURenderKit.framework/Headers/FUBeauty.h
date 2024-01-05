@@ -31,6 +31,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FUBeauty (Skin)
 
+/// 皮肤分割（皮肤美白），YES开启，NO关闭，默认NO
+/// @note 开启时美白效果仅支持皮肤区域，关闭时美白效果支持全局区域
+/// @note 推荐非直播场景使用和高端机型使用
+@property (nonatomic, assign) BOOL enableSkinSegmentation;
+
 /// 肤色检测开关 0为关, 1为开，默认值0.0
 @property (nonatomic, assign) int skinDetect;
 

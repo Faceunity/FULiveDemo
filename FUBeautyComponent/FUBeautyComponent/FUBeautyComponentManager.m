@@ -125,7 +125,7 @@ static dispatch_once_t onceToken;
     beauty.blurType = 3;
     // 默认精细变形
     beauty.faceShape = 4;
-    if ([FURenderKit devicePerformanceLevel] == FUDevicePerformanceLevelHigh) {
+    if ([FURenderKit devicePerformanceLevel] >= FUDevicePerformanceLevelHigh) {
         // 高性能设备设置去黑眼圈、去法令纹、大眼、嘴型最新效果
         [beauty addPropertyMode:FUBeautyPropertyMode2 forKey:FUModeKeyRemovePouchStrength];
         [beauty addPropertyMode:FUBeautyPropertyMode2 forKey:FUModeKeyRemoveNasolabialFoldsStrength];

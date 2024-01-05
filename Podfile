@@ -85,13 +85,24 @@ end
 post_install do |installer|
   installer.generated_projects.each do |project|
     project.targets.each do |target|
-        target.build_configurations.each do |config|
-            config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
-            config.build_settings['ENABLE_BITCODE'] = 'NO'
-         end
+      target.build_configurations.each do |config|
+          config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
+          config.build_settings['ENABLE_BITCODE'] = 'NO'
+      end
+      shell_script_path = "Pods/Target Support Files/#{target.name}/#{target.name}-frameworks.sh"
+      if File::exists?(shell_script_path)
+        shell_script_input_lines = File.readlines(shell_script_path)
+        shell_script_output_lines = shell_script_input_lines.map { |line| line.sub("source=\"$(readlink \"${source}\")\"", "source=\"$(readlink -f \"${source}\")\"") }
+        File.open(shell_script_path, 'w') do |f|
+          shell_script_output_lines.each do |line|
+            f.write line
+          end
+        end
+      end
     end
   end
 end
+
 
 
 

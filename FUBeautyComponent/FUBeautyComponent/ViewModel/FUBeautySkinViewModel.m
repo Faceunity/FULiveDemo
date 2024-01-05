@@ -28,6 +28,12 @@
             // 获取默认美肤数据
             self.beautySkins = [self defaultSkins];
         }
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:FUPersistentBeautySkinSegmentationKey]) {
+            _skinSegmentationEnabled = [[NSUserDefaults standardUserDefaults] boolForKey:FUPersistentBeautySkinSegmentationKey];
+        } else {
+            // 默认不开启皮肤分割
+            _skinSegmentationEnabled = NO;
+        }
         self.selectedIndex = -1;
         self.performanceLevel = [FURenderKit devicePerformanceLevel];
     }
@@ -42,10 +48,11 @@
     }
     NSMutableArray *skins = [[NSMutableArray alloc] init];
     for (FUBeautySkinModel *model in self.beautySkins) {
-        NSDictionary *dictionary = [model dictionaryWithValuesForKeys:@[@"name", @"type", @"currentValue", @"defaultValue", @"defaultValueInMiddle", @"ratio", @"differentiateDevicePerformance", @"needsNPUSupport"]];
+        NSDictionary *dictionary = [model dictionaryWithValuesForKeys:@[@"name", @"type", @"currentValue", @"defaultValue", @"defaultValueInMiddle", @"ratio", @"performanceLevel"]];
         [skins addObject:dictionary];
     }
     [[NSUserDefaults standardUserDefaults] setObject:skins forKey:FUPersistentBeautySkinKey];
+    [[NSUserDefaults standardUserDefaults] setBool:self.skinSegmentationEnabled forKey:FUPersistentBeautySkinSegmentationKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -62,6 +69,7 @@
     for (FUBeautySkinModel *skin in self.beautySkins) {
         [self setValue:skin.currentValue forType:skin.type];
     }
+    self.skinSegmentationEnabled = _skinSegmentationEnabled;
 }
 
 - (void)recoverAllSkinValuesToDefault {
@@ -69,6 +77,12 @@
         skin.currentValue = skin.defaultValue;
         [self setValue:skin.currentValue forType:skin.type];
     }
+    self.skinSegmentationEnabled = NO;
+}
+
+- (void)setSkinSegmentationEnabled:(BOOL)skinSegmentationEnabled {
+    _skinSegmentationEnabled = skinSegmentationEnabled;
+    [FURenderKit shareRenderKit].beauty.enableSkinSegmentation = skinSegmentationEnabled;
 }
 
 #pragma mark - Private methods
@@ -138,6 +152,10 @@
 #pragma mark - Getters
 
 - (BOOL)isDefaultValue {
+    if (self.skinSegmentationEnabled) {
+        // 开启了皮肤美白
+        return NO;
+    }
     for (FUBeautySkinModel *skin in self.beautySkins) {
         int currentIntValue = skin.defaultValueInMiddle ? (int)(skin.currentValue / skin.ratio * 100 - 50) : (int)(skin.currentValue / skin.ratio * 100);
         int defaultIntValue = skin.defaultValueInMiddle ? (int)(skin.defaultValue / skin.ratio * 100 - 50) : (int)(skin.defaultValue / skin.ratio * 100);

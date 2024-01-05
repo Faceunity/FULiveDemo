@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) void (^backHandler)(void);
 /// 效果开关回调
 @property (nonatomic, copy) void (^effectStatusChangeHander)(BOOL isDisabled);
+/// 皮肤分割开关回调
+@property (nonatomic, copy) void (^skinSegmentationStatusChangeHandler)(BOOL enabled);
 
 - (instancetype)initWithFrame:(CGRect)frame viewModel:(FUCustomizeSkinViewModel *)viewModel;
 

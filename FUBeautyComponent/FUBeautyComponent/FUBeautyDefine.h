@@ -22,6 +22,8 @@ extern const CGFloat FUBeautyFunctionSliderHeight;
 
 extern NSString * const FUPersistentBeautySkinKey;
 
+extern NSString * const FUPersistentBeautySkinSegmentationKey;
+
 extern NSString * const FUPersistentBeautyShapeKey;
 
 extern NSString * const FUPersistentBeautyFilterKey;

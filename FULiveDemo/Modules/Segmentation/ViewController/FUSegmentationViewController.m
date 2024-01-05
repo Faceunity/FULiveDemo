@@ -34,7 +34,7 @@ static NSString * const kFUSegmentationCellIdentifier = @"FUSegmentationCell";
     
     [FURenderKitManager loadFaceAIModel];
     
-    if ([FURenderKitManager sharedManager].devicePerformanceLevel == FUDevicePerformanceLevelHigh) {
+    if ([FURenderKitManager sharedManager].devicePerformanceLevel >= FUDevicePerformanceLevelHigh) {
         // 高端机需要选择分割版本
         [self.view addSubview:self.versionSelectionView];
         [self.view bringSubviewToFront:self.headButtonView];

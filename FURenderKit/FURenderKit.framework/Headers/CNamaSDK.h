@@ -1861,6 +1861,8 @@ FUNAMA_API void fuSetMachineType(FUAIMACHINETYPE flag);
 
 FUNAMA_API void fuSetMakeupCoverResource(bool is_cover);
 
+FUNAMA_API bool fuGetDelspotStatus();
+
 #ifdef __cplusplus
 }
 #endif

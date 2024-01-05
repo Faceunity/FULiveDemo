@@ -15,6 +15,8 @@ const CGFloat FUBeautyFunctionSliderHeight = 30.f;
 
 NSString * const FUPersistentBeautySkinKey = @"FUPersistentBeautySkin";
 
+NSString * const FUPersistentBeautySkinSegmentationKey = @"FUFUPersistentBeautySkinSegmentation";
+
 NSString * const FUPersistentBeautyShapeKey = @"FUPersistentBeautyShape";
 
 NSString * const FUPersistentBeautyFilterKey = @"FUPersistentBeautyFilter";

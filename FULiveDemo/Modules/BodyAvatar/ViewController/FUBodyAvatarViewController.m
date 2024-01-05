@@ -45,8 +45,12 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    // 默认后置摄像头
-    [self.viewModel switchCameraBetweenFrontAndRear:NO unsupportedPresetHandler:nil];
+    
+    // 异步处理防止卡主线程
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        // 默认后置摄像头
+        [self.viewModel switchCameraBetweenFrontAndRear:NO unsupportedPresetHandler:nil];
+    });
 }
 
 #pragma mark - Event response

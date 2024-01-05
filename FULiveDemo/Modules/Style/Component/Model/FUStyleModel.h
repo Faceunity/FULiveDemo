@@ -21,10 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) double currentValue;
 /// 实际值对应0.0-1.0的倍率
 @property (nonatomic, assign) NSUInteger ratio;
-/// 是否区分设备性能
-@property (nonatomic, assign) BOOL differentiateDevicePerformance;
-/// 是否需要 NPU 支持（ iPhoneXR 机型及以上 ）
-@property (nonatomic, assign) BOOL needsNPUSupport;
+/// 设备性能等级要求
+@property (nonatomic, assign) FUDevicePerformanceLevel performanceLevel;
 
 @end
 
@@ -39,8 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) double currentValue;
 /// 默认值是否中位数
 @property (nonatomic, assign) BOOL defaultValueInMiddle;
-/// 是否区分设备性能
-@property (nonatomic, assign) BOOL differentiateDevicePerformance;
+/// 设备性能等级要求
+@property (nonatomic, assign) FUDevicePerformanceLevel performanceLevel;
 
 @end
 
@@ -68,6 +66,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL isSkinDisabled;
 /// 美型是否关闭
 @property (nonatomic, assign) BOOL isShapeDisabled;
+/// 皮肤分割是否开启，默认为NO
+@property (nonatomic, assign) BOOL skinSegmentationEnabled;
 
 @property (nonatomic, copy) NSArray<FUStyleSkinModel *> *skins;
 

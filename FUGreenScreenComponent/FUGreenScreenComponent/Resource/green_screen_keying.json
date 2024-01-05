@@ -17,15 +17,15 @@
         "name":"平滑",
         "icon":"demo_icon_smooth",
         "type":2,
-        "currentValue":0.3,
-        "defaultValue":0.3
+        "currentValue":0.5,
+        "defaultValue":0.5
     },
     {
         "name":"祛色度",
         "icon":"demo_icon_transparency",
         "type":3,
-        "currentValue":0.67,
-        "defaultValue":0.67
+        "currentValue":1,
+        "defaultValue":1
     },
     {
         "name":"安全区域",

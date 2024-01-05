@@ -99,6 +99,10 @@
             @FUStrongify(self)
             self.viewModel.skinEffectDisabled = isDisabled;
         };
+        _skinView.skinSegmentationStatusChangeHandler = ^(BOOL enabled) {
+            @FUStrongify(self);
+            self.viewModel.skinSegmentationEnabled = enabled;
+        };
     }
     return _skinView;
 }

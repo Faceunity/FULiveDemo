@@ -126,10 +126,11 @@ ____
 
 | 属性名称                      | 类型   | 说明                                                         | key                              |
 | ----------------------------- | ------ | ------------------------------------------------------------ | -------------------------------- |
+| enableSkinSegmentation        | double | 皮肤分割，YES开启，NO关闭，默认NO (推荐非直播场景和性能等级4及以上机型使用)                | enable_skinseg                  |
 | skinDetect                    | double | 肤色检测开关，0为关，1为开 默认值0                  | skin_detect                       |
 | nonskinBlurScale              | double | 肤色检测之后非肤色区域的融合程度，取值范围0.0-1.0，默认值0.0                  | nonskin_blur_scale     |                      |
 | blurLevel                     | double | 默认均匀磨皮,磨皮程度，取值范围0.0-6.0，默认值6.0                  | blur_level                       |
-| antiAcneSpot                  | double | 祛斑痘，取值范围0.0-1.0，默认值0.0                  | delspot_level                       |
+| antiAcneSpot                  | double | 祛斑痘，取值范围0.0-1.0，默认值0.0（推荐性能等级3及以上机型使用）                | delspot_level                       |
 | colorLevel                    | double | 美白 取值范围 0.0-1.0，0.0为无效果，1.0为最大效果，默认值0.0  | color_level                      |
 | redLevel                      | double | 红润 取值范围 0.0-1.0，0.0为无效果，1.0为最大效果，默认值0.0  | red_level                        |
 | clarity                       | double | 清晰 取值范围 0.0-1.0，0.0为无效果，1.0为最大效果，默认值0.0  | clarity                        |

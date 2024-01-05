@@ -132,12 +132,9 @@ static NSString * const kFUBeautyShapeCellIdentifier = @"FUBeautyShapeCell";
     cell.defaultInMiddle = shape.defaultValueInMiddle;
     cell.defaultValue = shape.defaultValue;
     cell.currentValue = shape.currentValue;
-    // 处理低性能手机禁用特效
-    if (shape.differentiateDevicePerformance) {
-        cell.disabled = self.viewModel.performanceLevel != FUDevicePerformanceLevelHigh;
-    } else {
-        cell.disabled = NO;
-    }
+    // 判断特效设备性能等级要求是否高于当前设备性能等级
+    FUDevicePerformanceLevel level = [FURenderKit devicePerformanceLevel];
+    cell.disabled = shape.performanceLevel > level;
     cell.selected = indexPath.item == self.viewModel.selectedIndex;
     return cell;
 }
@@ -145,16 +142,15 @@ static NSString * const kFUBeautyShapeCellIdentifier = @"FUBeautyShapeCell";
 #pragma mark - Collection view delegate
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    FUBeautyShapeCell *cell = (FUBeautyShapeCell *)[collectionView cellForItemAtIndexPath:indexPath];
     FUBeautyShapeModel *shape = self.viewModel.beautyShapes[indexPath.item];
-    if (shape.differentiateDevicePerformance) {
-        if (self.viewModel.performanceLevel != FUDevicePerformanceLevelHigh) {
-            [FUTipHUD showTips:[NSString stringWithFormat:FUBeautyStringWithKey(@"该功能只支持在高端机上使用"), FUBeautyStringWithKey(shape.name)] dismissWithDelay:1];
-            [self.shapeCollectionView reloadData];
-            if (self.viewModel.selectedIndex >= 0) {
-                [self.shapeCollectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:self.viewModel.selectedIndex inSection:0] animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-            }
-            return NO;
+    if (cell.disabled && shape.performanceLevel == FUDevicePerformanceLevelHigh) {
+        [FUTipHUD showTips:[NSString stringWithFormat:FUBeautyStringWithKey(@"该功能只支持在高端机上使用"), FUBeautyStringWithKey(shape.name)] dismissWithDelay:1];
+        [self.shapeCollectionView reloadData];
+        if (self.viewModel.selectedIndex >= 0) {
+            [self.shapeCollectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:self.viewModel.selectedIndex inSection:0] animated:NO scrollPosition:UICollectionViewScrollPositionNone];
         }
+        return NO;
     }
     return YES;
 }

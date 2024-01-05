@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL skinEffectDisabled;
 @property (nonatomic, assign) BOOL shapeEffectDisabled;
 
+@property (nonatomic, assign) BOOL skinSegmentationEnabled;
+
 /// 选中自定义功能（美肤或者美型）索引，默认为0
 @property (nonatomic, assign) NSInteger selectedSegmentIndex;
 /// 自定义风格
