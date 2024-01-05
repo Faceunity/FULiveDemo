@@ -291,63 +291,63 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		2198EE26204440087628EAFF94A03CD3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 84B44807A12996D487A4A591A481D6A0;
-			remoteInfo = YYModel;
-		};
-		3CEFF666DFA4AE151CBF1ACA2B8737EE /* PBXContainerItemProxy */ = {
+		0403AE51140C53CFE68B19A4181A743F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 7396CCEA2B062951F0F31B5654854F80;
 			remoteInfo = FURenderKit;
 		};
-		3F9B5CB866E1F968BD4D0FD498805B48 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 3847153A6E5EEFB86565BA840768F429;
-			remoteInfo = SDWebImage;
-		};
-		4CE7F6B8A21512C01BF9D51AA87D7FAF /* PBXContainerItemProxy */ = {
+		16A5B57DD4E3928506F2D1548787C328 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 0130B3724283586C0E9D2A112D4F2AA1;
 			remoteInfo = AFNetworking;
 		};
-		5DFC670F327FFBC2630FA3372BF340B4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 55AF53E6C77A10ED4985E04D74A8878E;
-			remoteInfo = Masonry;
-		};
-		83BA1BDE2A0661909A6FEBCBAA1E8B06 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 7396CCEA2B062951F0F31B5654854F80;
-			remoteInfo = FURenderKit;
-		};
-		857BC3463B0A95446C9431B71825AE3B /* PBXContainerItemProxy */ = {
+		20226845178D151A67F5691D8A4A046B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = F60E38364AFF5E1349FF07415B944396;
 			remoteInfo = SSZipArchive;
 		};
-		A648AE1AE7C53F58A32E16A93AA73E98 /* PBXContainerItemProxy */ = {
+		23ACF4CB8D75BE4F9F72F7087F4724C1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 55AF53E6C77A10ED4985E04D74A8878E;
+			remoteInfo = Masonry;
+		};
+		5CE62062CB56488D13C850448F44B151 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84B44807A12996D487A4A591A481D6A0;
+			remoteInfo = YYModel;
+		};
+		848C53E69EAC28BA7AD2F5322F5F6ECB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3847153A6E5EEFB86565BA840768F429;
+			remoteInfo = SDWebImage;
+		};
+		89E50EB78782B799102667A73D7DA34C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 7396CCEA2B062951F0F31B5654854F80;
 			remoteInfo = FURenderKit;
 		};
-		C55047CA9A623669DD39A229E1F6C535 /* PBXContainerItemProxy */ = {
+		A27A0E0ABEF3A7385984CF7C03CCE974 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7396CCEA2B062951F0F31B5654854F80;
+			remoteInfo = FURenderKit;
+		};
+		D4BD03E02C876652CC247E27A87026C0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
@@ -362,22 +362,21 @@
 		01BF1924C88C5D9D5AE5A5350827AC58 /* YYModel-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "YYModel-Info.plist"; sourceTree = "<group>"; };
 		029D73452614BFA9216C67FF165E491D /* SDWebImage-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "SDWebImage-Info.plist"; sourceTree = "<group>"; };
 		02D6EF3DEA51A2E78063DD77C0A5F33E /* UIImage+MemoryCacheCost.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIImage+MemoryCacheCost.m"; path = "SDWebImage/Core/UIImage+MemoryCacheCost.m"; sourceTree = "<group>"; };
-		03138E6AB7C695639C7C15CA98ADB473 /* FUMakeUpTextureKey.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUMakeUpTextureKey.h; path = FURenderKit.framework/Headers/FUMakeUpTextureKey.h; sourceTree = "<group>"; };
+		02EDA0636D3380E1C557666B64D11863 /* FUAvatarColorKeys.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUAvatarColorKeys.h; path = FURenderKit.framework/Headers/FUAvatarColorKeys.h; sourceTree = "<group>"; };
 		0327B2D8557E822371C75007A5850BAF /* SDDiskCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDDiskCache.m; path = SDWebImage/Core/SDDiskCache.m; sourceTree = "<group>"; };
 		046A674DBC33D5CC23ECF0094271BC25 /* SDWebImageOperation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageOperation.h; path = SDWebImage/Core/SDWebImageOperation.h; sourceTree = "<group>"; };
 		04E3E154E40F2DA3C9393F60CF86BABA /* SDWebImageDownloaderDecryptor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageDownloaderDecryptor.h; path = SDWebImage/Core/SDWebImageDownloaderDecryptor.h; sourceTree = "<group>"; };
 		04EA808077F3DDE9F8DEB0573F6FF9A6 /* Pods-FULiveDemo-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-FULiveDemo-frameworks.sh"; sourceTree = "<group>"; };
 		05B5D6E55C02BEFD9A6E457CEE6899A4 /* AFURLRequestSerialization.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AFURLRequestSerialization.h; path = AFNetworking/AFURLRequestSerialization.h; sourceTree = "<group>"; };
+		067170CA116305C6FEB4BE4656BCDA7E /* FURenderKit.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FURenderKit.h; path = FURenderKit.framework/Headers/FURenderKit.h; sourceTree = "<group>"; };
 		06DCE44C849A0E9490B44007377BAD69 /* Pods-FUBeautyComponent.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-FUBeautyComponent.debug.xcconfig"; sourceTree = "<group>"; };
-		081A780476E3E16CFD68E3ECFD19BBC0 /* CNamaSDK.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CNamaSDK.h; path = FURenderKit.framework/Headers/CNamaSDK.h; sourceTree = "<group>"; };
-		0828E4CADFEA73A61E43B9BD91400A89 /* FUMakeupValueDefine.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUMakeupValueDefine.h; path = FURenderKit.framework/Headers/FUMakeupValueDefine.h; sourceTree = "<group>"; };
-		0914382F06CCAD7DDC072B774EC0BE2C /* FURenderableObject.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FURenderableObject.h; path = FURenderKit.framework/Headers/FURenderableObject.h; sourceTree = "<group>"; };
+		080D042C47C8205308171434209D189A /* FUFaceRectInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUFaceRectInfo.h; path = FURenderKit.framework/Headers/FUFaceRectInfo.h; sourceTree = "<group>"; };
+		08B68549F656EF23CA4958971B345CBD /* FURenderKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = FURenderKit.release.xcconfig; sourceTree = "<group>"; };
 		09368545A953551B285282135BD7DE48 /* SDImageGraphics.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageGraphics.m; path = SDWebImage/Core/SDImageGraphics.m; sourceTree = "<group>"; };
 		09ABF2070C1E10EA2EDD19AB53407631 /* Pods-FUGreenScreenComponent.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-FUGreenScreenComponent.release.xcconfig"; sourceTree = "<group>"; };
-		0A45BB19D757E345F7F1084E7FA405FE /* metamacros.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = metamacros.h; path = FURenderKit.framework/Headers/metamacros.h; sourceTree = "<group>"; };
-		0A64791D516CD3250A9D35B6386DCEE0 /* face_makeup.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = face_makeup.bundle; sourceTree = "<group>"; };
 		0B21C1F02C08DC7F4EBDED0FC4BD50D2 /* SDImageAWebPCoder.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageAWebPCoder.h; path = SDWebImage/Core/SDImageAWebPCoder.h; sourceTree = "<group>"; };
 		0B320D6D424609D596EFFC06E777C4B2 /* AFNetworkReachabilityManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AFNetworkReachabilityManager.m; path = AFNetworking/AFNetworkReachabilityManager.m; sourceTree = "<group>"; };
+		0BB947CF2C9C5F117DE137206CA61EEA /* FUInternalCameraSetting.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUInternalCameraSetting.h; path = FURenderKit.framework/Headers/FUInternalCameraSetting.h; sourceTree = "<group>"; };
 		0BDCDF4F51FE0EF6A8ACA19FE899FD3D /* UIColor+SDHexString.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIColor+SDHexString.m"; path = "SDWebImage/Private/UIColor+SDHexString.m"; sourceTree = "<group>"; };
 		0C4337B24A6497102EE9DFB39AF3D342 /* SDAnimatedImageView+WebCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "SDAnimatedImageView+WebCache.m"; path = "SDWebImage/Core/SDAnimatedImageView+WebCache.m"; sourceTree = "<group>"; };
 		0CD6A70DB2AA851711BBA05E98BDDE98 /* SDImageCacheConfig.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageCacheConfig.h; path = SDWebImage/Core/SDImageCacheConfig.h; sourceTree = "<group>"; };
@@ -389,129 +388,129 @@
 		11283C3CBFA7198AF77E32E7D3612961 /* SDAnimatedImageRep.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDAnimatedImageRep.h; path = SDWebImage/Core/SDAnimatedImageRep.h; sourceTree = "<group>"; };
 		1156FA6686930272CDEA87F12A110BEF /* SDAnimatedImagePlayer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDAnimatedImagePlayer.m; path = SDWebImage/Core/SDAnimatedImagePlayer.m; sourceTree = "<group>"; };
 		11E3C2AE7DD17A11CDC05D572D9435FA /* UIButton+AFNetworking.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIButton+AFNetworking.h"; path = "UIKit+AFNetworking/UIButton+AFNetworking.h"; sourceTree = "<group>"; };
-		1237DD030708E1BCC88325B72436886E /* FUMakeUpColorsKey.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUMakeUpColorsKey.h; path = FURenderKit.framework/Headers/FUMakeUpColorsKey.h; sourceTree = "<group>"; };
-		1472D73E63361E495C61D5784D7B3E30 /* FUVideoSettings.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUVideoSettings.h; path = FURenderKit.framework/Headers/FUVideoSettings.h; sourceTree = "<group>"; };
+		13BFF8A117C342FE597E9E63B1E7C908 /* face_beautification.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = face_beautification.bundle; sourceTree = "<group>"; };
+		144DAA540C6B8C1F255694D10ABE1B6B /* FUConfig.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUConfig.h; path = FURenderKit.framework/Headers/FUConfig.h; sourceTree = "<group>"; };
 		162549CB82EC0F28AE195D124E32D175 /* NSBezierPath+SDRoundedCorners.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSBezierPath+SDRoundedCorners.h"; path = "SDWebImage/Private/NSBezierPath+SDRoundedCorners.h"; sourceTree = "<group>"; };
 		17007A55B92A85D9637F5AEF07B8AB3B /* NSImage+Compatibility.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSImage+Compatibility.h"; path = "SDWebImage/Core/NSImage+Compatibility.h"; sourceTree = "<group>"; };
 		175147858EB4A25E9F5F8F69E07D3464 /* Pods-FULiveDemo-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-FULiveDemo-dummy.m"; sourceTree = "<group>"; };
 		17F0DCC03FAAAB5DE0C7083DCB138CB7 /* Masonry.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Masonry.h; path = Masonry/Masonry.h; sourceTree = "<group>"; };
+		18355D04DF8B372F04B6E43D5A88C5E0 /* FUFacialFeatures.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUFacialFeatures.h; path = FURenderKit.framework/Headers/FUFacialFeatures.h; sourceTree = "<group>"; };
 		18E74A4162C1989433419E43B5D565E7 /* SDWeakProxy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWeakProxy.m; path = SDWebImage/Private/SDWeakProxy.m; sourceTree = "<group>"; };
 		18FEDCB8DEA18B1BCC78C086932D23DE /* AFNetworking-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AFNetworking-prefix.pch"; sourceTree = "<group>"; };
-		1947CC74BB6C33D09EC11823AA1B8113 /* FUBeautyPropertyModeDefine.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUBeautyPropertyModeDefine.h; path = FURenderKit.framework/Headers/FUBeautyPropertyModeDefine.h; sourceTree = "<group>"; };
-		19E51DA1394B84D9C7A410FEADA5E145 /* FUSticker.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUSticker.h; path = FURenderKit.framework/Headers/FUSticker.h; sourceTree = "<group>"; };
 		1B27DD1A08EBA3E387A5665FB5102DB9 /* SDMemoryCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDMemoryCache.m; path = SDWebImage/Core/SDMemoryCache.m; sourceTree = "<group>"; };
+		1BB82BD72E23B4777B466437F1ACE8EC /* FUCustomBackground.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUCustomBackground.h; path = FURenderKit.framework/Headers/FUCustomBackground.h; sourceTree = "<group>"; };
 		1C83C83DF2DEF03E16E84D18ABF0C552 /* Pods-FUBeautyComponent.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-FUBeautyComponent.modulemap"; sourceTree = "<group>"; };
 		1CB0E9F955B5BD2DFBBEC0819967C474 /* SDImageHEICCoder.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageHEICCoder.m; path = SDWebImage/Core/SDImageHEICCoder.m; sourceTree = "<group>"; };
-		1D13964A1792554539D72F8C7C8A4104 /* ai_face_processor.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = ai_face_processor.bundle; sourceTree = "<group>"; };
-		1DAB24B833DACAAA666D837F27764589 /* FUAvatarCheck.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUAvatarCheck.h; path = FURenderKit.framework/Headers/FUAvatarCheck.h; sourceTree = "<group>"; };
 		1EB3244FC22A1B8FB4708FD578BEA80E /* SDImageCacheDefine.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageCacheDefine.h; path = SDWebImage/Core/SDImageCacheDefine.h; sourceTree = "<group>"; };
 		1F08D6A9ADEA0B4BDA757A4E6A86FEDE /* SDGraphicsImageRenderer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDGraphicsImageRenderer.m; path = SDWebImage/Core/SDGraphicsImageRenderer.m; sourceTree = "<group>"; };
 		1F11366FDE22AD3361AEDB7F30C045C4 /* SDWebImageDownloaderResponseModifier.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImageDownloaderResponseModifier.m; path = SDWebImage/Core/SDWebImageDownloaderResponseModifier.m; sourceTree = "<group>"; };
-		1F1569DFD3D30C6721363A4F0701C928 /* FURenderIO.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FURenderIO.h; path = FURenderKit.framework/Headers/FURenderIO.h; sourceTree = "<group>"; };
 		1F78D1A04C3B7DDEC291F59AEFA531B8 /* MASConstraint.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MASConstraint.m; path = Masonry/MASConstraint.m; sourceTree = "<group>"; };
+		1FBCD74D8D3013A72906299F866E182C /* tongue.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = tongue.bundle; sourceTree = "<group>"; };
 		1FFED36A657123030ABB700256D73F15 /* Masonry */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Masonry; path = Masonry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		20B260B0C5DDDB58352FF7534184FEAC /* FUAIConfig.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUAIConfig.h; path = FURenderKit.framework/Headers/FUAIConfig.h; sourceTree = "<group>"; };
+		209EA173358CD38342CEC81757C17FBC /* FURenderKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FURenderKit.framework; sourceTree = "<group>"; };
 		20D3D4ADD1FEEE417FDB80D8B4AD6067 /* SDWebImage-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SDWebImage-prefix.pch"; sourceTree = "<group>"; };
 		21AC36D4BB4F9C2E486094F84AC4889B /* UIImage+ForceDecode.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIImage+ForceDecode.m"; path = "SDWebImage/Core/UIImage+ForceDecode.m"; sourceTree = "<group>"; };
 		229A0507299117D5E4081A9EC404C571 /* UIView+WebCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIView+WebCache.m"; path = "SDWebImage/Core/UIView+WebCache.m"; sourceTree = "<group>"; };
 		22BCBAF081D30CAA0EBB65F64EDAC20D /* SDWebImageTransition.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImageTransition.m; path = SDWebImage/Core/SDWebImageTransition.m; sourceTree = "<group>"; };
 		23B7675D23723319714E82803B00C6D2 /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIImageView+AFNetworking.m"; path = "UIKit+AFNetworking/UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
-		23D29B73369CADF346CF40FD91D8857A /* FUAnimoji.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUAnimoji.h; path = FURenderKit.framework/Headers/FUAnimoji.h; sourceTree = "<group>"; };
+		23D848188C27CEFE312DAABDACB0B402 /* FURenderQueue.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FURenderQueue.h; path = FURenderKit.framework/Headers/FURenderQueue.h; sourceTree = "<group>"; };
 		23DEFB18F21D70F9C04C541D1F4BDE74 /* YYModel-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "YYModel-umbrella.h"; sourceTree = "<group>"; };
-		24E49BA22313A86FE8E87E1CBE5ADEE1 /* fxaa.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = fxaa.bundle; sourceTree = "<group>"; };
+		24D04FE4171CDFBA30CE6391BED038E5 /* FUGesture.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUGesture.h; path = FURenderKit.framework/Headers/FUGesture.h; sourceTree = "<group>"; };
 		251C566180891A7519C254CBAA633F15 /* SDWebImageCacheSerializer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageCacheSerializer.h; path = SDWebImage/Core/SDWebImageCacheSerializer.h; sourceTree = "<group>"; };
 		254523DAA41898D9611D9C16F08067D8 /* Pods-FUMakeupComponent.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-FUMakeupComponent.modulemap"; sourceTree = "<group>"; };
 		255535740F02C3C61D6B9F5CEFFC1346 /* Pods-FUBeautyComponent-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-FUBeautyComponent-umbrella.h"; sourceTree = "<group>"; };
 		25BC4866F44D02C5C853100E864EFA3A /* MASConstraintMaker.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MASConstraintMaker.m; path = Masonry/MASConstraintMaker.m; sourceTree = "<group>"; };
+		25E488FF8AF2AF1A789D184A7ADFCE00 /* FUPoster.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUPoster.h; path = FURenderKit.framework/Headers/FUPoster.h; sourceTree = "<group>"; };
 		25F851F4D36C38530282CF81E60A7392 /* SDImageAPNGCoder.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageAPNGCoder.h; path = SDWebImage/Core/SDImageAPNGCoder.h; sourceTree = "<group>"; };
 		2602DE25DC896738933F55749282A5AA /* WKWebView+AFNetworking.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "WKWebView+AFNetworking.h"; path = "UIKit+AFNetworking/WKWebView+AFNetworking.h"; sourceTree = "<group>"; };
 		2890352B58F862F62C5892261DE18E07 /* UIImage+Transform.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIImage+Transform.m"; path = "SDWebImage/Core/UIImage+Transform.m"; sourceTree = "<group>"; };
 		28C252C1A6B3F354C11F9A89D0AA39EC /* SDImageGIFCoder.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageGIFCoder.m; path = SDWebImage/Core/SDImageGIFCoder.m; sourceTree = "<group>"; };
-		2A02CF9A90BFAFD2DA2231517F0B05FC /* FUAISegment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUAISegment.h; path = FURenderKit.framework/Headers/FUAISegment.h; sourceTree = "<group>"; };
 		2B453EAAD7E2F5E3964B1514C9B8A26C /* SDImageIOAnimatedCoder.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageIOAnimatedCoder.m; path = SDWebImage/Core/SDImageIOAnimatedCoder.m; sourceTree = "<group>"; };
 		2B4F4EBEEFEDADF92A88D9B4A370789B /* SDImageIOCoder.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageIOCoder.m; path = SDWebImage/Core/SDImageIOCoder.m; sourceTree = "<group>"; };
 		2CBB09C9D8035E0B557746AAA5EB958D /* AFURLResponseSerialization.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AFURLResponseSerialization.m; path = AFNetworking/AFURLResponseSerialization.m; sourceTree = "<group>"; };
+		2D608D6C522CA2521A4C4F0E44315F06 /* FUMakeUpChildStrengthDefineKey.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUMakeUpChildStrengthDefineKey.h; path = FURenderKit.framework/Headers/FUMakeUpChildStrengthDefineKey.h; sourceTree = "<group>"; };
 		2E1E52DA16847508AD2BFD0FB99A35A9 /* Pods-FUGreenScreenComponent.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-FUGreenScreenComponent.debug.xcconfig"; sourceTree = "<group>"; };
 		2E378A36665A014D9F465D308320BD2F /* SDWebImageOptionsProcessor.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImageOptionsProcessor.m; path = SDWebImage/Core/SDWebImageOptionsProcessor.m; sourceTree = "<group>"; };
+		2EA36316C33DA22EDA5CC1DFF4C186ED /* FUHairDefineKey.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUHairDefineKey.h; path = FURenderKit.framework/Headers/FUHairDefineKey.h; sourceTree = "<group>"; };
 		304D713F0D23522D49199C2B672C119E /* SDImageFrame.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageFrame.m; path = SDWebImage/Core/SDImageFrame.m; sourceTree = "<group>"; };
 		30BCC4A0435963C096667EA22687FF2F /* Pods-FUBeautyComponent-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-FUBeautyComponent-acknowledgements.markdown"; sourceTree = "<group>"; };
-		310E266F8298B0A3FD86A10028BD5988 /* FUGesture.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUGesture.h; path = FURenderKit.framework/Headers/FUGesture.h; sourceTree = "<group>"; };
-		318495BFF9134B34A76A0A21B4BEB209 /* FUCameraAnimation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUCameraAnimation.h; path = FURenderKit.framework/Headers/FUCameraAnimation.h; sourceTree = "<group>"; };
+		31125E44938D03803D302E7CDBA87DCF /* FULight.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FULight.h; path = FURenderKit.framework/Headers/FULight.h; sourceTree = "<group>"; };
 		32587EAD2E18CA114BD23E1E279817C1 /* SDWebImagePrefetcher.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImagePrefetcher.m; path = SDWebImage/Core/SDWebImagePrefetcher.m; sourceTree = "<group>"; };
 		326760CE3F9A2544438A61F3D1303B8A /* SDWebImageIndicator.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImageIndicator.m; path = SDWebImage/Core/SDWebImageIndicator.m; sourceTree = "<group>"; };
+		3271AADC90413C06E173753DDC83338D /* FUAvatar.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUAvatar.h; path = FURenderKit.framework/Headers/FUAvatar.h; sourceTree = "<group>"; };
 		341762384D9DB906C0649ED82537A11A /* AFNetworking-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "AFNetworking-dummy.m"; sourceTree = "<group>"; };
 		34B0F2E2F1132433E37B45B7047769F2 /* YYModel-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "YYModel-prefix.pch"; sourceTree = "<group>"; };
+		35635CD0CE8792661A9E445029379A57 /* UIDevice+FURenderKit.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIDevice+FURenderKit.h"; path = "FURenderKit.framework/Headers/UIDevice+FURenderKit.h"; sourceTree = "<group>"; };
 		35AB9E5ED3F663F4996FE660A90F2C38 /* SDImageLoadersManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageLoadersManager.h; path = SDWebImage/Core/SDImageLoadersManager.h; sourceTree = "<group>"; };
 		35D4FE12D5A06371F70440259304EF8A /* UIImageView+HighlightedWebCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIImageView+HighlightedWebCache.m"; path = "SDWebImage/Core/UIImageView+HighlightedWebCache.m"; sourceTree = "<group>"; };
 		35FEF95CAD5BC745A451EC21FEA4AC6D /* SDWebImageDownloader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageDownloader.h; path = SDWebImage/Core/SDWebImageDownloader.h; sourceTree = "<group>"; };
 		3670DAA413ACC0CF9874E0B697A17BEF /* YYClassInfo.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YYClassInfo.m; path = YYModel/YYClassInfo.m; sourceTree = "<group>"; };
 		3673B994EDE0CD2EC135C263D5C1BAF6 /* Pods-FULiveDemo */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-FULiveDemo"; path = Pods_FULiveDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		369F75398CFBCF8058D55B808B4E715D /* FUCLIColor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUCLIColor.h; path = FURenderKit.framework/Headers/FUCLIColor.h; sourceTree = "<group>"; };
 		3753A7C10DE5AD884B1B973158FE82EF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		377B2A174AF3741AAB2512A5D76D8FD4 /* FUGLContext.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUGLContext.h; path = FURenderKit.framework/Headers/FUGLContext.h; sourceTree = "<group>"; };
-		37CC22979229735FF3B930F3A554E85B /* FUStickerContainer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUStickerContainer.h; path = FURenderKit.framework/Headers/FUStickerContainer.h; sourceTree = "<group>"; };
 		3836E75B70ECA9AD9CACFC60763BDCD9 /* SDDisplayLink.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDDisplayLink.h; path = SDWebImage/Private/SDDisplayLink.h; sourceTree = "<group>"; };
 		388588DBDD17530B9C1CB246A94B2836 /* NSImage+Compatibility.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSImage+Compatibility.m"; path = "SDWebImage/Core/NSImage+Compatibility.m"; sourceTree = "<group>"; };
-		39000C782BC1506269A4A1FABA4D1DD1 /* tongue.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = tongue.bundle; sourceTree = "<group>"; };
-		39C327F797B235F276A459517BFD3808 /* FULightMakeUpTextureKeyDefineKey.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FULightMakeUpTextureKeyDefineKey.h; path = FURenderKit.framework/Headers/FULightMakeUpTextureKeyDefineKey.h; sourceTree = "<group>"; };
 		39D0636D262674707CBE7D13761AC9F4 /* SDImageLoader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageLoader.h; path = SDWebImage/Core/SDImageLoader.h; sourceTree = "<group>"; };
-		3B2FB4B181FB6D2361526D904888C424 /* FUPoster.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUPoster.h; path = FURenderKit.framework/Headers/FUPoster.h; sourceTree = "<group>"; };
 		3B5829553C580781120C93F2793CC7D2 /* AFHTTPSessionManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AFHTTPSessionManager.h; path = AFNetworking/AFHTTPSessionManager.h; sourceTree = "<group>"; };
+		3C65FDC57B0B71CDCD3524DDBB3DC237 /* FUVideoWriter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUVideoWriter.h; path = FURenderKit.framework/Headers/FUVideoWriter.h; sourceTree = "<group>"; };
 		3C6C6D641305A8181B3A515CE5B98F59 /* SDAssociatedObject.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDAssociatedObject.h; path = SDWebImage/Private/SDAssociatedObject.h; sourceTree = "<group>"; };
 		3C9B2AC70A20D38BEE948C7D9FCF424A /* Pods-FUMakeupComponent */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-FUMakeupComponent"; path = Pods_FUMakeupComponent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CAF53020F7C3F596CCC6460F7978AC1 /* mz_compat.c */ = {isa = PBXFileReference; includeInIndex = 1; name = mz_compat.c; path = SSZipArchive/minizip/mz_compat.c; sourceTree = "<group>"; };
+		3CF0BFAC07F3E783D4C52C025F0B5BA8 /* FUSticker.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUSticker.h; path = FURenderKit.framework/Headers/FUSticker.h; sourceTree = "<group>"; };
+		3E1B52EEE91CAD6E1D15869CAB2981A5 /* FUBodyBeautyDefineKeys.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUBodyBeautyDefineKeys.h; path = FURenderKit.framework/Headers/FUBodyBeautyDefineKeys.h; sourceTree = "<group>"; };
 		3E4390EE3AC46D123410D3CB9C787C58 /* MASViewAttribute.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MASViewAttribute.h; path = Masonry/MASViewAttribute.h; sourceTree = "<group>"; };
 		3E4DF2ABC7CA9096C398CDBCB849F574 /* AFNetworking-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AFNetworking-umbrella.h"; sourceTree = "<group>"; };
-		3EEDC2165275C5B07E0BB59826AB3F76 /* FUGroupAnimation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUGroupAnimation.h; path = FURenderKit.framework/Headers/FUGroupAnimation.h; sourceTree = "<group>"; };
 		3F61E251251DDBD50304F3BAA7C94C5D /* SDWebImageDownloaderOperation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImageDownloaderOperation.m; path = SDWebImage/Core/SDWebImageDownloaderOperation.m; sourceTree = "<group>"; };
-		3FB35DF34847CEEB284F1C3BF31DF97E /* body_slim.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = body_slim.bundle; sourceTree = "<group>"; };
-		3FD4EF7C53425C00EB4F969CB237B22D /* FUMakeUpChildStrengthDefineKey.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUMakeUpChildStrengthDefineKey.h; path = FURenderKit.framework/Headers/FUMakeUpChildStrengthDefineKey.h; sourceTree = "<group>"; };
-		419F506CE3D3785B08521833C220A221 /* FUVideoReader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUVideoReader.h; path = FURenderKit.framework/Headers/FUVideoReader.h; sourceTree = "<group>"; };
+		413EBA4D0767BF951E7BFA95A012CEF1 /* FUFilterDefineKey.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUFilterDefineKey.h; path = FURenderKit.framework/Headers/FUFilterDefineKey.h; sourceTree = "<group>"; };
+		41804258110F9D89408292DCA933DBE0 /* FUBeauty.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUBeauty.h; path = FURenderKit.framework/Headers/FUBeauty.h; sourceTree = "<group>"; };
+		42230C90BB476821F2D78FF5023E72EB /* FUComicFilter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUComicFilter.h; path = FURenderKit.framework/Headers/FUComicFilter.h; sourceTree = "<group>"; };
 		423054E5F945F6024BF71EC9E7E54C4C /* SDWebImage.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SDWebImage.release.xcconfig; sourceTree = "<group>"; };
-		4471B7053D52C26AAB13C5C0696B252A /* FUHairBeauty.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUHairBeauty.h; path = FURenderKit.framework/Headers/FUHairBeauty.h; sourceTree = "<group>"; };
+		43E9066B79637BA1D532D72757BBD635 /* FUMakeupValueDefine.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUMakeupValueDefine.h; path = FURenderKit.framework/Headers/FUMakeupValueDefine.h; sourceTree = "<group>"; };
 		44D5A9FFFB28C1CD54A79E5C80FCB03F /* SDImageGraphics.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageGraphics.h; path = SDWebImage/Core/SDImageGraphics.h; sourceTree = "<group>"; };
 		44EEEAB8E99208964C90F71F6B9A084D /* SDWebImageTransition.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageTransition.h; path = SDWebImage/Core/SDWebImageTransition.h; sourceTree = "<group>"; };
-		44EF9CA6FD6A05E40AB83613376F5ED4 /* FUBodyBeauty.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUBodyBeauty.h; path = FURenderKit.framework/Headers/FUBodyBeauty.h; sourceTree = "<group>"; };
+		4777A3C792385EC568AC6CC0EAAA0454 /* FUDeformationKeys.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUDeformationKeys.h; path = FURenderKit.framework/Headers/FUDeformationKeys.h; sourceTree = "<group>"; };
+		47A894FA7995E726A119B0900D74025D /* FUVideoReader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUVideoReader.h; path = FURenderKit.framework/Headers/FUVideoReader.h; sourceTree = "<group>"; };
 		47C1F1C80F03A6D0A3EBDFDC9C55DD34 /* Pods-FUMakeupComponent-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-FUMakeupComponent-resources.sh"; sourceTree = "<group>"; };
 		487B2BC8ACE5298989A8237A373A702C /* MASCompositeConstraint.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MASCompositeConstraint.h; path = Masonry/MASCompositeConstraint.h; sourceTree = "<group>"; };
 		48EBE67EB541332F923B6E6300AAEC40 /* Pods-FUGreenScreenComponent.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-FUGreenScreenComponent.modulemap"; sourceTree = "<group>"; };
+		493C51588BDA866C7BA2ADFCFCE97B59 /* FUBeauty-Deprecated.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "FUBeauty-Deprecated.h"; path = "FURenderKit.framework/Headers/FUBeauty-Deprecated.h"; sourceTree = "<group>"; };
 		49BF34F0F13BA65D08BB432EB1E54214 /* UIKit+AFNetworking.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIKit+AFNetworking.h"; path = "UIKit+AFNetworking/UIKit+AFNetworking.h"; sourceTree = "<group>"; };
 		4A0CD782F54E0CCD3DC1C7B5C9AC37C1 /* SDImageAssetManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageAssetManager.m; path = SDWebImage/Private/SDImageAssetManager.m; sourceTree = "<group>"; };
 		4A8661C02AC3E2DDC3665B7D024F58B0 /* SDDisplayLink.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDDisplayLink.m; path = SDWebImage/Private/SDDisplayLink.m; sourceTree = "<group>"; };
-		4AEF94753718DE7C31B4396F0749F608 /* FURenderer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FURenderer.h; path = FURenderKit.framework/Headers/FURenderer.h; sourceTree = "<group>"; };
 		4AFC67F387EE91F61F09F42FB276C895 /* mz_crypt.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = mz_crypt.h; path = SSZipArchive/minizip/mz_crypt.h; sourceTree = "<group>"; };
+		4B1505C1B4E03A941141542DEBB91862 /* FUNormalConfig.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUNormalConfig.h; path = FURenderKit.framework/Headers/FUNormalConfig.h; sourceTree = "<group>"; };
 		4B97658E41F1B107AF1B31AF53E5E0D4 /* Pods-FUMakeupComponent-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-FUMakeupComponent-dummy.m"; sourceTree = "<group>"; };
-		4BC46FCCCEE984F27BF70BEE8E2C61D4 /* FUFaceRectInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUFaceRectInfo.h; path = FURenderKit.framework/Headers/FUFaceRectInfo.h; sourceTree = "<group>"; };
 		4BC66DC56F2F654D36D923E9EF7D2694 /* Pods-FUMakeupComponent-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-FUMakeupComponent-acknowledgements.markdown"; sourceTree = "<group>"; };
 		4C5C706462784D6EFC04EF06E8804754 /* Pods-FUMakeupComponent-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-FUMakeupComponent-Info.plist"; sourceTree = "<group>"; };
 		4CEC70CF9EBBBA24C9E0B215BA01237E /* Pods-FUGreenScreenComponent-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-FUGreenScreenComponent-umbrella.h"; sourceTree = "<group>"; };
 		4DBDC54E72B27C73D7A271013AC7D742 /* mz_zip_rw.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = mz_zip_rw.h; path = SSZipArchive/minizip/mz_zip_rw.h; sourceTree = "<group>"; };
 		4EC0BA5E38210643F8F266A3AF2D1705 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/ImageIO.framework; sourceTree = DEVELOPER_DIR; };
+		4FD431E3E3D6496093177530FCC359EA /* FUGreenScreen.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUGreenScreen.h; path = FURenderKit.framework/Headers/FUGreenScreen.h; sourceTree = "<group>"; };
 		50ACCD074B5F4DB45F9A7217E8436518 /* SDWebImageDefine.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImageDefine.m; path = SDWebImage/Core/SDWebImageDefine.m; sourceTree = "<group>"; };
-		51909B8DF2E585FEFC565276FD765C81 /* FUImageHelper.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUImageHelper.h; path = FURenderKit.framework/Headers/FUImageHelper.h; sourceTree = "<group>"; };
 		51A6A0947A005ACA804198294E56E482 /* Pods-FUBeautyComponent-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-FUBeautyComponent-Info.plist"; sourceTree = "<group>"; };
 		51DAEFD010CE1749B922E291DDA10EFE /* mz_strm_wzaes.c */ = {isa = PBXFileReference; includeInIndex = 1; name = mz_strm_wzaes.c; path = SSZipArchive/minizip/mz_strm_wzaes.c; sourceTree = "<group>"; };
 		524AC104E6FC3123528F9E18C676F44D /* SDWebImageDownloader.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImageDownloader.m; path = SDWebImage/Core/SDWebImageDownloader.m; sourceTree = "<group>"; };
 		525DAC1776978A0E5CBCB5EF0A81B993 /* mz_strm_wzaes.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = mz_strm_wzaes.h; path = SSZipArchive/minizip/mz_strm_wzaes.h; sourceTree = "<group>"; };
 		527424E7308274BE5074FEDA73FAD8F7 /* AFNetworkActivityIndicatorManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AFNetworkActivityIndicatorManager.m; path = "UIKit+AFNetworking/AFNetworkActivityIndicatorManager.m"; sourceTree = "<group>"; };
-		52D2C6D17A4FFB01448CE9885CB201C3 /* FUVideoComponentDefines.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUVideoComponentDefines.h; path = FURenderKit.framework/Headers/FUVideoComponentDefines.h; sourceTree = "<group>"; };
-		537944ED7D8E5F949D7E45F371ECF69C /* FUNormalConfig.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUNormalConfig.h; path = FURenderKit.framework/Headers/FUNormalConfig.h; sourceTree = "<group>"; };
 		5391A8A6665ECD8E10F12BC6E3FB667B /* Pods-FUGreenScreenComponent-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-FUGreenScreenComponent-acknowledgements.markdown"; sourceTree = "<group>"; };
-		540B58AF81BB16D8867FF7CF901588D1 /* FUVideoProcessor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUVideoProcessor.h; path = FURenderKit.framework/Headers/FUVideoProcessor.h; sourceTree = "<group>"; };
+		54ED7076C8FD905958CBB5CE3729264D /* fuzzytoonfilter.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = fuzzytoonfilter.bundle; sourceTree = "<group>"; };
 		550FFE76510ADE5FC6E072BF293CDE8D /* SDWebImage-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SDWebImage-dummy.m"; sourceTree = "<group>"; };
 		55A711735AB289F1203373A728EF3FBD /* NSArray+MASShorthandAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSArray+MASShorthandAdditions.h"; path = "Masonry/NSArray+MASShorthandAdditions.h"; sourceTree = "<group>"; };
-		5648B439C0853C2D89C4A59BE54266C5 /* FUEnum.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUEnum.h; path = FURenderKit.framework/Headers/FUEnum.h; sourceTree = "<group>"; };
 		5686F44F579326CA52FC6ADD1E685D17 /* SDAnimatedImagePlayer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDAnimatedImagePlayer.h; path = SDWebImage/Core/SDAnimatedImagePlayer.h; sourceTree = "<group>"; };
 		578DD2FA4701933F899AA7717936F1EA /* SDImageCacheConfig.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageCacheConfig.m; path = SDWebImage/Core/SDImageCacheConfig.m; sourceTree = "<group>"; };
-		579A5414EC6627E5BE389BF97B2A63D8 /* FUGLDisplayView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUGLDisplayView.h; path = FURenderKit.framework/Headers/FUGLDisplayView.h; sourceTree = "<group>"; };
 		579E11A0FECE341ED1D592281FA10460 /* Pods-FUBeautyComponent */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-FUBeautyComponent"; path = Pods_FUBeautyComponent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5869BF1C434269438C9091CBDB440DF9 /* FUOvonicMap.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUOvonicMap.h; path = FURenderKit.framework/Headers/FUOvonicMap.h; sourceTree = "<group>"; };
 		592FD15C5A7D3ECCCD23B64BF7BD21D1 /* MASCompositeConstraint.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MASCompositeConstraint.m; path = Masonry/MASCompositeConstraint.m; sourceTree = "<group>"; };
+		5AC660944B93A1BE14C15B583CF7C806 /* ai_human_processor.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = ai_human_processor.bundle; sourceTree = "<group>"; };
 		5AE4110D6F3BF0DA683DF8B2CD51F91E /* SDAnimatedImageRep.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDAnimatedImageRep.m; path = SDWebImage/Core/SDAnimatedImageRep.m; sourceTree = "<group>"; };
 		5AEC35C6A770D7F3B50A9BE6C8DC3504 /* AFNetworking.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = AFNetworking.modulemap; sourceTree = "<group>"; };
+		5B6D7C9AAA38DEA7CDC7F69C07F30C15 /* fxaa.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = fxaa.bundle; sourceTree = "<group>"; };
 		5B76CDAF688E68B2424DBD1601B3936B /* UIImage+ExtendedCacheData.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImage+ExtendedCacheData.h"; path = "SDWebImage/Core/UIImage+ExtendedCacheData.h"; sourceTree = "<group>"; };
+		5BCEBDD387498F782D26F53A3CD7F0D4 /* FUKeysDefine.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUKeysDefine.h; path = FURenderKit.framework/Headers/FUKeysDefine.h; sourceTree = "<group>"; };
 		5E8ED9C1504E705B5874B6D2514564CA /* UIImage+ExtendedCacheData.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIImage+ExtendedCacheData.m"; path = "SDWebImage/Core/UIImage+ExtendedCacheData.m"; sourceTree = "<group>"; };
 		5EAEB26E03DB38BFE385A777D87DC217 /* View+MASAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "View+MASAdditions.m"; path = "Masonry/View+MASAdditions.m"; sourceTree = "<group>"; };
 		60078E702ECB8282210966EA38FDA957 /* SDInternalMacros.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDInternalMacros.m; path = SDWebImage/Private/SDInternalMacros.m; sourceTree = "<group>"; };
-		60A0D640254BCA23C47299C1ACF47253 /* FUHairDefineKey.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUHairDefineKey.h; path = FURenderKit.framework/Headers/FUHairDefineKey.h; sourceTree = "<group>"; };
+		60BC80189C6B547BAF99340B8FC16A32 /* FULightMakeup.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FULightMakeup.h; path = FURenderKit.framework/Headers/FULightMakeup.h; sourceTree = "<group>"; };
 		61313C989B1310DBFD3482E5FF712BC3 /* SDImageHEICCoder.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageHEICCoder.h; path = SDWebImage/Core/SDImageHEICCoder.h; sourceTree = "<group>"; };
 		61A672790D5425CB0D26F16EBBDFF700 /* AFSecurityPolicy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AFSecurityPolicy.m; path = AFNetworking/AFSecurityPolicy.m; sourceTree = "<group>"; };
 		621EE8FDE2150ED959984937E39D1A30 /* Masonry-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Masonry-prefix.pch"; sourceTree = "<group>"; };
@@ -521,18 +520,16 @@
 		635D57E9DC6E8C59093BA3B37B0B0CF2 /* SDFileAttributeHelper.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDFileAttributeHelper.m; path = SDWebImage/Private/SDFileAttributeHelper.m; sourceTree = "<group>"; };
 		643591BA313414F9F4B900D11238E61D /* mz.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = mz.h; path = SSZipArchive/minizip/mz.h; sourceTree = "<group>"; };
 		643E20BD87DA3A79D1679EE4074FC7CB /* UIImage+Metadata.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIImage+Metadata.m"; path = "SDWebImage/Core/UIImage+Metadata.m"; sourceTree = "<group>"; };
-		64B1D1CBB0BF2A177F6F1CF05A60F429 /* FUCustomBackground.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUCustomBackground.h; path = FURenderKit.framework/Headers/FUCustomBackground.h; sourceTree = "<group>"; };
 		6510B51D1E49A4D727903F53B4DE044D /* Pods-FULiveDemo.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-FULiveDemo.modulemap"; sourceTree = "<group>"; };
 		65125D7CE3CF6B1B3C7169A15FF5309F /* mz_strm_pkcrypt.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = mz_strm_pkcrypt.h; path = SSZipArchive/minizip/mz_strm_pkcrypt.h; sourceTree = "<group>"; };
 		66F24E15F9D20C5EC349FA6855BA47B4 /* SDImageAPNGCoder.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageAPNGCoder.m; path = SDWebImage/Core/SDImageAPNGCoder.m; sourceTree = "<group>"; };
 		67406F036B353E85189ED34A5C96321C /* SDAnimatedImageView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDAnimatedImageView.m; path = SDWebImage/Core/SDAnimatedImageView.m; sourceTree = "<group>"; };
 		67D06D0FEAC6353F456110DC16D8CEDF /* NSData+ImageContentType.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSData+ImageContentType.m"; path = "SDWebImage/Core/NSData+ImageContentType.m"; sourceTree = "<group>"; };
-		67D3EBA5585FDD35208DAFD062525EA7 /* FUMusicFilter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUMusicFilter.h; path = FURenderKit.framework/Headers/FUMusicFilter.h; sourceTree = "<group>"; };
+		68511AE6BF3E76CB13E9BC99A95A3938 /* FUVideoSettings.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUVideoSettings.h; path = FURenderKit.framework/Headers/FUVideoSettings.h; sourceTree = "<group>"; };
 		69236CED6165CF52B4BC4C1A9B549FF7 /* YYClassInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YYClassInfo.h; path = YYModel/YYClassInfo.h; sourceTree = "<group>"; };
 		6951B4717E6231BF01A0D2B14BEF8613 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		695956649750AFDAE950EC3B9617051B /* AFCompatibilityMacros.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AFCompatibilityMacros.h; path = AFNetworking/AFCompatibilityMacros.h; sourceTree = "<group>"; };
 		69996A1C4F19C14CBA78B9A5BD685F4D /* ViewController+MASAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "ViewController+MASAdditions.m"; path = "Masonry/ViewController+MASAdditions.m"; sourceTree = "<group>"; };
-		69D6795481BA4B0A2AFC4312D12A689F /* FUFacialFeatures.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUFacialFeatures.h; path = FURenderKit.framework/Headers/FUFacialFeatures.h; sourceTree = "<group>"; };
 		6A0833DD5BA89604494421C028DBEEBA /* SSZipCommon.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SSZipCommon.h; path = SSZipArchive/SSZipCommon.h; sourceTree = "<group>"; };
 		6BEF78EEAE4816EBE4715AC7CF37F2CC /* SDDeviceHelper.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDDeviceHelper.m; path = SDWebImage/Private/SDDeviceHelper.m; sourceTree = "<group>"; };
 		6BF48413DAB93F55B640ED28D0B1C2C1 /* SDWebImageIndicator.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageIndicator.h; path = SDWebImage/Core/SDWebImageIndicator.h; sourceTree = "<group>"; };
@@ -543,12 +540,13 @@
 		6DF869E338BF39EA7ED123F748CE924F /* SDInternalMacros.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDInternalMacros.h; path = SDWebImage/Private/SDInternalMacros.h; sourceTree = "<group>"; };
 		6E0C7C4B9BF91EB2A9D15982E157C869 /* UIImage+MultiFormat.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIImage+MultiFormat.m"; path = "SDWebImage/Core/UIImage+MultiFormat.m"; sourceTree = "<group>"; };
 		6E3488E153B5B2E219AF17818FDA4061 /* SDImageCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageCache.h; path = SDWebImage/Core/SDImageCache.h; sourceTree = "<group>"; };
-		6EBC57A6CB737AF900AA3B0ADBECC4B4 /* FUSceneCamera.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUSceneCamera.h; path = FURenderKit.framework/Headers/FUSceneCamera.h; sourceTree = "<group>"; };
 		6F7DEE34CE8576153DBA1B573B0B26E1 /* AFURLSessionManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AFURLSessionManager.h; path = AFNetworking/AFURLSessionManager.h; sourceTree = "<group>"; };
+		710FAEE005F498FDCCE6E8DBF7BF6D06 /* FUActionRecognition.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUActionRecognition.h; path = FURenderKit.framework/Headers/FUActionRecognition.h; sourceTree = "<group>"; };
 		711D69B1B3A52F84080C3ED15DD2B74C /* UIActivityIndicatorView+AFNetworking.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIActivityIndicatorView+AFNetworking.m"; path = "UIKit+AFNetworking/UIActivityIndicatorView+AFNetworking.m"; sourceTree = "<group>"; };
 		714ED8D3CF1307EF139508E9FEADDFD7 /* YYModel.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = YYModel.debug.xcconfig; sourceTree = "<group>"; };
 		71F06C81B16ED9593B363A3400D1AC48 /* Pods-FUGreenScreenComponent-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-FUGreenScreenComponent-acknowledgements.plist"; sourceTree = "<group>"; };
 		723CAC8B4F4779BA267EE9E4A62E013B /* SDWebImageOperation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImageOperation.m; path = SDWebImage/Core/SDWebImageOperation.m; sourceTree = "<group>"; };
+		73370BA7EC088365C4D673075F7340DA /* FURenderableObject.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FURenderableObject.h; path = FURenderKit.framework/Headers/FURenderableObject.h; sourceTree = "<group>"; };
 		7357DA5D79136750385A7C82CCAC1EB4 /* MASViewConstraint.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MASViewConstraint.m; path = Masonry/MASViewConstraint.m; sourceTree = "<group>"; };
 		73D8D814E3F57D6BE78C944035100B71 /* Pods-FULiveDemo-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-FULiveDemo-resources.sh"; sourceTree = "<group>"; };
 		74695733A2C1A8E5F304575D7AAA4754 /* Pods-FUMakeupComponent-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-FUMakeupComponent-umbrella.h"; sourceTree = "<group>"; };
@@ -556,28 +554,30 @@
 		756715A2A56A9D90974892358B7DBA47 /* SDImageIOAnimatedCoder.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageIOAnimatedCoder.h; path = SDWebImage/Core/SDImageIOAnimatedCoder.h; sourceTree = "<group>"; };
 		7608B8736272A91D5FA9EE36FDA0428F /* SDImageGIFCoder.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageGIFCoder.h; path = SDWebImage/Core/SDImageGIFCoder.h; sourceTree = "<group>"; };
 		76DE31EFA7EF480FDE53D0B0432F205E /* SDDiskCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDDiskCache.h; path = SDWebImage/Core/SDDiskCache.h; sourceTree = "<group>"; };
-		78DFE29968DC496403F151564708FBCD /* FUBackground.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUBackground.h; path = FURenderKit.framework/Headers/FUBackground.h; sourceTree = "<group>"; };
+		777E85179065B8F5143E800C21777BF5 /* FUBeautyPropertyModeDefine.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUBeautyPropertyModeDefine.h; path = FURenderKit.framework/Headers/FUBeautyPropertyModeDefine.h; sourceTree = "<group>"; };
+		7865F1A19913C36771C0D9E881B6106A /* FUGroupAnimation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUGroupAnimation.h; path = FURenderKit.framework/Headers/FUGroupAnimation.h; sourceTree = "<group>"; };
+		791A68AFE06EEE0DF48E00079D8A5822 /* FUQualitySticker.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUQualitySticker.h; path = FURenderKit.framework/Headers/FUQualitySticker.h; sourceTree = "<group>"; };
 		796394C13AD6EB94387AFC81A0AE375A /* AFNetworking.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AFNetworking.release.xcconfig; sourceTree = "<group>"; };
 		79D5B7FA2CEB69D140F35B12E9E1D92F /* SDImageCodersManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageCodersManager.h; path = SDWebImage/Core/SDImageCodersManager.h; sourceTree = "<group>"; };
 		7A361875B56D4C71AB0099710B1A2934 /* NSArray+MASAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSArray+MASAdditions.m"; path = "Masonry/NSArray+MASAdditions.m"; sourceTree = "<group>"; };
 		7A9A19DED271A02425B014F9C650F2D2 /* SDWebImage.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SDWebImage.debug.xcconfig; sourceTree = "<group>"; };
 		7B265307D9DFAD3681BFB25899097783 /* MASViewAttribute.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MASViewAttribute.m; path = Masonry/MASViewAttribute.m; sourceTree = "<group>"; };
 		7C012894D5F44679FF564A043E239CD3 /* UIView+WebCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIView+WebCache.h"; path = "SDWebImage/Core/UIView+WebCache.h"; sourceTree = "<group>"; };
-		7C3A0AEACB02C7A7EF20E2392E0C5182 /* ai_human_processor.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = ai_human_processor.bundle; sourceTree = "<group>"; };
+		7CE30A734965BCD4B00A5375D629E6B4 /* FUItem.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUItem.h; path = FURenderKit.framework/Headers/FUItem.h; sourceTree = "<group>"; };
 		7E032B5FC062791EF4DAD954C33863D7 /* YYModel.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = YYModel.modulemap; sourceTree = "<group>"; };
-		7F31FB3E22D050B2AD1E524063556AD5 /* FUAnimation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUAnimation.h; path = FURenderKit.framework/Headers/FUAnimation.h; sourceTree = "<group>"; };
-		7F38066C6F8A20718E08855D319FD617 /* FUCaptureCamera.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUCaptureCamera.h; path = FURenderKit.framework/Headers/FUCaptureCamera.h; sourceTree = "<group>"; };
+		7E08BC9EF63FF7C96925150C28EC4CF0 /* CNamaSDK.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CNamaSDK.h; path = FURenderKit.framework/Headers/CNamaSDK.h; sourceTree = "<group>"; };
+		7EE801DE54504D5C1464FF029A28D35A /* FUGLContext.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUGLContext.h; path = FURenderKit.framework/Headers/FUGLContext.h; sourceTree = "<group>"; };
 		7F9BAE824F26E7A5E45685AE5F7D59C9 /* AFNetworking-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "AFNetworking-Info.plist"; sourceTree = "<group>"; };
-		816CB26496BF82A0BE584B4FF98A2D46 /* FULight.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FULight.h; path = FURenderKit.framework/Headers/FULight.h; sourceTree = "<group>"; };
-		81A49EC9AA213687686DF4976C587218 /* FUMakeup.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUMakeup.h; path = FURenderKit.framework/Headers/FUMakeup.h; sourceTree = "<group>"; };
 		81CAA45F9BF0B11DD2D17025CA8264CE /* SDImageLoader.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageLoader.m; path = SDWebImage/Core/SDImageLoader.m; sourceTree = "<group>"; };
+		81E11D2F28A45796807C8CDD28355B5F /* FUStruct.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUStruct.h; path = FURenderKit.framework/Headers/FUStruct.h; sourceTree = "<group>"; };
 		8262CD64CCACA4640663FD7B14ECB80F /* SDWebImageDefine.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageDefine.h; path = SDWebImage/Core/SDWebImageDefine.h; sourceTree = "<group>"; };
 		82924F021C192963F393529970D2A461 /* MASConstraint+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "MASConstraint+Private.h"; path = "Masonry/MASConstraint+Private.h"; sourceTree = "<group>"; };
+		82E0A6CC7879A50F8829F4DC4C228368 /* FUBodyBeauty.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUBodyBeauty.h; path = FURenderKit.framework/Headers/FUBodyBeauty.h; sourceTree = "<group>"; };
 		83C5FC5B3668D2F72495FA72AF22E38B /* UIRefreshControl+AFNetworking.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIRefreshControl+AFNetworking.h"; path = "UIKit+AFNetworking/UIRefreshControl+AFNetworking.h"; sourceTree = "<group>"; };
 		83EE1A032CC8E490151DD332ED06FF26 /* MASConstraintMaker.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MASConstraintMaker.h; path = Masonry/MASConstraintMaker.h; sourceTree = "<group>"; };
 		849F5F661723041E08E9BCB6732FF797 /* mz_strm_buf.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = mz_strm_buf.h; path = SSZipArchive/minizip/mz_strm_buf.h; sourceTree = "<group>"; };
+		8527AEB22A1078B8A8C50CDFD221604A /* ai_hand_processor.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = ai_hand_processor.bundle; sourceTree = "<group>"; };
 		85385E4FB0E04DCA6F4A629F3FEB6221 /* NSObject+YYModel.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSObject+YYModel.m"; path = "YYModel/NSObject+YYModel.m"; sourceTree = "<group>"; };
-		87EE8F2367F2D6C139F806A973369402 /* FUDeformationKeys.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUDeformationKeys.h; path = FURenderKit.framework/Headers/FUDeformationKeys.h; sourceTree = "<group>"; };
 		883331586727CF1C4FC7033B8C984453 /* Pods-FUBeautyComponent-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-FUBeautyComponent-resources.sh"; sourceTree = "<group>"; };
 		887DFA3F987E14743C962984721D3392 /* YYModel.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YYModel.h; path = YYModel/YYModel.h; sourceTree = "<group>"; };
 		88997276778694FEB2BE1D0DFC0FB6AD /* SSZipArchive.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SSZipArchive.release.xcconfig; sourceTree = "<group>"; };
@@ -589,12 +589,14 @@
 		89E59E9FC7EB4D02DAD6B9C1F5B4AB9F /* SDGraphicsImageRenderer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDGraphicsImageRenderer.h; path = SDWebImage/Core/SDGraphicsImageRenderer.h; sourceTree = "<group>"; };
 		8AA84E0D14FC733E6125B4FF0EACA03C /* mz_os_posix.c */ = {isa = PBXFileReference; includeInIndex = 1; name = mz_os_posix.c; path = SSZipArchive/minizip/mz_os_posix.c; sourceTree = "<group>"; };
 		8B84668FF831B66B4C2549BEA2A9F0FE /* View+MASAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "View+MASAdditions.h"; path = "Masonry/View+MASAdditions.h"; sourceTree = "<group>"; };
-		8C6C566ADC1D0E30A83D1E2FF246110D /* FUParam.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUParam.h; path = FURenderKit.framework/Headers/FUParam.h; sourceTree = "<group>"; };
+		8BAD8FBC7304B7502053D8D389511773 /* FUHairBeauty.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUHairBeauty.h; path = FURenderKit.framework/Headers/FUHairBeauty.h; sourceTree = "<group>"; };
 		8D11141BBC417DD7C920E649D05E6AB9 /* SDWebImageDownloaderRequestModifier.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImageDownloaderRequestModifier.m; path = SDWebImage/Core/SDWebImageDownloaderRequestModifier.m; sourceTree = "<group>"; };
 		8D288F76127887D270BC69B3BFCA298C /* SDMemoryCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDMemoryCache.h; path = SDWebImage/Core/SDMemoryCache.h; sourceTree = "<group>"; };
 		8D3100869109170AA634043EB56E3CC8 /* SDImageIOAnimatedCoderInternal.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageIOAnimatedCoderInternal.h; path = SDWebImage/Private/SDImageIOAnimatedCoderInternal.h; sourceTree = "<group>"; };
 		8DF1904D6DB380EF4FEEC1BF678D32A7 /* SDWebImage.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImage.h; path = WebImage/SDWebImage.h; sourceTree = "<group>"; };
+		8E0622E730E1DE63A1BC4FCD9DFBBB91 /* face_makeup.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = face_makeup.bundle; sourceTree = "<group>"; };
 		8F401439E09A9850DE7624D95B63764D /* NSLayoutConstraint+MASDebugAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSLayoutConstraint+MASDebugAdditions.h"; path = "Masonry/NSLayoutConstraint+MASDebugAdditions.h"; sourceTree = "<group>"; };
+		90CA03D49F4A40A6EB918560D8D328C1 /* FUCaptureCamera.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUCaptureCamera.h; path = FURenderKit.framework/Headers/FUCaptureCamera.h; sourceTree = "<group>"; };
 		90FF48A12637613B36B7DC007B680F23 /* mz_strm_buf.c */ = {isa = PBXFileReference; includeInIndex = 1; name = mz_strm_buf.c; path = SSZipArchive/minizip/mz_strm_buf.c; sourceTree = "<group>"; };
 		91491FBF0CAB6C72B0886631A755B072 /* mz_strm_zlib.c */ = {isa = PBXFileReference; includeInIndex = 1; name = mz_strm_zlib.c; path = SSZipArchive/minizip/mz_strm_zlib.c; sourceTree = "<group>"; };
 		91B23470DEB9A986332BEB5034234BC7 /* SSZipArchive */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SSZipArchive; path = SSZipArchive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -607,48 +609,40 @@
 		948BEBBE9A5E14ED4311574C3088C4E4 /* UIButton+WebCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIButton+WebCache.h"; path = "SDWebImage/Core/UIButton+WebCache.h"; sourceTree = "<group>"; };
 		950426C463FEAAACBB7F42BA62C71FAF /* ViewController+MASAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "ViewController+MASAdditions.h"; path = "Masonry/ViewController+MASAdditions.h"; sourceTree = "<group>"; };
 		95966B13B8AE6369841843A9107AF579 /* Pods-FUBeautyComponent-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-FUBeautyComponent-acknowledgements.plist"; sourceTree = "<group>"; };
+		959EE2A0B3CFA4FB0571DBAD59E11944 /* FUAISegment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUAISegment.h; path = FURenderKit.framework/Headers/FUAISegment.h; sourceTree = "<group>"; };
 		95B3A5080C2BE22BABF45F9B2AB4C0FA /* mz_crypt.c */ = {isa = PBXFileReference; includeInIndex = 1; name = mz_crypt.c; path = SSZipArchive/minizip/mz_crypt.c; sourceTree = "<group>"; };
-		95D5BB8FB778147DF7244E01E7EE71A3 /* FUOvonicMap.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUOvonicMap.h; path = FURenderKit.framework/Headers/FUOvonicMap.h; sourceTree = "<group>"; };
 		95E11A8D8C202F6CE91E62D144307577 /* MASLayoutConstraint.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MASLayoutConstraint.m; path = Masonry/MASLayoutConstraint.m; sourceTree = "<group>"; };
 		96A2FCF824E628EC1284A67979E8BAED /* UIImage+Metadata.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImage+Metadata.h"; path = "SDWebImage/Core/UIImage+Metadata.h"; sourceTree = "<group>"; };
-		96F6B1CB20743C5EB5CAFF1E7DA1F166 /* FUAvatarMakeup.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUAvatarMakeup.h; path = FURenderKit.framework/Headers/FUAvatarMakeup.h; sourceTree = "<group>"; };
 		97259570AE3DB2A87EA6E25A62B21FC0 /* SDAnimatedImageView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDAnimatedImageView.h; path = SDWebImage/Core/SDAnimatedImageView.h; sourceTree = "<group>"; };
 		974B94662A294B0347BC721E1CAF2952 /* SDImageLoadersManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageLoadersManager.m; path = SDWebImage/Core/SDImageLoadersManager.m; sourceTree = "<group>"; };
 		982B37607C3E70569D6386DA17FF6238 /* UIImage+Transform.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImage+Transform.h"; path = "SDWebImage/Core/UIImage+Transform.h"; sourceTree = "<group>"; };
 		985965CAAB3324BA0B1CDE4E1B851712 /* AFImageDownloader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AFImageDownloader.h; path = "UIKit+AFNetworking/AFImageDownloader.h"; sourceTree = "<group>"; };
-		9B1E8CBB53DDEA446A879C0D71D1862C /* ai_hand_processor.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = ai_hand_processor.bundle; sourceTree = "<group>"; };
 		9B8A2F018412EE34F8EAA19645B16B57 /* SSZipArchive.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SSZipArchive.m; path = SSZipArchive/SSZipArchive.m; sourceTree = "<group>"; };
-		9D3BF75B22F23BD1F1C472C908DF6E07 /* controller_cpp.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = controller_cpp.bundle; sourceTree = "<group>"; };
-		9D8C4AA56EE115AA68A6B17BAA8BBD72 /* FUConfig.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUConfig.h; path = FURenderKit.framework/Headers/FUConfig.h; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9DBCBA8139030B1549F649599F5E8EB3 /* YYModel-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "YYModel-dummy.m"; sourceTree = "<group>"; };
 		9E238AC77A3BADF28F0A844D8AB2F316 /* SDWeakProxy.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWeakProxy.h; path = SDWebImage/Private/SDWeakProxy.h; sourceTree = "<group>"; };
 		9ECDED79060B56FA4FBFACC2D4A86FCF /* SDmetamacros.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDmetamacros.h; path = SDWebImage/Private/SDmetamacros.h; sourceTree = "<group>"; };
 		9EE1A214D78C2365D1AB88B6B0E382A4 /* SDWebImageOptionsProcessor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageOptionsProcessor.h; path = SDWebImage/Core/SDWebImageOptionsProcessor.h; sourceTree = "<group>"; };
 		9F2A3757910A157A70C2C035B6AB26A0 /* mz_strm_split.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = mz_strm_split.h; path = SSZipArchive/minizip/mz_strm_split.h; sourceTree = "<group>"; };
+		9F47D6BBE5779C0CC588045EE7A0B2F1 /* FUMakeup.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUMakeup.h; path = FURenderKit.framework/Headers/FUMakeup.h; sourceTree = "<group>"; };
 		9FB7C103839719B0A7C0AA139AF8902A /* SSZipArchive.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SSZipArchive.modulemap; sourceTree = "<group>"; };
 		A02E00CA8250AA52A70035839A2E7DAE /* SDDeviceHelper.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDDeviceHelper.h; path = SDWebImage/Private/SDDeviceHelper.h; sourceTree = "<group>"; };
-		A1C8783786849BAD629AAA8F1B0CA1E6 /* FUAIKit.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUAIKit.h; path = FURenderKit.framework/Headers/FUAIKit.h; sourceTree = "<group>"; };
-		A1F15BC63097F84A3C0ACFD13F224587 /* FUQualitySticker.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUQualitySticker.h; path = FURenderKit.framework/Headers/FUQualitySticker.h; sourceTree = "<group>"; };
+		A054C94FA2CAD68072F8E9A08759EF3F /* FUItem+createTexture.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "FUItem+createTexture.h"; path = "FURenderKit.framework/Headers/FUItem+createTexture.h"; sourceTree = "<group>"; };
 		A1F43DCD378FF6B68038FD2B850C2123 /* SDAsyncBlockOperation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDAsyncBlockOperation.h; path = SDWebImage/Private/SDAsyncBlockOperation.h; sourceTree = "<group>"; };
-		A22359282F5F38D45550BD8AD522ED07 /* FUFacepupKeys.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUFacepupKeys.h; path = FURenderKit.framework/Headers/FUFacepupKeys.h; sourceTree = "<group>"; };
 		A352DCECFF2CD6B57ED466BD7BE65531 /* SDWebImageCompat.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImageCompat.m; path = SDWebImage/Core/SDWebImageCompat.m; sourceTree = "<group>"; };
 		A35F8D1543C3DC2A18EB616F2630D8CD /* NSArray+MASAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSArray+MASAdditions.h"; path = "Masonry/NSArray+MASAdditions.h"; sourceTree = "<group>"; };
 		A4691256F21DB10E622B69E3C4405279 /* Pods-FULiveDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-FULiveDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		A4FA15D44DF6BAC7550EDEED10862AA3 /* AFNetworking */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = AFNetworking; path = AFNetworking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A5054D07E21A319AD205D3D2F94F0BD2 /* FUAvatar.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUAvatar.h; path = FURenderKit.framework/Headers/FUAvatar.h; sourceTree = "<group>"; };
 		A51FEB08B33F23B46967D654B1BF1EC3 /* mz_crypt_apple.c */ = {isa = PBXFileReference; includeInIndex = 1; name = mz_crypt_apple.c; path = SSZipArchive/minizip/mz_crypt_apple.c; sourceTree = "<group>"; };
-		A5B7D7F3D91462863D530DA1D40DF7EE /* FUItem.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUItem.h; path = FURenderKit.framework/Headers/FUItem.h; sourceTree = "<group>"; };
 		A5C69AAB5CF4B06B68F6138D46BCB887 /* SDAssociatedObject.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDAssociatedObject.m; path = SDWebImage/Private/SDAssociatedObject.m; sourceTree = "<group>"; };
-		A80EA738B7E9A3AE91F95FC14F9AAD55 /* FUFilterDefineKey.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUFilterDefineKey.h; path = FURenderKit.framework/Headers/FUFilterDefineKey.h; sourceTree = "<group>"; };
+		A830BB2B11C1AB763877BE120C20F8FE /* FUVideoComponentDefines.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUVideoComponentDefines.h; path = FURenderKit.framework/Headers/FUVideoComponentDefines.h; sourceTree = "<group>"; };
 		A8370863A6935BA834A7B8FADEC8E2FD /* UIRefreshControl+AFNetworking.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIRefreshControl+AFNetworking.m"; path = "UIKit+AFNetworking/UIRefreshControl+AFNetworking.m"; sourceTree = "<group>"; };
+		A83B2DE5E328D99B558095B7ED498CC6 /* metamacros.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = metamacros.h; path = FURenderKit.framework/Headers/metamacros.h; sourceTree = "<group>"; };
 		A9A7AE152081E23494952A8189CC781D /* Pods-FUGreenScreenComponent-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-FUGreenScreenComponent-Info.plist"; sourceTree = "<group>"; };
-		A9E2276C473E4DE9CA6D39A8847EDC6E /* FURenderKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = FURenderKit.debug.xcconfig; sourceTree = "<group>"; };
 		AA0015FA0F0A143D3F3536F91FC11476 /* AFNetworking.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AFNetworking.h; path = AFNetworking/AFNetworking.h; sourceTree = "<group>"; };
 		AA214235E61F81E1F99289B30A8702A4 /* UIProgressView+AFNetworking.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIProgressView+AFNetworking.h"; path = "UIKit+AFNetworking/UIProgressView+AFNetworking.h"; sourceTree = "<group>"; };
 		AA8D8E21574F1D4851BDE3BA38D4569D /* AFAutoPurgingImageCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AFAutoPurgingImageCache.m; path = "UIKit+AFNetworking/AFAutoPurgingImageCache.m"; sourceTree = "<group>"; };
 		AAEC1479464050462B631A89FD6AB104 /* SDImageCachesManagerOperation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageCachesManagerOperation.m; path = SDWebImage/Private/SDImageCachesManagerOperation.m; sourceTree = "<group>"; };
-		ABDD0CBA06176311916B9BFA9A9DD75C /* FURenderKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FURenderKit.framework; sourceTree = "<group>"; };
 		AC11EB8AB13C42054B803B3686F2A313 /* UIImageView+AFNetworking.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImageView+AFNetworking.h"; path = "UIKit+AFNetworking/UIImageView+AFNetworking.h"; sourceTree = "<group>"; };
 		AD584241A02BF68B3C1141CDCF7A9AC9 /* UIColor+SDHexString.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIColor+SDHexString.h"; path = "SDWebImage/Private/UIColor+SDHexString.h"; sourceTree = "<group>"; };
 		AEC7C6277BF0DD665146260D96E8605F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
@@ -662,42 +656,45 @@
 		B098616567469AC06B4681F4168A64AC /* SSZipArchive.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SSZipArchive.h; path = SSZipArchive/SSZipArchive.h; sourceTree = "<group>"; };
 		B0B214D775196BA7CA8E17E53048A493 /* SDWebImage */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SDWebImage; path = SDWebImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0C4F4BA337F35A9A38438A3ED9C40BC /* UIImageView+WebCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImageView+WebCache.h"; path = "SDWebImage/Core/UIImageView+WebCache.h"; sourceTree = "<group>"; };
-		B210EEB78E2DBC8AACB3C07A607EE717 /* FUAvatarColorKeys.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUAvatarColorKeys.h; path = FURenderKit.framework/Headers/FUAvatarColorKeys.h; sourceTree = "<group>"; };
-		B2B20802A5388A850E3EF92F8DCF957C /* FUScene.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUScene.h; path = FURenderKit.framework/Headers/FUScene.h; sourceTree = "<group>"; };
-		B3A7484E5E724480D2DA8565A5764EBB /* FURenderKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = FURenderKit.release.xcconfig; sourceTree = "<group>"; };
+		B12400D99538403BF922EFC224F62944 /* FUAnimation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUAnimation.h; path = FURenderKit.framework/Headers/FUAnimation.h; sourceTree = "<group>"; };
 		B3C01B0A01D3214D2C2AF3958B89CBB6 /* UIImage+MemoryCacheCost.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImage+MemoryCacheCost.h"; path = "SDWebImage/Core/UIImage+MemoryCacheCost.h"; sourceTree = "<group>"; };
 		B4158E728CDDFB542BD8FDABAD46AAA4 /* Pods-FUBeautyComponent-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-FUBeautyComponent-dummy.m"; sourceTree = "<group>"; };
 		B46C443CD8C38D51F76C827F6C9DB593 /* SDWebImageDownloaderConfig.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageDownloaderConfig.h; path = SDWebImage/Core/SDWebImageDownloaderConfig.h; sourceTree = "<group>"; };
 		B48B3E4808484EACB322849CCFAF0C7E /* SDImageCoder.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageCoder.h; path = SDWebImage/Core/SDImageCoder.h; sourceTree = "<group>"; };
-		B548531785A1689F231B5B7498CCAFB0 /* FULightMakeup.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FULightMakeup.h; path = FURenderKit.framework/Headers/FULightMakeup.h; sourceTree = "<group>"; };
+		B4C3247FC483038794B46E1B3F05CC26 /* ai_face_processor.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = ai_face_processor.bundle; sourceTree = "<group>"; };
 		B65FD92B93BECF45383152C6BC8246D2 /* mz_strm_pkcrypt.c */ = {isa = PBXFileReference; includeInIndex = 1; name = mz_strm_pkcrypt.c; path = SSZipArchive/minizip/mz_strm_pkcrypt.c; sourceTree = "<group>"; };
-		B6873FED8D962D34F19E86C0B0582612 /* FUBeauty.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUBeauty.h; path = FURenderKit.framework/Headers/FUBeauty.h; sourceTree = "<group>"; };
+		B76190CA191401A014784F09CAAD8DF6 /* FUStickerContainer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUStickerContainer.h; path = FURenderKit.framework/Headers/FUStickerContainer.h; sourceTree = "<group>"; };
 		B7829E9969E73E6316B834ABB910A6A3 /* Masonry.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Masonry.release.xcconfig; sourceTree = "<group>"; };
 		B90DF95FBA0FB25E4245B0FF4B83D8DD /* UIButton+AFNetworking.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIButton+AFNetworking.m"; path = "UIKit+AFNetworking/UIButton+AFNetworking.m"; sourceTree = "<group>"; };
+		BA287D68C6902CAAB38AB67ACD30B45C /* FUAIKit.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUAIKit.h; path = FURenderKit.framework/Headers/FUAIKit.h; sourceTree = "<group>"; };
 		BAC400AC0C293C4EA47E53891791AB79 /* SDImageCacheDefine.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageCacheDefine.m; path = SDWebImage/Core/SDImageCacheDefine.m; sourceTree = "<group>"; };
 		BB01B8B1413FF48BED1652054B87A2CE /* mz_strm_split.c */ = {isa = PBXFileReference; includeInIndex = 1; name = mz_strm_split.c; path = SSZipArchive/minizip/mz_strm_split.c; sourceTree = "<group>"; };
 		BB681C655C6821BEDBDD1168322E92E3 /* SDWebImageCacheSerializer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImageCacheSerializer.m; path = SDWebImage/Core/SDWebImageCacheSerializer.m; sourceTree = "<group>"; };
-		BB957FADF5A5EF15D2E5D2394275E8EF /* FURenderKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "FURenderKit-umbrella.h"; path = "FURenderKit.framework/Headers/FURenderKit-umbrella.h"; sourceTree = "<group>"; };
 		BC18714E8CF90662E5C15D54930FA557 /* UIImage+GIF.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIImage+GIF.m"; path = "SDWebImage/Core/UIImage+GIF.m"; sourceTree = "<group>"; };
-		BC531FAD4EBE9090D89D74D29D5B442C /* face_beautification.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = face_beautification.bundle; sourceTree = "<group>"; };
-		BC740F797B1FACACFCC3D9C7BF9CCF81 /* FURenderKit.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = FURenderKit.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		BCACA65D3AF010EFE107436D3E3C8793 /* UIImage+FURenderKit.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImage+FURenderKit.h"; path = "FURenderKit.framework/Headers/UIImage+FURenderKit.h"; sourceTree = "<group>"; };
 		BD6B1206C8AAEBE07A9C0BD5517EE99B /* SDImageCoder.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageCoder.m; path = SDWebImage/Core/SDImageCoder.m; sourceTree = "<group>"; };
+		C0D239336D2497870C0D11511404707A /* FUSetupConfig.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUSetupConfig.h; path = FURenderKit.framework/Headers/FUSetupConfig.h; sourceTree = "<group>"; };
 		C14D1808BCD8A1FFD4EB6F722A56C76C /* MASConstraint.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MASConstraint.h; path = Masonry/MASConstraint.h; sourceTree = "<group>"; };
+		C19BEC06E25DC1D9A445B75AC1E6F4D4 /* controller_cpp.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = controller_cpp.bundle; sourceTree = "<group>"; };
 		C1D75A41268C45E4B1529B2BF1619D43 /* SDAnimatedImage.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDAnimatedImage.m; path = SDWebImage/Core/SDAnimatedImage.m; sourceTree = "<group>"; };
 		C50C1DBB80A4C236D71770B9FE304076 /* UIImage+GIF.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImage+GIF.h"; path = "SDWebImage/Core/UIImage+GIF.h"; sourceTree = "<group>"; };
 		C52C710C750DD1A3041754B3E9921CF6 /* UIImageView+HighlightedWebCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImageView+HighlightedWebCache.h"; path = "SDWebImage/Core/UIImageView+HighlightedWebCache.h"; sourceTree = "<group>"; };
 		C56977761AE59F624C97EEA6EA73B558 /* mz_strm.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = mz_strm.h; path = SSZipArchive/minizip/mz_strm.h; sourceTree = "<group>"; };
+		C6AB0ABB8380EDFF5677AB54C69E2F65 /* FUMakeUpColorsKey.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUMakeUpColorsKey.h; path = FURenderKit.framework/Headers/FUMakeUpColorsKey.h; sourceTree = "<group>"; };
 		C6E4B67B89562B6484662F9B79F91630 /* SDImageCoderHelper.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageCoderHelper.m; path = SDWebImage/Core/SDImageCoderHelper.m; sourceTree = "<group>"; };
 		C6F436F5C44415C383CADFF7C952D2E4 /* SSZipArchive.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SSZipArchive.debug.xcconfig; sourceTree = "<group>"; };
+		C893156C0FF4251969D622E547A38A63 /* FUAnimoji.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUAnimoji.h; path = FURenderKit.framework/Headers/FUAnimoji.h; sourceTree = "<group>"; };
 		C96BF05C05C9852426E09C75D3170AAF /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIView+WebCacheOperation.m"; path = "SDWebImage/Core/UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
+		C99B90CCF0462D6BD0E0EB34096F6919 /* FUImageHelper.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUImageHelper.h; path = FURenderKit.framework/Headers/FUImageHelper.h; sourceTree = "<group>"; };
 		CA367E8B5AC35F74B37546FCD6CFEB33 /* UIActivityIndicatorView+AFNetworking.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIActivityIndicatorView+AFNetworking.h"; path = "UIKit+AFNetworking/UIActivityIndicatorView+AFNetworking.h"; sourceTree = "<group>"; };
 		CA6A8AB8BAD50EEA61395B2776A79DA2 /* Pods-FULiveDemo-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-FULiveDemo-umbrella.h"; sourceTree = "<group>"; };
 		CA755DCEF55B91F8C19B223F2DC223F0 /* UIImage+MultiFormat.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImage+MultiFormat.h"; path = "SDWebImage/Core/UIImage+MultiFormat.h"; sourceTree = "<group>"; };
+		CAF1CF610E331436B63B5EEA7ABC9AFD /* FUBackground.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUBackground.h; path = FURenderKit.framework/Headers/FUBackground.h; sourceTree = "<group>"; };
+		CC28758F1A9920C43573360A7FF12369 /* FULightMakeUpTextureKeyDefineKey.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FULightMakeUpTextureKeyDefineKey.h; path = FURenderKit.framework/Headers/FULightMakeUpTextureKeyDefineKey.h; sourceTree = "<group>"; };
 		CDB368C6D120E8E14421A7FC6B2DF298 /* Pods-FULiveDemo-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-FULiveDemo-acknowledgements.plist"; sourceTree = "<group>"; };
 		CDB5CE8E78E4FDD4D226B213A4EBA7D4 /* mz_os.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = mz_os.h; path = SSZipArchive/minizip/mz_os.h; sourceTree = "<group>"; };
 		CE3D3C98F3F472260E36E235E1C8827C /* NSObject+YYModel.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSObject+YYModel.h"; path = "YYModel/NSObject+YYModel.h"; sourceTree = "<group>"; };
 		CE49B3A9AB69983376A03881B20A8815 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/CoreFoundation.framework; sourceTree = DEVELOPER_DIR; };
+		CE82DFE5DC35F2E15BFD8986B28A77F6 /* FUVideoProcessor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUVideoProcessor.h; path = FURenderKit.framework/Headers/FUVideoProcessor.h; sourceTree = "<group>"; };
 		CEA0AD9966EFCCD95A640F9BFE7ADD40 /* AFURLResponseSerialization.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AFURLResponseSerialization.h; path = AFNetworking/AFURLResponseSerialization.h; sourceTree = "<group>"; };
 		CFFF0AE065EF99A4D7611425596E432D /* NSButton+WebCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSButton+WebCache.m"; path = "SDWebImage/Core/NSButton+WebCache.m"; sourceTree = "<group>"; };
 		D00DB36D3E25C990F3F056782AD50887 /* SSZipArchive-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SSZipArchive-umbrella.h"; sourceTree = "<group>"; };
@@ -705,71 +702,76 @@
 		D18090A68CDC4D375D2DC089B938B64B /* AFNetworkActivityIndicatorManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AFNetworkActivityIndicatorManager.h; path = "UIKit+AFNetworking/AFNetworkActivityIndicatorManager.h"; sourceTree = "<group>"; };
 		D19827898BBA46A17C612735EC288609 /* MASLayoutConstraint.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MASLayoutConstraint.h; path = Masonry/MASLayoutConstraint.h; sourceTree = "<group>"; };
 		D19BFC236DBDFB5AEC2182FE25C46C85 /* SDWebImageManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImageManager.m; path = SDWebImage/Core/SDWebImageManager.m; sourceTree = "<group>"; };
+		D20CA3A72128553FB03F91EEBF0AB138 /* FUAvatarMakeup.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUAvatarMakeup.h; path = FURenderKit.framework/Headers/FUAvatarMakeup.h; sourceTree = "<group>"; };
 		D21CB8A8F355AC1CC9C92DA2BF8778EA /* SDWebImageCacheKeyFilter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImageCacheKeyFilter.m; path = SDWebImage/Core/SDWebImageCacheKeyFilter.m; sourceTree = "<group>"; };
 		D288ED718889E3C0F2E1B5A9DC0A5194 /* NSButton+WebCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSButton+WebCache.h"; path = "SDWebImage/Core/NSButton+WebCache.h"; sourceTree = "<group>"; };
-		D3C62936BBE1DE1184261F9CFA3A0B71 /* FUItem+createTexture.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "FUItem+createTexture.h"; path = "FURenderKit.framework/Headers/FUItem+createTexture.h"; sourceTree = "<group>"; };
 		D4DE249EDD8C42D4FA4FBB91BC6EE437 /* AFNetworkReachabilityManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AFNetworkReachabilityManager.h; path = AFNetworking/AFNetworkReachabilityManager.h; sourceTree = "<group>"; };
-		D55BB0759187AFCDC6FED21652953B34 /* FUInternalCameraSetting.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUInternalCameraSetting.h; path = FURenderKit.framework/Headers/FUInternalCameraSetting.h; sourceTree = "<group>"; };
 		D689817F99A3F62CFCE7AFABF00FCB77 /* NSBezierPath+SDRoundedCorners.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSBezierPath+SDRoundedCorners.m"; path = "SDWebImage/Private/NSBezierPath+SDRoundedCorners.m"; sourceTree = "<group>"; };
 		D78E7CFD0219E871104A41E4886F9AC1 /* mz_strm_zlib.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = mz_strm_zlib.h; path = SSZipArchive/minizip/mz_strm_zlib.h; sourceTree = "<group>"; };
+		D8053FECCE8DFDC33F0F9D6C57D4C78B /* FUMusicFilter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUMusicFilter.h; path = FURenderKit.framework/Headers/FUMusicFilter.h; sourceTree = "<group>"; };
+		D97CD6E6E382AC7BA5D917F0B6C005DF /* FUMakeUpTextureKey.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUMakeUpTextureKey.h; path = FURenderKit.framework/Headers/FUMakeUpTextureKey.h; sourceTree = "<group>"; };
 		D99F1BE4EF53C1300D00CCDC934CCCE2 /* UIView+WebCacheOperation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIView+WebCacheOperation.h"; path = "SDWebImage/Core/UIView+WebCacheOperation.h"; sourceTree = "<group>"; };
-		D9D3ABDE77B355F86BD677ADCD70027D /* FUBeauty-Deprecated.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "FUBeauty-Deprecated.h"; path = "FURenderKit.framework/Headers/FUBeauty-Deprecated.h"; sourceTree = "<group>"; };
 		DAABCE818062556F92DB9C564915FA2A /* SDImageCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageCache.m; path = SDWebImage/Core/SDImageCache.m; sourceTree = "<group>"; };
 		DACA6A058CE056FCD977C4DC483815FC /* mz_compat.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = mz_compat.h; path = SSZipArchive/minizip/mz_compat.h; sourceTree = "<group>"; };
 		DB8981A9E8B7FECDA8877875AE41CCCD /* SDWebImage.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SDWebImage.modulemap; sourceTree = "<group>"; };
 		DBB156EF9FA1BEA6C3B5017BEA077F50 /* AFHTTPSessionManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AFHTTPSessionManager.m; path = AFNetworking/AFHTTPSessionManager.m; sourceTree = "<group>"; };
 		DBF53C0AC4B58C99B7AF54D221F4A283 /* mz_strm_mem.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = mz_strm_mem.h; path = SSZipArchive/minizip/mz_strm_mem.h; sourceTree = "<group>"; };
 		DC2818CDE01B12A11EA9B8B0DBF84B8F /* SDImageAssetManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageAssetManager.h; path = SDWebImage/Private/SDImageAssetManager.h; sourceTree = "<group>"; };
-		DCD115E0FE48CE492D8EEAFD9E4E811B /* FUComicFilter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUComicFilter.h; path = FURenderKit.framework/Headers/FUComicFilter.h; sourceTree = "<group>"; };
+		DD4355E8FB9D85F2AC08708B8F1EC783 /* FUAvatarCheck.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUAvatarCheck.h; path = FURenderKit.framework/Headers/FUAvatarCheck.h; sourceTree = "<group>"; };
 		DE49CF33B3D78B6E35A0808D5092612A /* SDImageTransformer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageTransformer.m; path = SDWebImage/Core/SDImageTransformer.m; sourceTree = "<group>"; };
 		DF4D58794102EDE31B292C15F780FC68 /* MASViewConstraint.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MASViewConstraint.h; path = Masonry/MASViewConstraint.h; sourceTree = "<group>"; };
 		DFCA146CDBB0FEB196C0151FDBA11708 /* mz_strm.c */ = {isa = PBXFileReference; includeInIndex = 1; name = mz_strm.c; path = SSZipArchive/minizip/mz_strm.c; sourceTree = "<group>"; };
 		E01DE5DAB3B24E0CC7034BBF5E003F2D /* MASUtilities.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MASUtilities.h; path = Masonry/MASUtilities.h; sourceTree = "<group>"; };
 		E02935679B1D1AFAC0F70D117E3BA208 /* SDFileAttributeHelper.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDFileAttributeHelper.h; path = SDWebImage/Private/SDFileAttributeHelper.h; sourceTree = "<group>"; };
-		E0A1A3A47EC5A6D41A1E51520DEA3585 /* FUGreenScreen.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUGreenScreen.h; path = FURenderKit.framework/Headers/FUGreenScreen.h; sourceTree = "<group>"; };
 		E0F11948A7431711C45A883D950B2B29 /* WKWebView+AFNetworking.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "WKWebView+AFNetworking.m"; path = "UIKit+AFNetworking/WKWebView+AFNetworking.m"; sourceTree = "<group>"; };
 		E2D6696DCBD10F66C9BF486462E7D90C /* SDWebImage-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SDWebImage-umbrella.h"; sourceTree = "<group>"; };
+		E340F8AEED0EC9755F46F30B87319D05 /* UIImage+FURenderKit.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImage+FURenderKit.h"; path = "FURenderKit.framework/Headers/UIImage+FURenderKit.h"; sourceTree = "<group>"; };
+		E342C4B67DCB6270217040848A7CF40F /* FUScene.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUScene.h; path = FURenderKit.framework/Headers/FUScene.h; sourceTree = "<group>"; };
 		E34602CBA9184A7217D9D26D337F4B3A /* Pods-FUGreenScreenComponent-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-FUGreenScreenComponent-dummy.m"; sourceTree = "<group>"; };
+		E387A1EA78F163ACA5E2967BCB18A188 /* FUFacepupKeys.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUFacepupKeys.h; path = FURenderKit.framework/Headers/FUFacepupKeys.h; sourceTree = "<group>"; };
 		E41BE44611EF77F48CF710FC5A897695 /* Masonry-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Masonry-umbrella.h"; sourceTree = "<group>"; };
 		E460D5B0416D36F66EE8EC89E5D2FA0A /* YYModel */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = YYModel; path = YYModel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E58ED2F2F3772837F9305A779C017559 /* body_slim.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = body_slim.bundle; sourceTree = "<group>"; };
 		E65525D75394F320370E807EF12F2A5D /* NSLayoutConstraint+MASDebugAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSLayoutConstraint+MASDebugAdditions.m"; path = "Masonry/NSLayoutConstraint+MASDebugAdditions.m"; sourceTree = "<group>"; };
 		E694AD8AC538C2A357AD2C3A8A0F4F45 /* SDWebImageCacheKeyFilter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageCacheKeyFilter.h; path = SDWebImage/Core/SDWebImageCacheKeyFilter.h; sourceTree = "<group>"; };
 		E6C339B36F4C61E88DDD6E1FED16F737 /* Pods-FULiveDemo-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-FULiveDemo-acknowledgements.markdown"; sourceTree = "<group>"; };
 		EA8ECFD64FCA2A4668B6B17D03885684 /* SDWebImageDownloaderResponseModifier.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageDownloaderResponseModifier.h; path = SDWebImage/Core/SDWebImageDownloaderResponseModifier.h; sourceTree = "<group>"; };
-		EAA8EC23633F7521D03DE9093AC7ABE2 /* FUStruct.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUStruct.h; path = FURenderKit.framework/Headers/FUStruct.h; sourceTree = "<group>"; };
+		EB27D2D65408A4FBB011A23466D6E6C6 /* FURenderIO.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FURenderIO.h; path = FURenderKit.framework/Headers/FURenderIO.h; sourceTree = "<group>"; };
 		EB387706868018126877BE72AEB51541 /* SDAsyncBlockOperation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDAsyncBlockOperation.m; path = SDWebImage/Private/SDAsyncBlockOperation.m; sourceTree = "<group>"; };
 		EB5F2D52F2211470230719C6C6FA14C7 /* SDImageCachesManagerOperation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageCachesManagerOperation.h; path = SDWebImage/Private/SDImageCachesManagerOperation.h; sourceTree = "<group>"; };
 		EC5BB657D4D388065DDDB0ECB9F53D3D /* mz_zip.c */ = {isa = PBXFileReference; includeInIndex = 1; name = mz_zip.c; path = SSZipArchive/minizip/mz_zip.c; sourceTree = "<group>"; };
-		ECDF841D04DE0F3670E3C93EF9F11154 /* FUSetupConfig.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUSetupConfig.h; path = FURenderKit.framework/Headers/FUSetupConfig.h; sourceTree = "<group>"; };
+		ED593B1D135AC52E1DF0EDAE60C788AC /* FURenderKit.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = FURenderKit.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		ED74DF940785D9C35148407D3D7870DB /* Masonry.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Masonry.modulemap; sourceTree = "<group>"; };
-		EDA62D7C2849C2ECE11B4EE801659E66 /* FUVideoWriter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUVideoWriter.h; path = FURenderKit.framework/Headers/FUVideoWriter.h; sourceTree = "<group>"; };
 		EDF2155D537DED2FAB33BED95F3D8EFD /* mz_zip_rw.c */ = {isa = PBXFileReference; includeInIndex = 1; name = mz_zip_rw.c; path = SSZipArchive/minizip/mz_zip_rw.c; sourceTree = "<group>"; };
 		EE2723AA77EB39A0FADC34A63F4D5F21 /* UIButton+WebCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIButton+WebCache.m"; path = "SDWebImage/Core/UIButton+WebCache.m"; sourceTree = "<group>"; };
 		EEA0AEA2A5D8F5626A741BE78D853EE8 /* Pods-FUMakeupComponent.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-FUMakeupComponent.debug.xcconfig"; sourceTree = "<group>"; };
 		EED5DAD5104D3C3D5013859002280BF3 /* YYModel.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = YYModel.release.xcconfig; sourceTree = "<group>"; };
-		F0BF264741394C2D896556BD40A099BD /* FUCLIColor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUCLIColor.h; path = FURenderKit.framework/Headers/FUCLIColor.h; sourceTree = "<group>"; };
+		F1FFD78776BF469C9E7C3A0996665FFB /* FUGLDisplayView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUGLDisplayView.h; path = FURenderKit.framework/Headers/FUGLDisplayView.h; sourceTree = "<group>"; };
 		F246555FCF6D3AC4C18B9FD709FC3735 /* SDWebImageDownloaderOperation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageDownloaderOperation.h; path = SDWebImage/Core/SDWebImageDownloaderOperation.h; sourceTree = "<group>"; };
 		F262B0633E27265FBF4D502770D23136 /* Pods-FUGreenScreenComponent */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-FUGreenScreenComponent"; path = Pods_FUGreenScreenComponent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F323E0D5BFD4F72FFF755E1493970BF4 /* SSZipArchive-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SSZipArchive-prefix.pch"; sourceTree = "<group>"; };
 		F39F278186E8F58779E4191EB70ED79B /* SDWebImageCompat.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageCompat.h; path = SDWebImage/Core/SDWebImageCompat.h; sourceTree = "<group>"; };
 		F4089379176987A64343EAE15CB31A61 /* AFImageDownloader.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AFImageDownloader.m; path = "UIKit+AFNetworking/AFImageDownloader.m"; sourceTree = "<group>"; };
-		F40A38BD750016FCB0185F306E2CA771 /* UIDevice+FURenderKit.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIDevice+FURenderKit.h"; path = "FURenderKit.framework/Headers/UIDevice+FURenderKit.h"; sourceTree = "<group>"; };
 		F41B52424E241047309F9E76B5EE6F0F /* SDWebImageDownloaderRequestModifier.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageDownloaderRequestModifier.h; path = SDWebImage/Core/SDWebImageDownloaderRequestModifier.h; sourceTree = "<group>"; };
 		F485E4992D86E9B00A9D3464D61171DA /* SDAnimatedImageView+WebCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "SDAnimatedImageView+WebCache.h"; path = "SDWebImage/Core/SDAnimatedImageView+WebCache.h"; sourceTree = "<group>"; };
-		F503DFA58D96CD09A817C46AAC6D748E /* FUActionRecognition.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUActionRecognition.h; path = FURenderKit.framework/Headers/FUActionRecognition.h; sourceTree = "<group>"; };
+		F5EC1E4EEEFF3D2BA16EDDBA68D25EC1 /* FUSerialQueue.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUSerialQueue.h; path = FURenderKit.framework/Headers/FUSerialQueue.h; sourceTree = "<group>"; };
+		F647A517AF153C0949E04FEED94E5E91 /* FURenderKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "FURenderKit-umbrella.h"; path = "FURenderKit.framework/Headers/FURenderKit-umbrella.h"; sourceTree = "<group>"; };
+		F668405E255C80B185233F2A2F9EE3C8 /* FUEnum.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUEnum.h; path = FURenderKit.framework/Headers/FUEnum.h; sourceTree = "<group>"; };
+		F6790BBBBCE88AB38D2973FDEDA294F1 /* FURenderKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = FURenderKit.debug.xcconfig; sourceTree = "<group>"; };
 		F685116D2525AA076C2DD08C87772740 /* SDWebImagePrefetcher.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImagePrefetcher.h; path = SDWebImage/Core/SDWebImagePrefetcher.h; sourceTree = "<group>"; };
 		F68A12F43D5A246A962C97CEA01073F3 /* SDImageCodersManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageCodersManager.m; path = SDWebImage/Core/SDImageCodersManager.m; sourceTree = "<group>"; };
 		F6C5A87115D3F90FE62E56941653E8E2 /* UIProgressView+AFNetworking.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIProgressView+AFNetworking.m"; path = "UIKit+AFNetworking/UIProgressView+AFNetworking.m"; sourceTree = "<group>"; };
 		F7757B85A49E92674EF0ECE47104A61E /* mz_os.c */ = {isa = PBXFileReference; includeInIndex = 1; name = mz_os.c; path = SSZipArchive/minizip/mz_os.c; sourceTree = "<group>"; };
 		F7E0914EABC65794C6DA507576F0718E /* SDImageCachesManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageCachesManager.m; path = SDWebImage/Core/SDImageCachesManager.m; sourceTree = "<group>"; };
-		F8923C7D1261CDF7A8F70CC632E3616C /* fuzzytoonfilter.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = fuzzytoonfilter.bundle; sourceTree = "<group>"; };
+		F818CC2C506D34C70C3D30B149E9FFC2 /* FUParam.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUParam.h; path = FURenderKit.framework/Headers/FUParam.h; sourceTree = "<group>"; };
+		F882482094D41234E5F5A9FC4214BE1A /* FUCameraAnimation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUCameraAnimation.h; path = FURenderKit.framework/Headers/FUCameraAnimation.h; sourceTree = "<group>"; };
 		F9102326BFD75D743D42F28ABA214471 /* mz_strm_os.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = mz_strm_os.h; path = SSZipArchive/minizip/mz_strm_os.h; sourceTree = "<group>"; };
-		FC5B6EE55EF022B1C091F4FB8DA04ACD /* FURenderKit.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FURenderKit.h; path = FURenderKit.framework/Headers/FURenderKit.h; sourceTree = "<group>"; };
+		FAC590B7BD70E0975611F71F30425749 /* FUSceneCamera.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUSceneCamera.h; path = FURenderKit.framework/Headers/FUSceneCamera.h; sourceTree = "<group>"; };
+		FB0C4E4D497A1A4A0B3208A669426986 /* FURenderer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FURenderer.h; path = FURenderKit.framework/Headers/FURenderer.h; sourceTree = "<group>"; };
 		FC61D08E3F8AC67A9CC88F6E64AD597A /* Pods-FULiveDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-FULiveDemo.release.xcconfig"; sourceTree = "<group>"; };
-		FD79C93C28BBC8F89E4D61A7833F89E4 /* FUBodyBeautyDefineKeys.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUBodyBeautyDefineKeys.h; path = FURenderKit.framework/Headers/FUBodyBeautyDefineKeys.h; sourceTree = "<group>"; };
 		FE2619BF2158E3042105BFA8D74989CA /* SDAnimatedImage.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDAnimatedImage.h; path = SDWebImage/Core/SDAnimatedImage.h; sourceTree = "<group>"; };
-		FE96AC37D3DAE7E0F95D6D0DE6AD70D9 /* FUKeysDefine.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUKeysDefine.h; path = FURenderKit.framework/Headers/FUKeysDefine.h; sourceTree = "<group>"; };
 		FF35EE4908A91D3EC4D8C5C37369ECB1 /* Pods-FUMakeupComponent.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-FUMakeupComponent.release.xcconfig"; sourceTree = "<group>"; };
+		FF3BD4081F53599C41863614C7F18A58 /* FUAIConfig.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FUAIConfig.h; path = FURenderKit.framework/Headers/FUAIConfig.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -869,93 +871,6 @@
 			path = "Target Support Files/Pods-FUBeautyComponent";
 			sourceTree = "<group>";
 		};
-		12CC7C9853C74D48ECF5409AFFBA43E4 /* FURenderKit */ = {
-			isa = PBXGroup;
-			children = (
-				081A780476E3E16CFD68E3ECFD19BBC0 /* CNamaSDK.h */,
-				F503DFA58D96CD09A817C46AAC6D748E /* FUActionRecognition.h */,
-				20B260B0C5DDDB58352FF7534184FEAC /* FUAIConfig.h */,
-				A1C8783786849BAD629AAA8F1B0CA1E6 /* FUAIKit.h */,
-				2A02CF9A90BFAFD2DA2231517F0B05FC /* FUAISegment.h */,
-				7F31FB3E22D050B2AD1E524063556AD5 /* FUAnimation.h */,
-				23D29B73369CADF346CF40FD91D8857A /* FUAnimoji.h */,
-				A5054D07E21A319AD205D3D2F94F0BD2 /* FUAvatar.h */,
-				1DAB24B833DACAAA666D837F27764589 /* FUAvatarCheck.h */,
-				B210EEB78E2DBC8AACB3C07A607EE717 /* FUAvatarColorKeys.h */,
-				96F6B1CB20743C5EB5CAFF1E7DA1F166 /* FUAvatarMakeup.h */,
-				78DFE29968DC496403F151564708FBCD /* FUBackground.h */,
-				B6873FED8D962D34F19E86C0B0582612 /* FUBeauty.h */,
-				D9D3ABDE77B355F86BD677ADCD70027D /* FUBeauty-Deprecated.h */,
-				1947CC74BB6C33D09EC11823AA1B8113 /* FUBeautyPropertyModeDefine.h */,
-				44EF9CA6FD6A05E40AB83613376F5ED4 /* FUBodyBeauty.h */,
-				FD79C93C28BBC8F89E4D61A7833F89E4 /* FUBodyBeautyDefineKeys.h */,
-				318495BFF9134B34A76A0A21B4BEB209 /* FUCameraAnimation.h */,
-				7F38066C6F8A20718E08855D319FD617 /* FUCaptureCamera.h */,
-				F0BF264741394C2D896556BD40A099BD /* FUCLIColor.h */,
-				DCD115E0FE48CE492D8EEAFD9E4E811B /* FUComicFilter.h */,
-				9D8C4AA56EE115AA68A6B17BAA8BBD72 /* FUConfig.h */,
-				64B1D1CBB0BF2A177F6F1CF05A60F429 /* FUCustomBackground.h */,
-				87EE8F2367F2D6C139F806A973369402 /* FUDeformationKeys.h */,
-				5648B439C0853C2D89C4A59BE54266C5 /* FUEnum.h */,
-				A22359282F5F38D45550BD8AD522ED07 /* FUFacepupKeys.h */,
-				4BC46FCCCEE984F27BF70BEE8E2C61D4 /* FUFaceRectInfo.h */,
-				69D6795481BA4B0A2AFC4312D12A689F /* FUFacialFeatures.h */,
-				A80EA738B7E9A3AE91F95FC14F9AAD55 /* FUFilterDefineKey.h */,
-				310E266F8298B0A3FD86A10028BD5988 /* FUGesture.h */,
-				377B2A174AF3741AAB2512A5D76D8FD4 /* FUGLContext.h */,
-				579A5414EC6627E5BE389BF97B2A63D8 /* FUGLDisplayView.h */,
-				E0A1A3A47EC5A6D41A1E51520DEA3585 /* FUGreenScreen.h */,
-				3EEDC2165275C5B07E0BB59826AB3F76 /* FUGroupAnimation.h */,
-				4471B7053D52C26AAB13C5C0696B252A /* FUHairBeauty.h */,
-				60A0D640254BCA23C47299C1ACF47253 /* FUHairDefineKey.h */,
-				51909B8DF2E585FEFC565276FD765C81 /* FUImageHelper.h */,
-				D55BB0759187AFCDC6FED21652953B34 /* FUInternalCameraSetting.h */,
-				A5B7D7F3D91462863D530DA1D40DF7EE /* FUItem.h */,
-				D3C62936BBE1DE1184261F9CFA3A0B71 /* FUItem+createTexture.h */,
-				FE96AC37D3DAE7E0F95D6D0DE6AD70D9 /* FUKeysDefine.h */,
-				816CB26496BF82A0BE584B4FF98A2D46 /* FULight.h */,
-				B548531785A1689F231B5B7498CCAFB0 /* FULightMakeup.h */,
-				39C327F797B235F276A459517BFD3808 /* FULightMakeUpTextureKeyDefineKey.h */,
-				81A49EC9AA213687686DF4976C587218 /* FUMakeup.h */,
-				3FD4EF7C53425C00EB4F969CB237B22D /* FUMakeUpChildStrengthDefineKey.h */,
-				1237DD030708E1BCC88325B72436886E /* FUMakeUpColorsKey.h */,
-				03138E6AB7C695639C7C15CA98ADB473 /* FUMakeUpTextureKey.h */,
-				0828E4CADFEA73A61E43B9BD91400A89 /* FUMakeupValueDefine.h */,
-				67D3EBA5585FDD35208DAFD062525EA7 /* FUMusicFilter.h */,
-				537944ED7D8E5F949D7E45F371ECF69C /* FUNormalConfig.h */,
-				95D5BB8FB778147DF7244E01E7EE71A3 /* FUOvonicMap.h */,
-				8C6C566ADC1D0E30A83D1E2FF246110D /* FUParam.h */,
-				3B2FB4B181FB6D2361526D904888C424 /* FUPoster.h */,
-				A1F15BC63097F84A3C0ACFD13F224587 /* FUQualitySticker.h */,
-				0914382F06CCAD7DDC072B774EC0BE2C /* FURenderableObject.h */,
-				4AEF94753718DE7C31B4396F0749F608 /* FURenderer.h */,
-				1F1569DFD3D30C6721363A4F0701C928 /* FURenderIO.h */,
-				FC5B6EE55EF022B1C091F4FB8DA04ACD /* FURenderKit.h */,
-				BB957FADF5A5EF15D2E5D2394275E8EF /* FURenderKit-umbrella.h */,
-				B2B20802A5388A850E3EF92F8DCF957C /* FUScene.h */,
-				6EBC57A6CB737AF900AA3B0ADBECC4B4 /* FUSceneCamera.h */,
-				ECDF841D04DE0F3670E3C93EF9F11154 /* FUSetupConfig.h */,
-				19E51DA1394B84D9C7A410FEADA5E145 /* FUSticker.h */,
-				37CC22979229735FF3B930F3A554E85B /* FUStickerContainer.h */,
-				EAA8EC23633F7521D03DE9093AC7ABE2 /* FUStruct.h */,
-				52D2C6D17A4FFB01448CE9885CB201C3 /* FUVideoComponentDefines.h */,
-				540B58AF81BB16D8867FF7CF901588D1 /* FUVideoProcessor.h */,
-				419F506CE3D3785B08521833C220A221 /* FUVideoReader.h */,
-				1472D73E63361E495C61D5784D7B3E30 /* FUVideoSettings.h */,
-				EDA62D7C2849C2ECE11B4EE801659E66 /* FUVideoWriter.h */,
-				0A45BB19D757E345F7F1084E7FA405FE /* metamacros.h */,
-				F40A38BD750016FCB0185F306E2CA771 /* UIDevice+FURenderKit.h */,
-				BCACA65D3AF010EFE107436D3E3C8793 /* UIImage+FURenderKit.h */,
-				F2BE2A1A270D879DF36B6A73DBB45879 /* Frameworks */,
-				3B476DBCA4F2F8EF55F521205937FD33 /* graphics */,
-				3641BAD5A57EA4C88438F1B1C4252AC2 /* model */,
-				3F461F5920FA38914E969B8CCB77E208 /* Pod */,
-				8040C285A76BB2D2B2AA440F97292541 /* Support Files */,
-			);
-			name = FURenderKit;
-			path = ../FURenderKit;
-			sourceTree = "<group>";
-		};
 		232FD891F5DBC9579988D0BAF55A43F9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -970,6 +885,17 @@
 				E460D5B0416D36F66EE8EC89E5D2FA0A /* YYModel */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		246734042534370881A1C44DF1A0E0D4 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				B4C3247FC483038794B46E1B3F05CC26 /* ai_face_processor.bundle */,
+				8527AEB22A1078B8A8C50CDFD221604A /* ai_hand_processor.bundle */,
+				5AC660944B93A1BE14C15B583CF7C806 /* ai_human_processor.bundle */,
+			);
+			name = model;
+			path = Resources/model;
 			sourceTree = "<group>";
 		};
 		25776D52CCAD310B7C881FE1FE3D0CD1 /* Security */ = {
@@ -993,6 +919,103 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		2E561584AF7651E3A36F7FA9027D6EFD /* FURenderKit */ = {
+			isa = PBXGroup;
+			children = (
+				7E08BC9EF63FF7C96925150C28EC4CF0 /* CNamaSDK.h */,
+				710FAEE005F498FDCCE6E8DBF7BF6D06 /* FUActionRecognition.h */,
+				FF3BD4081F53599C41863614C7F18A58 /* FUAIConfig.h */,
+				BA287D68C6902CAAB38AB67ACD30B45C /* FUAIKit.h */,
+				959EE2A0B3CFA4FB0571DBAD59E11944 /* FUAISegment.h */,
+				B12400D99538403BF922EFC224F62944 /* FUAnimation.h */,
+				C893156C0FF4251969D622E547A38A63 /* FUAnimoji.h */,
+				3271AADC90413C06E173753DDC83338D /* FUAvatar.h */,
+				DD4355E8FB9D85F2AC08708B8F1EC783 /* FUAvatarCheck.h */,
+				02EDA0636D3380E1C557666B64D11863 /* FUAvatarColorKeys.h */,
+				D20CA3A72128553FB03F91EEBF0AB138 /* FUAvatarMakeup.h */,
+				CAF1CF610E331436B63B5EEA7ABC9AFD /* FUBackground.h */,
+				41804258110F9D89408292DCA933DBE0 /* FUBeauty.h */,
+				493C51588BDA866C7BA2ADFCFCE97B59 /* FUBeauty-Deprecated.h */,
+				777E85179065B8F5143E800C21777BF5 /* FUBeautyPropertyModeDefine.h */,
+				82E0A6CC7879A50F8829F4DC4C228368 /* FUBodyBeauty.h */,
+				3E1B52EEE91CAD6E1D15869CAB2981A5 /* FUBodyBeautyDefineKeys.h */,
+				F882482094D41234E5F5A9FC4214BE1A /* FUCameraAnimation.h */,
+				90CA03D49F4A40A6EB918560D8D328C1 /* FUCaptureCamera.h */,
+				369F75398CFBCF8058D55B808B4E715D /* FUCLIColor.h */,
+				42230C90BB476821F2D78FF5023E72EB /* FUComicFilter.h */,
+				144DAA540C6B8C1F255694D10ABE1B6B /* FUConfig.h */,
+				1BB82BD72E23B4777B466437F1ACE8EC /* FUCustomBackground.h */,
+				4777A3C792385EC568AC6CC0EAAA0454 /* FUDeformationKeys.h */,
+				F668405E255C80B185233F2A2F9EE3C8 /* FUEnum.h */,
+				E387A1EA78F163ACA5E2967BCB18A188 /* FUFacepupKeys.h */,
+				080D042C47C8205308171434209D189A /* FUFaceRectInfo.h */,
+				18355D04DF8B372F04B6E43D5A88C5E0 /* FUFacialFeatures.h */,
+				413EBA4D0767BF951E7BFA95A012CEF1 /* FUFilterDefineKey.h */,
+				24D04FE4171CDFBA30CE6391BED038E5 /* FUGesture.h */,
+				7EE801DE54504D5C1464FF029A28D35A /* FUGLContext.h */,
+				F1FFD78776BF469C9E7C3A0996665FFB /* FUGLDisplayView.h */,
+				4FD431E3E3D6496093177530FCC359EA /* FUGreenScreen.h */,
+				7865F1A19913C36771C0D9E881B6106A /* FUGroupAnimation.h */,
+				8BAD8FBC7304B7502053D8D389511773 /* FUHairBeauty.h */,
+				2EA36316C33DA22EDA5CC1DFF4C186ED /* FUHairDefineKey.h */,
+				C99B90CCF0462D6BD0E0EB34096F6919 /* FUImageHelper.h */,
+				0BB947CF2C9C5F117DE137206CA61EEA /* FUInternalCameraSetting.h */,
+				7CE30A734965BCD4B00A5375D629E6B4 /* FUItem.h */,
+				A054C94FA2CAD68072F8E9A08759EF3F /* FUItem+createTexture.h */,
+				5BCEBDD387498F782D26F53A3CD7F0D4 /* FUKeysDefine.h */,
+				31125E44938D03803D302E7CDBA87DCF /* FULight.h */,
+				60BC80189C6B547BAF99340B8FC16A32 /* FULightMakeup.h */,
+				CC28758F1A9920C43573360A7FF12369 /* FULightMakeUpTextureKeyDefineKey.h */,
+				9F47D6BBE5779C0CC588045EE7A0B2F1 /* FUMakeup.h */,
+				2D608D6C522CA2521A4C4F0E44315F06 /* FUMakeUpChildStrengthDefineKey.h */,
+				C6AB0ABB8380EDFF5677AB54C69E2F65 /* FUMakeUpColorsKey.h */,
+				D97CD6E6E382AC7BA5D917F0B6C005DF /* FUMakeUpTextureKey.h */,
+				43E9066B79637BA1D532D72757BBD635 /* FUMakeupValueDefine.h */,
+				D8053FECCE8DFDC33F0F9D6C57D4C78B /* FUMusicFilter.h */,
+				4B1505C1B4E03A941141542DEBB91862 /* FUNormalConfig.h */,
+				5869BF1C434269438C9091CBDB440DF9 /* FUOvonicMap.h */,
+				F818CC2C506D34C70C3D30B149E9FFC2 /* FUParam.h */,
+				25E488FF8AF2AF1A789D184A7ADFCE00 /* FUPoster.h */,
+				791A68AFE06EEE0DF48E00079D8A5822 /* FUQualitySticker.h */,
+				73370BA7EC088365C4D673075F7340DA /* FURenderableObject.h */,
+				FB0C4E4D497A1A4A0B3208A669426986 /* FURenderer.h */,
+				EB27D2D65408A4FBB011A23466D6E6C6 /* FURenderIO.h */,
+				067170CA116305C6FEB4BE4656BCDA7E /* FURenderKit.h */,
+				F647A517AF153C0949E04FEED94E5E91 /* FURenderKit-umbrella.h */,
+				23D848188C27CEFE312DAABDACB0B402 /* FURenderQueue.h */,
+				E342C4B67DCB6270217040848A7CF40F /* FUScene.h */,
+				FAC590B7BD70E0975611F71F30425749 /* FUSceneCamera.h */,
+				F5EC1E4EEEFF3D2BA16EDDBA68D25EC1 /* FUSerialQueue.h */,
+				C0D239336D2497870C0D11511404707A /* FUSetupConfig.h */,
+				3CF0BFAC07F3E783D4C52C025F0B5BA8 /* FUSticker.h */,
+				B76190CA191401A014784F09CAAD8DF6 /* FUStickerContainer.h */,
+				81E11D2F28A45796807C8CDD28355B5F /* FUStruct.h */,
+				A830BB2B11C1AB763877BE120C20F8FE /* FUVideoComponentDefines.h */,
+				CE82DFE5DC35F2E15BFD8986B28A77F6 /* FUVideoProcessor.h */,
+				47A894FA7995E726A119B0900D74025D /* FUVideoReader.h */,
+				68511AE6BF3E76CB13E9BC99A95A3938 /* FUVideoSettings.h */,
+				3C65FDC57B0B71CDCD3524DDBB3DC237 /* FUVideoWriter.h */,
+				A83B2DE5E328D99B558095B7ED498CC6 /* metamacros.h */,
+				35635CD0CE8792661A9E445029379A57 /* UIDevice+FURenderKit.h */,
+				E340F8AEED0EC9755F46F30B87319D05 /* UIImage+FURenderKit.h */,
+				6D16F67F07E5017005487924627DE688 /* Frameworks */,
+				6AB4E1079E00131FF1B33D1D16F06DAF /* graphics */,
+				246734042534370881A1C44DF1A0E0D4 /* model */,
+				2E5B55D2E26DE24C837ED1656300E668 /* Pod */,
+				E8ABD75119FB9A39B693D865B81869F8 /* Support Files */,
+			);
+			name = FURenderKit;
+			path = ../FURenderKit;
+			sourceTree = "<group>";
+		};
+		2E5B55D2E26DE24C837ED1656300E668 /* Pod */ = {
+			isa = PBXGroup;
+			children = (
+				ED593B1D135AC52E1DF0EDAE60C788AC /* FURenderKit.podspec */,
+			);
+			name = Pod;
+			sourceTree = "<group>";
+		};
 		3493E1F5EFCF540FA448A7617346FFE2 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -1006,17 +1029,6 @@
 			);
 			name = "Support Files";
 			path = "../Target Support Files/SSZipArchive";
-			sourceTree = "<group>";
-		};
-		3641BAD5A57EA4C88438F1B1C4252AC2 /* model */ = {
-			isa = PBXGroup;
-			children = (
-				1D13964A1792554539D72F8C7C8A4104 /* ai_face_processor.bundle */,
-				9B1E8CBB53DDEA446A879C0D71D1862C /* ai_hand_processor.bundle */,
-				7C3A0AEACB02C7A7EF20E2392E0C5182 /* ai_human_processor.bundle */,
-			);
-			name = model;
-			path = Resources/model;
 			sourceTree = "<group>";
 		};
 		3967152AC9C9C054E1F39DBEEBC250D3 /* Support Files */ = {
@@ -1034,27 +1046,12 @@
 			path = "../Target Support Files/Masonry";
 			sourceTree = "<group>";
 		};
-		3B476DBCA4F2F8EF55F521205937FD33 /* graphics */ = {
+		451004C1138BA1FDAA66AB45FCC6CB27 /* Development Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3FB35DF34847CEEB284F1C3BF31DF97E /* body_slim.bundle */,
-				9D3BF75B22F23BD1F1C472C908DF6E07 /* controller_cpp.bundle */,
-				BC531FAD4EBE9090D89D74D29D5B442C /* face_beautification.bundle */,
-				0A64791D516CD3250A9D35B6386DCEE0 /* face_makeup.bundle */,
-				F8923C7D1261CDF7A8F70CC632E3616C /* fuzzytoonfilter.bundle */,
-				24E49BA22313A86FE8E87E1CBE5ADEE1 /* fxaa.bundle */,
-				39000C782BC1506269A4A1FABA4D1DD1 /* tongue.bundle */,
+				2E561584AF7651E3A36F7FA9027D6EFD /* FURenderKit */,
 			);
-			name = graphics;
-			path = Resources/graphics;
-			sourceTree = "<group>";
-		};
-		3F461F5920FA38914E969B8CCB77E208 /* Pod */ = {
-			isa = PBXGroup;
-			children = (
-				BC740F797B1FACACFCC3D9C7BF9CCF81 /* FURenderKit.podspec */,
-			);
-			name = Pod;
+			name = "Development Pods";
 			sourceTree = "<group>";
 		};
 		66445DC7B295D803D9AA7B89843D25A3 /* Reachability */ = {
@@ -1064,6 +1061,29 @@
 				0B320D6D424609D596EFFC06E777C4B2 /* AFNetworkReachabilityManager.m */,
 			);
 			name = Reachability;
+			sourceTree = "<group>";
+		};
+		6AB4E1079E00131FF1B33D1D16F06DAF /* graphics */ = {
+			isa = PBXGroup;
+			children = (
+				E58ED2F2F3772837F9305A779C017559 /* body_slim.bundle */,
+				C19BEC06E25DC1D9A445B75AC1E6F4D4 /* controller_cpp.bundle */,
+				13BFF8A117C342FE597E9E63B1E7C908 /* face_beautification.bundle */,
+				8E0622E730E1DE63A1BC4FCD9DFBBB91 /* face_makeup.bundle */,
+				54ED7076C8FD905958CBB5CE3729264D /* fuzzytoonfilter.bundle */,
+				5B6D7C9AAA38DEA7CDC7F69C07F30C15 /* fxaa.bundle */,
+				1FBCD74D8D3013A72906299F866E182C /* tongue.bundle */,
+			);
+			name = graphics;
+			path = Resources/graphics;
+			sourceTree = "<group>";
+		};
+		6D16F67F07E5017005487924627DE688 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				209EA173358CD38342CEC81757C17FBC /* FURenderKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		6FBA34289F8EB951E043BDD1C7EB834F /* Targets Support Files */ = {
@@ -1077,16 +1097,6 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		8040C285A76BB2D2B2AA440F97292541 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				A9E2276C473E4DE9CA6D39A8847EDC6E /* FURenderKit.debug.xcconfig */,
-				B3A7484E5E724480D2DA8565A5764EBB /* FURenderKit.release.xcconfig */,
-			);
-			name = "Support Files";
-			path = "../Pods/Target Support Files/FURenderKit";
-			sourceTree = "<group>";
-		};
 		88B5259F9292A7E7EE47C6574966182D /* NSURLSession */ = {
 			isa = PBXGroup;
 			children = (
@@ -1097,14 +1107,6 @@
 				92B89A8816307971EA45F2D038DD754D /* AFURLSessionManager.m */,
 			);
 			name = NSURLSession;
-			sourceTree = "<group>";
-		};
-		8D13E8C8B2F9C6A86CCC412C683ED96B /* Development Pods */ = {
-			isa = PBXGroup;
-			children = (
-				12CC7C9853C74D48ECF5409AFFBA43E4 /* FURenderKit */,
-			);
-			name = "Development Pods";
 			sourceTree = "<group>";
 		};
 		9761E94F18E74E6529FF0D6F853B6775 /* YYModel */ = {
@@ -1253,7 +1255,7 @@
 			isa = PBXGroup;
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
-				8D13E8C8B2F9C6A86CCC412C683ED96B /* Development Pods */,
+				451004C1138BA1FDAA66AB45FCC6CB27 /* Development Pods */,
 				B94D7768568A9992200DB461E8CF687F /* Frameworks */,
 				272F452E0144E5CEDF445D0E510356A8 /* Pods */,
 				232FD891F5DBC9579988D0BAF55A43F9 /* Products */,
@@ -1442,6 +1444,16 @@
 			path = "Target Support Files/Pods-FUMakeupComponent";
 			sourceTree = "<group>";
 		};
+		E8ABD75119FB9A39B693D865B81869F8 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				F6790BBBBCE88AB38D2973FDEDA294F1 /* FURenderKit.debug.xcconfig */,
+				08B68549F656EF23CA4958971B345CBD /* FURenderKit.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Pods/Target Support Files/FURenderKit";
+			sourceTree = "<group>";
+		};
 		ED3B97290AADBEFF29EA3556D6A3832D /* Masonry */ = {
 			isa = PBXGroup;
 			children = (
@@ -1474,14 +1486,6 @@
 			);
 			name = Masonry;
 			path = Masonry;
-			sourceTree = "<group>";
-		};
-		F2BE2A1A270D879DF36B6A73DBB45879 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				ABDD0CBA06176311916B9BFA9A9DD75C /* FURenderKit.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		F8FAD8AC4F3799D0EC7F8A779EE5F7A2 /* Serialization */ = {
@@ -1779,7 +1783,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				D865DDF5787369C6251447D999B30B46 /* PBXTargetDependency */,
+				78E23A6FFAB9993F2ABCAE35A5AFC2A6 /* PBXTargetDependency */,
 			);
 			name = "Pods-FUMakeupComponent";
 			productName = Pods_FUMakeupComponent;
@@ -1834,7 +1838,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				B5BDDAAB2143131AC513150F8C84B60D /* PBXTargetDependency */,
+				6E648285AC3E7D07DE5EE7C8512CFEB0 /* PBXTargetDependency */,
 			);
 			name = "Pods-FUBeautyComponent";
 			productName = Pods_FUBeautyComponent;
@@ -1853,12 +1857,12 @@
 			buildRules = (
 			);
 			dependencies = (
-				E68C2FA5F654D7A28F6DEC4F3730496D /* PBXTargetDependency */,
-				09E0EDAE4242B1E530AEC8B384570DBC /* PBXTargetDependency */,
-				53EBE883EA4D056EB50920963C4B4E3A /* PBXTargetDependency */,
-				BB9FC79EFF30BC3FE633FD77AF16D771 /* PBXTargetDependency */,
-				5AF564E5E982E85772432F2274532D63 /* PBXTargetDependency */,
-				6B5218EE5025212335B61B48CC05B97D /* PBXTargetDependency */,
+				0C8A8F20B5013C854F536694D23F53FE /* PBXTargetDependency */,
+				DE5941A0607C07E9EDF09607014A9487 /* PBXTargetDependency */,
+				D722BFC0B34D47F7A6E7DCEFBED8F22F /* PBXTargetDependency */,
+				C30C796072AB017F00AFCB3E070ABAAD /* PBXTargetDependency */,
+				E6ECD6A2B71E7CADA803396D71A53BF8 /* PBXTargetDependency */,
+				DBEA5BD035048FF9F502191B49232E84 /* PBXTargetDependency */,
 			);
 			name = "Pods-FULiveDemo";
 			productName = Pods_FULiveDemo;
@@ -1895,7 +1899,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				BE314B26B208BC7A13A40D71F1D01645 /* PBXTargetDependency */,
+				B05F35E6BB161C05A38ABB3CF04963A1 /* PBXTargetDependency */,
 			);
 			name = "Pods-FUGreenScreenComponent";
 			productName = Pods_FUGreenScreenComponent;
@@ -2210,66 +2214,66 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		09E0EDAE4242B1E530AEC8B384570DBC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = FURenderKit;
-			target = 7396CCEA2B062951F0F31B5654854F80 /* FURenderKit */;
-			targetProxy = A648AE1AE7C53F58A32E16A93AA73E98 /* PBXContainerItemProxy */;
-		};
-		53EBE883EA4D056EB50920963C4B4E3A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Masonry;
-			target = 55AF53E6C77A10ED4985E04D74A8878E /* Masonry */;
-			targetProxy = 5DFC670F327FFBC2630FA3372BF340B4 /* PBXContainerItemProxy */;
-		};
-		5AF564E5E982E85772432F2274532D63 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = SSZipArchive;
-			target = F60E38364AFF5E1349FF07415B944396 /* SSZipArchive */;
-			targetProxy = 857BC3463B0A95446C9431B71825AE3B /* PBXContainerItemProxy */;
-		};
-		6B5218EE5025212335B61B48CC05B97D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = YYModel;
-			target = 84B44807A12996D487A4A591A481D6A0 /* YYModel */;
-			targetProxy = 2198EE26204440087628EAFF94A03CD3 /* PBXContainerItemProxy */;
-		};
-		B5BDDAAB2143131AC513150F8C84B60D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = FURenderKit;
-			target = 7396CCEA2B062951F0F31B5654854F80 /* FURenderKit */;
-			targetProxy = 83BA1BDE2A0661909A6FEBCBAA1E8B06 /* PBXContainerItemProxy */;
-		};
-		BB9FC79EFF30BC3FE633FD77AF16D771 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = SDWebImage;
-			target = 3847153A6E5EEFB86565BA840768F429 /* SDWebImage */;
-			targetProxy = 3F9B5CB866E1F968BD4D0FD498805B48 /* PBXContainerItemProxy */;
-		};
-		BE314B26B208BC7A13A40D71F1D01645 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = FURenderKit;
-			target = 7396CCEA2B062951F0F31B5654854F80 /* FURenderKit */;
-			targetProxy = C55047CA9A623669DD39A229E1F6C535 /* PBXContainerItemProxy */;
-		};
-		D865DDF5787369C6251447D999B30B46 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = FURenderKit;
-			target = 7396CCEA2B062951F0F31B5654854F80 /* FURenderKit */;
-			targetProxy = 3CEFF666DFA4AE151CBF1ACA2B8737EE /* PBXContainerItemProxy */;
-		};
-		E68C2FA5F654D7A28F6DEC4F3730496D /* PBXTargetDependency */ = {
+		0C8A8F20B5013C854F536694D23F53FE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = AFNetworking;
 			target = 0130B3724283586C0E9D2A112D4F2AA1 /* AFNetworking */;
-			targetProxy = 4CE7F6B8A21512C01BF9D51AA87D7FAF /* PBXContainerItemProxy */;
+			targetProxy = 16A5B57DD4E3928506F2D1548787C328 /* PBXContainerItemProxy */;
+		};
+		6E648285AC3E7D07DE5EE7C8512CFEB0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = FURenderKit;
+			target = 7396CCEA2B062951F0F31B5654854F80 /* FURenderKit */;
+			targetProxy = 0403AE51140C53CFE68B19A4181A743F /* PBXContainerItemProxy */;
+		};
+		78E23A6FFAB9993F2ABCAE35A5AFC2A6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = FURenderKit;
+			target = 7396CCEA2B062951F0F31B5654854F80 /* FURenderKit */;
+			targetProxy = 89E50EB78782B799102667A73D7DA34C /* PBXContainerItemProxy */;
+		};
+		B05F35E6BB161C05A38ABB3CF04963A1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = FURenderKit;
+			target = 7396CCEA2B062951F0F31B5654854F80 /* FURenderKit */;
+			targetProxy = A27A0E0ABEF3A7385984CF7C03CCE974 /* PBXContainerItemProxy */;
+		};
+		C30C796072AB017F00AFCB3E070ABAAD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SDWebImage;
+			target = 3847153A6E5EEFB86565BA840768F429 /* SDWebImage */;
+			targetProxy = 848C53E69EAC28BA7AD2F5322F5F6ECB /* PBXContainerItemProxy */;
+		};
+		D722BFC0B34D47F7A6E7DCEFBED8F22F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Masonry;
+			target = 55AF53E6C77A10ED4985E04D74A8878E /* Masonry */;
+			targetProxy = 23ACF4CB8D75BE4F9F72F7087F4724C1 /* PBXContainerItemProxy */;
+		};
+		DBEA5BD035048FF9F502191B49232E84 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = YYModel;
+			target = 84B44807A12996D487A4A591A481D6A0 /* YYModel */;
+			targetProxy = 5CE62062CB56488D13C850448F44B151 /* PBXContainerItemProxy */;
+		};
+		DE5941A0607C07E9EDF09607014A9487 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = FURenderKit;
+			target = 7396CCEA2B062951F0F31B5654854F80 /* FURenderKit */;
+			targetProxy = D4BD03E02C876652CC247E27A87026C0 /* PBXContainerItemProxy */;
+		};
+		E6ECD6A2B71E7CADA803396D71A53BF8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SSZipArchive;
+			target = F60E38364AFF5E1349FF07415B944396 /* SSZipArchive */;
+			targetProxy = 20226845178D151A67F5691D8A4A046B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		00C9ACCF7A6F0A479C1B0C1DC6E48E32 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A9E2276C473E4DE9CA6D39A8847EDC6E /* FURenderKit.debug.xcconfig */;
+			baseConfigurationReference = F6790BBBBCE88AB38D2973FDEDA294F1 /* FURenderKit.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -2774,7 +2778,7 @@
 		};
 		9E73EBC14231F519ACD9FB19D75CDEF4 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B3A7484E5E724480D2DA8565A5764EBB /* FURenderKit.release.xcconfig */;
+			baseConfigurationReference = 08B68549F656EF23CA4958971B345CBD /* FURenderKit.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

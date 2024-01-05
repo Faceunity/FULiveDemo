@@ -48,12 +48,13 @@
     return self.shapes[index].currentValue;
 }
 
+
 - (BOOL)isDefaultValueInMiddleAtIndex:(NSUInteger)index {
     return self.shapes[index].defaultValueInMiddle;
 }
 
-- (BOOL)isDifferentiateDevicePerformanceAtIndex:(NSUInteger)index {
-    return self.shapes[index].differentiateDevicePerformance;
+- (FUDevicePerformanceLevel)devicePerformanceLevelAtIndex:(NSUInteger)index {
+    return self.shapes[index].performanceLevel;
 }
 
 #pragma mark - Private methods

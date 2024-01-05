@@ -30,7 +30,7 @@
 
 #define FULocalizedString(key) NSLocalizedString(key, nil)
 
-#define FUPicturePixelMaxSize ([FURenderKitManager sharedManager].devicePerformanceLevel == FUDevicePerformanceLevelHigh ? 12746752 : 5760000)
+#define FUPicturePixelMaxSize ([FURenderKitManager sharedManager].devicePerformanceLevel >= FUDevicePerformanceLevelHigh ? 12746752 : 5760000)
 
 #define FUStickersPath [FUDocumentPath stringByAppendingPathComponent:@"FUStickers"]
 

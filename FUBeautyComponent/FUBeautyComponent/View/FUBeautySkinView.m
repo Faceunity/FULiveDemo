@@ -13,11 +13,13 @@
 
 static NSString * const kFUBeautySkinCellIdentifier = @"FUBeautySkinCell";
 
-@interface FUBeautySkinView ()<UICollectionViewDataSource, UICollectionViewDelegate>
+@interface FUBeautySkinView ()<UICollectionViewDataSource, UICollectionViewDelegate, FUSegmentedControlDelegate>
 
 @property (nonatomic, strong) UICollectionView *skinCollectionView;
 /// 程度调节
 @property (nonatomic, strong) FUSlider *slider;
+/// 皮肤分割控制
+@property (nonatomic, strong) FUSegmentedControl *segmentedControl;
 /// 恢复按钮
 @property (nonatomic, strong) FUSquareButton *recoverButton;
 
@@ -50,6 +52,8 @@ static NSString * const kFUBeautySkinCellIdentifier = @"FUBeautySkinCell";
     UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:effect];
     effectView.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame));
     [self addSubview:effectView];
+    
+    [self addSubview:self.segmentedControl];
     
     [self addSubview:self.slider];
     
@@ -85,6 +89,7 @@ static NSString * const kFUBeautySkinCellIdentifier = @"FUBeautySkinCell";
 
 - (void)refreshSubviews {
     dispatch_async(dispatch_get_main_queue(), ^{
+        self.segmentedControl.selectedIndex = self.viewModel.skinSegmentationEnabled ? 1 : 0;
         if (self.viewModel.isDefaultValue) {
             self.recoverButton.alpha = 0.6;
             self.recoverButton.userInteractionEnabled = NO;
@@ -120,6 +125,23 @@ static NSString * const kFUBeautySkinCellIdentifier = @"FUBeautySkinCell";
     [self refreshSubviews];
 }
 
+#pragma mark - FUSegmentedControlDelegate
+
+- (BOOL)segmentedControlShouldSelectItemAtIndex:(NSUInteger)index {
+    // 美白皮肤分割仅支持高端机
+    if ([FURenderKit devicePerformanceLevel] < FUDevicePerformanceLevelExcellent && index == 1) {
+        [FUTipHUD showTips:[NSString stringWithFormat:FUBeautyStringWithKey(@"功能仅支持iPhone11及以上机型使用"), FUBeautyStringWithKey(@"皮肤美白")] dismissWithDelay:1];
+        [self.segmentedControl refreshUI];
+        return NO;
+    }
+    return YES;
+}
+
+- (void)segmentedControlDidSelectAtIndex:(NSUInteger)index {
+    self.viewModel.skinSegmentationEnabled = index == 1;
+    [self refreshSubviews];
+}
+
 #pragma mark - Collection view data source
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -134,17 +156,9 @@ static NSString * const kFUBeautySkinCellIdentifier = @"FUBeautySkinCell";
     cell.defaultInMiddle = skin.defaultValueInMiddle;
     cell.defaultValue = skin.defaultValue;
     cell.currentValue = skin.currentValue;
-    if (skin.needsNPUSupport) {
-        // iPhoneXR 以下机型不支持
-        cell.disabled = [UIDevice currentDevice].fu_deviceModelType <  FUDeviceModelTypeiPhoneXR;
-    } else {
-        // 处理低性能手机禁用特效
-        if (skin.differentiateDevicePerformance) {
-            cell.disabled = self.viewModel.performanceLevel != FUDevicePerformanceLevelHigh;
-        } else {
-            cell.disabled = NO;
-        }
-    }
+    // 判断特效设备性能等级要求是否高于当前设备性能等级
+    FUDevicePerformanceLevel level = [FURenderKit devicePerformanceLevel];
+    cell.disabled = skin.performanceLevel > level;
     cell.selected = indexPath.item == self.viewModel.selectedIndex;
     return cell;
 }
@@ -152,24 +166,23 @@ static NSString * const kFUBeautySkinCellIdentifier = @"FUBeautySkinCell";
 #pragma mark - Collection view delegate
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    FUBeautySkinModel *skin = self.viewModel.beautySkins[indexPath.item];
-    if (skin.differentiateDevicePerformance) {
-        if (skin.needsNPUSupport && [UIDevice currentDevice].fu_deviceModelType <  FUDeviceModelTypeiPhoneXR) {
+    FUBeautySkinCell *cell = (FUBeautySkinCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    if (cell.disabled) {
+        FUBeautySkinModel *skin = self.viewModel.beautySkins[indexPath.item];
+        if (skin.performanceLevel == FUDevicePerformanceLevelVeryHigh) {
             [FUTipHUD showTips:[NSString stringWithFormat:FUBeautyStringWithKey(@"功能仅支持iPhoneXR及以上机型使用"), FUBeautyStringWithKey(skin.name)] dismissWithDelay:1];
             [self.skinCollectionView reloadData];
             if (self.viewModel.selectedIndex >= 0) {
                 [self.skinCollectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:self.viewModel.selectedIndex inSection:0] animated:NO scrollPosition:UICollectionViewScrollPositionNone];
             }
-            return NO;
-        }
-        if (self.viewModel.performanceLevel != FUDevicePerformanceLevelHigh) {
+        } else if (skin.performanceLevel == FUDevicePerformanceLevelHigh) {
             [FUTipHUD showTips:[NSString stringWithFormat:FUBeautyStringWithKey(@"该功能只支持在高端机上使用"), FUBeautyStringWithKey(skin.name)] dismissWithDelay:1];
             [self.skinCollectionView reloadData];
             if (self.viewModel.selectedIndex >= 0) {
                 [self.skinCollectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:self.viewModel.selectedIndex inSection:0] animated:NO scrollPosition:UICollectionViewScrollPositionNone];
             }
-            return NO;
         }
+        return NO;
     }
     return YES;
 }
@@ -180,6 +193,14 @@ static NSString * const kFUBeautySkinCellIdentifier = @"FUBeautySkinCell";
     }
     self.viewModel.selectedIndex = indexPath.item;
     FUBeautySkinModel *skin = self.viewModel.beautySkins[indexPath.item];
+    if (skin.type == FUBeautySkinColorLevel) {
+        // 美白需要加入皮肤分割功能
+        self.slider.frame = CGRectMake(112, 16, CGRectGetWidth(self.frame) - 128, FUBeautyFunctionSliderHeight);
+        self.segmentedControl.hidden = NO;
+    } else {
+        self.segmentedControl.hidden = YES;
+        self.slider.frame = CGRectMake(56, 16, CGRectGetWidth(self.frame) - 116, FUBeautyFunctionSliderHeight);
+    }
     if (self.slider.hidden) {
         self.slider.hidden = NO;
     }
@@ -207,6 +228,22 @@ static NSString * const kFUBeautySkinCellIdentifier = @"FUBeautySkinCell";
         [_skinCollectionView registerClass:[FUBeautySkinCell class] forCellWithReuseIdentifier:kFUBeautySkinCellIdentifier];
     }
     return _skinCollectionView;
+}
+
+- (FUSegmentedControl *)segmentedControl {
+    if (!_segmentedControl) {
+        _segmentedControl = [[FUSegmentedControl alloc] initWithFrame:CGRectMake(16, 19, 80, 24) items:@[FUBeautyStringWithKey(@"全局"), FUBeautyStringWithKey(@"仅皮肤")]];
+        _segmentedControl.titleColor = [UIColor colorWithWhite:1 alpha:0.45];
+        _segmentedControl.selectedTitleColor = [UIColor colorWithRed:44/255.0 green:46/255.0 blue:48/255.0 alpha:1];
+        _segmentedControl.titleFont = [UIFont systemFontOfSize:10];
+        _segmentedControl.layer.masksToBounds = YES;
+        _segmentedControl.layer.cornerRadius = 12;
+        _segmentedControl.layer.borderWidth = 1;
+        _segmentedControl.layer.borderColor = [UIColor whiteColor].CGColor;
+        _segmentedControl.hidden = YES;
+        _segmentedControl.delegate = self;
+    }
+    return _segmentedControl;
 }
 
 - (FUSquareButton *)recoverButton {

@@ -6,7 +6,7 @@
         "defaultValue":4.2,
         "defaultValueInMiddle":false,
         "ratio":6,
-        "differentiateDevicePerformance":false
+        "performanceLevel": 1
     },
     {
         "name":"祛斑痘",
@@ -15,8 +15,7 @@
         "defaultValue":0.0,
         "defaultValueInMiddle":false,
         "ratio":1,
-        "differentiateDevicePerformance":true,
-        "needsNPUSupport":true
+        "performanceLevel": 3
     },
     {
         "name":"美白",
@@ -25,7 +24,7 @@
         "defaultValue":0.3,
         "defaultValueInMiddle":false,
         "ratio":1,
-        "differentiateDevicePerformance":false
+        "performanceLevel": 1
     },
     {
         "name":"红润",
@@ -34,7 +33,7 @@
         "defaultValue":0.3,
         "defaultValueInMiddle":false,
         "ratio":1,
-        "differentiateDevicePerformance":false
+        "performanceLevel": 1
     },
     {
         "name":"清晰",
@@ -43,7 +42,7 @@
         "defaultValue":0.0,
         "defaultValueInMiddle":false,
         "ratio":1,
-        "differentiateDevicePerformance":false
+        "performanceLevel": 1
     },
     {
         "name":"锐化",
@@ -52,7 +51,7 @@
         "defaultValue":0.2,
         "defaultValueInMiddle":false,
         "ratio":1,
-        "differentiateDevicePerformance":false
+        "performanceLevel": 1
     },
     {
         "name":"五官立体",
@@ -61,7 +60,7 @@
         "defaultValue":0.0,
         "defaultValueInMiddle":false,
         "ratio":1,
-        "differentiateDevicePerformance":false
+        "performanceLevel": 1
     },
     {
         "name":"亮眼",
@@ -70,7 +69,7 @@
         "defaultValue":0.0,
         "defaultValueInMiddle":false,
         "ratio":1,
-        "differentiateDevicePerformance":false
+        "performanceLevel": 1
     },
     {
         "name":"美牙",
@@ -79,7 +78,7 @@
         "defaultValue":0.0,
         "defaultValueInMiddle":false,
         "ratio":1,
-        "differentiateDevicePerformance":false
+        "performanceLevel": 1
     },
     {
         "name":"去黑眼圈",
@@ -88,7 +87,7 @@
         "defaultValue":0.0,
         "defaultValueInMiddle":false,
         "ratio":1,
-        "differentiateDevicePerformance":false
+        "performanceLevel": 1
     },
     {
         "name":"去法令纹",
@@ -97,6 +96,6 @@
         "defaultValue":0.0,
         "defaultValueInMiddle":false,
         "ratio":1,
-        "differentiateDevicePerformance":false
+        "performanceLevel": 1
     }
 ]

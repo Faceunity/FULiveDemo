@@ -5,7 +5,7 @@
         "currentValue":0.0,
         "defaultValue":0.0,
         "defaultValueInMiddle":false,
-        "differentiateDevicePerformance":false
+        "performanceLevel": 1
     },
     {
         "name":"v脸",
@@ -13,7 +13,7 @@
         "currentValue":0.5,
         "defaultValue":0.5,
         "defaultValueInMiddle":false,
-        "differentiateDevicePerformance":false
+        "performanceLevel": 1
     },
     {
         "name":"窄脸",
@@ -21,7 +21,7 @@
         "currentValue":0.0,
         "defaultValue":0.0,
         "defaultValueInMiddle":false,
-        "differentiateDevicePerformance":false
+        "performanceLevel": 1
     },
     {
         "name":"短脸",
@@ -29,7 +29,7 @@
         "currentValue":0.0,
         "defaultValue":0.0,
         "defaultValueInMiddle":false,
-        "differentiateDevicePerformance":false
+        "performanceLevel": 1
     },
     {
         "name":"小脸",
@@ -37,7 +37,7 @@
         "currentValue":0.0,
         "defaultValue":0.0,
         "defaultValueInMiddle":false,
-        "differentiateDevicePerformance":false
+        "performanceLevel": 1
     },
     {
         "name":"瘦颧骨",
@@ -45,7 +45,7 @@
         "currentValue":0.0,
         "defaultValue":0.0,
         "defaultValueInMiddle":false,
-        "differentiateDevicePerformance":false
+        "performanceLevel": 1
     },
     {
         "name":"瘦下颌骨",
@@ -53,7 +53,7 @@
         "currentValue":0.0,
         "defaultValue":0.0,
         "defaultValueInMiddle":false,
-        "differentiateDevicePerformance":false
+        "performanceLevel": 1
     },
     {
         "name":"大眼",
@@ -61,7 +61,7 @@
         "currentValue":0.4,
         "defaultValue":0.4,
         "defaultValueInMiddle":false,
-        "differentiateDevicePerformance":false
+        "performanceLevel": 1
     },
     {
         "name":"圆眼",
@@ -69,7 +69,7 @@
         "currentValue":0.0,
         "defaultValue":0.0,
         "defaultValueInMiddle":false,
-        "differentiateDevicePerformance":false
+        "performanceLevel": 1
     },
     {
         "name":"下巴",
@@ -77,7 +77,7 @@
         "currentValue":0.3,
         "defaultValue":0.3,
         "defaultValueInMiddle":true,
-        "differentiateDevicePerformance":false
+        "performanceLevel": 1
     },
     {
         "name":"额头",
@@ -85,7 +85,7 @@
         "currentValue":0.3,
         "defaultValue":0.3,
         "defaultValueInMiddle":true,
-        "differentiateDevicePerformance":false
+        "performanceLevel": 1
     },
     {
         "name":"瘦鼻",
@@ -93,7 +93,7 @@
         "currentValue":0.5,
         "defaultValue":0.5,
         "defaultValueInMiddle":false,
-        "differentiateDevicePerformance":false
+        "performanceLevel": 1
     },
     {
         "name":"嘴型",
@@ -101,7 +101,7 @@
         "currentValue":0.4,
         "defaultValue":0.4,
         "defaultValueInMiddle":true,
-        "differentiateDevicePerformance":false
+        "performanceLevel": 1
     },
     {
         "name":"嘴唇厚度",
@@ -109,7 +109,7 @@
         "currentValue":0.5,
         "defaultValue":0.5,
         "defaultValueInMiddle":true,
-        "differentiateDevicePerformance":true
+        "performanceLevel": 2
     },
     {
         "name":"眼睛位置",
@@ -117,7 +117,7 @@
         "currentValue":0.5,
         "defaultValue":0.5,
         "defaultValueInMiddle":true,
-        "differentiateDevicePerformance":true
+        "performanceLevel": 2
     },
     {
         "name":"开眼角",
@@ -125,7 +125,7 @@
         "currentValue":0.0,
         "defaultValue":0.0,
         "defaultValueInMiddle":false,
-        "differentiateDevicePerformance":false
+        "performanceLevel": 1
     },
     {
         "name":"眼睑下至",
@@ -133,7 +133,7 @@
         "currentValue":0.0,
         "defaultValue":0.0,
         "defaultValueInMiddle":false,
-        "differentiateDevicePerformance":true
+        "performanceLevel": 2
     },
     {
         "name":"眼距",
@@ -141,7 +141,7 @@
         "currentValue":0.5,
         "defaultValue":0.5,
         "defaultValueInMiddle":true,
-        "differentiateDevicePerformance":false
+        "performanceLevel": 1
     },
     {
         "name":"眼睛角度",
@@ -149,7 +149,7 @@
         "currentValue":0.5,
         "defaultValue":0.5,
         "defaultValueInMiddle":true,
-        "differentiateDevicePerformance":false
+        "performanceLevel": 1
     },
     {
         "name":"长鼻",
@@ -157,7 +157,7 @@
         "currentValue":0.5,
         "defaultValue":0.5,
         "defaultValueInMiddle":true,
-        "differentiateDevicePerformance":false
+        "performanceLevel": 1
     },
     {
         "name":"缩人中",
@@ -165,7 +165,7 @@
         "currentValue":0.5,
         "defaultValue":0.5,
         "defaultValueInMiddle":true,
-        "differentiateDevicePerformance":false
+        "performanceLevel": 1
     },
     {
         "name":"微笑嘴角",
@@ -173,7 +173,7 @@
         "currentValue":0.0,
         "defaultValue":0.0,
         "defaultValueInMiddle":false,
-        "differentiateDevicePerformance":false
+        "performanceLevel": 1
     },
     {
         "name":"眉毛上下",
@@ -181,7 +181,7 @@
         "currentValue":0.5,
         "defaultValue":0.5,
         "defaultValueInMiddle":true,
-        "differentiateDevicePerformance":true
+        "performanceLevel": 2
     },
     {
         "name":"眉间距",
@@ -189,7 +189,7 @@
         "currentValue":0.5,
         "defaultValue":0.5,
         "defaultValueInMiddle":true,
-        "differentiateDevicePerformance":true
+        "performanceLevel": 2
     },
     {
         "name":"眉毛粗细",
@@ -197,6 +197,6 @@
         "currentValue":0.5,
         "defaultValue":0.5,
         "defaultValueInMiddle":true,
-        "differentiateDevicePerformance":true
+        "performanceLevel": 2
     }
 ]

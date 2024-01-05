@@ -45,6 +45,10 @@
     self.customizingStyle.isShapeDisabled = shapeEffectDisabled;
 }
 
+- (void)setSkinSegmentationEnabled:(BOOL)skinSegmentationEnabled {
+    self.customizingStyle.skinSegmentationEnabled = skinSegmentationEnabled;
+}
+
 #pragma mark - Getters
 
 - (BOOL)skinEffectDisabled {
@@ -53,6 +57,10 @@
 
 - (BOOL)shapeEffectDisabled {
     return self.customizingStyle.isShapeDisabled;
+}
+
+- (BOOL)skinSegmentationEnabled {
+    return self.customizingStyle.skinSegmentationEnabled;
 }
 
 - (FUCustomizeSkinViewModel *)skinViewModel {

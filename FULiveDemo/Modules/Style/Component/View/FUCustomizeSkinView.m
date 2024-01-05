@@ -12,11 +12,13 @@
 
 static NSString * const kFUCustomizeSkinCellIdentifier = @"FUCustomizeSkinCell";
 
-@interface FUCustomizeSkinView ()<UICollectionViewDataSource, UICollectionViewDelegate>
+@interface FUCustomizeSkinView ()<UICollectionViewDataSource, UICollectionViewDelegate, FUSegmentedControlDelegate>
 
 @property (nonatomic, strong) UICollectionView *skinCollectionView;
 /// 程度调节
 @property (nonatomic, strong) FUSlider *slider;
+/// 皮肤分割控制
+@property (nonatomic, strong) FUSegmentedControl *segmentedControl;
 /// 恢复按钮
 @property (nonatomic, strong) UIButton *backButton;
 
@@ -53,6 +55,8 @@ static NSString * const kFUCustomizeSkinCellIdentifier = @"FUCustomizeSkinCell";
     UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:effect];
     effectView.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame));
     [self addSubview:effectView];
+    
+    [self addSubview:self.segmentedControl];
     
     [self addSubview:self.slider];
     
@@ -99,6 +103,12 @@ static NSString * const kFUCustomizeSkinCellIdentifier = @"FUCustomizeSkinCell";
 
 - (void)refreshSubviews {
     dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.viewModel.selectedIndex >= 0) {
+            self.segmentedControl.hidden = [self.viewModel typeAtIndex:self.viewModel.selectedIndex] != FUStyleCustomizingSkinTypeColorLevel;
+        } else {
+            self.segmentedControl.hidden = YES;
+        }
+        self.segmentedControl.selectedIndex = self.viewModel.isSkinSegmentationEnabled ? 1 : 0;
         self.slider.hidden = self.viewModel.selectedIndex < 0 || self.viewModel.isEffectDisabled;
         if (self.viewModel.selectedIndex >= 0) {
             self.slider.value = [self.viewModel currentValueAtIndex:self.viewModel.selectedIndex] / [self.viewModel ratioAtIndex:self.viewModel.selectedIndex];
@@ -140,6 +150,22 @@ static NSString * const kFUCustomizeSkinCellIdentifier = @"FUCustomizeSkinCell";
     [self refreshSubviews];
 }
 
+#pragma mark - FUSegmentedControlDelegate
+
+- (BOOL)segmentedControlShouldSelectItemAtIndex:(NSUInteger)index {
+    // 美白皮肤分割仅支持高端机
+    if ([FURenderKit devicePerformanceLevel] < FUDevicePerformanceLevelExcellent && index == 1) {
+        [FUTipHUD showTips:[NSString stringWithFormat:FULocalizedString(@"功能仅支持iPhone11及以上机型使用"), FULocalizedString(@"皮肤美白")] dismissWithDelay:1];
+        [self.segmentedControl refreshUI];
+        return NO;
+    }
+    return YES;
+}
+
+- (void)segmentedControlDidSelectAtIndex:(NSUInteger)index {
+    self.viewModel.skinSegmentationEnabled = index == 1;
+    !self.skinSegmentationStatusChangeHandler ?: self.skinSegmentationStatusChangeHandler(self.viewModel.skinSegmentationEnabled);
+}
 
 #pragma mark - Collection view data source
 
@@ -157,17 +183,9 @@ static NSString * const kFUCustomizeSkinCellIdentifier = @"FUCustomizeSkinCell";
         // 直接禁用
         cell.disabled = YES;
     } else {
-        if ([self.viewModel isNeedsNPUSupportsAtIndex:indexPath.item]) {
-            // iPhoneXR 以下机型不支持
-            cell.disabled = [UIDevice currentDevice].fu_deviceModelType <  FUDeviceModelTypeiPhoneXR;
-        } else {
-            // 处理低性能手机禁用特效
-            if ([self.viewModel isDifferentiateDevicePerformanceAtIndex:indexPath.item]) {
-                cell.disabled = self.viewModel.performanceLevel != FUDevicePerformanceLevelHigh;
-            } else {
-                cell.disabled = NO;
-            }
-        }
+        // 判断特效设备性能等级要求是否高于当前设备性能等级
+        FUDevicePerformanceLevel level = [FURenderKit devicePerformanceLevel];
+        cell.disabled = [self.viewModel devicePerformanceLevelAtIndex:indexPath.item] > level;
     }
     cell.selected = indexPath.item == self.viewModel.selectedIndex;
     return cell;
@@ -180,17 +198,14 @@ static NSString * const kFUCustomizeSkinCellIdentifier = @"FUCustomizeSkinCell";
     if (self.viewModel.isEffectDisabled) {
         should = NO;
     } else {
-        if ([self.viewModel isNeedsNPUSupportsAtIndex:indexPath.item] && [UIDevice currentDevice].fu_deviceModelType < FUDeviceModelTypeiPhoneXR) {
-            // 处理仅支持iPhoneXR及以上机型的功能项
-            [FUTipHUD showTips:[NSString stringWithFormat:FULocalizedString(@"功能仅支持iPhoneXR及以上机型使用"), FULocalizedString([self.viewModel nameAtIndex:indexPath.item])] dismissWithDelay:1];
-            should = NO;
-        } else {
-            if ([self.viewModel isDifferentiateDevicePerformanceAtIndex:indexPath.item]) {
-                if (self.viewModel.performanceLevel != FUDevicePerformanceLevelHigh) {
-                    [FUTipHUD showTips:[NSString stringWithFormat:FULocalizedString(@"该功能只支持在高端机上使用"), FULocalizedString([self.viewModel nameAtIndex:indexPath.item])] dismissWithDelay:1];
-                    should = NO;
-                }
+        FUCustomizeSkinCell *cell = (FUCustomizeSkinCell *)[collectionView cellForItemAtIndexPath:indexPath];
+        if (cell.disabled) {
+            if ([self.viewModel devicePerformanceLevelAtIndex:indexPath.item] == FUDevicePerformanceLevelVeryHigh) {
+                [FUTipHUD showTips:[NSString stringWithFormat:FULocalizedString(@"功能仅支持iPhoneXR及以上机型使用"), FULocalizedString([self.viewModel nameAtIndex:indexPath.item])] dismissWithDelay:1];
+            } else if ([self.viewModel devicePerformanceLevelAtIndex:indexPath.item] == FUDevicePerformanceLevelHigh) {
+                [FUTipHUD showTips:[NSString stringWithFormat:FULocalizedString(@"该功能只支持在高端机上使用"), FULocalizedString([self.viewModel nameAtIndex:indexPath.item])] dismissWithDelay:1];
             }
+            should = NO;
         }
     }
     if (!should) {
@@ -208,6 +223,14 @@ static NSString * const kFUCustomizeSkinCellIdentifier = @"FUCustomizeSkinCell";
         return;
     }
     self.viewModel.selectedIndex = indexPath.item;
+    if ([self.viewModel typeAtIndex:indexPath.item] == FUStyleCustomizingSkinTypeColorLevel) {
+        // 美白需要加入皮肤分割功能
+        self.slider.frame = CGRectMake(112, 16, CGRectGetWidth(self.frame) - 128, 30);
+        self.segmentedControl.hidden = NO;
+    } else {
+        self.segmentedControl.hidden = YES;
+        self.slider.frame = CGRectMake(56, 16, CGRectGetWidth(self.frame) - 116, 30);
+    }
     if (self.slider.hidden) {
         self.slider.hidden = NO;
     }
@@ -282,6 +305,23 @@ static NSString * const kFUCustomizeSkinCellIdentifier = @"FUCustomizeSkinCell";
         [_slider addTarget:self action:@selector(sliderChangeEnded) forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchUpOutside];
     }
     return _slider;
+}
+
+- (FUSegmentedControl *)segmentedControl {
+    if (!_segmentedControl) {
+        _segmentedControl = [[FUSegmentedControl alloc] initWithFrame:CGRectMake(16, 19, 80, 24) items:@[FULocalizedString(@"全局"), FULocalizedString(@"仅皮肤")]];
+        _segmentedControl.selectedTitleColor = [UIColor colorWithRed:44/255.0 green:46/255.0 blue:48/255.0 alpha:1];
+        _segmentedControl.titleColor = [UIColor colorWithWhite:1 alpha:0.45];
+        _segmentedControl.selectedTitleColor = [UIColor colorWithRed:44/255.0 green:46/255.0 blue:48/255.0 alpha:1];
+        _segmentedControl.titleFont = [UIFont systemFontOfSize:10];
+        _segmentedControl.layer.masksToBounds = YES;
+        _segmentedControl.layer.cornerRadius = 12;
+        _segmentedControl.layer.borderWidth = 1;
+        _segmentedControl.layer.borderColor = [UIColor whiteColor].CGColor;
+        _segmentedControl.hidden = YES;
+        _segmentedControl.delegate = self;
+    }
+    return _segmentedControl;
 }
 
 @end

@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSArray<FUStyleSkinModel *> *skins;
 /// 当前选中索引，默认为-1
 @property (nonatomic, assign) NSInteger selectedIndex;
+/// 皮肤分割开关
+@property (nonatomic, assign, getter=isSkinSegmentationEnabled) BOOL skinSegmentationEnabled;
 /// 是否关闭效果
 @property (nonatomic, assign, getter=isEffectDisabled) BOOL effectDisabled;
 /// 属性需要根据高低端机适配
@@ -34,9 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (FUStyleCustomizingSkinType)typeAtIndex:(NSUInteger)index;
 
-- (BOOL)isDifferentiateDevicePerformanceAtIndex:(NSUInteger)index;
-
-- (BOOL)isNeedsNPUSupportsAtIndex:(NSUInteger)index;
+- (FUDevicePerformanceLevel)devicePerformanceLevelAtIndex:(NSUInteger)index;
 
 @end
 

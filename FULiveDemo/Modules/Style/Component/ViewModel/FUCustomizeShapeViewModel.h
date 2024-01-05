@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)isDefaultValueInMiddleAtIndex:(NSUInteger)index;
 
-- (BOOL)isDifferentiateDevicePerformanceAtIndex:(NSUInteger)index;
+- (FUDevicePerformanceLevel)devicePerformanceLevelAtIndex:(NSUInteger)index;
 
 @end
 

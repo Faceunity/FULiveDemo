@@ -56,14 +56,9 @@
     return self.skins[index].type;
 }
 
-- (BOOL)isDifferentiateDevicePerformanceAtIndex:(NSUInteger)index {
-    return self.skins[index].differentiateDevicePerformance;
+- (FUDevicePerformanceLevel)devicePerformanceLevelAtIndex:(NSUInteger)index {
+    return self.skins[index].performanceLevel;
 }
-
-- (BOOL)isNeedsNPUSupportsAtIndex:(NSUInteger)index {
-    return self.skins[index].needsNPUSupport;
-}
-
 #pragma mark - Private methods
 
 - (void)setValue:(double)value forType:(FUStyleCustomizingSkinType)type {
@@ -105,6 +100,15 @@
 }
 
 #pragma mark - Setters
+
+- (void)setSkinSegmentationEnabled:(BOOL)skinSegmentationEnabled {
+    _skinSegmentationEnabled = skinSegmentationEnabled;
+    if (skinSegmentationEnabled && !self.isEffectDisabled) {
+        [FURenderKit shareRenderKit].beauty.enableSkinSegmentation = YES;
+    } else {
+        [FURenderKit shareRenderKit].beauty.enableSkinSegmentation = NO;
+    }
+}
 
 - (void)setEffectDisabled:(BOOL)effectDisabled {
     if (_effectDisabled == effectDisabled) {

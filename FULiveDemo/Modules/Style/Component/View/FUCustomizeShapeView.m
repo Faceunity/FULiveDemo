@@ -155,12 +155,9 @@ static NSString * const kFUCustomizeShapeCellIdentifier = @"FUCustomizeShapeCell
         // 直接禁用
         cell.disabled = YES;
     } else {
-        // 处理低性能手机禁用特效
-        if ([self.viewModel isDifferentiateDevicePerformanceAtIndex:indexPath.item]) {
-            cell.disabled = self.viewModel.performanceLevel != FUDevicePerformanceLevelHigh;
-        } else {
-            cell.disabled = NO;
-        }
+        // 判断特效设备性能等级要求是否高于当前设备性能等级
+        FUDevicePerformanceLevel level = [FURenderKit devicePerformanceLevel];
+        cell.disabled = [self.viewModel devicePerformanceLevelAtIndex:indexPath.item] > level;
     }
     cell.selected = indexPath.item == self.viewModel.selectedIndex;
 
@@ -174,11 +171,12 @@ static NSString * const kFUCustomizeShapeCellIdentifier = @"FUCustomizeShapeCell
     if (self.viewModel.isEffectDisabled) {
         should = NO;
     } else {
-        if ([self.viewModel isDifferentiateDevicePerformanceAtIndex:indexPath.item]) {
-            if (self.viewModel.performanceLevel != FUDevicePerformanceLevelHigh) {
+        FUCustomizeShapeCell *cell = (FUCustomizeShapeCell *)[collectionView cellForItemAtIndexPath:indexPath];
+        if (cell.disabled) {
+            if ([self.viewModel devicePerformanceLevelAtIndex:indexPath.item] == FUDevicePerformanceLevelHigh) {
                 [FUTipHUD showTips:[NSString stringWithFormat:FULocalizedString(@"该功能只支持在高端机上使用"), FULocalizedString([self.viewModel nameAtIndex:indexPath.item])] dismissWithDelay:1];
-                should = NO;
             }
+            should = NO;
         }
     }
     if (!should) {

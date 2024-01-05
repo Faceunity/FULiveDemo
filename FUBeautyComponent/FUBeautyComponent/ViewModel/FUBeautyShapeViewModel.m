@@ -44,7 +44,7 @@
     }
     NSMutableArray *shapes = [[NSMutableArray alloc] init];
     for (FUBeautyShapeModel *model in self.beautyShapes) {
-        NSDictionary *dictionary = [model dictionaryWithValuesForKeys:@[@"name", @"type", @"currentValue", @"defaultValue", @"defaultValueInMiddle", @"differentiateDevicePerformance"]];
+        NSDictionary *dictionary = [model dictionaryWithValuesForKeys:@[@"name", @"type", @"currentValue", @"defaultValue", @"defaultValueInMiddle", @"performanceLevel"]];
         [shapes addObject:dictionary];
     }
     [[NSUserDefaults standardUserDefaults] setObject:shapes forKey:FUPersistentBeautyShapeKey];

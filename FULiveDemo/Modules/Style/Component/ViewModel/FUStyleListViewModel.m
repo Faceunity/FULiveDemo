@@ -33,7 +33,7 @@ static NSString * const FUPersistentSelectedStyleIndexKey = @"FUPersistentSelect
             FUBeauty *beauty = [[FUBeauty alloc] initWithPath:path name:@"FUBeauty"];
             // 默认均匀磨皮
             beauty.blurType = 3;
-            if ([FURenderKit devicePerformanceLevel] == FUDevicePerformanceLevelHigh) {
+            if (self.performanceLevel >= FUDevicePerformanceLevelHigh) {
                 // 高性能设备设置去黑眼圈、去法令纹、大眼、嘴型最新效果
                 [beauty addPropertyMode:FUBeautyPropertyMode2 forKey:FUModeKeyRemovePouchStrength];
                 [beauty addPropertyMode:FUBeautyPropertyMode2 forKey:FUModeKeyRemoveNasolabialFoldsStrength];
@@ -71,7 +71,7 @@ static NSString * const FUPersistentSelectedStyleIndexKey = @"FUPersistentSelect
         if (style.makeupModel.bundleName) {
             FUMakeup *makeup = [[FUMakeup alloc] initWithPath:[[NSBundle mainBundle] pathForResource:style.makeupModel.bundleName ofType:@"bundle"] name:@"style_makeup"];
             // 高端机打开全脸分割
-            makeup.makeupSegmentation = [FURenderKit devicePerformanceLevel] == FUDevicePerformanceLevelHigh;
+            makeup.makeupSegmentation = self.performanceLevel >= FUDevicePerformanceLevelHigh;
             makeup.intensity = style.makeupModel.currentValue;
             makeup.filterIntensity = style.makeupModel.filterCurrentValue;
             [FURenderKit shareRenderKit].makeup = makeup;
@@ -85,13 +85,20 @@ static NSString * const FUPersistentSelectedStyleIndexKey = @"FUPersistentSelect
             }
         } else {
             for (FUStyleSkinModel *skin in style.skins) {
-                if (skin.differentiateDevicePerformance && self.performanceLevel != FUDevicePerformanceLevelHigh) {
-                    // 当前为低端机时将有机型要求的属性设置为默认值
+                if (skin.performanceLevel > self.performanceLevel) {
+                    // 机型性能要求高于当前设备性能，则设置为无效果值
                     [self setSkinValue:0 forType:skin.type];
                 } else {
                     [self setSkinValue:skin.currentValue forType:skin.type];
                 }
             }
+        }
+        
+        // 皮肤分割
+        if (!style.isSkinDisabled && style.skinSegmentationEnabled) {
+            [FURenderKit shareRenderKit].beauty.enableSkinSegmentation = YES;
+        } else {
+            [FURenderKit shareRenderKit].beauty.enableSkinSegmentation = NO;
         }
         
         // 美型
@@ -101,8 +108,8 @@ static NSString * const FUPersistentSelectedStyleIndexKey = @"FUPersistentSelect
             }
         } else {
             for (FUStyleShapeModel *shape in style.shapes) {
-                if (shape.differentiateDevicePerformance && self.performanceLevel != FUDevicePerformanceLevelHigh) {
-                    // 当前为低端机时将有机型要求的属性设置为默认值
+                if (shape.performanceLevel > self.performanceLevel) {
+                    // 机型性能要求高于当前设备性能，则设置为无效果值
                     [self setShapeValue:shape.defaultValueInMiddle ? 0.5 : 0 forType:shape.type];
                 } else {
                     [self setShapeValue:shape.currentValue forType:shape.type];
@@ -315,6 +322,11 @@ static NSString * const FUPersistentSelectedStyleIndexKey = @"FUPersistentSelect
     __block BOOL result = YES;
     // 选中的风格索引是默认时需要比对各个风格的所有效果值
     [self.styles enumerateObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, self.styles.count - 1)] options:NSEnumerationConcurrent usingBlock:^(FUStyleModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (obj.skinSegmentationEnabled) {
+            // 皮肤分割开启
+            result = NO;
+            *stop = YES;
+        }
         if ((int)(obj.makeupModel.currentValue * 100) != (int)(obj.makeupModel.defaultValue * 100) || (int)(obj.makeupModel.filterCurrentValue * 100) != (int)(obj.makeupModel.filterDefaultValue * 100)) {
             // 妆容程度值发生变化
             result = NO;
