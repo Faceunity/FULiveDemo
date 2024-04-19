@@ -22,16 +22,6 @@ target 'FULiveDemo' do
     
     # 解压缩工具
     pod 'SSZipArchive', '2.4.3'
-    
-    # FURenderKit开发库
-    #pod 'FURenderKit-dev', :path => '/Users/xiang/Desktop/集成/GitLab/FURenderKit'
-    
-    # FURenderKit库资源
-    #pod 'FURenderKit-assets-dev', :path => '/Users/xiang/Desktop/集成/GitLab/FURenderKit'
-    
-    #pod 'FURenderKit-dev', :git => 'git@192.168.0.118:liuyang/FURenderKit_Release.git', :branch => 'nama-dev-xlp'
-    
-    #pod 'FURenderKit-assets-dev', :git => 'git@192.168.0.118:liuyang/FURenderKit_Release.git', :branch => 'nama-dev-xlp'
 
     pod 'FURenderKit', :path => 'FURenderKit/'
 #    pod 'FURenderKit'

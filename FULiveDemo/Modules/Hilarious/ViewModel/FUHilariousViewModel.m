@@ -41,7 +41,7 @@
 
 - (NSArray<NSString *> *)hilariousItems {
     if (!_hilariousItems) {
-        _hilariousItems = @[@"reset_item", @"big_head_facewarp1", @"big_head_facewarp2", @"big_head_facewarp4", @"big_head_facewarp5", @"big_head_facewarp6", @"big_head_facewarp3"];
+        _hilariousItems = @[@"reset_item", @"big_head", @"big_head_facewarp2", @"big_head_facewarp4", @"big_head_facewarp5", @"big_head_facewarp6", @"big_head_smile"];
     }
     return _hilariousItems;
 }
@@ -49,7 +49,7 @@
 - (NSDictionary<NSString *,NSString *> *)hilariousTips {
     if (!_hilariousTips) {
         _hilariousTips = @{
-            @"big_head_facewarp3" : @"微笑触发"
+            @"big_head_smile" : @"微笑触发"
         };
     }
     return _hilariousTips;

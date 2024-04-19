@@ -1,8 +1,8 @@
 //
-//  FUBeautiItem.h
+//  FUBeauty.m
 //  FURenderKit
 //
-//  Created by Chen on 2021/1/4.
+//  Created by 项林平 on 2023/5/16.
 //
 
 #import "FUItem.h"
@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 皮肤分割（皮肤美白），YES开启，NO关闭，默认NO
 /// @note 开启时美白效果仅支持皮肤区域，关闭时美白效果支持全局区域
-/// @note 推荐非直播场景使用和高端机型使用
+/// @note 推荐非直播场景和 iPhoneXR 以上机型使用
 @property (nonatomic, assign) BOOL enableSkinSegmentation;
 
 /// 肤色检测开关 0为关, 1为开，默认值0.0

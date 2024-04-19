@@ -13,7 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (int)createTextureWithImage:(UIImage *)image forName:(NSString *)name;
 
-//- (int)createTextureWithImage:(UIImage *)image forName:(NSString *)name isCache:(BOOL)isCache;
 @end
 
 NS_ASSUME_NONNULL_END
