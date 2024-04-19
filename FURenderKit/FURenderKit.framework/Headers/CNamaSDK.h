@@ -213,9 +213,31 @@ typedef enum FUAIHUMANSEGMODE {
   FUAIHUMAN_SEG_GPU_MEETING = 0x02
 } FUAIHUMANSEGMODE;
 
+typedef enum FUAIHUMANMODELCONFIG {                   // human model config
+  FUAIHUMAN_SEG_CPU_COMM = FUAIHUMAN_SEG_CPU_COMMON,  //  default
+  FUAIHUMAN_SEG_GPU_COMM = FUAIHUMAN_SEG_GPU_COMMON,
+  FUAIHUMAN_SEG_GPU_MEET = FUAIHUMAN_SEG_GPU_MEETING,  // HumanSeg 0-7bit
+} FUAIHUMANMODELCONFIG;
+
+typedef enum FUAIHUMANALGORITHMCONFIG {  // human algorithm config
+  FUAIHUMAN_ENABLE_ALL = 0,
+  FUAIHUMAN_DISABLE_HUMAN_SEG = 1 << 0,
+} FUAIHUMANALGORITHMCONFIG;
+
+typedef enum FUAIFACEMODELCONFIG {  // face model config
+  FUAIFACE_ALL_DEFAULT = -1,
+} FUAIFACEMODELCONFIG;
+
+typedef enum FUAIFACEALGORITHMCONFIG {  // face algorithm config
+  FUAIFACE_ENABLE_ALL = 0,
+  FUAIFACE_DISABLE_FACE_OCCU = 1 << 0,
+  FUAIFACE_DISABLE_SKIN_SEG = 1 << 1,
+  FUAIFACE_DISABLE_DEL_SPOT = 1 << 2,
+} FUAIFACEALGORITHMCONFIG;
+
 typedef enum FUAIMACHINETYPE {
-  FUAIMACHINE_LOW = 0,  //  low machine
-  FUAIMACHINE_HIGH = 1,//  high machine
+  FUAIMACHINE_LOW = 0,   //  low machine
+  FUAIMACHINE_HIGH = 1,  //  high machine
 } FUAIMACHINETYPE;
 
 typedef enum TRANSFORM_MATRIX {
@@ -1856,6 +1878,32 @@ FUNAMA_API void fuSetHumanSegScene(FUAIHUMANSEGSCENETYPE seg_scene);
 FUNAMA_API void fuSetHandDetectEveryNFramesWhenNoHand(int frame_num);
 
 FUNAMA_API void fuSetHumanSegMode(FUAIHUMANSEGMODE flag);
+
+/**
+ \brief set face processor model config, ref to FUAIFACEMODELCONFIG
+*/
+FUNAMA_API void fuSetFaceModelConfig(FUAIFACEMODELCONFIG flag);
+/**
+ \brief set face processor algorithm config, ref to FUAIFACEALGORITHMCONFIG ,
+ use to disable some sub-module while load face ai module
+*/
+FUNAMA_API void fuSetFaceAlgorithmConfig(FUAIFACEALGORITHMCONFIG flag);
+
+/**
+ \brief set face processor model config, ref to FUAIHUMANMODELCONFIG, config cpu
+ or gpu mode,eth.
+ */
+FUNAMA_API void fuSetHumanModelConfig(FUAIHUMANMODELCONFIG flag);
+/**
+ \brief set human processor algorithm config, ref to FUAIHUMANALGORITHMCONFIG ,
+ use to disable some sub-module while load human ai module
+*/
+FUNAMA_API void fuSetHumanAlgorithmConfig(FUAIHUMANALGORITHMCONFIG flag);
+
+/**
+ \brief force fu ai model to run on CPU
+*/
+FUNAMA_API void fuSetModelToCPU();
 
 FUNAMA_API void fuSetMachineType(FUAIMACHINETYPE flag);
 

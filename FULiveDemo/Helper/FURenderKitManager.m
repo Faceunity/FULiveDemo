@@ -68,6 +68,17 @@
 }
 
 + (void)loadFaceAIModel {
+    FUDevicePerformanceLevel level = [FURenderKitManager sharedManager].devicePerformanceLevel;
+    FUFaceAlgorithmConfig config = FUFaceAlgorithmConfigEnableAll;
+    if (level < FUDevicePerformanceLevelHigh) {
+        // 关闭所有效果
+        config = FUFaceAlgorithmConfigDisableAll;
+    } else if (level < FUDevicePerformanceLevelVeryHigh) {
+        config = FUFaceAlgorithmConfigDisableSkinSegAndDelSpot;
+    } else if (level < FUDevicePerformanceLevelExcellent) {
+        config = FUFaceAlgorithmConfigDisableSkinSeg;
+    }
+    [FUAIKit setFaceAlgorithmConfig:config];
     NSString *faceAIPath = [[NSBundle mainBundle] pathForResource:@"ai_face_processor" ofType:@"bundle"];
     [FUAIKit loadAIModeWithAIType:FUAITYPE_FACEPROCESSOR dataPath:faceAIPath];
 }

@@ -32,6 +32,24 @@ typedef enum : NSUInteger {
     FUFaceProcessorFaceLandmarkQualityHigh
 } FUFaceProcessorFaceLandmarkQuality;
 
+/// 人脸模型设置
+typedef enum : NSInteger {
+    FUFaceModelConfigDefault = -1
+} FUFaceModelConfig;
+
+/// 人脸算法设置
+typedef enum : NSUInteger {
+    FUFaceAlgorithmConfigEnableAll          = 0,        // 打开全部效果
+    FUFaceAlgorithmConfigDisableFaceOccu    = 1 << 0,   // 关闭全脸分割
+    FUFaceAlgorithmConfigDisableSkinSeg     = 1 << 1,   // 关闭皮肤分割
+    FUFaceAlgorithmConfigDisableDelSpot     = 1 << 2,   // 关闭祛斑痘
+    
+    FUFaceAlgorithmConfigDisableFaceOccuAndSkinSeg  = FUFaceAlgorithmConfigDisableFaceOccu | FUFaceAlgorithmConfigDisableSkinSeg,
+    FUFaceAlgorithmConfigDisableFaceOccuAndDelSpot  = FUFaceAlgorithmConfigDisableFaceOccu | FUFaceAlgorithmConfigDisableDelSpot,
+    FUFaceAlgorithmConfigDisableSkinSegAndDelSpot   = FUFaceAlgorithmConfigDisableSkinSeg | FUFaceAlgorithmConfigDisableDelSpot,
+    FUFaceAlgorithmConfigDisableAll                 = FUFaceAlgorithmConfigDisableFaceOccu | FUFaceAlgorithmConfigDisableSkinSeg | FUFaceAlgorithmConfigDisableDelSpot
+} FUFaceAlgorithmConfig;
+
 /// 人体分割场景
 typedef enum : NSUInteger {
     FUHumanSegmentationSceneTypeMeeting = 0,    // 视频会议
@@ -44,6 +62,12 @@ typedef enum : NSUInteger {
     FUHumanSegmentationModeGPUCommon = 0x01,    // GPU通用模式
     FUHumanSegmentationModeGPUMeeting = 0x02    // GPU会议模式
 } FUHumanSegmentationMode;
+
+/// 人体算法设置
+typedef enum : NSUInteger {
+    FUHumanAlgorithmConfigEnableAll     = 0,        // 打开全部效果
+    FUHumanAlgorithmConfigDisableSeg    = 1 << 0,   // 关闭人体分割
+} FUHumanAlgorithmConfig;
 
 @interface FUAIKit : NSObject
 
@@ -64,6 +88,30 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) FUFaceProcessorFaceLandmarkQuality faceProcessorFaceLandmarkQuality;  // 人脸算法质量
 
 + (instancetype)shareKit;
+
+/// 人脸模型设置
+/// @param config 枚举值
+/// @note 必须在加载 AI 人脸模型之前设置
++ (void)setFaceModelConfig:(FUFaceModelConfig)config;
+
+/// 人脸算法设置
+/// @param config 枚举值
+/// @note 必须在加载 AI 人脸模型之前设置，默认 FUFaceAlgorithmConfigEnableAll
++ (void)setFaceAlgorithmConfig:(FUFaceAlgorithmConfig)config;
+
+/// 人体模型设置
+/// @param config 枚举值
+/// @note 必须在加载 AI 人体模型之前设置，默认 FUHumanSegmentationModeCPUCommon
++ (void)setHumanModelConfig:(FUHumanSegmentationMode)config;
+
+/// 人体算法设置
+/// @param config 枚举值
+/// @note 必须在加载 AI 人脸模型之前设置，默认 FUHumanAlgorithmConfigEnableAll
++ (void)setHumanAlgorithmConfig:(FUHumanAlgorithmConfig)config;
+
+/// 强制设置使用 CPU 运行 AI 模型
+/// @note 必须在加载 AI 模型之前设置
++ (void)setModelToCPU;
 
 /// 加载AI模型
 /// @param type AI类型

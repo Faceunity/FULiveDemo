@@ -58,7 +58,18 @@ setupConfig.authPack = FUAuthPackMake(g_auth_package, sizeof(g_auth_package));
 ## 加载AI模型
 
 ```objective-c
-// 加载人脸 AI 模型
+// 加载人脸 AI 模型（8.10.0 可设置根据机型性能关闭人脸算法设置）
+FUDevicePerformanceLevel level = [FURenderKitManager sharedManager].devicePerformanceLevel;
+FUFaceAlgorithmConfig config = FUFaceAlgorithmConfigEnableAll;
+if (level < FUDevicePerformanceLevelHigh) {
+    // 关闭所有效果
+    config = FUFaceAlgorithmConfigDisableAll;
+} else if (level < FUDevicePerformanceLevelVeryHigh) {
+    config = FUFaceAlgorithmConfigDisableSkinSegAndDelSpot;
+} else if (level < FUDevicePerformanceLevelExcellent) {
+    config = FUFaceAlgorithmConfigDisableSkinSeg;
+}
+[FUAIKit setFaceAlgorithmConfig:config];
 NSString *faceAIPath = [[NSBundle mainBundle] pathForResource:@"ai_face_processor" ofType:@"bundle"];
 [FUAIKit loadAIModeWithAIType:FUAITYPE_FACEPROCESSOR dataPath:faceAIPath];
 
@@ -340,6 +351,30 @@ AI能力相关的功能都通过FUAIKit 加载或获取
 @property (nonatomic, assign) BOOL asyncTrackFace; //设置是否进行异步人脸跟踪
 
 @property (nonatomic, assign) FUFaceProcessorFaceLandmarkQuality faceProcessorFaceLandmarkQuality;  // 人脸算法质量
+
+/// 人脸模型设置
+/// @param config 枚举值
+/// @note 必须在加载 AI 人脸模型之前设置
++ (void)setFaceModelConfig:(FUFaceModelConfig)config;
+
+/// 人脸算法设置
+/// @param config 枚举值
+/// @note 必须在加载 AI 人脸模型之前设置，默认 FUFaceAlgorithmConfigEnableAll
++ (void)setFaceAlgorithmConfig:(FUFaceAlgorithmConfig)config;
+
+/// 人体模型设置
+/// @param config 枚举值
+/// @note 必须在加载 AI 人体模型之前设置，默认 FUHumanSegmentationModeCPUCommon
++ (void)setHumanModelConfig:(FUHumanSegmentationMode)config;
+
+/// 人体算法设置
+/// @param config 枚举值
+/// @note 必须在加载 AI 人脸模型之前设置，默认 FUHumanAlgorithmConfigEnableAll
++ (void)setHumanAlgorithmConfig:(FUHumanAlgorithmConfig)config;
+
+/// 强制设置使用 CPU 运行 AI 模型
+/// @note 必须在加载 AI 模型之前设置
++ (void)setModelToCPU;
 
 /// 加载AI模型
 /// @param type AI类型

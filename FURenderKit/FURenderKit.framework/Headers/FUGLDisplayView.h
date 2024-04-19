@@ -42,8 +42,7 @@ typedef NS_ENUM(NSInteger, FUGLDisplayViewContentMode) {
 
 @property (nonatomic, weak) id<FUGLDisplayViewGestureDelegate> gestureDelegate;
 
-@property (nonatomic, assign) NSInteger disapplePointIndex ;
-@property (nonatomic,assign,readonly)  CGSize boundsSizeAtFrameBufferEpoch;
+@property (nonatomic, assign) NSInteger disapplePointIndex;
 
 @property (nonatomic, assign) BOOL alphaEnable;
 
