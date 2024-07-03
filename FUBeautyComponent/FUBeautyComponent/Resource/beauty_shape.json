@@ -5,7 +5,7 @@
         "currentValue":0.0,
         "defaultValue":0.0,
         "defaultValueInMiddle":false,
-        "performanceLevel": 1
+        "performanceLevel": -1
     },
     {
         "name":"v脸",
@@ -61,7 +61,7 @@
         "currentValue":0.4,
         "defaultValue":0.4,
         "defaultValueInMiddle":false,
-        "performanceLevel": 1
+        "performanceLevel": -1
     },
     {
         "name":"圆眼",
@@ -93,7 +93,7 @@
         "currentValue":0.5,
         "defaultValue":0.5,
         "defaultValueInMiddle":false,
-        "performanceLevel": 1
+        "performanceLevel": -1
     },
     {
         "name":"嘴型",

@@ -54,6 +54,10 @@
     [FUAIKit loadTongueMode:path];
     
     self.devicePerformanceLevel = [FURenderKit devicePerformanceLevel];
+    if (self.devicePerformanceLevel <= FUDevicePerformanceLevelLow) {
+        // 打开动态质量
+        [FURenderKit setDynamicQualityControlEnabled:YES];
+    }
 }
 
 - (void)destoryRenderKit {
@@ -74,7 +78,8 @@
         // 关闭所有效果
         config = FUFaceAlgorithmConfigDisableAll;
     } else if (level < FUDevicePerformanceLevelVeryHigh) {
-        config = FUFaceAlgorithmConfigDisableSkinSegAndDelSpot;
+        // 关闭皮肤分割、祛斑痘和 ARMeshV2
+        config = FUFaceAlgorithmConfigDisableSkinSegAndDelSpot | FUFaceAlgorithmConfigDisableARMeshV2;
     } else if (level < FUDevicePerformanceLevelExcellent) {
         config = FUFaceAlgorithmConfigDisableSkinSeg;
     }

@@ -340,7 +340,7 @@
     if (!_renderView) {
         _renderView = [[FUGLDisplayView alloc] initWithFrame:self.view.bounds];
         _renderView.contentMode = FUGLDisplayViewContentModeScaleAspectFit;
-        _renderView.origintation = (FUGLDisplayViewOrientation)self.viewModel.videoOrientation;
+        _renderView.orientation = (FUGLDisplayViewOrientation)self.viewModel.videoOrientation;
     }
     return _renderView;
 }

@@ -1,0 +1,202 @@
+[
+    {
+        "name":"瘦脸",
+        "type":0,
+        "currentValue":0.0,
+        "defaultValue":0.0,
+        "defaultValueInMiddle":false,
+        "performanceLevel": -1
+    },
+    {
+        "name":"v脸",
+        "type":1,
+        "currentValue":0.0,
+        "defaultValue":0.0,
+        "defaultValueInMiddle":false,
+        "performanceLevel": 1
+    },
+    {
+        "name":"窄脸",
+        "type":2,
+        "currentValue":0.0,
+        "defaultValue":0.0,
+        "defaultValueInMiddle":false,
+        "performanceLevel": 1
+    },
+    {
+        "name":"短脸",
+        "type":3,
+        "currentValue":0.0,
+        "defaultValue":0.0,
+        "defaultValueInMiddle":false,
+        "performanceLevel": 1
+    },
+    {
+        "name":"小脸",
+        "type":4,
+        "currentValue":0.0,
+        "defaultValue":0.0,
+        "defaultValueInMiddle":false,
+        "performanceLevel": 1
+    },
+    {
+        "name":"瘦颧骨",
+        "type":5,
+        "currentValue":0.0,
+        "defaultValue":0.0,
+        "defaultValueInMiddle":false,
+        "performanceLevel": 1
+    },
+    {
+        "name":"瘦下颌骨",
+        "type":6,
+        "currentValue":0.0,
+        "defaultValue":0.0,
+        "defaultValueInMiddle":false,
+        "performanceLevel": 1
+    },
+    {
+        "name":"大眼",
+        "type":7,
+        "currentValue":0.0,
+        "defaultValue":0.0,
+        "defaultValueInMiddle":false,
+        "performanceLevel": -1
+    },
+    {
+        "name":"圆眼",
+        "type":8,
+        "currentValue":0.0,
+        "defaultValue":0.0,
+        "defaultValueInMiddle":false,
+        "performanceLevel": 1
+    },
+    {
+        "name":"下巴",
+        "type":9,
+        "currentValue":0.5,
+        "defaultValue":0.5,
+        "defaultValueInMiddle":true,
+        "performanceLevel": 1
+    },
+    {
+        "name":"额头",
+        "type":10,
+        "currentValue":0.5,
+        "defaultValue":0.5,
+        "defaultValueInMiddle":true,
+        "performanceLevel": 1
+    },
+    {
+        "name":"瘦鼻",
+        "type":11,
+        "currentValue":0.0,
+        "defaultValue":0.0,
+        "defaultValueInMiddle":false,
+        "performanceLevel": -1
+    },
+    {
+        "name":"嘴型",
+        "type":12,
+        "currentValue":0.5,
+        "defaultValue":0.5,
+        "defaultValueInMiddle":true,
+        "performanceLevel": 1
+    },
+    {
+        "name":"嘴唇厚度",
+        "type":13,
+        "currentValue":0.5,
+        "defaultValue":0.5,
+        "defaultValueInMiddle":true,
+        "performanceLevel": 2
+    },
+    {
+        "name":"眼睛位置",
+        "type":14,
+        "currentValue":0.5,
+        "defaultValue":0.5,
+        "defaultValueInMiddle":true,
+        "performanceLevel": 2
+    },
+    {
+        "name":"开眼角",
+        "type":15,
+        "currentValue":0.0,
+        "defaultValue":0.0,
+        "defaultValueInMiddle":false,
+        "performanceLevel": 1
+    },
+    {
+        "name":"眼睑下至",
+        "type":16,
+        "currentValue":0.0,
+        "defaultValue":0.0,
+        "defaultValueInMiddle":false,
+        "performanceLevel": 2
+    },
+    {
+        "name":"眼距",
+        "type":17,
+        "currentValue":0.5,
+        "defaultValue":0.5,
+        "defaultValueInMiddle":true,
+        "performanceLevel": 1
+    },
+    {
+        "name":"眼睛角度",
+        "type":18,
+        "currentValue":0.5,
+        "defaultValue":0.5,
+        "defaultValueInMiddle":true,
+        "performanceLevel": 1
+    },
+    {
+        "name":"长鼻",
+        "type":19,
+        "currentValue":0.5,
+        "defaultValue":0.5,
+        "defaultValueInMiddle":true,
+        "performanceLevel": 1
+    },
+    {
+        "name":"缩人中",
+        "type":20,
+        "currentValue":0.5,
+        "defaultValue":0.5,
+        "defaultValueInMiddle":true,
+        "performanceLevel": 1
+    },
+    {
+        "name":"微笑嘴角",
+        "type":21,
+        "currentValue":0.0,
+        "defaultValue":0.0,
+        "defaultValueInMiddle":false,
+        "performanceLevel": 1
+    },
+    {
+        "name":"眉毛上下",
+        "type":22,
+        "currentValue":0.5,
+        "defaultValue":0.5,
+        "defaultValueInMiddle":true,
+        "performanceLevel": 2
+    },
+    {
+        "name":"眉间距",
+        "type":23,
+        "currentValue":0.5,
+        "defaultValue":0.5,
+        "defaultValueInMiddle":true,
+        "performanceLevel": 2
+    },
+    {
+        "name":"眉毛粗细",
+        "type":24,
+        "currentValue":0.5,
+        "defaultValue":0.5,
+        "defaultValueInMiddle":true,
+        "performanceLevel": 2
+    }
+]

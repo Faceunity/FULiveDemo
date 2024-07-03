@@ -43,6 +43,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class FURenderKit;
 
+FUParamsKeysDefine(FUDynamicQualityParamKey,
+                   FUDynamicQualityParamTriggerFPSKey = @"trigger_fps",
+                   FUDynamicQualityParamChangeSpeedKey = @"quality_change_speed",
+                   FUDynamicQualityParamChangeSmoothTimeKey = @"quality_change_smooth_time"
+                   )
+
 #pragma mark - 内部相机render相关协议
 
 @protocol FURenderKitDelegate <NSObject>
@@ -216,6 +222,35 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return 输出图像结果，类型为 FURenderOutput
 - (FURenderOutput *)renderWithInput:(FURenderInput *)input;
 
+#pragma mark - Performance
+
+/// 当前设备性能等级
++ (FUDevicePerformanceLevel)devicePerformanceLevel;
+
+/// 美妆效果覆盖开关，默认打开
+/// @note 当多个包含美妆效果的 bundle 互相影响时可以调用该接口设置为 YES，否则可以设为 NO
++ (void)setMakeupCoverResourceEnabled:(BOOL)enabled;
+
+/// 动态调节质量开关
+/// @param enabled YES / NO
+/// @note 目前只用于美颜，开启时会自动动态调节
++ (void)setDynamicQualityControlEnabled:(BOOL)enabled;
+
+/// 动态调节质量配置
+/// @param params 详细说明：
+/// key: 参考FUDynamicQualityParamKey
+/// value 说明：
+/// 1. 触发帧率，低于该帧率时会触发动态调节，大于0，默认 25
+/// 2. 变化速率，大于0，默认 1.7
+/// 3. 变化平滑度，大于0，默认 2.5
++ (void)setDynamicQualityParams:(NSDictionary *)params;
+
+/// ARMeshV2 开关
+/// @note 建议高端机型打开
+/// @note 目前版本不建议调用，建议使用 FUAIKit 的 setFaceAlgorithmConfig 接口设置
++ (void)setARMeshV2Enabled:(BOOL)enabled;
+
+
 #pragma mark - Others
 
 /// 获取证书里面的模块权限
@@ -238,12 +273,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param directory 可读写目录路径
 + (void)setCacheDirectory:(NSString *)directory;
 
-/// 设备性能分级
-+ (FUDevicePerformanceLevel)devicePerformanceLevel;
-
-/// 美妆效果覆盖开关，默认打开
-/// @note 当多个包含美妆效果的 bundle 互相影响时可以调用该接口设置为 YES，否则可以设为 NO
-+ (void)setMakeupCoverResourceEnabled:(BOOL)enabled;
 
 #pragma mark - frame time profile
 
