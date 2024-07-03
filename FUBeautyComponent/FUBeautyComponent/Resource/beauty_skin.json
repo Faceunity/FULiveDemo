@@ -2,11 +2,11 @@
     {
         "name":"磨皮",
         "type":0,
-        "currentValue":4.2,
-        "defaultValue":4.2,
+        "currentValue":3.6,
+        "defaultValue":3.6,
         "defaultValueInMiddle":false,
         "ratio":6,
-        "performanceLevel": 1
+        "performanceLevel": -1
     },
     {
         "name":"祛斑痘",

@@ -6,67 +6,80 @@
             {
                 "module":0,
                 "title":"美颜",
-                "authCode":"1-0"
+                "authCode":"1-0",
+                "performanceLevel": -1
             },
             {
                 "module":1,
                 "title":"美妆",
-                "authCode":"524288-0"
+                "authCode":"524288-0",
+                "performanceLevel": 1
             },
             {
                 "module":2,
                 "title":"风格推荐",
-                "authCode":"0-1048576"
+                "authCode":"0-1048576",
+                "performanceLevel": 1
             },
             {
                 "module":3,
                 "title":"道具贴纸",
-                "authCode":"110-0"
+                "authCode":"110-0",
+                "performanceLevel": -1
             },
             {
                 "module":4,
                 "title":"Animoji",
-                "authCode":"16-0"
+                "authCode":"16-0",
+                "performanceLevel": -1
             },
             {
                 "module":5,
                 "title":"美发",
-                "authCode":"1048576-0"
+                "authCode":"1048576-0",
+                "performanceLevel": -1
             },
             {
                 "module":6,
                 "title":"轻美妆",
-                "authCode":"0-8"
+                "authCode":"0-8",
+                "performanceLevel": 1
             },
             {
                 "module":7,
                 "title":"AR面具",
-                "authCode":"96-0"
+                "authCode":"96-0",
+                "performanceLevel": -1
             },
             {
                 "module":8,
                 "title":"搞笑大头",
-                "authCode":"0-32768"
+                "authCode":"0-32768",
+                "performanceLevel": -1
             },
             {
                 "module":9,
                 "title":"海报换脸",
-                "authCode":"8388608-0"
+                "authCode":"8388608-0",
+                "performanceLevel": -1
             },
             {
                 "module":10,
                 "title":"表情识别",
-                "authCode":"2058-0"
+                "authCode":"2058-0",
+                "performanceLevel": -1
             },
             {
                 "module":11,
                 "title":"音乐滤镜",
-                "authCode":"131072-0"
+                "authCode":"131072-0",
+                "performanceLevel": -1
             },
             {
                 "module":12,
                 "title":"哈哈镜",
-                "authCode":"65536-0"
+                "authCode":"65536-0",
+                "performanceLevel": -1
             }
         ]
     },
@@ -77,27 +90,32 @@
             {
                 "module":13,
                 "title":"美体",
-                "authCode":"0-32"
+                "authCode":"0-32",
+                "performanceLevel": -1
             },
             {
                 "module":14,
                 "title":"全身Avatar",
-                "authCode":"0-448"
+                "authCode":"0-448",
+                "performanceLevel": -1
             },
             {
                 "module":15,
                 "title":"人像分割",
-                "authCode":"256-0"
+                "authCode":"256-0",
+                "performanceLevel": -1
             },
             {
                 "module":16,
                 "title":"手势识别",
-                "authCode":"512-0"
+                "authCode":"512-0",
+                "performanceLevel": -1
             },
             {
                 "module":17,
                 "title":"绿幕抠像",
-                "authCode":"0-512"
+                "authCode":"0-512",
+                "performanceLevel": -1
             }
         ]
     },
@@ -107,7 +125,8 @@
         "modules":[
             {
                 "module":18,
-                "title":"精品贴纸"
+                "title":"精品贴纸",
+                "performanceLevel": -1
             }
         ]
     }

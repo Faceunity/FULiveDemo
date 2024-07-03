@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL enable;
 /// 权限码
 @property (nonatomic, copy) NSString *authCode;
+/// 最低支持设备性能等级
+@property (nonatomic, assign) FUDevicePerformanceLevel performanceLevel;
 
 @end
 

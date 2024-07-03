@@ -152,7 +152,7 @@ static dispatch_once_t onceToken;
             return;
         }
         FUGreenScreen *greenScreen = [FURenderKit shareRenderKit].greenScreen;
-        FUGLDisplayViewOrientation orientation = self.displayView.origintation;
+        FUGLDisplayViewOrientation orientation = self.displayView.orientation;
         switch (orientation) {
             case FUGLDisplayViewOrientationPortrait:
                 greenScreen.center = CGPointMake(greenScreen.center.x + dx, greenScreen.center.y + dy);

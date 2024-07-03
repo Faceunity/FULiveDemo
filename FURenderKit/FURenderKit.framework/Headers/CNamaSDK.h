@@ -233,6 +233,7 @@ typedef enum FUAIFACEALGORITHMCONFIG {  // face algorithm config
   FUAIFACE_DISABLE_FACE_OCCU = 1 << 0,
   FUAIFACE_DISABLE_SKIN_SEG = 1 << 1,
   FUAIFACE_DISABLE_DEL_SPOT = 1 << 2,
+  FUAIFACE_DISABLE_ARMESHV2 = 1 << 3,
 } FUAIFACEALGORITHMCONFIG;
 
 typedef enum FUAIMACHINETYPE {
@@ -1176,6 +1177,47 @@ FUNAMA_API void* fuGetFaceProcessorResult();
 FUNAMA_API void fuSetQualityTradeoff(float quality);
 
 /**
+ * @brief Get the dynamic quality.
+ *
+ * @param quality
+ * @return FUNAMA_API
+ */
+FUNAMA_API void fuGetDynamicQuality(float* quality);
+
+/**
+ * @brief Set the dynamic quality [0,1.0].
+ *
+ * @param quality
+ * @return FUNAMA_API
+ */
+FUNAMA_API void fuSetDynamicQuality(float quality);
+
+/**
+ * @brief set the params.
+ *
+ * @param trigger_fps the fps value which triggers the quality controller.
+ * bigger than 1, defualt is 25.
+ * @param quality_change_speed control the speed of quliaty change. bigger than
+ * 0,  defualt is 1.7.
+ * @param quality_change_smooth_time control the smoothness of qulaity change.
+ * bigger than 0, default is 2.5s.
+ * @return FUNAMA_API
+ */
+FUNAMA_API void fuSetDynamicQualityParams(float trigger_fps,
+                                          float quality_change_speed,
+                                          float quality_change_smooth_time);
+/**
+ * @brief Set Dynamic Quality Tradeoff, if enable, the quality of rendering
+ * will be adjust according to the fps automatically. default fps is 25. Should
+ * be enabled on machine level 1,-1
+ *
+ *
+ * @param enable true for enable, false for disable.
+ * @return FUNAMA_API
+ */
+FUNAMA_API void fuSetDynamicQualityControl(bool enable);
+
+/**
  \brief Set AI type for fuTrackFace and fuTrackFaceWithTongue interface
  \param ai_type, is a bit combination of FUAITYPE and subtypes;
  */
@@ -1910,6 +1952,8 @@ FUNAMA_API void fuSetMachineType(FUAIMACHINETYPE flag);
 FUNAMA_API void fuSetMakeupCoverResource(bool is_cover);
 
 FUNAMA_API bool fuGetDelspotStatus();
+
+FUNAMA_API void fuSetARMeshV2(bool use);
 
 #ifdef __cplusplus
 }

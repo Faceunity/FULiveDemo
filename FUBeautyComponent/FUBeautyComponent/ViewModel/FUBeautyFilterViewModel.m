@@ -13,6 +13,8 @@
 @interface FUBeautyFilterViewModel ()
 
 @property (nonatomic, copy) NSArray<FUBeautyFilterModel *> *beautyFilters;
+/// 需要根据高低端机适配
+@property (nonatomic, assign) FUDevicePerformanceLevel performanceLevel;
 
 @end
 
@@ -23,6 +25,7 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
+        self.performanceLevel = [FURenderKit devicePerformanceLevel];
         if ([[NSUserDefaults standardUserDefaults] objectForKey:FUPersistentBeautyFilterKey]) {
             // 获取本地滤镜数据
             self.beautyFilters = [self localFilters];
@@ -34,8 +37,8 @@
             // 获取本地保存选中的索引
             _selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:FUPersistentBeautySelectedFilterIndexKey];
         } else {
-            // 默认索引为2
-            _selectedIndex = 2;
+            // 低端机默认关闭滤镜，高端机默认 2
+            _selectedIndex = self.performanceLevel == FUDevicePerformanceLevelLow_1 ? 0 : 2;
         }
     }
     return self;

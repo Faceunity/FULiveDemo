@@ -37,6 +37,8 @@
 		E37D9E342A5FB48300AC7BF4 /* FUCommonUIComponent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E37D9E332A5FB48300AC7BF4 /* FUCommonUIComponent.framework */; };
 		E3DF2FCC2A69111200AF24A3 /* FUBeautyComponent.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E3DF2FCB2A69111200AF24A3 /* FUBeautyComponent.xcassets */; };
 		E3DF30EE2A724BC800AF24A3 /* FUBeautyComponent.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3DF30F02A724BC800AF24A3 /* FUBeautyComponent.strings */; };
+		E3EE4FCA2C0704E800E0E77F /* beauty_shape_low.json in Resources */ = {isa = PBXBuildFile; fileRef = E3EE4FC82C0704E800E0E77F /* beauty_shape_low.json */; };
+		E3EE4FCB2C0704E800E0E77F /* beauty_skin_low.json in Resources */ = {isa = PBXBuildFile; fileRef = E3EE4FC92C0704E800E0E77F /* beauty_skin_low.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,6 +78,8 @@
 		E3DF2FCB2A69111200AF24A3 /* FUBeautyComponent.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = FUBeautyComponent.xcassets; sourceTree = "<group>"; };
 		E3DF30EF2A724BC800AF24A3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/FUBeautyComponent.strings; sourceTree = "<group>"; };
 		E3DF30F12A724BCB00AF24A3 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/FUBeautyComponent.strings"; sourceTree = "<group>"; };
+		E3EE4FC82C0704E800E0E77F /* beauty_shape_low.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = beauty_shape_low.json; sourceTree = "<group>"; };
+		E3EE4FC92C0704E800E0E77F /* beauty_skin_low.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = beauty_skin_low.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +195,8 @@
 				E32D09232876D01C00884AE5 /* beauty_skin.json */,
 				E32D09252876D02E00884AE5 /* beauty_shape.json */,
 				E32D09212876CFDE00884AE5 /* beauty_filter.json */,
+				E3EE4FC82C0704E800E0E77F /* beauty_shape_low.json */,
+				E3EE4FC92C0704E800E0E77F /* beauty_skin_low.json */,
 				E3DF2FCB2A69111200AF24A3 /* FUBeautyComponent.xcassets */,
 				E3DF30F02A724BC800AF24A3 /* FUBeautyComponent.strings */,
 			);
@@ -280,9 +286,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3EE4FCA2C0704E800E0E77F /* beauty_shape_low.json in Resources */,
 				E32D09242876D01C00884AE5 /* beauty_skin.json in Resources */,
 				E32D09222876CFDE00884AE5 /* beauty_filter.json in Resources */,
 				E3DF30EE2A724BC800AF24A3 /* FUBeautyComponent.strings in Resources */,
+				E3EE4FCB2C0704E800E0E77F /* beauty_skin_low.json in Resources */,
 				E3DF2FCC2A69111200AF24A3 /* FUBeautyComponent.xcassets in Resources */,
 				E32D09262876D02E00884AE5 /* beauty_shape.json in Resources */,
 			);

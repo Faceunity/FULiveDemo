@@ -9,10 +9,11 @@
 
 /// 设备性能等级
 typedef NS_ENUM(NSInteger, FUDevicePerformanceLevel) {
-    FUDevicePerformanceLevelLow = 1,        // iPhone8以下
-    FUDevicePerformanceLevelHigh = 2,       // iPhone8及以上和iPhoneXR以下
+    FUDevicePerformanceLevelLow_1 = -1,     // iPhone6、iPhone6Plus及以下机型
+    FUDevicePerformanceLevelLow = 1,        // iPhone6Plus以上和iPhone8以下机型
+    FUDevicePerformanceLevelHigh = 2,       // iPhone8及以上和iPhoneXR以下机型
     FUDevicePerformanceLevelVeryHigh = 3,   // iPhoneXR
-    FUDevicePerformanceLevelExcellent = 4   // iPhoneXR以上
+    FUDevicePerformanceLevelExcellent = 4   // iPhoneXR以上机型
 };
 
 /// 设备具体机型

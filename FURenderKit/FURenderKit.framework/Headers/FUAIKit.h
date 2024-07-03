@@ -43,11 +43,13 @@ typedef enum : NSUInteger {
     FUFaceAlgorithmConfigDisableFaceOccu    = 1 << 0,   // 关闭全脸分割
     FUFaceAlgorithmConfigDisableSkinSeg     = 1 << 1,   // 关闭皮肤分割
     FUFaceAlgorithmConfigDisableDelSpot     = 1 << 2,   // 关闭祛斑痘
+    FUFaceAlgorithmConfigDisableARMeshV2    = 1 << 3,   // 关闭 ARMeshV2
     
     FUFaceAlgorithmConfigDisableFaceOccuAndSkinSeg  = FUFaceAlgorithmConfigDisableFaceOccu | FUFaceAlgorithmConfigDisableSkinSeg,
     FUFaceAlgorithmConfigDisableFaceOccuAndDelSpot  = FUFaceAlgorithmConfigDisableFaceOccu | FUFaceAlgorithmConfigDisableDelSpot,
     FUFaceAlgorithmConfigDisableSkinSegAndDelSpot   = FUFaceAlgorithmConfigDisableSkinSeg | FUFaceAlgorithmConfigDisableDelSpot,
-    FUFaceAlgorithmConfigDisableAll                 = FUFaceAlgorithmConfigDisableFaceOccu | FUFaceAlgorithmConfigDisableSkinSeg | FUFaceAlgorithmConfigDisableDelSpot
+    FUFaceAlgorithmConfigDisableFaceOccuAndSkinSegAndDelSpot = FUFaceAlgorithmConfigDisableFaceOccu | FUFaceAlgorithmConfigDisableSkinSeg | FUFaceAlgorithmConfigDisableDelSpot,
+    FUFaceAlgorithmConfigDisableAll                 = FUFaceAlgorithmConfigDisableFaceOccu | FUFaceAlgorithmConfigDisableSkinSeg | FUFaceAlgorithmConfigDisableDelSpot | FUFaceAlgorithmConfigDisableARMeshV2
 } FUFaceAlgorithmConfig;
 
 /// 人体分割场景

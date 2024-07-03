@@ -22,6 +22,7 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
+        FUDevicePerformanceLevel level = [FURenderKit devicePerformanceLevel];
         // 处理模块权限
         NSInteger moduleCode0 = [FURenderKit getModuleCode:0];
         NSInteger moduleCode1 = [FURenderKit getModuleCode:1];
@@ -37,6 +38,8 @@
                     // 判断是否有权限(moduleCode0对比code0，moduleCode1对比code1)
                     module.enable = (moduleCode0 & code0) || (moduleCode1 & code1);
                 }
+                // 性能等级判断
+                module.enable = level >= module.performanceLevel;
             }
         }
         NSMutableArray<UIImage *> *images = [[NSMutableArray alloc] init];
