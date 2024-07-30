@@ -1924,23 +1924,23 @@ FUNAMA_API void fuSetHumanSegMode(FUAIHUMANSEGMODE flag);
 /**
  \brief set face processor model config, ref to FUAIFACEMODELCONFIG
 */
-FUNAMA_API void fuSetFaceModelConfig(FUAIFACEMODELCONFIG flag);
+FUNAMA_API void fuSetFaceModelConfig(long long flag);
 /**
  \brief set face processor algorithm config, ref to FUAIFACEALGORITHMCONFIG ,
  use to disable some sub-module while load face ai module
 */
-FUNAMA_API void fuSetFaceAlgorithmConfig(FUAIFACEALGORITHMCONFIG flag);
+FUNAMA_API void fuSetFaceAlgorithmConfig(long long flag);
 
 /**
  \brief set face processor model config, ref to FUAIHUMANMODELCONFIG, config cpu
  or gpu mode,eth.
  */
-FUNAMA_API void fuSetHumanModelConfig(FUAIHUMANMODELCONFIG flag);
+FUNAMA_API void fuSetHumanModelConfig(long long flag);
 /**
  \brief set human processor algorithm config, ref to FUAIHUMANALGORITHMCONFIG ,
  use to disable some sub-module while load human ai module
 */
-FUNAMA_API void fuSetHumanAlgorithmConfig(FUAIHUMANALGORITHMCONFIG flag);
+FUNAMA_API void fuSetHumanAlgorithmConfig(long long flag);
 
 /**
  \brief force fu ai model to run on CPU
