@@ -82,6 +82,7 @@ typedef enum FUAITYPE {
 #define FUAITYPE_FACEPROCESSOR_SKINSEGMENT 549755813888            // 1<<39
 #define FUAITYPE_FACEPROCESSOR_DELSPOT 1099511627776               // 1<<40
 #define FUAITYPE_FACEPROCESSOR_ARMESHV2 2199023255552              // 1<<41
+#define FUAITYPE_FACEPROCESSOR_RACE 4398046511104                  // 1<<42
 
 typedef enum FUAIGESTURETYPE {
   FUAIGESTURE_NO_HAND = -1,
@@ -234,6 +235,8 @@ typedef enum FUAIFACEALGORITHMCONFIG {  // face algorithm config
   FUAIFACE_DISABLE_SKIN_SEG = 1 << 1,
   FUAIFACE_DISABLE_DEL_SPOT = 1 << 2,
   FUAIFACE_DISABLE_ARMESHV2 = 1 << 3,
+  FUAIFACE_DISABLE_RACE = 1 << 4,
+  FUAIFACE_DISABLE_LANDMARK_HP_OCCU = 1 << 5
 } FUAIFACEALGORITHMCONFIG;
 
 typedef enum FUAIMACHINETYPE {
@@ -306,6 +309,7 @@ typedef enum TRANSFORM_MATRIX {
 provides both a texture and an NV21 buffer as input.
 As the name suggests, this is the most efficient interface  on Android. */
 #define FU_FORMAT_ANDROID_DUAL_MODE 7
+#define FU_FORMAT_HARMONY_DUAL_MODE FU_FORMAT_ANDROID_DUAL_MODE
 typedef struct {
   int camera_id;  //<which camera should we use, 0 for front, 1 for back
 } TCameraDesc;
@@ -331,6 +335,8 @@ typedef struct {
   int tex;       //<the texture
   int flags;
 } TAndroidDualMode;
+
+typedef TAndroidDualMode THarmonyDualMode;
 /*\brief An I/O format where `ptr` points to a TNV12Buffer struct, which
  * describes a YpCbCr8BiPlanar buffer. It matches the YUV camera formats on iOS.
  */
@@ -426,8 +432,8 @@ typedef struct {
 #define NAMA_RENDER_OPTION_FLIP_X 0x1000
 #define NAMA_RENDER_OPTION_FLIP_Y 0x2000
 #define NAMA_NOCLEAR_CURRENT_FRAMEBUFFER 0x4000
+#define NAMA_RENDER_OPTION_FORCE_OUTPUT_ALPHA_ONE 0x8000
 #define NAMA_RENDER_OPTION_MASK 0xff000
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -1612,6 +1618,11 @@ FUNAMA_API void fuFaceProcessorSetMinFaceRatio(float ratio);
 FUNAMA_API void fuFaceProcessorSetFaceLandmarkQuality(int quality);
 
 /**
+ * \brief Disable the complex visible model in face landmark algorithm
+ * \param  enable       true: turn on; false: turn off
+ */
+FUNAMA_API void fuFaceProcessorSetFaceLandmarkHpOccu(int enable);
+/**
  \brief set ai model FaceProcessor's detector mode.
  \param use, 0 for disable detect small face, 1 for enable detect small face
  */
@@ -1955,6 +1966,12 @@ FUNAMA_API bool fuGetDelspotStatus();
 
 FUNAMA_API void fuSetARMeshV2(bool use);
 
+/**
+ * @brief get recommand device level.
+ *
+ * @return device_level , -99 for no recommendation
+ */
+FUNAMA_API int fuGetDeviceLevel();
 #ifdef __cplusplus
 }
 #endif

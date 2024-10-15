@@ -44,12 +44,14 @@ typedef enum : NSUInteger {
     FUFaceAlgorithmConfigDisableSkinSeg     = 1 << 1,   // 关闭皮肤分割
     FUFaceAlgorithmConfigDisableDelSpot     = 1 << 2,   // 关闭祛斑痘
     FUFaceAlgorithmConfigDisableARMeshV2    = 1 << 3,   // 关闭 ARMeshV2
+    FUFaceAlgorithmConfigDisableRACE        = 1 << 4,   // 关闭人种分类
+    FUFaceAlgorithmConfigDisableLANDMARK_HP_OCCU = 1 << 5, //关闭高质量遮挡
     
     FUFaceAlgorithmConfigDisableFaceOccuAndSkinSeg  = FUFaceAlgorithmConfigDisableFaceOccu | FUFaceAlgorithmConfigDisableSkinSeg,
     FUFaceAlgorithmConfigDisableFaceOccuAndDelSpot  = FUFaceAlgorithmConfigDisableFaceOccu | FUFaceAlgorithmConfigDisableDelSpot,
     FUFaceAlgorithmConfigDisableSkinSegAndDelSpot   = FUFaceAlgorithmConfigDisableSkinSeg | FUFaceAlgorithmConfigDisableDelSpot,
     FUFaceAlgorithmConfigDisableFaceOccuAndSkinSegAndDelSpot = FUFaceAlgorithmConfigDisableFaceOccu | FUFaceAlgorithmConfigDisableSkinSeg | FUFaceAlgorithmConfigDisableDelSpot,
-    FUFaceAlgorithmConfigDisableAll                 = FUFaceAlgorithmConfigDisableFaceOccu | FUFaceAlgorithmConfigDisableSkinSeg | FUFaceAlgorithmConfigDisableDelSpot | FUFaceAlgorithmConfigDisableARMeshV2
+    FUFaceAlgorithmConfigDisableAll                 = FUFaceAlgorithmConfigDisableFaceOccu | FUFaceAlgorithmConfigDisableSkinSeg | FUFaceAlgorithmConfigDisableDelSpot | FUFaceAlgorithmConfigDisableARMeshV2 | FUFaceAlgorithmConfigDisableRACE | FUFaceAlgorithmConfigDisableLANDMARK_HP_OCCU
 } FUFaceAlgorithmConfig;
 
 /// 人体分割场景
@@ -82,6 +84,8 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) FUFaceProcessorDetectMode faceProcessorDetectMode; // 人脸检测模式 default is FUFaceProcessorDetectModeVideo
 
 @property (nonatomic, assign) FUHumanProcessorDetectMode humanProcessorDetectMode;  // 人体检测模式，default is FUHumanProcessorDetectModeVideo
+
+@property (nonatomic, assign) BOOL faceProcessorSetFaceLandmarkHpOccu; // 遮挡点位是否使用高精度模型, 默认YES，YES 高精度模型，NO 通用模型
 
 @property (nonatomic, assign) BOOL faceProcessorDetectSmallFace; // 是否开启小脸检测，default is NO
 

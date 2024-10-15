@@ -67,6 +67,9 @@
 - (void)setDevicePerformanceDetails {
     // 设置人脸算法质量
     [FUAIKit shareKit].faceProcessorFaceLandmarkQuality = self.devicePerformanceLevel >= FUDevicePerformanceLevelHigh ? FUFaceProcessorFaceLandmarkQualityHigh : FUFaceProcessorFaceLandmarkQualityMedium;
+    // 设置是遮挡是否使用高精度模型（人脸算法质量为High时才生效）
+    [FUAIKit shareKit].faceProcessorSetFaceLandmarkHpOccu = NO ;
+    
     // 设置小脸检测是否打开
     [FUAIKit shareKit].faceProcessorDetectSmallFace = self.devicePerformanceLevel >= FUDevicePerformanceLevelHigh;
 }
@@ -78,8 +81,8 @@
         // 关闭所有效果
         config = FUFaceAlgorithmConfigDisableAll;
     } else if (level < FUDevicePerformanceLevelVeryHigh) {
-        // 关闭皮肤分割、祛斑痘和 ARMeshV2
-        config = FUFaceAlgorithmConfigDisableSkinSegAndDelSpot | FUFaceAlgorithmConfigDisableARMeshV2;
+        // 关闭皮肤分割、祛斑痘和 ARMeshV2 人种分类
+        config = FUFaceAlgorithmConfigDisableSkinSegAndDelSpot | FUFaceAlgorithmConfigDisableARMeshV2 | FUFaceAlgorithmConfigDisableRACE;
     } else if (level < FUDevicePerformanceLevelExcellent) {
         config = FUFaceAlgorithmConfigDisableSkinSeg;
     }
