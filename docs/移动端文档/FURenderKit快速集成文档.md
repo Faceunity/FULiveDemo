@@ -352,6 +352,8 @@ AI能力相关的功能都通过FUAIKit 加载或获取
 
 @property (nonatomic, assign) FUFaceProcessorFaceLandmarkQuality faceProcessorFaceLandmarkQuality;  // 人脸算法质量
 
+@property (nonatomic, assign) BOOL faceProcessorSetFaceLandmarkHpOccu; // 点位遮挡是否启用高精度检测, YES 启用，NO 不启用
+
 /// 人脸模型设置
 /// @param config 枚举值
 /// @note 必须在加载 AI 人脸模型之前设置
