@@ -5,31 +5,31 @@
 
 FURenderKit全功能版本：
 ```
-pod 'FURenderKit'
+pod 'FURenderKit_nama'
 ```
 
 FURenderKit人脸特效版本：
 
 ```
-pod 'FURenderKit_FAUL'
+pod 'FURenderKit_nama_FAUL'
 ```
 
 FURenderKit人体特效版本：
 
 ```
-pod 'FURenderKit_BAUL'
+pod 'FURenderKit_nama_BAUL'
 ```
 
 FURenderKit美颜+贴纸道具版本：
 
 ```
-pod 'FURenderKit_FBFS'
+pod 'FURenderKit_nama_FBFS'
 ```
 
 FURenderKit人像分割+绿幕抠像版本：
 
 ```
-pod 'FURenderKit_BSEG'
+pod 'FURenderKit_nama_BSEG'
 ```
 
 接下来执行：

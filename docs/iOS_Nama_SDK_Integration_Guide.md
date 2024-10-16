@@ -175,7 +175,7 @@ pod 'FURenderKit'
 FURenderKit version without physical engine:
 
 ```
-pod 'FURenderKit-lite'
+pod 'FURenderKit_nama_Lite'
 ```
 
 Then execute:
