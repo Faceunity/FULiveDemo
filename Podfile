@@ -24,12 +24,12 @@ target 'FULiveDemo' do
     pod 'SSZipArchive', '2.4.3'
 
     pod 'FURenderKit', :path => 'FURenderKit/'
-#    pod 'FURenderKit'
-#    pod 'FURenderKit-lite'
-#    pod 'FURenderKit_FAUL'
-#    pod 'FURenderKit_BAUL'
-#    pod 'FURenderKit_FBFS'
-#    pod 'FURenderKit_BSEG'
+#    pod 'FURenderKit_nama'
+#    pod 'FURenderKit_nama_Lite'
+#    pod 'FURenderKit_nama_FAUL'
+#    pod 'FURenderKit_nama_BAUL'
+#    pod 'FURenderKit_nama_FBFS'
+#    pod 'FURenderKit_nama_BSEG'
     
 end
 
@@ -37,12 +37,12 @@ target 'FUBeautyComponent' do
   project 'FUBeautyComponent/FUBeautyComponent.xcodeproj'
   
   pod 'FURenderKit', :path => 'FURenderKit/'
-  #    pod 'FURenderKit'
-  #    pod 'FURenderKit-lite'
-  #    pod 'FURenderKit_FAUL'
-  #    pod 'FURenderKit_BAUL'
-  #    pod 'FURenderKit_FBFS'
-  #    pod 'FURenderKit_BSEG'
+  #    pod 'FURenderKit_nama'
+  #    pod 'FURenderKit_nama_Lite'
+  #    pod 'FURenderKit_nama_FAUL'
+  #    pod 'FURenderKit_nama_BAUL'
+  #    pod 'FURenderKit_nama_FBFS'
+  #    pod 'FURenderKit_nama_BSEG'
   
 end
 
@@ -50,12 +50,12 @@ target 'FUMakeupComponent' do
   project 'FUMakeupComponent/FUMakeupComponent.xcodeproj'
   
   pod 'FURenderKit', :path => 'FURenderKit/'
-  #    pod 'FURenderKit'
-  #    pod 'FURenderKit-lite'
-  #    pod 'FURenderKit_FAUL'
-  #    pod 'FURenderKit_BAUL'
-  #    pod 'FURenderKit_FBFS'
-  #    pod 'FURenderKit_BSEG'
+  #    pod 'FURenderKit_nama'
+  #    pod 'FURenderKit_nama_Lite'
+  #    pod 'FURenderKit_nama_FAUL'
+  #    pod 'FURenderKit_nama_BAUL'
+  #    pod 'FURenderKit_nama_FBFS'
+  #    pod 'FURenderKit_nama_BSEG'
   
 end
 
@@ -63,12 +63,12 @@ target 'FUGreenScreenComponent' do
   project 'FUGreenScreenComponent/FUGreenScreenComponent.xcodeproj'
   
   pod 'FURenderKit', :path => 'FURenderKit/'
-  #    pod 'FURenderKit'
-  #    pod 'FURenderKit-lite'
-  #    pod 'FURenderKit_FAUL'
-  #    pod 'FURenderKit_BAUL'
-  #    pod 'FURenderKit_FBFS'
-  #    pod 'FURenderKit_BSEG'
+  #    pod 'FURenderKit_nama'
+  #    pod 'FURenderKit_nama_Lite'
+  #    pod 'FURenderKit_nama_FAUL'
+  #    pod 'FURenderKit_nama_BAUL'
+  #    pod 'FURenderKit_nama_FBFS'
+  #    pod 'FURenderKit_nama_BSEG'
   
 end
 

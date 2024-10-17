@@ -84,34 +84,34 @@ FURenderKit全功能版本（支持物理特效）：
 pod 'FURenderKit'
 ```
 
-FURenderKit-lite版本（8.5.0版本后不再更新）：
+FURenderKit_nama_Lite版本（8.5.0版本后不再更新）：
 
 ```
-pod 'FURenderKit-lite'
+pod 'FURenderKit_nama_Lite'
 ```
 
 FURenderKit人脸特效版本：
 
 ```
-pod 'FURenderKit_FAUL'
+pod 'FURenderKit_nama_FAUL'
 ```
 
 FURenderKit人体特效版本：
 
 ```
-pod 'FURenderKit_BAUL'
+pod 'FURenderKit_nama_BAUL'
 ```
 
 FURenderKit美颜+贴纸道具版本：
 
 ```
-pod 'FURenderKit_FBFS'
+pod 'FURenderKit_nama_FBFS'
 ```
 
 FURenderKit人像分割+绿幕抠像版本：
 
 ```
-pod 'FURenderKit_BSEG'
+pod 'FURenderKit_nama_BSEG'
 ```
 
 接下来执行：
