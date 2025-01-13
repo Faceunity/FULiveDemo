@@ -35,13 +35,21 @@
 #pragma mark - FUGreenScreenComponentDelegate
 
 - (void)greenScreenComponentDidCustomizeSafeArea {
-    // 相册选择安全区域图片
-    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-    picker.delegate = self;
-    picker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
-    picker.allowsEditing = NO;
-    picker.mediaTypes = @[(NSString *)kUTTypeImage];
-    [self presentViewController:picker animated:YES completion:nil];
+    __weak typeof(self)wself = self;
+    [FUUtility requestPhotoLibraryAuthorization:^(PHAuthorizationStatus status) {
+        if (status == PHAuthorizationStatusAuthorized) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                // 相册选择安全区域图片
+                UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+                picker.delegate = wself;
+                picker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+                picker.allowsEditing = NO;
+                picker.mediaTypes = @[(NSString *)kUTTypeImage];
+                picker.modalPresentationStyle = UIModalPresentationFullScreen;
+                [wself presentViewController:picker animated:YES completion:nil];
+            });
+        }
+    }];
 }
 
 - (void)greenScreenComponentViewHeightDidChange:(CGFloat)height {

@@ -50,8 +50,8 @@
     {
         "name":"瘦下颌骨",
         "type":6,
-        "currentValue":0.0,
-        "defaultValue":0.0,
+        "currentValue":0.1,
+        "defaultValue":0.1,
         "defaultValueInMiddle":false,
         "performanceLevel": 1
     },
@@ -74,16 +74,16 @@
     {
         "name":"下巴",
         "type":9,
-        "currentValue":0.3,
-        "defaultValue":0.3,
+        "currentValue":0.5,
+        "defaultValue":0.5,
         "defaultValueInMiddle":true,
         "performanceLevel": 1
     },
     {
         "name":"额头",
         "type":10,
-        "currentValue":0.3,
-        "defaultValue":0.3,
+        "currentValue":0.5,
+        "defaultValue":0.5,
         "defaultValueInMiddle":true,
         "performanceLevel": 1
     },
@@ -98,8 +98,8 @@
     {
         "name":"嘴型",
         "type":12,
-        "currentValue":0.4,
-        "defaultValue":0.4,
+        "currentValue":0.5,
+        "defaultValue":0.5,
         "defaultValueInMiddle":true,
         "performanceLevel": 1
     },
@@ -170,8 +170,8 @@
     {
         "name":"微笑嘴角",
         "type":21,
-        "currentValue":0.0,
-        "defaultValue":0.0,
+        "currentValue":0.35,
+        "defaultValue":0.35,
         "defaultValueInMiddle":false,
         "performanceLevel": 1
     },

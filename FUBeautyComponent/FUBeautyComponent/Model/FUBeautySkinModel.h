@@ -17,9 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// 美肤类型
 @property (nonatomic, assign) FUBeautySkin type;
 /// 当前值
-@property (nonatomic, assign) double currentValue;
+@property (nonatomic, assign) float currentValue;
 /// 默认值
-@property (nonatomic, assign) double defaultValue;
+@property (nonatomic, assign) float defaultValue;
 /// 默认值是否中位数
 @property (nonatomic, assign) BOOL defaultValueInMiddle;
 /// 实际值对应0.0-1.0的倍率

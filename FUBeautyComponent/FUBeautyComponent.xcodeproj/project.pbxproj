@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A04FA152D098055008AAC61 /* beauty_skin_lessThan2.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A04FA142D098055008AAC61 /* beauty_skin_lessThan2.json */; };
 		83B5EE0FC2B395CF64DC54C9 /* Pods_FUBeautyComponent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABDF53A51FC0C32BA791ABB /* Pods_FUBeautyComponent.framework */; };
 		E30500B42891364700C9408B /* FUBeautySkinViewModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E30500B22891364700C9408B /* FUBeautySkinViewModel.h */; };
 		E30500B52891364700C9408B /* FUBeautySkinViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E30500B32891364700C9408B /* FUBeautySkinViewModel.m */; };
@@ -42,6 +43,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A04FA142D098055008AAC61 /* beauty_skin_lessThan2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = beauty_skin_lessThan2.json; sourceTree = "<group>"; };
 		6C648FE65BACD6D4674EB44D /* Pods-FUBeautyComponent.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FUBeautyComponent.debug.xcconfig"; path = "Target Support Files/Pods-FUBeautyComponent/Pods-FUBeautyComponent.debug.xcconfig"; sourceTree = "<group>"; };
 		996BC0B24DE2F711FF0FA23A /* Pods-FUBeautyComponent.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FUBeautyComponent.release.xcconfig"; path = "Target Support Files/Pods-FUBeautyComponent/Pods-FUBeautyComponent.release.xcconfig"; sourceTree = "<group>"; };
 		AABDF53A51FC0C32BA791ABB /* Pods_FUBeautyComponent.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FUBeautyComponent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -192,13 +194,14 @@
 		E3A787302859AB0000FBDAFF /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				E32D09232876D01C00884AE5 /* beauty_skin.json */,
-				E32D09252876D02E00884AE5 /* beauty_shape.json */,
 				E32D09212876CFDE00884AE5 /* beauty_filter.json */,
+				E32D09252876D02E00884AE5 /* beauty_shape.json */,
 				E3EE4FC82C0704E800E0E77F /* beauty_shape_low.json */,
+				E32D09232876D01C00884AE5 /* beauty_skin.json */,
+				0A04FA142D098055008AAC61 /* beauty_skin_lessThan2.json */,
 				E3EE4FC92C0704E800E0E77F /* beauty_skin_low.json */,
-				E3DF2FCB2A69111200AF24A3 /* FUBeautyComponent.xcassets */,
 				E3DF30F02A724BC800AF24A3 /* FUBeautyComponent.strings */,
+				E3DF2FCB2A69111200AF24A3 /* FUBeautyComponent.xcassets */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -288,6 +291,7 @@
 			files = (
 				E3EE4FCA2C0704E800E0E77F /* beauty_shape_low.json in Resources */,
 				E32D09242876D01C00884AE5 /* beauty_skin.json in Resources */,
+				0A04FA152D098055008AAC61 /* beauty_skin_lessThan2.json in Resources */,
 				E32D09222876CFDE00884AE5 /* beauty_filter.json in Resources */,
 				E3DF30EE2A724BC800AF24A3 /* FUBeautyComponent.strings in Resources */,
 				E3EE4FCB2C0704E800E0E77F /* beauty_skin_low.json in Resources */,

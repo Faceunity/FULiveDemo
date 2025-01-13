@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) NSInteger filterIndex;
 @property (nonatomic, copy) NSString *filterName;
-@property (nonatomic, assign) double filterLevel;
+@property (nonatomic, assign) float filterLevel;
 
 @end
 

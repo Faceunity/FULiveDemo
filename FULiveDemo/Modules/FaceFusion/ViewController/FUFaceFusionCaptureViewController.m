@@ -83,12 +83,20 @@
 }
 
 - (void)headButtonViewSelImageAction:(UIButton *)btn {
-    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-    picker.delegate = self;
-    picker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
-    picker.allowsEditing = NO;
-    picker.mediaTypes = @[(NSString *)kUTTypeImage];
-    [self presentViewController:picker animated:YES completion:nil];
+    __weak typeof(self)wself = self;
+    [FUUtility requestPhotoLibraryAuthorization:^(PHAuthorizationStatus status) {
+        if (status == PHAuthorizationStatusAuthorized) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+                picker.delegate = wself;
+                picker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+                picker.allowsEditing = NO;
+                picker.mediaTypes = @[(NSString *)kUTTypeImage];
+                picker.modalPresentationStyle = UIModalPresentationFullScreen;
+                [wself presentViewController:picker animated:YES completion:nil];
+            });
+        }
+    }];
 }
 
 @end

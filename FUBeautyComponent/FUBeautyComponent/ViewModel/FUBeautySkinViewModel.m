@@ -138,7 +138,7 @@
 
 - (NSArray<FUBeautySkinModel *> *)defaultSkins {
     NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    NSString *skinPath = self.performanceLevel == FUDevicePerformanceLevelLow_1 ? [bundle pathForResource:@"beauty_skin_low" ofType:@"json"] : [bundle pathForResource:@"beauty_skin" ofType:@"json"];
+    NSString *skinPath = self.performanceLevel == FUDevicePerformanceLevelLow_1 ? [bundle pathForResource:@"beauty_skin_low" ofType:@"json"] : self.performanceLevel < FUDevicePerformanceLevelHigh ? [bundle pathForResource:@"beauty_skin_lessThan2" ofType:@"json"] : [bundle pathForResource:@"beauty_skin" ofType:@"json"];
     NSArray<NSDictionary *> *skinData = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:skinPath] options:NSJSONReadingMutableContainers error:nil];
     NSMutableArray *skins = [[NSMutableArray alloc] init];
     for (NSDictionary *dictionary in skinData) {

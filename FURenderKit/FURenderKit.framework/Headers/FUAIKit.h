@@ -91,6 +91,8 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, assign) BOOL asyncTrackFace; //设置是否进行异步人脸跟踪
 
+@property (nonatomic, assign) BOOL faceRaceDetect; // 人种检测是否开启，默认关闭
+
 @property (nonatomic, assign) FUFaceProcessorFaceLandmarkQuality faceProcessorFaceLandmarkQuality;  // 人脸算法质量
 
 + (instancetype)shareKit;
@@ -213,6 +215,14 @@ typedef enum : NSUInteger {
               name:(NSString *)name
               pret:(float *)pret
             number:(int)number;
+
+
+/*
+ * 获取人种分类
+ * faceId 被检测的人脸 ID ，未开启多人检测时传 0
+ * return -1:unknow, 0:black, 1:white, 2:yellow, 3:brown
+ */
++ (int)getFaceRace:(int)faceId;
 
 /// 设置了InputCameraMatrix之后获取获取人脸信息
 + (int)getRotatedFaceInfo:(int)faceId
