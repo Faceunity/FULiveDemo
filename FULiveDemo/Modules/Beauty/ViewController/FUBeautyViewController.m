@@ -31,7 +31,20 @@
     [FUBeautyComponentManager sharedManager].delegate = self;
     // 更新拍照/录制按钮位置
     [self updateBottomConstraintsOfCaptureButton:[FUBeautyComponentManager sharedManager].componentViewHeight];
+    
+    // 进入后台保存数据
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
 }
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)appDidEnterBackground {
+    [[FUBeautyComponentManager sharedManager] saveBeauty];
+}
+
 
 #pragma mark - Event response
 

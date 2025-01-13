@@ -1172,6 +1172,23 @@ FUNAMA_API int fuGetAIInfoRotated(int index, const char* name, void* pret,
                                   int num);
 
 FUNAMA_API void* fuGetFaceProcessorResult();
+
+/**
+ * \brief Get the detected race of face
+ *
+ * \param face_id index of face
+ * \return result: -1:unknow, 0:black, 1:white, 2:yellow, 3:brown
+ */
+FUNAMA_API int fuGetFaceRaceResult(int face_id);
+
+/**
+ * \brief enable or disable the RaceDetect,
+ *
+ * \param use 1 for enable, 0 for disable, default value is disable
+ * \return FUNAMA_API 1 for success, 0 for failure
+ */
+FUNAMA_API int fuSetUseFaceRaceDetect(bool use);
+
 /**
  \warning deprecated api
  \brief Set the quality-performance tradeoff.
@@ -1938,7 +1955,8 @@ FUNAMA_API void fuSetHumanSegMode(FUAIHUMANSEGMODE flag);
 FUNAMA_API void fuSetFaceModelConfig(long long flag);
 /**
  \brief set face processor algorithm config, ref to FUAIFACEALGORITHMCONFIG ,
- use to disable some sub-module while load face ai module
+ use to disable some sub-module while load face ai module, default is -1 which
+ disable all sub-modules.
 */
 FUNAMA_API void fuSetFaceAlgorithmConfig(long long flag);
 

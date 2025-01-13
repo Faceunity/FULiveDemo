@@ -94,12 +94,6 @@
                 "performanceLevel": -1
             },
             {
-                "module":14,
-                "title":"全身Avatar",
-                "authCode":"0-448",
-                "performanceLevel": -1
-            },
-            {
                 "module":15,
                 "title":"人像分割",
                 "authCode":"256-0",

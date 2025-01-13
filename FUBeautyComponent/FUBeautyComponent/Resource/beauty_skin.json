@@ -2,8 +2,8 @@
     {
         "name":"磨皮",
         "type":0,
-        "currentValue":3.6,
-        "defaultValue":3.6,
+        "currentValue":3.3,
+        "defaultValue":3.3,
         "defaultValueInMiddle":false,
         "ratio":6,
         "performanceLevel": -1
@@ -20,8 +20,8 @@
     {
         "name":"美白",
         "type":1,
-        "currentValue":0.3,
-        "defaultValue":0.3,
+        "currentValue":0.4,
+        "defaultValue":0.4,
         "defaultValueInMiddle":false,
         "ratio":1,
         "performanceLevel": 1
@@ -47,8 +47,8 @@
     {
         "name":"锐化",
         "type":3,
-        "currentValue":0.2,
-        "defaultValue":0.2,
+        "currentValue":0.6,
+        "defaultValue":0.6,
         "defaultValueInMiddle":false,
         "ratio":1,
         "performanceLevel": 1
@@ -56,8 +56,8 @@
     {
         "name":"五官立体",
         "type":4,
-        "currentValue":0.0,
-        "defaultValue":0.0,
+        "currentValue":0.4,
+        "defaultValue":0.4,
         "defaultValueInMiddle":false,
         "ratio":1,
         "performanceLevel": 1
@@ -65,8 +65,8 @@
     {
         "name":"亮眼",
         "type":5,
-        "currentValue":0.0,
-        "defaultValue":0.0,
+        "currentValue":0.3,
+        "defaultValue":0.3,
         "defaultValueInMiddle":false,
         "ratio":1,
         "performanceLevel": 1
@@ -83,8 +83,8 @@
     {
         "name":"去黑眼圈",
         "type":7,
-        "currentValue":0.0,
-        "defaultValue":0.0,
+        "currentValue":0.8,
+        "defaultValue":0.8,
         "defaultValueInMiddle":false,
         "ratio":1,
         "performanceLevel": 1
@@ -92,8 +92,8 @@
     {
         "name":"去法令纹",
         "type":8,
-        "currentValue":0.0,
-        "defaultValue":0.0,
+        "currentValue":0.8,
+        "defaultValue":0.8,
         "defaultValueInMiddle":false,
         "ratio":1,
         "performanceLevel": 1

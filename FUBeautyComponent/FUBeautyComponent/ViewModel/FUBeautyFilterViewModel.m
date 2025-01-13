@@ -37,8 +37,8 @@
             // 获取本地保存选中的索引
             _selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:FUPersistentBeautySelectedFilterIndexKey];
         } else {
-            // 低端机默认关闭滤镜，高端机默认 2
-            _selectedIndex = self.performanceLevel == FUDevicePerformanceLevelLow_1 ? 0 : 2;
+            // 低端机默认关闭滤镜，高端机默认 1
+            _selectedIndex = self.performanceLevel == FUDevicePerformanceLevelLow_1 ? 0 : 1;
         }
     }
     return self;
