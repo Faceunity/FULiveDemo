@@ -80,6 +80,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FUBeauty (Shape)
 
+/// 美型功能抗锯齿优化（默认 NO）
+@property (nonatomic, assign) BOOL enableWarpAntiAlias;
+
 /// 变形取值 0女神变形 1网红变形 2自然变形 3默认变形 4精细变形
 @property (nonatomic, assign) int faceShape;
 
