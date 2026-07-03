@@ -180,10 +180,8 @@ static NSString * const kFUCustomizeSkinCellIdentifier = @"FUCustomizeSkinCell";
     cell.defaultValue = [self.viewModel defaultValueAtIndex:indexPath.item];
     cell.currentValue = [self.viewModel currentValueAtIndex:indexPath.item];
     if (self.viewModel.isEffectDisabled) {
-        // 直接禁用
         cell.disabled = YES;
     } else {
-        // 判断特效设备性能等级要求是否高于当前设备性能等级
         FUDevicePerformanceLevel level = [FURenderKit devicePerformanceLevel];
         cell.disabled = [self.viewModel devicePerformanceLevelAtIndex:indexPath.item] > level;
     }
@@ -194,28 +192,30 @@ static NSString * const kFUCustomizeSkinCellIdentifier = @"FUCustomizeSkinCell";
 #pragma mark - Collection view delegate
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    BOOL should = YES;
     if (self.viewModel.isEffectDisabled) {
-        should = NO;
-    } else {
-        FUCustomizeSkinCell *cell = (FUCustomizeSkinCell *)[collectionView cellForItemAtIndexPath:indexPath];
-        if (cell.disabled) {
-            if ([self.viewModel devicePerformanceLevelAtIndex:indexPath.item] == FUDevicePerformanceLevelVeryHigh) {
-                [FUTipHUD showTips:[NSString stringWithFormat:FULocalizedString(@"功能仅支持iPhoneXR及以上机型使用"), FULocalizedString([self.viewModel nameAtIndex:indexPath.item])] dismissWithDelay:1];
-            } else if ([self.viewModel devicePerformanceLevelAtIndex:indexPath.item] == FUDevicePerformanceLevelHigh) {
-                [FUTipHUD showTips:[NSString stringWithFormat:FULocalizedString(@"该功能只支持在高端机上使用"), FULocalizedString([self.viewModel nameAtIndex:indexPath.item])] dismissWithDelay:1];
-            }
-            should = NO;
-        }
-    }
-    if (!should) {
-        // 刷新视图
         [self.skinCollectionView reloadData];
         if (self.viewModel.selectedIndex >= 0) {
             [self.skinCollectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:self.viewModel.selectedIndex inSection:0] animated:NO scrollPosition:UICollectionViewScrollPositionNone];
         }
+        return NO;
     }
-    return should;
+    FUCustomizeSkinCell *cell = (FUCustomizeSkinCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    if (cell.disabled) {
+        FUDevicePerformanceLevel requiredLevel = [self.viewModel devicePerformanceLevelAtIndex:indexPath.item];
+        if (requiredLevel == FUDevicePerformanceLevelExcellent) {
+            [FUTipHUD showTips:[NSString stringWithFormat:FULocalizedString(@"功能仅支持iPhone11及以上机型使用"), FULocalizedString([self.viewModel nameAtIndex:indexPath.item])] dismissWithDelay:1];
+        } else if (requiredLevel == FUDevicePerformanceLevelVeryHigh) {
+            [FUTipHUD showTips:[NSString stringWithFormat:FULocalizedString(@"功能仅支持iPhoneXR及以上机型使用"), FULocalizedString([self.viewModel nameAtIndex:indexPath.item])] dismissWithDelay:1];
+        } else if (requiredLevel >= FUDevicePerformanceLevelLow) {
+            [FUTipHUD showTips:[NSString stringWithFormat:FULocalizedString(@"该功能只支持在高端机上使用"), FULocalizedString([self.viewModel nameAtIndex:indexPath.item])] dismissWithDelay:1];
+        }
+        [self.skinCollectionView reloadData];
+        if (self.viewModel.selectedIndex >= 0) {
+            [self.skinCollectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:self.viewModel.selectedIndex inSection:0] animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+        }
+        return NO;
+    }
+    return YES;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {

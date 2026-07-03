@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/CNamaSDK.h</key>
 		<data>
-		v485uVQjubd++tpaGjWRcCu4aNw=
+		APO+YmAK1ygLfVi+PP5uIp3uUEk=
 		</data>
 		<key>Headers/FUAIConfig.h</key>
 		<data>
@@ -226,7 +226,7 @@
 		</data>
 		<key>Headers/FURenderKit.h</key>
 		<data>
-		ZHRCRt0pCtd4VtGOhZ/vI0A6VbY=
+		8KziyNcWMMTKAXqe92oCc06K4fY=
 		</data>
 		<key>Headers/FURenderQueue.h</key>
 		<data>
@@ -302,7 +302,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		fXg6EL1d12pU5amygApErw7ui2Q=
+		PVqUV79D404i0IZEP99zKyvXtIo=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -319,11 +319,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			v485uVQjubd++tpaGjWRcCu4aNw=
+			APO+YmAK1ygLfVi+PP5uIp3uUEk=
 			</data>
 			<key>hash2</key>
 			<data>
-			LtgYgl/S1fBNVtV850ZOjhWIxekte4LhRdlK2ml30hI=
+			AzFXJuU7JDSbxzcQS4m0Nn6pHBIPtu8miLXKfsmSfEI=
 			</data>
 		</dict>
 		<key>Headers/FUAIConfig.h</key>
@@ -924,11 +924,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ZHRCRt0pCtd4VtGOhZ/vI0A6VbY=
+			8KziyNcWMMTKAXqe92oCc06K4fY=
 			</data>
 			<key>hash2</key>
 			<data>
-			+HSfWlAe1R/r8cAakEIIz9gCryKMoRTE+vtOL4e95e4=
+			R1dzaojKOE6ZzzmgM1Jd6RPxrg39j9py0XHoDCdBLxk=
 			</data>
 		</dict>
 		<key>Headers/FURenderQueue.h</key>

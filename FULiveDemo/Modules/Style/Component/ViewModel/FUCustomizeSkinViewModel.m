@@ -59,6 +59,7 @@
 - (FUDevicePerformanceLevel)devicePerformanceLevelAtIndex:(NSUInteger)index {
     return self.skins[index].performanceLevel;
 }
+
 #pragma mark - Private methods
 
 - (void)setValue:(double)value forType:(FUStyleCustomizingSkinType)type {
@@ -95,6 +96,12 @@
             break;
         case FUStyleCustomizingSkinTypeClarity:
             [FURenderKit shareRenderKit].beauty.clarity = value;
+            break;
+        case FUStyleCustomizingSkinTypeBodyBlurLevel:
+            [[FURenderKit shareRenderKit].beauty setParam:@(value) forName:@"body_blur_level" paramType:FUParamTypeDouble];
+            break;
+        case FUStyleCustomizingSkinTypeFacialPlump:
+            [[FURenderKit shareRenderKit].beauty setParam:@(value) forName:@"facial_plump" paramType:FUParamTypeDouble];
             break;
     }
 }

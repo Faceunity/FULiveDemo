@@ -89,6 +89,7 @@
 "美臀"  = "Hips";
 "小头" = "Head";
 "瘦腿" = "Legs Width";
+"丰胸" = "Breast";
 
 //轻美妆
 "桃花" = "Peach Blossom";
@@ -123,6 +124,9 @@
 "关闭" = "Turn off";
 "开启" = "Turn on";
 "气质" = "Temperament";
+"白开水" = "Clean Look";
+"甜心派" = "Sweet Heart";
+"混血baby" = "Mixed Baby";
 "学姐" = "Senior Sister";
 "智雅" = "Jiah";
 "淡颜" = "Elegant";
@@ -136,7 +140,9 @@
 
 /// Skin
 "磨皮" = "Buffing";
+"全身磨皮" = "Full Body Buffing";
 "祛斑痘" = "Acne Removal";
+"面部丰盈" = "Facial Plump";
 "美白" = "Skin Tone";
 "红润" = "Rosy";
 "清晰" = "Clarity";

@@ -136,6 +136,9 @@
         case FUStyleCustomizingShapeTypeBrowThick:
             [FURenderKit shareRenderKit].beauty.intensityBrowThick = value;
             break;
+        case FUStyleCustomizingShapeTypeEyePupil:
+            [[FURenderKit shareRenderKit].beauty setParam:@(value) forName:@"intensity_eye_pupil" paramType:FUParamTypeDouble];
+            break;
     }
 }
 

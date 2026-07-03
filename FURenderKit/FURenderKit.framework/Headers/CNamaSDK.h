@@ -83,6 +83,7 @@ typedef enum FUAITYPE {
 #define FUAITYPE_FACEPROCESSOR_DELSPOT 1099511627776               // 1<<40
 #define FUAITYPE_FACEPROCESSOR_ARMESHV2 2199023255552              // 1<<41
 #define FUAITYPE_FACEPROCESSOR_RACE 4398046511104                  // 1<<42
+#define FUAITYPE_FACEPROCESSOR_FACIAL_PLUMP 8796093022208          // 1<<43
 
 typedef enum FUAIGESTURETYPE {
   FUAIGESTURE_NO_HAND = -1,
@@ -1980,7 +1981,8 @@ FUNAMA_API void fuSetMachineType(FUAIMACHINETYPE flag);
 
 FUNAMA_API void fuSetMakeupCoverResource(bool is_cover);
 
-FUNAMA_API bool fuGetDelspotStatus();
+FUNAMA_API bool fuGetRetouchingStatus();
+
 
 FUNAMA_API void fuSetARMeshV2(bool use);
 

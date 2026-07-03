@@ -14,7 +14,8 @@ typedef NS_ENUM(NSUInteger, FUBodyBeautyParts) {
     FUBodyBeautyPartsShoulder,
     FUBodyBeautyPartsHip,
     FUBodyBeautyPartsHeadSlim,
-    FUBodyBeautyPartsLegSlim
+    FUBodyBeautyPartsLegSlim,
+    FUBodyBeautyPartsBreast        // 丰胸，SDK key 待定，范围 0.0-1.0，全机型
 };
 
 NS_ASSUME_NONNULL_BEGIN

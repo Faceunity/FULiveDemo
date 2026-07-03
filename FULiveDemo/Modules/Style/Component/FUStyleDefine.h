@@ -21,7 +21,9 @@ typedef NS_ENUM(NSUInteger, FUStyleCustomizingSkinType) {
     FUStyleCustomizingSkinTypeRemovePouchStrength,
     FUStyleCustomizingSkinTypeRemoveNasolabialFoldsStrength,
     FUStyleCustomizingSkinTypeAntiAcneSpot,
-    FUStyleCustomizingSkinTypeClarity
+    FUStyleCustomizingSkinTypeClarity,
+    FUStyleCustomizingSkinTypeBodyBlurLevel,    // 全身磨皮，SDK key: body_blur_level，范围 0.0-6.0，仅 4 级机型
+    FUStyleCustomizingSkinTypeFacialPlump       // 面部丰盈，SDK key: facial_plump，范围 0.0-1.0，高端机
 };
 
 typedef NS_ENUM(NSUInteger, FUStyleCustomizingShapeType) {
@@ -49,7 +51,8 @@ typedef NS_ENUM(NSUInteger, FUStyleCustomizingShapeType) {
     FUStyleCustomizingShapeTypeSmile,
     FUStyleCustomizingShapeTypeBrowHeight,
     FUStyleCustomizingShapeTypeBrowSpace,
-    FUStyleCustomizingShapeTypeBrowThick
+    FUStyleCustomizingShapeTypeBrowThick,
+    FUStyleCustomizingShapeTypeEyePupil         // 瞳孔大小，SDK key: intensity_eye_pupil，范围 0.0-1.0，双向滑杆，全机型
 };
 
 

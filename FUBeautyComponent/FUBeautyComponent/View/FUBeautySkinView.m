@@ -156,7 +156,6 @@ static NSString * const kFUBeautySkinCellIdentifier = @"FUBeautySkinCell";
     cell.defaultInMiddle = skin.defaultValueInMiddle;
     cell.defaultValue = skin.defaultValue;
     cell.currentValue = skin.currentValue;
-    // 判断特效设备性能等级要求是否高于当前设备性能等级
     FUDevicePerformanceLevel level = [FURenderKit devicePerformanceLevel];
     cell.disabled = skin.performanceLevel > level;
     cell.selected = indexPath.item == self.viewModel.selectedIndex;
@@ -169,18 +168,16 @@ static NSString * const kFUBeautySkinCellIdentifier = @"FUBeautySkinCell";
     FUBeautySkinCell *cell = (FUBeautySkinCell *)[collectionView cellForItemAtIndexPath:indexPath];
     if (cell.disabled) {
         FUBeautySkinModel *skin = self.viewModel.beautySkins[indexPath.item];
-        if (skin.performanceLevel == FUDevicePerformanceLevelVeryHigh) {
+        if (skin.performanceLevel == FUDevicePerformanceLevelExcellent) {
+            [FUTipHUD showTips:[NSString stringWithFormat:FUBeautyStringWithKey(@"功能仅支持iPhone11及以上机型使用"), FUBeautyStringWithKey(skin.name)] dismissWithDelay:1];
+        } else if (skin.performanceLevel == FUDevicePerformanceLevelVeryHigh) {
             [FUTipHUD showTips:[NSString stringWithFormat:FUBeautyStringWithKey(@"功能仅支持iPhoneXR及以上机型使用"), FUBeautyStringWithKey(skin.name)] dismissWithDelay:1];
-            [self.skinCollectionView reloadData];
-            if (self.viewModel.selectedIndex >= 0) {
-                [self.skinCollectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:self.viewModel.selectedIndex inSection:0] animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-            }
         } else if (skin.performanceLevel >= FUDevicePerformanceLevelLow) {
             [FUTipHUD showTips:[NSString stringWithFormat:FUBeautyStringWithKey(@"该功能只支持在高端机上使用"), FUBeautyStringWithKey(skin.name)] dismissWithDelay:1];
-            [self.skinCollectionView reloadData];
-            if (self.viewModel.selectedIndex >= 0) {
-                [self.skinCollectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:self.viewModel.selectedIndex inSection:0] animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-            }
+        }
+        [self.skinCollectionView reloadData];
+        if (self.viewModel.selectedIndex >= 0) {
+            [self.skinCollectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:self.viewModel.selectedIndex inSection:0] animated:NO scrollPosition:UICollectionViewScrollPositionNone];
         }
         return NO;
     }

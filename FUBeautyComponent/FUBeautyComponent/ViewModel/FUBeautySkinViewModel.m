@@ -22,12 +22,15 @@
     self = [super init];
     if (self) {
         self.performanceLevel = [FURenderKit devicePerformanceLevel];
+        NSArray<FUBeautySkinModel *> *defaultSkins = [self defaultSkins];
         if ([[NSUserDefaults standardUserDefaults] objectForKey:FUPersistentBeautySkinKey]) {
-            // 获取本地美肤数据
-            self.beautySkins = [self localSkins];
+            NSArray<FUBeautySkinModel *> *localSkins = [self localSkins];
+            self.beautySkins = [self mergedSkinsWithLocal:localSkins defaultSkins:defaultSkins];
+            if ([self skins:self.beautySkins needMigrationFromLocal:localSkins defaultSkins:defaultSkins]) {
+                [self saveSkinsPersistently];
+            }
         } else {
-            // 获取默认美肤数据
-            self.beautySkins = [self defaultSkins];
+            self.beautySkins = defaultSkins;
         }
         if ([[NSUserDefaults standardUserDefaults] objectForKey:FUPersistentBeautySkinSegmentationKey]) {
             _skinSegmentationEnabled = [[NSUserDefaults standardUserDefaults] boolForKey:FUPersistentBeautySkinSegmentationKey];
@@ -122,7 +125,52 @@
         case FUBeautySkinClarity:
             [FURenderKit shareRenderKit].beauty.clarity = value;
             break;
+        case FUBeautySkinBodyBlurLevel:
+            // body_blur_level: 0.0-6.0
+            [[FURenderKit shareRenderKit].beauty setParam:@(value) forName:@"body_blur_level" paramType:FUParamTypeDouble];
+            break;
+        case FUBeautySkinFacialPlump:
+            // facial_plump: 0.0-1.0
+            [[FURenderKit shareRenderKit].beauty setParam:@(value) forName:@"facial_plump" paramType:FUParamTypeDouble];
+            break;
     }
+}
+
+- (NSArray<FUBeautySkinModel *> *)mergedSkinsWithLocal:(NSArray<FUBeautySkinModel *> *)localSkins defaultSkins:(NSArray<FUBeautySkinModel *> *)defaultSkins {
+    NSMutableDictionary<NSNumber *, FUBeautySkinModel *> *localSkinsByType = [NSMutableDictionary dictionary];
+    for (FUBeautySkinModel *skin in localSkins) {
+        localSkinsByType[@(skin.type)] = skin;
+    }
+    NSMutableArray<FUBeautySkinModel *> *mergedSkins = [NSMutableArray arrayWithCapacity:defaultSkins.count];
+    for (FUBeautySkinModel *defaultSkin in defaultSkins) {
+        FUBeautySkinModel *localSkin = localSkinsByType[@(defaultSkin.type)];
+        if (localSkin) {
+            FUBeautySkinModel *mergedSkin = [[FUBeautySkinModel alloc] init];
+            mergedSkin.name = defaultSkin.name;
+            mergedSkin.type = defaultSkin.type;
+            mergedSkin.defaultValue = defaultSkin.defaultValue;
+            mergedSkin.defaultValueInMiddle = defaultSkin.defaultValueInMiddle;
+            mergedSkin.ratio = defaultSkin.ratio;
+            mergedSkin.performanceLevel = defaultSkin.performanceLevel;
+            mergedSkin.currentValue = localSkin.currentValue;
+            [mergedSkins addObject:mergedSkin];
+        } else {
+            [mergedSkins addObject:defaultSkin];
+        }
+    }
+    return [mergedSkins copy];
+}
+
+- (BOOL)skins:(NSArray<FUBeautySkinModel *> *)skins needMigrationFromLocal:(NSArray<FUBeautySkinModel *> *)localSkins defaultSkins:(NSArray<FUBeautySkinModel *> *)defaultSkins {
+    if (skins.count != defaultSkins.count || localSkins.count != defaultSkins.count) {
+        return YES;
+    }
+    for (NSUInteger index = 0; index < defaultSkins.count; index++) {
+        if (skins[index].type != defaultSkins[index].type) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 - (NSArray<FUBeautySkinModel *> *)localSkins {

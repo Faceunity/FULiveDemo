@@ -80,7 +80,7 @@ post_install do |installer|
           config.build_settings['ENABLE_BITCODE'] = 'NO'
       end
       shell_script_path = "Pods/Target Support Files/#{target.name}/#{target.name}-frameworks.sh"
-      if File::exists?(shell_script_path)
+      if File.exist?(shell_script_path)
         shell_script_input_lines = File.readlines(shell_script_path)
         shell_script_output_lines = shell_script_input_lines.map { |line| line.sub("source=\"$(readlink \"${source}\")\"", "source=\"$(readlink -f \"${source}\")\"") }
         File.open(shell_script_path, 'w') do |f|
@@ -90,6 +90,17 @@ post_install do |installer|
         end
       end
     end
+  end
+
+  # Xcode 26+ SDK marks netinet6/in6.h as a private module header.
+  # netinet/in.h already provides the IPv6 types AFNetworking needs.
+  Dir.glob(File.join(__dir__, 'Pods', '**', '*.{m,mm}')).each do |file|
+    content = File.read(file)
+    next unless content.include?('#import <netinet6/in6.h>')
+
+    File.chmod(0644, file)
+    File.write(file, content.gsub("#import <netinet6/in6.h>\n", ''))
+    puts "[post_install] Removed private netinet6/in6.h import from #{file}"
   end
 end
 

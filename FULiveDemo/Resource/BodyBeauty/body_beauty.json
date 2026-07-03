@@ -41,5 +41,11 @@
         "parts":6,
         "defaultValue":0,
         "currentValue":0
+    },
+    {
+        "name":"丰胸",
+        "parts":7,
+        "defaultValue":0,
+        "currentValue":0
     }
 ]

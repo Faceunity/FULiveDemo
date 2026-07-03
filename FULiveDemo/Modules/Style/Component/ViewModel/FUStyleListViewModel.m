@@ -10,6 +10,10 @@
 
 static NSString * const FUPersistentStylesKey = @"FUPersistentStyles";
 static NSString * const FUPersistentSelectedStyleIndexKey = @"FUPersistentSelectedStyleIndex";
+static NSString * const FUPersistentStyleDataMigrationVersionKey = @"FUPersistentStyleDataMigrationVersion";
+static NSString * const FUStyleDataMigrationVersion_9_0_0 = @"9.0.0";
+static NSString * const FUStyleDataMigrationVersion_9_0_1 = @"9.0.1";
+static NSString * const FUDefaultStyleName = @"气质";
 
 @interface FUStyleListViewModel ()
 
@@ -42,15 +46,45 @@ static NSString * const FUPersistentSelectedStyleIndexKey = @"FUPersistentSelect
             }
             [FURenderKit shareRenderKit].beauty = beauty;
         }
-        if ([[NSUserDefaults standardUserDefaults] objectForKey:FUPersistentStylesKey]) {
-            self.styles = [self localStyles];
+        NSArray<FUStyleModel *> *defaultStyles = [self defaultStyles];
+        NSArray<FUStyleModel *> *localStyles = nil;
+        BOOL hasLocalStyles = [[NSUserDefaults standardUserDefaults] objectForKey:FUPersistentStylesKey] != nil;
+        if (hasLocalStyles) {
+            localStyles = [self localStyles];
+            self.styles = [self mergedStylesWithLocal:localStyles defaultStyles:defaultStyles];
         } else {
-            self.styles = [self defaultStyles];
+            self.styles = defaultStyles;
         }
-        if ([[NSUserDefaults standardUserDefaults] objectForKey:FUPersistentSelectedStyleIndexKey]) {
-            [self selectStyleAtIndex:[[NSUserDefaults standardUserDefaults] integerForKey:FUPersistentSelectedStyleIndexKey] completion:nil];
-        } else {
-            [self selectStyleAtIndex:1 completion:nil];
+        
+        BOOL needsRound2Migration = ![self hasCompletedStyleDataMigration];
+        if (needsRound2Migration && hasLocalStyles) {
+            self.styles = [self applyRound2StyleParameterRefreshWithStyles:self.styles defaultStyles:defaultStyles];
+        }
+        
+        NSUInteger persistedSelectedIndex = 0;
+        BOOL hasPersistedSelectedIndex = [[NSUserDefaults standardUserDefaults] objectForKey:FUPersistentSelectedStyleIndexKey] != nil;
+        if (hasPersistedSelectedIndex) {
+            persistedSelectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:FUPersistentSelectedStyleIndexKey];
+        }
+        BOOL needsStyleDataMigration = ![self hasCompletedStyleDataMigration];
+        BOOL needsStructureMigration = hasLocalStyles && [self styles:self.styles needMigrationFromLocal:localStyles defaultStyles:defaultStyles];
+        BOOL needsRound2Persist = needsRound2Migration && hasLocalStyles;
+        BOOL needsLegacyIndexOffset = needsStyleDataMigration && !hasLocalStyles && hasPersistedSelectedIndex;
+        NSUInteger selectedIndex = hasPersistedSelectedIndex ? persistedSelectedIndex : [self defaultStyleIndexInStyles:self.styles];
+        selectedIndex = [self migratedSelectedIndexFromPersistedIndex:selectedIndex localStyles:localStyles styles:self.styles needsLegacyIndexOffset:needsLegacyIndexOffset];
+        [self selectStyleAtIndex:selectedIndex completion:nil];
+        
+        BOOL isNewUser = !hasLocalStyles && !hasPersistedSelectedIndex;
+        BOOL dataAlreadyMigrated = hasLocalStyles && !needsStructureMigration;
+        if (needsStructureMigration || needsRound2Persist) {
+            [self saveStylesPersistently];
+            [self markStyleDataMigrationCompleted];
+        } else if (hasPersistedSelectedIndex && selectedIndex != persistedSelectedIndex) {
+            [[NSUserDefaults standardUserDefaults] setInteger:selectedIndex forKey:FUPersistentSelectedStyleIndexKey];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            [self markStyleDataMigrationCompleted];
+        } else if (needsStyleDataMigration && (dataAlreadyMigrated || isNewUser)) {
+            [self markStyleDataMigrationCompleted];
         }
         self.selectedStyleFunction = FUStyleFunctionMakeup;
     }
@@ -137,7 +171,7 @@ static NSString * const FUPersistentSelectedStyleIndexKey = @"FUPersistentSelect
         }
     }
     // 恢复当前选中风格索引
-    [self selectStyleAtIndex:1 completion:nil];
+    [self selectStyleAtIndex:[self defaultStyleIndexInStyles:self.styles] completion:nil];
     // 恢复默认选择妆容功能
     self.selectedStyleFunction = FUStyleFunctionMakeup;
 }
@@ -189,6 +223,12 @@ static NSString * const FUPersistentSelectedStyleIndexKey = @"FUPersistentSelect
             break;
         case FUStyleCustomizingSkinTypeClarity:
             [FURenderKit shareRenderKit].beauty.clarity = value;
+            break;
+        case FUStyleCustomizingSkinTypeBodyBlurLevel:
+            [[FURenderKit shareRenderKit].beauty setParam:@(value) forName:@"body_blur_level" paramType:FUParamTypeDouble];
+            break;
+        case FUStyleCustomizingSkinTypeFacialPlump:
+            [[FURenderKit shareRenderKit].beauty setParam:@(value) forName:@"facial_plump" paramType:FUParamTypeDouble];
             break;
     }
 }
@@ -270,6 +310,9 @@ static NSString * const FUPersistentSelectedStyleIndexKey = @"FUPersistentSelect
         case FUStyleCustomizingShapeTypeBrowThick:
             [FURenderKit shareRenderKit].beauty.intensityBrowThick = value;
             break;
+        case FUStyleCustomizingShapeTypeEyePupil:
+            [[FURenderKit shareRenderKit].beauty setParam:@(value) forName:@"intensity_eye_pupil" paramType:FUParamTypeDouble];
+            break;
     }
 }
 
@@ -315,7 +358,7 @@ static NSString * const FUPersistentSelectedStyleIndexKey = @"FUPersistentSelect
 }
 
 - (BOOL)isDefault {
-    if (self.selectedIndex != 1) {
+    if (self.selectedIndex != [self defaultStyleIndexInStyles:self.styles]) {
         // 选中的风格索引不是默认
         return NO;
     }
@@ -358,6 +401,209 @@ static NSString * const FUPersistentSelectedStyleIndexKey = @"FUPersistentSelect
         }
     }];
     return result;
+}
+
+#pragma mark - Migration
+
+- (BOOL)hasCompletedStyleDataMigration {
+    return [[[NSUserDefaults standardUserDefaults] stringForKey:FUPersistentStyleDataMigrationVersionKey] isEqualToString:FUStyleDataMigrationVersion_9_0_1];
+}
+
+- (void)markStyleDataMigrationCompleted {
+    [[NSUserDefaults standardUserDefaults] setObject:FUStyleDataMigrationVersion_9_0_1 forKey:FUPersistentStyleDataMigrationVersionKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (NSArray<NSString *> *)round2RefreshedStyleNames {
+    return @[@"白开水", @"甜心派", @"混血baby"];
+}
+
+- (NSArray<FUStyleModel *> *)applyRound2StyleParameterRefreshWithStyles:(NSArray<FUStyleModel *> *)styles defaultStyles:(NSArray<FUStyleModel *> *)defaultStyles {
+    NSMutableDictionary<NSString *, FUStyleModel *> *defaultStylesByName = [NSMutableDictionary dictionary];
+    for (FUStyleModel *style in defaultStyles) {
+        defaultStylesByName[style.name] = style;
+    }
+    NSMutableArray<FUStyleModel *> *refreshedStyles = [NSMutableArray arrayWithCapacity:styles.count];
+    for (FUStyleModel *style in styles) {
+        if ([[self round2RefreshedStyleNames] containsObject:style.name]) {
+            FUStyleModel *defaultStyle = defaultStylesByName[style.name];
+            FUStyleModel *refreshedStyle = defaultStyle ? [self copyStyle:defaultStyle] : [self copyStyle:style];
+            refreshedStyle.isSkinDisabled = style.isSkinDisabled;
+            refreshedStyle.isShapeDisabled = style.isShapeDisabled;
+            refreshedStyle.skinSegmentationEnabled = style.skinSegmentationEnabled;
+            [refreshedStyles addObject:refreshedStyle];
+        } else {
+            [refreshedStyles addObject:style];
+        }
+    }
+    return [refreshedStyles copy];
+}
+
+- (NSArray<NSString *> *)insertedStyleNamesForMigrationVersion_9_0_0 {
+    return @[@"白开水", @"甜心派", @"混血baby"];
+}
+
+- (NSUInteger)legacyStyleIndexOffsetInStyles:(NSArray<FUStyleModel *> *)styles {
+    NSUInteger offset = 0;
+    for (NSString *name in [self insertedStyleNamesForMigrationVersion_9_0_0]) {
+        if ([self indexOfStyleNamed:name inStyles:styles] == NSNotFound) {
+            break;
+        }
+        offset++;
+    }
+    return offset;
+}
+
+- (NSUInteger)defaultStyleIndexInStyles:(NSArray<FUStyleModel *> *)styles {
+    for (NSUInteger index = 0; index < styles.count; index++) {
+        if ([styles[index].name isEqualToString:FUDefaultStyleName]) {
+            return index;
+        }
+    }
+    return MIN(4, styles.count > 0 ? styles.count - 1 : 0);
+}
+
+- (NSUInteger)migratedSelectedIndexFromPersistedIndex:(NSUInteger)persistedIndex localStyles:(NSArray<FUStyleModel *> *)localStyles styles:(NSArray<FUStyleModel *> *)styles needsLegacyIndexOffset:(BOOL)needsLegacyIndexOffset {
+    if (styles.count == 0) {
+        return 0;
+    }
+    if (localStyles.count > 0 && persistedIndex < localStyles.count) {
+        NSString *styleName = localStyles[persistedIndex].name;
+        NSUInteger migratedIndex = [self indexOfStyleNamed:styleName inStyles:styles];
+        if (migratedIndex != NSNotFound) {
+            return migratedIndex;
+        }
+    }
+    if (needsLegacyIndexOffset && persistedIndex >= 1) {
+        NSUInteger offset = [self legacyStyleIndexOffsetInStyles:styles];
+        if (offset > 0) {
+            NSUInteger offsetIndex = persistedIndex + offset;
+            if (offsetIndex < styles.count) {
+                return offsetIndex;
+            }
+        }
+    }
+    return MIN(persistedIndex, styles.count - 1);
+}
+
+- (NSUInteger)indexOfStyleNamed:(NSString *)name inStyles:(NSArray<FUStyleModel *> *)styles {
+    for (NSUInteger index = 0; index < styles.count; index++) {
+        if ([styles[index].name isEqualToString:name]) {
+            return index;
+        }
+    }
+    return NSNotFound;
+}
+
+- (NSArray<FUStyleModel *> *)mergedStylesWithLocal:(NSArray<FUStyleModel *> *)localStyles defaultStyles:(NSArray<FUStyleModel *> *)defaultStyles {
+    NSMutableDictionary<NSString *, FUStyleModel *> *localStylesByName = [NSMutableDictionary dictionary];
+    for (FUStyleModel *style in localStyles) {
+        localStylesByName[style.name] = style;
+    }
+    NSMutableArray<FUStyleModel *> *mergedStyles = [NSMutableArray arrayWithCapacity:defaultStyles.count];
+    for (FUStyleModel *defaultStyle in defaultStyles) {
+        FUStyleModel *localStyle = localStylesByName[defaultStyle.name];
+        if (localStyle) {
+            [mergedStyles addObject:[self mergedStyleWithDefault:defaultStyle local:localStyle]];
+        } else {
+            [mergedStyles addObject:[self copyStyle:defaultStyle]];
+        }
+    }
+    return [mergedStyles copy];
+}
+
+- (FUStyleModel *)copyStyle:(FUStyleModel *)style {
+    return [FUStyleModel yy_modelWithJSON:[style yy_modelToJSONObject]];
+}
+
+- (FUStyleModel *)mergedStyleWithDefault:(FUStyleModel *)defaultStyle local:(FUStyleModel *)localStyle {
+    FUStyleModel *mergedStyle = [self copyStyle:defaultStyle];
+    mergedStyle.isSkinDisabled = localStyle.isSkinDisabled;
+    mergedStyle.isShapeDisabled = localStyle.isShapeDisabled;
+    mergedStyle.skinSegmentationEnabled = localStyle.skinSegmentationEnabled;
+    if (localStyle.makeupModel) {
+        mergedStyle.makeupModel.currentValue = localStyle.makeupModel.currentValue;
+        mergedStyle.makeupModel.filterCurrentValue = localStyle.makeupModel.filterCurrentValue;
+    }
+    mergedStyle.skins = [self mergedStyleSkinsWithDefault:mergedStyle.skins local:localStyle.skins];
+    mergedStyle.shapes = [self mergedStyleShapesWithDefault:mergedStyle.shapes local:localStyle.shapes];
+    return mergedStyle;
+}
+
+- (NSArray<FUStyleSkinModel *> *)mergedStyleSkinsWithDefault:(NSArray<FUStyleSkinModel *> *)defaultSkins local:(NSArray<FUStyleSkinModel *> *)localSkins {
+    NSMutableDictionary<NSNumber *, FUStyleSkinModel *> *localSkinsByType = [NSMutableDictionary dictionary];
+    for (FUStyleSkinModel *skin in localSkins) {
+        localSkinsByType[@(skin.type)] = skin;
+    }
+    for (FUStyleSkinModel *defaultSkin in defaultSkins) {
+        FUStyleSkinModel *localSkin = localSkinsByType[@(defaultSkin.type)];
+        if (localSkin) {
+            defaultSkin.currentValue = localSkin.currentValue;
+        }
+    }
+    return defaultSkins;
+}
+
+- (NSArray<FUStyleShapeModel *> *)mergedStyleShapesWithDefault:(NSArray<FUStyleShapeModel *> *)defaultShapes local:(NSArray<FUStyleShapeModel *> *)localShapes {
+    NSMutableDictionary<NSNumber *, FUStyleShapeModel *> *localShapesByType = [NSMutableDictionary dictionary];
+    for (FUStyleShapeModel *shape in localShapes) {
+        localShapesByType[@(shape.type)] = shape;
+    }
+    for (FUStyleShapeModel *defaultShape in defaultShapes) {
+        FUStyleShapeModel *localShape = localShapesByType[@(defaultShape.type)];
+        if (localShape) {
+            defaultShape.currentValue = localShape.currentValue;
+        }
+    }
+    return defaultShapes;
+}
+
+- (BOOL)styles:(NSArray<FUStyleModel *> *)styles needMigrationFromLocal:(NSArray<FUStyleModel *> *)localStyles defaultStyles:(NSArray<FUStyleModel *> *)defaultStyles {
+    if (styles.count != defaultStyles.count || localStyles.count != defaultStyles.count) {
+        return YES;
+    }
+    for (FUStyleModel *defaultStyle in defaultStyles) {
+        FUStyleModel *localStyle = nil;
+        for (FUStyleModel *style in localStyles) {
+            if ([style.name isEqualToString:defaultStyle.name]) {
+                localStyle = style;
+                break;
+            }
+        }
+        if (!localStyle) {
+            return YES;
+        }
+        if ([self style:localStyle missingSkinTypesFrom:defaultStyle] || [self style:localStyle missingShapeTypesFrom:defaultStyle]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (BOOL)style:(FUStyleModel *)localStyle missingSkinTypesFrom:(FUStyleModel *)defaultStyle {
+    NSMutableSet<NSNumber *> *localSkinTypes = [NSMutableSet set];
+    for (FUStyleSkinModel *skin in localStyle.skins) {
+        [localSkinTypes addObject:@(skin.type)];
+    }
+    for (FUStyleSkinModel *skin in defaultStyle.skins) {
+        if (![localSkinTypes containsObject:@(skin.type)]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (BOOL)style:(FUStyleModel *)localStyle missingShapeTypesFrom:(FUStyleModel *)defaultStyle {
+    NSMutableSet<NSNumber *> *localShapeTypes = [NSMutableSet set];
+    for (FUStyleShapeModel *shape in localStyle.shapes) {
+        [localShapeTypes addObject:@(shape.type)];
+    }
+    for (FUStyleShapeModel *shape in defaultStyle.shapes) {
+        if (![localShapeTypes containsObject:@(shape.type)]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 @end

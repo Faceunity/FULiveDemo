@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		27BE3933B157474D17FA167D /* Pods_FULiveDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F1F94AA483BAD589411157 /* Pods_FULiveDemo.framework */; };
+		37E9F1C8497042C6A6DF5083 /* hunxuebaby.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 549C1C559DB5419599467165 /* hunxuebaby.bundle */; };
+		63CE756D6F344EA1B7D996A8 /* baikaisui.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A67695947D0346A8BD682F93 /* baikaisui.bundle */; };
 		E30721C828A234A000332859 /* FUImageRenderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E30721C728A234A000332859 /* FUImageRenderViewModel.m */; };
 		E30721CC28A2369300332859 /* FUVideoRenderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E30721CB28A2369300332859 /* FUVideoRenderViewModel.m */; };
 		E30721D328A2545100332859 /* FUStickerImageRenderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E30721D228A2545100332859 /* FUStickerImageRenderViewController.m */; };
@@ -316,6 +318,12 @@
 		E3A58C9B28A3838600941101 /* FUBodyBeautyViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A58C9A28A3838600941101 /* FUBodyBeautyViewModel.m */; };
 		E3A58CA128A38B9F00941101 /* FUBodyBeautyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A58CA028A38B9F00941101 /* FUBodyBeautyCell.m */; };
 		E3A58CA728A38C3700941101 /* FUBodyBeautyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A58CA628A38C3700941101 /* FUBodyBeautyViewController.m */; };
+		E3B0BB1128F6000000941101 /* FUBodyBeautyComponentViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B0BB0228F6000000941101 /* FUBodyBeautyComponentViewModel.m */; };
+		E3B0BB1228F6000000941101 /* FUBodyBeautyComponentManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B0BB0428F6000000941101 /* FUBodyBeautyComponentManager.m */; };
+		E3B0BB1328F6000000941101 /* FUBodyBeautyImageRenderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B0BB0628F6000000941101 /* FUBodyBeautyImageRenderViewModel.m */; };
+		E3B0BB1428F6000000941101 /* FUBodyBeautyVideoRenderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B0BB0828F6000000941101 /* FUBodyBeautyVideoRenderViewModel.m */; };
+		E3B0BB1528F6000000941101 /* FUBodyBeautyImageRenderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B0BB0A28F6000000941101 /* FUBodyBeautyImageRenderViewController.m */; };
+		E3B0BB1628F6000000941101 /* FUBodyBeautyVideoRenderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B0BB0C28F6000000941101 /* FUBodyBeautyVideoRenderViewController.m */; };
 		E3A58CAA28A38CB000941101 /* FUBeautyImageRenderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A58CA928A38CB000941101 /* FUBeautyImageRenderViewController.m */; };
 		E3A58CAD28A38CCA00941101 /* FUBeautyImageRenderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A58CAC28A38CCA00941101 /* FUBeautyImageRenderViewModel.m */; };
 		E3A58CB028A3AA5500941101 /* UIButton+FU.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A58CAF28A3AA5500941101 /* UIButton+FU.m */; };
@@ -344,6 +352,7 @@
 		E3ED026728A11790000F28CD /* FUMediaPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3ED026628A11790000F28CD /* FUMediaPickerViewController.m */; };
 		E3ED026C28A126CC000F28CD /* FUMediaPickerViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E3ED026B28A126CC000F28CD /* FUMediaPickerViewModel.m */; };
 		E3F11EB429A3595F0069135C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3F11EB629A3595F0069135C /* InfoPlist.strings */; };
+		F7DA62420A934FE0892A04F9 /* tianxinpai.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4A2E89D572D04B49A5524484 /* tianxinpai.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -364,6 +373,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4A2E89D572D04B49A5524484 /* tianxinpai.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = tianxinpai.bundle; sourceTree = "<group>"; };
+		549C1C559DB5419599467165 /* hunxuebaby.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = hunxuebaby.bundle; sourceTree = "<group>"; };
+		A67695947D0346A8BD682F93 /* baikaisui.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = baikaisui.bundle; sourceTree = "<group>"; };
 		B3711DF38725A8956C408A78 /* Pods-FULiveDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FULiveDemo.debug.xcconfig"; path = "Target Support Files/Pods-FULiveDemo/Pods-FULiveDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		BF62D7141D5E58E477FC9C7B /* Pods-FULiveDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FULiveDemo.release.xcconfig"; path = "Target Support Files/Pods-FULiveDemo/Pods-FULiveDemo.release.xcconfig"; sourceTree = "<group>"; };
 		E30721C628A234A000332859 /* FUImageRenderViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUImageRenderViewModel.h; sourceTree = "<group>"; };
@@ -774,6 +786,18 @@
 		E3A58CA028A38B9F00941101 /* FUBodyBeautyCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUBodyBeautyCell.m; sourceTree = "<group>"; };
 		E3A58CA528A38C3700941101 /* FUBodyBeautyViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUBodyBeautyViewController.h; sourceTree = "<group>"; };
 		E3A58CA628A38C3700941101 /* FUBodyBeautyViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUBodyBeautyViewController.m; sourceTree = "<group>"; };
+		E3B0BB0128F6000000941101 /* FUBodyBeautyComponentViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUBodyBeautyComponentViewModel.h; sourceTree = "<group>"; };
+		E3B0BB0228F6000000941101 /* FUBodyBeautyComponentViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUBodyBeautyComponentViewModel.m; sourceTree = "<group>"; };
+		E3B0BB0328F6000000941101 /* FUBodyBeautyComponentManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUBodyBeautyComponentManager.h; sourceTree = "<group>"; };
+		E3B0BB0428F6000000941101 /* FUBodyBeautyComponentManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUBodyBeautyComponentManager.m; sourceTree = "<group>"; };
+		E3B0BB0528F6000000941101 /* FUBodyBeautyImageRenderViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUBodyBeautyImageRenderViewModel.h; sourceTree = "<group>"; };
+		E3B0BB0628F6000000941101 /* FUBodyBeautyImageRenderViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUBodyBeautyImageRenderViewModel.m; sourceTree = "<group>"; };
+		E3B0BB0728F6000000941101 /* FUBodyBeautyVideoRenderViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUBodyBeautyVideoRenderViewModel.h; sourceTree = "<group>"; };
+		E3B0BB0828F6000000941101 /* FUBodyBeautyVideoRenderViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUBodyBeautyVideoRenderViewModel.m; sourceTree = "<group>"; };
+		E3B0BB0928F6000000941101 /* FUBodyBeautyImageRenderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUBodyBeautyImageRenderViewController.h; sourceTree = "<group>"; };
+		E3B0BB0A28F6000000941101 /* FUBodyBeautyImageRenderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUBodyBeautyImageRenderViewController.m; sourceTree = "<group>"; };
+		E3B0BB0B28F6000000941101 /* FUBodyBeautyVideoRenderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUBodyBeautyVideoRenderViewController.h; sourceTree = "<group>"; };
+		E3B0BB0C28F6000000941101 /* FUBodyBeautyVideoRenderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUBodyBeautyVideoRenderViewController.m; sourceTree = "<group>"; };
 		E3A58CA828A38CB000941101 /* FUBeautyImageRenderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUBeautyImageRenderViewController.h; sourceTree = "<group>"; };
 		E3A58CA928A38CB000941101 /* FUBeautyImageRenderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUBeautyImageRenderViewController.m; sourceTree = "<group>"; };
 		E3A58CAB28A38CCA00941101 /* FUBeautyImageRenderViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUBeautyImageRenderViewModel.h; sourceTree = "<group>"; };
@@ -1412,6 +1436,9 @@
 				E383CB1A2937526400D0814B /* qizhi.bundle */,
 				E311DCEB294190AF00AD170C /* zhigan.bundle */,
 				E350A2AE2918AA7C0071CEFB /* style_list.json */,
+				A67695947D0346A8BD682F93 /* baikaisui.bundle */,
+				4A2E89D572D04B49A5524484 /* tianxinpai.bundle */,
+				549C1C559DB5419599467165 /* hunxuebaby.bundle */,
 			);
 			path = Style;
 			sourceTree = "<group>";
@@ -2116,6 +2143,7 @@
 		E3A58C7B28A37E3E00941101 /* BodyBeauty */ = {
 			isa = PBXGroup;
 			children = (
+				E3B0BB1028F6000000941101 /* Component */,
 				E3A58C8028A37E3E00941101 /* ViewController */,
 				E3A58C7D28A37E3E00941101 /* ViewModel */,
 				E3A58C8528A37E3E00941101 /* Model */,
@@ -2124,11 +2152,26 @@
 			path = BodyBeauty;
 			sourceTree = "<group>";
 		};
+		E3B0BB1028F6000000941101 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				E3B0BB0128F6000000941101 /* FUBodyBeautyComponentViewModel.h */,
+				E3B0BB0228F6000000941101 /* FUBodyBeautyComponentViewModel.m */,
+				E3B0BB0328F6000000941101 /* FUBodyBeautyComponentManager.h */,
+				E3B0BB0428F6000000941101 /* FUBodyBeautyComponentManager.m */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
 		E3A58C7D28A37E3E00941101 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
 				E3A58C9928A3838600941101 /* FUBodyBeautyViewModel.h */,
 				E3A58C9A28A3838600941101 /* FUBodyBeautyViewModel.m */,
+				E3B0BB0528F6000000941101 /* FUBodyBeautyImageRenderViewModel.h */,
+				E3B0BB0628F6000000941101 /* FUBodyBeautyImageRenderViewModel.m */,
+				E3B0BB0728F6000000941101 /* FUBodyBeautyVideoRenderViewModel.h */,
+				E3B0BB0828F6000000941101 /* FUBodyBeautyVideoRenderViewModel.m */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -2138,6 +2181,10 @@
 			children = (
 				E3A58CA528A38C3700941101 /* FUBodyBeautyViewController.h */,
 				E3A58CA628A38C3700941101 /* FUBodyBeautyViewController.m */,
+				E3B0BB0928F6000000941101 /* FUBodyBeautyImageRenderViewController.h */,
+				E3B0BB0A28F6000000941101 /* FUBodyBeautyImageRenderViewController.m */,
+				E3B0BB0B28F6000000941101 /* FUBodyBeautyVideoRenderViewController.h */,
+				E3B0BB0C28F6000000941101 /* FUBodyBeautyVideoRenderViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -2514,6 +2561,9 @@
 				E3447DDD28AB6A75008E164C /* peishi_erding_2.bundle in Resources */,
 				E3ED025C28A10CE8000F28CD /* controller_config.bundle in Resources */,
 				E350A2AF2918AA7C0071CEFB /* style_list.json in Resources */,
+				63CE756D6F344EA1B7D996A8 /* baikaisui.bundle in Resources */,
+				F7DA62420A934FE0892A04F9 /* tianxinpai.bundle in Resources */,
+				37E9F1C8497042C6A6DF5083 /* hunxuebaby.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2528,13 +2578,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-FULiveDemo/Pods-FULiveDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-FULiveDemo/Pods-FULiveDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2549,13 +2595,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-FULiveDemo/Pods-FULiveDemo-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-FULiveDemo/Pods-FULiveDemo-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2667,6 +2709,12 @@
 				E3923E42288FC18E00A5FB31 /* FUStickerViewController.m in Sources */,
 				E350A2A92918A8FA0071CEFB /* FUStyleListViewModel.m in Sources */,
 				E3A58CA728A38C3700941101 /* FUBodyBeautyViewController.m in Sources */,
+				E3B0BB1128F6000000941101 /* FUBodyBeautyComponentViewModel.m in Sources */,
+				E3B0BB1228F6000000941101 /* FUBodyBeautyComponentManager.m in Sources */,
+				E3B0BB1328F6000000941101 /* FUBodyBeautyImageRenderViewModel.m in Sources */,
+				E3B0BB1428F6000000941101 /* FUBodyBeautyVideoRenderViewModel.m in Sources */,
+				E3B0BB1528F6000000941101 /* FUBodyBeautyImageRenderViewController.m in Sources */,
+				E3B0BB1628F6000000941101 /* FUBodyBeautyVideoRenderViewController.m in Sources */,
 				E3447EDB28C59984008E164C /* FUFaceFusionTipView.m in Sources */,
 				E369F91728D867CF0036AC5A /* FUStickerVideoRenderViewModel.m in Sources */,
 				E3A07CC028893D4300E6F7E5 /* FUHomepageModel.m in Sources */,
@@ -2878,12 +2926,12 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8150;
+				CURRENT_PROJECT_VERSION = 9000;
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/FULiveDemo/FURenderKit",
+					"$(PROJECT_DIR)/FURenderKit",
 					"$(PROJECT_DIR)",
 				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/FULiveDemo/Application/PrefixHeader.pch";
@@ -2924,12 +2972,12 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8150;
+				CURRENT_PROJECT_VERSION = 9000;
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/FULiveDemo/FURenderKit",
+					"$(PROJECT_DIR)/FURenderKit",
 					"$(PROJECT_DIR)",
 				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/FULiveDemo/Application/PrefixHeader.pch";

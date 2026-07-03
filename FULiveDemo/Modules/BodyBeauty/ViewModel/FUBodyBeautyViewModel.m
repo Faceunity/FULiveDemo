@@ -75,6 +75,11 @@
         case FUBodyBeautyPartsLegSlim:{
             [FURenderKit shareRenderKit].bodyBeauty.legSlim = value;
         }
+            break;
+        case FUBodyBeautyPartsBreast:{
+            [[FURenderKit shareRenderKit].bodyBeauty setParam:@(value) forName:@"BreastStrength" paramType:FUParamTypeDouble];
+        }
+            break;
     }
 }
 
@@ -103,6 +108,10 @@
 
 - (FUModule)module {
     return FUModuleBodyBeauty;
+}
+
+- (BOOL)supportMediaRendering {
+    return YES;
 }
 
 - (FUAIModelType)necessaryAIModelTypes {

@@ -12,7 +12,9 @@
 
 /// Skin
 "磨皮" = "Buffing";
+"全身磨皮" = "Full Body Buffing";
 "祛斑痘" = "Acne Removal";
+"面部丰盈" = "Facial Plump";
 "美白" = "Skin Tone";
 "红润" = "Rosy";
 "清晰" = "Clarity";
@@ -35,6 +37,7 @@
 "瘦颧骨" = "Cheek";
 "瘦下颌骨" = "Jaw";
 "圆眼" = "Round";
+"瞳孔大小" = "Pupil Size";
 "大眼" = "Enlarge";
 "下巴" = "Chin Length";
 "额头" = "Hairline";
