@@ -329,10 +329,10 @@
         "name": "白开水",
         "makeupModel": {
             "bundleName": "baikaisui",
-            "defaultValue": 0.8,
-            "currentValue": 0.8,
-            "filterDefaultValue": 0.47,
-            "filterCurrentValue": 0.47
+            "defaultValue": 1.0,
+            "currentValue": 1.0,
+            "filterDefaultValue": 1.0,
+            "filterCurrentValue": 1.0
         },
         "isSkinDisabled": false,
         "isShapeDisabled": false,
@@ -661,10 +661,10 @@
         "name": "甜心派",
         "makeupModel": {
             "bundleName": "tianxinpai",
-            "defaultValue": 0.8,
-            "currentValue": 0.8,
-            "filterDefaultValue": 0.0,
-            "filterCurrentValue": 0.0
+            "defaultValue": 0.7,
+            "currentValue": 0.7,
+            "filterDefaultValue": 0.6,
+            "filterCurrentValue": 0.6
         },
         "isSkinDisabled": false,
         "isShapeDisabled": false,
@@ -995,8 +995,8 @@
             "bundleName": "hunxuebaby",
             "defaultValue": 0.8,
             "currentValue": 0.8,
-            "filterDefaultValue": 0.17,
-            "filterCurrentValue": 0.17
+            "filterDefaultValue": 0.8,
+            "filterCurrentValue": 0.8
         },
         "isSkinDisabled": false,
         "isShapeDisabled": false,

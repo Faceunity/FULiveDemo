@@ -19,6 +19,8 @@
 @property (nonatomic, strong) UIView *trackView;
 /// 零点在中间时的中间短线
 @property (nonatomic, strong) UIView *middleLine;
+/// 是否正在拖动滑杆（不依赖 isTouchInside，兼容 iOS 26+）
+@property (nonatomic, assign) BOOL isShowingTip;
 
 @end
 
@@ -71,29 +73,64 @@
     }
 }
 
-- (void)setValue:(float)value animated:(BOOL)animated   {
+- (void)setValue:(float)value animated:(BOOL)animated {
     [super setValue:value animated:animated];
-    
+    [self updateTipForValue:value];
+}
+
+#pragma mark - Touch Tracking
+
+- (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
+    BOOL began = [super beginTrackingWithTouch:touch withEvent:event];
+    if (began) {
+        self.isShowingTip = YES;
+        [self updateTipForValue:self.value];
+    }
+    return began;
+}
+
+- (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
+    BOOL continued = [super continueTrackingWithTouch:touch withEvent:event];
+    // iOS 26+ 拖动时可能不触发 setValue:animated:，需在此同步气泡位置
+    [self updateTipForValue:self.value];
+    return continued;
+}
+
+- (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
+    [super endTrackingWithTouch:touch withEvent:event];
+    self.isShowingTip = NO;
+    [self updateTipForValue:self.value];
+}
+
+- (void)cancelTrackingWithEvent:(UIEvent *)event {
+    [super cancelTrackingWithEvent:event];
+    self.isShowingTip = NO;
+    [self updateTipForValue:self.value];
+}
+
+#pragma mark - Tip
+
+- (void)updateTipForValue:(float)value {
     if (_bidirection) {
-        self.tipLabel.text = [NSString stringWithFormat:@"%d",(int)(value * 100 - 50)];
+        self.tipLabel.text = [NSString stringWithFormat:@"%d", (int)(value * 100 - 50)];
         CGFloat currentValue = value - 0.5;
         CGFloat width = currentValue * CGRectGetWidth(self.bounds);
-        if (width < 0 ) {
+        if (width < 0) {
             width = -width;
         }
         CGFloat originX = currentValue > 0 ? CGRectGetWidth(self.bounds) / 2.0 : CGRectGetWidth(self.bounds) / 2.0 - width;
-        self.trackView.frame = CGRectMake(originX, CGRectGetHeight(self.frame)/2.0 - 2, width, 4.0);
+        self.trackView.frame = CGRectMake(originX, CGRectGetHeight(self.frame) / 2.0 - 2, width, 4.0);
     } else {
-        self.tipLabel.text = [NSString stringWithFormat:@"%d",(int)(value * 100)];
+        self.tipLabel.text = [NSString stringWithFormat:@"%d", (int)(value * 100)];
     }
     CGFloat x = value * (self.frame.size.width - 16) - self.tipLabel.frame.size.width * 0.5 + 8;
     CGRect frame = self.tipLabel.frame;
     frame.origin.x = x;
-    
+
     self.tipBackgroundImageView.frame = frame;
     self.tipLabel.frame = frame;
-    self.tipLabel.hidden = !self.isTouchInside;
-    self.tipBackgroundImageView.hidden = !self.isTouchInside;
+    self.tipLabel.hidden = !self.isShowingTip;
+    self.tipBackgroundImageView.hidden = !self.isShowingTip;
 }
 
 

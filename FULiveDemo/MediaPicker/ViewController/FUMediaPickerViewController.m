@@ -16,8 +16,6 @@
 #import "FUStickerVideoRenderViewController.h"
 #import "FUGreenScreenImageRenderViewController.h"
 #import "FUGreenScreenVideoRenderViewController.h"
-#import "FUBodyBeautyImageRenderViewController.h"
-#import "FUBodyBeautyVideoRenderViewController.h"
 
 @interface FUMediaPickerViewController ()<UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
@@ -185,10 +183,6 @@
                 controller = [[FUGreenScreenImageRenderViewController alloc] initWithViewModel:[[FUGreenScreenImageRenderViewModel alloc] initWithImage:image]];
             }
                 break;
-            case FUModuleBodyBeauty:{
-                controller = [[FUBodyBeautyImageRenderViewController alloc] initWithViewModel:[[FUBodyBeautyImageRenderViewModel alloc] initWithImage:image]];
-            }
-                break;
             default:
                 break;
         }
@@ -218,10 +212,6 @@
                 break;
             case FUModuleGreenScreen:{
                 controller = [[FUGreenScreenVideoRenderViewController alloc] initWithViewModel:[[FUGreenScreenVideoRenderViewModel alloc] initWithVideoURL:videoURL]];
-            }
-                break;
-            case FUModuleBodyBeauty:{
-                controller = [[FUBodyBeautyVideoRenderViewController alloc] initWithViewModel:[[FUBodyBeautyVideoRenderViewModel alloc] initWithVideoURL:videoURL]];
             }
                 break;
             default:

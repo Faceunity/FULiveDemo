@@ -110,10 +110,6 @@
     return FUModuleBodyBeauty;
 }
 
-- (BOOL)supportMediaRendering {
-    return YES;
-}
-
 - (FUAIModelType)necessaryAIModelTypes {
     return FUAIModelTypeFace | FUAIModelTypeHuman;;
 }
