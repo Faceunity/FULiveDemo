@@ -42,6 +42,7 @@
 "高光" =  "Highlight";
 "阴影" = "Shadow";
 "美瞳" = "Pupil";
+"卧蚕" = "Eye Bag";
 
 "雾面" = "Matte";
 "润泽Ⅰ" = "Moist Ⅰ";
@@ -94,3 +95,8 @@
 "星河" = "Galaxy";
 "落目" = "Sunset";
 "极光" = "Aurora";
+"卧蚕Ⅰ" = "Eye Bag I";
+"卧蚕Ⅱ" = "Eye Bag II";
+"卧蚕Ⅲ" = "Eye Bag III";
+"卧蚕Ⅳ" = "Eye Bag IV";
+"卧蚕Ⅴ" = "Eye Bag V";

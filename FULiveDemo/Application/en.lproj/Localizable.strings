@@ -103,6 +103,7 @@
 "网络异常，请检测网络重试" = "The network is abnormal, please check the network and try again";
 
 "cancel_item" = "None";
+"卸妆" = "None";
 
 "presets" = "Presets";
 "Content service" = "Content service";
@@ -165,6 +166,7 @@
 "瘦颧骨" = "Cheek";
 "瘦下颌骨" = "Jaw";
 "圆眼" = "Round";
+"瞳孔大小" = "Pupil Size";
 "大眼" = "Enlarge";
 "下巴" = "Chin Length";
 "额头" = "Hairline";

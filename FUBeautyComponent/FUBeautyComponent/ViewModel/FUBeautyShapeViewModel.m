@@ -159,6 +159,21 @@
             // intensity_eye_pupil: 0.0-1.0，0.5 为默认
             [[FURenderKit shareRenderKit].beauty setParam:@(value) forName:@"intensity_eye_pupil" paramType:FUParamTypeDouble];
             break;
+        case FUBeautyShapeCustomWarpFaceLift:
+            [[FURenderKit shareRenderKit].beauty setParam:@(value) forName:@"custom_warp_face_lift" paramType:FUParamTypeDouble];
+            break;
+        case FUBeautyShapeCustomWarpSmallHead:
+            [[FURenderKit shareRenderKit].beauty setParam:@(value) forName:@"custom_warp_small_head" paramType:FUParamTypeDouble];
+            break;
+        case FUBeautyShapeCustomWarpEyeOutter:
+            [[FURenderKit shareRenderKit].beauty setParam:@(value) forName:@"custom_warp_eye_outter" paramType:FUParamTypeDouble];
+            break;
+        case FUBeautyShapeCustomWarpMouthWidth:
+            [[FURenderKit shareRenderKit].beauty setParam:@(value) forName:@"custom_warp_mouth_width" paramType:FUParamTypeDouble];
+            break;
+        case FUBeautyShapeCustomWarpNoseAlar:
+            [[FURenderKit shareRenderKit].beauty setParam:@(value) forName:@"custom_warp_nose_alar" paramType:FUParamTypeDouble];
+            break;
     }
 }
 

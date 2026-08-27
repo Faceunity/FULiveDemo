@@ -348,10 +348,17 @@ static NSString * const kFUStickerContentCollectionCellIdentifier = @"FUStickerC
     if (!_segmentsView) {
         NSMutableArray *segments = [[NSMutableArray alloc] init];
         for (NSString *tag in self.tags) {
-            if ([tag componentsSeparatedByString:@"/"].count > 1) {
-                NSArray *titles = [tag componentsSeparatedByString:@"/"];
-                NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
-                [segments addObject:[language hasPrefix:@"zh-Hans"] ? titles[0] : titles[1]];
+            NSArray *titles = [tag componentsSeparatedByString:@"/"];
+            if (titles.count > 1) {
+                // 接口格式：中文/英文/日文，例如 高级道具/High/上級アイテム
+                NSString *language = [[NSLocale preferredLanguages] firstObject];
+                NSString *title = titles[1];
+                if ([language hasPrefix:@"zh-Hans"]) {
+                    title = titles[0];
+                } else if ([language hasPrefix:@"ja"] && titles.count > 2) {
+                    title = titles[2];
+                }
+                [segments addObject:title];
             } else {
                 [segments addObject:tag];
             }

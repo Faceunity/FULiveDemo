@@ -9,10 +9,14 @@
 #import "FUCustomizedMakeupModel.h"
 
 #import <FURenderKit/FURenderKit.h>
+#import <FURenderKit/FURenderer.h>
+#import <FURenderKit/FUGLContext.h>
 
 @interface FUCustomizedMakeupViewModel ()
 
 @property (nonatomic, copy) NSArray<FUCustomizedMakeupModel *> *customizedMakeups;
+/// 当前绑定的卧蚕子妆（FUMakeup 暂无 subWocan 属性，需自行 bind/unbind）
+@property (nonatomic, strong) FUItem *currentWocanItem;
 
 @end
 
@@ -95,6 +99,9 @@
 /// 更新子妆bundle
 - (void)updateSubMakeupBundle:(FUSubMakeupModel *)model {
     if (!model.bundleName) {
+        if (model.type == FUSubMakeupTypeWocan) {
+            [self bindWocanItem:nil];
+        }
         return;
     }
     if (![FURenderKit shareRenderKit].makeup) {
@@ -105,6 +112,10 @@
         [FURenderKit shareRenderKit].makeup = makeup;
     }
     NSString *subPath = [FUMakeupBundle() pathForResource:model.bundleName ofType:@"bundle"];
+    if (subPath.length == 0) {
+        NSLog(@"[FUMakeup] sub makeup bundle not found: %@", model.bundleName);
+        return;
+    }
     FUItem *item = [[FUItem alloc] initWithPath:subPath name:model.bundleName];
     switch (model.type) {
         case FUSubMakeupTypeFoundation:{
@@ -147,7 +158,65 @@
             [FURenderKit shareRenderKit].makeup.subPupil = item;
         }
             break;
+        case FUSubMakeupTypeWocan:{
+            [self bindWocanItem:item];
+        }
+            break;
     }
+}
+
+/// 绑定/解绑卧蚕子妆到 face_makeup
+/// @note FUMakeup 尚未提供 subWocan，这里对齐官方 setSubXxx -> replaceOldItem/bindToMakeUp 流程：
+/// 1) 先把新 item.renderable = YES
+/// 2) 在 GL 队列里 unbind 旧 item / bind 新 item
+/// 3) 维护 binded 标记，避免重复 bind
+- (void)bindWocanItem:(FUItem *)item {
+    FUMakeup *makeup = [FURenderKit shareRenderKit].makeup;
+    if (!makeup) {
+        self.currentWocanItem = nil;
+        return;
+    }
+    FUItem *oldItem = self.currentWocanItem;
+    if (oldItem == item) {
+        BOOL alreadyBound = oldItem && [[oldItem valueForKey:@"binded"] boolValue] && [[oldItem valueForKey:@"renderable"] boolValue];
+        if (alreadyBound || !item) {
+            return;
+        }
+        oldItem = nil;
+    }
+    if (item) {
+        // 与 FUMakeup replaceOldItem:withNewItem: 一致，先标记可渲染再 bind
+        [item setValue:@YES forKey:@"renderable"];
+    }
+    [[FUGLContext shareGLContext] glQueueSync:^{
+        int makeupID = [[makeup valueForKey:@"itemID"] intValue];
+        BOOL makeupLoaded = [[makeup valueForKey:@"loaded"] boolValue];
+        if (!makeupLoaded || makeupID <= 0) {
+            return;
+        }
+        if (oldItem) {
+            BOOL oldBinded = [[oldItem valueForKey:@"binded"] boolValue];
+            int oldID = [[oldItem valueForKey:@"itemID"] intValue];
+            if (oldBinded && oldID > 0) {
+                [FURenderer unBindItems:makeupID items:&oldID itemsCount:1];
+            }
+            [oldItem setValue:@NO forKey:@"binded"];
+            [oldItem setValue:@NO forKey:@"renderable"];
+        }
+        if (item) {
+            BOOL newBinded = [[item valueForKey:@"binded"] boolValue];
+            int newID = [[item valueForKey:@"itemID"] intValue];
+            if (!newBinded && newID > 0) {
+                int ret = [FURenderer bindItems:makeupID items:&newID itemsCount:1];
+                if (ret > 0) {
+                    [item setValue:@YES forKey:@"binded"];
+                } else {
+                    NSLog(@"[FUMakeup] bind wocan failed, makeupID=%d itemID=%d ret=%d", makeupID, newID, ret);
+                }
+            }
+        }
+    }];
+    self.currentWocanItem = item;
 }
 
 /// 更新子妆颜色
@@ -204,6 +273,8 @@
             [FURenderKit shareRenderKit].makeup.pupilColor = color;
         }
             break;
+        case FUSubMakeupTypeWocan:
+            break;
     }
 }
 
@@ -258,6 +329,10 @@
             break;
         case FUSubMakeupTypePupil:{
             [FURenderKit shareRenderKit].makeup.intensityPupil = model.value;
+        }
+            break;
+        case FUSubMakeupTypeWocan:{
+            [[FURenderKit shareRenderKit].makeup setParam:@(model.value) forName:@"makeup_intensity_wocan" paramType:FUParamTypeDouble];
         }
             break;
     }

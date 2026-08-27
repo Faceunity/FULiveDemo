@@ -19,7 +19,7 @@ NSString * const FUPersistentBeautySkinSegmentationKey = @"FUFUPersistentBeautyS
 
 NSString * const FUPersistentBeautyShapeKey = @"FUPersistentBeautyShape_v8.13.0";
 
-NSString * const FUPersistentBeautyFilterKey = @"FUPersistentBeautyFilter_v8.13.0";
+NSString * const FUPersistentBeautyFilterKey = @"FUPersistentBeautyFilter_v9.1.0";
 
-NSString * const FUPersistentBeautySelectedFilterIndexKey = @"FUPersistentBeautySelectedFilterIndex_v8.13.0";
+NSString * const FUPersistentBeautySelectedFilterIndexKey = @"FUPersistentBeautySelectedFilterIndex_v9.1.0_2";
 

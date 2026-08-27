@@ -55,9 +55,18 @@
 "眉毛上下" = "Brow Position";
 "眉间距" = "Brow Distance";
 "眉毛粗细" = "Brow Thickness";
+"面部提拉" = "Face Lift";
+"小头" = "Small Head";
+"外眼角" = "Outer Eye Corner";
+"嘴巴宽度" = "Mouth Width";
+"鼻翼" = "Nose Alar";
 
 /// Filter
 "origin" = "Origin";
+"rouguanglengzi" = "Soft Cool Purple";
+"weibaolvjing" = "Soft Exposure";
+"lengbaipi" = "Cool Fair Skin";
+"qingtouguanggan" = "Clear Glow";
 "ziran1" = "Nature1";
 "ziran2" = "Nature2";
 "ziran3" = "Nature3";
@@ -149,3 +158,7 @@
 "功能仅支持iPhoneXR及以上机型使用" = "%@ is only supported on iPhoneXR and above models";
 "功能仅支持iPhone11及以上机型使用" = "%@ is only supported on iPhone11 and above models";
 "是否将所有参数恢复到默认值" = "Whether to restore all parameters to default values";
+
+"恢复" = "Restore";
+"取消" = "Cancel";
+"确定" = "Confirm";

@@ -93,6 +93,7 @@
 		E3DF30A32A6A675700AF24A3 /* FUGreenScreen.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = FUGreenScreen.xcassets; sourceTree = "<group>"; };
 		E3DF30FB2A72513B00AF24A3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/FUGreenScreenComponent.strings; sourceTree = "<group>"; };
 		E3DF30FD2A72513F00AF24A3 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/FUGreenScreenComponent.strings"; sourceTree = "<group>"; };
+		E3DF30FE2A72514000AF24A3 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/FUGreenScreenComponent.strings; sourceTree = "<group>"; };
 		F9EA06DDE155F790D888CA60 /* Pods-FUGreenScreenComponent.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FUGreenScreenComponent.debug.xcconfig"; path = "Target Support Files/Pods-FUGreenScreenComponent/Pods-FUGreenScreenComponent.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -292,6 +293,7 @@
 				en,
 				Base,
 				"zh-Hans",
+				ja,
 			);
 			mainGroup = E3A58CBC28A3CCA100941101;
 			productRefGroup = E3A58CC728A3CCA100941101 /* Products */;
@@ -395,6 +397,7 @@
 			children = (
 				E3DF30FB2A72513B00AF24A3 /* en */,
 				E3DF30FD2A72513F00AF24A3 /* zh-Hans */,
+				E3DF30FE2A72514000AF24A3 /* ja */,
 			);
 			name = FUGreenScreenComponent.strings;
 			sourceTree = "<group>";

@@ -51,19 +51,19 @@ static NSString * const kFUStyleCellIdentifierKey = @"FUStyleCellIdentifier";
     [self.filterButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(self.mas_leading).mas_offset(12);
         make.top.equalTo(self.mas_top).mas_offset(12);
-        make.size.mas_offset(CGSizeMake(40, 32));
+        make.size.mas_offset(CGSizeMake(56, 32));
     }];
     
     [self addSubview:self.makeupButton];
     [self.makeupButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(self.filterButton.mas_trailing).mas_offset(8);
         make.top.equalTo(self.mas_top).mas_offset(12);
-        make.size.mas_offset(CGSizeMake(40, 32));
+        make.size.mas_offset(CGSizeMake(56, 32));
     }];
     
     [self addSubview:self.slider];
     [self.slider mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(self.mas_leading).mas_offset(112);
+        make.leading.equalTo(self.mas_leading).mas_offset(144);
         make.trailing.equalTo(self.mas_trailing).mas_offset(-16);
         make.top.equalTo(self.mas_top).mas_offset(13);
         make.height.mas_offset(30);
@@ -226,12 +226,14 @@ static NSString * const kFUStyleCellIdentifierKey = @"FUStyleCellIdentifier";
 
 - (FUStyleFunctionButton *)filterButton {
     if (!_filterButton) {
-        _filterButton = [[FUStyleFunctionButton alloc] initWithFrame:CGRectMake(0, 0, 40, 32)];
+        _filterButton = [[FUStyleFunctionButton alloc] initWithFrame:CGRectMake(0, 0, 56, 32)];
         [_filterButton setTitle:FULocalizedString(@"滤镜") forState:UIControlStateNormal];
         [_filterButton setTitleColor:[UIColor colorWithWhite:1 alpha:0.6] forState:UIControlStateNormal];
         [_filterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
         _filterButton.titleLabel.font = [UIFont systemFontOfSize:12 weight:UIFontWeightMedium];
         _filterButton.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+        _filterButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+        _filterButton.titleLabel.minimumScaleFactor = 0.8;
         _filterButton.hidden = YES;
         [_filterButton addTarget:self action:@selector(filterAction) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -240,13 +242,14 @@ static NSString * const kFUStyleCellIdentifierKey = @"FUStyleCellIdentifier";
 
 - (FUStyleFunctionButton *)makeupButton {
     if (!_makeupButton) {
-        _makeupButton = [[FUStyleFunctionButton alloc] initWithFrame:CGRectMake(0, 0, 40, 32)];
+        _makeupButton = [[FUStyleFunctionButton alloc] initWithFrame:CGRectMake(0, 0, 56, 32)];
         [_makeupButton setTitle:FULocalizedString(@"妆容") forState:UIControlStateNormal];
         [_makeupButton setTitleColor:[UIColor colorWithWhite:1 alpha:0.6] forState:UIControlStateNormal];
         [_makeupButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
         _makeupButton.titleLabel.font = [UIFont systemFontOfSize:12 weight:UIFontWeightMedium];
         _makeupButton.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         _makeupButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+        _makeupButton.titleLabel.minimumScaleFactor = 0.8;
         _makeupButton.hidden = YES;
         [_makeupButton addTarget:self action:@selector(makeupAction) forControlEvents:UIControlEventTouchUpInside];
     }

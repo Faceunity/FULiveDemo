@@ -20,3 +20,8 @@
 "教室" = "Classroom";
 "水墨画" = "Ink Painting";
 "森林" = "Forest";
+
+"恢复" = "Restore";
+"取消" = "Cancel";
+"确定" = "Confirm";
+"是否将所有参数恢复到默认值" = "Whether to restore all parameters to default values";

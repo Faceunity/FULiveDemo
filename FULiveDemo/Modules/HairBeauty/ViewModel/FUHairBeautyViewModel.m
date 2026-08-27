@@ -94,7 +94,8 @@
             @"hair_color_5",
             @"hair_color_6",
             @"hair_color_7",
-            @"hair_color_8"
+            @"hair_color_8",
+            @"hair_color_9"
         ];
     }
     return _icons;

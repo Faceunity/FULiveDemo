@@ -1,0 +1,12 @@
+/* 
+  InfoPlist.strings
+  FULiveDemo
+
+  Created by 项林平 on 2023/2/20.
+  
+*/
+
+"NSCameraUsageDescription" = "カメラへのアクセスを許可してください";
+"NSPhotoLibraryUsageDescription" = "アルバムへのアクセスを許可してください";
+"NSMicrophoneUsageDescription" = "マイクへのアクセスを許可してください";
+"NSPhotoLibraryAddUsageDescription" = "アルバムへのアクセスを許可してください";

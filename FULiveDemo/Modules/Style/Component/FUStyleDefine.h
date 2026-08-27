@@ -52,7 +52,12 @@ typedef NS_ENUM(NSUInteger, FUStyleCustomizingShapeType) {
     FUStyleCustomizingShapeTypeBrowHeight,
     FUStyleCustomizingShapeTypeBrowSpace,
     FUStyleCustomizingShapeTypeBrowThick,
-    FUStyleCustomizingShapeTypeEyePupil         // 瞳孔大小，SDK key: intensity_eye_pupil，范围 0.0-1.0，双向滑杆，全机型
+    FUStyleCustomizingShapeTypeEyePupil,         // 瞳孔大小，SDK key: intensity_eye_pupil，范围 0.0-1.0，双向滑杆，全机型
+    FUStyleCustomizingShapeTypeCustomWarpFaceLift,   // 面部提拉
+    FUStyleCustomizingShapeTypeCustomWarpSmallHead,  // 小头
+    FUStyleCustomizingShapeTypeCustomWarpEyeOutter,  // 外眼角
+    FUStyleCustomizingShapeTypeCustomWarpMouthWidth, // 嘴巴宽度
+    FUStyleCustomizingShapeTypeCustomWarpNoseAlar    // 鼻翼
 };
 
 

@@ -40,6 +40,14 @@
         "performanceLevel": 1
     },
     {
+        "name": "小头",
+        "type": 27,
+        "currentValue": 0.0,
+        "defaultValue": 0.0,
+        "defaultValueInMiddle": false,
+        "performanceLevel": -1
+    },
+    {
         "name": "瘦颧骨",
         "type": 5,
         "currentValue": 0.0,
@@ -104,6 +112,14 @@
         "performanceLevel": -1
     },
     {
+        "name": "鼻翼",
+        "type": 30,
+        "currentValue": 0.5,
+        "defaultValue": 0.5,
+        "defaultValueInMiddle": true,
+        "performanceLevel": -1
+    },
+    {
         "name": "嘴型",
         "type": 12,
         "currentValue": 0.5,
@@ -134,6 +150,14 @@
         "defaultValue": 0.0,
         "defaultValueInMiddle": false,
         "performanceLevel": 1
+    },
+    {
+        "name": "外眼角",
+        "type": 28,
+        "currentValue": 0.5,
+        "defaultValue": 0.5,
+        "defaultValueInMiddle": true,
+        "performanceLevel": -1
     },
     {
         "name": "眼睑下至",

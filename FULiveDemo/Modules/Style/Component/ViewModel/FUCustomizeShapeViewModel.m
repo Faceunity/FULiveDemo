@@ -139,6 +139,21 @@
         case FUStyleCustomizingShapeTypeEyePupil:
             [[FURenderKit shareRenderKit].beauty setParam:@(value) forName:@"intensity_eye_pupil" paramType:FUParamTypeDouble];
             break;
+        case FUStyleCustomizingShapeTypeCustomWarpFaceLift:
+            [[FURenderKit shareRenderKit].beauty setParam:@(value) forName:@"custom_warp_face_lift" paramType:FUParamTypeDouble];
+            break;
+        case FUStyleCustomizingShapeTypeCustomWarpSmallHead:
+            [[FURenderKit shareRenderKit].beauty setParam:@(value) forName:@"custom_warp_small_head" paramType:FUParamTypeDouble];
+            break;
+        case FUStyleCustomizingShapeTypeCustomWarpEyeOutter:
+            [[FURenderKit shareRenderKit].beauty setParam:@(value) forName:@"custom_warp_eye_outter" paramType:FUParamTypeDouble];
+            break;
+        case FUStyleCustomizingShapeTypeCustomWarpMouthWidth:
+            [[FURenderKit shareRenderKit].beauty setParam:@(value) forName:@"custom_warp_mouth_width" paramType:FUParamTypeDouble];
+            break;
+        case FUStyleCustomizingShapeTypeCustomWarpNoseAlar:
+            [[FURenderKit shareRenderKit].beauty setParam:@(value) forName:@"custom_warp_nose_alar" paramType:FUParamTypeDouble];
+            break;
     }
 }
 

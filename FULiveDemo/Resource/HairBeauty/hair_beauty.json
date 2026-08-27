@@ -80,5 +80,11 @@
         "icon":"hair_color_8",
         "isGradient":false,
         "index":7
+    },
+    {
+        "value":0.5,
+        "icon":"hair_color_9",
+        "isGradient":false,
+        "index":8
     }
 ]

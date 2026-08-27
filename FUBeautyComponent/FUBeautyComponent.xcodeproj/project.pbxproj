@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		40F84D0687FA453E8FAE9CC4 /* rouguanglengzi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 02C26AA341804BED8684E2BA /* rouguanglengzi.bundle */; };
+		C52875DF814E4D61A8DEA9BA /* weibaolvjing.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3187AA3266EB4C19B8CFCCAE /* weibaolvjing.bundle */; };
+		AC64C5FC88B84C4C9B9E4460 /* lengbaipi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F49D7F493E714AA399A41FCF /* lengbaipi.bundle */; };
+		3D17B3445EE44CE58A092506 /* qingtouguanggan.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6CC15FC6DD534AFA9C4A6B15 /* qingtouguanggan.bundle */; };
 		0A04FA152D098055008AAC61 /* beauty_skin_lessThan2.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A04FA142D098055008AAC61 /* beauty_skin_lessThan2.json */; };
 		83B5EE0FC2B395CF64DC54C9 /* Pods_FUBeautyComponent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABDF53A51FC0C32BA791ABB /* Pods_FUBeautyComponent.framework */; };
 		E30500B42891364700C9408B /* FUBeautySkinViewModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E30500B22891364700C9408B /* FUBeautySkinViewModel.h */; };
@@ -43,6 +47,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		02C26AA341804BED8684E2BA /* rouguanglengzi.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = rouguanglengzi.bundle; sourceTree = "<group>"; };
+		3187AA3266EB4C19B8CFCCAE /* weibaolvjing.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = weibaolvjing.bundle; sourceTree = "<group>"; };
+		F49D7F493E714AA399A41FCF /* lengbaipi.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = lengbaipi.bundle; sourceTree = "<group>"; };
+		6CC15FC6DD534AFA9C4A6B15 /* qingtouguanggan.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = qingtouguanggan.bundle; sourceTree = "<group>"; };
 		0A04FA142D098055008AAC61 /* beauty_skin_lessThan2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = beauty_skin_lessThan2.json; sourceTree = "<group>"; };
 		6C648FE65BACD6D4674EB44D /* Pods-FUBeautyComponent.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FUBeautyComponent.debug.xcconfig"; path = "Target Support Files/Pods-FUBeautyComponent/Pods-FUBeautyComponent.debug.xcconfig"; sourceTree = "<group>"; };
 		996BC0B24DE2F711FF0FA23A /* Pods-FUBeautyComponent.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FUBeautyComponent.release.xcconfig"; path = "Target Support Files/Pods-FUBeautyComponent/Pods-FUBeautyComponent.release.xcconfig"; sourceTree = "<group>"; };
@@ -80,6 +88,7 @@
 		E3DF2FCB2A69111200AF24A3 /* FUBeautyComponent.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = FUBeautyComponent.xcassets; sourceTree = "<group>"; };
 		E3DF30EF2A724BC800AF24A3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/FUBeautyComponent.strings; sourceTree = "<group>"; };
 		E3DF30F12A724BCB00AF24A3 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/FUBeautyComponent.strings"; sourceTree = "<group>"; };
+		E3DF30F22A724BCC00AF24A3 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/FUBeautyComponent.strings; sourceTree = "<group>"; };
 		E3EE4FC82C0704E800E0E77F /* beauty_shape_low.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = beauty_shape_low.json; sourceTree = "<group>"; };
 		E3EE4FC92C0704E800E0E77F /* beauty_skin_low.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = beauty_skin_low.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -97,6 +106,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		ABF3410C5A8541F1845EA194 /* Filters */ = {
+			isa = PBXGroup;
+			children = (
+				02C26AA341804BED8684E2BA /* rouguanglengzi.bundle */,
+				3187AA3266EB4C19B8CFCCAE /* weibaolvjing.bundle */,
+				F49D7F493E714AA399A41FCF /* lengbaipi.bundle */,
+				6CC15FC6DD534AFA9C4A6B15 /* qingtouguanggan.bundle */,
+			);
+			path = Filters;
+			sourceTree = "<group>";
+		};
 		A7B18C2482ECCA8BB487CCC4 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -195,6 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				E32D09212876CFDE00884AE5 /* beauty_filter.json */,
+				ABF3410C5A8541F1845EA194 /* Filters */,
 				E32D09252876D02E00884AE5 /* beauty_shape.json */,
 				E3EE4FC82C0704E800E0E77F /* beauty_shape_low.json */,
 				E32D09232876D01C00884AE5 /* beauty_skin.json */,
@@ -272,6 +293,7 @@
 			knownRegions = (
 				en,
 				"zh-Hans",
+				ja,
 				Base,
 			);
 			mainGroup = E34C47E0285338080040093C;
@@ -292,6 +314,10 @@
 				E3EE4FCA2C0704E800E0E77F /* beauty_shape_low.json in Resources */,
 				E32D09242876D01C00884AE5 /* beauty_skin.json in Resources */,
 				0A04FA152D098055008AAC61 /* beauty_skin_lessThan2.json in Resources */,
+				40F84D0687FA453E8FAE9CC4 /* rouguanglengzi.bundle in Resources */,
+				C52875DF814E4D61A8DEA9BA /* weibaolvjing.bundle in Resources */,
+				AC64C5FC88B84C4C9B9E4460 /* lengbaipi.bundle in Resources */,
+				3D17B3445EE44CE58A092506 /* qingtouguanggan.bundle in Resources */,
 				E32D09222876CFDE00884AE5 /* beauty_filter.json in Resources */,
 				E3DF30EE2A724BC800AF24A3 /* FUBeautyComponent.strings in Resources */,
 				E3EE4FCB2C0704E800E0E77F /* beauty_skin_low.json in Resources */,
@@ -371,6 +397,7 @@
 			children = (
 				E3DF30EF2A724BC800AF24A3 /* en */,
 				E3DF30F12A724BCB00AF24A3 /* zh-Hans */,
+				E3DF30F22A724BCC00AF24A3 /* ja */,
 			);
 			name = FUBeautyComponent.strings;
 			sourceTree = "<group>";

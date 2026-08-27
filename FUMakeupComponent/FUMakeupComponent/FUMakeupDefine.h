@@ -22,6 +22,7 @@ typedef NS_ENUM(NSUInteger, FUSubMakeupType) {
     FUSubMakeupTypeEyeShadow,    // 眼影
     FUSubMakeupTypeEyeliner,     // 眼线
     FUSubMakeupTypeEyelash,      // 睫毛
+    FUSubMakeupTypeWocan,        // 卧蚕
     FUSubMakeupTypeHighlight,    // 高光
     FUSubMakeupTypeShadow,       // 阴影
     FUSubMakeupTypePupil         // 美瞳

@@ -37,8 +37,8 @@
             // 获取本地保存选中的索引
             _selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:FUPersistentBeautySelectedFilterIndexKey];
         } else {
-            // 低端机默认关闭滤镜，高端机默认 1
-            _selectedIndex = self.performanceLevel == FUDevicePerformanceLevelLow_1 ? 0 : 1;
+            // 默认选中柔光冷紫（原图后第一项）
+            _selectedIndex = 1;
         }
     }
     return self;
@@ -87,7 +87,7 @@
 #pragma mark - Private methods
 
 - (void)setFilter:(NSString *)filterName level:(double)filterLevel {
-    [FURenderKit shareRenderKit].beauty.filterName = filterName;
+    [FURenderKit shareRenderKit].beauty.filterName = [filterName isEqualToString:@"rouguanglengzi"] ? @"roguanglengzi" : filterName;
     [FURenderKit shareRenderKit].beauty.filterLevel = filterLevel;
 }
 

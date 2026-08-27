@@ -221,7 +221,7 @@
                 "value": 1.0,
                 "colors": [
                     [
-                        0.60,
+                        0.6,
                         0.16,
                         0.16,
                         1.0
@@ -239,7 +239,7 @@
                         1.0
                     ],
                     [
-                        0.60,
+                        0.6,
                         0.11,
                         0.23,
                         1.0
@@ -262,7 +262,7 @@
                 "value": 1.0,
                 "colors": [
                     [
-                        0.60,
+                        0.6,
                         0.16,
                         0.16,
                         1.0
@@ -280,7 +280,7 @@
                         1.0
                     ],
                     [
-                        0.60,
+                        0.6,
                         0.11,
                         0.23,
                         1.0
@@ -304,7 +304,7 @@
                 "value": 1.0,
                 "colors": [
                     [
-                        0.60,
+                        0.6,
                         0.16,
                         0.16,
                         1.0
@@ -322,7 +322,7 @@
                         1.0
                     ],
                     [
-                        0.60,
+                        0.6,
                         0.11,
                         0.23,
                         1.0
@@ -345,7 +345,7 @@
                 "value": 1.0,
                 "colors": [
                     [
-                        0.60,
+                        0.6,
                         0.16,
                         0.16,
                         1.0
@@ -363,7 +363,7 @@
                         1.0
                     ],
                     [
-                        0.60,
+                        0.6,
                         0.11,
                         0.23,
                         1.0
@@ -387,7 +387,7 @@
                 "value": 1.0,
                 "colors": [
                     [
-                        0.60,
+                        0.6,
                         0.16,
                         0.16,
                         1.0
@@ -405,7 +405,7 @@
                         1.0
                     ],
                     [
-                        0.60,
+                        0.6,
                         0.11,
                         0.23,
                         1.0
@@ -457,7 +457,7 @@
                     [
                         0.89,
                         0.26,
-                        0.40,
+                        0.4,
                         1.0
                     ],
                     [
@@ -497,7 +497,7 @@
                     [
                         0.89,
                         0.26,
-                        0.40,
+                        0.4,
                         1.0
                     ],
                     [
@@ -537,7 +537,7 @@
                     [
                         0.89,
                         0.26,
-                        0.40,
+                        0.4,
                         1.0
                     ],
                     [
@@ -577,7 +577,7 @@
                     [
                         0.89,
                         0.26,
-                        0.40,
+                        0.4,
                         1.0
                     ],
                     [
@@ -611,8 +611,8 @@
                 "colors": [
                     [
                         0.36,
-                        0.10,
-                        0.10,
+                        0.1,
+                        0.1,
                         1.0
                     ],
                     [
@@ -653,8 +653,8 @@
                 "colors": [
                     [
                         0.36,
-                        0.10,
-                        0.10,
+                        0.1,
+                        0.1,
                         1.0
                     ],
                     [
@@ -695,8 +695,8 @@
                 "colors": [
                     [
                         0.36,
-                        0.10,
-                        0.10,
+                        0.1,
+                        0.1,
                         1.0
                     ],
                     [
@@ -737,8 +737,8 @@
                 "colors": [
                     [
                         0.36,
-                        0.10,
-                        0.10,
+                        0.1,
+                        0.1,
                         1.0
                     ],
                     [
@@ -814,7 +814,7 @@
                         0.0
                     ],
                     [
-                        0.90,
+                        0.9,
                         0.55,
                         0.36,
                         1.0,
@@ -910,7 +910,7 @@
                     [
                         1.0,
                         0.58,
-                        0.40,
+                        0.4,
                         1.0,
                         0.72,
                         0.38,
@@ -990,7 +990,7 @@
                     [
                         1.0,
                         0.58,
-                        0.40,
+                        0.4,
                         1.0,
                         0.72,
                         0.38,
@@ -1054,7 +1054,7 @@
                         0.0
                     ],
                     [
-                        0.90,
+                        0.9,
                         0.55,
                         0.36,
                         1.0,
@@ -1138,7 +1138,7 @@
                         0.75,
                         0.52,
                         1.0,
-                        0.90,
+                        0.9,
                         0.55,
                         0.36,
                         1.0,
@@ -1150,7 +1150,7 @@
                     [
                         1.0,
                         0.58,
-                        0.40,
+                        0.4,
                         1.0,
                         0.88,
                         0.32,
@@ -1214,7 +1214,7 @@
                         1.0
                     ],
                     [
-                        0.90,
+                        0.9,
                         0.55,
                         0.36,
                         1.0,
@@ -1230,7 +1230,7 @@
                     [
                         1.0,
                         0.58,
-                        0.40,
+                        0.4,
                         1.0,
                         0.56,
                         0.17,
@@ -1277,8 +1277,8 @@
                 "colors": [
                     [
                         0.36,
-                        0.10,
-                        0.10,
+                        0.1,
+                        0.1,
                         1.0
                     ],
                     [
@@ -1317,8 +1317,8 @@
                 "colors": [
                     [
                         0.36,
-                        0.10,
-                        0.10,
+                        0.1,
+                        0.1,
                         1.0
                     ],
                     [
@@ -1357,8 +1357,8 @@
                 "colors": [
                     [
                         0.36,
-                        0.10,
-                        0.10,
+                        0.1,
+                        0.1,
                         1.0
                     ],
                     [
@@ -1397,8 +1397,8 @@
                 "colors": [
                     [
                         0.36,
-                        0.10,
-                        0.10,
+                        0.1,
+                        0.1,
                         1.0
                     ],
                     [
@@ -1437,8 +1437,8 @@
                 "colors": [
                     [
                         0.36,
-                        0.10,
-                        0.10,
+                        0.1,
+                        0.1,
                         1.0
                     ],
                     [
@@ -1477,8 +1477,8 @@
                 "colors": [
                     [
                         0.36,
-                        0.10,
-                        0.10,
+                        0.1,
+                        0.1,
                         1.0
                     ],
                     [
@@ -1527,8 +1527,8 @@
                 "colors": [
                     [
                         0.36,
-                        0.10,
-                        0.10,
+                        0.1,
+                        0.1,
                         1.0
                     ],
                     [
@@ -1567,8 +1567,8 @@
                 "colors": [
                     [
                         0.36,
-                        0.10,
-                        0.10,
+                        0.1,
+                        0.1,
                         1.0
                     ],
                     [
@@ -1607,8 +1607,8 @@
                 "colors": [
                     [
                         0.36,
-                        0.10,
-                        0.10,
+                        0.1,
+                        0.1,
                         1.0
                     ],
                     [
@@ -1647,8 +1647,8 @@
                 "colors": [
                     [
                         0.36,
-                        0.10,
-                        0.10,
+                        0.1,
+                        0.1,
                         1.0
                     ],
                     [
@@ -1687,8 +1687,8 @@
                 "colors": [
                     [
                         0.36,
-                        0.10,
-                        0.10,
+                        0.1,
+                        0.1,
                         1.0
                     ],
                     [
@@ -1727,8 +1727,8 @@
                 "colors": [
                     [
                         0.36,
-                        0.10,
-                        0.10,
+                        0.1,
+                        0.1,
                         1.0
                     ],
                     [
@@ -1762,7 +1762,7 @@
         ]
     },
     {
-        "name": "高光",
+        "name": "卧蚕",
         "sgArr": [
             {
                 "type": 7,
@@ -1771,6 +1771,61 @@
             },
             {
                 "type": 7,
+                "icon": "demo_style_wocan_01",
+                "bundleName": "wocan001",
+                "value": 1.0,
+                "colors": [],
+                "defaultColorIndex": 0,
+                "title": "卧蚕Ⅰ"
+            },
+            {
+                "type": 7,
+                "icon": "demo_style_wocan_02",
+                "bundleName": "wocan002",
+                "value": 1.0,
+                "colors": [],
+                "defaultColorIndex": 0,
+                "title": "卧蚕Ⅱ"
+            },
+            {
+                "type": 7,
+                "icon": "demo_style_wocan_03",
+                "bundleName": "wocan003",
+                "value": 1.0,
+                "colors": [],
+                "defaultColorIndex": 0,
+                "title": "卧蚕Ⅲ"
+            },
+            {
+                "type": 7,
+                "icon": "demo_style_wocan_04",
+                "bundleName": "wocan004",
+                "value": 1.0,
+                "colors": [],
+                "defaultColorIndex": 0,
+                "title": "卧蚕Ⅳ"
+            },
+            {
+                "type": 7,
+                "icon": "demo_style_wocan_05",
+                "bundleName": "wocan005",
+                "value": 1.0,
+                "colors": [],
+                "defaultColorIndex": 0,
+                "title": "卧蚕Ⅴ"
+            }
+        ]
+    },
+    {
+        "name": "高光",
+        "sgArr": [
+            {
+                "type": 8,
+                "icon": "makeup_noitem",
+                "value": 0.0
+            },
+            {
+                "type": 8,
                 "icon": "demo_style_highlight_01",
                 "bundleName": "mu_style_highlight_01",
                 "value": 1.0,
@@ -1810,7 +1865,7 @@
                 "title": "高光Ⅰ"
             },
             {
-                "type": 7,
+                "type": 8,
                 "icon": "demo_style_highlight_02",
                 "bundleName": "mu_style_highlight_02",
                 "value": 1.0,
@@ -1855,12 +1910,12 @@
         "name": "阴影",
         "sgArr": [
             {
-                "type": 8,
+                "type": 9,
                 "icon": "makeup_noitem",
                 "value": 0.0
             },
             {
-                "type": 8,
+                "type": 9,
                 "icon": "demo_style_contour_01",
                 "bundleName": "mu_style_contour_01",
                 "value": 1.0,
@@ -1905,12 +1960,12 @@
         "name": "美瞳",
         "sgArr": [
             {
-                "type": 9,
+                "type": 10,
                 "icon": "makeup_noitem",
                 "value": 0.0
             },
             {
-                "type": 9,
+                "type": 10,
                 "icon": "demo_style_eyepupil_01",
                 "bundleName": "mu_style_eyepupil_01",
                 "value": 1.0,
@@ -1948,56 +2003,63 @@
                 ],
                 "defaultColorIndex": 0,
                 "title": "蜜糖"
-            },{
-                "type": 9,
+            },
+            {
+                "type": 10,
                 "icon": "demo_style_eyepupil_03",
                 "bundleName": "mu_style_eyepupil_03",
                 "value": 1.0,
                 "colors": [],
                 "defaultColorIndex": 0,
                 "title": "奶茶"
-            },{
-                "type": 9,
+            },
+            {
+                "type": 10,
                 "icon": "demo_style_eyepupil_04",
                 "bundleName": "mu_style_eyepupil_04",
                 "value": 1.0,
                 "colors": [],
                 "defaultColorIndex": 0,
                 "title": "水波"
-            },{
-                "type": 9,
+            },
+            {
+                "type": 10,
                 "icon": "demo_style_eyepupil_05",
                 "bundleName": "mu_style_eyepupil_05",
                 "value": 1.0,
                 "colors": [],
                 "defaultColorIndex": 0,
                 "title": "鎏金"
-            },{
-                "type": 9,
+            },
+            {
+                "type": 10,
                 "icon": "demo_style_eyepupil_06",
                 "bundleName": "mu_style_eyepupil_06",
                 "value": 1.0,
                 "colors": [],
                 "defaultColorIndex": 0,
                 "title": "孔雀"
-            },{
-                "type": 9,
+            },
+            {
+                "type": 10,
                 "icon": "demo_style_eyepupil_07",
                 "bundleName": "mu_style_eyepupil_07",
                 "value": 1.0,
                 "colors": [],
                 "defaultColorIndex": 0,
                 "title": "星河"
-            },{
-                "type": 9,
+            },
+            {
+                "type": 10,
                 "icon": "demo_style_eyepupil_08",
                 "bundleName": "mu_style_eyepupil_08",
                 "value": 1.0,
                 "colors": [],
                 "defaultColorIndex": 0,
                 "title": "落目"
-            },{
-                "type": 9,
+            },
+            {
+                "type": 10,
                 "icon": "demo_style_eyepupil_09",
                 "bundleName": "mu_style_eyepupil_09",
                 "value": 1.0,

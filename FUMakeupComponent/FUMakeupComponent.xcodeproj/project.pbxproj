@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		803AD24966A0460F9C56EFC0 /* wocan001.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8F694B5E22F34F968B256779 /* wocan001.bundle */; };
+		0BF2894E0CDE4BB9ADB4D341 /* wocan002.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5AE52A93589247F2908CD490 /* wocan002.bundle */; };
+		8AD48DDF7E9D4F59B8034259 /* wocan003.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 402EFFD173064D939E048904 /* wocan003.bundle */; };
+		8186086C6E514F9D971155C4 /* wocan004.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3A5D921E41BD472BA179E82A /* wocan004.bundle */; };
+		11443C46EBE04EF9A9379F5D /* wocan005.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5156D9199616410ABBD35948 /* wocan005.bundle */; };
 		BA67AF71518078F5A4B80EA2 /* Pods_FUMakeupComponent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E94DBDA4E2C8DC5255C4D17 /* Pods_FUMakeupComponent.framework */; };
 		E32A0A9128D0244D001964E4 /* FUMakeupComponentManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E32A0A8F28D0244D001964E4 /* FUMakeupComponentManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E32A0A9228D0244D001964E4 /* FUMakeupComponentManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E32A0A9028D0244D001964E4 /* FUMakeupComponentManager.m */; };
@@ -128,6 +133,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8F694B5E22F34F968B256779 /* wocan001.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = wocan001.bundle; sourceTree = "<group>"; };
+		5AE52A93589247F2908CD490 /* wocan002.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = wocan002.bundle; sourceTree = "<group>"; };
+		402EFFD173064D939E048904 /* wocan003.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = wocan003.bundle; sourceTree = "<group>"; };
+		3A5D921E41BD472BA179E82A /* wocan004.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = wocan004.bundle; sourceTree = "<group>"; };
+		5156D9199616410ABBD35948 /* wocan005.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = wocan005.bundle; sourceTree = "<group>"; };
 		1E94DBDA4E2C8DC5255C4D17 /* Pods_FUMakeupComponent.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FUMakeupComponent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D598A6F1C71F385280FDA21 /* Pods-FUMakeupComponent.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FUMakeupComponent.debug.xcconfig"; path = "Target Support Files/Pods-FUMakeupComponent/Pods-FUMakeupComponent.debug.xcconfig"; sourceTree = "<group>"; };
 		E32A0A8F28D0244D001964E4 /* FUMakeupComponentManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUMakeupComponentManager.h; sourceTree = "<group>"; };
@@ -250,6 +260,7 @@
 		E3DF30372A692D1900AF24A3 /* mu_style_eyelash_01.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = mu_style_eyelash_01.bundle; sourceTree = "<group>"; };
 		E3DF30F52A72502700AF24A3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/FUMakeupComponent.strings; sourceTree = "<group>"; };
 		E3DF30F72A72502B00AF24A3 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/FUMakeupComponent.strings"; sourceTree = "<group>"; };
+		E3DF30F82A72502C00AF24A3 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/FUMakeupComponent.strings; sourceTree = "<group>"; };
 		E68A3CBDBBE52422A87ED4AF /* Pods-FUMakeupComponent.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FUMakeupComponent.release.xcconfig"; path = "Target Support Files/Pods-FUMakeupComponent/Pods-FUMakeupComponent.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -450,6 +461,7 @@
 				E3DF30242A692D1900AF24A3 /* Eyebrow */,
 				E3DF30292A692D1900AF24A3 /* Eyeliner */,
 				E3DF30312A692D1900AF24A3 /* Eyelash */,
+				BB15063FF0D446D298D707C0 /* Wocan */,
 			);
 			path = CustomizedMakeup;
 			sourceTree = "<group>";
@@ -542,6 +554,18 @@
 				E3DF30282A692D1900AF24A3 /* mu_style_eyebrow_02.bundle */,
 			);
 			path = Eyebrow;
+			sourceTree = "<group>";
+		};
+		BB15063FF0D446D298D707C0 /* Wocan */ = {
+			isa = PBXGroup;
+			children = (
+				8F694B5E22F34F968B256779 /* wocan001.bundle */,
+				5AE52A93589247F2908CD490 /* wocan002.bundle */,
+				402EFFD173064D939E048904 /* wocan003.bundle */,
+				3A5D921E41BD472BA179E82A /* wocan004.bundle */,
+				5156D9199616410ABBD35948 /* wocan005.bundle */,
+			);
+			path = Wocan;
 			sourceTree = "<group>";
 		};
 		E3DF30292A692D1900AF24A3 /* Eyeliner */ = {
@@ -637,6 +661,7 @@
 				en,
 				Base,
 				"zh-Hans",
+				ja,
 			);
 			mainGroup = E3A13D3D28C877D9009402A3;
 			productRefGroup = E3A13D4828C877D9009402A3 /* Products */;
@@ -673,6 +698,11 @@
 				E3DF306D2A692D1A00AF24A3 /* mu_style_highlight_02.bundle in Resources */,
 				E3DF30622A692D1A00AF24A3 /* linjia.json in Resources */,
 				E3DF306F2A692D1A00AF24A3 /* mu_style_blush_04.bundle in Resources */,
+				803AD24966A0460F9C56EFC0 /* wocan001.bundle in Resources */,
+				0BF2894E0CDE4BB9ADB4D341 /* wocan002.bundle in Resources */,
+				8AD48DDF7E9D4F59B8034259 /* wocan003.bundle in Resources */,
+				8186086C6E514F9D971155C4 /* wocan004.bundle in Resources */,
+				11443C46EBE04EF9A9379F5D /* wocan005.bundle in Resources */,
 				E3DF30862A692D1A00AF24A3 /* mu_style_eyeliner_01.bundle in Resources */,
 				E3DF306B2A692D1A00AF24A3 /* mu_style_eyeshadow_01.bundle in Resources */,
 				E3DF305B2A692D1A00AF24A3 /* dongling.json in Resources */,
@@ -821,6 +851,7 @@
 			children = (
 				E3DF30F52A72502700AF24A3 /* en */,
 				E3DF30F72A72502B00AF24A3 /* zh-Hans */,
+				E3DF30F82A72502C00AF24A3 /* ja */,
 			);
 			name = FUMakeupComponent.strings;
 			sourceTree = "<group>";

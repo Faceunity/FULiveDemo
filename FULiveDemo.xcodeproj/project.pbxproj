@@ -7,9 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F321386FC304958B16F9E0E /* lengbaipi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F4C2310371494D70AC8C2E91 /* lengbaipi.bundle */; };
 		27BE3933B157474D17FA167D /* Pods_FULiveDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F1F94AA483BAD589411157 /* Pods_FULiveDemo.framework */; };
 		37E9F1C8497042C6A6DF5083 /* hunxuebaby.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 549C1C559DB5419599467165 /* hunxuebaby.bundle */; };
+		61D37A974B0348B6BD5FEC30 /* weibaolvjing.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 974AEA07E7AF4427B18D13DB /* weibaolvjing.bundle */; };
 		63CE756D6F344EA1B7D996A8 /* baikaisui.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A67695947D0346A8BD682F93 /* baikaisui.bundle */; };
+		BD174EBD036C4DB887D2F3AA /* qingtouguanggan.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A09745412C6544C9B2764562 /* qingtouguanggan.bundle */; };
+		DC760A54DAD54FEB8F1F0628 /* rouguanglengzi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A18D914D11FB4DC1AF180D58 /* rouguanglengzi.bundle */; };
 		E30721C828A234A000332859 /* FUImageRenderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E30721C728A234A000332859 /* FUImageRenderViewModel.m */; };
 		E30721CC28A2369300332859 /* FUVideoRenderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E30721CB28A2369300332859 /* FUVideoRenderViewModel.m */; };
 		E30721D328A2545100332859 /* FUStickerImageRenderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E30721D228A2545100332859 /* FUStickerImageRenderViewController.m */; };
@@ -369,6 +373,9 @@
 /* Begin PBXFileReference section */
 		4A2E89D572D04B49A5524484 /* tianxinpai.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = tianxinpai.bundle; sourceTree = "<group>"; };
 		549C1C559DB5419599467165 /* hunxuebaby.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = hunxuebaby.bundle; sourceTree = "<group>"; };
+		974AEA07E7AF4427B18D13DB /* weibaolvjing.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = weibaolvjing.bundle; sourceTree = "<group>"; };
+		A09745412C6544C9B2764562 /* qingtouguanggan.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = qingtouguanggan.bundle; sourceTree = "<group>"; };
+		A18D914D11FB4DC1AF180D58 /* rouguanglengzi.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = rouguanglengzi.bundle; sourceTree = "<group>"; };
 		A67695947D0346A8BD682F93 /* baikaisui.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = baikaisui.bundle; sourceTree = "<group>"; };
 		B3711DF38725A8956C408A78 /* Pods-FULiveDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FULiveDemo.debug.xcconfig"; path = "Target Support Files/Pods-FULiveDemo/Pods-FULiveDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		BF62D7141D5E58E477FC9C7B /* Pods-FULiveDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FULiveDemo.release.xcconfig"; path = "Target Support Files/Pods-FULiveDemo/Pods-FULiveDemo.release.xcconfig"; sourceTree = "<group>"; };
@@ -487,6 +494,7 @@
 		E3406998288A7C0600373612 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		E340699D288A824700373612 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E340699F288A824800373612 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		E34069A0288A824900373612 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E34069A1288A836D00373612 /* UIColor+FU.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+FU.h"; sourceTree = "<group>"; };
 		E34069A2288A836D00373612 /* UIColor+FU.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+FU.m"; sourceTree = "<group>"; };
 		E34069A6288A87D200373612 /* homepage_data_source.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = homepage_data_source.json; sourceTree = "<group>"; };
@@ -833,7 +841,9 @@
 		E3ED026B28A126CC000F28CD /* FUMediaPickerViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUMediaPickerViewModel.m; sourceTree = "<group>"; };
 		E3F11EB529A3595F0069135C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E3F11EB729A359630069135C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		E3F11EB829A359640069135C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E9F1F94AA483BAD589411157 /* Pods_FULiveDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FULiveDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4C2310371494D70AC8C2E91 /* lengbaipi.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = lengbaipi.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -871,6 +881,17 @@
 				E9F1F94AA483BAD589411157 /* Pods_FULiveDemo.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DD5E7184713D4232BA23E45A /* BeautyFilters */ = {
+			isa = PBXGroup;
+			children = (
+				A18D914D11FB4DC1AF180D58 /* rouguanglengzi.bundle */,
+				974AEA07E7AF4427B18D13DB /* weibaolvjing.bundle */,
+				F4C2310371494D70AC8C2E91 /* lengbaipi.bundle */,
+				A09745412C6544C9B2764562 /* qingtouguanggan.bundle */,
+			);
+			path = BeautyFilters;
 			sourceTree = "<group>";
 		};
 		E33C97B9288EB6DE00374C69 /* MediaPicker */ = {
@@ -961,6 +982,7 @@
 				E3923E45288FC98600A5FB31 /* Sticker */,
 				E397138C289BD055002933BE /* Animoji */,
 				E39713E7289D075F002933BE /* HairBeauty */,
+				DD5E7184713D4232BA23E45A /* BeautyFilters */,
 				E39709BA28A0C13D00FC0F46 /* LightMakeup */,
 				E3A58C0528A2752200941101 /* ARMask */,
 				E3A58C3228A278CC00941101 /* Hilarious */,
@@ -2300,6 +2322,7 @@
 				en,
 				Base,
 				"zh-Hans",
+				ja,
 			);
 			mainGroup = E3A07C86288939BD00E6F7E5;
 			productRefGroup = E3A07C90288939BD00E6F7E5 /* Products */;
@@ -2345,6 +2368,10 @@
 				E3194F75291E2B4B00F54392 /* animation_icon_31.png in Resources */,
 				E3447DD828AB6A75008E164C /* toushi_7.bundle in Resources */,
 				E39713B8289BD055002933BE /* hashiqi_Animoji.bundle in Resources */,
+				DC760A54DAD54FEB8F1F0628 /* rouguanglengzi.bundle in Resources */,
+				61D37A974B0348B6BD5FEC30 /* weibaolvjing.bundle in Resources */,
+				1F321386FC304958B16F9E0E /* lengbaipi.bundle in Resources */,
+				BD174EBD036C4DB887D2F3AA /* qingtouguanggan.bundle in Resources */,
 				E39713EA289D076D002933BE /* hair_normal.bundle in Resources */,
 				E3194F6C291E2B4B00F54392 /* animation_icon_23.png in Resources */,
 				E3447D9328AA4887008E164C /* ctrl_snow_740.bundle in Resources */,
@@ -2753,6 +2780,7 @@
 			children = (
 				E340699D288A824700373612 /* en */,
 				E340699F288A824800373612 /* zh-Hans */,
+				E34069A0288A824900373612 /* ja */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -2762,6 +2790,7 @@
 			children = (
 				E3F11EB529A3595F0069135C /* en */,
 				E3F11EB729A359630069135C /* zh-Hans */,
+				E3F11EB829A359640069135C /* ja */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -2890,7 +2919,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9002;
+				CURRENT_PROJECT_VERSION = 9011;
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2936,7 +2965,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9002;
+				CURRENT_PROJECT_VERSION = 9011;
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (

@@ -131,6 +131,9 @@
         case FUSubMakeupTypePupil:
             index = model.pupilModel.index;
             break;
+        case FUSubMakeupTypeWocan:
+            index = 0;
+            break;
     }
     return index;
 }
@@ -171,6 +174,9 @@
             break;
         case FUSubMakeupTypePupil:
             value = model.pupilModel.value * self.selectedMakeupValue;
+            break;
+        case FUSubMakeupTypeWocan:
+            value = 0;
             break;
     }
     return value;
